@@ -1,0 +1,35 @@
+
+
+PAD2 sulla SNES, prendere spunto da:
+			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
+			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
+
+PNG2MAP
+C:\GB\ZGB-2021.3\tools\png2map\png2gbtiles.exe test2.png -gbm -g -pal=mypal.pal
+maypal.pal file di testo contenente solo le seguenti
+#C6D783
+#8DCD53
+#2D632F
+#11380F
+ovviamente palette del Paint.NET con cui ho fatto il png contiene gli stessi codici, senza # e con FF iniziali per azzerare opacità
+png 160x144
+
+POTREI EVITARE DI USARE LA PRINT PER MOSTRARE GLI AMULETI
+IN CAMBIO METTERE  tile sulla window:
+unsigned char face[] = {TILE0, TILE2, TILE1, TILE3};
+set_win_tiles(1, 2, 2, 2, face); // solito: (posx, posy, width, height, array di tiles in numeri interi)
+così risparmio qualche posizione sullo spazio per gli sprite.
+
+C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-master\Debug\ARROWS_Debug.noi -g
+
+DISCORD MARKDOWN: ```c ```
+
+
+
+
+FLYING ARROWS 2 
+come Predator 2 per Sega Master System. Mi piace molto quella prospettiva lì. 
+Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto bene. Se ce ne fosse uno con un po' di profondità...
+come TMNT 3 sulla NES
+Lone Ranger NES
+Joe & Mac sulla grafica dei place.

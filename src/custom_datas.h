@@ -1,0 +1,126 @@
+struct FlipperballInfo{
+	INT8 impulse_y;
+	INT8 impulse_x;
+	INT8 vx;
+	INT8 vy;
+};
+
+typedef enum{
+	IDLE,
+	JUST_THROWN,
+	GOING,
+	FAR,
+	STRIKE
+}PUNTA_STATE;
+
+struct PuntaInfo{
+	INT8 vy;
+	PUNTA_STATE punta_state;
+};
+
+typedef enum{
+	TARGET_UNINIT,
+	TARGET_INIT_PALLONCINO,
+	TARGET_IDLE_PALLONCINO,
+	TARGET_INIT_AXE,
+	TARGET_IDLE_AXE,
+	TARGET_STROKE
+}TARGET_STATE;
+
+struct TargetInfo{
+	INT8 vx;
+	INT8 vy;
+	INT8 enabled;
+	TARGET_STATE target_state;
+	UINT8 wait;
+};
+
+struct MirinoInfo{
+	Sprite* target;
+	INT8 on_target;
+};
+
+struct PuffInfo{
+	INT8 puff_counter;
+};
+
+typedef enum{
+	DADO_INVISIBLE,
+	DADO_WAITING,
+	ROLLING_SUPERFAST,
+	ROLLING_FAST,
+	ROLLING_SLOW,
+	ANTICIPATION,
+	DADO_FACE,
+	DADO_SELECTED_PLAYER,
+	DADO_SELECTED_ENEMY,
+	DADO_GOING_PLAYER,
+	DADO_GOING_ENEMY,
+}TETRA_DADO_STATE;
+
+typedef enum{
+	FACCIA_1,
+	FACCIA_2,
+	FACCIA_3,
+	FACCIA_4
+}TETRA_DADO_FACCE;
+
+struct TetradadoInfo{
+	TETRA_DADO_STATE tetradado_state;
+	TETRA_DADO_FACCE tetradado_faccia;
+	UINT8 rolling_counter;
+	UINT8 face_counter;
+	UINT8 initial_x;
+	UINT8 initial_y;
+};
+
+typedef enum{
+	CURSOR_INVISIBLE,
+	TRIANGLE_BLINK,
+	TRIANGLE_FULL,
+	TRIANGLE_EMPTY,
+	HAND_OPENED,
+	HAND_CLOSED
+}TETRACURSOR_STATE;
+
+struct TetracursorInfo{
+	TETRACURSOR_STATE cursor_state;
+};
+
+typedef enum{
+  INIT_GAME,
+  START_GAME,
+  RETURN_TO_PLACE,
+  TURN_MAKE_DICE,
+  TURN_PICK_DICE,
+  TURN_GIVE_DICE,
+  TURN_PICK_DRAGON,
+  TURN_E_PICK_DICE,
+  TURN_E_PICK_DRAGON,
+  WINNER,
+  LOSER
+}TETRA_GAME_STATE;
+
+typedef enum{
+  TURN_PLAYER,
+  TURN_ENEMY
+}TETRA_TURN;
+
+typedef enum{
+	IDLE_UP,
+	IDLE_DOWN,
+	IDLE_LEFT,
+	IDLE_RIGHT,
+	WALK_LEFT,
+	WALK_RIGHT,
+	WALK_UP,
+	WALK_DOWN,
+	JUMP,
+	ATTACK,
+	DIE
+}FA2_SPRITES_STATE;
+
+struct OwSpriteInfo{
+	FA2_SPRITES_STATE ow_state;
+	UINT8 tile_collision;
+};

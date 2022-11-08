@@ -1,0 +1,40 @@
+#ifndef ZGBMAIN_H
+#define ZGBMAIN_H
+#define PauseMusic hUGE_paused = 1; hUGE_mute(HT_CH_MUTE);
+#define UNMUTE_ALL_CHANNELS hUGE_mute(HT_CH_PLAY)
+#define ResumeMusic hUGE_paused = 0; UNMUTE_ALL_CHANNELS  
+
+#define WALK_FX_COOLDOWN 32
+/*
+*/
+
+#define STATES \
+_STATE(StateCredit)\
+_STATE(StateBonus)\
+_STATE(StateTetra)\
+_STATE(StateOverworld)\
+STATE_DEF_END
+/*_STATE(StateFlipper)\*/
+
+
+#define SPRITES \
+_SPRITE_DMG(SpriteCamerafocus, camerafocus)\
+_SPRITE_DMG(SpritePunta, punta)\
+_SPRITE_DMG(SpriteMirino, mirino)\
+_SPRITE_DMG(SpriteTarget, target)\
+_SPRITE_DMG(SpritePuff, puff)\
+_SPRITE_DMG(SpriteTetradado, tetradado)\
+_SPRITE_DMG(SpriteTetratacche, tetratacche)\
+_SPRITE_DMG(SpriteTetracamera, camerafocus)\
+_SPRITE_DMG(SpriteTetracursor, tetracursor)\
+_SPRITE_DMG(SpriteMotherow, motherow)\
+SPRITE_DEF_END
+
+
+/*
+_SPRITE_DMG(SpritePorcupine, porcupine)\
+*/
+#include "ZGBMain_Init.h"
+
+#endif
+
