@@ -16,9 +16,11 @@ const UINT8 motherow_anim_idle_h[] = {1, 5}; //The first number indicates the nu
 const UINT8 motherow_anim_idle_up[] = {1, 2}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_down[] = {1, 1}; //The first number indicates the number of frames
 
+extern UINT8 hudow_opened;
+
 struct OwSpriteInfo* motherow_info = 0;
 
-void changeState(FA2_SPRITES_STATE new_state);
+void changeState(FA2OW_SPRITE_STATES new_state);
 
 void START(){
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
@@ -26,13 +28,14 @@ void START(){
 }
 
 void UPDATE(){
-    FA2_SPRITES_STATE new_state = motherow_info->ow_state;
+    if(hudow_opened == 1u){return;}
+    FA2OW_SPRITE_STATES new_state = motherow_info->ow_state;
     
     //WALKING
     if(KEY_PRESSED(J_DOWN)){motherow_info->tile_collision = TranslateSprite(THIS, 0, 1 << delta_time);new_state = WALK_DOWN;}
-    if(KEY_PRESSED(J_UP)){motherow_info->tile_collision = TranslateSprite(THIS, 0, -1 << delta_time);new_state = WALK_UP;}
-    if(KEY_PRESSED(J_LEFT)){motherow_info->tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);new_state = WALK_LEFT;}
-    if(KEY_PRESSED(J_RIGHT)){motherow_info->tile_collision = TranslateSprite(THIS, 1 << delta_time, 0);new_state = WALK_RIGHT;}
+    else if(KEY_PRESSED(J_UP)){motherow_info->tile_collision = TranslateSprite(THIS, 0, -1 << delta_time);new_state = WALK_UP;}
+    else if(KEY_PRESSED(J_LEFT)){motherow_info->tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);new_state = WALK_LEFT;}
+    else if(KEY_PRESSED(J_RIGHT)){motherow_info->tile_collision = TranslateSprite(THIS, 1 << delta_time, 0);new_state = WALK_RIGHT;}
     if(KEY_RELEASED(J_DOWN)){new_state = IDLE_DOWN;}
     if(KEY_RELEASED(J_UP)){new_state = IDLE_UP;}
     if(KEY_RELEASED(J_LEFT)){new_state = IDLE_LEFT;}
@@ -44,7 +47,21 @@ void UPDATE(){
 
 }
 
-void changeState(FA2_SPRITES_STATE new_state){  
+void changeState(FA2OW_SPRITE_STATES new_state){
+    if(new_state == GENERIC_IDLE){
+        if(motherow_info->ow_state == WALK_DOWN){
+            new_state = IDLE_DOWN;
+        }
+        else if(motherow_info->ow_state == WALK_UP){
+            new_state = IDLE_UP;
+        }
+        if(motherow_info->ow_state == WALK_LEFT){
+            new_state = IDLE_LEFT;
+        }
+        if(motherow_info->ow_state == WALK_RIGHT){
+            new_state = IDLE_RIGHT;
+        }
+    }
     switch(new_state){
         case IDLE_DOWN:
             SetSpriteAnim(THIS, motherow_anim_idle_down, 4u);

@@ -107,6 +107,8 @@ typedef enum{
 }TETRA_TURN;
 
 typedef enum{
+	GENERIC_IDLE,
+	GENERIC_WALK,
 	IDLE_UP,
 	IDLE_DOWN,
 	IDLE_LEFT,
@@ -118,9 +120,9 @@ typedef enum{
 	JUMP,
 	ATTACK,
 	DIE
-}FA2_SPRITES_STATE;
+}FA2OW_SPRITE_STATES;
 
 struct OwSpriteInfo{
-	FA2_SPRITES_STATE ow_state;
+	FA2OW_SPRITE_STATES ow_state;
 	UINT8 tile_collision;
 };

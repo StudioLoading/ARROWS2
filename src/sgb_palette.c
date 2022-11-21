@@ -232,6 +232,9 @@ void reset_sgb_palette_statusbar() __banked{
 void set_sgb_palette_7() __banked{
     set_sgb_palette(SGB_PAL7_LIGHTER, SGB_PAL7_LIGHT, SGB_PAL7_DARK, SGB_PAL7_DARKER);
 }
+void set_sgb_palette_2() __banked{
+    set_sgb_palette(SGB_PAL2_LIGHTER, SGB_PAL2_LIGHT, SGB_PAL2_DARK, SGB_PAL2_DARKER);
+}
 
 void set_sgb_palette01_TITLESCREEN() __banked {
 	set_sgb_palette(SGB_PAL2A_LIGHTER, SGB_PAL2A_LIGHT, SGB_PAL2A_DARK, SGB_PAL2A_DARKER);

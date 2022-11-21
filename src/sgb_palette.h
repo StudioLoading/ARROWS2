@@ -80,12 +80,18 @@ void set_sgb_palette_4() __banked;
 void set_sgb_palette_5() __banked;
 void set_sgb_palette_6() __banked;*/
 
+#define SGB_PAL2_LIGHTER 	RGB8(255, 255, 255)
+#define SGB_PAL2_LIGHT 	      RGB8(160, 160, 160)
+#define SGB_PAL2_DARK		RGB8(192, 128, 0)
+#define SGB_PAL2_DARKER 	RGB8(0, 0, 0)
+
 #define SGB_PAL7_LIGHTER 	RGB8(240, 240, 240)
 #define SGB_PAL7_LIGHT 	      RGB8(160, 160, 160)
 #define SGB_PAL7_DARK		RGB8(0, 128, 128)
 #define SGB_PAL7_DARKER 	RGB8(96, 56, 32)
 
 void set_sgb_palette_7() __banked;
+void set_sgb_palette_2() __banked;
 
 void set_sgb_palette_title() __banked;
 void reset_sgb_palette_title() __banked;
