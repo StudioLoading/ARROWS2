@@ -126,3 +126,35 @@ struct OwSpriteInfo{
 	FA2OW_SPRITE_STATES ow_state;
 	UINT8 tile_collision;
 };
+
+typedef enum{
+	OW_DIARY,
+	OW_GAMEOPT,
+	OW_GAMEOPT_SAVE,
+	OW_GAMEOPT_LOAD
+}HUD_OPTION;
+
+typedef enum{
+	MISSION_STATE_DISABLED,
+	MISSION_STATE_ENABLED,
+	MISSION_STATE_STARTED,
+	MISSION_STATE_ACCOMPLISHED,
+	MISSION_STATE_REWARDED
+}MISSION_STATE;
+
+typedef enum{
+	FIND_BLACKIE,
+	FIND_METAL_SPECIAL,
+	ENGAGE_SMITH,
+	HELP_CEMATERY_WOMAN,
+	HELP_HOSPITAL
+}MISSION_TITLE;
+
+struct MISSION{
+	MISSION_TITLE mission_title;
+	MISSION_STATE mission_state;
+	UINT8 current_step;
+	UINT8 reward_quantity;
+	UINT8 goal;//0 object, 1 person
+	UINT8 sprite_goal_type;
+};

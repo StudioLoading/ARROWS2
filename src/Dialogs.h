@@ -1,1 +1,14 @@
-INT8 Build_Next_Dialog_Banked(Sprite * archer) BANKED;
+typedef enum{
+	DIARIO_MISSIONI,
+	OPZIONI_PARTITA
+}TO_BE_LOCALIZED;
+
+typedef enum{
+	TIP_SMITH_NO,
+	TIP_HOSPITAL_NO,
+	TIP_BLACKIE_CAVE,
+	TIP_MINE_CAVE
+}TIP_TO_BE_LOCALIZED;
+
+void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
+void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;

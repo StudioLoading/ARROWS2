@@ -13,12 +13,11 @@
 #include "Music.h"
 
 #include "TilesAnimations0.h"
+#include "custom_datas.h"
 #include "sgb_palette.h"
 
 IMPORT_TILES(tilescredit);
-
 IMPORT_MAP(mapcredit0);
-
 DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(border2);
 
@@ -32,10 +31,16 @@ UINT8 credit_counter;
 UINT8 credit_step = 0u;
 UINT8 credit_wait_time;
 
+struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
+.current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
+struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
+
+
 void START() {
 	if(credit_step == 0u){
 		LOAD_SGB_BORDER(border2);
 	}
+	missions[0] = find_blackie;
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -54,7 +59,6 @@ void START() {
 	}
 
 	SHOW_BKG;
-	
 }
 
 void UPDATE() {
@@ -85,7 +89,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateOverworld);
+			SetState(StateDiary);
 		}
 	}
 		
