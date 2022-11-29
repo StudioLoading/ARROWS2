@@ -37,6 +37,7 @@ const UINT8 collision_tiles_ow_sw[] = {1, 2, 14, 15, 16, 17, 18, 22, 23, 24, 25,
 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 0};
 UINT8 border_set_ow = 0u;
 UINT8 border_set_diary = 0u;
+UINT8 border_set_exzoo = 0u;
 UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 UINT8 hudow_opened = 0;
 UINT16 ow_mother_pos_x = 0u;
@@ -60,6 +61,7 @@ void PauseGameOW();
 void UnpauseGameOW();
 void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
+void ChangeState(UINT8 new_state) BANKED;
 
 void START(){
 	if(border_set_ow == 0u){
@@ -126,8 +128,8 @@ void UPDATE(){
 	if(show_tip == 1u){
 		if(showed_tip == 0u){
 			if(show_tip_movingscroll < 64u){
-				show_tip_movingscroll++;
-				scroll_target->y++;
+				show_tip_movingscroll+=2;
+				scroll_target->y+=2;
 			}else{
 				if(print_target != PRINT_BKG){
 					print_target = PRINT_BKG;
@@ -136,9 +138,9 @@ void UPDATE(){
 			}
 		}
 		if(showed_tip_goback == 1u){//SpriteMotherow lo setta a 1
-			if(show_tip_movingscroll > -32u){
-				show_tip_movingscroll--;
-				scroll_target->y--;
+			if(show_tip_movingscroll > -24u){
+				show_tip_movingscroll-=2;
+				scroll_target->y-=2;
 			}else{
 				show_tip_movingscroll = 0u;
 				showed_tip_goback = 0u;
@@ -146,7 +148,7 @@ void UPDATE(){
 				show_tip = 0u;
 			}
 		}
-	}else{
+	}else if (scroll_target->x != s_motherow->x || scroll_target->y != s_motherow->y){
 		scroll_target->x = s_motherow->x;
 		scroll_target->y = s_motherow->y;
 	}
@@ -154,18 +156,20 @@ void UPDATE(){
 
 void showing_tip(){
 	if(showed_tip == 0){
+		UINT8 r = scroll_target->x % 8u;
+		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
 			GetLocalizedTip_EN(tip_to_show);
-			PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
+			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			showing_tip_line = 1;
 		}else if (showing_tip_line < 5){
 			if(showing_tip_delay > 0){showing_tip_delay--;}
 			else{
 				switch(showing_tip_line){
-					case 1:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d1);break;
-					case 2:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d2);break;
-					case 3:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d3);break;
-					case 4:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d4);break;
+					case 1:PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, d1);break;
+					case 2:PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, d2);break;
+					case 3:PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, d3);break;
+					case 4:PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, d4);break;
 				}
 				showing_tip_delay = 24u;
 				showing_tip_line++;
@@ -247,3 +251,6 @@ void UnpauseGameOW(){
 	HIDE_WIN;
 }
 
+void ChangeState(UINT8 new_state) BANKED{
+	SetState(new_state);
+}

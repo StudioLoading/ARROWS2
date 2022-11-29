@@ -158,3 +158,15 @@ struct MISSION{
 	UINT8 goal;//0 object, 1 person
 	UINT8 sprite_goal_type;
 };
+
+typedef enum{
+	MOTHERPL_IDLE,
+	MOTHERPL_JUMP,
+	MOTHERPL_HIT,
+	MOTHERPL_SHOOT
+}MOTHERPL_STATE;
+
+struct MotherplData{
+	INT8 accel_y;
+	MOTHERPL_STATE mpl_state;
+};

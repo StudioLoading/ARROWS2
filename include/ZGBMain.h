@@ -14,6 +14,7 @@ _STATE(StateBonus)\
 _STATE(StateTetra)\
 _STATE(StateOverworld)\
 _STATE(StateDiary)\
+_STATE(StateExzoo)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 
@@ -30,6 +31,7 @@ _SPRITE_DMG(SpriteTetracamera, camerafocus)\
 _SPRITE_DMG(SpriteTetracursor, tetracursor)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
+_SPRITE_DMG(SpriteMotherpl, motherpl)\
 SPRITE_DEF_END
 
 
