@@ -12,6 +12,7 @@ unsigned char d3[21];
 unsigned char d4[21];
 
 unsigned char EMPTY_STRING_20[21] = "                    \0";
+unsigned char D0[21] = "$[$[$[$[$[$[$[$[$[$[\0";
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -34,9 +35,9 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_20, 20);
 		break;
 		case TIP_BLACKIE_CAVE:
-			memcpy(d1, "FAMILY OF           " , 20);
-			memcpy(d2, "RED RIDING HOOD'    ", 20);
-			memcpy(d3, "WORST ENEMY.        ", 20);
+			memcpy(d3, EMPTY_STRING_20 , 20);
+			memcpy(d1, "RED RIDING HOOD     ", 20);
+			memcpy(d2, "WORST ENEMY' FAMILY ", 20);
 			memcpy(d4, EMPTY_STRING_20, 20);
 		break;
 	}

@@ -45,7 +45,7 @@ void START() {
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	//NR50_REG = 0x44; //Max volume 0x77
-	PlayMusic(bgm_credits, 0);
+	//PlayMusic(bgm_credits, 0);
 
 	//FadeIn();
 	//DISPLAY_OFF;
@@ -89,7 +89,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateDiary);
+			SetState(StateOverworld);
 		}
 	}
 		

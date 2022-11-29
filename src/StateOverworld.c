@@ -50,6 +50,7 @@ UINT8 showing_tip_delay = 8u;
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
+extern unsigned char D0[];
 extern unsigned char d1[];
 extern unsigned char d2[];
 extern unsigned char d3[];
@@ -73,11 +74,11 @@ void START(){
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	NR50_REG = 0x77; //Max volume
-	PlayMusic(bgm_credits, 0);
+	//PlayMusic(bgm_credits, 0);
 	
 	//SCROLL LIMITS
 	scroll_top_movement_limit = 56u;
-	scroll_bottom_movement_limit = 88u;
+	scroll_bottom_movement_limit = 80u;
 
 	switch (current_map){
 		case 0u:
@@ -124,7 +125,7 @@ void UPDATE(){
 	}
 	if(show_tip == 1u){
 		if(showed_tip == 0u){
-			if(show_tip_movingscroll < 56u){
+			if(show_tip_movingscroll < 64u){
 				show_tip_movingscroll++;
 				scroll_target->y++;
 			}else{
@@ -135,7 +136,7 @@ void UPDATE(){
 			}
 		}
 		if(showed_tip_goback == 1u){//SpriteMotherow lo setta a 1
-			if(show_tip_movingscroll > -24u){
+			if(show_tip_movingscroll > -32u){
 				show_tip_movingscroll--;
 				scroll_target->y--;
 			}else{
@@ -155,15 +156,16 @@ void showing_tip(){
 	if(showed_tip == 0){
 		if(showing_tip_line == 0){
 			GetLocalizedTip_EN(tip_to_show);
+			PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			showing_tip_line = 1;
 		}else if (showing_tip_line < 5){
 			if(showing_tip_delay > 0){showing_tip_delay--;}
 			else{
 				switch(showing_tip_line){
-					case 1:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 2u, d1);break;
-					case 2:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 2u, d2);break;
-					case 3:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 2u, d3);break;
-					case 4:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 2u, d4);break;
+					case 1:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d1);break;
+					case 2:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d2);break;
+					case 3:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d3);break;
+					case 4:PRINT((scroll_target->x >> 3) - 9u, (scroll_target->y >> 3) + showing_tip_line + 3u, d4);break;
 				}
 				showing_tip_delay = 24u;
 				showing_tip_line++;
@@ -191,10 +193,10 @@ void UpdateHUDOW(){
 		HIDE_WIN;
 		ow_mother_pos_x = scroll_target->x;
 		ow_mother_pos_y = scroll_target->y;
+		SetWindowY(160);
 		switch(owhudopt){
 			case OW_DIARY://selezionato Diario Missione
     			border_set_ow = 0u;
-				SetWindowY(160);
 				SetState(StateDiary);
 			break;
 			case OW_GAMEOPT://selezionato Menu Partita
