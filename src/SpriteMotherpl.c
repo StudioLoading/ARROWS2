@@ -10,9 +10,9 @@
 #include "custom_datas.h"
 #include "Dialogs.h"
 
-#define GRAVITY 3
+#define GRAVITY 8
 #define JUMP_MIN_POWER 0
-#define JUMP_MAX_POWER 4
+#define JUMP_MAX_POWER 5
 #define INERTIA_MAX 6
 
 extern UINT8 J_JUMP;
@@ -41,7 +41,8 @@ void UPDATE(){
         motherpl_data->accel_y = -motherpl_jpower;
         motherpl_data->mpl_state = MOTHERPL_JUMP;
     }
-    if(KEY_PRESSED(J_JUMP) && motherpl_jpower < JUMP_MAX_POWER){
+    if(KEY_PRESSED(J_JUMP) && motherpl_jpower < JUMP_MAX_POWER && 
+        motherpl_data->mpl_state == MOTHERPL_JUMP && gravity_frame_skip == 0){
         motherpl_jpower++;
         motherpl_data->accel_y = -motherpl_jpower;
     }
@@ -70,18 +71,19 @@ void UPDATE(){
         }
     }
     //GRAVITY ALWAYS
-    if(motherpl_data->accel_y < GRAVITY){
-        if(motherpl_data->mpl_state == MOTHERPL_JUMP){
-            if(gravity_frame_skip == 0u){
-                motherpl_data->accel_y++;
-                gravity_frame_skip = 2u;
-            }else{
-                gravity_frame_skip--;
-            }
-        }else{
+    
+    if(gravity_frame_skip == 0u){
+        gravity_frame_skip = 1u;
+        if(motherpl_data->accel_y < GRAVITY){
+        //if(motherpl_data->mpl_state == MOTHERPL_JUMP){
             motherpl_data->accel_y++;
         }
+    }else{
+        gravity_frame_skip--;
     }
+        //}else{
+            //motherpl_data->accel_y++;
+        //}
     //ACTUAL MOVEMENT
     if(motherpl_inertiax > 2){
         motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, motherpl_data->accel_y << delta_time);
@@ -93,6 +95,8 @@ void UPDATE(){
     }
     if(motherpl_data->mpl_state != MOTHERPL_IDLE && motherpl_coll){//IF ON SURFACE, NO MORE JUMP
         motherpl_data->mpl_state = MOTHERPL_IDLE;
+        motherpl_jpower = 0;
+        //gravity_frame_skip = 0;
     }
 }
 

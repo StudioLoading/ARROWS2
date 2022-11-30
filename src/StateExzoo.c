@@ -50,7 +50,7 @@ void START(){
         set_sgb_palette_2();
     }
     //INIT GRAPHICS    
-    s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, 1u);
+    s_motherpl = SpriteManagerAdd(SpriteMotherpl, 0u, 1u);
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y);
     InitScroll(BANK(exzoomap0), &exzoomap0, 0, coll_surface_exzoo);
 }
