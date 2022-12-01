@@ -29,6 +29,9 @@ extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
+extern UINT8 motherpl_jpower;
+extern UINT8 jump_ticked_delay;
+
 const UINT8 coll_tiles_exzoo[] = {1, 0};
 const UINT8 coll_surface_exzoo[] = {1, 0};
 Sprite* s_motherpl = 0;
@@ -53,8 +56,20 @@ void START(){
     s_motherpl = SpriteManagerAdd(SpriteMotherpl, 0u, 1u);
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y);
     InitScroll(BANK(exzoomap0), &exzoomap0, 0, coll_surface_exzoo);
+
+	INIT_FONT(fontbw, PRINT_BKG);
+	//INIT_HUD(hudow); 
 }
 
 void UPDATE(){
-
+    if(motherpl_jpower < 9){
+        PRINT(0, 2, "POW %u", motherpl_jpower);
+    }else{
+        PRINT(0, 2, "POW%u", motherpl_jpower);
+    }
+    if(jump_ticked_delay < 10){
+        PRINT(0, 3, "DELAY %u",jump_ticked_delay);
+    }else{        
+        PRINT(0, 3, "DELAY %u",jump_ticked_delay);
+    }
 }
