@@ -11,7 +11,7 @@
 #include "Dialogs.h"
 
 #define GRAVITY 2
-#define JUMP_MIN_POWER 4
+#define JUMP_MIN_POWER 0
 #define JUMP_MAX_POWER GRAVITY*10
 #define JUMP_TICKED_COOLDOWN 16
 #define INERTIA_MAX 6
@@ -19,10 +19,13 @@
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
-const UINT8 motherpl_anim_idle[] = {2, 1, 2}; //The first number indicates the number of frames
+const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
+const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
+
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
 INT8 motherpl_vy = 0;
+MOTHERPL_STATE motherpl_state = MOTHERPL_IDLE;
 UINT8 motherpl_coll = 0u;
 UINT8 motherpl_jpower = 0u;
 UINT8 motherpl_inertiax = 0u;
@@ -32,23 +35,30 @@ UINT8 jump_frame_skip = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 
+void changeMotherplState(MOTHERPL_STATE new_state);
+
 void START(){
     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
     motherpl_data = (struct MotherplData*) THIS->custom_data;
-    motherpl_vy = 1;
-    motherpl_data->mpl_state = MOTHERPL_IDLE;
+    //motherpl_state = MOTHERPL_IDLE;
+    //changeMotherplState(MOTHERPL_JUMP);
+    changeMotherplState(MOTHERPL_IDLE);
 }
 
 void UPDATE(){
-    switch(motherpl_data->mpl_state){
+    switch(motherpl_state){
         case MOTHERPL_IDLE:
             motherpl_jpower = 0;
             jump_max_toched = 0u;
             motherpl_vy = GRAVITY;
         break;
-        case MOTHERPL_JUMP:
+        case MOTHERPL_JUMP:        
+            if(motherpl_coll && motherpl_vy > 0 && motherpl_inertiax == 0
+                && jump_ticked_delay == 0u ){//IF ON SURFACE, NO MORE JUMP
+                changeMotherplState(MOTHERPL_IDLE);
+            }
             if(KEY_RELEASED(J_JUMP)){
-                motherpl_jpower = 0;
+                motherpl_jpower = JUMP_MIN_POWER;
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
                 jump_ticked_delay = JUMP_TICKED_COOLDOWN;
@@ -69,7 +79,7 @@ void UPDATE(){
                     }
                 }
             }else{
-                if (motherpl_jpower > 0){
+                if (motherpl_jpower > JUMP_MIN_POWER){
                     motherpl_jpower--;
                 }
                 if(motherpl_vy < GRAVITY){
@@ -77,19 +87,22 @@ void UPDATE(){
                 }
             }
         break;
+        case MOTHERPL_WALK:
+            if(motherpl_inertiax == 0 || (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        break;
     }
     //INPUTS
-    if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == 0){
-        if(KEY_TICKED(J_JUMP)){
-            if(motherpl_data->mpl_state != MOTHERPL_JUMP){
-                motherpl_data->mpl_state = MOTHERPL_JUMP;
-                motherpl_vy = -1;
-                jump_ticked_delay = JUMP_TICKED_COOLDOWN;
-            }
+    if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
+        if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
+            changeMotherplState(MOTHERPL_JUMP);
+        }else if((KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){ //motherpl_state != MOTHERPL_JUMP && 
+            changeMotherplState(MOTHERPL_WALK);
         }
     }
     if(jump_ticked_delay > 0){
-            jump_ticked_delay--;
+        jump_ticked_delay--;
     }
     if(KEY_PRESSED(J_RIGHT)){
         motherpl_inertia_down = 0u;
@@ -131,11 +144,28 @@ void UPDATE(){
     }else{
         motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
     }
-    if(motherpl_data->mpl_state == MOTHERPL_JUMP && motherpl_coll && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
-        motherpl_jpower = 0;
-        jump_max_toched = 0u;
-        motherpl_vy = GRAVITY;
-        motherpl_data->mpl_state == MOTHERPL_IDLE;
+}
+
+void changeMotherplState(MOTHERPL_STATE new_state){
+    if(motherpl_state != new_state){
+        switch(new_state){
+            case MOTHERPL_IDLE:
+                SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+                motherpl_jpower = 0;
+                jump_max_toched = 0u;
+                motherpl_vy = GRAVITY;
+            break;
+            case MOTHERPL_JUMP:
+                motherpl_vy = -1;
+                //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
+            break;
+            case MOTHERPL_WALK:
+                SetSpriteAnim(THIS, motherpl_anim_walk, 8u);
+                motherpl_jpower = 0;
+                jump_max_toched = 0u;
+            break;
+        }
+        motherpl_state = new_state;
     }
 }
 

@@ -31,6 +31,7 @@ extern UINT8 J_FIRE;
 
 extern UINT8 motherpl_jpower;
 extern UINT8 jump_ticked_delay;
+extern UINT8 motherpl_vy;
 
 const UINT8 coll_tiles_exzoo[] = {1, 0};
 const UINT8 coll_surface_exzoo[] = {1, 0};
@@ -61,7 +62,10 @@ void START(){
 	//INIT_HUD(hudow); 
 }
 
-void UPDATE(){
+void UPDATE(){    
+    if(motherpl_vy < 9){
+        PRINT(0, 1, "vy %i ", motherpl_vy);
+    }
     if(motherpl_jpower < 9){
         PRINT(0, 2, "POW %u", motherpl_jpower);
     }else{
