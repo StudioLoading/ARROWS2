@@ -34,9 +34,11 @@ extern UINT8 jump_ticked_delay;
 extern UINT8 motherpl_vy;
 extern MOTHERPL_STATE motherpl_state;
 
-const UINT8 coll_tiles_exzoo[] = {1, 0};
-const UINT8 coll_surface_exzoo[] = {1, 0};
+const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
+const UINT8 coll_surface_exzoo[] = {1u, 0};
 Sprite* s_motherpl = 0;
+struct MotherplData* d_motherpl = 0;
+UINT8 init_enemy = 0u;
 
 void START(){
 	if(border_set_exzoo == 0u){
@@ -55,15 +57,31 @@ void START(){
         set_sgb_palette_2();
     }
     //INIT GRAPHICS    
-    s_motherpl = SpriteManagerAdd(SpriteMotherpl, 0u, 1u);
+    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 13u << 3);
+    d_motherpl = (struct MotherplData*) s_motherpl->custom_data;
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y);
-    InitScroll(BANK(exzoomap0), &exzoomap0, 0, coll_surface_exzoo);
+    InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
+
+    //reset init_enemy
+    init_enemy = 0u;
 
 	INIT_FONT(fontbw, PRINT_BKG);
-	//INIT_HUD(hudow); 
+    PRINT(0, 11, "WORLD");
+    PRINT(16, 8, "FPS");
+    PRINT(9, 4, "TETRA");
+    //INIT_HUD(hudow); 
 }
 
-void UPDATE(){    
+void UPDATE(){ 
+    scroll_target->x = s_motherpl->x + 16u;
+    scroll_target->y = s_motherpl->y + 16u;
+    if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
+        Sprite* se = SpriteManagerAdd(SpriteEnemy, (UINT16) 26u << 3, (UINT16) 6u << 3);
+        struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
+        se_info->type = SNAKE;
+        se_info->configured = 1u;
+        init_enemy = 1u;
+    }
     PRINT(0,0,"%u",motherpl_state);
     if(motherpl_vy < 9){
         PRINT(0, 1, "vy %i ", motherpl_vy);

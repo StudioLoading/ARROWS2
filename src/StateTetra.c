@@ -81,10 +81,12 @@ void START() {
   tacca12 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 44u, (UINT16) 2u << 3);
   tacca13 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 76u, (UINT16) 2u << 3);
   tacca14 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 108u, (UINT16) 2u << 3);
+  /* UNCOMMENT
   tacca21 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 12u, (UINT16) 26u << 3);
   tacca22 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 44u, (UINT16) 26u << 3);
   tacca23 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 76u, (UINT16) 26u << 3);
   tacca24 = SpriteManagerAdd(SpriteTetratacche, (UINT16) 108u, (UINT16) 26u << 3);
+  */
   dado1 = SpriteManagerAdd(SpriteTetradado, (UINT16) 2u << 3, (UINT16) 13u << 3);
   dado2 = SpriteManagerAdd(SpriteTetradado, (UINT16) 3u << 3, (UINT16) 16u << 3);
   dado3 = SpriteManagerAdd(SpriteTetradado, (UINT16) 6u << 3, (UINT16) 14u << 3);
@@ -112,7 +114,7 @@ void START() {
 
 void UPDATE(){
   if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
-    SetState(StateTetra);
+    SetState(StateExzoo);
   }
   switch(tetra_game_state){
     case START_GAME:

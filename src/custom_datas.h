@@ -164,11 +164,35 @@ typedef enum{
 	MOTHERPL_JUMP,
 	MOTHERPL_WALK,
 	MOTHERPL_HIT,
-	MOTHERPL_SHOOT,
-	MOTHERPL_LADDER
+	MOTHERPL_SHOOT
 }MOTHERPL_STATE;
 
 struct MotherplData{
 	INT8 accel_y;
 	MOTHERPL_STATE mpl_state;
+};
+
+typedef enum{
+	UNASSIGNED,
+	SNAKE
+}ENEMY_TYPE;
+
+typedef enum{
+	ENEMY_IDLE,
+	ENEMY_JUMP,
+	ENEMY_WALK,
+	ENEMY_WAIT,
+	ENEMY_HIT,
+	ENEMY_SHOOT
+}ENEMY_STATE;
+
+struct EnemyData{
+	INT8 hp;
+	INT8 vx;
+	UINT8 wait;
+	UINT8 configured;
+	ENEMY_TYPE type;
+	UINT8 et_collision;
+	ENEMY_STATE e_state;
+	UINT8 x_frameskip;
 };

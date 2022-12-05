@@ -51,6 +51,7 @@ UINT8 showing_tip_delay = 8u;
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
+extern unsigned char EMPTY_STRING_21[];
 extern unsigned char D0[];
 extern unsigned char d1[];
 extern unsigned char d2[];
@@ -161,6 +162,10 @@ void showing_tip(){
 		if(showing_tip_line == 0){
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
+			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);
+			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 5u, EMPTY_STRING_21);
+			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 6u, EMPTY_STRING_21);
+			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 7u, EMPTY_STRING_21);
 			showing_tip_line = 1;
 		}else if (showing_tip_line < 5){
 			if(showing_tip_delay > 0){showing_tip_delay--;}
@@ -195,16 +200,12 @@ void UpdateHUDOW(){
 	}
 	if(KEY_TICKED(J_A)){
 		HIDE_WIN;
-		ow_mother_pos_x = scroll_target->x;
-		ow_mother_pos_y = scroll_target->y;
-		SetWindowY(160);
 		switch(owhudopt){
 			case OW_DIARY://selezionato Diario Missione
-    			border_set_ow = 0u;
-				SetState(StateDiary);
+				ChangeState(StateDiary);
 			break;
 			case OW_GAMEOPT://selezionato Menu Partita
-				SetState(StateOverworld);
+				ChangeState(StateOverworld);
 			break;
 		}
 	}
@@ -252,5 +253,10 @@ void UnpauseGameOW(){
 }
 
 void ChangeState(UINT8 new_state) BANKED{
+	//HIDE_WIN;
+	ow_mother_pos_x = scroll_target->x;
+	ow_mother_pos_y = scroll_target->y;
+	border_set_ow = 0u;
+	//SetWindowY(160);
 	SetState(new_state);
 }

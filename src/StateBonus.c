@@ -88,6 +88,10 @@ void START() {
 }
 
 void UPDATE(){
+	if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
+		SetWindowY(160);
+		SetState(StateExzoo);
+	}
 	if(KEY_TICKED(J_FIRE) && punta_info->punta_state == IDLE){
 		Anim_Crossbow_1();
 		punta_info->punta_state = JUST_THROWN;

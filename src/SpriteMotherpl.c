@@ -13,7 +13,7 @@
 
 #define GRAVITY 2
 #define JUMP_MIN_POWER 0
-#define JUMP_MAX_POWER GRAVITY*10
+#define JUMP_MAX_POWER GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 16
 #define INERTIA_MAX 6
 
@@ -34,12 +34,14 @@ UINT8 motherpl_jpower = 0u;
 UINT8 motherpl_inertiax = 0u;
 UINT8 motherpl_inertia_down = 0u;
 UINT8 motherpl_rabbit = 0u;
+UINT8 motherpl_hit = 0u;
 UINT8 gravity_frame_skip = 0u;
 UINT8 jump_frame_skip = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
+void changeStateFromMotherpl(UINT8 new_state);
 
 void START(){
     motherpl_coll = 0u;
@@ -173,6 +175,24 @@ void UPDATE(){
     }else{
         motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
     }
+    //REACTION DI TILE COLLISION
+    switch(motherpl_coll){
+        case 5u:
+            if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
+                changeStateFromMotherpl(StateTetra);
+            }else{ //GO TO MAP
+                changeStateFromMotherpl(StateOverworld);
+            }
+        break;
+        case 7u:
+            changeStateFromMotherpl(StateBonus);
+        break;
+    }
+}
+
+void changeStateFromMotherpl(UINT8 new_state){
+		SetWindowY(160);
+        SetState(new_state);
 }
 
 void changeMotherplState(MOTHERPL_STATE new_state){
@@ -190,7 +210,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
             break;
             case MOTHERPL_WALK:
-                SetSpriteAnim(THIS, motherpl_anim_walk, 8u);
+                SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
             break;
