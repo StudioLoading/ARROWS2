@@ -22,6 +22,7 @@ IMPORT_TILES(fontbw);
 IMPORT_TILES(exzootiles);
 IMPORT_MAP(border2);
 IMPORT_MAP(exzoomap0);
+IMPORT_MAP(hudpl);
 
 extern UINT8 border_set_exzoo;
 extern UINT8 scroll_top_movement_limit;
@@ -29,10 +30,13 @@ extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
+//START LOG PURPOSE
 extern UINT8 motherpl_jpower;
 extern UINT8 jump_ticked_delay;
 extern UINT8 motherpl_vy;
 extern MOTHERPL_STATE motherpl_state;
+extern UINT8 motherpl_attack_cooldown;
+//END LOG PURPOSE
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
@@ -69,7 +73,7 @@ void START(){
     PRINT(0, 11, "WORLD");
     PRINT(16, 8, "FPS");
     PRINT(9, 4, "TETRA");
-    //INIT_HUD(hudow); 
+    INIT_HUD(hudpl); 
 }
 
 void UPDATE(){ 
@@ -82,7 +86,22 @@ void UPDATE(){
         se_info->configured = 1u;
         init_enemy = 1u;
     }
-    PRINT(0,0,"%u",motherpl_state);
+    if(print_target != PRINT_WIN){
+        print_target = PRINT_WIN;
+    }
+    switch(motherpl_state){
+        case MOTHERPL_IDLE:
+            PRINT(3, 2, "IDLE");
+        break;
+        case MOTHERPL_JUMP:
+            PRINT(3, 2, "JUMP");
+        break;
+        case MOTHERPL_WALK:
+            PRINT(3, 2, "WALK");
+        break;
+    }
+    PRINT(8, 2, "%u", motherpl_attack_cooldown);
+    /*PRINT(0,0,"%u",motherpl_state);
     if(motherpl_vy < 9){
         PRINT(0, 1, "vy %i ", motherpl_vy);
     }
@@ -96,4 +115,5 @@ void UPDATE(){
     }else{        
         PRINT(0, 3, "DELAY %u",jump_ticked_delay);
     }
+    */
 }

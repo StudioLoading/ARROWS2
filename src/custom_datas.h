@@ -163,8 +163,7 @@ typedef enum{
 	MOTHERPL_IDLE,
 	MOTHERPL_JUMP,
 	MOTHERPL_WALK,
-	MOTHERPL_HIT,
-	MOTHERPL_SHOOT
+	MOTHERPL_HIT
 }MOTHERPL_STATE;
 
 struct MotherplData{
@@ -195,4 +194,9 @@ struct EnemyData{
 	UINT8 et_collision;
 	ENEMY_STATE e_state;
 	UINT8 x_frameskip;
+};
+
+struct ArrowData{
+	INT8 vx;
+	UINT8 arrow_fskip;
 };

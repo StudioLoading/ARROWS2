@@ -16,6 +16,7 @@
 #define JUMP_MAX_POWER GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 16
 #define INERTIA_MAX 6
+#define COOLDOWN_ATTACK 24
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -24,6 +25,7 @@ const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
 const UINT8 motherpl_anim_jump_ascending[] = {1, 6};
 const UINT8 motherpl_anim_jump_descending[] = {1, 5};
+const UINT8 motherpl_anim_shoot[] = {3, 7, 8, 7};
 
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
@@ -35,15 +37,20 @@ UINT8 motherpl_inertiax = 0u;
 UINT8 motherpl_inertia_down = 0u;
 UINT8 motherpl_rabbit = 0u;
 UINT8 motherpl_hit = 0u;
+UINT8 motherpl_canshoot = 0u;
 UINT8 gravity_frame_skip = 0u;
 UINT8 jump_frame_skip = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
+UINT8 motherpl_attack_cooldown = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
+void shoot();
+void refreshAnimation();
 
 void START(){
+    motherpl_vx = 0u;
     motherpl_coll = 0u;
     motherpl_jpower = 0u;
     motherpl_inertiax = 0u;
@@ -53,6 +60,7 @@ void START(){
     jump_frame_skip = 0u;
     jump_ticked_delay = 0u;
     jump_max_toched = 0u;
+    motherpl_attack_cooldown = 0u;
     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
     motherpl_data = (struct MotherplData*) THIS->custom_data;
     changeMotherplState(MOTHERPL_IDLE);
@@ -61,6 +69,9 @@ void START(){
 void UPDATE(){
     switch(motherpl_state){
         case MOTHERPL_IDLE:
+            if(motherpl_attack_cooldown == 0u){
+                SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+            }
             motherpl_jpower = 0;
             jump_max_toched = 0u;
             motherpl_vy = GRAVITY;
@@ -130,13 +141,13 @@ void UPDATE(){
             jump_ticked_delay--;
         }
     //INPUT WALK
-        if(KEY_PRESSED(J_RIGHT)){
+        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
             motherpl_inertia_down = 0u;
             if(motherpl_inertiax < INERTIA_MAX){
                 motherpl_inertiax++;
             }
-            motherpl_vx = 1;
-            THIS->mirror = NO_MIRROR;
+            if(KEY_PRESSED(J_RIGHT)){motherpl_vx = 1;THIS->mirror = NO_MIRROR;}
+            else if(KEY_PRESSED(J_LEFT)){motherpl_vx = -1;THIS->mirror = V_MIRROR;}
         }
         if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
             motherpl_inertia_down = 1u;
@@ -145,15 +156,25 @@ void UPDATE(){
                 changeMotherplState(MOTHERPL_IDLE);
             }
         }
-        if(KEY_PRESSED(J_LEFT)){
-            motherpl_inertia_down = 0u;
-            if(motherpl_inertiax < INERTIA_MAX){
-                motherpl_inertiax++;
+    //INPUT FIRE
+        if(motherpl_attack_cooldown > 0){
+            motherpl_attack_cooldown--;
+            if(motherpl_attack_cooldown == 0){
+                refreshAnimation();
             }
-            motherpl_vx = -1;
-            THIS->mirror = V_MIRROR;
         }
-    
+        if(KEY_TICKED(J_FIRE)){
+            if(motherpl_attack_cooldown == 0){
+                SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
+                motherpl_attack_cooldown = COOLDOWN_ATTACK;
+                motherpl_canshoot = 1u;
+            }
+        }
+        if(motherpl_attack_cooldown <= (COOLDOWN_ATTACK >> 1)
+            && motherpl_canshoot == 1u){
+            shoot();
+            motherpl_canshoot = 0u;
+        }
     //GRAVITY FRAME SKIP
     if(gravity_frame_skip == 0u){
         gravity_frame_skip = 1u;        
@@ -169,9 +190,13 @@ void UPDATE(){
     if(motherpl_inertiax > 0 && !KEY_PRESSED(J_LEFT) && !KEY_PRESSED(J_RIGHT)){
         motherpl_inertiax--;
     }
+    UINT8 effective_vx = motherpl_vx;
+    if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) && motherpl_state != MOTHERPL_JUMP){
+        effective_vx = 0;
+    }
     //ACTUAL MOVEMENT
     if(motherpl_inertiax > 2){
-        motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, motherpl_vy << delta_time);
+        motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, motherpl_vy << delta_time);
     }else{
         motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
     }
@@ -190,6 +215,35 @@ void UPDATE(){
     }
 }
 
+void refreshAnimation(){
+    switch(motherpl_state){
+        case MOTHERPL_IDLE:
+            SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+        break;
+        case MOTHERPL_WALK:
+            SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+        break;
+        case MOTHERPL_JUMP:
+            SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
+        break;
+    }
+}
+
+void shoot(){
+    UINT16 arrowix = THIS->x;
+    if(THIS->mirror == NO_MIRROR){
+        arrowix += 4u;
+    }
+    UINT16 arrowiy = THIS->y;
+    Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
+    struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
+    if(THIS->mirror == NO_MIRROR){//looking right
+        arrow_data->vx = 1;
+    }else{
+        arrow_data->vx = -1;
+    }
+}
+
 void changeStateFromMotherpl(UINT8 new_state){
 		SetWindowY(160);
         SetState(new_state);
@@ -199,18 +253,24 @@ void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){
         switch(new_state){
             case MOTHERPL_IDLE:
-                SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+                if(motherpl_attack_cooldown == 0u){
+                    SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+                }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
             break;
             case MOTHERPL_JUMP:
                 motherpl_vy = -1;
-                SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
+                if(motherpl_attack_cooldown == 0u){
+                    SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
+                }
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
             break;
             case MOTHERPL_WALK:
-                SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+                if(motherpl_attack_cooldown == 0u){
+                    SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+                }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
             break;
