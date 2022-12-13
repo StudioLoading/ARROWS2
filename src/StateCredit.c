@@ -89,7 +89,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateOverworld);//StateExzoo
+			SetState(StateExzoo);//StateEOverworld
 		}
 	}
 		

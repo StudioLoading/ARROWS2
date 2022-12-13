@@ -43,6 +43,8 @@ UINT8 jump_frame_skip = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 UINT8 motherpl_attack_cooldown = 0u;
+UINT8 motherpl_surfing_getoff = 0u;
+Sprite* s_surf = 0;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
@@ -64,6 +66,8 @@ void START(){
     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
     motherpl_data = (struct MotherplData*) THIS->custom_data;
     changeMotherplState(MOTHERPL_IDLE);
+    s_surf = 0;
+    motherpl_surfing_getoff = 0u;
 }
 
 void UPDATE(){
@@ -79,7 +83,7 @@ void UPDATE(){
                 changeMotherplState(MOTHERPL_WALK);
             }
         break;
-        case MOTHERPL_JUMP:        
+        case MOTHERPL_JUMP:               
             if(motherpl_coll && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
                 changeMotherplState(MOTHERPL_IDLE);
             }
@@ -194,6 +198,12 @@ void UPDATE(){
     if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) && motherpl_state != MOTHERPL_JUMP){
         effective_vx = 0;
     }
+    //RELATIVE POSITION
+    if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
+    if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
+        THIS->x = s_surf->x;
+        THIS->y = s_surf->y - 23u;
+    }
     //ACTUAL MOVEMENT
     if(motherpl_inertiax > 2){
         motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, motherpl_vy << delta_time);
@@ -212,6 +222,23 @@ void UPDATE(){
         case 7u:
             changeStateFromMotherpl(StateBonus);
         break;
+    }
+
+    
+	UINT8 mpl_a_tile;
+	Sprite* implspr;
+	SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
+		if(CheckCollision(THIS, implspr)) {
+			switch(implspr->type){
+				case SpriteArrow:
+                    if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
+                        if(s_surf == 0 && motherpl_surfing_getoff == 0u){
+                            s_surf = implspr;
+                        }
+                    }
+                break;
+            }
+        }
     }
 }
 
@@ -234,7 +261,7 @@ void shoot(){
     if(THIS->mirror == NO_MIRROR){
         arrowix += 4u;
     }
-    UINT16 arrowiy = THIS->y;
+    UINT16 arrowiy = THIS->y + 4u;
     Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
     struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
     if(THIS->mirror == NO_MIRROR){//looking right
@@ -251,6 +278,10 @@ void changeStateFromMotherpl(UINT8 new_state){
 
 void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){
+        if(s_surf){
+            s_surf = 0;
+            motherpl_surfing_getoff = 62u;
+        }
         switch(new_state){
             case MOTHERPL_IDLE:
                 if(motherpl_attack_cooldown == 0u){

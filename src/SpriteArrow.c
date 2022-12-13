@@ -10,7 +10,7 @@
 
 #include "custom_datas.h"
 
-#define NORMAL_FRAMESKIP 1
+#define NORMAL_FRAMESKIP 2
 
 void START(){
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;

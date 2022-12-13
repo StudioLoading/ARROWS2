@@ -100,7 +100,7 @@ void UPDATE(){
             PRINT(3, 2, "WALK");
         break;
     }
-    PRINT(8, 2, "%u", motherpl_attack_cooldown);
+    //PRINT(8, 2, "%u", motherpl_attack_cooldown);
     /*PRINT(0,0,"%u",motherpl_state);
     if(motherpl_vy < 9){
         PRINT(0, 1, "vy %i ", motherpl_vy);
