@@ -17,6 +17,7 @@
 #define JUMP_TICKED_COOLDOWN 16
 #define INERTIA_MAX 6
 #define COOLDOWN_ATTACK 24
+#define GOTON_COOLDOWN 32
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -44,6 +45,8 @@ UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 UINT8 motherpl_attack_cooldown = 0u;
 UINT8 motherpl_surfing_getoff = 0u;
+UINT8 motherpl_surfing_goton = 0u;
+INT8 motherpl_surf_dx = 0;
 Sprite* s_surf = 0;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
@@ -68,6 +71,8 @@ void START(){
     changeMotherplState(MOTHERPL_IDLE);
     s_surf = 0;
     motherpl_surfing_getoff = 0u;
+    motherpl_surfing_goton = 0u;
+    motherpl_surf_dx = 0;
 }
 
 void UPDATE(){
@@ -180,30 +185,35 @@ void UPDATE(){
             motherpl_canshoot = 0u;
         }
     //GRAVITY FRAME SKIP
-    if(gravity_frame_skip == 0u){
-        gravity_frame_skip = 1u;        
-    }else{
-        gravity_frame_skip = 0u;
-    }
+        if(gravity_frame_skip == 0u){
+            gravity_frame_skip = 1u;        
+        }else{
+            gravity_frame_skip = 0u;
+        }
     //INERTIA ON X AXIS
-    if(motherpl_inertia_down == 1u){
-        if(motherpl_inertiax > 0){
+        if(motherpl_inertia_down == 1u){
+            if(motherpl_inertiax > 0){
+                motherpl_inertiax--;
+            }
+        }
+        if(motherpl_inertiax > 0 && !KEY_PRESSED(J_LEFT) && !KEY_PRESSED(J_RIGHT)){
             motherpl_inertiax--;
         }
-    }
-    if(motherpl_inertiax > 0 && !KEY_PRESSED(J_LEFT) && !KEY_PRESSED(J_RIGHT)){
-        motherpl_inertiax--;
-    }
-    UINT8 effective_vx = motherpl_vx;
-    if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) && motherpl_state != MOTHERPL_JUMP){
-        effective_vx = 0;
-    }
+    //EFFECTIVE VX
+        UINT8 effective_vx = motherpl_vx;
+        if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) && motherpl_state != MOTHERPL_JUMP){
+            effective_vx = 0;
+        }
     //RELATIVE POSITION
-    if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
-    if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
-        THIS->x = s_surf->x;
-        THIS->y = s_surf->y - 23u;
-    }
+        if(motherpl_surfing_goton == GOTON_COOLDOWN){//just got on a ride
+            changeMotherplState(MOTHERPL_IDLE);
+        }
+        if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
+        if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
+        if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
+            THIS->x = s_surf->x + motherpl_surf_dx;
+            THIS->y = s_surf->y - 23u;
+        }
     //ACTUAL MOVEMENT
     if(motherpl_inertiax > 2){
         motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, motherpl_vy << delta_time);
@@ -233,12 +243,16 @@ void UPDATE(){
 				case SpriteArrow:
                     if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
                         if(s_surf == 0 && motherpl_surfing_getoff == 0u){
+                            motherpl_surfing_goton = GOTON_COOLDOWN;
                             s_surf = implspr;
+                            motherpl_surf_dx = THIS->x - implspr->x;
                         }
                     }
                 break;
             }
-        }
+        }/*else if (s_surf){
+            s_surf = 0;
+        }*/
     }
 }
 
@@ -278,9 +292,9 @@ void changeStateFromMotherpl(UINT8 new_state){
 
 void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){
-        if(s_surf){
+        if(s_surf && motherpl_surfing_goton == 0u){
             s_surf = 0;
-            motherpl_surfing_getoff = 62u;
+            motherpl_surfing_getoff = 32u;
         }
         switch(new_state){
             case MOTHERPL_IDLE:

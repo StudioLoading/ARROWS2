@@ -36,6 +36,8 @@ extern UINT8 jump_ticked_delay;
 extern UINT8 motherpl_vy;
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 motherpl_attack_cooldown;
+extern Sprite* s_surf;
+extern INT8 motherpl_surf_dx;
 //END LOG PURPOSE
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
@@ -76,7 +78,10 @@ void START(){
     INIT_HUD(hudpl); 
 }
 
-void UPDATE(){ 
+void UPDATE(){
+    if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
+        SetState(StateExzoo);
+    }
     scroll_target->x = s_motherpl->x + 16u;
     scroll_target->y = s_motherpl->y + 16u;
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
@@ -91,15 +96,21 @@ void UPDATE(){
     }
     switch(motherpl_state){
         case MOTHERPL_IDLE:
-            PRINT(3, 2, "IDLE");
+            PRINT(0, 2, "IDLE");
         break;
         case MOTHERPL_JUMP:
-            PRINT(3, 2, "JUMP");
+            PRINT(0, 2, "JUMP");
         break;
         case MOTHERPL_WALK:
-            PRINT(3, 2, "WALK");
+            PRINT(0, 2, "WALK");
         break;
     }
+    if(s_surf){
+        PRINT(5, 2, "SURF");
+    }else{
+        PRINT(5, 2, "    ");
+    }
+    PRINT(9, 2, "%i", motherpl_surf_dx);
     //PRINT(8, 2, "%u", motherpl_attack_cooldown);
     /*PRINT(0,0,"%u",motherpl_state);
     if(motherpl_vy < 9){
