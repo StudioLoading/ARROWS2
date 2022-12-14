@@ -89,7 +89,7 @@ void UPDATE(){
 		if(CheckCollision(THIS, iespr)) {
 			switch(iespr->type){
 				case SpriteMotherpl://io enemy ho colpito motherpl
-                    motherpl_hit = 1u;
+                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
                     changeEstate(eu_info, ENEMY_WAIT);
                 break;
             }

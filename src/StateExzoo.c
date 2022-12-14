@@ -45,12 +45,18 @@ const UINT8 coll_surface_exzoo[] = {1u, 0};
 Sprite* s_motherpl = 0;
 struct MotherplData* d_motherpl = 0;
 UINT8 init_enemy = 0u;
+INT8 hud_motherpl_hp = 0;
+extern INT8 motherpl_hp;
+INT8 hud_motherpl_ups = 0;
+extern INT8 motherpl_ups;
+
+void UpdateHUD();
 
 void START(){
-	if(border_set_exzoo == 0u){
-        border_set_exzoo = 1u;
+	//if(border_set_exzoo == 0u){
+        //border_set_exzoo = 1u;
         LOAD_SGB_BORDER(border2);
-	}
+	//}
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -73,12 +79,19 @@ void START(){
 
 	INIT_FONT(fontbw, PRINT_BKG);
     PRINT(0, 11, "WORLD");
-    PRINT(16, 8, "FPS");
-    PRINT(9, 4, "TETRA");
+    PRINT(17, 5, "FPS");
+    PRINT(5, 5, "TETRA");
     INIT_HUD(hudpl); 
+    hud_motherpl_hp = 0;
+    UpdateHUD();
 }
 
 void UPDATE(){
+    //UPDATE HUD
+    if(hud_motherpl_hp != motherpl_hp){
+        UpdateHUD();
+    }
+    //RESTART CURRENT STATE
     if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
         SetState(StateExzoo);
     }
@@ -104,13 +117,18 @@ void UPDATE(){
         case MOTHERPL_WALK:
             PRINT(0, 2, "WALK");
         break;
+        case MOTHERPL_HIT:
+            PRINT(0, 2, " HIT");
+        break;
+        case MOTHERPL_DEAD:
+            PRINT(0, 2, "DEAD");
+        break;
     }
     if(s_surf){
-        PRINT(5, 2, "SURF");
+        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
     }else{
-        PRINT(5, 2, "    ");
+        PRINT(5, 2, "     ");
     }
-    PRINT(9, 2, "%i", motherpl_surf_dx);
     //PRINT(8, 2, "%u", motherpl_attack_cooldown);
     /*PRINT(0,0,"%u",motherpl_state);
     if(motherpl_vy < 9){
@@ -127,4 +145,33 @@ void UPDATE(){
         PRINT(0, 3, "DELAY %u",jump_ticked_delay);
     }
     */
+}
+
+void UpdateHUD(){
+    UINT8 idx_leftheart = 6;
+    UINT8 idx_rightheart = 6;
+    INT8 tmp_hp = motherpl_hp;
+    //HP
+    hud_motherpl_hp = motherpl_hp;
+    for(idx_leftheart=6; idx_leftheart<14 ;idx_leftheart+=2){
+        if(tmp_hp > 0){
+            UPDATE_HUD_TILE(idx_leftheart,0,7);
+            UPDATE_HUD_TILE(idx_leftheart,1,8);
+            idx_rightheart++;
+            UPDATE_HUD_TILE(idx_rightheart,0,9);
+            UPDATE_HUD_TILE(idx_rightheart,1,10);
+        }else{
+            UPDATE_HUD_TILE(idx_leftheart,0,1);
+            UPDATE_HUD_TILE(idx_leftheart,1,2);
+            idx_rightheart++;
+            UPDATE_HUD_TILE(idx_rightheart,0,3);
+            UPDATE_HUD_TILE(idx_rightheart,1,4);
+        }
+        tmp_hp--;
+        idx_rightheart++;
+    }
+    //UPS
+    hud_motherpl_ups = motherpl_ups;
+    print_target = PRINT_WIN;
+    PRINT(3,1,"%i", hud_motherpl_ups);
 }

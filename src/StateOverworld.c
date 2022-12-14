@@ -65,14 +65,15 @@ void DrawHUD(HUD_OPTION opt);
 void ChangeState(UINT8 new_state) BANKED;
 
 void START(){
-	if(border_set_ow == 0u){
+	/*if(border_set_ow == 0u){
         border_set_ow = 1u;
         switch(current_map){
 		    case 0u:
                 LOAD_SGB_BORDER(border2);
             break;
         }
-	}
+	}*/
+	LOAD_SGB_BORDER(border2);
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
