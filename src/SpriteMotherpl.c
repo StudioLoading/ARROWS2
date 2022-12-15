@@ -85,7 +85,7 @@ void START(){
     motherpl_hit = 0u;
 }
 
-void UPDATE(){
+void UPDATE(){  
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             if(motherpl_attack_cooldown == 0u){
@@ -143,11 +143,10 @@ void UPDATE(){
         case MOTHERPL_HIT:
             if(motherpl_hit_cooldown > 0u){
                 motherpl_hit_cooldown--;
-                if(motherpl_hit_cooldown > (HIT_COOLDOWN_MAX << 2)){
+                if(motherpl_hit_cooldown > 8){
                     return;
                 }
-            }
-            else if(motherpl_hp > 0){changeMotherplState(MOTHERPL_IDLE);}
+            }else if(motherpl_hp > 0){changeMotherplState(MOTHERPL_IDLE);}
             else{changeMotherplState(MOTHERPL_DEAD);}
         break;
         case MOTHERPL_DEAD:
@@ -254,22 +253,37 @@ void UPDATE(){
             THIS->y = s_surf->y - 23u;
         }
     //ACTUAL MOVEMENT
+    UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+    if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
+        changeMotherplState(MOTHERPL_IDLE);
+    }
     if(motherpl_inertiax > 2){
-        motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, motherpl_vy << delta_time);
+        motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
     }else{
-        motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+        //motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
     }
     //REACTION DI TILE COLLISION
-    switch(motherpl_coll){
-        case 5u:
-            if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                changeStateFromMotherpl(StateTetra);
-            }else{ //GO TO MAP
-                changeStateFromMotherpl(StateOverworld);
+    switch(current_state){
+        case StateExzoo:
+            switch(motherpl_coll){
+                case 5u:
+                    if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
+                        changeStateFromMotherpl(StateTetra);
+                    }else{ //GO TO MAP
+                        changeStateFromMotherpl(StateOverworld);
+                    }
+                break;
+                case 7u:
+                    changeStateFromMotherpl(StateBonus);
+                break;
             }
         break;
-        case 7u:
-            changeStateFromMotherpl(StateBonus);
+        case StateCemetery:
+            switch(motherpl_coll){
+                case 8u:
+                    changeStateFromMotherpl(StateOverworld);
+                break;
+            }
         break;
     }
 

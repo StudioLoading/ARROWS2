@@ -90,7 +90,7 @@ void START(){
 				set_sgb_palette_2();
 			}
 			if(ow_mother_pos_y == 0u){
-				ow_mother_pos_y = (UINT16) 16u << 3;
+				ow_mother_pos_y = (UINT16) 13u << 3;
 			}
 			if(ow_mother_pos_x == 0u){
 				ow_mother_pos_x = (UINT16) 13u << 3;

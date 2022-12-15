@@ -70,6 +70,10 @@ void UPDATE(){
             case 64u:
                 ChangeState(StateExzoo);
             break;
+            case 70u:
+            case 72u:
+                ChangeState(StateCemetery);
+            break;
         }
     }
 

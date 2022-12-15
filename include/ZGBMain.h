@@ -15,6 +15,8 @@ _STATE(StateTetra)\
 _STATE(StateOverworld)\
 _STATE(StateDiary)\
 _STATE(StateExzoo)\
+_STATE(StateFittizio)\
+_STATE(StateCemetery)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 

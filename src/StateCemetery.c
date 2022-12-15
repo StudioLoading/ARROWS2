@@ -19,12 +19,14 @@
 #include "Dialogs.h"
 
 IMPORT_TILES(fontbw);
-IMPORT_TILES(exzootiles);
+IMPORT_TILES(cemeterytiles);
 IMPORT_MAP(border2);
-IMPORT_MAP(exzoomap0);
+IMPORT_MAP(cemeterymap);
 IMPORT_MAP(hudpl);
 
-extern UINT8 border_set_exzoo;
+const UINT8 coll_tiles_cemetery[] = {8u, 0};
+const UINT8 coll_surface_cemetery[] = {1u, 0};
+
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
@@ -35,19 +37,6 @@ extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
 extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
-
-//START LOG PURPOSE
-extern UINT8 motherpl_jpower;
-extern UINT8 jump_ticked_delay;
-extern UINT8 motherpl_vy;
-extern MOTHERPL_STATE motherpl_state;
-extern UINT8 motherpl_attack_cooldown;
-extern Sprite* s_surf;
-extern INT8 motherpl_surf_dx;
-//END LOG PURPOSE
-
-const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
-const UINT8 coll_surface_exzoo[] = {1u, 0};
 
 void UpdateHUD() BANKED;
 
@@ -65,18 +54,14 @@ void START(){
         set_sgb_palette_2();
     }
     //INIT GRAPHICS    
-    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 13u << 3);
+    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 9u << 3);
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y);
-    InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
+    InitScroll(BANK(cemeterymap), &cemeterymap, coll_tiles_cemetery, coll_surface_cemetery);
 
     //reset init_enemy
     init_enemy = 0u;
 
 	INIT_FONT(fontbw, PRINT_BKG);
-    //TEST
-    PRINT(0, 11, "WORLD");
-    PRINT(17, 5, "FPS");
-    PRINT(5, 5, "TETRA");
     //HUD
     INIT_HUD(hudpl); 
     hud_motherpl_hp = 0;
@@ -94,36 +79,4 @@ void UPDATE(){
     }
     scroll_target->x = s_motherpl->x + 16u;
     scroll_target->y = s_motherpl->y + 16u;
-    if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
-        Sprite* se = SpriteManagerAdd(SpriteEnemy, (UINT16) 26u << 3, (UINT16) 6u << 3);
-        struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
-        se_info->type = SNAKE;
-        se_info->configured = 1u;
-        init_enemy = 1u;
-    }
-    if(print_target != PRINT_WIN){
-        print_target = PRINT_WIN;
-    }
-    switch(motherpl_state){
-        case MOTHERPL_IDLE:
-            PRINT(0, 2, "IDLE");
-        break;
-        case MOTHERPL_JUMP:
-            PRINT(0, 2, "JUMP");
-        break;
-        case MOTHERPL_WALK:
-            PRINT(0, 2, "WALK");
-        break;
-        case MOTHERPL_HIT:
-            PRINT(0, 2, " HIT");
-        break;
-        case MOTHERPL_DEAD:
-            PRINT(0, 2, "DEAD");
-        break;
-    }
-    if(s_surf){
-        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
-    }else{
-        PRINT(5, 2, "     ");
-    }
 }
