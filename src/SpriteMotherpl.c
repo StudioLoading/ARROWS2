@@ -279,6 +279,7 @@ void UPDATE(){
             }
         break;
         case StateCemetery:
+        case StateBlackiecave:
             switch(motherpl_coll){
                 case 8u:
                     changeStateFromMotherpl(StateOverworld);

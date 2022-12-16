@@ -62,6 +62,7 @@ void START(){
     init_enemy = 0u;
 
 	INIT_FONT(fontbw, PRINT_BKG);
+    PRINT(5, 5, "CEMETERY");
     //HUD
     INIT_HUD(hudpl); 
     hud_motherpl_hp = 0;

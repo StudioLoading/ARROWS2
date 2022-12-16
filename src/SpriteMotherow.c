@@ -66,6 +66,10 @@ void UPDATE(){
     //CHECK COLLIDED PLACE
     if(motherow_info->tile_collision){
         switch(motherow_info->tile_collision){
+            case 50u:
+            case 51u:
+                ChangeState(StateCave);
+            break;
             case 62u:
             case 64u:
                 ChangeState(StateExzoo);
@@ -73,6 +77,10 @@ void UPDATE(){
             case 70u:
             case 72u:
                 ChangeState(StateCemetery);
+            break;
+            case 95u:
+            case 96u:
+                ChangeState(StateBlackiecave);
             break;
         }
     }

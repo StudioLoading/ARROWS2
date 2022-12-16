@@ -17,6 +17,8 @@ _STATE(StateDiary)\
 _STATE(StateExzoo)\
 _STATE(StateFittizio)\
 _STATE(StateCemetery)\
+_STATE(StateBlackiecave)\
+_STATE(StateCave)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 
