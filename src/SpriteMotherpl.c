@@ -297,6 +297,7 @@ void UPDATE(){
 				case SpriteArrow:
                     if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
                         if(s_surf == 0 && motherpl_surfing_getoff == 0u){
+                            changeMotherplState(MOTHERPL_IDLE);
                             motherpl_surfing_goton = GOTON_COOLDOWN;
                             s_surf = implspr;
                             motherpl_surf_dx = THIS->x - implspr->x;
