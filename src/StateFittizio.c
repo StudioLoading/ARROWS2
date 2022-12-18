@@ -14,6 +14,9 @@
 
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
+extern INT8 motherpl_surf_dx;
+extern MOTHERPL_STATE motherpl_state;
+extern Sprite* s_surf;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -22,6 +25,7 @@ INT8 hud_motherpl_ups = 0;
 
 
 void UpdateHUD() BANKED;
+void Log() BANKED;
 
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 6;
@@ -50,6 +54,34 @@ void UpdateHUD() BANKED{
     hud_motherpl_ups = motherpl_ups;
     print_target = PRINT_WIN;
     PRINT(3,1,"%i", hud_motherpl_ups);
+}
+
+void Log() BANKED{    
+    if(print_target != PRINT_WIN){
+        print_target = PRINT_WIN;
+    }
+    switch(motherpl_state){
+        case MOTHERPL_IDLE:
+            PRINT(0, 2, "IDLE");
+        break;
+        case MOTHERPL_JUMP:
+            PRINT(0, 2, "JUMP");
+        break;
+        case MOTHERPL_WALK:
+            PRINT(0, 2, "WALK");
+        break;
+        case MOTHERPL_HIT:
+            PRINT(0, 2, " HIT");
+        break;
+        case MOTHERPL_DEAD:
+            PRINT(0, 2, "DEAD");
+        break;
+    }
+    if(s_surf){
+        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
+    }else{
+        PRINT(5, 2, "     ");
+    }
 }
 
 void START(){}

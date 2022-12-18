@@ -12,6 +12,8 @@
 const UINT8 diary_cursor_anim[] = {5, 0,0,0,1,1}; //The first number indicates the number of frames
 
 void START(){
+	THIS->lim_x = 255u;
+	THIS->lim_y = 255u;
     SetSpriteAnim(THIS, diary_cursor_anim, 16u);
 }
 

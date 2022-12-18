@@ -39,6 +39,7 @@ extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
 
 void UpdateHUD() BANKED;
+void Log() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -80,4 +81,6 @@ void UPDATE(){
     }
     scroll_target->x = s_motherpl->x + 16u;
     scroll_target->y = s_motherpl->y + 16u;
+
+    Log();
 }

@@ -50,6 +50,7 @@ const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
 
 void UpdateHUD() BANKED;
+void Log() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -101,29 +102,6 @@ void UPDATE(){
         se_info->configured = 1u;
         init_enemy = 1u;
     }
-    if(print_target != PRINT_WIN){
-        print_target = PRINT_WIN;
-    }
-    switch(motherpl_state){
-        case MOTHERPL_IDLE:
-            PRINT(0, 2, "IDLE");
-        break;
-        case MOTHERPL_JUMP:
-            PRINT(0, 2, "JUMP");
-        break;
-        case MOTHERPL_WALK:
-            PRINT(0, 2, "WALK");
-        break;
-        case MOTHERPL_HIT:
-            PRINT(0, 2, " HIT");
-        break;
-        case MOTHERPL_DEAD:
-            PRINT(0, 2, "DEAD");
-        break;
-    }
-    if(s_surf){
-        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
-    }else{
-        PRINT(5, 2, "     ");
-    }
+
+    Log();
 }
