@@ -338,7 +338,8 @@ void shoot(){
     if(THIS->mirror == NO_MIRROR){
         arrowix += 4u;
     }
-    UINT16 arrowiy = THIS->y + 4u;
+    UINT16 arrowiy = THIS->y + 8u;
+    if(motherpl_state == MOTHERPL_JUMP)arrowiy = THIS->y + 4u;
     Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
     struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
     if(THIS->mirror == NO_MIRROR){//looking right

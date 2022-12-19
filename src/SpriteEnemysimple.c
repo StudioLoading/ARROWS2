@@ -13,12 +13,16 @@
 #define E_GRAVITY 4
 #define E_VX 1
 #define E_FRAMSKIP_SNAKE 3
+#define E_FRAMSKIP_RAT 1
 
 
 const UINT8 e_anim_hidden[] = {1, 0};
-const UINT8 e_anim_idle[] = {1, 1}; //The first number indicates the number of frames
-const UINT8 e_anim_walk[] = {4, 3, 4, 5, 6}; //The first number indicates the number of frames
-const UINT8 e_anim_hit[] = {2, 0, 3}; //The first number indicates the number of frames
+const UINT8 snake_anim_idle[] = {1, 1}; //The first number indicates the number of frames
+const UINT8 snake_anim_walk[] = {4, 3, 4, 5, 6}; //The first number indicates the number of frames
+const UINT8 snake_anim_hit[] = {2, 0, 3}; //The first number indicates the number of frames
+const UINT8 rat_anim_idle[] = {1, 8}; //The first number indicates the number of frames
+const UINT8 rat_anim_walk[] = {3, 9, 8, 7}; //The first number indicates the number of frames
+const UINT8 rat_anim_hit[] = {2, 8, 0}; //The first number indicates the number of frames
 
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
@@ -32,7 +36,7 @@ UINT8 getEmaxFrameskip(ENEMY_TYPE etype);
 
 void START(){
     struct EnemyData* enemy_info = (struct EnemyData*) THIS->custom_data;
-    SetSpriteAnim(THIS, e_anim_walk, 12u);
+    SetSpriteAnim(THIS, e_anim_hidden, 12u);
     THIS->lim_x = 255u;
 }
 
@@ -103,6 +107,9 @@ UINT8 getEmaxFrameskip(ENEMY_TYPE etype){
         case SNAKE:
             result = E_FRAMSKIP_SNAKE;
         break;
+        case RAT:
+            result = E_FRAMSKIP_RAT;
+        break;
     }
     return result;
 }
@@ -123,6 +130,10 @@ void configure(struct EnemyData* e_info){
             e_info->hp = 4;
             e_info->x_frameskip = 1;
         break;
+        case RAT:
+            e_info->hp = 4;
+            e_info->x_frameskip = 1;
+        break;
     }
     e_info->x_frameskip = 1u;
     e_info->vx = E_VX;
@@ -134,17 +145,21 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state){
     if(e_info->e_state != new_e_state){
         switch(new_e_state){
             case ENEMY_WALK:
-                SetSpriteAnim(THIS, e_anim_walk, 12u);
+                if(e_info->type == SNAKE)SetSpriteAnim(THIS, snake_anim_walk, 12u);
+                if(e_info->type == RAT)SetSpriteAnim(THIS, rat_anim_walk, 12u);
             break;
             case ENEMY_IDLE:
-                SetSpriteAnim(THIS, e_anim_walk, 12u);
+                if(e_info->type == SNAKE)SetSpriteAnim(THIS, snake_anim_walk, 12u);
+                if(e_info->type == RAT)SetSpriteAnim(THIS, rat_anim_walk, 12u);
             break;
             case ENEMY_WAIT:
-                SetSpriteAnim(THIS, e_anim_idle, 16u);
+                if(e_info->type == SNAKE)SetSpriteAnim(THIS, snake_anim_idle, 16u);
+                if(e_info->type == RAT)SetSpriteAnim(THIS, rat_anim_idle, 16u);
                 e_info->wait = 64u;
             break;
             case ENEMY_HIT:
-                SetSpriteAnim(THIS, e_anim_hit, 16u);
+                if(e_info->type == SNAKE)SetSpriteAnim(THIS, snake_anim_hit, 16u);
+                if(e_info->type == SNAKE)SetSpriteAnim(THIS, rat_anim_hit, 16u);
                 e_info->wait = 64u;
             break;
         }

@@ -174,7 +174,8 @@ struct MotherplData{
 
 typedef enum{
 	UNASSIGNED,
-	SNAKE
+	SNAKE,
+	RAT
 }ENEMY_TYPE;
 
 typedef enum{

@@ -36,7 +36,7 @@ _SPRITE_DMG(SpriteTetracursor, tetracursor)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
-_SPRITE_DMG(SpriteEnemy, snake)\
+_SPRITE_DMG(SpriteEnemysimple, enemysimple)\
 _SPRITE_DMG(SpriteArrow, arrow)\
 SPRITE_DEF_END
 
