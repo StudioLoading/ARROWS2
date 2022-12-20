@@ -96,15 +96,17 @@ void UPDATE(){
     scroll_target->x = s_motherpl->x + 16u;
     scroll_target->y = s_motherpl->y + 16u;
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
+        /*
         Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
         struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
         se_info->type = SNAKE;
         se_info->configured = 1u;
-        init_enemy = 1u;
+        */
         Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
         struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
         se2_info->type = RAT;
         se2_info->configured = 1u;
+        
         init_enemy = 1u;
     }
 

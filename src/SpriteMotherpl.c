@@ -28,9 +28,11 @@ const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
 const UINT8 motherpl_anim_jump_ascending[] = {1, 6};
 const UINT8 motherpl_anim_jump_descending[] = {1, 5};
-const UINT8 motherpl_anim_shoot[] = {3, 7, 8, 7};
+const UINT8 motherpl_anim_shoot[] = {3, 7, 7, 7};//7, 8, 7
+const UINT8 motherpl_anim_crawlshoot[] = {3, 8, 8, 8};//9, 10, 9
 const UINT8 motherpl_anim_hit[] = {2, 0, 1};
 const UINT8 motherpl_anim_dead[] = {1, 0};
+const UINT8 motherpl_anim_crawl[] = {1, 8};
 
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
@@ -53,12 +55,14 @@ UINT8 motherpl_surfing_goton = 0u;
 INT8 motherpl_surf_dx = 0;
 UINT8 motherpl_hit_cooldown = 0u;
 Sprite* s_surf = 0;
+struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
 void shoot();
+void getOff();
 void refreshAnimation();
 void die();
 
@@ -164,16 +168,25 @@ void UPDATE(){
             return;
         break;
     }
-    if(KEY_RELEASED(J_JUMP)){
-        motherpl_rabbit = 0u;
-    }
+    //CRAWL
+        if(motherpl_state != MOTHERPL_JUMP){
+            if(KEY_PRESSED(J_DOWN)){
+                changeMotherplState(MOTHERPL_CRAWL);
+            }
+            if(KEY_RELEASED(J_DOWN) && motherpl_state == MOTHERPL_CRAWL){
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        }
     //HIT
-    if(motherpl_hit == 1u){
-        changeMotherplState(MOTHERPL_HIT);
-        motherpl_hit = 0u;
-    }
+        if(motherpl_hit == 1u){
+            changeMotherplState(MOTHERPL_HIT);
+            motherpl_hit = 0u;
+        }
     //INPUTS
     //INPUTS JUMP
+        if(KEY_RELEASED(J_JUMP)){
+            motherpl_rabbit = 0u;
+        }
         if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
             if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
                 if(motherpl_rabbit == 0u){
@@ -188,19 +201,21 @@ void UPDATE(){
             jump_ticked_delay--;
         }
     //INPUT WALK
-        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
-            motherpl_inertia_down = 0u;
-            if(motherpl_inertiax < INERTIA_MAX){
-                motherpl_inertiax++;
+        if(motherpl_state != MOTHERPL_CRAWL){
+            if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
+                motherpl_inertia_down = 0u;
+                if(motherpl_inertiax < INERTIA_MAX){
+                    motherpl_inertiax++;
+                }
+                if(KEY_PRESSED(J_RIGHT)){motherpl_vx = 1;THIS->mirror = NO_MIRROR;}
+                else if(KEY_PRESSED(J_LEFT)){motherpl_vx = -1;THIS->mirror = V_MIRROR;}
             }
-            if(KEY_PRESSED(J_RIGHT)){motherpl_vx = 1;THIS->mirror = NO_MIRROR;}
-            else if(KEY_PRESSED(J_LEFT)){motherpl_vx = -1;THIS->mirror = V_MIRROR;}
-        }
-        if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
-            motherpl_inertia_down = 1u;
-            motherpl_vx = 0;
-            if(motherpl_state == MOTHERPL_WALK){
-                changeMotherplState(MOTHERPL_IDLE);
+            if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
+                motherpl_inertia_down = 1u;
+                motherpl_vx = 0;
+                if(motherpl_state == MOTHERPL_WALK){
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
             }
         }
     //INPUT FIRE
@@ -213,6 +228,7 @@ void UPDATE(){
         if(KEY_TICKED(J_FIRE)){
             if(motherpl_attack_cooldown == 0){
                 SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
+                if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
                 motherpl_attack_cooldown = COOLDOWN_ATTACK;
                 motherpl_canshoot = 1u;
             }
@@ -243,7 +259,7 @@ void UPDATE(){
             effective_vx = 0;
         }
     //RELATIVE POSITION
-        if(motherpl_surfing_goton == GOTON_COOLDOWN){//just got on a ride
+        if(motherpl_surfing_goton == GOTON_COOLDOWN && motherpl_state != MOTHERPL_IDLE){//just got on a ride
             changeMotherplState(MOTHERPL_IDLE);
         }
         if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
@@ -253,15 +269,13 @@ void UPDATE(){
             THIS->y = s_surf->y - 23u;
         }
     //ACTUAL MOVEMENT
-    UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-    if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
-        changeMotherplState(MOTHERPL_IDLE);
-    }
-    if(motherpl_inertiax > 2){
-        motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
-    }else{
-        //motherpl_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-    }
+        UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+        if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
+            changeMotherplState(MOTHERPL_IDLE);
+        }
+        if(motherpl_inertiax > 2){
+            motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
+        }
     //REACTION DI TILE COLLISION
     switch(current_state){
         case StateExzoo:
@@ -287,8 +301,7 @@ void UPDATE(){
             }
         break;
     }
-
-    
+    //SPRITE COLLISION
 	UINT8 mpl_a_tile;
 	Sprite* implspr;
 	SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
@@ -300,6 +313,7 @@ void UPDATE(){
                             changeMotherplState(MOTHERPL_IDLE);
                             motherpl_surfing_goton = GOTON_COOLDOWN;
                             s_surf = implspr;
+                            surf_data =(struct ArrowData*) s_surf->custom_data;
                             motherpl_surf_dx = THIS->x - implspr->x;
                         }
                     }
@@ -307,6 +321,15 @@ void UPDATE(){
             }
         }
     }
+    if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
+        getOff();
+    }
+}
+
+void getOff(){
+    surf_data = 0;
+    s_surf = 0;
+    motherpl_surfing_getoff = 32u;
 }
 
 void die(){
@@ -330,6 +353,9 @@ void refreshAnimation(){
         case MOTHERPL_DEAD:
             SetSpriteAnim(THIS, motherpl_anim_dead, 32u);
         break;
+        case MOTHERPL_CRAWL:
+            SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
+        break;
     }
 }
 
@@ -338,15 +364,22 @@ void shoot(){
     if(THIS->mirror == NO_MIRROR){
         arrowix += 4u;
     }
-    UINT16 arrowiy = THIS->y + 8u;
+    UINT16 arrowiy = THIS->y + 6u;
     if(motherpl_state == MOTHERPL_JUMP)arrowiy = THIS->y + 4u;
+    if(motherpl_state == MOTHERPL_CRAWL)arrowiy = THIS->y + 13u;
     Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
     struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
+    arrow_data->arrow_type = ARROW_NORMAL;
     if(THIS->mirror == NO_MIRROR){//looking right
         arrow_data->vx = 1;
     }else{
         arrow_data->vx = -1;
     }
+    arrow_data->vy = 0;
+    if(KEY_PRESSED(J_UP)){
+        arrow_data->vy = -1;
+    }
+    refreshAnimation();
 }
 
 void changeStateFromMotherpl(UINT8 new_state){
@@ -357,8 +390,7 @@ void changeStateFromMotherpl(UINT8 new_state){
 void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){
         if(s_surf && motherpl_surfing_goton == 0u){
-            s_surf = 0;
-            motherpl_surfing_getoff = 32u;
+            getOff();
         }
         switch(new_state){
             case MOTHERPL_IDLE:
@@ -375,6 +407,16 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
                 }
+                motherpl_hit_cooldown = 0;
+            break;
+            case MOTHERPL_CRAWL:
+                if(motherpl_attack_cooldown == 0u){
+                    SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
+                }
+                motherpl_jpower = 0;
+                jump_max_toched = 0u;
+                motherpl_vy = GRAVITY;
+                motherpl_vx = 0;
                 motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_WALK:

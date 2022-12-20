@@ -76,6 +76,9 @@ void Log() BANKED{
         case MOTHERPL_DEAD:
             PRINT(0, 2, "DEAD");
         break;
+        case MOTHERPL_CRAWL:
+            PRINT(0, 2, "CRAW");
+        break;
     }
     if(s_surf){
         PRINT(5, 2, "SURF%i",motherpl_surf_dx);
