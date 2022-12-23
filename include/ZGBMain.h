@@ -19,6 +19,7 @@ _STATE(StateFittizio)\
 _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateCave)\
+_STATE(StateInventory)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 
@@ -35,6 +36,7 @@ _SPRITE_DMG(SpriteTetracamera, camerafocus)\
 _SPRITE_DMG(SpriteTetracursor, tetracursor)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
+_SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
 _SPRITE_DMG(SpriteArrow, arrow)\
