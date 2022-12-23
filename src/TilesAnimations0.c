@@ -8,6 +8,8 @@ IMPORT_TILES(tiles6);
 IMPORT_TILES(tiles7);
 IMPORT_TILES(tilesanims);
 IMPORT_TILES(tilesanimsmapworld);
+IMPORT_TILES(invdetail0tiles);
+IMPORT_TILES(inventorytiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
 IMPORT_TILES(tilesanimcredit);
@@ -20,7 +22,21 @@ UINT8 bank_tilesanims = BANK(tilesanims);
 UINT8 bank_tilesanimsmapworld = BANK(tilesanimsmapworld);
 UINT8 bank_tilescredit = BANK(tilescredit);
 UINT8 bank_tilesanimcredit = BANK(tilesanimcredit);
+UINT8 bank_invdetail0tiles = BANK(invdetail0tiles);
 
+
+void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, UINT8 isEmpty) NONBANKED {
+    uint8_t save = _current_bank;
+    SWITCH_ROM(bank);
+	if(isEmpty){
+		set_bkg_data(first_tile, nb_tiles, inventorytiles.data+((16u) * first_tile)); 
+	} else { 
+		switch(item){
+			case 0u:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
+		}
+	}
+    SWITCH_ROM(save);
+}
 
 void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, UINT8 tiles_used, UINT8 bank) NONBANKED {
     uint8_t save = _current_bank;
@@ -61,6 +77,18 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, UINT8 tiles_used, UIN
 		break;
 	}
     SWITCH_ROM(save);
+}
+
+void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
+	if(isEmpty){
+		set_inv_bkg_data(item, 49u, 25, BANK(inventorytiles), isEmpty);
+	}else{
+		switch(item){
+			case 0u://crossbow
+				set_inv_bkg_data(item, 49u, 25, BANK(invdetail0tiles), isEmpty);
+			break;
+		}
+	}
 }
 
 void Anim_StudioLoading_0() BANKED{

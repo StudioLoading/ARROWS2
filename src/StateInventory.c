@@ -39,7 +39,28 @@ extern unsigned char dd7[];
 extern unsigned char dd8[];
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
+
+UINT8 invcursor_posx[] = {8u, 40u, 72u, 8u, 40u, 72u};
+UINT8 invcursor_posy[] = {24u, 24u, 24u, 48u, 48u, 48u};
+INT8 invcursor_posi = 0u;
+UINT8 invcursor_old_posi = 0u;
+const INT8 invcursor_posimax = 6;
 Sprite* inv_cursor = 0;
+struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0, .owned = 1u};
+struct InvItem itemDontknow = {.itemtype = INVITEM_CROSSBOW, .quantity = 1, .owned = 0u};
+struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .owned = 1u};
+struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .owned = 1u};
+struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .owned = 0u};
+struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0, .owned = 0u};
+const struct InvItem* inventory[6] = {&itemCrossbow, &itemDontknow, &itemMoney, &itemArrowNormal, &itemArrowPerf, &itemBomb};
+/*
+struct InvItem{
+	INVITEMTYPE itemtype;
+	UINT8 quantity;
+};
+*/
+
+void invselectitem();
 
 void START(){
 	/*if(border_set_diary == 0u){
@@ -65,11 +86,50 @@ void START(){
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
 	INIT_FONT(fontbw, PRINT_BKG);
     SHOW_BKG;
+    
+    invcursor_old_posi = invcursor_posi;
+    inv_cursor->x = invcursor_posx[invcursor_old_posi];
+    inv_cursor->y = invcursor_posy[invcursor_old_posi];
+    UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
+    Inv_change_detail(invcursor_posi, isEmpty);
+
 }
 
+void invselectitem(){
+
+}
 
 void UPDATE(){
     if(KEY_PRESSED(J_START)){
         SetState(StateExzoo);
+    }
+    
+    if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+        invselectitem();
+    }
+    if(KEY_RELEASED(J_UP)){
+        invcursor_posi-=3;
+    }
+    if(KEY_RELEASED(J_DOWN)){
+        invcursor_posi+=3;
+    }
+    if(KEY_RELEASED(J_RIGHT)){
+        invcursor_posi++;
+    }
+    if(KEY_RELEASED(J_LEFT)){
+        invcursor_posi--;
+    }
+    if(invcursor_posi < 0){
+        invcursor_posi = invcursor_posimax +invcursor_posi;
+    }
+    if(invcursor_posi >= invcursor_posimax){
+        invcursor_posi = invcursor_posi-invcursor_posimax;
+    }
+    if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
+        invcursor_old_posi = invcursor_posi;
+        inv_cursor->x = invcursor_posx[invcursor_posi];
+        inv_cursor->y = invcursor_posy[invcursor_posi];
+        UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
+        Inv_change_detail(invcursor_posi, isEmpty);
     }
 }

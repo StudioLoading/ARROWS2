@@ -213,3 +213,17 @@ struct ArrowData{
 	UINT8 arrow_fskipy;
 	ARROW_TYPE arrow_type;
 };
+
+typedef enum{
+	INVITEM_CROSSBOW,
+	INVITEM_MONEY,
+	INVITEM_ARROW_NORMAL,
+	INVITEM_ARROW_PERFO,
+	INVITEM_BOMB
+}INVITEMTYPE;
+
+struct InvItem{
+	INVITEMTYPE itemtype;
+	UINT8 quantity;
+	UINT8 owned;
+};
