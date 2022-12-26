@@ -10,6 +10,8 @@
 #include "custom_datas.h"
 
 
+const UINT8 itm_noarrowbastard[] = {1, 0}; //The first number indicates the number of frames
+const UINT8 itm_arrowbastard[] = {1, 10}; //The first number indicates the number of frames
 const UINT8 itm_nocrossbow[] = {1, 1}; //The first number indicates the number of frames
 const UINT8 itm_crossbow[] = {1, 6}; //The first number indicates the number of frames
 const UINT8 itm_money[] = {1, 2}; //The first number indicates the number of frames
@@ -30,7 +32,7 @@ void UPDATE(){
         invitem_data->configured = 2u;
         switch(invitem_data->itemtype){
             case 0u:
-                if(invitem_data->owned == 0)SetSpriteAnim(THIS, itm_nocrossbow, 4u);
+                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_nocrossbow, 4u);
                 else SetSpriteAnim(THIS, itm_crossbow, 4u);
             break;
             case 1u:
@@ -45,6 +47,10 @@ void UPDATE(){
                 else SetSpriteAnim(THIS, itm_arrowperf, 4u);
             break;
             case 4u:
+                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_noarrowbastard, 4u);
+                else SetSpriteAnim(THIS, itm_arrowbastard, 4u);
+            break;
+            case 5u:
                 if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_nobomb, 4u);
                 else SetSpriteAnim(THIS, itm_bomb, 4u);
             break;

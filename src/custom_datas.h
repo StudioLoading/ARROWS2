@@ -219,13 +219,13 @@ typedef enum{
 	INVITEM_MONEY,
 	INVITEM_ARROW_NORMAL,
 	INVITEM_ARROW_PERFO,
+	INVITEM_ARROW_BASTARD,
 	INVITEM_BOMB
 }INVITEMTYPE;
 
 struct InvItem{
 	INVITEMTYPE itemtype;
 	UINT8 quantity;
-	UINT8 owned;
 	UINT8 configured;
 };
 

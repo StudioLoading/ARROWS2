@@ -16,7 +16,7 @@
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
 #include "sgb_palette.h"
-#include "DiaryDialogs.h"
+#include "InventoryDialogs.h"
 
 IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
@@ -29,14 +29,14 @@ extern UINT8 J_FIRE;
 extern UINT8 border_set_diary;
 extern UINT8 border_set_ow;
 extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
-extern unsigned char dd1[];
-extern unsigned char dd2[];
-extern unsigned char dd3[];
-extern unsigned char dd4[];
-extern unsigned char dd5[];
-extern unsigned char dd6[];
-extern unsigned char dd7[];
-extern unsigned char dd8[];
+extern unsigned char ddinv1[];
+extern unsigned char ddinv2[];
+extern unsigned char ddinv3[];
+extern unsigned char ddinv4[];
+extern unsigned char ddinv5[];
+extern unsigned char ddinv6[];
+extern unsigned char ddinv7[];
+extern unsigned char ddinv8[];
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
@@ -46,13 +46,13 @@ INT8 invcursor_posi = 0u;
 UINT8 invcursor_old_posi = 0u;
 const INT8 invcursor_posimax = 6;
 Sprite* inv_cursor = 0;
-struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0, .owned = 1u};
-struct InvItem itemDontknow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0, .owned = 0u};
-struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .owned = 1u};
-struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .owned = 1u};
-struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .owned = 0u};
-struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0, .owned = 0u};
-const struct InvItem* inventory[6] = {&itemCrossbow, &itemMoney, &itemDontknow, &itemArrowNormal, &itemArrowPerf, &itemBomb};
+struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0};
+struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100};
+struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0};
+struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0};
+struct InvItem itemArrowBastard = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0};
+struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0};
+const struct InvItem* inventory[6] = {&itemCrossbow, &itemMoney, &itemBomb, &itemArrowNormal, &itemArrowPerf, &itemArrowBastard};
 
 
 void invselectitem();
@@ -85,18 +85,17 @@ void START(){
     invcursor_old_posi = invcursor_posi;
     inv_cursor->x = invcursor_posx[invcursor_old_posi];
     inv_cursor->y = invcursor_posy[invcursor_old_posi];
-    UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
+    UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
     Sprite* s_invitem = 0;
     for(UINT8 i = 0u; i < 6; i++){
         s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]);
         struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
         cdata->itemtype = inventory[i]->itemtype;
         cdata->quantity = inventory[i]->quantity;
-        cdata->owned = inventory[i]->owned;
         cdata->configured = 1u;
     }
     Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
-
+    change_detail();
 }
 
 void invselectitem(){
@@ -133,7 +132,73 @@ void UPDATE(){
         invcursor_old_posi = invcursor_posi;
         inv_cursor->x = invcursor_posx[invcursor_posi];
         inv_cursor->y = invcursor_posy[invcursor_posi];
-        UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
+        UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
         Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
+        change_detail();
     }
+}
+
+void change_detail(){
+    print_target = PRINT_BKG;
+    if(inventory[invcursor_posi]->quantity == 0){PRINT(2, 14, "     ");}
+    else if(inventory[invcursor_posi]->quantity < 10){PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);}
+    else if(inventory[invcursor_posi]->quantity < 100){PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);}
+    else {PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);}
+    if(inventory[invcursor_posi]->quantity == 0){
+        GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv1);
+        GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv2);
+        GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv3);
+        GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv4);
+        GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv5);
+    }else{
+        switch(inventory[invcursor_posi]->itemtype){
+            case INVITEM_CROSSBOW:
+                GetLocalizedINVLabel_EN(CROSSBOW_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL4, ddinv5);
+            break;
+            case INVITEM_MONEY:
+                GetLocalizedINVLabel_EN(MONEY_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(MONEY_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(MONEY_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(MONEY_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(MONEY_DETAIL4, ddinv5);
+            break;
+            case INVITEM_BOMB:
+                GetLocalizedINVLabel_EN(BOMB_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(BOMB_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(BOMB_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(BOMB_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(BOMB_DETAIL4, ddinv5);
+            break;
+            case INVITEM_ARROW_NORMAL:
+                GetLocalizedINVLabel_EN(ARROWNORMAL_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(ARROWNORMAL_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(ARROWNORMAL_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(ARROWNORMAL_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(ARROWNORMAL_DETAIL4, ddinv5);
+            break;
+            case INVITEM_ARROW_PERFO:
+                GetLocalizedINVLabel_EN(ARROWPERFO_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(ARROWPERFO_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(ARROWPERFO_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(ARROWPERFO_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(ARROWPERFO_DETAIL4, ddinv5);
+            break;
+            case INVITEM_ARROW_BASTARD:
+                GetLocalizedINVLabel_EN(ARROWBASTARD_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL4, ddinv5);
+            break;
+        }
+    }
+    PRINT(8, 8, "%s", ddinv1);
+    PRINT(8, 10, "%s", ddinv2);
+    PRINT(8, 11, "%s", ddinv3);
+    PRINT(8, 12, "%s", ddinv4);
+    PRINT(8, 13, "%s", ddinv5);
 }

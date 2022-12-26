@@ -10,7 +10,7 @@
 
 #include "custom_datas.h"
 
-#define NORMAL_FRAMESKIPX 2
+#define NORMAL_FRAMESKIPX 0
 #define NORMAL_FRAMESKIPY 4
 
 void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;//SpriteEnemysimple
@@ -42,12 +42,12 @@ void UPDATE(){
     }
     if(arrow_data->arrow_fskipx){
         arrow_data->arrow_fskipx--;
-        if(arrow_data->arrow_fskipx == 0){
-            arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
-            arrow_data->arrow_fskipx = NORMAL_FRAMESKIPX;
-            if(arrow_t_coll != 0){
-                SpriteManagerRemoveSprite(THIS);
-            }
+    }
+    if(arrow_data->arrow_fskipx == 0){
+        arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
+        arrow_data->arrow_fskipx = NORMAL_FRAMESKIPX;
+        if(arrow_t_coll != 0){
+            SpriteManagerRemoveSprite(THIS);
         }
     }
 

@@ -371,9 +371,9 @@ void shoot(){
     struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
     arrow_data->arrow_type = ARROW_NORMAL;
     if(THIS->mirror == NO_MIRROR){//looking right
-        arrow_data->vx = 1;
+        arrow_data->vx = 2;
     }else{
-        arrow_data->vx = -1;
+        arrow_data->vx = -2;
     }
     arrow_data->vy = 0;
     if(KEY_PRESSED(J_UP)){

@@ -1,4 +1,14 @@
 
+- sospensione della gravità in salto quando vy passa a zero nel tragitto da -1 e 1
+- tasto select in PL di cambio arma equipaggiata
+	- non si può equipaggiare la balestra
+- per salire sulle frecce non esistono più frecce lente: ci sarà un componente di mappa
+	che rallenterà le frecce. come nell' 1 c'erano i cambi di direzione, qui ci saranno i cambi
+	di velocità!
+- telecamera esattamente come warioland. il cambio di direzione non la fa spostare istantaneamente
+	ma le da una nuova direzione alla quale andare, e andrà per ogni passo che farò, fino
+	al delta di distanza massima dal motherpl
+
 
 PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
