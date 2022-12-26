@@ -9,6 +9,7 @@ IMPORT_TILES(tiles7);
 IMPORT_TILES(tilesanims);
 IMPORT_TILES(tilesanimsmapworld);
 IMPORT_TILES(invdetail0tiles);
+IMPORT_TILES(invdetailmoneytiles);
 IMPORT_TILES(inventorytiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
@@ -32,7 +33,10 @@ void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, 
 		set_bkg_data(first_tile, nb_tiles, inventorytiles.data+((16u) * first_tile)); 
 	} else { 
 		switch(item){
-			case 0u:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
+			//INVITEM_CROSSBOW
+			case 0:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
+			//MONEY
+			case 1:set_bkg_data(first_tile, nb_tiles, invdetailmoneytiles.data);break;
 		}
 	}
     SWITCH_ROM(save);
@@ -86,6 +90,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 		switch(item){
 			case 0u://crossbow
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetail0tiles), isEmpty);
+			break;
+			case 1u://money
+				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmoneytiles), isEmpty);
 			break;
 		}
 	}

@@ -40,6 +40,7 @@ _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
 _SPRITE_DMG(SpriteArrow, arrow)\
+_SPRITE_DMG(SpriteInvitem, invitem)\
 SPRITE_DEF_END
 
 

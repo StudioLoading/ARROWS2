@@ -40,25 +40,20 @@ extern unsigned char dd8[];
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
-UINT8 invcursor_posx[] = {8u, 40u, 72u, 8u, 40u, 72u};
-UINT8 invcursor_posy[] = {24u, 24u, 24u, 48u, 48u, 48u};
+UINT8 invcursor_posx[] = {8u, 32u, 56u, 8u, 32u, 56u};
+UINT8 invcursor_posy[] = {16u, 16u, 16u, 40u, 40u, 40u};
 INT8 invcursor_posi = 0u;
 UINT8 invcursor_old_posi = 0u;
 const INT8 invcursor_posimax = 6;
 Sprite* inv_cursor = 0;
 struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0, .owned = 1u};
-struct InvItem itemDontknow = {.itemtype = INVITEM_CROSSBOW, .quantity = 1, .owned = 0u};
+struct InvItem itemDontknow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0, .owned = 0u};
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .owned = 1u};
 struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .owned = 1u};
 struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .owned = 0u};
 struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0, .owned = 0u};
-const struct InvItem* inventory[6] = {&itemCrossbow, &itemDontknow, &itemMoney, &itemArrowNormal, &itemArrowPerf, &itemBomb};
-/*
-struct InvItem{
-	INVITEMTYPE itemtype;
-	UINT8 quantity;
-};
-*/
+const struct InvItem* inventory[6] = {&itemCrossbow, &itemMoney, &itemDontknow, &itemArrowNormal, &itemArrowPerf, &itemBomb};
+
 
 void invselectitem();
 
@@ -91,7 +86,16 @@ void START(){
     inv_cursor->x = invcursor_posx[invcursor_old_posi];
     inv_cursor->y = invcursor_posy[invcursor_old_posi];
     UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
-    Inv_change_detail(invcursor_posi, isEmpty);
+    Sprite* s_invitem = 0;
+    for(UINT8 i = 0u; i < 6; i++){
+        s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]);
+        struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
+        cdata->itemtype = inventory[i]->itemtype;
+        cdata->quantity = inventory[i]->quantity;
+        cdata->owned = inventory[i]->owned;
+        cdata->configured = 1u;
+    }
+    Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
 
 }
 
@@ -130,6 +134,6 @@ void UPDATE(){
         inv_cursor->x = invcursor_posx[invcursor_posi];
         inv_cursor->y = invcursor_posy[invcursor_posi];
         UINT8 isEmpty = inventory[invcursor_posi]->owned == 0 ? 1 : 0;
-        Inv_change_detail(invcursor_posi, isEmpty);
+        Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
     }
 }

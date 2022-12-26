@@ -226,4 +226,6 @@ struct InvItem{
 	INVITEMTYPE itemtype;
 	UINT8 quantity;
 	UINT8 owned;
+	UINT8 configured;
 };
+
