@@ -42,20 +42,21 @@ const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
 UINT8 invcursor_posx[] = {8u, 32u, 56u, 8u, 32u, 56u};
 UINT8 invcursor_posy[] = {16u, 16u, 16u, 40u, 40u, 40u};
-INT8 invcursor_posi = 0u;
+INT8 invcursor_posi = 1u;
 UINT8 invcursor_old_posi = 0u;
 const INT8 invcursor_posimax = 6;
 Sprite* inv_cursor = 0;
 struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0};
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100};
-struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0};
+struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10};
 struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0};
 struct InvItem itemArrowBastard = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0};
 struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0};
 const struct InvItem* inventory[6] = {&itemCrossbow, &itemMoney, &itemBomb, &itemArrowNormal, &itemArrowPerf, &itemArrowBastard};
+extern struct InvItem* itemEquipped;
 
-
-void invselectitem();
+void invselectitem() BANKED;
+void fixInvcursor() BANKED;
 
 void START(){
 	/*if(border_set_diary == 0u){
@@ -94,12 +95,23 @@ void START(){
         cdata->quantity = inventory[i]->quantity;
         cdata->configured = 1u;
     }
+    invselectitem();
     Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
     change_detail();
 }
 
-void invselectitem(){
-
+void invselectitem() BANKED{
+    UINT8 qOk = 0u;
+    while (qOk == 0u){
+        if(inventory[invcursor_posi]->quantity > 0){qOk = 1u;}
+        else{
+            invcursor_posi++;
+            fixInvcursor();
+            if(inventory[invcursor_posi]->quantity > 0){qOk = 1u;}
+        }
+    }
+    
+    itemEquipped = inventory[invcursor_posi];
 }
 
 void UPDATE(){
@@ -122,12 +134,7 @@ void UPDATE(){
     if(KEY_RELEASED(J_LEFT)){
         invcursor_posi--;
     }
-    if(invcursor_posi < 0){
-        invcursor_posi = invcursor_posimax +invcursor_posi;
-    }
-    if(invcursor_posi >= invcursor_posimax){
-        invcursor_posi = invcursor_posi-invcursor_posimax;
-    }
+    fixInvcursor();
     if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
         invcursor_old_posi = invcursor_posi;
         inv_cursor->x = invcursor_posx[invcursor_posi];
@@ -135,6 +142,15 @@ void UPDATE(){
         UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
         Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
         change_detail();
+    }
+}
+
+void fixInvcursor() BANKED{
+    if(invcursor_posi < 0){
+        invcursor_posi = invcursor_posimax +invcursor_posi;
+    }
+    if(invcursor_posi >= invcursor_posimax){
+        invcursor_posi = invcursor_posi-invcursor_posimax;
     }
 }
 

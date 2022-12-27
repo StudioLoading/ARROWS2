@@ -20,10 +20,12 @@
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 32
 #define DEAD_COOLDOWN_MAX 64
-#define FLY_MAX 8
+#define FLY_MAX 10
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
+extern INT8 invcursor_posi;
+extern INT8 invcursor_posimax;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -68,6 +70,12 @@ void getOff();
 void refreshAnimation();
 void die();
 
+extern void UpdateHUD() BANKED;
+extern void invselectitem() BANKED;
+extern void fixInvcursor() BANKED;
+
+
+
 void START(){
     motherpl_vx = 0u;
     motherpl_coll = 0u;
@@ -91,7 +99,14 @@ void START(){
     motherpl_hit = 0u;
 }
 
-void UPDATE(){  
+void UPDATE(){
+    if(KEY_TICKED(J_SELECT)){
+        invcursor_posi++;
+        fixInvcursor();
+        if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
+        invselectitem();//STATEINVENTORY
+        UpdateHUD();//STATEFITTIZIO
+    }
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             if(motherpl_attack_cooldown == 0u){
@@ -136,6 +151,10 @@ void UPDATE(){
                 if (motherpl_jpower > JUMP_MIN_POWER){
                     motherpl_jpower--;
                 }
+                /*if(fly_counter < FLY_MAX){
+                        fly_counter++;
+                        motherpl_vy = 0;
+                }else */
                 if(motherpl_vy < GRAVITY){
                     motherpl_vy++;
                 }

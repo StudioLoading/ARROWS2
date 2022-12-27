@@ -1,5 +1,4 @@
 
-- sospensione della gravità in salto quando vy passa a zero nel tragitto da -1 e 1
 - tasto select in PL di cambio arma equipaggiata
 	- non si può equipaggiare la balestra
 - per salire sulle frecce non esistono più frecce lente: ci sarà un componente di mappa
