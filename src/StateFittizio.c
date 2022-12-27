@@ -12,23 +12,28 @@
 #include "custom_datas.h"
 #include "Dialogs.h"
 
+#define CAMERA_DELTA_RIGHT 32
+#define CAMERA_DELTA_LEFT 24
+
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_surf;
 extern struct InvItem itemMoney;
+extern UINT8 arrows_onscreen;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
 INT8 hud_motherpl_ups = 0;
 struct InvItem* itemEquipped = &itemMoney;
-
+UINT8 camera_ok = 0u;
 
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
+void update_camera_position() BANKED;
 
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 6;
@@ -116,8 +121,36 @@ void Log() BANKED{
     }else{
         PRINT(5, 2, "     ");
     }
+    PRINT(10, 2, "AR:%u%u", arrows_onscreen, 5u);
     PRINT(16, 2, "!");
     PRINT(17, 2, "LOG");
+}
+
+void update_camera_position() BANKED{
+    scroll_target->y = s_motherpl->y + 16u;
+    if(camera_ok == 1u){
+        switch(s_motherpl->mirror){
+            case NO_MIRROR:
+                scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
+            break;
+            case V_MIRROR:
+                scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
+            break;
+        }
+    }else{
+        switch(s_motherpl->mirror){
+            case NO_MIRROR://going right
+                if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
+                    scroll_target->x+=2;
+                }else{camera_ok = 1u;}
+            break;
+            case V_MIRROR:
+                if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
+                    scroll_target->x-=2;
+                }else{camera_ok = 1u;}
+            break;
+        }
+    }
 }
 
 void START(){}

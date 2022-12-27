@@ -26,6 +26,8 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern INT8 invcursor_posi;
 extern INT8 invcursor_posimax;
+extern struct InvItem* itemEquipped;
+extern UINT8 camera_ok;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -237,6 +239,7 @@ void UPDATE(){
             if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
                 motherpl_inertia_down = 1u;
                 motherpl_vx = 0;
+                camera_ok = 0u;
                 if(motherpl_state == MOTHERPL_WALK){
                     changeMotherplState(MOTHERPL_IDLE);
                 }
@@ -384,24 +387,40 @@ void refreshAnimation(){
 }
 
 void shoot(){
-    UINT16 arrowix = THIS->x;
-    if(THIS->mirror == NO_MIRROR){
-        arrowix += 4u;
-    }
-    UINT16 arrowiy = THIS->y + 6u;
-    if(motherpl_state == MOTHERPL_JUMP)arrowiy = THIS->y + 4u;
-    if(motherpl_state == MOTHERPL_CRAWL)arrowiy = THIS->y + 13u;
-    Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
-    struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
-    arrow_data->arrow_type = ARROW_NORMAL;
-    if(THIS->mirror == NO_MIRROR){//looking right
-        arrow_data->vx = 2;
-    }else{
-        arrow_data->vx = -2;
-    }
-    arrow_data->vy = 0;
-    if(KEY_PRESSED(J_UP)){
-        arrow_data->vy = -1;
+    if(itemEquipped->quantity == 0){return;}
+    switch(itemEquipped->itemtype){
+        case INVITEM_ARROW_NORMAL:
+        case INVITEM_ARROW_PERFO:
+        case INVITEM_ARROW_BASTARD:
+            itemEquipped->quantity--;
+            UpdateHUD();
+            UINT16 arrowix = THIS->x;
+            if(THIS->mirror == NO_MIRROR){
+                arrowix += 4u;
+            }
+            UINT16 arrowiy = THIS->y + 6u;
+            if(motherpl_state == MOTHERPL_JUMP)arrowiy = THIS->y + 4u;
+            if(motherpl_state == MOTHERPL_CRAWL)arrowiy = THIS->y + 13u;
+            Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
+            struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
+            switch(itemEquipped->itemtype){
+                case INVITEM_ARROW_NORMAL:
+                    arrow_data->arrow_type = ARROW_NORMAL;
+                    arrow_data->arrow_fskipx_max = 0;
+                case INVITEM_ARROW_PERFO:
+                case INVITEM_ARROW_BASTARD:
+                break;
+            }
+            if(THIS->mirror == NO_MIRROR){//looking right
+                arrow_data->vx = 2;
+            }else{
+                arrow_data->vx = -2;
+            }
+            arrow_data->vy = 0;
+            if(KEY_PRESSED(J_UP)){
+                arrow_data->vy = -2;
+            }
+        break;
     }
     refreshAnimation();
 }

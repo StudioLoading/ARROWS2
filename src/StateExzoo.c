@@ -36,21 +36,12 @@ extern UINT8 init_enemy;
 extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
 
-//START LOG PURPOSE
-extern UINT8 motherpl_jpower;
-extern UINT8 jump_ticked_delay;
-extern UINT8 motherpl_vy;
-extern MOTHERPL_STATE motherpl_state;
-extern UINT8 motherpl_attack_cooldown;
-extern Sprite* s_surf;
-extern INT8 motherpl_surf_dx;
-//END LOG PURPOSE
-
-const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 0};
+const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
+void update_camera_position() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -85,25 +76,27 @@ void START(){
 }
 
 void UPDATE(){
-    //UPDATE HUD
-    if(hud_motherpl_hp != motherpl_hp){
-        UpdateHUD();
-    }
+    //UPDATE HUD for HP changings
+        if(hud_motherpl_hp != motherpl_hp){
+            UpdateHUD();
+        }
     //RESTART CURRENT STATE
-    if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
-        SetState(StateExzoo);
-    }
+        if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
+            SetState(StateExzoo);
+        }
     //GO TO INVENTORY
-    if(KEY_PRESSED(J_START)){SetState(StateInventory);}
-    scroll_target->x = s_motherpl->x + 16u;
-    scroll_target->y = s_motherpl->y + 16u;
+        if(KEY_PRESSED(J_START)){SetState(StateInventory);}
+    //SCROLL CAMERA
+        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
+            update_camera_position();
+        }
+    
+    //INIT ENEMIES
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
-        /*
         Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
         struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
         se_info->type = SNAKE;
         se_info->configured = 1u;
-        */
         Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
         struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
         se2_info->type = RAT;

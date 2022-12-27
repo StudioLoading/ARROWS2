@@ -51,48 +51,29 @@ void UPDATE(){
     }else if (eu_info->configured != 2u){
         return;
     }
-    switch(eu_info->e_state){
-        case ENEMY_DEAD:
-            eu_info->wait--;
-            THIS->y--;
-            if(eu_info->wait == 0u){SpriteManagerRemoveSprite(THIS);}
-            return;
-        break;
-        case ENEMY_HIT:
-            if(eu_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 16u);}
-            if(eu_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 16u);}
-        case ENEMY_WAIT:
-            if(eu_info->wait){eu_info->wait--;}
-            else{changeEstate(eu_info, ENEMY_WALK);}
-            return;
-        break;
-        case ENEMY_WALK:
-            if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
-        break;
-    }
     //GRAVITY
     UINT8 e_v_coll = TranslateSprite(THIS, 0, E_GRAVITY << delta_time);
     //TODO check vertical collision
     //HORIZONTAL MAP COLLISION: BACK & FORTH LOGIC
-    if(eu_info->x_frameskip == 0 && eu_info->e_state == ENEMY_WALK){//x_frameskip used
-        eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
-        if(eu_info->et_collision){
-            switch(eu_info->et_collision){
-                case 8u:
-                case 9u:
-                    ETurn(eu_info);
-                break;
+        if(eu_info->x_frameskip == 0 && eu_info->e_state == ENEMY_WALK){//x_frameskip used
+            eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
+            if(eu_info->et_collision){
+                switch(eu_info->et_collision){
+                    case 8u:
+                    case 9u:
+                        ETurn(eu_info);
+                    break;
+                }
+            }
+            eu_info->x_frameskip = 1u;
+        }else{
+            UINT8 max_frameskip = getEmaxFrameskip(eu_info->type);
+            if(eu_info->x_frameskip < max_frameskip){
+                eu_info->x_frameskip++;
+            }else{
+                eu_info->x_frameskip = 0u;
             }
         }
-        eu_info->x_frameskip = 1u;
-    }else{
-        UINT8 max_frameskip = getEmaxFrameskip(eu_info->type);
-        if(eu_info->x_frameskip < max_frameskip){
-            eu_info->x_frameskip++;
-        }else{
-            eu_info->x_frameskip = 0u;
-        }
-    }
     //SPRITE COLLISION
     
 	UINT8 scroll_e_tile;
@@ -110,6 +91,27 @@ void UPDATE(){
             }
         }
     };
+    
+    //STATE BEHAVIOR
+        switch(eu_info->e_state){
+            case ENEMY_DEAD:
+                eu_info->wait--;
+                THIS->y--;
+                if(eu_info->wait == 0u){SpriteManagerRemoveSprite(THIS);}
+                return;
+            break;
+            case ENEMY_HIT:
+                if(eu_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 16u);}
+                if(eu_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 16u);}
+            case ENEMY_WAIT:
+                if(eu_info->wait){eu_info->wait--;}
+                else{changeEstate(eu_info, ENEMY_WALK);}
+                return;
+            break;
+            case ENEMY_WALK:
+                if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
+            break;
+        }
 }
 
 UINT8 getEmaxFrameskip(ENEMY_TYPE etype){
@@ -153,7 +155,7 @@ void configure(struct EnemyData* e_info){
 }
 
 void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
-    if(e_info->e_state != new_e_state){
+    if(e_info->e_state != new_e_state || new_e_state == ENEMY_HIT){
         switch(new_e_state){
             case ENEMY_WALK:
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_walk, 12u);}
@@ -172,7 +174,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 16u);}
                 if(e_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 16u);}
                 e_info->hp--;
-                e_info->wait = 100u;
+                e_info->wait = 56u;
             break;
             case ENEMY_DEAD:
                 e_info->wait = 24u;

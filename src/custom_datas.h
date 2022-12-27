@@ -212,6 +212,7 @@ struct ArrowData{
 	UINT8 arrow_fskipx;
 	UINT8 arrow_fskipy;
 	ARROW_TYPE arrow_type;
+	UINT8 arrow_fskipx_max;
 };
 
 typedef enum{
