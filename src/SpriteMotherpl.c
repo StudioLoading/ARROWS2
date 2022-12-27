@@ -20,6 +20,7 @@
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 32
 #define DEAD_COOLDOWN_MAX 64
+#define FLY_MAX 8
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -58,6 +59,7 @@ Sprite* s_surf = 0;
 struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
+UINT8 fly_counter = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
@@ -123,7 +125,10 @@ void UPDATE(){
                     }
                 }       
                 if(motherpl_jpower == JUMP_MAX_POWER){
-                    if(motherpl_vy < GRAVITY){
+                    if(fly_counter < FLY_MAX){
+                        fly_counter++;
+                        motherpl_vy = 0;
+                    }else if(motherpl_vy < GRAVITY){
                         motherpl_vy++;
                     }
                 }
@@ -403,6 +408,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_JUMP:
+                fly_counter = 0;
                 motherpl_vy = -1;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);

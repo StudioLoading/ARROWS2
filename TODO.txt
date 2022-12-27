@@ -8,7 +8,9 @@
 - telecamera esattamente come warioland. il cambio di direzione non la fa spostare istantaneamente
 	ma le da una nuova direzione alla quale andare, e andrà per ogni passo che farò, fino
 	al delta di distanza massima dal motherpl
-
+- mettere un tetto alla frecce sparabili contemporaneamente. un contatore che incrementa alla start
+	e decrementa alla destroy dovrebbe essere sufficiente. alla shoot() del motherpl
+	lo controllo, e non sparo niente se. direi max == 5
 
 PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
