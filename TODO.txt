@@ -1,4 +1,3 @@
-- Automatic fire
 - Nemico ragno spara acido a parabolina
 - Nemico che spara cose che mi bloccano
 - Spawn items a nemico ucciso: CUORE, BALESTRA, FRECCE NORMALI, PERFO, BASTARDE, BOMBA

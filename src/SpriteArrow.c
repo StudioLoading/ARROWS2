@@ -58,17 +58,21 @@ void UPDATE(){
     if(arrow_data->arrow_fskipx == 0){
         arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
         arrow_data->arrow_fskipx = arrow_data->arrow_fskipx_max;
-        if(arrow_t_coll == TILE_ARROW_SLOW && arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
-            arrow_data->vx = arrow_data->vx >> 1;
+        if(arrow_t_coll == TILE_ARROW_SLOW){
+            if(arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
+                arrow_data->vx = arrow_data->vx >> 1;
+                arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
+            }
             if(arrow_data->vx < 0){THIS->x -= 8u;}
-            else{THIS->x += 8u;}
-            arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
+            else{THIS->x += 16u;}
         }
-        else if(arrow_t_coll == TILE_ARROW_FAST && arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
-            arrow_data->vx = arrow_data->vx << 1;
+        else if(arrow_t_coll == TILE_ARROW_FAST){
+            if(arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
+                arrow_data->vx = arrow_data->vx << 1;
+                arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
+            }
             if(arrow_data->vx < 0){THIS->x -= 8u;}
             else{THIS->x += 8u;}
-            arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
         }
         else if(arrow_t_coll == TILE_ARROW_LEFT){
             if(arrow_data->vx > 0){arrow_data->vx = -arrow_data->vx;}

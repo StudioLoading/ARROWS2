@@ -128,29 +128,40 @@ void Log() BANKED{
 
 void update_camera_position() BANKED{
     scroll_target->y = s_motherpl->y + 16u;
-    
-    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
-        if(camera_ok == 1u){
-            switch(s_motherpl->mirror){
-                case NO_MIRROR:
-                    scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
-                break;
-                case V_MIRROR:
-                    scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
-                break;
-            }
-        }else{
-            switch(s_motherpl->mirror){
-                case NO_MIRROR://going right
-                    if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
-                        scroll_target->x+=2;
-                    }else{camera_ok = 1u;}
-                break;
-                case V_MIRROR:
-                    if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
-                        scroll_target->x-=2;
-                    }else{camera_ok = 1u;}
-                break;
+    //in ogni caso non uscire dai margini
+    if(s_surf){
+        switch(s_motherpl->mirror){
+            case NO_MIRROR:
+                scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
+            break;
+            case V_MIRROR:
+                scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
+            break;
+        }
+    }else{
+        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
+            if(camera_ok == 1u){
+                switch(s_motherpl->mirror){
+                    case NO_MIRROR:
+                        scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
+                    break;
+                    case V_MIRROR:
+                        scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
+                    break;
+                }
+            }else{
+                switch(s_motherpl->mirror){
+                    case NO_MIRROR://going right
+                        if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
+                            scroll_target->x+=2;
+                        }else{camera_ok = 1u;}
+                    break;
+                    case V_MIRROR:
+                        if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
+                            scroll_target->x-=2;
+                        }else{camera_ok = 1u;}
+                    break;
+                }
             }
         }
     }

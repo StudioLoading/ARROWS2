@@ -14,7 +14,7 @@
 #define GRAVITY 2
 #define JUMP_MIN_POWER 0
 #define JUMP_MAX_POWER GRAVITY*11
-#define JUMP_TICKED_COOLDOWN 16
+#define JUMP_TICKED_COOLDOWN 24
 #define INERTIA_MAX 6
 #define COOLDOWN_ATTACK 28
 #define GOTON_COOLDOWN 32
@@ -216,6 +216,7 @@ void UPDATE(){
             motherpl_rabbit = 0u;
         }
         if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
+            //&& motherpl_state != MOTHERPL_JUMP
             if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
                 if(motherpl_rabbit == 0u){
                     motherpl_rabbit = 1u;
@@ -454,7 +455,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             break;
             case MOTHERPL_JUMP:
                 fly_counter = 0;
-                motherpl_vy = -1;
+                motherpl_vy = -1;                
+                //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
                 }
