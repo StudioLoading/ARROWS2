@@ -87,10 +87,7 @@ void UPDATE(){
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){SetState(StateInventory);}
     //SCROLL CAMERA
-        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
-            update_camera_position();
-        }
-    
+        update_camera_position();    
     //INIT ENEMIES
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
         /*Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
@@ -105,10 +102,10 @@ void UPDATE(){
         struct EnemyData* se3_info = (struct EnemyData*) s3->custom_data;
         se3_info->type = PORCUPINE;
         se3_info->configured = 1u;
-        Sprite* s4 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 7u << 3);
+        /*Sprite* s4 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 7u << 3);
         struct EnemyData* se4_info = (struct EnemyData*) s4->custom_data;
         se4_info->type = COBRA;
-        se4_info->configured = 1u;
+        se4_info->configured = 1u;*/
         
         init_enemy = 1u;
     }

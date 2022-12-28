@@ -34,7 +34,7 @@ const UINT8 cobra_anim_walk[] = {4, 14, 15, 16, 17}; //The first number indicate
 const UINT8 cobra_anim_hit[] = {2, 14, 0}; //The first number indicates the number of frames
 const UINT8 cobra_anim_attack[] = {1, 18}; //The first number indicates the number of frames
 
-UINT8 enemy_random_30_80 = 30u;
+UINT8 enemy_random_30_100 = 30u;
 
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
@@ -52,8 +52,8 @@ void START(){
 }
 
 void UPDATE(){
-    enemy_random_30_80++;
-    if(enemy_random_30_80 >= 80u){enemy_random_30_80 = 30u;}
+    enemy_random_30_100++;
+    if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     if(eu_info->configured == 0){
         return;
@@ -201,6 +201,9 @@ void configure(struct EnemyData* e_info){
 }
 
 void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
+    if(new_e_state == ENEMY_HIT && e_info->e_state == ENEMY_ATTACK){
+        return;//Invulnerabilità durante l' attacco!
+    }
     if(e_info->e_state != new_e_state || new_e_state == ENEMY_HIT){
         switch(new_e_state){
             case ENEMY_WALK:
@@ -208,12 +211,12 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == RAT){SetSpriteAnim(THIS, rat_anim_walk, 12u);}
                 if(e_info->type == PORCUPINE){
                     e_info->x_frameskip = E_FRAMSKIP_PINE;
-                    e_info->wait = enemy_random_30_80 + 60u;
+                    e_info->wait = enemy_random_30_100 + 60u;
                     SetSpriteAnim(THIS, pine_anim_walk, 12u);
                 }
                 if(e_info->type == COBRA){
                     e_info->x_frameskip = E_FRAMSKIP_COBRA;
-                    e_info->wait = enemy_random_30_80 + 100u;
+                    e_info->wait = enemy_random_30_100 + 100u;
                     SetSpriteAnim(THIS, cobra_anim_walk, 12u);
                 }
             break;
@@ -237,6 +240,10 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 16u);}
                 e_info->hp--;
                 e_info->wait = 56u;
+                if(e_info->hp <= 0u){
+                    changeEstate(e_info, ENEMY_DEAD);
+                    return;
+                }
             break;
             case ENEMY_DEAD:
                 e_info->wait = 24u;
@@ -254,7 +261,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
             case ENEMY_ATTACK:
                 if(THIS->mirror == NO_MIRROR){e_info->vx = E_VX;}
                 else{e_info->vx = -E_VX;}
-                e_info->wait = enemy_random_30_80;
+                e_info->wait = enemy_random_30_100;
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_attack, 16u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_attack, 16u);}
                 e_info->x_frameskip = 0u;

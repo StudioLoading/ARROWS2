@@ -230,7 +230,7 @@ typedef enum{
 
 struct InvItem{
 	INVITEMTYPE itemtype;
-	UINT8 quantity;
+	UINT16 quantity;
 	UINT8 configured;
 };
 

@@ -1,5 +1,6 @@
-- Nemico riccio spara chiodi
+- Automatic fire
 - Nemico ragno spara acido a parabolina
+- Nemico che spara cose che mi bloccano
 - Spawn items a nemico ucciso: CUORE, BALESTRA, FRECCE NORMALI, PERFO, BASTARDE, BOMBA
 - Inventario: l' item equipaggiato ha lo sfondo colorato, l' item posseduto ma non equipped
 	ha sfondo bianco, item non posseduto ha lo sprite meno colorato in assoluto, con solo l' ombra

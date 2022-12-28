@@ -48,7 +48,7 @@ const INT8 invcursor_posimax = 6;
 Sprite* inv_cursor = 0;
 struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0};
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100};
-struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10};
+struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 999};
 struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0};
 struct InvItem itemArrowBastard = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0};
 struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0};

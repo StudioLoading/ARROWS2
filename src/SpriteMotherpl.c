@@ -16,9 +16,9 @@
 #define JUMP_MAX_POWER GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 16
 #define INERTIA_MAX 6
-#define COOLDOWN_ATTACK 24
+#define COOLDOWN_ATTACK 28
 #define GOTON_COOLDOWN 32
-#define HIT_COOLDOWN_MAX 32
+#define HIT_COOLDOWN_MAX 64
 #define DEAD_COOLDOWN_MAX 64
 #define FLY_MAX 10
 
@@ -36,7 +36,7 @@ const UINT8 motherpl_anim_jump_descending[] = {1, 5};
 const UINT8 motherpl_anim_shoot[] = {3, 7, 7, 7};//7, 8, 7
 const UINT8 motherpl_anim_crawlshoot[] = {3, 8, 8, 8};//9, 10, 9
 const UINT8 motherpl_anim_hit[] = {2, 0, 1};
-const UINT8 motherpl_anim_dead[] = {1, 0};
+const UINT8 motherpl_anim_dead[] = {2, 0, 1};
 const UINT8 motherpl_anim_crawl[] = {1, 8};
 
 struct MotherplData* motherpl_data = 0;
@@ -171,12 +171,8 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_HIT:
-            if(motherpl_hit_cooldown > 0u){
-                motherpl_hit_cooldown--;
-                if(motherpl_hit_cooldown > 8){
-                    return;
-                }
-            }else if(motherpl_hp > 0){changeMotherplState(MOTHERPL_IDLE);}
+            if(motherpl_hp > 0){//changeMotherplState(MOTHERPL_IDLE);
+            }
             else{changeMotherplState(MOTHERPL_DEAD);}
         break;
         case MOTHERPL_DEAD:
@@ -204,9 +200,15 @@ void UPDATE(){
             }
         }
     //HIT
+        if(motherpl_hit_cooldown > 0u){
+            motherpl_hit_cooldown--;
+            if(motherpl_hit_cooldown == 0u){
+                motherpl_hit = 0u;
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        }
         if(motherpl_hit == 1u){
             changeMotherplState(MOTHERPL_HIT);
-            motherpl_hit = 0u;
         }
     //INPUTS
     //INPUTS JUMP
@@ -252,7 +254,7 @@ void UPDATE(){
                 refreshAnimation();
             }
         }
-        if(KEY_TICKED(J_FIRE)){
+        if(KEY_TICKED(J_FIRE) || KEY_PRESSED(J_FIRE)){
             if(motherpl_attack_cooldown == 0){
                 SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
                 if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
@@ -345,6 +347,9 @@ void UPDATE(){
                         }
                     }
                 break;
+                case SpriteEnemysimple:
+                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                break;
             }
         }
     }
@@ -435,6 +440,9 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         if(s_surf && motherpl_surfing_goton == 0u){
             getOff();
         }
+        if(new_state == MOTHERPL_HIT && motherpl_hit_cooldown > 0u){
+            return;
+        }
         switch(new_state){
             case MOTHERPL_IDLE:
                 if(motherpl_attack_cooldown == 0u){
@@ -443,7 +451,6 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
-                motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_JUMP:
                 fly_counter = 0;
@@ -451,7 +458,6 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
                 }
-                motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_CRAWL:
                 if(motherpl_attack_cooldown == 0u){
@@ -461,7 +467,6 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
                 motherpl_vx = 0;
-                motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_WALK:
                 if(motherpl_attack_cooldown == 0u){
@@ -469,15 +474,20 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
-                motherpl_hit_cooldown = 0;
             break;
             case MOTHERPL_HIT:
                 motherpl_hp--;
-                SetSpriteAnim(THIS, motherpl_anim_hit, 32u);
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
+                if(motherpl_hp > 0){
+                    SetSpriteAnim(THIS, motherpl_anim_hit, 32u);
+                }else{
+                    changeMotherplState(MOTHERPL_DEAD);
+                    return;
+                }
             break;
             case MOTHERPL_DEAD:
-                motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;
+                SetSpriteAnim(THIS, motherpl_anim_dead, 32u);
+                motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;                
             break;
         }
         motherpl_state = new_state;
