@@ -63,6 +63,9 @@ void START(){
 void UPDATE(){
     //configuration
         struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+        if(eu_info->configured == 0){
+            return;
+        }
         Econfiguration(eu_info);
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
@@ -88,13 +91,8 @@ void ErandomManagement() BANKED{
 }
 
 void Econfiguration(struct EnemyData* eu_info) BANKED{
-    if(eu_info->configured == 0){
-        return;
-    }
     if(eu_info->configured == 1u && eu_info->type != UNASSIGNED){
         configure(eu_info);
-        return;
-    }else if (eu_info->configured != 2u){
         return;
     }
 }
@@ -279,6 +277,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                     SetSpriteAnim(THIS, cobra_anim_walk, 12u);
                 }
                 if(e_info->type == SPIDER){
+                    THIS->anim_frame = 5u;
                     e_info->x_frameskip = E_FRAMSKIP_SPIDER;
                     e_info->wait = enemy_random_30_100 + 100u;
                     SetSpriteAnim(THIS, spider_anim_walk, 16u);

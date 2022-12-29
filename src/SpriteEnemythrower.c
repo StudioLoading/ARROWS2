@@ -11,7 +11,7 @@
 #include "custom_datas.h"
 
 const UINT8 spider_anim_idle[] = {3, 1, 1, 2}; //The first number indicates the number of frames
-const UINT8 spider_anim_walk[] = {7, 2, 6, 3, 1, 2, 5, 4};//The first number indicates the number of frames
+const UINT8 spider_anim_walk[] = {7, 1, 2, 6, 3, 1, 2, 5, 4};//The first number indicates the number of frames
 const UINT8 spider_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indicates the number of frames
 
 extern void Estart() BANKED;
@@ -33,6 +33,9 @@ void START(){
 void UPDATE(){
     //configuration
         struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+        if(eu_info->configured == 0){
+            return;
+        }
         Econfiguration(eu_info);
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
