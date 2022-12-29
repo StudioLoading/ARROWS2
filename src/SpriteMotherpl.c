@@ -349,6 +349,7 @@ void UPDATE(){
                     }
                 break;
                 case SpriteEnemysimple:
+                case SpriteEnemythrower:
                     if(motherpl_hit != 1u){motherpl_hit = 1u;}
                 break;
             }

@@ -5,6 +5,7 @@
 	ha sfondo bianco, item non posseduto ha lo sprite meno colorato in assoluto, con solo l' ombra
 - Inventario: nella parte bassa metterei una bella striscia di oggetti non equipaggiabili
 	tipo la balestra ;) ! ci staranno i metalli per l' ospedale e tutti gli item per le missioni
+- mentre sono in caduta, dopo un po', posso saltare di nuovo. 
 
 
 

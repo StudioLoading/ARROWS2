@@ -178,7 +178,8 @@ typedef enum{
 	SNAKE,
 	RAT,
 	PORCUPINE,
-	COBRA
+	COBRA,
+	SPIDER
 }ENEMY_TYPE;
 
 typedef enum{
@@ -190,7 +191,8 @@ typedef enum{
 	ENEMY_SHOOT,
 	ENEMY_DEAD,
 	ENEMY_PREATTACK,
-	ENEMY_ATTACK
+	ENEMY_ATTACK,
+	ENEMY_THROW
 }ENEMY_STATE;
 
 struct EnemyData{
@@ -204,6 +206,12 @@ struct EnemyData{
 	UINT8 x_frameskip;
 };
 
+struct ThrowableData{
+	INT8 hp;
+	INT8 vx;
+	UINT8 wait;
+	UINT8 x_frameskip;
+};
 typedef enum{
 	ARROW_NORMAL,
 	ARROW_DESTROYED,
