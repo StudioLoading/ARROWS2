@@ -67,6 +67,8 @@ void UPDATE(){
             return;
         }
         Econfiguration(eu_info);
+    //RANDOM        
+        ErandomManagement();
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
     //GRAVITY
@@ -277,7 +279,6 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                     SetSpriteAnim(THIS, cobra_anim_walk, 12u);
                 }
                 if(e_info->type == SPIDER){
-                    //THIS->anim_frame = 5u;
                     e_info->x_frameskip = E_FRAMSKIP_SPIDER;
                     e_info->wait = enemy_random_30_100 + 100u;
                     SetSpriteAnim(THIS, spider_anim_walk, 16u);
