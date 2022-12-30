@@ -8,10 +8,13 @@
 
 #include "custom_datas.h"
 
+const UINT8 spider_anim_wait[] = {1, 2};
 const UINT8 spider_anim_idle[] = {3, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 spider_anim_walk[] = {8, 1, 2, 6, 3, 1, 2, 5, 4};//The first number indicates the number of frames
 const UINT8 spider_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indicates the number of frames
 const UINT8 spider_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number indicates the number of frames
+
+void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure(struct EnemyData* e_info) BANKED;
@@ -50,5 +53,29 @@ void UPDATE(){
     //STATE BEHAVIOR
         EstateBehavior(eu_info);
 }
-
+void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
+    switch(estate){
+        case ENEMY_HIT:
+            SetSpriteAnim(THIS, spider_anim_hit, 16u);
+        break;
+        case ENEMY_WALK:
+            SetSpriteAnim(THIS, spider_anim_walk, 16u);
+        break;
+        case ENEMY_WAIT:
+            SetSpriteAnim(THIS, spider_anim_wait, 2u);
+        break;
+        case ENEMY_IDLE:
+            SetSpriteAnim(THIS, spider_anim_idle, 20u);
+        break;
+        case ENEMY_DEAD:
+            SetSpriteAnim(THIS, spider_anim_hit, 32u);
+        break;
+        case ENEMY_PREATTACK:
+            SetSpriteAnim(THIS, spider_anim_preattack, 16u);
+        break;
+        case ENEMY_THROW:
+            SetSpriteAnim(THIS, spider_anim_idle, 16u);
+        break;
+    }
+}
 void DESTROY(){}
