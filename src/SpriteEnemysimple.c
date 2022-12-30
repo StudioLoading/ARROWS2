@@ -37,6 +37,7 @@ const UINT8 cobra_anim_attack[] = {1, 18}; //The first number indicates the numb
 extern const UINT8 spider_anim_idle[];
 extern const UINT8 spider_anim_walk[];
 extern const UINT8 spider_anim_hit[];
+extern const UINT8 spider_anim_preattack[];
 
 UINT8 enemy_random_30_100 = 30u;
 
@@ -324,7 +325,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 40u;
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 24u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 24u);}
-                if(e_info->type == SPIDER){SetSpriteAnim(THIS, spider_anim_idle, 16u);}
+                if(e_info->type == SPIDER){SetSpriteAnim(THIS, spider_anim_preattack, 16u);}
             break;
             case ENEMY_ATTACK:
                 if(THIS->mirror == NO_MIRROR){e_info->vx = E_VX;}

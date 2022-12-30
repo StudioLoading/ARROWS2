@@ -2,9 +2,7 @@
 
 #include "main.h"
 
-#include "Keys.h"
 #include "ZGBMain.h"
-#include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
 
@@ -13,6 +11,7 @@
 const UINT8 spider_anim_idle[] = {3, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 spider_anim_walk[] = {8, 1, 2, 6, 3, 1, 2, 5, 4};//The first number indicates the number of frames
 const UINT8 spider_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indicates the number of frames
+const UINT8 spider_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number indicates the number of frames
 
 extern void Estart() BANKED;
 extern void configure(struct EnemyData* e_info) BANKED;
