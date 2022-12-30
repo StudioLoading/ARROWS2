@@ -53,6 +53,7 @@ void UPDATE(){
     //STATE BEHAVIOR
         EstateBehavior(eu_info);
 }
+
 void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT:
@@ -78,4 +79,5 @@ void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
         break;
     }
 }
+
 void DESTROY(){}

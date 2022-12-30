@@ -20,6 +20,7 @@
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 64
 #define DEAD_COOLDOWN_MAX 64
+#define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
 
 extern UINT8 J_JUMP;
@@ -38,6 +39,7 @@ const UINT8 motherpl_anim_crawlshoot[] = {3, 8, 8, 8};//9, 10, 9
 const UINT8 motherpl_anim_hit[] = {2, 0, 1};
 const UINT8 motherpl_anim_dead[] = {2, 0, 1};
 const UINT8 motherpl_anim_crawl[] = {1, 8};
+const UINT8 motherpl_anim_blocked[] = {2, 2, 1};
 
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
@@ -49,17 +51,20 @@ UINT8 motherpl_inertiax = 0u;
 UINT8 motherpl_inertia_down = 0u;
 UINT8 motherpl_rabbit = 0u;
 UINT8 motherpl_hit = 0u;
+UINT8 motherpl_blocked = 0u;
 UINT8 motherpl_canshoot = 0u;
 UINT8 gravity_frame_skip = 0u;
 UINT8 jump_frame_skip = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 UINT8 motherpl_attack_cooldown = 0u;
+UINT8 motherpl_blocked_cooldown = 0u;
 UINT8 motherpl_surfing_getoff = 0u;
 UINT8 motherpl_surfing_goton = 0u;
 INT8 motherpl_surf_dx = 0;
 UINT8 motherpl_hit_cooldown = 0u;
 Sprite* s_surf = 0;
+Sprite* s_blocking = 0;
 struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
@@ -94,11 +99,14 @@ void START(){
     motherpl_data = (struct MotherplData*) THIS->custom_data;
     changeMotherplState(MOTHERPL_IDLE);
     s_surf = 0;
+    s_blocking = 0;
     motherpl_surfing_getoff = 0u;
     motherpl_surfing_goton = 0u;
     motherpl_surf_dx = 0;
     motherpl_hit_cooldown = 0u;
     motherpl_hit = 0u;
+    motherpl_blocked = 0u;
+    motherpl_blocked_cooldown = 0u;
 }
 
 void UPDATE(){
@@ -171,9 +179,7 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_HIT:
-            if(motherpl_hp > 0){//changeMotherplState(MOTHERPL_IDLE);
-            }
-            else{changeMotherplState(MOTHERPL_DEAD);}
+            if(motherpl_hp <= 0){changeMotherplState(MOTHERPL_DEAD);}
         break;
         case MOTHERPL_DEAD:
             if(motherpl_hit_cooldown > 0){
@@ -189,9 +195,25 @@ void UPDATE(){
             }
             return;
         break;
+        case MOTHERPL_BLOCKED:
+            if(KEY_TICKED(J_LEFT) || KEY_TICKED(J_RIGHT)){
+                motherpl_blocked_cooldown -= 40;
+            }
+            //motherpl_blocked_cooldown--;
+            if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX){
+                SpriteManagerRemoveSprite(s_blocking);
+                motherpl_blocked = 0u;
+                motherpl_blocked_cooldown = 16u;
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        break;
     }
+    //BLOCK
+        if(motherpl_blocked == 1u){// && motherpl_blocked_cooldown == 0u){
+            changeMotherplState(MOTHERPL_BLOCKED);
+        }
     //CRAWL
-        if(motherpl_state != MOTHERPL_JUMP){
+        if(motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_BLOCKED){
             if(KEY_PRESSED(J_DOWN)){
                 changeMotherplState(MOTHERPL_CRAWL);
             }
@@ -212,25 +234,27 @@ void UPDATE(){
         }
     //INPUTS
     //INPUTS JUMP
-        if(KEY_RELEASED(J_JUMP)){
-            motherpl_rabbit = 0u;
-        }
-        if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
-            //&& motherpl_state != MOTHERPL_JUMP
-            if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
-                if(motherpl_rabbit == 0u){
-                    motherpl_rabbit = 1u;
-                    changeMotherplState(MOTHERPL_JUMP);
+        if(motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT){
+            if(KEY_RELEASED(J_JUMP)){
+                motherpl_rabbit = 0u;
+            }
+            if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
+                //&& motherpl_state != MOTHERPL_JUMP
+                if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
+                    if(motherpl_rabbit == 0u){
+                        motherpl_rabbit = 1u;
+                        changeMotherplState(MOTHERPL_JUMP);
+                    }
+                }else if((KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){ //motherpl_state != MOTHERPL_JUMP && 
+                    changeMotherplState(MOTHERPL_WALK);
                 }
-            }else if((KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){ //motherpl_state != MOTHERPL_JUMP && 
-                changeMotherplState(MOTHERPL_WALK);
             }
         }
         if(jump_ticked_delay > 0){
             jump_ticked_delay--;
         }
     //INPUT WALK
-        if(motherpl_state != MOTHERPL_CRAWL){
+        if(motherpl_state != MOTHERPL_CRAWL && motherpl_state != MOTHERPL_BLOCKED){
             if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
                 motherpl_inertia_down = 0u;
                 if(motherpl_inertiax < INERTIA_MAX){
@@ -243,9 +267,6 @@ void UPDATE(){
                 motherpl_inertia_down = 1u;
                 motherpl_vx = 0;
                 camera_ok = 0u;
-                if(motherpl_state == MOTHERPL_WALK){
-                    changeMotherplState(MOTHERPL_IDLE);
-                }
             }
         }
     //INPUT FIRE
@@ -255,18 +276,20 @@ void UPDATE(){
                 refreshAnimation();
             }
         }
-        if(KEY_TICKED(J_FIRE) || KEY_PRESSED(J_FIRE)){
-            if(motherpl_attack_cooldown == 0){
-                SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
-                if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
-                motherpl_attack_cooldown = COOLDOWN_ATTACK;
-                motherpl_canshoot = 1u;
+        if(motherpl_state != MOTHERPL_BLOCKED){
+            if(KEY_TICKED(J_FIRE) || KEY_PRESSED(J_FIRE)){
+                if(motherpl_attack_cooldown == 0){
+                    SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
+                    if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
+                    motherpl_attack_cooldown = COOLDOWN_ATTACK;
+                    motherpl_canshoot = 1u;
+                }
             }
-        }
-        if(motherpl_attack_cooldown <= (COOLDOWN_ATTACK >> 1)
-            && motherpl_canshoot == 1u){
-            shoot();
-            motherpl_canshoot = 0u;
+            if(motherpl_attack_cooldown <= (COOLDOWN_ATTACK >> 1)
+                && motherpl_canshoot == 1u){
+                shoot();
+                motherpl_canshoot = 0u;
+            }
         }
     //GRAVITY FRAME SKIP
         if(gravity_frame_skip == 0u){
@@ -302,59 +325,72 @@ void UPDATE(){
         UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
         if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
             changeMotherplState(MOTHERPL_IDLE);
-        }
+        }        
         if(motherpl_inertiax > 2){
             motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
         }
     //REACTION DI TILE COLLISION
-    switch(current_state){
-        case StateExzoo:
-            switch(motherpl_coll){
-                case 5u:
-                    if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                        changeStateFromMotherpl(StateTetra);
-                    }else{ //GO TO MAP
-                        changeStateFromMotherpl(StateOverworld);
-                    }
-                break;
-                case 7u:
-                    changeStateFromMotherpl(StateBonus);
-                break;
-            }
-        break;
-        case StateCemetery:
-        case StateBlackiecave:
-            switch(motherpl_coll){
-                case 8u:
-                    changeStateFromMotherpl(StateOverworld);
-                break;
-            }
-        break;
-    }
-    //SPRITE COLLISION
-	UINT8 mpl_a_tile;
-	Sprite* implspr;
-	SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
-		if(CheckCollision(THIS, implspr)) {
-			switch(implspr->type){
-				case SpriteArrow:
-                    if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
-                        if(s_surf == 0 && motherpl_surfing_getoff == 0u){
-                            changeMotherplState(MOTHERPL_IDLE);
-                            motherpl_surfing_goton = GOTON_COOLDOWN;
-                            s_surf = implspr;
-                            surf_data =(struct ArrowData*) s_surf->custom_data;
-                            motherpl_surf_dx = THIS->x - implspr->x;
+        switch(current_state){
+            case StateExzoo:
+                switch(motherpl_coll){
+                    case 5u:
+                        if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
+                            changeStateFromMotherpl(StateTetra);
+                        }else{ //GO TO MAP
+                            changeStateFromMotherpl(StateOverworld);
                         }
-                    }
-                break;
-                case SpriteEnemysimple:
-                case SpriteEnemythrower:
-                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
-                break;
+                    break;
+                    case 7u:
+                        changeStateFromMotherpl(StateBonus);
+                    break;
+                }
+            break;
+            case StateCemetery:
+            case StateBlackiecave:
+                switch(motherpl_coll){
+                    case 8u:
+                        changeStateFromMotherpl(StateOverworld);
+                    break;
+                }
+            break;
+        }
+    //SPRITE COLLISION
+        UINT8 mpl_a_tile;
+        Sprite* implspr;
+        SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
+            if(CheckCollision(THIS, implspr)) {
+                switch(implspr->type){
+                    case SpriteArrow:
+                        motherpl_blocked = 0u;
+                        if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
+                            if(s_surf == 0 && motherpl_surfing_getoff == 0u){
+                                changeMotherplState(MOTHERPL_IDLE);
+                                motherpl_surfing_goton = GOTON_COOLDOWN;
+                                s_surf = implspr;
+                                surf_data =(struct ArrowData*) s_surf->custom_data;
+                                motherpl_surf_dx = THIS->x - implspr->x;
+                            }
+                        }
+                    break;
+                    case SpriteEnemysimple:
+                    case SpriteEnemythrower:
+                        motherpl_blocked = 0u;
+                        if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                    break;
+                    case SpriteEnemythrowable:
+                        if(motherpl_blocked == 0u){
+                            if(motherpl_blocked_cooldown == 0u){
+                                struct ThrowableData* throwable_data = (struct ThrowableData*) s_blocking->custom_data;
+                                if(throwable_data->type == T_DESTROYED){
+                                    s_blocking = implspr;
+                                    changeMotherplState(MOTHERPL_BLOCKED);
+                                }
+                            }
+                        }
+                    break;
+                }
             }
         }
-    }
     if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
         getOff();
     }
@@ -390,10 +426,14 @@ void refreshAnimation(){
         case MOTHERPL_CRAWL:
             SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
         break;
+        case MOTHERPL_BLOCKED:
+            SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
+        break;
     }
 }
 
 void shoot(){
+    if(motherpl_blocked > 0){return;}
     if(itemEquipped->quantity == 0){return;}
     switch(itemEquipped->itemtype){
         case INVITEM_ARROW_NORMAL:
@@ -442,9 +482,9 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         if(s_surf && motherpl_surfing_goton == 0u){
             getOff();
         }
-        if(new_state == MOTHERPL_HIT && motherpl_hit_cooldown > 0u){
+        /*if(new_state == MOTHERPL_HIT && motherpl_hit_cooldown > 0u){
             return;
-        }
+        }*/
         switch(new_state){
             case MOTHERPL_IDLE:
                 if(motherpl_attack_cooldown == 0u){
@@ -491,6 +531,11 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             case MOTHERPL_DEAD:
                 SetSpriteAnim(THIS, motherpl_anim_dead, 32u);
                 motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;                
+            break;
+            case MOTHERPL_BLOCKED:
+                motherpl_blocked = 2u;
+                SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
+                motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
             break;
         }
         motherpl_state = new_state;

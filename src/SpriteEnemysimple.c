@@ -337,7 +337,9 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 32u;
                 if(e_info->type == SPIDER){
                     EthrowerAnim(e_info, new_e_state);
-                    SpriteManagerAdd(SpriteEnemythrowable, THIS->x, THIS->y - 8u);
+                    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x, THIS->y - 8u);
+                    struct ThrowableData* webdata = (struct ThrowableData*) s_web->custom_data;
+                    webdata->type = WEB;                    
                 }
             break;
         }

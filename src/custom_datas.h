@@ -165,7 +165,8 @@ typedef enum{
 	MOTHERPL_WALK,
 	MOTHERPL_HIT,
 	MOTHERPL_DEAD,
-	MOTHERPL_CRAWL
+	MOTHERPL_CRAWL,
+	MOTHERPL_BLOCKED
 }MOTHERPL_STATE;
 
 struct MotherplData{
@@ -181,6 +182,12 @@ typedef enum{
 	COBRA,
 	SPIDER
 }ENEMY_TYPE;
+
+typedef enum{
+	T_UNASSIGNED,
+	WEB,
+	T_DESTROYED
+}ENEMYTHROWABLE_TYPE;
 
 typedef enum{
 	ENEMY_IDLE,
@@ -211,6 +218,9 @@ struct ThrowableData{
 	INT8 vx;
 	UINT8 wait;
 	UINT8 x_frameskip;
+	ENEMYTHROWABLE_TYPE type;
+	UINT8 configured;
+	UINT8 lifeonscreen;
 };
 typedef enum{
 	ARROW_NORMAL,

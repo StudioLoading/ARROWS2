@@ -22,6 +22,8 @@ extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_surf;
 extern struct InvItem itemMoney;
 extern UINT8 arrows_onscreen;
+extern UINT8 motherpl_blocked_cooldown;
+extern INT8 motherpl_vy;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -121,7 +123,7 @@ void Log() BANKED{
     }else{
         PRINT(5, 2, "     ");
     }
-    PRINT(10, 2, "AR:%u%u", arrows_onscreen, 5u);
+    //PRINT(10, 2, "AR:%u%u", arrows_onscreen, 5u);
     PRINT(16, 2, "!");
     PRINT(17, 2, "LOG");
 }
@@ -139,6 +141,8 @@ void update_camera_position() BANKED{
             break;
         }
     }else{
+        if(motherpl_state == MOTHERPL_BLOCKED ){return;}
+        if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
         if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
             if(camera_ok == 1u){
                 switch(s_motherpl->mirror){
