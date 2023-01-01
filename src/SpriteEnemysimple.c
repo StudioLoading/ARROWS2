@@ -136,6 +136,14 @@ void EspriteCollision(struct EnemyData* eu_info) BANKED{
                     changeEstate(eu_info, ENEMY_WAIT);
                 break;
                 case SpriteArrow:
+                    if((s_motherpl->x < THIS->x && THIS->mirror == NO_MIRROR) || 
+                        (s_motherpl->x > THIS->x && THIS->mirror == V_MIRROR)){
+                            ETurn(eu_info, eu_info->vx);
+                    }
+                    {
+                        struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
+                        arrow_data->hit = 1u;
+                    }
                     changeEstate(eu_info, ENEMY_HIT);
                 break;
             }
@@ -237,13 +245,13 @@ void ETurn(struct EnemyData* e_info, UINT8 e_vx) BANKED{
 void configure(struct EnemyData* e_info) BANKED{
     switch(e_info->type){
         case SNAKE:
-            e_info->hp = 4;
+            e_info->hp = 1;
         break;
         case RAT:
-            e_info->hp = 4;
+            e_info->hp = 3;
         break;
         case PORCUPINE:
-            e_info->hp = 4;
+            e_info->hp = 2;
         break;
         case COBRA:
             e_info->hp = 4;
@@ -262,7 +270,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
     if(new_e_state == ENEMY_HIT && e_info->e_state == ENEMY_ATTACK){
         return;//Invulnerabilità durante l' attacco!
     }
-    if(e_info->e_state != new_e_state || new_e_state == ENEMY_HIT){
+    if(e_info->e_state != new_e_state && e_info->e_state != ENEMY_DEAD){
         switch(new_e_state){
             case ENEMY_WALK:
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_walk, 12u);}

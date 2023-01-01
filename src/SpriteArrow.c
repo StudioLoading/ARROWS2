@@ -2,7 +2,6 @@
 
 #include "main.h"
 
-#include "Keys.h"
 #include "ZGBMain.h"
 #include "Scroll.h"
 #include "Sprite.h"
@@ -13,7 +12,6 @@
 #define SLOW_FRAMESKIPX 1
 #define FAST_FRAMESKIPX 0
 #define NORMAL_FRAMESKIPX 1
-#define NORMAL_FRAMESKIPY 4
 
 #define MAX_ARROWS_ONSCREEN 4
 
@@ -22,36 +20,59 @@
 #define TILE_ARROW_LEFT 17
 #define TILE_ARROW_RIGHT 18
 
+const UINT8 arrow_anim_normal[] = {1,0};
+const UINT8 arrow_anim_perfo[] = {1,1};
+const UINT8 arrow_anim_bastard[] = {1,2};
+
 UINT8 arrows_onscreen = 0u;
 
 void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;//SpriteEnemysimple
 
 void START(){
+    THIS->lim_x = 120u;
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
     arrows_onscreen++;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    arrow_data->arrow_fskipx = NORMAL_FRAMESKIPX;
-    arrow_data->arrow_fskipy = NORMAL_FRAMESKIPY;
+    arrow_data->hit = 0u;
+    arrow_data->configured = 0u;
+    arrow_data->arrow_type = ARROW_UNASSIGNED;
 }
 
 void UPDATE(){
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
+    if(arrow_data->hit > 0){
+        SpriteManagerRemoveSprite(THIS);
+    }
+    //CONFIGURATION
+        if(arrow_data->configured == 0u || arrow_data->arrow_type == ARROW_UNASSIGNED){
+            return;
+        }
+        if(arrow_data->configured == 1u){
+            arrow_data->configured = 2u;
+            switch(arrow_data->arrow_type){
+                case ARROW_NORMAL:
+                    SetSpriteAnim(THIS, arrow_anim_normal, 8u);
+                    arrow_data->arrow_fskipx_max = 1;
+                break;
+                case ARROW_PERF:
+                    SetSpriteAnim(THIS, arrow_anim_perfo, 8u);
+                    arrow_data->arrow_fskipx_max = 0;
+                break;
+                case ARROW_BASTARD:
+                    SetSpriteAnim(THIS, arrow_anim_bastard, 8u);
+                    arrow_data->arrow_fskipx_max = 0;
+                break;
+            }
+            arrow_data->arrow_fskipx = NORMAL_FRAMESKIPX;
+            return;
+        }
+    //MOVEMENT
     if(arrow_data->vx < 0){
         THIS->mirror = V_MIRROR;
     }else if (arrow_data->vx != 0 && THIS->mirror != NO_MIRROR){
         THIS->mirror = NO_MIRROR;
     }
     UINT8 arrow_t_coll =0u;
-    if(arrow_data->arrow_fskipy){
-        arrow_data->arrow_fskipy--;
-        if(arrow_data->arrow_fskipy == 0){
-            arrow_t_coll = TranslateSprite(THIS, 0, arrow_data->vy << delta_time);
-            arrow_data->arrow_fskipy = NORMAL_FRAMESKIPY;
-            if(arrow_t_coll != 0){
-                SpriteManagerRemoveSprite(THIS);
-            }
-        }
-    }
     if(arrow_data->arrow_fskipx){
         arrow_data->arrow_fskipx--;
     }
@@ -96,7 +117,7 @@ void UPDATE(){
 				case SpriteEnemysimple://io freccia ho colpito enemy
                     enemysimple_info = (struct EnemyData*) iarrspr->custom_data;
                     changeEstate(enemysimple_info, ENEMY_HIT);
-                    if(arrow_data->arrow_type == ARROW_NORMAL){SpriteManagerRemoveSprite(THIS);}
+                    if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
                 break;
             }
         }

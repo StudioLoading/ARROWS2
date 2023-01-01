@@ -195,7 +195,6 @@ typedef enum{
 	ENEMY_WALK,
 	ENEMY_WAIT,
 	ENEMY_HIT,
-	ENEMY_SHOOT,
 	ENEMY_DEAD,
 	ENEMY_PREATTACK,
 	ENEMY_ATTACK,
@@ -222,19 +221,22 @@ struct ThrowableData{
 	UINT8 configured;
 	UINT8 lifeonscreen;
 };
+
 typedef enum{
+	ARROW_UNASSIGNED,
 	ARROW_NORMAL,
-	ARROW_DESTROYED,
-	ARROW_PERF
+	ARROW_PERF,
+	ARROW_BASTARD,
+	ARROW_DESTROYED
 }ARROW_TYPE;
 
 struct ArrowData{
 	INT8 vx;
-	INT8 vy;
+	UINT8 configured;
 	UINT8 arrow_fskipx;
-	UINT8 arrow_fskipy;
 	ARROW_TYPE arrow_type;
 	UINT8 arrow_fskipx_max;
+	UINT8 hit;
 };
 
 typedef enum{

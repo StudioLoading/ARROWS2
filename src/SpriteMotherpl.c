@@ -179,6 +179,7 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_HIT:
+            motherpl_vy = GRAVITY;
             if(motherpl_hp <= 0){changeMotherplState(MOTHERPL_DEAD);}
         break;
         case MOTHERPL_DEAD:
@@ -453,9 +454,12 @@ void shoot(){
             switch(itemEquipped->itemtype){
                 case INVITEM_ARROW_NORMAL:
                     arrow_data->arrow_type = ARROW_NORMAL;
-                    arrow_data->arrow_fskipx_max = 0;
+                break;
                 case INVITEM_ARROW_PERFO:
+                    arrow_data->arrow_type = ARROW_PERF;
+                break;
                 case INVITEM_ARROW_BASTARD:
+                    arrow_data->arrow_type = ARROW_BASTARD;
                 break;
             }
             if(THIS->mirror == NO_MIRROR){//looking right
@@ -463,10 +467,7 @@ void shoot(){
             }else{
                 arrow_data->vx = -2;
             }
-            arrow_data->vy = 0;
-            if(KEY_PRESSED(J_UP)){
-                arrow_data->vy = -2;
-            }
+            arrow_data->configured = 1u;
         break;
     }
     refreshAnimation();
