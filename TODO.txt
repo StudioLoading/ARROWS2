@@ -1,4 +1,3 @@
-- Nemico ragno spara acido a parabolina
 - Spawn items a nemico ucciso: CUORE, BALESTRA, FRECCE NORMALI, PERFO, BASTARDE, BOMBA
 - Inventario: l' item equipaggiato ha lo sfondo colorato, l' item posseduto ma non equipped
 	ha sfondo bianco, item non posseduto ha lo sprite meno colorato in assoluto, con solo l' ombra

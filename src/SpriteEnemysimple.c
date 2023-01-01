@@ -54,6 +54,7 @@ void EspriteCollision(struct EnemyData* eu_info) BANKED;
 void EstateBehavior(struct EnemyData* eu_info) BANKED;
 
 extern void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
+extern void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 
 void START(){
     Estart();
@@ -100,7 +101,7 @@ void Econfiguration(struct EnemyData* eu_info) BANKED{
 
 void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED{
     if(eu_info->x_frameskip == 0 && (eu_info->e_state == ENEMY_WALK ||
-        (eu_info->e_state == ENEMY_ATTACK && eu_info->type != SPIDER))){//x_frameskip used            
+        (eu_info->e_state == ENEMY_ATTACK && eu_info->type != SPIDER && eu_info->type != TARANTULA))){//x_frameskip used            
             eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
             if(eu_info->et_collision){
                 switch(eu_info->et_collision){
@@ -165,6 +166,7 @@ void EstateBehavior(struct EnemyData* eu_info) BANKED{
             if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_hit, 16u);}
             if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 16u);}
             if(eu_info->type == SPIDER){EthrowerAnim(eu_info, eu_info->e_state);}
+            if(eu_info->type == TARANTULA){EthrowerAnim(eu_info, eu_info->e_state);}
         case ENEMY_WAIT:
             if(eu_info->wait){eu_info->wait--;}
             else{changeEstate(eu_info, ENEMY_WALK);}
@@ -173,7 +175,7 @@ void EstateBehavior(struct EnemyData* eu_info) BANKED{
         case ENEMY_WALK:
             eu_info->wait--;
             if(eu_info->wait == 0u){
-                if(eu_info->type == PORCUPINE || eu_info->type == COBRA || eu_info->type == SPIDER){
+                if(eu_info->type == PORCUPINE || eu_info->type == COBRA || eu_info->type == SPIDER || eu_info->type == TARANTULA){
                     changeEstate(eu_info, ENEMY_PREATTACK);
                 }
             }
@@ -187,6 +189,7 @@ void EstateBehavior(struct EnemyData* eu_info) BANKED{
                         changeEstate(eu_info, ENEMY_ATTACK);
                     break;
                     case SPIDER:
+                    case TARANTULA:
                         changeEstate(eu_info, ENEMY_THROW);
                     break;
                 }
@@ -259,6 +262,9 @@ void configure(struct EnemyData* e_info) BANKED{
         case SPIDER:
             e_info->hp = 2;
         break;
+        case TARANTULA:
+            e_info->hp = 2;
+        break;
     }
     e_info->x_frameskip = 1u;
     e_info->vx = E_VX;
@@ -290,6 +296,11 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                     e_info->wait = enemy_random_30_100 + 100u;
                     EthrowerAnim(e_info, new_e_state);
                 }
+                if(e_info->type == TARANTULA){
+                    e_info->x_frameskip = E_FRAMSKIP_SPIDER;
+                    e_info->wait = enemy_random_30_100 + 100u;
+                    EthrowerAnim(e_info, new_e_state);
+                }
             break;
             case ENEMY_IDLE:
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_walk, 12u);}
@@ -297,6 +308,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_walk, 12u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_walk, 12u);}
                 if(e_info->type == SPIDER){EthrowerAnim(e_info, new_e_state);}
+                if(e_info->type == TARANTULA){EthrowerAnim(e_info, new_e_state);}
             break;
             case ENEMY_WAIT:
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_idle, 16u);}
@@ -304,6 +316,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 16u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 16u);}
                 if(e_info->type == SPIDER){EthrowerAnim(e_info, new_e_state);}
+                if(e_info->type == TARANTULA){EthrowerAnim(e_info, new_e_state);}
                 e_info->wait = 40u;
             break;
             case ENEMY_HIT:
@@ -312,6 +325,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_hit, 16u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 16u);}
                 if(e_info->type == SPIDER){EthrowerAnim(e_info, new_e_state);}
+                if(e_info->type == TARANTULA){EthrowerAnim(e_info, new_e_state);}
                 e_info->hp--;
                 e_info->wait = 56u;
                 if(e_info->hp <= 0u){
@@ -326,29 +340,25 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_hit, 32u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 32u);}
                 if(e_info->type == SPIDER){EthrowerAnim(e_info, new_e_state);}
+                if(e_info->type == TARANTULA){EthrowerAnim(e_info, new_e_state);}
             break;
             case ENEMY_PREATTACK:
                 e_info->wait = 40u;
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 24u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 24u);}
                 if(e_info->type == SPIDER){EthrowerAnim(e_info, new_e_state);}
+                if(e_info->type == TARANTULA){EthrowerAnim(e_info, new_e_state);}
             break;
             case ENEMY_ATTACK:
-                if(THIS->mirror == NO_MIRROR){e_info->vx = E_VX;}
-                else{e_info->vx = -E_VX;}
+                if(THIS->mirror == NO_MIRROR){e_info->vx = 2*E_VX;}
+                else{e_info->vx = 2* (-E_VX);}
                 e_info->wait = enemy_random_30_100;
                 if(e_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_attack, 16u);}
                 if(e_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_attack, 16u);}
                 e_info->x_frameskip = 0u;
             break;
             case ENEMY_THROW:
-                e_info->wait = 32u;
-                if(e_info->type == SPIDER){
-                    EthrowerAnim(e_info, new_e_state);
-                    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x, THIS->y - 8u);
-                    struct ThrowableData* webdata = (struct ThrowableData*) s_web->custom_data;
-                    webdata->type = WEB;                    
-                }
+                Ethrow(e_info, e_info->e_state);
             break;
         }
         e_info->e_state = new_e_state;

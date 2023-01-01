@@ -65,6 +65,7 @@ INT8 motherpl_surf_dx = 0;
 UINT8 motherpl_hit_cooldown = 0u;
 Sprite* s_surf = 0;
 Sprite* s_blocking = 0;
+Sprite* s_blockcmd = 0;
 struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
@@ -80,7 +81,6 @@ void die();
 extern void UpdateHUD() BANKED;
 extern void invselectitem() BANKED;
 extern void fixInvcursor() BANKED;
-
 
 
 void START(){
@@ -379,13 +379,19 @@ void UPDATE(){
                         if(motherpl_hit != 1u){motherpl_hit = 1u;}
                     break;
                     case SpriteEnemythrowable:
-                        if(motherpl_blocked == 0u){
-                            if(motherpl_blocked_cooldown == 0u){
-                                struct ThrowableData* throwable_data = (struct ThrowableData*) s_blocking->custom_data;
-                                if(throwable_data->type == T_DESTROYED){
-                                    s_blocking = implspr;
-                                    changeMotherplState(MOTHERPL_BLOCKED);
+                        {
+                            struct ThrowableData* throwable_data = (struct ThrowableData*) s_blocking->custom_data;
+                            if(throwable_data->type == WEB && motherpl_blocked == 0u){
+                                if(motherpl_blocked_cooldown == 0u){
+                                    if(throwable_data->type == T_DESTROYED){
+                                        s_blocking = implspr;
+                                        changeMotherplState(MOTHERPL_BLOCKED);
+                                    }
                                 }
+                            }
+                            if(throwable_data->type == ACID){
+                                motherpl_blocked = 0u;
+                                if(motherpl_hit != 1u){motherpl_hit = 1u;}
                             }
                         }
                     break;
@@ -483,9 +489,11 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         if(s_surf && motherpl_surfing_goton == 0u){
             getOff();
         }
-        /*if(new_state == MOTHERPL_HIT && motherpl_hit_cooldown > 0u){
-            return;
-        }*/
+        if(new_state != MOTHERPL_BLOCKED){
+            if(s_blockcmd){
+                SpriteManagerRemoveSprite(s_blockcmd);
+            }
+        }
         switch(new_state){
             case MOTHERPL_IDLE:
                 if(motherpl_attack_cooldown == 0u){
@@ -521,6 +529,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             break;
             case MOTHERPL_HIT:
                 motherpl_hp--;
+                if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 if(motherpl_hp > 0){
                     SetSpriteAnim(THIS, motherpl_anim_hit, 32u);
@@ -537,6 +546,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_blocked = 2u;
                 SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
                 motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
+                s_blockcmd = SpriteManagerAdd(SpriteRightleft, THIS->x, THIS->y - 24u);
             break;
         }
         motherpl_state = new_state;

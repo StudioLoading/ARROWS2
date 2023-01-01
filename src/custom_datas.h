@@ -180,12 +180,15 @@ typedef enum{
 	RAT,
 	PORCUPINE,
 	COBRA,
-	SPIDER
+	SPIDER,
+	TARANTULA
 }ENEMY_TYPE;
 
 typedef enum{
 	T_UNASSIGNED,
 	WEB,
+	ACID,
+	T_DESTROYING,
 	T_DESTROYED
 }ENEMYTHROWABLE_TYPE;
 
@@ -215,11 +218,11 @@ struct EnemyData{
 struct ThrowableData{
 	INT8 hp;
 	INT8 vx;
+	INT8 vy;
 	UINT8 wait;
 	UINT8 x_frameskip;
 	ENEMYTHROWABLE_TYPE type;
 	UINT8 configured;
-	UINT8 lifeonscreen;
 };
 
 typedef enum{

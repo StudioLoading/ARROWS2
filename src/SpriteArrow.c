@@ -40,7 +40,7 @@ void START(){
 
 void UPDATE(){
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    if(arrow_data->hit > 0){
+    if(arrow_data->hit > 0 && arrow_data->arrow_type != ARROW_PERF){
         SpriteManagerRemoveSprite(THIS);
     }
     //CONFIGURATION

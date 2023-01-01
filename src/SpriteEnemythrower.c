@@ -14,7 +14,10 @@ const UINT8 spider_anim_walk[] = {8, 1, 2, 6, 3, 1, 2, 5, 4};//The first number 
 const UINT8 spider_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indicates the number of frames
 const UINT8 spider_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number indicates the number of frames
 
+extern UINT8 enemy_random_30_100;
+
 void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
+void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure(struct EnemyData* e_info) BANKED;
@@ -78,6 +81,16 @@ void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
             SetSpriteAnim(THIS, spider_anim_idle, 16u);
         break;
     }
+}
+
+void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
+    eu_info->wait = enemy_random_30_100;
+    EthrowerAnim(eu_info, estate);
+    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x +8u, THIS->y - 8u);
+    struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
+    if(eu_info->type == SPIDER){throwable_data->type = WEB;}
+    if(eu_info->type == TARANTULA){throwable_data->type = ACID;}
+    throwable_data->configured = 1u;
 }
 
 void DESTROY(){}
