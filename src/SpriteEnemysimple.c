@@ -366,5 +366,8 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
 }
 
 void DESTROY(){
-
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 8u);
+    struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
+    reward_data->itemtype = INVITEM_CROSSBOW;
+    reward_data->configured = 1u;
 }

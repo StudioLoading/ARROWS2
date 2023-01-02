@@ -93,4 +93,5 @@ void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
     throwable_data->configured = 1u;
 }
 
-void DESTROY(){}
+void DESTROY(){
+}

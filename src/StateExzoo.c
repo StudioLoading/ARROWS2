@@ -90,11 +90,11 @@ void UPDATE(){
         update_camera_position();    
     //INIT ENEMIES
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
-        /*Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
+        Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
         struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
         se_info->type = SNAKE;
         se_info->configured = 1u;
-        Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
+        /*Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
         struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
         se2_info->type = RAT;
         se2_info->configured = 1u;*/
@@ -106,10 +106,10 @@ void UPDATE(){
         struct EnemyData* se4_info = (struct EnemyData*) s4->custom_data;
         se4_info->type = COBRA;
         se4_info->configured = 1u;*/
-        Sprite* s5 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
+        /*Sprite* s5 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se5_info = (struct EnemyData*) s5->custom_data;
         se5_info->type = SPIDER;
-        se5_info->configured = 1u;
+        se5_info->configured = 1u;*/
         //Sprite* rl = SpriteManagerAdd(SpriteRightleft, (UINT16) s_motherpl->x, (UINT16) s_motherpl->y - 16u);
         /*Sprite* s6 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se6_info = (struct EnemyData*) s6->custom_data;

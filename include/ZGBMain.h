@@ -44,6 +44,7 @@ _SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
 _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
+_SPRITE_DMG(SpriteItemspawned, itemspawned)\
 SPRITE_DEF_END
 
 
