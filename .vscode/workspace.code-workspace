@@ -21,7 +21,8 @@
 			"music.h": "c",
 			"circlemath.h": "c",
 			"sprite.h": "c",
-			"string.h": "c"
+			"string.h": "c",
+			"main.h": "c"
 		}
 	}
 }
