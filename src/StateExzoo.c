@@ -111,7 +111,6 @@ void UPDATE(){
         se5_info->type = SPIDER;
         se5_info->configured = 1u;
         //Sprite* rl = SpriteManagerAdd(SpriteRightleft, (UINT16) s_motherpl->x, (UINT16) s_motherpl->y - 16u);
-
         /*Sprite* s6 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se6_info = (struct EnemyData*) s6->custom_data;
         se6_info->type = TARANTULA;

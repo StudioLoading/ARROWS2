@@ -546,7 +546,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_blocked = 2u;
                 SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
                 motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
-                s_blockcmd = SpriteManagerAdd(SpriteRightleft, THIS->x, THIS->y - 24u);
+                s_blockcmd = SpriteManagerAdd(SpriteRightleft, THIS->x - 2u, THIS->y - 20u);
             break;
         }
         motherpl_state = new_state;
