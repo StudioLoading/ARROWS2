@@ -43,6 +43,9 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 
+extern void spawnItem(INVITEMTYPE itemtype, Sprite* s_enemy, INT16 quantity) BANKED;
+
+
 void START(){
     LOAD_SGB_BORDER(border2);
 	//SOUND
@@ -89,7 +92,9 @@ void UPDATE(){
     //SCROLL CAMERA
         update_camera_position();    
     //INIT ENEMIES
-    if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){    
+    if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){
+        //SpriteManagerLoad(SpriteEnemysimple);
+        SpriteManagerLoad(SpriteItemspawned);
         Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
         struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
         se_info->type = SNAKE;
@@ -121,3 +126,4 @@ void UPDATE(){
 
     Log();
 }
+

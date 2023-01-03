@@ -259,6 +259,7 @@ struct InvItem{
 	UINT8 configured;
 	UINT8 hp;
 	INT8 vy;
+	INT8 vx;
 	UINT8 frmskip;
 };
 

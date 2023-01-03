@@ -52,6 +52,7 @@ void Egravity() BANKED;
 void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED;
 void EspriteCollision(struct EnemyData* eu_info) BANKED;
 void EstateBehavior(struct EnemyData* eu_info) BANKED;
+void spawnItem(INVITEMTYPE itemtype, INT16 quantity) BANKED;
 
 extern void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 extern void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
@@ -334,6 +335,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
+                spawnItem(INVITEM_MONEY, 20u);
                 e_info->wait = 24u;
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 32u);}
                 if(e_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 32u);}
@@ -365,9 +367,13 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
     }
 }
 
-void DESTROY(){
+void spawnItem(INVITEMTYPE itemtype, INT16 quantity) BANKED{
     Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 8u);
     struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
-    reward_data->itemtype = INVITEM_CROSSBOW;
+    reward_data->itemtype = itemtype;
+    reward_data->quantity = quantity;
     reward_data->configured = 1u;
+}
+
+void DESTROY(){
 }

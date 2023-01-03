@@ -37,6 +37,7 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 
+
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 6;
     UINT8 idx_rightheart = 6;
