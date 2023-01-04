@@ -114,7 +114,9 @@ void UPDATE(){
 	SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
 		if(CheckCollision(THIS, iarrspr)) {
 			switch(iarrspr->type){
-				case SpriteEnemysimple://io freccia ho colpito enemy
+				case SpriteEnemysimple:
+				case SpriteEnemyattacker:
+				case SpriteEnemythrower://io freccia ho colpito enemy
                     enemysimple_info = (struct EnemyData*) iarrspr->custom_data;
                     changeEstate(enemysimple_info, ENEMY_HIT);
                     if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}

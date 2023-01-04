@@ -76,6 +76,9 @@ void START(){
     INIT_HUD(hudpl); 
     hud_motherpl_hp = 0;
     UpdateHUD();
+
+    
+    SpriteManagerLoad(SpriteItemspawned);
 }
 
 void UPDATE(){
@@ -94,19 +97,18 @@ void UPDATE(){
     //INIT ENEMIES
     if(init_enemy == 0u && s_motherpl->x > ((UINT16) 20u << 3)){
         //SpriteManagerLoad(SpriteEnemysimple);
-        SpriteManagerLoad(SpriteItemspawned);
-        Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
+        /*Sprite* se = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 26u << 3, (UINT16) 6u << 3);
         struct EnemyData* se_info = (struct EnemyData*) se->custom_data;
         se_info->type = SNAKE;
-        se_info->configured = 1u;
+        se_info->configured = 1u;*/
         /*Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
         struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
         se2_info->type = RAT;
         se2_info->configured = 1u;*/
-        /*Sprite* s3 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 30u << 3, (UINT16) 8u << 3);
+        Sprite* s3 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se3_info = (struct EnemyData*) s3->custom_data;
         se3_info->type = PORCUPINE;
-        se3_info->configured = 1u;*/
+        se3_info->configured = 1u;
         /*Sprite* s4 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 7u << 3);
         struct EnemyData* se4_info = (struct EnemyData*) s4->custom_data;
         se4_info->type = COBRA;

@@ -374,6 +374,7 @@ void UPDATE(){
                         }
                     break;
                     case SpriteEnemysimple:
+                    case SpriteEnemyattacker:
                     case SpriteEnemythrower:
                         motherpl_blocked = 0u;
                         if(motherpl_hit != 1u){motherpl_hit = 1u;}

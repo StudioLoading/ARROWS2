@@ -62,7 +62,7 @@ void UPDATE(){
                         spawned_data->frmskip--;
                     }
                 }
-                if(spawned_tile_coll){
+                if(spawned_tile_coll || spawned_data->vy > 0){
                     if(spawned_data->frmskip == 0){spawned_data->vx = 1;
                             spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
                     }else{

@@ -39,6 +39,7 @@ _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
+_SPRITE_DMG(SpriteEnemyattacker, enemyattacker)\
 _SPRITE_DMG(SpriteEnemythrower, enemythrower)\
 _SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
 _SPRITE_DMG(SpriteArrow, arrow)\
