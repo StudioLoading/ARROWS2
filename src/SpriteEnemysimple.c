@@ -45,7 +45,7 @@ void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED;
 void EspriteCollision(struct EnemyData* eu_info) BANKED;
 void EstateBehavior(struct EnemyData* eu_info) BANKED;
 
-extern void spawnItem(INVITEMTYPE itemtype, INT16 quantity) BANKED;
+extern void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 extern void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 extern void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 extern void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
@@ -329,7 +329,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
-                spawnItem(INVITEM_MONEY, 20u);
+                spawnItem(THIS, INVITEM_MONEY, 20u);
                 e_info->wait = 24u;
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 32u);}
                 if(e_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 32u);}

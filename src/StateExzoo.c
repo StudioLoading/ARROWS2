@@ -43,8 +43,6 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 
-extern void spawnItem(INVITEMTYPE itemtype, Sprite* s_enemy, INT16 quantity) BANKED;
-
 
 void START(){
     LOAD_SGB_BORDER(border2);

@@ -10,7 +10,7 @@
 
 #include "custom_datas.h"
 
-#define ITEMSPAWNED_FRAMESKIP_MAX 8
+#define ITEMSPAWNED_FRAMESKIP_MAX 6
 
 const UINT8 itmspwn_anim_metal[] = {1, 0};
 const UINT8 itmspwn_anim_metal_dis[] = {2, 0, 3};
