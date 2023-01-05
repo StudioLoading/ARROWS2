@@ -27,11 +27,15 @@ maypal.pal file di testo contenente solo le seguenti
 ovviamente palette del Paint.NET con cui ho fatto il png contiene gli stessi codici, senza # e con FF iniziali per azzerare opacità
 png 160x144
 
-POTREI EVITARE DI USARE LA PRINT PER MOSTRARE GLI AMULETI
-IN CAMBIO METTERE  tile sulla window:
-unsigned char face[] = {TILE0, TILE2, TILE1, TILE3};
-set_win_tiles(1, 2, 2, 2, face); // solito: (posx, posy, width, height, array di tiles in numeri interi)
-così risparmio qualche posizione sullo spazio per gli sprite.
+
+
+MODIFICA FONT
+il font si può modificare andando in aggiunta di simboli. Considerando che con ala 2022.0 è
+facile sostituire tiles su window, ha poco senso. Se comunque decicessi di farlo,
+anzitutto bisogna pistolare le tile count del .gbr di font
+Poi bisogna andare sul Print.c e modificare lo switch, aggiungendoci i case 
+con gli index delle nuove tile che ho messo sul font.gbr
+
 
 C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-master\Debug\ARROWS_Debug.noi -g
 

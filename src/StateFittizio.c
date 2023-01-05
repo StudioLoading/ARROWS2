@@ -45,30 +45,35 @@ void UpdateHUD() BANKED{
     //EQUIPPED ITEM
         switch(itemEquipped->itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,0,21);
-                UPDATE_HUD_TILE(16,1,22);
+                UPDATE_HUD_TILE(16,0,0);
+                UPDATE_HUD_TILE(17,0,21);
+                UPDATE_HUD_TILE(18,0,0);
             break;
 	        case INVITEM_ARROW_NORMAL:
-                UPDATE_HUD_TILE(16,0,5);
-                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,17);
             break;
 	        case INVITEM_ARROW_PERFO:
-                UPDATE_HUD_TILE(16,0,17);
-                UPDATE_HUD_TILE(16,1,18);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,18);
             break;
 	        case INVITEM_ARROW_BASTARD:
-                UPDATE_HUD_TILE(16,0,23);
-                UPDATE_HUD_TILE(16,1,24);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,19);
             break;
 	        case INVITEM_BOMB:
-                UPDATE_HUD_TILE(16,0,19);
-                UPDATE_HUD_TILE(16,1,20);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,20);
             break;
         }
         print_target = PRINT_WIN;
-        if(itemEquipped->quantity < 10){ PRINT(17,1,"00%i", itemEquipped->quantity); }
-        else if(itemEquipped->quantity < 100){ PRINT(17,1,"0%i", itemEquipped->quantity);}
-        else {PRINT(17,1,"%i", itemEquipped->quantity);}
+        if(itemEquipped->quantity < 10){ PRINT(16,1,"00%i", itemEquipped->quantity); }
+        else if(itemEquipped->quantity < 100){ PRINT(16,1,"0%i", itemEquipped->quantity);}
+        else {PRINT(16,1,"%i", itemEquipped->quantity);}
     //HP
         hud_motherpl_hp = motherpl_hp;
         for(idx_leftheart=6; idx_leftheart<14 ;idx_leftheart+=2){
@@ -91,8 +96,8 @@ void UpdateHUD() BANKED{
     //UPS
         hud_motherpl_ups = motherpl_ups;
         print_target = PRINT_WIN;
-        if(hud_motherpl_ups < 10){PRINT(2,0,"0%i", hud_motherpl_ups);}
-        else{PRINT(2,0,"%i", hud_motherpl_ups);}
+        if(hud_motherpl_ups < 10){PRINT(2,1,"0%i", hud_motherpl_ups);}
+        else{PRINT(2,1,"%i", hud_motherpl_ups);}
 }
 
 void Log() BANKED{    
