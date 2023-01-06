@@ -22,15 +22,9 @@ void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure(struct EnemyData* e_info) BANKED;
-extern void ETurn(struct EnemyData* e_info, UINT8 e_vx) BANKED;
 extern void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;
-extern UINT8 getEmaxFrameskip(ENEMY_TYPE etype) BANKED;
-extern void ErandomManagement() BANKED;
 extern void Econfiguration(struct EnemyData* eu_info) BANKED;
-extern void Egravity() BANKED;
-extern void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED;
-extern void EspriteCollision(struct EnemyData* eu_info) BANKED;
-extern void EstateBehavior(struct EnemyData* eu_info) BANKED;
+extern void Emanagement(struct EnemyData* eu_info) BANKED;
 
 void START(){
     Estart();
@@ -42,20 +36,13 @@ void UPDATE(){
         if(eu_info->configured == 0){
             return;
         }
-        Econfiguration(eu_info);
-    //RANDOM        
-        ErandomManagement();
+        if(eu_info->configured == 1){
+            Econfiguration(eu_info);
+        }
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
-    //GRAVITY
-        Egravity();
-    //TODO check vertical collision
-    //HORIZONTAL MAP COLLISION: BACK & FORTH LOGIC
-        EhorizontalTileCollision(eu_info);
-    //SPRITE COLLISION
-        EspriteCollision(eu_info);    
-    //STATE BEHAVIOR
-        EstateBehavior(eu_info);
+    //MANAGEMENT
+        Emanagement(eu_info);
 }
 
 void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{

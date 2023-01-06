@@ -35,15 +35,16 @@ extern UINT8 motherpl_hit;
 
 void Estart() BANKED;
 void configure(struct EnemyData* e_info) BANKED;
-void ETurn(struct EnemyData* e_info, UINT8 e_vx) BANKED;
+void ETurn(struct EnemyData* e_info, UINT8 e_vx);
 void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;
-UINT8 getEmaxFrameskip(ENEMY_TYPE etype) BANKED;
-void ErandomManagement() BANKED;
+UINT8 getEmaxFrameskip(ENEMY_TYPE etype);
+void ErandomManagement();
 void Econfiguration(struct EnemyData* eu_info) BANKED;
-void Egravity() BANKED;
-void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED;
-void EspriteCollision(struct EnemyData* eu_info) BANKED;
-void EstateBehavior(struct EnemyData* eu_info) BANKED;
+void Egravity();
+void EhorizontalTileCollision(struct EnemyData* eu_info);
+void EspriteCollision(struct EnemyData* eu_info);
+void EstateBehavior(struct EnemyData* eu_info);
+void Emanagement(struct EnemyData* eu_info) BANKED;
 
 extern void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 extern void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
@@ -60,20 +61,22 @@ void UPDATE(){
         if(eu_info->configured == 0){
             return;
         }
-        Econfiguration(eu_info);
+        if(eu_info->configured == 1){
+            Econfiguration(eu_info);
+        }
     //RANDOM        
-        ErandomManagement();
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
-    //GRAVITY
-        Egravity();
-    //TODO check vertical collision
-    //HORIZONTAL MAP COLLISION: BACK & FORTH LOGIC
-        EhorizontalTileCollision(eu_info);
-    //SPRITE COLLISION
-        EspriteCollision(eu_info);    
-    //STATE BEHAVIOR
-        EstateBehavior(eu_info);
+    //MANAGEMENT
+        Emanagement(eu_info);
+}
+
+void Emanagement(struct EnemyData* eu_info) BANKED{
+    ErandomManagement();
+    Egravity();
+    EhorizontalTileCollision(eu_info);
+    EspriteCollision(eu_info); 
+    EstateBehavior(eu_info);
 }
 
 void Estart() BANKED{    
@@ -81,7 +84,7 @@ void Estart() BANKED{
     THIS->lim_x = 255u;
 }
 
-void ErandomManagement() BANKED{
+void ErandomManagement(){
     enemy_random_30_100++;
     if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
 }
@@ -93,7 +96,7 @@ void Econfiguration(struct EnemyData* eu_info) BANKED{
     }
 }
 
-void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED{
+void EhorizontalTileCollision(struct EnemyData* eu_info){
     if(eu_info->x_frameskip == 0 && (eu_info->e_state == ENEMY_WALK ||
         (eu_info->e_state == ENEMY_ATTACK && eu_info->type != SPIDER && eu_info->type != TARANTULA))){//x_frameskip used            
             eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
@@ -116,11 +119,11 @@ void EhorizontalTileCollision(struct EnemyData* eu_info) BANKED{
         }
 }
 
-void Egravity() BANKED{
+void Egravity(){
     UINT8 e_v_coll = TranslateSprite(THIS, 0, E_GRAVITY << delta_time);
 }
 
-void EspriteCollision(struct EnemyData* eu_info) BANKED{
+void EspriteCollision(struct EnemyData* eu_info){
     UINT8 scroll_e_tile;
 	Sprite* iespr;
 	SPRITEMANAGER_ITERATE(scroll_e_tile, iespr) {
@@ -146,7 +149,7 @@ void EspriteCollision(struct EnemyData* eu_info) BANKED{
     };
 }
 
-void EstateBehavior(struct EnemyData* eu_info) BANKED{    
+void EstateBehavior(struct EnemyData* eu_info){    
     switch(eu_info->e_state){
         case ENEMY_DEAD:
             eu_info->wait--;
@@ -202,7 +205,7 @@ void EstateBehavior(struct EnemyData* eu_info) BANKED{
     }
 }
 
-UINT8 getEmaxFrameskip(ENEMY_TYPE etype) BANKED{
+UINT8 getEmaxFrameskip(ENEMY_TYPE etype){
     UINT8 result = 0u;
     switch(etype){
         case SNAKE:
@@ -224,7 +227,7 @@ UINT8 getEmaxFrameskip(ENEMY_TYPE etype) BANKED{
     return result;
 }
 
-void ETurn(struct EnemyData* e_info, UINT8 e_vx) BANKED{
+void ETurn(struct EnemyData* e_info, UINT8 e_vx){
     if(e_info->vx > 0){
         e_info->vx = -e_vx;
         THIS->mirror = V_MIRROR;

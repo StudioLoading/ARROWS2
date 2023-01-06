@@ -40,8 +40,39 @@ con gli index delle nuove tile che ho messo sul font.gbr
 C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-master\Debug\ARROWS_Debug.noi -g
 
 DISCORD MARKDOWN: ```c ```
-
-
+	```c
+#ifdef CGB
+if (_cpu == CGB_TYPE) {
+	//MIO COMMENTO
+	//
+	for(i = 0; i < 8; ++ i)
+	{
+		SetPalette(BG_PALETTE, i, 1, default_palette, 1);
+		SetPalette(SPRITES_PALETTE, i, 1, default_palette, 1);
+	}
+	//*/
+	/*
+	SetPalette(BG_PALETTE, 0, 1, tiles_palette_0, 1);
+	SetPalette(BG_PALETTE, 1, 1, tiles_palette_1, 1);
+	SetPalette(BG_PALETTE, 2, 1, tiles_palette_2, 1);
+	SetPalette(BG_PALETTE, 3, 1, tiles_palette_3, 1);
+	SetPalette(BG_PALETTE, 4, 1, tiles_palette_4, 1);
+	SetPalette(BG_PALETTE, 5, 1, tiles_palette_5, 1);
+	SetPalette(BG_PALETTE, 6, 1, tiles_palette_6, 1);
+	SetPalette(BG_PALETTE, 7, 1, tiles_palette_7, 1);
+	
+	SetPalette(SPRITES_PALETTE, 0, 1, archer_palette_0, 1);
+	SetPalette(SPRITES_PALETTE, 1, 1, archer_palette_1, 1);
+	SetPalette(SPRITES_PALETTE, 2, 1, archer_palette_2, 1);
+	SetPalette(SPRITES_PALETTE, 3, 1, archer_palette_3, 1);
+	SetPalette(SPRITES_PALETTE, 4, 1, archer_palette_4, 1);
+	SetPalette(SPRITES_PALETTE, 5, 1, archer_palette_5, 1);
+	SetPalette(SPRITES_PALETTE, 6, 1, archer_palette_6, 1);
+	SetPalette(SPRITES_PALETTE, 7, 1, archer_palette_7, 1);
+	*/
+} else 
+#endif
+```
 
 
 FLYING ARROWS 2 
