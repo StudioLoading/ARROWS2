@@ -38,6 +38,7 @@ void Log() BANKED;
 void update_camera_position() BANKED;
 void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 
+
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 6;
     UINT8 idx_rightheart = 6;
@@ -147,6 +148,7 @@ void update_camera_position() BANKED{
             break;
         }
     }else{
+        if(KEY_TICKED(J_DOWN)){camera_ok = 0u;}
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
         if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
@@ -164,12 +166,12 @@ void update_camera_position() BANKED{
                     case NO_MIRROR://going right
                         if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
                             scroll_target->x+=2;
-                        }else{camera_ok = 1u;}
+                        }else if (!KEY_PRESSED(J_LEFT)){camera_ok = 1u;}
                     break;
                     case V_MIRROR:
                         if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
                             scroll_target->x-=2;
-                        }else{camera_ok = 1u;}
+                        }else if (!KEY_PRESSED(J_RIGHT)){camera_ok = 1u;}
                     break;
                 }
             }

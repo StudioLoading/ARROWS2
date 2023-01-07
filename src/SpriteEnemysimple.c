@@ -332,7 +332,7 @@ void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
-                spawnItem(THIS, INVITEM_MONEY, 20u);
+                spawnItem(THIS, INVITEM_CROSSBOW, 20u);
                 e_info->wait = 24u;
                 if(e_info->type == SNAKE){SetSpriteAnim(THIS, snake_anim_hit, 32u);}
                 if(e_info->type == RAT){SetSpriteAnim(THIS, rat_anim_hit, 32u);}

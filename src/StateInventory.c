@@ -22,6 +22,7 @@ IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(border);
 IMPORT_MAP(inventorymap);
+IMPORT_MAP(invwindowmap);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -40,23 +41,44 @@ extern unsigned char ddinv8[];
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
-UINT8 invcursor_posx[] = {8u, 32u, 56u, 8u, 32u, 56u};
-UINT8 invcursor_posy[] = {16u, 16u, 16u, 40u, 40u, 40u};
+UINT8 invcursor_posx[] = {8u, 32u, 56u, 8u, 32u, 56u,8u, 32u, 56u, 80u, 104u, 128u};
+UINT8 invcursor_posy[] = {0u, 0u, 0u, 24u, 24u, 24u, 104u,104u,104u,104u,104u,104u,};
 INT8 invcursor_posi = 1u;
 UINT8 invcursor_old_posi = 0u;
-const INT8 invcursor_posimax = 6;
+const INT8 invcursor_posimax = 12;
 Sprite* inv_cursor = 0;
-struct InvItem itemCrossbow = {.itemtype = INVITEM_CROSSBOW, .quantity = 0};
-struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100};
-struct InvItem itemArrowNormal = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100};
-struct InvItem itemArrowPerf = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 100};
-struct InvItem itemArrowBastard = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 100};
-struct InvItem itemBomb = {.itemtype = INVITEM_BOMB, .quantity = 0};
-const struct InvItem* inventory[6] = {&itemCrossbow, &itemMoney, &itemBomb, &itemArrowNormal, &itemArrowPerf, &itemArrowBastard};
+const INT8 invcursor_unequip_posimax = 6;
+INT8 invcursor_unequip_posi = 0u;
+UINT8 invcursor_unequip_old_posi = 0u;
+UINT8 invcursor_unequip_posx[] = {8u, 32u, 56u, 80u, 104u, 128u};
+UINT8 invcursor_unequip_posy = 104u;
+
+
+UINT8 nav_equippable = 0u;
+
+struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .equippable = 1u};
+struct InvItem item02 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 100, .equippable = 1u};
+struct InvItem item03 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 100, .equippable = 1u};
+struct InvItem item04 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
+struct InvItem unequip00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip01 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+const struct InvItem* inventory[12] = {&itemMoney, &item00, &item01, &item02, &item03, &item04,
+                            &unequip00, &unequip01, &unequip02, &unequip03, &unequip04, &unequip05};
 extern struct InvItem* itemEquipped;
 
 void invselectitem() BANKED;
 void fixInvcursor() BANKED;
+void fixUnequipInvcursor() BANKED;
+void change_navigation();
+void refresh_equipped();
+
+extern void change_cursor(UINT8 square_or_arrow) BANKED;
 
 void START(){
 	/*if(border_set_diary == 0u){
@@ -89,7 +111,7 @@ void START(){
     UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
     Sprite* s_invitem = 0;
     for(UINT8 i = 0u; i < 6; i++){
-        s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]);
+        s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]+16u);
         struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
         cdata->itemtype = inventory[i]->itemtype;
         cdata->quantity = inventory[i]->quantity;
@@ -98,6 +120,31 @@ void START(){
     invselectitem();
     Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
     change_detail();
+
+    //HUD
+    INIT_HUD(invwindowmap);
+    UINT8 uneq_x = 1u;
+    for(UINT8 i = 6u; i < 12; i++){
+        struct InvItem* unequippable = (struct InvItem*) inventory[i];
+        switch(unequippable->itemtype){
+            case INVITEM_UNASSIGNED:
+                UPDATE_HUD_TILE(uneq_x,1,10);
+                UPDATE_HUD_TILE(uneq_x,2,10);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,10);
+                UPDATE_HUD_TILE(uneq_x,2,10);
+            break;
+            case INVITEM_CROSSBOW:
+                UPDATE_HUD_TILE(uneq_x,1,6);
+                UPDATE_HUD_TILE(uneq_x,2,7);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,8);
+                UPDATE_HUD_TILE(uneq_x,2,9);
+            break;
+        }
+        uneq_x += 2;
+    }
+
 }
 
 void invselectitem() BANKED{
@@ -119,47 +166,73 @@ void UPDATE(){
         SetState(StateExzoo);
     }
     
-    if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
-        invselectitem();
+    switch(nav_equippable){
+        case 0u:
+            if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+                invselectitem();
+            }
+            if(KEY_RELEASED(J_UP)){
+                invcursor_posi-=3;      
+                if(invcursor_posi > 5){
+                    invcursor_posi = 0u;
+                }   
+            }
+            if(KEY_RELEASED(J_DOWN)){
+                invcursor_posi+=3;
+                if(invcursor_posi > 8){
+                    invcursor_posi -= 9u;
+                }
+            }
+            if(KEY_RELEASED(J_RIGHT)){
+                invcursor_posi++;
+            }
+            if(KEY_RELEASED(J_LEFT)){
+                invcursor_posi--;
+            }
+            if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
+                fixInvcursor();
+                refresh_equipped();
+            }
+        break;
     }
-    if(KEY_RELEASED(J_UP)){
-        invcursor_posi-=3;
-    }
-    if(KEY_RELEASED(J_DOWN)){
-        invcursor_posi+=3;
-    }
-    if(KEY_RELEASED(J_RIGHT)){
-        invcursor_posi++;
-    }
-    if(KEY_RELEASED(J_LEFT)){
-        invcursor_posi--;
-    }
-    fixInvcursor();
-    if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
-        invcursor_old_posi = invcursor_posi;
-        inv_cursor->x = invcursor_posx[invcursor_posi];
-        inv_cursor->y = invcursor_posy[invcursor_posi];
-        UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
-        Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
-        change_detail();
-    }
+}
+
+void refresh_equipped(){
+    invcursor_old_posi = invcursor_posi;
+    inv_cursor->x = (UINT16) invcursor_posx[invcursor_posi];
+    inv_cursor->y = (UINT16) invcursor_posy[invcursor_posi];
+    UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
+    Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
+    change_detail();
 }
 
 void fixInvcursor() BANKED{
     if(invcursor_posi < 0){
-        invcursor_posi = invcursor_posimax +invcursor_posi;
+        invcursor_posi = 6;
     }
     if(invcursor_posi >= invcursor_posimax){
-        invcursor_posi = invcursor_posi-invcursor_posimax;
+        invcursor_posi = 0;        
     }
 }
 
 void change_detail(){
     print_target = PRINT_BKG;
-    if(inventory[invcursor_posi]->quantity == 0){PRINT(2, 14, "     ");}
-    else if(inventory[invcursor_posi]->quantity < 10){PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);}
-    else if(inventory[invcursor_posi]->quantity < 100){PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);}
-    else {PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);}
+    if(inventory[invcursor_posi]->quantity == 0){
+        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "     ");}
+        else{PRINT(2, 14, "     ");PRINT(3, 8, "   ");}
+    }
+    else if(inventory[invcursor_posi]->quantity < 10){
+        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);}
+        else{PRINT(2, 14, "     ");PRINT(3, 8, "X0%u", inventory[invcursor_posi]->quantity);}
+    }
+    else if(inventory[invcursor_posi]->quantity < 100){
+        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);}
+        else{PRINT(2, 14, "     ");PRINT(3, 8, "X%u", inventory[invcursor_posi]->quantity);}
+    }
+    else {
+        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);}
+        else{PRINT(2, 14, "     ");PRINT(3, 8, "%u", inventory[invcursor_posi]->quantity);}
+    }
     if(inventory[invcursor_posi]->quantity == 0){
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv1);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv2);

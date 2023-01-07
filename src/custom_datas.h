@@ -244,13 +244,15 @@ struct ArrowData{
 
 typedef enum{
 	INVITEM_UNASSIGNED,
-	INVITEM_CROSSBOW,
 	INVITEM_MONEY,
 	INVITEM_ARROW_NORMAL,
 	INVITEM_ARROW_PERFO,
 	INVITEM_ARROW_BASTARD,
 	INVITEM_BOMB,
-	INVITEM_DISAPPEARING
+	INVITEM_DISAPPEARING,
+	INVITEM_CROSSBOW,
+	INVITEM_METAL,
+	INVITEM_WOOD
 }INVITEMTYPE;
 
 struct InvItem{
@@ -261,5 +263,11 @@ struct InvItem{
 	INT8 vy;
 	INT8 vx;
 	UINT8 frmskip;
+	UINT8 equippable;
 };
 
+
+struct InvcursorInfo{
+	UINT8 switch_animation;
+	UINT8 square_or_arrow;
+};

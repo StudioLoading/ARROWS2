@@ -41,36 +41,32 @@ C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-mast
 
 DISCORD MARKDOWN: ```c ```
 	```c
-#ifdef CGB
-if (_cpu == CGB_TYPE) {
-	//MIO COMMENTO
-	//
-	for(i = 0; i < 8; ++ i)
-	{
-		SetPalette(BG_PALETTE, i, 1, default_palette, 1);
-		SetPalette(SPRITES_PALETTE, i, 1, default_palette, 1);
-	}
-	//*/
-	/*
-	SetPalette(BG_PALETTE, 0, 1, tiles_palette_0, 1);
-	SetPalette(BG_PALETTE, 1, 1, tiles_palette_1, 1);
-	SetPalette(BG_PALETTE, 2, 1, tiles_palette_2, 1);
-	SetPalette(BG_PALETTE, 3, 1, tiles_palette_3, 1);
-	SetPalette(BG_PALETTE, 4, 1, tiles_palette_4, 1);
-	SetPalette(BG_PALETTE, 5, 1, tiles_palette_5, 1);
-	SetPalette(BG_PALETTE, 6, 1, tiles_palette_6, 1);
-	SetPalette(BG_PALETTE, 7, 1, tiles_palette_7, 1);
-	
-	SetPalette(SPRITES_PALETTE, 0, 1, archer_palette_0, 1);
-	SetPalette(SPRITES_PALETTE, 1, 1, archer_palette_1, 1);
-	SetPalette(SPRITES_PALETTE, 2, 1, archer_palette_2, 1);
-	SetPalette(SPRITES_PALETTE, 3, 1, archer_palette_3, 1);
-	SetPalette(SPRITES_PALETTE, 4, 1, archer_palette_4, 1);
-	SetPalette(SPRITES_PALETTE, 5, 1, archer_palette_5, 1);
-	SetPalette(SPRITES_PALETTE, 6, 1, archer_palette_6, 1);
-	SetPalette(SPRITES_PALETTE, 7, 1, archer_palette_7, 1);
-	*/
-} else 
+#ifdef CGB	
+void SetPalette(PALETTE_TYPE t, UINT8 first_palette, UINT8 nb_palettes, UINT16 *rgb_data, UINT8 bank) {
+	if(first_palette + nb_palettes > 8)
+		return; //Adding more palettes than supported
+
+	UWORD* pal_ptr = (t == BG_PALETTE) ? ZGB_Fading_BPal : ZGB_Fading_SPal;
+	PUSH_BANK(bank);
+		UINT8 i = 0u;
+		if(t == BG_PALETTE) {
+			set_bkg_palette(first_palette, nb_palettes, rgb_data);
+		} else {
+			/*for(i=0; i<8; i++){
+				if(memcmp(&pal_ptr[i << 2], rgb_data, 8u) == 0){
+					set_sprite_palette(first_palette, nb_palettes, rgb_data);				
+					i = 99u;
+				}
+			}
+			if( i < 99u){*/
+				set_sprite_palette(first_palette, nb_palettes, rgb_data);
+			//}
+		}
+		//if(i < 99u){
+			memcpy(&pal_ptr[first_palette << 2], rgb_data, nb_palettes << 3);
+		//}
+	POP_BANK;
+}
 #endif
 ```
 

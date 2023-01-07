@@ -9,18 +9,13 @@
 
 #include "custom_datas.h"
 
-
-const UINT8 itm_noarrowbastard[] = {1, 0}; //The first number indicates the number of frames
-const UINT8 itm_arrowbastard[] = {1, 10}; //The first number indicates the number of frames
-const UINT8 itm_nocrossbow[] = {1, 1}; //The first number indicates the number of frames
+const UINT8 itm_unassigned[] = {1 ,0};
+const UINT8 itm_arrowbastard[] = {1, 4}; //The first number indicates the number of frames
 const UINT8 itm_crossbow[] = {1, 6}; //The first number indicates the number of frames
-const UINT8 itm_money[] = {1, 2}; //The first number indicates the number of frames
-const UINT8 itm_noarrownormal[] = {1, 3}; //The first number indicates the number of frames
-const UINT8 itm_arrownormal[] = {1, 7}; //The first number indicates the number of frames
-const UINT8 itm_noarrowperf[] = {1, 4}; //The first number indicates the number of frames
-const UINT8 itm_arrowperf[] = {1, 8}; //The first number indicates the number of frames
-const UINT8 itm_nobomb[] = {1, 5}; //The first number indicates the number of frames
-const UINT8 itm_bomb[] = {1, 9}; //The first number indicates the number of frames
+const UINT8 itm_money[] = {1, 1}; //The first number indicates the number of frames
+const UINT8 itm_arrownormal[] = {1, 2}; //The first number indicates the number of frames
+const UINT8 itm_arrowperf[] = {1, 3}; //The first number indicates the number of frames
+const UINT8 itm_bomb[] = {1, 5}; //The first number indicates the number of frames
 
 void START(){
 
@@ -31,28 +26,26 @@ void UPDATE(){
     if(invitem_data->configured == 1u){
         invitem_data->configured = 2u;
         switch(invitem_data->itemtype){
-            case 0u:
-                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_nocrossbow, 4u);
-                else SetSpriteAnim(THIS, itm_crossbow, 4u);
+            case INVITEM_CROSSBOW:
+                SetSpriteAnim(THIS, itm_crossbow, 4u);
             break;
-            case 1u:
+            case INVITEM_MONEY:
                 SetSpriteAnim(THIS, itm_money, 4u);
             break;
-            case 2u:
-                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_noarrownormal, 4u);
-                else SetSpriteAnim(THIS, itm_arrownormal, 4u);
+            case INVITEM_ARROW_NORMAL:
+                SetSpriteAnim(THIS, itm_arrownormal, 4u);
             break;
-            case 3u:
-                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_noarrowperf, 4u);
-                else SetSpriteAnim(THIS, itm_arrowperf, 4u);
+            case INVITEM_ARROW_PERFO:
+                SetSpriteAnim(THIS, itm_arrowperf, 4u);
             break;
-            case 4u:
-                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_noarrowbastard, 4u);
-                else SetSpriteAnim(THIS, itm_arrowbastard, 4u);
+            case INVITEM_ARROW_BASTARD:
+                SetSpriteAnim(THIS, itm_arrowbastard, 4u);
             break;
-            case 5u:
-                if(invitem_data->quantity == 0)SetSpriteAnim(THIS, itm_nobomb, 4u);
-                else SetSpriteAnim(THIS, itm_bomb, 4u);
+            case INVITEM_BOMB:
+                SetSpriteAnim(THIS, itm_bomb, 4u);
+            break;
+            case INVITEM_UNASSIGNED:
+                SetSpriteAnim(THIS, itm_unassigned, 4u);
             break;
         }
     }

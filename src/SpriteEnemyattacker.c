@@ -71,7 +71,7 @@ void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
             if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 24u);}
             if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 24u);}
         break;
-        case ENEMY_THROW:
+        case ENEMY_ATTACK:
             if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_attack, 16u);}
             if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_attack, 16u);}
         break;

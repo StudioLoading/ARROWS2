@@ -98,12 +98,12 @@ void UPDATE(){
         se_info->type = SNAKE;
         se_info->configured = 1u;
         */
-        /*
+        ///*
         Sprite* s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 28u << 3, (UINT16) 6u << 3);
         struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
         se2_info->type = RAT;
         se2_info->configured = 1u;
-        */
+        //*/
         /*
         Sprite* s3 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se3_info = (struct EnemyData*) s3->custom_data;
@@ -116,18 +116,18 @@ void UPDATE(){
         se4_info->type = COBRA;
         se4_info->configured = 1u;
         */
-        /*
+        ///*
         Sprite* s5 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se5_info = (struct EnemyData*) s5->custom_data;
         se5_info->type = SPIDER;
         se5_info->configured = 1u;
-        */
-        ///*
+        //*/
+        /*
         Sprite* s6 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se6_info = (struct EnemyData*) s6->custom_data;
         se6_info->type = TARANTULA;
         se6_info->configured = 1u;
-        //*/
+        */
         
         init_enemy = 1u;
     }
