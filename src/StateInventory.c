@@ -68,7 +68,7 @@ struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equi
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-const struct InvItem* inventory[12] = {&itemMoney, &item00, &item01, &item02, &item03, &item04,
+struct InvItem* inventory[12] = {&itemMoney, &item00, &item01, &item02, &item03, &item04,
                             &unequip00, &unequip01, &unequip02, &unequip03, &unequip04, &unequip05};
 extern struct InvItem* itemEquipped;
 
@@ -79,6 +79,7 @@ void change_navigation();
 void refresh_equipped();
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
+void pickup(struct InvItem* pickedup_data) BANKED;
 
 void START(){
 	/*if(border_set_diary == 0u){
@@ -145,6 +146,57 @@ void START(){
         uneq_x += 2;
     }
 
+}
+
+void pickup(struct InvItem* pickedup_data) BANKED{
+    UINT8 item_added = 0u;
+    for(UINT8 i = 0; item_added == 0u && i<12; ++i){
+        if(inventory[i]->itemtype == pickedup_data->itemtype){
+            item_added = 1u;
+            if((inventory[i]->quantity + pickedup_data->quantity) > 999){
+                inventory[i]->quantity = 999;
+            }else{
+                inventory[i]->quantity += pickedup_data->quantity;
+            }
+        }
+    }
+    if(item_added == 0){//non l'ho ancora aggiunto perché nuovo
+        switch(pickedup_data->equippable){
+            case 1u://equippable
+                for(UINT8 i = 0; item_added == 0u && i<6; ++i){
+                    if(inventory[i]->itemtype == INVITEM_UNASSIGNED){
+                        item_added = 1u;
+                        inventory[i]->itemtype = pickedup_data->itemtype; 
+                        inventory[i]->quantity = pickedup_data->quantity; 
+                        inventory[i]->configured = pickedup_data->configured;
+                        inventory[i]->hp = pickedup_data->hp; 
+                        inventory[i]->vx = pickedup_data->vx; 
+                        inventory[i]->vy = pickedup_data->vy; 
+                        inventory[i]->frmskip = pickedup_data->frmskip; 
+                        inventory[i]->equippable = pickedup_data->equippable; 
+                    }
+                }
+            break;
+            case 0u://not equippable
+                for(UINT8 j = 5; item_added == 0u && j<12; ++j){
+                    if(inventory[j]->itemtype == INVITEM_UNASSIGNED){
+                        item_added = 1u;
+                        inventory[j]->itemtype = pickedup_data->itemtype; 
+                        inventory[j]->quantity = pickedup_data->quantity; 
+                        inventory[j]->configured = pickedup_data->configured;
+                        inventory[j]->hp = pickedup_data->hp; 
+                        inventory[j]->vx = pickedup_data->vx; 
+                        inventory[j]->vy = pickedup_data->vy; 
+                        inventory[j]->frmskip = pickedup_data->frmskip; 
+                        inventory[j]->equippable = pickedup_data->equippable; 
+                    }
+                }
+            break;
+        }
+    }
+    if(item_added == 0u){//non ancora aggiunto causa mancanza di posto
+
+    }
 }
 
 void invselectitem() BANKED{

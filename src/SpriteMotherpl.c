@@ -22,6 +22,7 @@
 #define DEAD_COOLDOWN_MAX 64
 #define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
+#define PICKINGUP_COOLDOWN 24
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -70,6 +71,7 @@ struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
 UINT8 fly_counter = 0u;
+INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
@@ -81,7 +83,7 @@ void die();
 extern void UpdateHUD() BANKED;
 extern void invselectitem() BANKED;
 extern void fixInvcursor() BANKED;
-
+extern void pickup(struct InvItem* pickedup_data) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -107,6 +109,7 @@ void START(){
     motherpl_hit = 0u;
     motherpl_blocked = 0u;
     motherpl_blocked_cooldown = 0u;
+    pickingup_cooldown = PICKINGUP_COOLDOWN;
 }
 
 void UPDATE(){
@@ -117,6 +120,7 @@ void UPDATE(){
         invselectitem();//STATEINVENTORY
         UpdateHUD();//STATEFITTIZIO
     }
+    //state behaviors
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             if(motherpl_attack_cooldown == 0u){
@@ -208,6 +212,13 @@ void UPDATE(){
                 changeMotherplState(MOTHERPL_IDLE);
             }
         break;
+        case MOTHERPL_PICKUP:
+            pickingup_cooldown--;
+            if(pickingup_cooldown <= 0){
+                pickingup_cooldown = PICKINGUP_COOLDOWN;
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        break;
     }
     //BLOCK
         if(motherpl_blocked == 1u){// && motherpl_blocked_cooldown == 0u){
@@ -255,7 +266,8 @@ void UPDATE(){
             jump_ticked_delay--;
         }
     //INPUT WALK
-        if(motherpl_state != MOTHERPL_CRAWL && motherpl_state != MOTHERPL_BLOCKED){
+        if(motherpl_state != MOTHERPL_CRAWL && motherpl_state != MOTHERPL_BLOCKED 
+            && motherpl_state != MOTHERPL_PICKUP){
             if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
                 motherpl_inertia_down = 0u;
                 if(motherpl_inertiax < INERTIA_MAX){
@@ -394,6 +406,14 @@ void UPDATE(){
                                 motherpl_blocked = 0u;
                                 if(motherpl_hit != 1u){motherpl_hit = 1u;}
                             }
+                        }
+                    break;
+                    case SpriteItemspawned:
+                        {
+                        struct InvItem* pickedup_data = (struct InvItem*) implspr->custom_data;
+                        pickup(pickedup_data);
+                        SpriteManagerRemoveSprite(implspr);
+                        changeMotherplState(MOTHERPL_PICKUP);
                         }
                     break;
                 }
@@ -548,6 +568,10 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
                 motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
                 s_blockcmd = SpriteManagerAdd(SpriteRightleft, THIS->x - 2u, THIS->y - 20u);
+            break;
+            case MOTHERPL_PICKUP:
+                pickingup_cooldown = PICKINGUP_COOLDOWN;
+                SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
             break;
         }
         motherpl_state = new_state;

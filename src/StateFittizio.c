@@ -38,7 +38,6 @@ void Log() BANKED;
 void update_camera_position() BANKED;
 void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 
-
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 6;
     UINT8 idx_rightheart = 6;
@@ -184,6 +183,10 @@ void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED{
     struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
     reward_data->itemtype = itemtype;
     reward_data->quantity = quantity;
+    reward_data->equippable = 1u;
+    switch(itemtype){
+        case INVITEM_CROSSBOW: reward_data->equippable = 0u; break;
+    }
     reward_data->configured = 1u;
 }
 
