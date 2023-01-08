@@ -16,17 +16,17 @@ const UINT8 spider_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number 
 
 extern UINT8 enemy_random_30_100;
 
-void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
-void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
+void EthrowerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+void Ethrow(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
-extern void Estart() BANKED;
-extern void configure(struct EnemyData* e_info) BANKED;
-extern void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;
-extern void Econfiguration(struct EnemyData* eu_info) BANKED;
-extern void Emanagement(struct EnemyData* eu_info) BANKED;
+extern void Estart(Sprite* s_enemy) BANKED;
+extern void configure(Sprite* s_enemy) BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
+extern void Econfiguration(Sprite* s_enemy) BANKED;
+extern void Emanagement(Sprite* s_enemy) BANKED;
 
 void START(){
-    Estart();
+    Estart(THIS);
 }
 
 void UPDATE(){
@@ -36,43 +36,45 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration(eu_info);
+            Econfiguration(THIS);
         }
     //CHECK DEATH
-        if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
+        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement(eu_info);
+        Emanagement(THIS);
 }
 
-void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
+void EthrowerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*)s_enemy->custom_data;
     switch(estate){
         case ENEMY_HIT:
-            SetSpriteAnim(THIS, spider_anim_hit, 16u);
+            SetSpriteAnim(s_enemy, spider_anim_hit, 16u);
         break;
         case ENEMY_WALK:
-            SetSpriteAnim(THIS, spider_anim_walk, 16u);
+            SetSpriteAnim(s_enemy, spider_anim_walk, 16u);
         break;
         case ENEMY_WAIT:
-            SetSpriteAnim(THIS, spider_anim_wait, 2u);
+            SetSpriteAnim(s_enemy, spider_anim_wait, 2u);
         break;
         case ENEMY_IDLE:
-            SetSpriteAnim(THIS, spider_anim_idle, 20u);
+            SetSpriteAnim(s_enemy, spider_anim_idle, 20u);
         break;
         case ENEMY_DEAD:
-            SetSpriteAnim(THIS, spider_anim_hit, 32u);
+            SetSpriteAnim(s_enemy, spider_anim_hit, 32u);
         break;
         case ENEMY_PREATTACK:
-            SetSpriteAnim(THIS, spider_anim_preattack, 16u);
+            SetSpriteAnim(s_enemy, spider_anim_preattack, 16u);
         break;
         case ENEMY_THROW:
-            SetSpriteAnim(THIS, spider_anim_idle, 16u);
+            SetSpriteAnim(s_enemy, spider_anim_idle, 16u);
         break;
     }
 }
 
-void Ethrow(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
+void Ethrow(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*)s_enemy->custom_data;
     eu_info->wait = enemy_random_30_100;
-    EthrowerAnim(eu_info, estate);
+    EthrowerAnim(s_enemy, estate);
     Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x +8u, THIS->y - 8u);
     struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
     if(eu_info->type == SPIDER){throwable_data->type = WEB;}

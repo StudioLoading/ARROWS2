@@ -1,16 +1,23 @@
 #include "Banks/SetAutoBank.h"
 
+#include "SGB.h"
 #include "BankManager.h"
+#include "Palette.h"
 #include "ZGBMain.h"
-#include "Scroll.h"
 #include "Keys.h"
+#include "Palette.h"
+#include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
+#include "Fade.h"
 #include "Music.h"
 
 #include "custom_datas.h"
+#include "TilesAnimations0.h"
+#include "sgb_palette.h"
 #include "Dialogs.h"
+
 
 #define CAMERA_DELTA_RIGHT 32
 #define CAMERA_DELTA_LEFT 24
@@ -39,7 +46,6 @@ UINT16 motherow_pos_y = 0u;
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
-void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
@@ -160,7 +166,9 @@ void Log() BANKED{
 }
 
 void update_camera_position() BANKED{
-    scroll_target->y = s_motherpl->y + 16u;
+    if(scroll_target->y != (s_motherpl->y + 16u)){
+        scroll_target->y = s_motherpl->y + 16u;
+    }
     //in ogni caso non uscire dai margini
     if(s_surf){
         switch(s_motherpl->mirror){
@@ -203,17 +211,6 @@ void update_camera_position() BANKED{
     }
 }
 
-void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED{
-    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, s_enemy->x + 4u, s_enemy->y - 8u);
-    struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
-    reward_data->itemtype = itemtype;
-    reward_data->quantity = quantity;
-    reward_data->equippable = 1u;
-    switch(itemtype){
-        case INVITEM_CROSSBOW: reward_data->equippable = 0u; break;
-    }
-    reward_data->configured = 1u;
-}
 
 void START(){}
 

@@ -26,7 +26,7 @@ const UINT8 arrow_anim_bastard[] = {1,2};
 
 UINT8 arrows_onscreen = 0u;
 
-void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;//SpriteEnemysimple
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 
 void START(){
     THIS->lim_x = 120u;
@@ -117,8 +117,7 @@ void UPDATE(){
 				case SpriteEnemysimple:
 				case SpriteEnemyattacker:
 				case SpriteEnemythrower://io freccia ho colpito enemy
-                    enemysimple_info = (struct EnemyData*) iarrspr->custom_data;
-                    changeEstate(enemysimple_info, ENEMY_HIT);
+                    changeEstate(iarrspr, ENEMY_HIT);
                     if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
                 break;
             }

@@ -15,7 +15,7 @@
 #define JUMP_MIN_POWER 0
 #define JUMP_MAX_POWER GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 24
-#define INERTIA_MAX 16
+#define INERTIA_MAX 20
 #define COOLDOWN_ATTACK 28
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 64
@@ -179,7 +179,7 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_WALK:
-            if(motherpl_inertiax == 0 || (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
+            if(motherpl_inertiax == 0){//|| (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
                 changeMotherplState(MOTHERPL_IDLE);
             }
         break;
@@ -280,7 +280,9 @@ void UPDATE(){
             }
             if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
                 motherpl_inertia_down = 1u;
-                motherpl_vx = 0;
+                //if(motherpl_inertiax == 0u){
+                    motherpl_vx = 0;
+                //}
                 camera_ok = 0u;
             }
         }
@@ -542,6 +544,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
                 motherpl_vx = 0;
+                motherpl_inertiax = 0u;
             break;
             case MOTHERPL_WALK:
                 if(motherpl_attack_cooldown == 0u){
@@ -572,6 +575,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 s_blockcmd = SpriteManagerAdd(SpriteRightleft, THIS->x - 2u, THIS->y - 20u);
             break;
             case MOTHERPL_PICKUP:
+                motherpl_inertiax = 0u;
                 pickingup_cooldown = PICKINGUP_COOLDOWN;
                 SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
             break;

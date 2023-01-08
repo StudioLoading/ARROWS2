@@ -25,6 +25,7 @@ const UINT8 itmspwn_anim_crossb_dis[] = {2, 7, 3};
 const UINT8 itmspwn_anim_powd[] = {1, 8};
 const UINT8 itmspwn_anim_powd_dis[] = {2, 8, 3};
 
+
 void START(){
     THIS->lim_x = 255u;
     THIS->lim_y = 255u;

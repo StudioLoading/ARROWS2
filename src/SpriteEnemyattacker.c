@@ -18,16 +18,16 @@ const UINT8 cobra_anim_hit[] = {2, 6, 0}; //The first number indicates the numbe
 const UINT8 cobra_anim_attack[] = {1, 10}; //The first number indicates the number of frames
 extern UINT8 enemy_random_30_100;
 
-void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
+void EattackerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
-extern void Estart() BANKED;
-extern void configure(struct EnemyData* e_info) BANKED;
-extern void changeEstate(struct EnemyData* e_info, ENEMY_STATE new_e_state) BANKED;
-extern void Econfiguration(struct EnemyData* eu_info) BANKED;
-extern void Emanagement(struct EnemyData* eu_info) BANKED;
+extern void Estart(Sprite* s_enemy) BANKED;
+extern void configure(Sprite* s_enemy) BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
+extern void Econfiguration(Sprite* s_enemy) BANKED;
+extern void Emanagement(Sprite* s_enemy) BANKED;
 
 void START(){
-    Estart();
+    Estart(THIS);
 }
 
 void UPDATE(){
@@ -37,47 +37,47 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration(eu_info);
+            Econfiguration(THIS);
         }
     //CHECK DEATH
-        if(eu_info->hp <= 0){changeEstate(eu_info, ENEMY_DEAD);}
+        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement(eu_info);
+        Emanagement(THIS);
 }
 
-void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED{
+void EattackerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
     switch(estate){
         case ENEMY_HIT:
             if(eu_info->type == COBRA){(THIS, cobra_anim_hit, 24u);}
             if(eu_info->type == PORCUPINE){(THIS, pine_anim_hit, 24u);}
         break;
         case ENEMY_WALK:        
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_walk, 12u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_walk, 12u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_walk, 12u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_walk, 12u);}
         break;
         case ENEMY_WAIT:
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 16u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 16u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 16u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 16u);}
         break;
         case ENEMY_IDLE:
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 12u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 12u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 12u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 12u);}
         break;
         case ENEMY_DEAD:
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_hit, 32u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 32u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_hit, 32u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_hit, 32u);}
         break;
         case ENEMY_PREATTACK:
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 24u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 24u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 24u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 24u);}
         break;
         case ENEMY_ATTACK:
-            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_attack, 16u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_attack, 16u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_attack, 16u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_attack, 16u);}
         break;
     }
 }
-
 
 void DESTROY(){
 }

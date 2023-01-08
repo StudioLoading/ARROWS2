@@ -22,7 +22,8 @@
 			"circlemath.h": "c",
 			"sprite.h": "c",
 			"string.h": "c",
-			"main.h": "c"
+			"main.h": "c",
+			"palette.h": "c"
 		}
 	}
 }
