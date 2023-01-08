@@ -41,6 +41,8 @@ UINT8 getEmaxFrameskip(ENEMY_TYPE etype);
 void Econfiguration(struct EnemyData* eu_info) BANKED;
 void Emanagement(struct EnemyData* eu_info) BANKED;
 
+extern void pushEnemy(Sprite* new_e) BANKED;
+extern void popEnemy() BANKED;
 extern void spawnItem(Sprite* s_enemy, INVITEMTYPE itemtype, INT16 quantity) BANKED;
 extern void EattackerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
 extern void EthrowerAnim(struct EnemyData* eu_info, ENEMY_STATE estate) BANKED;
@@ -176,7 +178,7 @@ void Emanagement(struct EnemyData* eu_info) BANKED{
         }
 }
 
-void Estart() BANKED{    
+void Estart() BANKED{
     SetSpriteAnim(THIS, e_anim_hidden, 12u);
     THIS->lim_x = 255u;
 }

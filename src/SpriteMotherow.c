@@ -26,9 +26,9 @@ extern TIP_TO_BE_LOCALIZED tip_to_show;
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
 
-void changeState(FA2OW_SPRITE_STATES new_state);
+void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
-extern void ChangeState(UINT8 new_state) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 
 void START(){
@@ -60,7 +60,7 @@ void UPDATE(){
     if(KEY_RELEASED(J_RIGHT)){new_state = IDLE_RIGHT;}
     
     if(motherow_info->ow_state != new_state){ 
-        changeState(new_state);
+        owChangeState(new_state);
     }
 
     //CHECK COLLIDED PLACE
@@ -68,19 +68,19 @@ void UPDATE(){
         switch(motherow_info->tile_collision){
             case 50u:
             case 51u:
-                ChangeState(StateCave);
+                ChangeState(StateCave, THIS);
             break;
             case 62u:
             case 64u:
-                ChangeState(StateExzoo);
+                ChangeState(StateExzoo, THIS);
             break;
             case 70u:
             case 72u:
-                ChangeState(StateCemetery);
+                ChangeState(StateCemetery, THIS);
             break;
             case 95u:
             case 96u:
-                ChangeState(StateBlackiecave);
+                ChangeState(StateBlackiecave, THIS);
             break;
         }
     }
@@ -138,7 +138,7 @@ void owCollision(){
     }
 }
 
-void changeState(FA2OW_SPRITE_STATES new_state){
+void owChangeState(FA2OW_SPRITE_STATES new_state){
     if(new_state == GENERIC_IDLE){
         if(motherow_info->ow_state == WALK_DOWN){
             new_state = IDLE_DOWN;

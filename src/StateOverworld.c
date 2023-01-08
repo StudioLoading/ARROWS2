@@ -40,8 +40,6 @@ UINT8 border_set_diary = 0u;
 UINT8 border_set_exzoo = 0u;
 UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 UINT8 hudow_opened = 0;
-UINT16 ow_mother_pos_x = 0u;
-UINT16 ow_mother_pos_y = 0u;
 UINT8 show_tip = 0u;
 INT8 show_tip_movingscroll = 0u;
 UINT8 showed_tip = 0u;
@@ -51,6 +49,9 @@ UINT8 showing_tip_delay = 8u;
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
+
+extern UINT16 motherow_pos_x;
+extern UINT16 motherow_pos_y;
 extern unsigned char EMPTY_STRING_21[];
 extern unsigned char D0[];
 extern unsigned char d1[];
@@ -62,7 +63,7 @@ void PauseGameOW();
 void UnpauseGameOW();
 void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
-void ChangeState(UINT8 new_state) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 void START(){
 	/*if(border_set_ow == 0u){
@@ -89,14 +90,14 @@ void START(){
 			if(sgb_check()){
 				set_sgb_palette_2();
 			}
-			if(ow_mother_pos_y == 0u){
-				ow_mother_pos_y = (UINT16) 13u << 3;
+			if(motherow_pos_y == 0u){
+				motherow_pos_y = (UINT16) 13u << 3;
 			}
-			if(ow_mother_pos_x == 0u){
-				ow_mother_pos_x = (UINT16) 13u << 3;
+			if(motherow_pos_x == 0u){
+				motherow_pos_x = (UINT16) 13u << 3;
 			}
-			s_motherow = SpriteManagerAdd(SpriteMotherow, ow_mother_pos_x, ow_mother_pos_y);
-			scroll_target = SpriteManagerAdd(SpriteCamerafocus, ow_mother_pos_x, ow_mother_pos_y);
+			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+			scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 			InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
         break;
 	}
@@ -203,10 +204,10 @@ void UpdateHUDOW(){
 		HIDE_WIN;
 		switch(owhudopt){
 			case OW_DIARY://selezionato Diario Missione
-				ChangeState(StateDiary);
+				ChangeState(StateDiary, s_motherow);
 			break;
 			case OW_GAMEOPT://selezionato Menu Partita
-				ChangeState(StateOverworld);
+				ChangeState(StateOverworld, s_motherow);
 			break;
 		}
 	}
@@ -253,11 +254,3 @@ void UnpauseGameOW(){
 	HIDE_WIN;
 }
 
-void ChangeState(UINT8 new_state) BANKED{
-	//HIDE_WIN;
-	ow_mother_pos_x = scroll_target->x;
-	ow_mother_pos_y = scroll_target->y;
-	border_set_ow = 0u;
-	//SetWindowY(160);
-	SetState(new_state);
-}

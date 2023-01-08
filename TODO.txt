@@ -1,13 +1,8 @@
 - Spawn items a nemico ucciso: 
 	CUORE(hp), BALESTRA (up), FRECCE NORMALI, PERFO, BASTARDE, BOMBA
 	METALLO, METALLO SPECIALE, POLVERE DA SPARO, LEGNA, MONETA;
-- quando mi scontro con un un item da raccogliere mi chino per raccoglierlo;
-- Inventario: l' item equipaggiato ha lo sfondo colorato, l' item posseduto ma non equipped
-	ha sfondo bianco, item non posseduto ha lo sprite meno colorato in assoluto, con solo l' ombra
-- Inventario: nella parte bassa metterei una bella striscia di oggetti non equipaggiabili
-	tipo la balestra ;) ! ci staranno i metalli per l' ospedale e tutti gli item per le missioni
+- ripristino dei nemici al ritorno di stato;
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
-- quando torno dall' inventario devo tornare nella posizione giusta coi nemici giusti;
 
 
 

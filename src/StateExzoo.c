@@ -35,6 +35,8 @@ extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
 extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
+extern UINT16 motherpl_pos_x;
+extern UINT16 motherpl_pos_y;
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
@@ -42,6 +44,8 @@ const UINT8 coll_surface_exzoo[] = {1u, 0};
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
+
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 
 void START(){
@@ -57,8 +61,12 @@ void START(){
     if(sgb_check()){
         set_sgb_palette_2();
     }
-    //INIT GRAPHICS    
-    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 13u << 3);
+    //INIT GRAPHICS
+    if(motherpl_pos_x != 0u && motherpl_pos_y != 0u){
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, motherpl_pos_x, motherpl_pos_y);
+    }else{
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 13u << 3);
+    }
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y);
     InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
 
@@ -84,10 +92,10 @@ void UPDATE(){
         }
     //RESTART CURRENT STATE
         if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
-            SetState(StateExzoo);
+            ChangeState(StateExzoo, s_motherpl);
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){SetState(StateInventory);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
     //SCROLL CAMERA
         update_camera_position();    
     //INIT ENEMIES
@@ -110,18 +118,18 @@ void UPDATE(){
         se3_info->type = PORCUPINE;
         se3_info->configured = 1u;
         */
-        /*
+        ///*
         Sprite* s4 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 28u << 3, (UINT16) 7u << 3);
         struct EnemyData* se4_info = (struct EnemyData*) s4->custom_data;
         se4_info->type = COBRA;
         se4_info->configured = 1u;
-        */
-        ///*
+        //*/
+        /*
         Sprite* s5 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se5_info = (struct EnemyData*) s5->custom_data;
         se5_info->type = SPIDER;
         se5_info->configured = 1u;
-        //*/
+        */
         /*
         Sprite* s6 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 30u << 3, (UINT16) 8u << 3);
         struct EnemyData* se6_info = (struct EnemyData*) s6->custom_data;

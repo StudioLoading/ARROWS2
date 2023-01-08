@@ -272,3 +272,12 @@ struct InvcursorInfo{
 	UINT8 switch_animation;
 	UINT8 square_or_arrow;
 };
+
+struct ss{
+    UINT16 motherpl_x;
+    UINT16 motherpl_y;
+};
+struct ee{
+    Sprite* s_e;
+    struct ee* next;
+};

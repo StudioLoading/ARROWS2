@@ -22,7 +22,7 @@
 #define DEAD_COOLDOWN_MAX 64
 #define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
-#define PICKINGUP_COOLDOWN 24
+#define PICKINGUP_COOLDOWN 18
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -84,6 +84,7 @@ extern void UpdateHUD() BANKED;
 extern void invselectitem() BANKED;
 extern void fixInvcursor() BANKED;
 extern void pickup(struct InvItem* pickedup_data) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -218,6 +219,7 @@ void UPDATE(){
                 pickingup_cooldown = PICKINGUP_COOLDOWN;
                 changeMotherplState(MOTHERPL_IDLE);
             }
+            return;
         break;
     }
     //BLOCK
@@ -433,8 +435,8 @@ void getOff(){
 void die(){
     motherpl_hp = 4;
     motherpl_ups--;
-    if(motherpl_ups < 0){SetState(StateCredit);}
-    else{SetState(StateExzoo);}
+    if(motherpl_ups < 0){changeStateFromMotherpl(StateCredit);}
+    else{changeStateFromMotherpl(StateExzoo);}
 }
 
 void refreshAnimation(){
@@ -501,8 +503,8 @@ void shoot(){
 }
 
 void changeStateFromMotherpl(UINT8 new_state){
-		SetWindowY(160);
-        SetState(new_state);
+    SetWindowY(160);
+    ChangeState(new_state, THIS);
 }
 
 void changeMotherplState(MOTHERPL_STATE new_state){
