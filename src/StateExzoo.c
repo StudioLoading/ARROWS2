@@ -46,7 +46,6 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 
-
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 UINT8 test_countdown = 255u;
@@ -98,7 +97,7 @@ void UPDATE(){
         test_countdown--;
     }
     //UPDATE HUD for HP changings
-        if(hud_motherpl_hp != motherpl_hp){
+        if(hud_motherpl_hp != motherpl_hp || hud_motherpl_ups != motherpl_ups){
             UpdateHUD();
         }
     //GO TO INVENTORY
@@ -106,7 +105,9 @@ void UPDATE(){
     //SCROLL CAMERA
         update_camera_position();    
     //INIT ENEMIES
-    if(init_enemy == 0u && test_countdown == 0u){
+    //init_enemy == 0u &&
+    if(test_countdown == 0u){
+        test_countdown = 255u;
         init_enemy = 1u;
         //s_motherpl->x > ((UINT16) 20u << 3)){
         //spawn_item = 1u;

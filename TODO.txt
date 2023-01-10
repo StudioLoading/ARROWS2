@@ -1,12 +1,17 @@
 - Spawn items a nemico ucciso: 
-	CUORE(hp), BALESTRA (up), FRECCE NORMALI, PERFO, BASTARDE, BOMBA
+	CUORE(hp), BALESTRA (up), 
 	METALLO, METALLO SPECIALE, POLVERE DA SPARO, LEGNA, MONETA;
+- FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
+	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
 - ripristino dei nemici al ritorno di stato;
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
 
 
+ZGB HACKS:
+Sprite.h
+#define CUSTOM_DATA_SIZE 8
+#define CUSTOM_DATA_SIZE 10
 
-	
 
 PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c

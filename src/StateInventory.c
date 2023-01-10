@@ -38,6 +38,8 @@ extern unsigned char ddinv5[];
 extern unsigned char ddinv6[];
 extern unsigned char ddinv7[];
 extern unsigned char ddinv8[];
+extern INT8 motherpl_hp;
+extern INT8 motherpl_ups;
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
@@ -142,6 +144,13 @@ void START(){
                 UPDATE_HUD_TILE(uneq_x,1,8);
                 UPDATE_HUD_TILE(uneq_x,2,9);
             break;
+            case INVITEM_METAL:
+                UPDATE_HUD_TILE(uneq_x,1,11);
+                UPDATE_HUD_TILE(uneq_x,2,12);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,13);
+                UPDATE_HUD_TILE(uneq_x,2,14);
+            break;
         }
         uneq_x += 2;
     }
@@ -150,13 +159,27 @@ void START(){
 
 void pickup(struct InvItem* pickedup_data) BANKED{
     UINT8 item_added = 0u;
-    for(UINT8 i = 0; item_added == 0u && i<12; ++i){
-        if(inventory[i]->itemtype == pickedup_data->itemtype){
-            item_added = 1u;
-            if((inventory[i]->quantity + pickedup_data->quantity) > 999){
-                inventory[i]->quantity = 999;
-            }else{
-                inventory[i]->quantity += pickedup_data->quantity;
+    if(pickedup_data->itemtype == INVITEM_HEART){
+        if(motherpl_hp < 4){
+            motherpl_hp++;
+        }
+        item_added = 1u;
+    }
+    if(pickedup_data->itemtype == INVITEM_CROSSBOW){
+        if(motherpl_ups < 99){
+            motherpl_ups++;
+        }
+        item_added = 1u;
+    }
+    if(item_added == 0){
+        for(UINT8 i = 0; item_added == 0u && i<12; ++i){
+            if(inventory[i]->itemtype == pickedup_data->itemtype){
+                item_added = 1u;
+                if((inventory[i]->quantity + pickedup_data->quantity) > 999){
+                    inventory[i]->quantity = 999;
+                }else{
+                    inventory[i]->quantity += pickedup_data->quantity;
+                }
             }
         }
     }
@@ -178,7 +201,7 @@ void pickup(struct InvItem* pickedup_data) BANKED{
                 }
             break;
             case 0u://not equippable
-                for(UINT8 j = 5; item_added == 0u && j<12; ++j){
+                for(UINT8 j = 6; item_added == 0u && j<12; ++j){
                     if(inventory[j]->itemtype == INVITEM_UNASSIGNED){
                         item_added = 1u;
                         inventory[j]->itemtype = pickedup_data->itemtype; 

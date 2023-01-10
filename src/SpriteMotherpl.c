@@ -15,7 +15,7 @@
 #define JUMP_MIN_POWER 0
 #define JUMP_MAX_POWER GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 24
-#define INERTIA_MAX 20
+#define INERTIA_MAX 16
 #define COOLDOWN_ATTACK 28
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 64
@@ -72,6 +72,7 @@ INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
+UINT8 spawnitem_random = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void changeStateFromMotherpl(UINT8 new_state);
@@ -114,6 +115,8 @@ void START(){
 }
 
 void UPDATE(){
+    //RANDOM REWARD COUNTER
+    spawnitem_random++;
     if(KEY_TICKED(J_SELECT)){
         invcursor_posi++;
         fixInvcursor();
@@ -121,7 +124,7 @@ void UPDATE(){
         invselectitem();//STATEINVENTORY
         UpdateHUD();//STATEFITTIZIO
     }
-    //state behaviors
+    //BEHAVIORS
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             if(motherpl_attack_cooldown == 0u){
@@ -130,6 +133,9 @@ void UPDATE(){
             motherpl_jpower = 0;
             jump_max_toched = 0u;
             motherpl_vy = GRAVITY;
+            /*if(motherpl_inertiax > 0){
+                motherpl_coll = TranslateSprite(THIS, 1 << delta_time, 0);
+            }*/
             if(motherpl_vx != 0){
                 changeMotherplState(MOTHERPL_WALK);
             }
@@ -281,7 +287,7 @@ void UPDATE(){
             if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
                 motherpl_inertia_down = 1u;
                 //if(motherpl_inertiax == 0u){
-                    motherpl_vx = 0;
+                    //motherpl_vx = 0;
                 //}
                 camera_ok = 0u;
             }
@@ -325,7 +331,8 @@ void UPDATE(){
         }
     //EFFECTIVE VX
         UINT8 effective_vx = motherpl_vx;
-        if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) && motherpl_state != MOTHERPL_JUMP){
+        if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) 
+            && motherpl_state != MOTHERPL_JUMP){
             effective_vx = 0;
         }
     //RELATIVE POSITION
@@ -521,6 +528,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         }
         switch(new_state){
             case MOTHERPL_IDLE:
+                motherpl_vx = 0;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
                 }

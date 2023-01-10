@@ -31,6 +31,7 @@ extern struct InvItem itemMoney;
 extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
 extern INT8 motherpl_vy;
+extern UINT8 spawnitem_random;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -43,10 +44,24 @@ UINT16 motherpl_pos_y = 0u;
 UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
 
+
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED;
+
+void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
+    //SPAWN ITEM
+    INVITEMTYPE itemtype = INVITEM_METAL;//spawnitem_random % 4;
+    UINT16 quantity = 1u;        
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x + 4u, y - 8u);
+    struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
+    reward_data->itemtype = itemtype;
+    reward_data->quantity = quantity;
+    reward_data->equippable = 1u;
+    reward_data->configured = 1u;
+}
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
 	//HIDE_WIN;

@@ -2,7 +2,6 @@
 
 #include "main.h"
 
-#include "Keys.h"
 #include "ZGBMain.h"
 #include "Scroll.h"
 #include "Sprite.h"
@@ -32,6 +31,7 @@ UINT8 enemy_random_30_100 = 30u;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern UINT8 motherpl_hit;
+extern struct SpawnItem spawn_item;
 
 void Estart(Sprite* s_enemy) BANKED;
 void configure(Sprite* s_enemy) BANKED;
@@ -44,27 +44,8 @@ void Emanagement(Sprite* s_enemy) BANKED;
 extern void EattackerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 extern void EthrowerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 extern void Ethrow(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void spawnItem(UINT16 x, UINT16 y, UINT8 enemy_type_dead) BANKED;
 
-void spawnItem(UINT16 x, UINT16 y, UINT8 enemy_type_dead);
-
-void spawnItem(UINT16 x, UINT16 y, UINT8 enemy_type_dead){
-    INVITEMTYPE itemtype = INVITEM_MONEY;
-    UINT16 quantity = 1u;
-    switch(enemy_type_dead){
-        case SpriteEnemyattacker:
-            quantity = 5u;
-        break;
-    }
-    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x + 4u, y - 8u);
-    struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
-    reward_data->itemtype = itemtype;
-    reward_data->quantity = quantity;
-    reward_data->equippable = 1u;
-    switch(itemtype){
-        case INVITEM_CROSSBOW: reward_data->equippable = 0u; break;
-    }
-    reward_data->configured = 1u;
-}
 
 void START(){
     Estart(THIS);
@@ -354,7 +335,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
-                spawnItem(s_enemy->x,  s_enemy->y, s_enemy->type);
+                spawnItem(s_enemy->x, s_enemy->y, s_enemy->type);
                 e_info->wait = 24u;
                 switch(e_info->type){
                     case SNAKE: SetSpriteAnim(s_enemy, snake_anim_hit, 32u); break;
