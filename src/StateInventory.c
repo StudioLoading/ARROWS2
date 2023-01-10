@@ -151,6 +151,13 @@ void START(){
                 UPDATE_HUD_TILE(uneq_x,1,13);
                 UPDATE_HUD_TILE(uneq_x,2,14);
             break;
+            case INVITEM_WOOD:
+                UPDATE_HUD_TILE(uneq_x,1,15);
+                UPDATE_HUD_TILE(uneq_x,2,16);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,17);
+                UPDATE_HUD_TILE(uneq_x,2,18);
+            break;
         }
         uneq_x += 2;
     }
