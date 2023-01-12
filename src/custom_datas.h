@@ -260,6 +260,12 @@ typedef enum{
 struct InvItem{
 	INVITEMTYPE itemtype;
 	UINT16 quantity;
+	UINT8 equippable;
+};
+
+struct ItemSpawned{
+	INVITEMTYPE itemtype;
+	UINT8 quantity;
 	UINT8 configured;
 	UINT8 hp;
 	INT8 vy;
@@ -274,11 +280,3 @@ struct InvcursorInfo{
 	UINT8 square_or_arrow;
 };
 
-struct ss{
-    UINT16 motherpl_x;
-    UINT16 motherpl_y;
-};
-struct ee{
-    Sprite* s_e;
-    struct ee* next;
-};

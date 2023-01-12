@@ -56,11 +56,7 @@ void UPDATE(){
                     SetSpriteAnim(THIS, throw_acid0, 2u);
                 break;
             }
-        //}
-        //throwable_data->wait--;
-        //if(throwable_data->wait == 0u){
             throwable_data->configured = 2u;
-        //}
         return;
     }    
     if(throwable_data->type == T_DESTROYED){
@@ -84,13 +80,8 @@ void UPDATE(){
             throwable_data->vy++;
         }
         UINT8 v_tile_coll = TranslateSprite(THIS, 0, throwable_data->vy << delta_time);
-        //if(throwable_data->x_frameskip == 0){
-            if(v_tile_coll == 0){v_tile_coll = TranslateSprite(THIS, throwable_data->vx << delta_time, 0);}
-            else{TranslateSprite(THIS, throwable_data->vx << delta_time, 0);}            
-        //    throwable_data->x_frameskip = 1;
-        //}else{
-        //    throwable_data->x_frameskip = 0;
-        //}    
+        if(v_tile_coll == 0){v_tile_coll = TranslateSprite(THIS, throwable_data->vx << delta_time, 0);}
+        else{TranslateSprite(THIS, throwable_data->vx << delta_time, 0);}
         if(v_tile_coll){
             throwable_data->type = T_DESTROYING;
             throwable_data->wait = 64u;

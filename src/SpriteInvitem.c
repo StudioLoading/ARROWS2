@@ -23,31 +23,28 @@ void START(){
 
 void UPDATE(){
     struct InvItem* invitem_data = (struct InvItem*) THIS->custom_data;
-    if(invitem_data->configured == 1u){
-        invitem_data->configured = 2u;
-        switch(invitem_data->itemtype){
-            case INVITEM_CROSSBOW:
-                SetSpriteAnim(THIS, itm_crossbow, 4u);
-            break;
-            case INVITEM_MONEY:
-                SetSpriteAnim(THIS, itm_money, 4u);
-            break;
-            case INVITEM_ARROW_NORMAL:
-                SetSpriteAnim(THIS, itm_arrownormal, 4u);
-            break;
-            case INVITEM_ARROW_PERFO:
-                SetSpriteAnim(THIS, itm_arrowperf, 4u);
-            break;
-            case INVITEM_ARROW_BASTARD:
-                SetSpriteAnim(THIS, itm_arrowbastard, 4u);
-            break;
-            case INVITEM_BOMB:
-                SetSpriteAnim(THIS, itm_bomb, 4u);
-            break;
-            case INVITEM_UNASSIGNED:
-                SetSpriteAnim(THIS, itm_unassigned, 4u);
-            break;
-        }
+    switch(invitem_data->itemtype){
+        case INVITEM_CROSSBOW:
+            SetSpriteAnim(THIS, itm_crossbow, 4u);
+        break;
+        case INVITEM_MONEY:
+            SetSpriteAnim(THIS, itm_money, 4u);
+        break;
+        case INVITEM_ARROW_NORMAL:
+            SetSpriteAnim(THIS, itm_arrownormal, 4u);
+        break;
+        case INVITEM_ARROW_PERFO:
+            SetSpriteAnim(THIS, itm_arrowperf, 4u);
+        break;
+        case INVITEM_ARROW_BASTARD:
+            SetSpriteAnim(THIS, itm_arrowbastard, 4u);
+        break;
+        case INVITEM_BOMB:
+            SetSpriteAnim(THIS, itm_bomb, 4u);
+        break;
+        case INVITEM_UNASSIGNED:
+            SetSpriteAnim(THIS, itm_unassigned, 4u);
+        break;
     }
 }
 

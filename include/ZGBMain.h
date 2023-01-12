@@ -39,18 +39,17 @@ _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
-_SPRITE_DMG(SpriteEnemyattacker, enemyattacker)\
-_SPRITE_DMG(SpriteEnemythrower, enemythrower)\
+_SPRITE_DMG(SpriteEnemysimplesnake, enemysnake)\
+_SPRITE_DMG(SpriteEnemysimplerat, enemyrat)\
 _SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
 _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
 _SPRITE_DMG(SpriteItemspawned, itemspawned)\
 SPRITE_DEF_END
-
-
 /*
-_SPRITE_DMG(SpritePorcupine, porcupine)\
+_SPRITE_DMG(SpriteEnemyattacker, enemyattacker)\
+_SPRITE_DMG(SpriteEnemythrower, enemythrower)\
 */
 #include "ZGBMain_Init.h"
 

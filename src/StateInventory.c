@@ -81,7 +81,7 @@ void change_navigation();
 void refresh_equipped();
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
-void pickup(struct InvItem* pickedup_data) BANKED;
+void pickup(struct ItemSpawned* pickedup_data) BANKED;
 
 void START(){
 	/*if(border_set_diary == 0u){
@@ -118,7 +118,6 @@ void START(){
         struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
         cdata->itemtype = inventory[i]->itemtype;
         cdata->quantity = inventory[i]->quantity;
-        cdata->configured = 1u;
     }
     invselectitem();
     Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
@@ -164,7 +163,7 @@ void START(){
 
 }
 
-void pickup(struct InvItem* pickedup_data) BANKED{
+void pickup(struct ItemSpawned* pickedup_data) BANKED{
     UINT8 item_added = 0u;
     if(pickedup_data->itemtype == INVITEM_HEART){
         if(motherpl_hp < 4){
@@ -197,12 +196,7 @@ void pickup(struct InvItem* pickedup_data) BANKED{
                     if(inventory[i]->itemtype == INVITEM_UNASSIGNED){
                         item_added = 1u;
                         inventory[i]->itemtype = pickedup_data->itemtype; 
-                        inventory[i]->quantity = pickedup_data->quantity; 
-                        inventory[i]->configured = pickedup_data->configured;
-                        inventory[i]->hp = pickedup_data->hp; 
-                        inventory[i]->vx = pickedup_data->vx; 
-                        inventory[i]->vy = pickedup_data->vy; 
-                        inventory[i]->frmskip = pickedup_data->frmskip; 
+                        inventory[i]->quantity = pickedup_data->quantity;
                         inventory[i]->equippable = pickedup_data->equippable; 
                     }
                 }
@@ -212,12 +206,7 @@ void pickup(struct InvItem* pickedup_data) BANKED{
                     if(inventory[j]->itemtype == INVITEM_UNASSIGNED){
                         item_added = 1u;
                         inventory[j]->itemtype = pickedup_data->itemtype; 
-                        inventory[j]->quantity = pickedup_data->quantity; 
-                        inventory[j]->configured = pickedup_data->configured;
-                        inventory[j]->hp = pickedup_data->hp; 
-                        inventory[j]->vx = pickedup_data->vx; 
-                        inventory[j]->vy = pickedup_data->vy; 
-                        inventory[j]->frmskip = pickedup_data->frmskip; 
+                        inventory[j]->quantity = pickedup_data->quantity;
                         inventory[j]->equippable = pickedup_data->equippable; 
                     }
                 }

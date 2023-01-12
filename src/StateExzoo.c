@@ -112,19 +112,15 @@ void UPDATE(){
         //s_motherpl->x > ((UINT16) 20u << 3)){
         //spawn_item = 1u;
         //Sprite* s_item = SpriteManagerAdd(SpriteItemspawned, (UINT16) 12u << 3, (UINT16) 10u << 3);
-        ///*
-        Sprite* s1 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 12u << 3, (UINT16) 6u << 3);
+        /*
+        Sprite* s1 = SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
         struct EnemyData* se1_info = (struct EnemyData*) s1->custom_data;
         se1_info->type = SNAKE;
         se1_info->configured = 1u;
-        //*/
-        /*
-        Sprite* s2 = 0;
-        s2 = SpriteManagerAdd(SpriteEnemysimple, (UINT16) 13u << 3, (UINT16) 6u << 3);
-        struct EnemyData* se2_info = (struct EnemyData*) s2->custom_data;
-        se2_info->type = RAT;
-        se2_info->configured = 1u;
         */
+        ///*
+        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
+        //*/
         /*
         Sprite* s3 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 10u << 3, (UINT16) 6u << 3);
         struct EnemyData* se3_info = (struct EnemyData*) s3->custom_data;

@@ -28,12 +28,12 @@ const UINT8 is_powd_dis[] = {2, 8, 3};
 
 void START(){
     THIS->lim_x = 255u;
-    struct InvItem* spawned_data = (struct InvItem*) THIS->custom_data;
+    struct ItemSpawned* spawned_data = (struct ItemSpawned*) THIS->custom_data;
     spawned_data->configured = 0u;
 }
 
 void UPDATE(){
-    struct InvItem* spawned_data = (struct InvItem*) THIS->custom_data;
+    struct ItemSpawned* spawned_data = (struct ItemSpawned*) THIS->custom_data;
     switch(spawned_data->configured){
         case 0u: return; break;
         case 1u:

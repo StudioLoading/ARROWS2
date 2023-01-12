@@ -56,7 +56,7 @@ void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
     INVITEMTYPE itemtype = INVITEM_WOOD;//spawnitem_random % 4;
     UINT16 quantity = 1u;        
     Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x + 4u, y - 8u);
-    struct InvItem* reward_data = (struct InvItem*) reward->custom_data;
+    struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
     reward_data->itemtype = itemtype;
     reward_data->quantity = quantity;
     reward_data->equippable = 1u;

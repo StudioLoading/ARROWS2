@@ -29,8 +29,8 @@ UINT8 arrows_onscreen = 0u;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 
 void START(){
-    THIS->lim_x = 120u;
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
+    THIS->lim_x = 120u;
     arrows_onscreen++;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
     arrow_data->hit = 0u;
@@ -114,9 +114,10 @@ void UPDATE(){
 	SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
 		if(CheckCollision(THIS, iarrspr)) {
 			switch(iarrspr->type){
-				case SpriteEnemysimple:
-				case SpriteEnemyattacker:
-				case SpriteEnemythrower://io freccia ho colpito enemy
+				case SpriteEnemysimplesnake:
+				//case SpriteEnemyattacker:
+				//case SpriteEnemythrower:
+                //io freccia ho colpito enemy
                     changeEstate(iarrspr, ENEMY_HIT);
                     if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
                 break;

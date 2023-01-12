@@ -18,16 +18,16 @@ const UINT8 cobra_anim_hit[] = {2, 6, 0}; //The first number indicates the numbe
 const UINT8 cobra_anim_attack[] = {1, 10}; //The first number indicates the number of frames
 extern UINT8 enemy_random_30_100;
 
-void EattackerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+void EattackerAnim(ENEMY_STATE estate) BANKED;
 
-extern void Estart(Sprite* s_enemy) BANKED;
-extern void configure(Sprite* s_enemy) BANKED;
-extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
-extern void Econfiguration(Sprite* s_enemy) BANKED;
-extern void Emanagement(Sprite* s_enemy) BANKED;
+extern void Estart() BANKED;
+extern void configure() BANKED;
+extern void changeEstate(ENEMY_STATE new_e_state) BANKED;
+extern void Econfiguration() BANKED;
+extern void Emanagement() BANKED;
 
 void START(){
-    Estart(THIS);
+    Estart();
 }
 
 void UPDATE(){
@@ -37,44 +37,44 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration(THIS);
+            Econfiguration();
         }
     //CHECK DEATH
-        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
+        if(eu_info->hp <= 0){changeEstate( ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement(THIS);
+        Emanagement();
 }
 
-void EattackerAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
-    struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
+void EattackerAnim(ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     switch(estate){
         case ENEMY_HIT:
             if(eu_info->type == COBRA){(THIS, cobra_anim_hit, 24u);}
             if(eu_info->type == PORCUPINE){(THIS, pine_anim_hit, 24u);}
         break;
         case ENEMY_WALK:        
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_walk, 12u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_walk, 12u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_walk, 12u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_walk, 12u);}
         break;
         case ENEMY_WAIT:
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 16u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 16u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 16u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 16u);}
         break;
         case ENEMY_IDLE:
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 12u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 12u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 12u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 12u);}
         break;
         case ENEMY_DEAD:
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_hit, 32u);}
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_hit, 32u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_hit, 32u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_hit, 32u);}
         break;
         case ENEMY_PREATTACK:
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_idle, 24u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_idle, 24u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_idle, 24u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_idle, 24u);}
         break;
         case ENEMY_ATTACK:
-            if(eu_info->type == COBRA){SetSpriteAnim(s_enemy, cobra_anim_attack, 16u);}
-            if(eu_info->type == PORCUPINE){SetSpriteAnim(s_enemy, pine_anim_attack, 16u);}
+            if(eu_info->type == COBRA){SetSpriteAnim(THIS, cobra_anim_attack, 16u);}
+            if(eu_info->type == PORCUPINE){SetSpriteAnim(THIS, pine_anim_attack, 16u);}
         break;
     }
 }

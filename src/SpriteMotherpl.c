@@ -84,7 +84,7 @@ void die();
 extern void UpdateHUD() BANKED;
 extern void invselectitem() BANKED;
 extern void fixInvcursor() BANKED;
-extern void pickup(struct InvItem* pickedup_data) BANKED;
+extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 void START(){
@@ -396,9 +396,9 @@ void UPDATE(){
                             }
                         }
                     break;
-                    case SpriteEnemysimple:
-                    case SpriteEnemyattacker:
-                    case SpriteEnemythrower:
+                    case SpriteEnemysimplesnake:
+                    //case SpriteEnemyattacker:
+                    //case SpriteEnemythrower:
                         motherpl_blocked = 0u;
                         if(motherpl_hit != 1u){motherpl_hit = 1u;}
                     break;
@@ -421,7 +421,7 @@ void UPDATE(){
                     break;
                     case SpriteItemspawned:
                         {
-                        struct InvItem* pickedup_data = (struct InvItem*) implspr->custom_data;
+                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
                         pickup(pickedup_data);
                         SpriteManagerRemoveSprite(implspr);
                         changeMotherplState(MOTHERPL_PICKUP);
