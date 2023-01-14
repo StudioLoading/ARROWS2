@@ -292,9 +292,6 @@ void UPDATE(){
             }
             if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
                 motherpl_inertia_down = 1u;
-                //if(motherpl_inertiax == 0u){
-                    //motherpl_vx = 0;
-                //}
                 camera_ok = 0u;
             }
         }
@@ -559,6 +556,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_vy = GRAVITY;
                 motherpl_vx = 0;
                 motherpl_inertiax = 0u;
+                camera_ok = 0u;
             break;
             case MOTHERPL_WALK:
                 if(motherpl_attack_cooldown == 0u){
