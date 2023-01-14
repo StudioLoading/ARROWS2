@@ -16,8 +16,8 @@ const UINT8 spider_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number 
 
 extern UINT8 enemy_random_30_100;
 
-void EthrowerAnim(ENEMY_STATE estate) BANKED;
-void Ethrow(ENEMY_STATE estate) BANKED;
+void EthrowerSpiderAnim(ENEMY_STATE estate) BANKED;
+void EthrowWeb(ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure() BANKED;
@@ -44,41 +44,26 @@ void UPDATE(){
         Emanagement();
 }
 
-void EthrowerAnim( ENEMY_STATE estate) BANKED{
+void EthrowerSpiderAnim( ENEMY_STATE estate) BANKED{
     struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
     switch(estate){
-        case ENEMY_HIT:
-            SetSpriteAnim(THIS, spider_anim_hit, 16u);
-        break;
-        case ENEMY_WALK:
-            SetSpriteAnim(THIS, spider_anim_walk, 16u);
-        break;
-        case ENEMY_WAIT:
-            SetSpriteAnim(THIS, spider_anim_wait, 2u);
-        break;
-        case ENEMY_IDLE:
-            SetSpriteAnim(THIS, spider_anim_idle, 20u);
-        break;
-        case ENEMY_DEAD:
-            SetSpriteAnim(THIS, spider_anim_hit, 32u);
-        break;
-        case ENEMY_PREATTACK:
-            SetSpriteAnim(THIS, spider_anim_preattack, 16u);
-        break;
-        case ENEMY_THROW:
-            SetSpriteAnim(THIS, spider_anim_idle, 16u);
-        break;
+        case ENEMY_HIT: SetSpriteAnim(THIS, spider_anim_hit, 16u); break;
+        case ENEMY_WALK: SetSpriteAnim(THIS, spider_anim_walk, 16u); break;
+        case ENEMY_WAIT: SetSpriteAnim(THIS, spider_anim_wait, 2u); break;
+        case ENEMY_IDLE: SetSpriteAnim(THIS, spider_anim_idle, 20u); break;
+        case ENEMY_DEAD: SetSpriteAnim(THIS, spider_anim_hit, 32u); break;
+        case ENEMY_PREATTACK: SetSpriteAnim(THIS, spider_anim_preattack, 16u); break;
+        case ENEMY_THROW: SetSpriteAnim(THIS, spider_anim_idle, 16u); break;
     }
 }
 
-void Ethrow(ENEMY_STATE estate) BANKED{
+void EthrowWeb(ENEMY_STATE estate) BANKED{
     struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
     eu_info->wait = enemy_random_30_100;
-    EthrowerAnim(estate);
+    EthrowerSpiderAnim(estate);
     Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x +8u, THIS->y - 8u);
     struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
-    if(eu_info->type == SPIDER){throwable_data->type = WEB;}
-    if(eu_info->type == TARANTULA){throwable_data->type = ACID;}
+    throwable_data->type = WEB;
     throwable_data->configured = 1u;
 }
 

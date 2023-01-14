@@ -106,46 +106,13 @@ void UPDATE(){
         update_camera_position();    
     //INIT ENEMIES
     //init_enemy == 0u &&
+    if(test_countdown == 120u){
+        SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
+    }
     if(test_countdown == 0u){
         test_countdown = 255u;
         init_enemy = 1u;
-        //s_motherpl->x > ((UINT16) 20u << 3)){
-        //spawn_item = 1u;
-        //Sprite* s_item = SpriteManagerAdd(SpriteItemspawned, (UINT16) 12u << 3, (UINT16) 10u << 3);
-        /*
-        Sprite* s1 = SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
-        struct EnemyData* se1_info = (struct EnemyData*) s1->custom_data;
-        se1_info->type = SNAKE;
-        se1_info->configured = 1u;
-        */
-        ///*
-        SpriteManagerAdd(SpriteEnemyAttackerCobra, (UINT16) 12u << 3, (UINT16) 6u << 3);
-        //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
-        //*/
-        /*
-        Sprite* s3 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 10u << 3, (UINT16) 6u << 3);
-        struct EnemyData* se3_info = (struct EnemyData*) s3->custom_data;
-        se3_info->type = PORCUPINE;
-        se3_info->configured = 1u;
-        */
-        /*
-        Sprite* s4 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 13u << 3, (UINT16) 7u << 3);
-        struct EnemyData* se4_info = (struct EnemyData*) s4->custom_data;
-        se4_info->type = COBRA;
-        se4_info->configured = 1u;
-        */
-        /*
-        Sprite* s5 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 10u << 3, (UINT16) 8u << 3);
-        struct EnemyData* se5_info = (struct EnemyData*) s5->custom_data;
-        se5_info->type = SPIDER;
-        se5_info->configured = 1u;
-        */
-        /*
-        Sprite* s6 = SpriteManagerAdd(SpriteEnemythrower, (UINT16) 10u << 3, (UINT16) 7u << 3);
-        struct EnemyData* se6_info = (struct EnemyData*) s6->custom_data;
-        se6_info->type = TARANTULA;
-        se6_info->configured = 1u;
-        */        
+        SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
     }
 
     Log();

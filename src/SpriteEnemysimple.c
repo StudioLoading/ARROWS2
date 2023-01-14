@@ -38,9 +38,12 @@ void Emanagement() BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
+extern void EattackerPineAnim(ENEMY_STATE estate) BANKED;
 extern void EattackerCobraAnim(ENEMY_STATE estate) BANKED;
-extern void EthrowerAnim(ENEMY_STATE estate) BANKED;
-extern void Ethrow(ENEMY_STATE estate) BANKED;
+extern void EthrowerSpiderAnim(ENEMY_STATE estate) BANKED;
+extern void EthrowerTarantulaAnim(ENEMY_STATE estate) BANKED;
+extern void EthrowWeb(ENEMY_STATE estate) BANKED;
+extern void EthrowAcid(ENEMY_STATE estate) BANKED;
 extern void spawnItem(UINT16 x, UINT16 y, UINT8 enemy_type_dead) BANKED;
 
 
@@ -151,10 +154,10 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
                     switch(THIS->type){
-                        //case PORCUPINE:
                         case SpriteEnemyAttackerCobra:
-                        //case SPIDER:
-                        //case TARANTULA:
+                        case SpriteEnemyAttackerPine:
+                        case SpriteEnemyThrowerSpider:
+                        case SpriteEnemyThrowerTarantula:
                             changeEstate(ENEMY_PREATTACK);
                         break;
                     }
@@ -164,14 +167,14 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
                     switch(THIS->type){
-                        //case PORCUPINE:
+                        case SpriteEnemyAttackerPine:
                         case SpriteEnemyAttackerCobra:
                             changeEstate(ENEMY_ATTACK);
                         break;
-                        /*case SPIDER:
-                        case TARANTULA:
+                        case SpriteEnemyThrowerSpider:
+                        case SpriteEnemyThrowerTarantula:
                             changeEstate(ENEMY_THROW);
-                        break;*/
+                        break;
                     }
                 }
             break;
@@ -192,7 +195,6 @@ void Estart() BANKED{
         return;
     }
     enemy_counter++;
-    //SetSpriteAnim(THIS, e_anim_hidden, 12u);
     THIS->lim_x = 255u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
@@ -213,19 +215,16 @@ UINT8 getEmaxFrameskip(){
         case SpriteEnemysimplerat:
             result = E_FRAMSKIP_SNAKE;
         break;
-        /*
-        case PORCUPINE:
-            result = E_FRAMSKIP_PINE;
-        break;
-        */
         case SpriteEnemyAttackerCobra:
             result = E_FRAMSKIP_COBRA;
         break;
-        /*
-        case SPIDER:
+        case SpriteEnemyAttackerPine:
+            result = E_FRAMSKIP_PINE;
+        break;
+        case SpriteEnemyThrowerSpider:
+        case SpriteEnemyThrowerTarantula:
             result = E_FRAMSKIP_SPIDER;
         break;
-        */
     }
     return result;
 }
@@ -251,14 +250,11 @@ void configure() BANKED{
         case SpriteEnemysimplesnake:
         case SpriteEnemysimplerat:
         case SpriteEnemyAttackerCobra:
+        case SpriteEnemyAttackerPine:
+        case SpriteEnemyThrowerSpider:
+        case SpriteEnemyThrowerTarantula:
             e_info->hp = 1;
         break;
-        /*case PORCUPINE:
-        case COBRA:
-        case SPIDER:
-        case TARANTULA:
-            e_info->hp = 2;
-        break;*/
     }
     e_info->x_frameskip = 1u;
     e_info->vx = E_VX;
@@ -280,23 +276,19 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                         e_info->x_frameskip = E_FRAMSKIP_COBRA;
                         e_info->wait = enemy_random_30_100 + 100u;
                     break;
-                }
-                /*
-                    case PORCUPINE:
+                    case SpriteEnemyAttackerPine:                    
                         e_info->x_frameskip = E_FRAMSKIP_PINE;
                         e_info->wait = enemy_random_30_100 + 60u;
                     break;
-                    case COBRA:
-                    break;
-                    case SPIDER:
+                    case SpriteEnemyThrowerSpider:
                         e_info->x_frameskip = E_FRAMSKIP_SPIDER;
                         e_info->wait = enemy_random_30_100 + 100u;
                     break;
-                    case TARANTULA:
+                    case SpriteEnemyThrowerTarantula:
                         e_info->x_frameskip = E_FRAMSKIP_SPIDER;
                         e_info->wait = enemy_random_30_100 + 100u;
                     break;
-                */
+                }
             break;
             case ENEMY_IDLE:
             break;
@@ -325,7 +317,10 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 e_info->x_frameskip = 0u;
             break;
             case ENEMY_THROW:
-                Ethrow(e_info->e_state);
+                switch(THIS->type){
+                    case SpriteEnemyThrowerSpider: EthrowWeb(e_info->e_state); break;
+                    case SpriteEnemyThrowerTarantula: EthrowAcid(e_info->e_state); break;
+                }
             break;
         }
         //UPDATE ANIMATION
@@ -333,6 +328,9 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
             case SpriteEnemysimplesnake: EsimpleSnakeAnim(new_e_state);  break;
             case SpriteEnemysimplerat: EsimpleRatAnim(new_e_state);  break;
             case SpriteEnemyAttackerCobra: EattackerCobraAnim(new_e_state); break;
+            case SpriteEnemyAttackerPine: EattackerPineAnim(new_e_state); break;
+            case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(new_e_state); break;
+            case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
         }
         e_info->e_state = new_e_state;
     }

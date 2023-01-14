@@ -67,63 +67,66 @@ void UPDATE(){
             return;
         }
     //MOVEMENT
-    if(arrow_data->vx < 0){
-        THIS->mirror = V_MIRROR;
-    }else if (arrow_data->vx != 0 && THIS->mirror != NO_MIRROR){
-        THIS->mirror = NO_MIRROR;
-    }
-    UINT8 arrow_t_coll =0u;
-    if(arrow_data->arrow_fskipx){
-        arrow_data->arrow_fskipx--;
-    }
-    if(arrow_data->arrow_fskipx == 0){
-        arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
-        arrow_data->arrow_fskipx = arrow_data->arrow_fskipx_max;
-        if(arrow_t_coll == TILE_ARROW_SLOW){
-            if(arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
-                arrow_data->vx = arrow_data->vx >> 1;
-                arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
+        if(arrow_data->vx < 0){
+            THIS->mirror = V_MIRROR;
+        }else if (arrow_data->vx != 0 && THIS->mirror != NO_MIRROR){
+            THIS->mirror = NO_MIRROR;
+        }
+        UINT8 arrow_t_coll =0u;
+        if(arrow_data->arrow_fskipx){
+            arrow_data->arrow_fskipx--;
+        }
+        if(arrow_data->arrow_fskipx == 0){
+            arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
+            arrow_data->arrow_fskipx = arrow_data->arrow_fskipx_max;
+            if(arrow_t_coll == TILE_ARROW_SLOW){
+                if(arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
+                    arrow_data->vx = arrow_data->vx >> 1;
+                    arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
+                }
+                if(arrow_data->vx < 0){THIS->x -= 8u;}
+                else{THIS->x += 16u;}
             }
-            if(arrow_data->vx < 0){THIS->x -= 8u;}
-            else{THIS->x += 16u;}
-        }
-        else if(arrow_t_coll == TILE_ARROW_FAST){
-            if(arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
-                arrow_data->vx = arrow_data->vx << 1;
-                arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
+            else if(arrow_t_coll == TILE_ARROW_FAST){
+                if(arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
+                    arrow_data->vx = arrow_data->vx << 1;
+                    arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
+                }
+                if(arrow_data->vx < 0){THIS->x -= 8u;}
+                else{THIS->x += 8u;}
             }
-            if(arrow_data->vx < 0){THIS->x -= 8u;}
-            else{THIS->x += 8u;}
+            else if(arrow_t_coll == TILE_ARROW_LEFT){
+                if(arrow_data->vx > 0){arrow_data->vx = -arrow_data->vx;}
+                THIS->x -= 8u;
+            }
+            else if(arrow_t_coll == TILE_ARROW_RIGHT){
+                if(arrow_data->vx < 0){arrow_data->vx = -arrow_data->vx;}
+                THIS->x += 8u;
+            }else if(arrow_t_coll != 0){
+                SpriteManagerRemoveSprite(THIS);
+            }
         }
-        else if(arrow_t_coll == TILE_ARROW_LEFT){
-            if(arrow_data->vx > 0){arrow_data->vx = -arrow_data->vx;}
-            THIS->x -= 8u;
-        }
-        else if(arrow_t_coll == TILE_ARROW_RIGHT){
-            if(arrow_data->vx < 0){arrow_data->vx = -arrow_data->vx;}
-            THIS->x += 8u;
-        }else if(arrow_t_coll != 0){
-            SpriteManagerRemoveSprite(THIS);
-        }
-    }
 
-    
-	UINT8 scroll_arr_tile;
-	Sprite* iarrspr;
-    struct EnemyData* enemysimple_info = 0u;
-	SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
-		if(CheckCollision(THIS, iarrspr)) {
-			switch(iarrspr->type){
-				case SpriteEnemysimplesnake:
-				//case SpriteEnemyattacker:
-				//case SpriteEnemythrower:
-                //io freccia ho colpito enemy
-                    changeEstate(iarrspr, ENEMY_HIT);
-                    if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
-                break;
+    //SPRITE COLLISION
+        UINT8 scroll_arr_tile;
+        Sprite* iarrspr;
+        struct EnemyData* enemysimple_info = 0u;
+        SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
+            if(CheckCollision(THIS, iarrspr)) {
+                switch(iarrspr->type){
+                    case SpriteEnemysimplesnake:
+                    case SpriteEnemysimplerat:
+                    case SpriteEnemyAttackerCobra:
+                    case SpriteEnemyAttackerPine:
+                    case SpriteEnemyThrowerSpider:
+                    case SpriteEnemyThrowerTarantula:
+                    //io freccia ho colpito enemy
+                        changeEstate(iarrspr, ENEMY_HIT);
+                        if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
+                    break;
+                }
             }
-        }
-    };
+        };
 }
 
 void DESTROY(){
