@@ -112,7 +112,9 @@ void Emanagement() BANKED{
                     case SpriteArrow:
                         if((s_motherpl->x < THIS->x && THIS->mirror == NO_MIRROR) || 
                             (s_motherpl->x > THIS->x && THIS->mirror == V_MIRROR)){
-                                ETurn(eu_info->vx);
+                                if(eu_info->hp > 1){
+                                    ETurn(eu_info->vx);
+                                }
                         }
                         {
                             struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;

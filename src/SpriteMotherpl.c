@@ -227,6 +227,11 @@ void UPDATE(){
             }
             return;
         break;
+        case MOTHERPL_CRAWL:
+            if(KEY_RELEASED(J_DOWN)){
+                camera_ok = 0u;
+            }
+        break;
     }
     //BLOCK
         if(motherpl_blocked == 1u){// && motherpl_blocked_cooldown == 0u){

@@ -119,7 +119,8 @@ void UPDATE(){
         se1_info->configured = 1u;
         */
         ///*
-        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
+        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
+        //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
         //*/
         /*
         Sprite* s3 = SpriteManagerAdd(SpriteEnemyattacker, (UINT16) 10u << 3, (UINT16) 6u << 3);
