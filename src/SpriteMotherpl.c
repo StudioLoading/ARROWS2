@@ -248,9 +248,10 @@ void UPDATE(){
                 motherpl_hit = 0u;
                 changeMotherplState(MOTHERPL_IDLE);
             }
-        }
-        if(motherpl_hit == 1u){
-            changeMotherplState(MOTHERPL_HIT);
+        }else{
+            if(motherpl_hit == 1u){
+                changeMotherplState(MOTHERPL_HIT);
+            }
         }
     //INPUTS
     //INPUTS JUMP

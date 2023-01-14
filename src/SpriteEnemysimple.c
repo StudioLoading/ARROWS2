@@ -182,10 +182,10 @@ void Emanagement() BANKED{
                 if(eu_info->wait == 0u){changeEstate(ENEMY_WAIT);}
             break;
         }        
-        switch(THIS->type){
+        /*switch(THIS->type){
             case SpriteEnemysimplesnake: EsimpleSnakeAnim(eu_info->e_state);break;
             case SpriteEnemysimplerat: EsimpleRatAnim(eu_info->e_state); break;
-        }
+        }*/
 }
 
 void Estart() BANKED{
@@ -194,7 +194,7 @@ void Estart() BANKED{
         return;
     }
     enemy_counter++;
-    SetSpriteAnim(THIS, e_anim_hidden, 12u);
+    //SetSpriteAnim(THIS, e_anim_hidden, 12u);
     THIS->lim_x = 255u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
@@ -263,6 +263,7 @@ void configure() BANKED{
     e_info->x_frameskip = 1u;
     e_info->vx = E_VX;
     e_info->configured = 2u;
+    e_info->e_state =  ENEMY_IDLE;
     changeEstate(ENEMY_WALK);
 }
 
@@ -307,7 +308,7 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
-                //spawnItem(THIS->x, THIS->y, THIS->type);
+                spawnItem(THIS->x, THIS->y, THIS->type);
                 e_info->wait = 24u;
             break;
             case ENEMY_PREATTACK:

@@ -14,7 +14,7 @@ const UINT8 rat_anim_hit[] = {2, 1, 0}; //The first number indicates the number 
 
 extern UINT8 enemy_random_30_100;
 
-void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
+void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure() BANKED;
@@ -47,7 +47,7 @@ void EsimpleRatAnim(ENEMY_STATE estate) BANKED{
         case ENEMY_WALK: SetSpriteAnim(THIS, rat_anim_walk, 12u); break;
         case ENEMY_WAIT: SetSpriteAnim(THIS, rat_anim_idle, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(THIS, rat_anim_idle, 12u); break;
-        case ENEMY_DEAD: SetSpriteAnim(THIS, rat_anim_hit, 32u); break;
+        case ENEMY_DEAD: SetSpriteAnim(THIS, rat_anim_hit, 24u); break;
     }
 }
 
