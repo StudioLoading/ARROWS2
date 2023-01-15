@@ -12,6 +12,8 @@
 
 #define ITEMSPAWNED_FRAMESKIP_MAX 6
 
+const UINT8 is_metal_s[] = {1, 9};
+const UINT8 is_metal_dis_s[] = {2, 9, 3};
 const UINT8 is_metal[] = {1, 0};
 const UINT8 is_metal_dis[] = {2, 0, 3};
 const UINT8 is_wood[] = {1, 1};
@@ -46,7 +48,9 @@ void UPDATE(){
                 case INVITEM_HEART: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_heart, 4u); break;
                 case INVITEM_MONEY: spawned_data->equippable = 1u; SetSpriteAnim(THIS, is_money, 8u); break;
                 case INVITEM_METAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal, 4u); break;
+                case INVITEM_METAL_SPECIAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal_s, 4u); break;
                 case INVITEM_WOOD: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_wood, 4u); break;
+                case INVITEM_POWDER: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_powd, 4u); break;
             }
             spawned_data->configured = 2u;
         break;
@@ -77,8 +81,10 @@ void UPDATE(){
                     case INVITEM_CROSSBOW: SetSpriteAnim(THIS, is_crossb_dis, 20u); break;
                     case INVITEM_HEART: SetSpriteAnim(THIS, is_heart_dis, 20u); break;
                     case INVITEM_MONEY: SetSpriteAnim(THIS, is_money_dis, 20u); break;
-                    case INVITEM_METAL: SetSpriteAnim(THIS, is_metal_dis, 20u); break;
+                    case INVITEM_METAL:  SetSpriteAnim(THIS, is_metal_dis, 20u); break;
+                    case INVITEM_METAL_SPECIAL: SetSpriteAnim(THIS, is_metal_dis_s, 20u); break;
                     case INVITEM_WOOD: SetSpriteAnim(THIS, is_wood_dis, 20u); break;
+                    case INVITEM_POWDER: SetSpriteAnim(THIS, is_powd_dis, 20u); break;
                 }
                 spawned_data->hp = 120u;
                 spawned_data->configured = 3u;

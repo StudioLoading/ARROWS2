@@ -15,7 +15,7 @@ const UINT8 invcur_arrow_anim[] = {2,2,3}; //The first number indicates the numb
 void START(){
 	THIS->lim_x = 255u;
 	THIS->lim_y = 255u;
-    SetSpriteAnim(THIS, invcur_square_anim, 32u);
+    SetSpriteAnim(THIS, invcur_square_anim, 16u);
 	struct InvcursorInfo* cur_data = (struct InvcursorInfo*) THIS->custom_data;
 	cur_data->switch_animation = 0u;
 	cur_data->square_or_arrow = 0u;

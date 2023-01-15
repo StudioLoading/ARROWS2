@@ -150,12 +150,26 @@ void START(){
                 UPDATE_HUD_TILE(uneq_x,1,13);
                 UPDATE_HUD_TILE(uneq_x,2,14);
             break;
+            case INVITEM_METAL_SPECIAL:
+                UPDATE_HUD_TILE(uneq_x,1,19);
+                UPDATE_HUD_TILE(uneq_x,2,12);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,13);
+                UPDATE_HUD_TILE(uneq_x,2,14);
+            break;
             case INVITEM_WOOD:
                 UPDATE_HUD_TILE(uneq_x,1,15);
                 UPDATE_HUD_TILE(uneq_x,2,16);
                 uneq_x += 1;
                 UPDATE_HUD_TILE(uneq_x,1,17);
                 UPDATE_HUD_TILE(uneq_x,2,18);
+            break;
+            case INVITEM_POWDER:
+                UPDATE_HUD_TILE(uneq_x,1,20);
+                UPDATE_HUD_TILE(uneq_x,2,21);
+                uneq_x += 1;
+                UPDATE_HUD_TILE(uneq_x,1,22);
+                UPDATE_HUD_TILE(uneq_x,2,23);
             break;
         }
         uneq_x += 2;
@@ -288,22 +302,25 @@ void fixInvcursor() BANKED{
 
 void change_detail(){
     print_target = PRINT_BKG;
-    if(inventory[invcursor_posi]->quantity == 0){
-        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "     ");}
-        else{PRINT(2, 14, "     ");PRINT(3, 8, "   ");}
-    }
-    else if(inventory[invcursor_posi]->quantity < 10){
-        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);}
-        else{PRINT(2, 14, "     ");PRINT(3, 8, "X0%u", inventory[invcursor_posi]->quantity);}
-    }
-    else if(inventory[invcursor_posi]->quantity < 100){
-        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);}
-        else{PRINT(2, 14, "     ");PRINT(3, 8, "X%u", inventory[invcursor_posi]->quantity);}
-    }
-    else {
-        if(inventory[invcursor_posi]->equippable){PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);}
-        else{PRINT(2, 14, "     ");PRINT(3, 8, "%u", inventory[invcursor_posi]->quantity);}
-    }
+    if(inventory[invcursor_posi]->equippable){
+        PRINT(3, 8, "   ");
+        if(inventory[invcursor_posi]->quantity < 10){
+            PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);
+        } else if(inventory[invcursor_posi]->quantity < 100){
+            PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);
+        } else {
+            PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);
+        }
+    }else{
+        PRINT(2, 14, "     ");
+        if(inventory[invcursor_posi]->quantity < 10){
+            PRINT(3, 8, "X0%u", inventory[invcursor_posi]->quantity);
+        } else if(inventory[invcursor_posi]->quantity < 100){
+            PRINT(3, 8, "X%u", inventory[invcursor_posi]->quantity);
+        } else {
+            PRINT(3, 8, "%u", inventory[invcursor_posi]->quantity);
+        }
+    }    
     if(inventory[invcursor_posi]->quantity == 0){
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv1);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv2);

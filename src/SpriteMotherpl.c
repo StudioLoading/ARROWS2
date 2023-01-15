@@ -33,6 +33,7 @@ extern UINT8 camera_ok;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
+const UINT8 motherpl_anim_walk_hit[] = {8, 3, 0, 4, 0, 3, 0, 5, 0};
 const UINT8 motherpl_anim_jump_ascending[] = {1, 6};
 const UINT8 motherpl_anim_jump_descending[] = {1, 5};
 const UINT8 motherpl_anim_shoot[] = {3, 7, 7, 7};//7, 8, 7
@@ -133,9 +134,6 @@ void UPDATE(){
             motherpl_jpower = 0;
             jump_max_toched = 0u;
             motherpl_vy = GRAVITY;
-            /*if(motherpl_inertiax > 0){
-                motherpl_coll = TranslateSprite(THIS, 1 << delta_time, 0);
-            }*/
             if(motherpl_vx != 0){
                 changeMotherplState(MOTHERPL_WALK);
             }
@@ -185,6 +183,11 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_WALK:
+            if(motherpl_hit_cooldown > 0){
+                SetSpriteAnim(THIS, motherpl_anim_walk_hit, 12u);
+            }else{
+                refreshAnimation();
+            }
             if(motherpl_inertiax == 0){//|| (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
                 changeMotherplState(MOTHERPL_IDLE);
             }
@@ -531,7 +534,14 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         }
         switch(new_state){
             case MOTHERPL_IDLE:
-                motherpl_vx = 0;
+                if(motherpl_state == MOTHERPL_WALK){
+                    Sprite* s_dust = SpriteManagerAdd(SpriteDust, (UINT16) THIS->x - 8u, (UINT16) THIS->y + 4u);
+                    motherpl_vx = 0;
+                    if(THIS->mirror == V_MIRROR){
+                        s_dust->x += 16u;
+                        s_dust->mirror = V_MIRROR;
+                    }
+                }
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
                 }

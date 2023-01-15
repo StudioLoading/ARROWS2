@@ -81,26 +81,29 @@ void Emanagement() BANKED{
         if(eu_info->x_frameskip == 0 && 
             (eu_info->e_state == ENEMY_WALK ||
                 (eu_info->e_state == ENEMY_ATTACK 
-                && eu_info->type != SPIDER 
-                && eu_info->type != TARANTULA))){//x_frameskip used            
-                eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
-                if(eu_info->et_collision){
-                    switch(eu_info->et_collision){
-                        case 8u:
-                        case 9u:
-                            ETurn(E_VX);
-                        break;
-                    }
-                }
-                eu_info->x_frameskip = 1u;
-            }else{
-                UINT8 max_frameskip = getEmaxFrameskip();
-                if(eu_info->x_frameskip < max_frameskip){
-                    eu_info->x_frameskip++;
-                }else{
-                    eu_info->x_frameskip = 0u;
+                && THIS->type != SpriteEnemyThrowerSpider 
+                && eu_info->type != SpriteEnemyThrowerTarantula
+                )
+            )
+        ){//x_frameskip used            
+            eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
+            if(eu_info->et_collision){
+                switch(eu_info->et_collision){
+                    case 8u:
+                    case 9u:
+                        ETurn(E_VX);
+                    break;
                 }
             }
+            eu_info->x_frameskip = 1u;
+        }else{
+            UINT8 max_frameskip = getEmaxFrameskip();
+            if(eu_info->x_frameskip < max_frameskip){
+                eu_info->x_frameskip++;
+            }else{
+                eu_info->x_frameskip = 0u;
+            }
+        }
 
     //EspriteCollision(eu_info); 
         UINT8 scroll_e_tile;

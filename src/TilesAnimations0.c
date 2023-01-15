@@ -1,6 +1,7 @@
 #include "Banks/SetAutoBank.h"
 
 #include "ZGBMain.h"
+#include "custom_datas.h"
 
 IMPORT_TILES(tiles);
 IMPORT_TILES(tiles4);
@@ -33,10 +34,8 @@ void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, 
 		set_bkg_data(first_tile, nb_tiles, inventorytiles.data+((16u) * first_tile)); 
 	} else { 
 		switch(item){
-			//INVITEM_CROSSBOW
-			case 0:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
-			//MONEY
-			case 1:set_bkg_data(first_tile, nb_tiles, invdetailmoneytiles.data);break;
+			case INVITEM_CROSSBOW:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
+			case INVITEM_MONEY:set_bkg_data(first_tile, nb_tiles, invdetailmoneytiles.data);break;
 		}
 	}
     SWITCH_ROM(save);
@@ -88,10 +87,10 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 		set_inv_bkg_data(item, 49u, 25, BANK(inventorytiles), isEmpty);
 	}else{
 		switch(item){
-			case 0u://crossbow
+			case INVITEM_CROSSBOW:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetail0tiles), isEmpty);
 			break;
-			case 1u://money
+			case INVITEM_MONEY:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmoneytiles), isEmpty);
 			break;
 		}

@@ -38,6 +38,7 @@ _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
+_SPRITE_DMG(SpriteDust, dust)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
 _SPRITE_DMG(SpriteEnemysimplesnake, enemysnake)\
 _SPRITE_DMG(SpriteEnemysimplerat, enemyrat)\
