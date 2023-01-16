@@ -27,6 +27,7 @@ UINT8 enemy_counter = 0u;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern UINT8 motherpl_hit;
+extern struct EtoReload* e_to_reload[3];
 
 void Estart() BANKED;
 void configure() BANKED;
@@ -35,6 +36,7 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED;
 UINT8 getEmaxFrameskip();
 void Econfiguration() BANKED;
 void Emanagement() BANKED;
+void Edestroy() BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
@@ -197,6 +199,14 @@ void Estart() BANKED{
         SpriteManagerRemoveSprite(THIS);
         return;
     }
+    UINT8 i = 0u;
+    for(i = 0; i < 3; ++i){
+        if(e_to_reload[i]->x != 0u && e_to_reload[i]->y != 0u ){
+            e_to_reload[i]->x = THIS->x;
+            e_to_reload[i]->y = THIS->y;
+            e_to_reload[i]->type = THIS->type;
+        }
+    }
     enemy_counter++;
     THIS->lim_x = 255u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
@@ -336,6 +346,18 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
             case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
         }
         e_info->e_state = new_e_state;
+    }
+}
+
+void Edestroy(){
+    UINT8 i = 0u;
+    for(i = 0; i < 3; ++i){
+        if(e_to_reload[i]->type == THIS->type){
+            e_to_reload[i]->x = 0;
+            e_to_reload[i]->y = 0;
+            e_to_reload[i]->type = 0;
+            return;
+        }
     }
 }
 

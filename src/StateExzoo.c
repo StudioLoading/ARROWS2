@@ -37,6 +37,7 @@ extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
+extern struct EtoReload* e_to_reload[3];
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
@@ -90,6 +91,17 @@ void START(){
     INIT_HUD(hudpl); 
     hud_motherpl_hp = 0;
     UpdateHUD();
+
+    //INIT ENEMY TO RELOAD ARRAY
+    e_to_reload[0]->type = 0;
+    e_to_reload[0]->x = 0;
+    e_to_reload[0]->y = 0;
+    e_to_reload[1]->type = 0;
+    e_to_reload[1]->x = 0;
+    e_to_reload[1]->y = 0;
+    e_to_reload[2]->type = 0;
+    e_to_reload[2]->x = 0;
+    e_to_reload[2]->y = 0;
 }
 
 void UPDATE(){

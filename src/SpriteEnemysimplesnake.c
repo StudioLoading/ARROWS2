@@ -21,6 +21,7 @@ extern void configure() BANKED;
 extern void changeEstate(ENEMY_STATE new_e_state) BANKED;
 extern void Econfiguration() BANKED;
 extern void Emanagement() BANKED;
+extern void Edestroy() BANKED;
 
 void START(){
     Estart();
@@ -52,4 +53,5 @@ void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED{
 }
 
 void DESTROY(){
+    Edestroy();
 }

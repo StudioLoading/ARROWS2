@@ -19,7 +19,7 @@
 #include "Dialogs.h"
 
 
-#define CAMERA_DELTA_RIGHT 32
+#define CAMERA_DELTA_RIGHT 40
 #define CAMERA_DELTA_LEFT 24
 
 extern INT8 motherpl_hp;
@@ -30,7 +30,6 @@ extern Sprite* s_surf;
 extern struct InvItem itemMoney;
 extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
-extern INT8 motherpl_vy;
 extern UINT8 spawnitem_random;
 
 Sprite* s_motherpl = 0;
@@ -43,7 +42,7 @@ UINT16 motherpl_pos_x = 0u;
 UINT16 motherpl_pos_y = 0u;
 UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
-
+struct EtoReload e_to_reload[3];
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -78,10 +77,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
     }
 	//SetWindowY(160);
 	SetState(new_state);
-}
-
-void restoreSprites(){
-
 }
 
 void UpdateHUD() BANKED{
@@ -151,24 +146,13 @@ void Log() BANKED{
         print_target = PRINT_WIN;
     }
     switch(motherpl_state){
-        case MOTHERPL_IDLE:
-            PRINT(0, 2, "IDLE");
-        break;
-        case MOTHERPL_JUMP:
-            PRINT(0, 2, "JUMP");
-        break;
-        case MOTHERPL_WALK:
-            PRINT(0, 2, "WALK");
-        break;
-        case MOTHERPL_HIT:
-            PRINT(0, 2, " HIT");
-        break;
-        case MOTHERPL_DEAD:
-            PRINT(0, 2, "DEAD");
-        break;
-        case MOTHERPL_CRAWL:
-            PRINT(0, 2, "CRAW");
-        break;
+        case MOTHERPL_IDLE: PRINT(0, 2, "IDLE"); break;
+        case MOTHERPL_JUMP: PRINT(0, 2, "JUMP"); break;
+        case MOTHERPL_WALK: PRINT(0, 2, "WALK"); break;
+        case MOTHERPL_HIT: PRINT(0, 2, " HIT"); break;
+        case MOTHERPL_DEAD: PRINT(0, 2, "DEAD"); break;
+        case MOTHERPL_CRAWL: PRINT(0, 2, "CRAW"); break;
+        case MOTHERPL_DASH: PRINT(0, 2, "DASH"); break;
     }
     if(s_surf){
         PRINT(5, 2, "SURF%i",motherpl_surf_dx);
@@ -198,7 +182,7 @@ void update_camera_position() BANKED{
         if(KEY_TICKED(J_DOWN)){camera_ok = 0u;}
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
+        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
             if(camera_ok == 1u){
                 switch(s_motherpl->mirror){
                     case NO_MIRROR:

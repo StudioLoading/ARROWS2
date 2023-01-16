@@ -23,6 +23,7 @@
 #define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
 #define PICKINGUP_COOLDOWN 18
+#define DASH_COOLDOWN_MAX 32
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -42,6 +43,7 @@ const UINT8 motherpl_anim_hit[] = {2, 0, 1};
 const UINT8 motherpl_anim_dead[] = {2, 0, 1};
 const UINT8 motherpl_anim_crawl[] = {1, 8};
 const UINT8 motherpl_anim_blocked[] = {2, 2, 1};
+const UINT8 motherpl_anim_dash[] = {8, 8, 9, 9, 9, 9, 9, 9, 9}; 
 
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
@@ -65,6 +67,7 @@ UINT8 motherpl_surfing_getoff = 0u;
 UINT8 motherpl_surfing_goton = 0u;
 INT8 motherpl_surf_dx = 0;
 UINT8 motherpl_hit_cooldown = 0u;
+UINT8 motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
 Sprite* s_surf = 0;
 Sprite* s_blocking = 0;
 Sprite* s_blockcmd = 0;
@@ -81,6 +84,7 @@ void shoot();
 void getOff();
 void refreshAnimation();
 void die();
+void spawnDust();
 
 extern void UpdateHUD() BANKED;
 extern void invselectitem() BANKED;
@@ -235,13 +239,24 @@ void UPDATE(){
                 camera_ok = 0u;
             }
         break;
+        case MOTHERPL_DASH:
+            if(motherpl_dash_cooldown % 8 == 0){
+                spawnDust();
+            }
+            motherpl_dash_cooldown--;
+            if(motherpl_dash_cooldown == 0){
+                motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
+                changeMotherplState(MOTHERPL_IDLE);
+            }
+        break;
     }
     //BLOCK
         if(motherpl_blocked == 1u){// && motherpl_blocked_cooldown == 0u){
             changeMotherplState(MOTHERPL_BLOCKED);
         }
     //CRAWL
-        if(motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_BLOCKED){
+        if(motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_BLOCKED
+         && motherpl_state != MOTHERPL_DASH){
             if(KEY_PRESSED(J_DOWN)){
                 changeMotherplState(MOTHERPL_CRAWL);
             }
@@ -262,8 +277,16 @@ void UPDATE(){
             }
         }
     //INPUTS
+    //INPUTS DASH
+        if(motherpl_state != MOTHERPL_DASH){
+            if(KEY_TICKED(J_JUMP) && KEY_PRESSED(J_DOWN)){
+                changeMotherplState(MOTHERPL_DASH);
+                return;
+            }
+        }
     //INPUTS JUMP
-        if(motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT){
+        if(motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT
+            && motherpl_state != MOTHERPL_DASH){
             if(KEY_RELEASED(J_JUMP)){
                 motherpl_rabbit = 0u;
             }
@@ -284,7 +307,7 @@ void UPDATE(){
         }
     //INPUT WALK
         if(motherpl_state != MOTHERPL_CRAWL && motherpl_state != MOTHERPL_BLOCKED 
-            && motherpl_state != MOTHERPL_PICKUP){
+            && motherpl_state != MOTHERPL_PICKUP && motherpl_state != MOTHERPL_DASH ){
             if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) ){
                 motherpl_inertia_down = 0u;
                 if(motherpl_inertiax < INERTIA_MAX){
@@ -338,7 +361,7 @@ void UPDATE(){
     //EFFECTIVE VX
         UINT8 effective_vx = motherpl_vx;
         if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) 
-            && motherpl_state != MOTHERPL_JUMP){
+            && motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_DASH){
             effective_vx = 0;
         }
     //RELATIVE POSITION
@@ -356,7 +379,7 @@ void UPDATE(){
         if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
             changeMotherplState(MOTHERPL_IDLE);
         }        
-        if(motherpl_inertiax > 2){
+        if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
             motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
         }
     //REACTION DI TILE COLLISION
@@ -403,8 +426,13 @@ void UPDATE(){
                         }
                     break;
                     case SpriteEnemysimplesnake:
-                    //case SpriteEnemyattacker:
-                    //case SpriteEnemythrower:
+                    case SpriteEnemysimplerat:
+                    case SpriteEnemyAttackerCobra:
+                    case SpriteEnemyAttackerPine:
+                    case SpriteEnemyThrowerSpider:
+                    case SpriteEnemyThrowerTarantula:
+                        //case SpriteEnemyattacker:
+                        //case SpriteEnemythrower:
                         motherpl_blocked = 0u;
                         if(motherpl_hit != 1u){motherpl_hit = 1u;}
                     break;
@@ -477,6 +505,21 @@ void refreshAnimation(){
     }
 }
 
+void spawnDust(){
+    UINT16 dust_x = (UINT16) THIS->x - 8u;
+    if(motherpl_state == MOTHERPL_DASH){
+        dust_x += 28u;
+        if(THIS->mirror == V_MIRROR){
+            dust_x -= 58u;
+        }
+    } 
+    Sprite* s_dust = SpriteManagerAdd(SpriteDust, dust_x, (UINT16) THIS->y + 4u);
+    if(THIS->mirror == V_MIRROR){
+        s_dust->x += 16u;
+        s_dust->mirror = V_MIRROR;
+    }
+}
+
 void shoot(){
     if(motherpl_blocked > 0){return;}
     if(itemEquipped->quantity == 0){return;}
@@ -534,13 +577,9 @@ void changeMotherplState(MOTHERPL_STATE new_state){
         }
         switch(new_state){
             case MOTHERPL_IDLE:
-                if(motherpl_state == MOTHERPL_WALK){
-                    Sprite* s_dust = SpriteManagerAdd(SpriteDust, (UINT16) THIS->x - 8u, (UINT16) THIS->y + 4u);
-                    motherpl_vx = 0;
-                    if(THIS->mirror == V_MIRROR){
-                        s_dust->x += 16u;
-                        s_dust->mirror = V_MIRROR;
-                    }
+                motherpl_vx = 0;
+                 if(motherpl_state == MOTHERPL_WALK){
+                    spawnDust();
                 }
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
@@ -550,8 +589,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_vy = GRAVITY;
             break;
             case MOTHERPL_JUMP:
-                fly_counter = 0;
-                motherpl_vy = -1;                
+                motherpl_vy = -1;
+                fly_counter = 0;                
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
@@ -600,6 +639,14 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_inertiax = 0u;
                 pickingup_cooldown = PICKINGUP_COOLDOWN;
                 SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
+            break;            
+            case MOTHERPL_DASH:
+                SetSpriteAnim(THIS, motherpl_anim_dash, 12u);
+                if(THIS->mirror == NO_MIRROR){
+                    motherpl_vx = 2;
+                }else{
+                    motherpl_vx = -2;
+                }
             break;
         }
         motherpl_state = new_state;

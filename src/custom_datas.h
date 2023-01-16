@@ -167,7 +167,8 @@ typedef enum{
 	MOTHERPL_DEAD,
 	MOTHERPL_CRAWL,
 	MOTHERPL_BLOCKED,
-	MOTHERPL_PICKUP
+	MOTHERPL_PICKUP,
+	MOTHERPL_DASH
 }MOTHERPL_STATE;
 
 struct MotherplData{
@@ -204,6 +205,12 @@ typedef enum{
 	ENEMY_ATTACK,
 	ENEMY_THROW
 }ENEMY_STATE;
+
+struct EtoReload{
+    UINT8 type;
+	UINT16 x;
+	UINT16 y;
+};
 
 struct EnemyData{
 	INT8 hp;

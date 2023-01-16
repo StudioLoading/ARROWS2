@@ -1,14 +1,14 @@
-- si può dashare con scivolata?
+- ripristino dei nemici al ritorno di stato;
 - FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
 	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
-- ripristino dei nemici al ritorno di stato;
-- mentre sono in caduta libera(no jump) posso saltare di nuovo. 
 
 PIXELART:
 16x16 e 40x40
 balestra, frecce normali, perforanti, bastarde, dinamite, 
 sacca coins, metallo, legna, polvere
 
+KNOWN ISSUES:
+- mentre sono in caduta libera(no jump) posso saltare di nuovo. 
 
 
 ZGB HACKS:
