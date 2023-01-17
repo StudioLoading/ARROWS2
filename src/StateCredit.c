@@ -25,7 +25,6 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern struct EtoReload e_to_reload[3];
 
-
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_counter;
 UINT8 credit_step = 0u;
@@ -38,9 +37,7 @@ struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 
 void START() {
-	if(credit_step == 0u){
-		LOAD_SGB_BORDER(border2);
-	}
+    LOAD_SGB_BORDER(border2);
 	missions[0] = find_blackie;
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first

@@ -22,6 +22,11 @@
 #define CAMERA_DELTA_RIGHT 40
 #define CAMERA_DELTA_LEFT 24
 
+IMPORT_MAP(border);
+IMPORT_MAP(border2);
+IMPORT_MAP(classic_border);
+IMPORT_MAP(modded_border);
+
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
 extern INT8 motherpl_surf_dx;
@@ -44,6 +49,7 @@ UINT16 motherpl_pos_y = 0u;
 UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
 struct EtoReload e_to_reload[3];
+UINT8 enemy_counter = 0u;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -206,12 +212,12 @@ void update_camera_position() BANKED{
                 switch(s_motherpl->mirror){
                     case NO_MIRROR://going right
                         if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
-                            scroll_target->x+=2;
+                            scroll_target->x+=3;
                         }else if (!KEY_PRESSED(J_LEFT)){camera_ok = 1u;}
                     break;
                     case V_MIRROR:
                         if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
-                            scroll_target->x-=2;
+                            scroll_target->x-=3;
                         }else if (!KEY_PRESSED(J_RIGHT)){camera_ok = 1u;}
                     break;
                 }
@@ -219,7 +225,6 @@ void update_camera_position() BANKED{
         }
     }
 }
-
 
 void START(){}
 

@@ -22,11 +22,12 @@
 const UINT8 e_anim_hidden[] = {1, 0};
 
 UINT8 enemy_random_30_100 = 30u;
-UINT8 enemy_counter = 0u;
 
+extern UINT8 enemy_counter;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern UINT8 motherpl_hit;
+extern MOTHERPL_STATE motherpl_state;
 extern struct EtoReload e_to_reload[3];
 
 void Estart() BANKED;
@@ -114,8 +115,12 @@ void Emanagement() BANKED{
             if(CheckCollision(THIS, iespr)) {
                 switch(iespr->type){
                     case SpriteMotherpl://io enemy ho colpito motherpl
-                        if(motherpl_hit != 1u){motherpl_hit = 1u;}
-                        changeEstate(ENEMY_WAIT);
+                        if(motherpl_state == MOTHERPL_DASH){
+                            changeEstate(ENEMY_UPSIDEDOWN);
+                        } else if(motherpl_hit != 1u){
+                            motherpl_hit = 1u;
+                            changeEstate(ENEMY_WAIT);
+                        }
                     break;
                     case SpriteArrow:
                         if((s_motherpl->x < THIS->x && THIS->mirror == NO_MIRROR) || 
@@ -191,16 +196,24 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 if(eu_info->wait == 0u){changeEstate(ENEMY_WAIT);}
             break;
+            case ENEMY_UPSIDEDOWN:
+                eu_info->wait--;
+                if(eu_info->wait == 0u){
+                    if(eu_info->vx >= 0){
+                        THIS->mirror = NO_MIRROR;
+                    }else{
+                        THIS->mirror = V_MIRROR;
+                    }
+                    changeEstate(ENEMY_WAIT);
+                }
+                return;
+            break;
         }
 }
 
 void Estart() BANKED{
     THIS->lim_x = 255u;
     THIS->lim_y = 255u;
-    if(enemy_counter == MAX_ENEMY){
-        SpriteManagerRemoveSprite(THIS);
-        return;
-    }
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
@@ -343,6 +356,15 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                     case SpriteEnemyThrowerSpider: EthrowWeb(e_info->e_state); break;
                     case SpriteEnemyThrowerTarantula: EthrowAcid(e_info->e_state); break;
                 }
+            break;
+            case ENEMY_UPSIDEDOWN:
+                e_info->wait = 200u;
+                if(e_info->vx < 0){
+                    THIS->mirror = HV_MIRROR;
+                }else{
+                    THIS->mirror = H_MIRROR;
+                }
+                TranslateSprite(THIS, 0, -10 << delta_time);
             break;
         }
         //UPDATE ANIMATION

@@ -20,7 +20,7 @@
 
 IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
-IMPORT_MAP(border);
+IMPORT_MAP(border2);
 IMPORT_MAP(inventorymap);
 IMPORT_MAP(invwindowmap);
 
@@ -79,18 +79,13 @@ void fixInvcursor() BANKED;
 void fixUnequipInvcursor() BANKED;
 void change_navigation();
 void refresh_equipped();
+void pickup(struct ItemSpawned* pickedup_data) BANKED;
+void change_detail();
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
-void pickup(struct ItemSpawned* pickedup_data) BANKED;
 
 void START(){
-	/*if(border_set_diary == 0u){
-        border_set_diary = 1u;
-        LOAD_SGB_BORDER(border);        
-	}*/
-    LOAD_SGB_BORDER(border);        
-    HIDE_WIN;
-
+    LOAD_SGB_BORDER(border2);
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -99,14 +94,14 @@ void START(){
     
     //SGB palette
     if(sgb_check()){
-        set_sgb_palette_2();
+        //set_sgb_palette_2();
     }
     //scroll_target = 
+    //HIDE_WIN;
     inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
 	InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
 	INIT_FONT(fontbw, PRINT_BKG);
-    SHOW_BKG;
     
     invcursor_old_posi = invcursor_posi;
     inv_cursor->x = invcursor_posx[invcursor_old_posi];

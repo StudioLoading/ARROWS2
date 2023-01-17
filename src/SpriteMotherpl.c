@@ -187,11 +187,7 @@ void UPDATE(){
             }
         break;
         case MOTHERPL_WALK:
-            if(motherpl_hit_cooldown > 0){
-                SetSpriteAnim(THIS, motherpl_anim_walk_hit, 12u);
-            }else{
-                refreshAnimation();
-            }
+            refreshAnimation();
             if(motherpl_inertiax == 0){//|| (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
                 changeMotherplState(MOTHERPL_IDLE);
             }
@@ -431,10 +427,16 @@ void UPDATE(){
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
-                        //case SpriteEnemyattacker:
-                        //case SpriteEnemythrower:
-                        motherpl_blocked = 0u;
-                        if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                        {
+                            struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
+                            motherpl_blocked = 0u;
+                            if(motherpl_hit != 1u 
+                                && motherpl_state != MOTHERPL_DASH
+                                && e_data->e_state != ENEMY_UPSIDEDOWN
+                                && e_data->e_state != ENEMY_ATTACK){
+                                motherpl_hit = 1u;
+                            }
+                        }
                     break;
                     case SpriteEnemythrowable:
                         {
@@ -488,7 +490,11 @@ void refreshAnimation(){
             SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
         break;
         case MOTHERPL_WALK:
-            SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+            if(motherpl_hit_cooldown > 0){
+                SetSpriteAnim(THIS, motherpl_anim_walk_hit, 12u);
+            }else{
+                SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+            }
         break;
         case MOTHERPL_JUMP:
             SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);

@@ -24,6 +24,7 @@ IMPORT_TILES(tiles00);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(font);
 
+IMPORT_MAP(border2);
 IMPORT_MAP(mapdiagcrossbow);
 IMPORT_MAP(mapdiagcrossbowempty);
 IMPORT_MAP(mapbonus);
@@ -51,6 +52,7 @@ UINT8 target_counter = 0u;
 UINT8 counter_ground_animation = 0u;
 
 void START() {
+    LOAD_SGB_BORDER(border2);
 	//INIT SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)

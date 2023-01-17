@@ -9,13 +9,13 @@
 */
 
 #define STATES \
+_STATE(StateFittizio)\
 _STATE(StateCredit)\
 _STATE(StateBonus)\
 _STATE(StateTetra)\
 _STATE(StateOverworld)\
 _STATE(StateDiary)\
 _STATE(StateExzoo)\
-_STATE(StateFittizio)\
 _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateCave)\

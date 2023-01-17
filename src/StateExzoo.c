@@ -20,9 +20,9 @@
 
 IMPORT_TILES(fontbw);
 IMPORT_TILES(exzootiles);
-IMPORT_MAP(border2);
 IMPORT_MAP(exzoomap0);
 IMPORT_MAP(hudpl);
+IMPORT_MAP(border);
 
 extern UINT8 border_set_exzoo;
 extern UINT8 scroll_top_movement_limit;
@@ -38,6 +38,8 @@ extern INT8 hud_motherpl_ups;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern struct EtoReload e_to_reload[3];
+extern UINT8 enemy_counter;
+extern UINT8 MAX_ENEMY;
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 0};
@@ -52,8 +54,8 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 UINT8 test_countdown = 255u;
 
 void START(){
-    LOAD_SGB_BORDER(border2);
-	//SOUND
+    LOAD_SGB_BORDER(border);
+    //SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
         NR50_REG = 0x77; //Max volume
@@ -79,9 +81,11 @@ void START(){
     test_countdown = 255u;
 
     //TEST
+        /*
         PRINT(0, 11, "WORLD");
         PRINT(17, 5, "FPS");
         PRINT(5, 5, "TETRA");
+        */
     //HUD
     INIT_HUD(hudpl);
     hud_motherpl_hp = 0;
@@ -110,6 +114,9 @@ void UPDATE(){
         update_camera_position();    
     //INIT ENEMIES
     if(test_countdown == 0u){
+        if(enemy_counter == MAX_ENEMY){
+            return;
+        }
         test_countdown = 255u;
         switch(init_enemy){
             case 1u:
