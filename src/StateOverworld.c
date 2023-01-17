@@ -18,11 +18,11 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_TILES(fontbw);
+IMPORT_MAP(border2);
 
+IMPORT_TILES(fontbw);
 IMPORT_TILES(tilesowsouthwest);
 
-IMPORT_MAP(border2);
 IMPORT_MAP(owsouthwest);
 DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(hudow);

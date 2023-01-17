@@ -18,14 +18,8 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-
 #define CAMERA_DELTA_RIGHT 40
 #define CAMERA_DELTA_LEFT 24
-
-IMPORT_MAP(border);
-IMPORT_MAP(border2);
-IMPORT_MAP(classic_border);
-IMPORT_MAP(modded_border);
 
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;

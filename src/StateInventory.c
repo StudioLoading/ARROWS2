@@ -2,7 +2,6 @@
 
 #include "SGB.h"
 #include "BankManager.h"
-#include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -10,7 +9,6 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 #include "Music.h"
 
 #include "custom_datas.h"
@@ -18,9 +16,9 @@
 #include "sgb_palette.h"
 #include "InventoryDialogs.h"
 
+IMPORT_MAP(border2);
 IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
-IMPORT_MAP(border2);
 IMPORT_MAP(inventorymap);
 IMPORT_MAP(invwindowmap);
 
@@ -87,89 +85,85 @@ extern void change_cursor(UINT8 square_or_arrow) BANKED;
 void START(){
     LOAD_SGB_BORDER(border2);
 	//SOUND
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0x77; //Max volume
-	//PlayMusic(bgm_credits, 0);
-    
+        NR52_REG = 0x80; //Enables sound, you should always setup this first
+        NR51_REG = 0xFF; //Enables all channels (left and right)
+        NR50_REG = 0x77; //Max volume
+	//PlayMusic(bgm_credits, 0);    
     //SGB palette
-    if(sgb_check()){
-        //set_sgb_palette_2();
-    }
-    //scroll_target = 
-    //HIDE_WIN;
-    inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
-	InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
-    scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
-	INIT_FONT(fontbw, PRINT_BKG);
-    
-    invcursor_old_posi = invcursor_posi;
-    inv_cursor->x = invcursor_posx[invcursor_old_posi];
-    inv_cursor->y = invcursor_posy[invcursor_old_posi];
-    UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
-    Sprite* s_invitem = 0;
-    for(UINT8 i = 0u; i < 6; i++){
-        s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]+16u);
-        struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
-        cdata->itemtype = inventory[i]->itemtype;
-        cdata->quantity = inventory[i]->quantity;
-    }
-    invselectitem();
-    Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
-    change_detail();
-
-    //HUD
-    INIT_HUD(invwindowmap);
-    UINT8 uneq_x = 1u;
-    for(UINT8 i = 6u; i < 12; i++){
-        struct InvItem* unequippable = (struct InvItem*) inventory[i];
-        switch(unequippable->itemtype){
-            case INVITEM_UNASSIGNED:
-                UPDATE_HUD_TILE(uneq_x,1,10);
-                UPDATE_HUD_TILE(uneq_x,2,10);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,10);
-                UPDATE_HUD_TILE(uneq_x,2,10);
-            break;
-            case INVITEM_CROSSBOW:
-                UPDATE_HUD_TILE(uneq_x,1,6);
-                UPDATE_HUD_TILE(uneq_x,2,7);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,8);
-                UPDATE_HUD_TILE(uneq_x,2,9);
-            break;
-            case INVITEM_METAL:
-                UPDATE_HUD_TILE(uneq_x,1,11);
-                UPDATE_HUD_TILE(uneq_x,2,12);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,13);
-                UPDATE_HUD_TILE(uneq_x,2,14);
-            break;
-            case INVITEM_METAL_SPECIAL:
-                UPDATE_HUD_TILE(uneq_x,1,19);
-                UPDATE_HUD_TILE(uneq_x,2,12);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,13);
-                UPDATE_HUD_TILE(uneq_x,2,14);
-            break;
-            case INVITEM_WOOD:
-                UPDATE_HUD_TILE(uneq_x,1,15);
-                UPDATE_HUD_TILE(uneq_x,2,16);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,17);
-                UPDATE_HUD_TILE(uneq_x,2,18);
-            break;
-            case INVITEM_POWDER:
-                UPDATE_HUD_TILE(uneq_x,1,20);
-                UPDATE_HUD_TILE(uneq_x,2,21);
-                uneq_x += 1;
-                UPDATE_HUD_TILE(uneq_x,1,22);
-                UPDATE_HUD_TILE(uneq_x,2,23);
-            break;
+        if(sgb_check()){
+            set_sgb_palette_2();
         }
-        uneq_x += 2;
-    }
-
+    //SPRITES SPAWNING 
+        HIDE_WIN;
+        inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);    
+        invcursor_old_posi = invcursor_posi;
+        inv_cursor->x = invcursor_posx[invcursor_old_posi];
+        inv_cursor->y = invcursor_posy[invcursor_old_posi];
+        UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
+        Sprite* s_invitem = 0;
+        for(UINT8 i = 0u; i < 6; i++){
+            s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]+16u);
+            struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
+            cdata->itemtype = inventory[i]->itemtype;
+            cdata->quantity = inventory[i]->quantity;
+        }
+        invselectitem();
+        Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
+        change_detail();    
+        InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
+    //HUD
+        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_HUD(invwindowmap);
+        UINT8 uneq_x = 1u;
+        for(UINT8 i = 6u; i < 12; i++){
+            struct InvItem* unequippable = (struct InvItem*) inventory[i];
+            switch(unequippable->itemtype){
+                case INVITEM_UNASSIGNED:
+                    UPDATE_HUD_TILE(uneq_x,1,10);
+                    UPDATE_HUD_TILE(uneq_x,2,10);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,10);
+                    UPDATE_HUD_TILE(uneq_x,2,10);
+                break;
+                case INVITEM_CROSSBOW:
+                    UPDATE_HUD_TILE(uneq_x,1,6);
+                    UPDATE_HUD_TILE(uneq_x,2,7);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,8);
+                    UPDATE_HUD_TILE(uneq_x,2,9);
+                break;
+                case INVITEM_METAL:
+                    UPDATE_HUD_TILE(uneq_x,1,11);
+                    UPDATE_HUD_TILE(uneq_x,2,12);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,13);
+                    UPDATE_HUD_TILE(uneq_x,2,14);
+                break;
+                case INVITEM_METAL_SPECIAL:
+                    UPDATE_HUD_TILE(uneq_x,1,19);
+                    UPDATE_HUD_TILE(uneq_x,2,12);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,13);
+                    UPDATE_HUD_TILE(uneq_x,2,14);
+                break;
+                case INVITEM_WOOD:
+                    UPDATE_HUD_TILE(uneq_x,1,15);
+                    UPDATE_HUD_TILE(uneq_x,2,16);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,17);
+                    UPDATE_HUD_TILE(uneq_x,2,18);
+                break;
+                case INVITEM_POWDER:
+                    UPDATE_HUD_TILE(uneq_x,1,20);
+                    UPDATE_HUD_TILE(uneq_x,2,21);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,22);
+                    UPDATE_HUD_TILE(uneq_x,2,23);
+                break;
+            }
+            uneq_x += 2;
+        }
 }
 
 void pickup(struct ItemSpawned* pickedup_data) BANKED{

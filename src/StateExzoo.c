@@ -2,7 +2,6 @@
 
 #include "SGB.h"
 #include "BankManager.h"
-#include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -10,7 +9,6 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 #include "Music.h"
 
 #include "custom_datas.h"
@@ -18,11 +16,11 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
+IMPORT_MAP(border);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(exzootiles);
 IMPORT_MAP(exzoomap0);
 IMPORT_MAP(hudpl);
-IMPORT_MAP(border);
 
 extern UINT8 border_set_exzoo;
 extern UINT8 scroll_top_movement_limit;
@@ -74,12 +72,6 @@ void START(){
         }
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
-
-	INIT_FONT(fontbw, PRINT_BKG);
-    //reset init_enemy
-    init_enemy = 0u;
-    test_countdown = 255u;
-
     //TEST
         /*
         PRINT(0, 11, "WORLD");
@@ -87,11 +79,14 @@ void START(){
         PRINT(5, 5, "TETRA");
         */
     //HUD
+	INIT_FONT(fontbw, PRINT_BKG);
     INIT_HUD(hudpl);
     hud_motherpl_hp = 0;
     UpdateHUD();
 
-    //INIT ENEMY
+    //RELOAD ENEMIES
+    init_enemy = 0u;
+    test_countdown = 255u;
     UINT8 i = 0u;
     for(i = 0u; i < 3u; ++i){
         if(e_to_reload[i].alive == 1u){

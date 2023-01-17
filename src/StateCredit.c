@@ -16,10 +16,10 @@
 #include "custom_datas.h"
 #include "sgb_palette.h"
 
+IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
 DECLARE_MUSIC(bgm_credits);
-IMPORT_MAP(border2);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;

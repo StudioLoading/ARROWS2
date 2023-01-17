@@ -61,10 +61,6 @@ void show_detail();
 void change_page(INT8 inc);
 
 void START(){
-	/*if(border_set_diary == 0u){
-        border_set_diary = 1u;
-        LOAD_SGB_BORDER(border);        
-	}*/
     LOAD_SGB_BORDER(border);        
     //HIDE_WIN;
 
