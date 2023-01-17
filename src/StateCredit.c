@@ -23,13 +23,14 @@ IMPORT_MAP(border2);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
+extern struct EtoReload e_to_reload[3];
 
-UINT8 thunder_delay;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_counter;
 UINT8 credit_step = 0u;
 UINT8 credit_wait_time;
+UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
@@ -57,6 +58,19 @@ void START() {
 			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
 		break;
 	}
+	
+    e_to_reload[0].type = 0u;
+    e_to_reload[0].x = 0u;
+    e_to_reload[0].y = 0u;
+	e_to_reload[0].alive = 0u;
+    e_to_reload[1].type = 0u;
+    e_to_reload[1].x = 0u;
+    e_to_reload[1].y = 0u;
+	e_to_reload[1].alive = 0u;
+    e_to_reload[2].type = 0u;
+    e_to_reload[2].x = 0u;
+    e_to_reload[2].y = 0u;
+	e_to_reload[2].alive = 0u;
 
 	SHOW_BKG;
 }

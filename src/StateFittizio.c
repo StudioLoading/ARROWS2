@@ -31,6 +31,7 @@ extern struct InvItem itemMoney;
 extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 spawnitem_random;
+extern UINT8 enemy_random_30_100;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -52,7 +53,16 @@ void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED;
 
 void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
     //SPAWN ITEM
-    INVITEMTYPE itemtype = INVITEM_POWDER;//spawnitem_random % 4;
+    INVITEMTYPE itemtype = INVITEM_MONEY;
+    if(enemy_random_30_100 < 40){
+        itemtype = INVITEM_CROSSBOW;
+    }else if (enemy_random_30_100 < 50){
+        itemtype = INVITEM_METAL;
+    }else if (enemy_random_30_100 < 60){
+        itemtype = INVITEM_HEART;
+    }else if (enemy_random_30_100 < 70){
+        itemtype = INVITEM_WOOD;
+    }
     UINT16 quantity = 1u;        
     Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x + 4u, y - 8u);
     struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;

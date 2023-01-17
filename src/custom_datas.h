@@ -210,6 +210,7 @@ struct EtoReload{
     UINT8 type;
 	UINT16 x;
 	UINT16 y;
+	UINT8 alive;
 };
 
 struct EnemyData{

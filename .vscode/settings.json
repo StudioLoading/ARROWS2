@@ -12,5 +12,6 @@
         "*.db": true,
         ".gitignore": true,
         ".vs": true
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

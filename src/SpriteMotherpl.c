@@ -23,7 +23,7 @@
 #define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
 #define PICKINGUP_COOLDOWN 18
-#define DASH_COOLDOWN_MAX 32
+#define DASH_COOLDOWN_MAX 24
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -297,7 +297,7 @@ void UPDATE(){
                         motherpl_rabbit = 1u;
                         changeMotherplState(MOTHERPL_JUMP);
                     }
-                }else if((KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){ //motherpl_state != MOTHERPL_JUMP && 
+                }else if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){ //motherpl_state != MOTHERPL_JUMP && 
                     changeMotherplState(MOTHERPL_WALK);
                 }
             }

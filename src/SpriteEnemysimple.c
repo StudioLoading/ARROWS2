@@ -27,7 +27,7 @@ UINT8 enemy_counter = 0u;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern UINT8 motherpl_hit;
-extern struct EtoReload* e_to_reload[3];
+extern struct EtoReload e_to_reload[3];
 
 void Estart() BANKED;
 void configure() BANKED;
@@ -195,16 +195,25 @@ void Emanagement() BANKED{
 }
 
 void Estart() BANKED{
+    THIS->lim_x = 255u;
+    THIS->lim_y = 255u;
     if(enemy_counter == MAX_ENEMY){
         SpriteManagerRemoveSprite(THIS);
         return;
     }
-    UINT8 i = 0u;
-    for(i = 0; i < 3; ++i){
-        if(e_to_reload[i]->x != 0u && e_to_reload[i]->y != 0u ){
-            e_to_reload[i]->x = THIS->x;
-            e_to_reload[i]->y = THIS->y;
-            e_to_reload[i]->type = THIS->type;
+    UINT8 i = 0u;    
+    for(i = 0u; i < 3u; ++i){
+        UINT8 j = 0u;    
+        for(j = 0u; j < 3u; ++j){
+            if(e_to_reload[j].type == THIS->type && e_to_reload[j].alive == 1u){
+                i = 3u;
+            }
+        }
+        if(e_to_reload[i].alive == 0u && i < 3u){
+            e_to_reload[i].x = THIS->x;
+            e_to_reload[i].y = THIS->y;
+            e_to_reload[i].type = THIS->type;
+            e_to_reload[i].alive = 1u;
         }
     }
     enemy_counter++;
@@ -352,10 +361,8 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 void Edestroy(){
     UINT8 i = 0u;
     for(i = 0; i < 3; ++i){
-        if(e_to_reload[i]->type == THIS->type){
-            e_to_reload[i]->x = 0;
-            e_to_reload[i]->y = 0;
-            e_to_reload[i]->type = 0;
+        if(e_to_reload[i].type == THIS->type){
+            e_to_reload[i].alive = 0u;
             return;
         }
     }
