@@ -378,7 +378,9 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 }
 
 void Edestroy(){
-    enemy_counter--;
+    if(enemy_counter > 0){
+        enemy_counter--;
+    }
     UINT8 i = 0u;
     for(i = 0; i < 3; ++i){
         if(e_to_reload[i].type == THIS->type){

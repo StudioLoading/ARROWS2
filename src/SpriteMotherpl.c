@@ -79,7 +79,6 @@ INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
 UINT8 spawnitem_random = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
-void changeStateFromMotherpl(UINT8 new_state);
 void shoot();
 void getOff();
 void refreshAnimation();
@@ -281,12 +280,17 @@ void UPDATE(){
             }
         }
     //INPUTS JUMP
-        if(motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT
-            && motherpl_state != MOTHERPL_DASH){
+        if((motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT
+            && motherpl_state != MOTHERPL_DASH
+            ) || 
+            (motherpl_state != MOTHERPL_DASH && motherpl_coll != 0u)
+            ){
             if(KEY_RELEASED(J_JUMP)){
                 motherpl_rabbit = 0u;
             }
-            if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY && motherpl_jpower == JUMP_MIN_POWER){
+            if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
+                && motherpl_jpower == JUMP_MIN_POWER){
+                    //  || motherpl_coll != 0u
                 //&& motherpl_state != MOTHERPL_JUMP
                 if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
                     if(motherpl_rabbit == 0u){
@@ -384,13 +388,13 @@ void UPDATE(){
                 switch(motherpl_coll){
                     case 5u:
                         if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                            changeStateFromMotherpl(StateTetra);
+                            ChangeState(StateTetra, motherpl_state);
                         }else{ //GO TO MAP
-                            changeStateFromMotherpl(StateOverworld);
+                            ChangeState(StateOverworld, motherpl_state);
                         }
                     break;
                     case 7u:
-                        changeStateFromMotherpl(StateBonus);
+                        ChangeState(StateBonus, motherpl_state);
                     break;
                 }
             break;
@@ -398,7 +402,7 @@ void UPDATE(){
             case StateBlackiecave:
                 switch(motherpl_coll){
                     case 8u:
-                        changeStateFromMotherpl(StateOverworld);
+                        ChangeState(StateOverworld, motherpl_state);
                     break;
                 }
             break;
@@ -428,13 +432,19 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
                         {
-                            struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
                             motherpl_blocked = 0u;
-                            if(motherpl_hit != 1u 
-                                && motherpl_state != MOTHERPL_DASH
-                                && e_data->e_state != ENEMY_UPSIDEDOWN
-                                && e_data->e_state != ENEMY_ATTACK){
-                                motherpl_hit = 1u;
+                            struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
+                            if(e_data->e_state != ENEMY_DEAD){
+                                if(motherpl_state == MOTHERPL_DASH){
+                                    if(e_data->e_state == ENEMY_ATTACK){
+                                        motherpl_hit = 1u;
+                                    }else if(motherpl_coll == 0u){
+                                        motherpl_dash_cooldown++;
+                                    }
+                                }else if(e_data->e_state != ENEMY_UPSIDEDOWN 
+                                        && motherpl_hit != 1u){
+                                    motherpl_hit = 1u;
+                                }
                             }
                         }
                     break;
@@ -460,7 +470,10 @@ void UPDATE(){
                         struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
                         pickup(pickedup_data);
                         SpriteManagerRemoveSprite(implspr);
-                        changeMotherplState(MOTHERPL_PICKUP);
+                        if(motherpl_state != MOTHERPL_DASH 
+                            && motherpl_state != MOTHERPL_HIT && motherpl_state != MOTHERPL_JUMP){
+                            changeMotherplState(MOTHERPL_PICKUP);
+                        }
                         }
                     break;
                 }
@@ -480,8 +493,8 @@ void getOff(){
 void die(){
     motherpl_hp = 4;
     motherpl_ups--;
-    if(motherpl_ups < 0){changeStateFromMotherpl(StateCredit);}
-    else{changeStateFromMotherpl(StateExzoo);}
+    if(motherpl_ups < 0){ChangeState(StateCredit, motherpl_state);}
+    else{ChangeState(StateExzoo, motherpl_state);}
 }
 
 void refreshAnimation(){
@@ -567,10 +580,6 @@ void shoot(){
     refreshAnimation();
 }
 
-void changeStateFromMotherpl(UINT8 new_state){
-    SetWindowY(160);
-    ChangeState(new_state, THIS);
-}
 
 void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){

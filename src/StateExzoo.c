@@ -111,7 +111,7 @@ void UPDATE(){
         update_camera_position();    
     //INIT ENEMIES
     if(test_countdown == 0u){
-        if(enemy_counter == MAX_ENEMY){
+        if(enemy_counter >= MAX_ENEMY){
             return;
         }
         test_countdown = 255u;

@@ -202,7 +202,7 @@ void update_camera_position() BANKED{
             break;
         }
     }else{
-        if(KEY_TICKED(J_DOWN)){camera_ok = 0u;}
+        if(KEY_PRESSED(J_DOWN) || motherpl_state == MOTHERPL_PICKUP){camera_ok = 0u;}
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
         if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
@@ -220,12 +220,18 @@ void update_camera_position() BANKED{
                     case NO_MIRROR://going right
                         if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
                             scroll_target->x+=3;
-                        }else if (!KEY_PRESSED(J_LEFT)){camera_ok = 1u;}
+                        }else if (!KEY_PRESSED(J_LEFT) 
+                            && !KEY_PRESSED(J_DOWN)){
+                            camera_ok = 1u;
+                        }
                     break;
                     case V_MIRROR:
                         if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
                             scroll_target->x-=3;
-                        }else if (!KEY_PRESSED(J_RIGHT)){camera_ok = 1u;}
+                        }else if (!KEY_PRESSED(J_RIGHT) 
+                            && !KEY_PRESSED(J_DOWN)){
+                            camera_ok = 1u;
+                        }
                     break;
                 }
             }
