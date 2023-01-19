@@ -1,6 +1,8 @@
 - ripristino dei nemici al ritorno di stato;
 - FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
 	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
+- disegnare un percorso che scimmiotta il 3d, sempre in orizzontale. Attraversando un cancello
+e salendo di 8 pixel. Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 
 PIXELART:
 16x16 e 40x40

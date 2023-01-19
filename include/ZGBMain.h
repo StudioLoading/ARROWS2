@@ -10,6 +10,7 @@
 
 #define STATES \
 _STATE(StateFittizio)\
+_STATE(StateInbetween)\
 _STATE(StateCredit)\
 _STATE(StateBonus)\
 _STATE(StateTetra)\

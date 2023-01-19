@@ -512,6 +512,7 @@ void refreshAnimation(){
 }
 
 void spawnDust(){
+    if(motherpl_inertiax < (INERTIA_MAX >> 2)){ return; }
     UINT16 dust_x = (UINT16) THIS->x - 8u;
     if(motherpl_state == MOTHERPL_DASH){
         dust_x += 28u;

@@ -87,10 +87,12 @@ void START(){
     //RELOAD ENEMIES
     init_enemy = 0u;
     test_countdown = 255u;
+    enemy_counter = 0u;
     UINT8 i = 0u;
     for(i = 0u; i < 3u; ++i){
         if(e_to_reload[i].alive == 1u){
             SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
+            enemy_counter++;
         }
     }
 }

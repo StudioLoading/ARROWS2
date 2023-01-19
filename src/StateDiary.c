@@ -60,6 +60,8 @@ void show_missions();
 void show_detail();
 void change_page(INT8 inc);
 
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+
 void START(){
     LOAD_SGB_BORDER(border);        
     //HIDE_WIN;
@@ -152,7 +154,7 @@ void change_page(INT8 inc){
 void UPDATE(){
     if(KEY_RELEASED(J_START)){
         border_set_diary = 0u;
-        SetState(StateOverworld);
+        ChangeStateThroughBetween(StateOverworld);
     }
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){

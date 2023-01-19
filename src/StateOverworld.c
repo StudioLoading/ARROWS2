@@ -95,8 +95,8 @@ void START(){
 
 	INIT_FONT(fontbw, PRINT_WIN);
 	INIT_HUD(hudow); 
-
-	hudow_opened = 0;	
+	HIDE_WIN;
+	//hudow_opened = 0;	
 }
 
 void UPDATE(){

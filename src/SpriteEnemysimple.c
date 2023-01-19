@@ -149,8 +149,7 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 THIS->y--;
                 if(eu_info->wait == 0u){
-                    enemy_counter--;
-                    SpriteManagerRemoveSprite(THIS);
+                    Edestroy();
                 }
                 return;
             break;
@@ -212,17 +211,15 @@ void Emanagement() BANKED{
 }
 
 void Estart() BANKED{
-    THIS->lim_x = 255u;
-    THIS->lim_y = 255u;
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
         for(j = 0u; j < 3u; ++j){
             if(e_to_reload[j].type == THIS->type && e_to_reload[j].alive == 1u){
-                i = 3u;
+                j = 4u;
             }
         }
-        if(e_to_reload[i].alive == 0u && i < 3u){
+        if(e_to_reload[i].alive == 0u && j == 3u){
             e_to_reload[i].x = THIS->x;
             e_to_reload[i].y = THIS->y;
             e_to_reload[i].type = THIS->type;
@@ -381,13 +378,15 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 }
 
 void Edestroy(){
+    enemy_counter--;
     UINT8 i = 0u;
     for(i = 0; i < 3; ++i){
         if(e_to_reload[i].type == THIS->type){
             e_to_reload[i].alive = 0u;
-            return;
+            i = 3u;
         }
     }
+    SpriteManagerRemoveSprite(THIS);
 }
 
 void DESTROY(){

@@ -51,6 +51,8 @@ void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED;
 
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+
 void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
@@ -73,6 +75,18 @@ void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
 }
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
+    
+    UINT8 mfit_a_tile;
+    Sprite* mfitspr;
+    SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
+        UINT8 i = 0u;
+        for(i = 0u; i < 3; ++i){
+            if(e_to_reload[i].alive == 1 && mfitspr->type == e_to_reload[i].type){
+                e_to_reload[i].x = mfitspr->x;
+                e_to_reload[i].y = mfitspr->y;
+            }
+        }
+    };
 	//HIDE_WIN;
     switch(s_mother->type){
         case SpriteMotherow:
@@ -83,10 +97,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             motherpl_pos_x = s_mother->x;
             motherpl_pos_y = s_mother->y;
         break;
-
     }
 	//SetWindowY(160);
-	SetState(new_state);
+	ChangeStateThroughBetween(new_state);
 }
 
 void UpdateHUD() BANKED{

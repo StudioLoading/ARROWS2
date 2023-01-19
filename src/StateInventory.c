@@ -81,6 +81,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED;
 void change_detail();
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -237,7 +238,7 @@ void invselectitem() BANKED{
 
 void UPDATE(){
     if(KEY_PRESSED(J_START)){
-        SetState(StateExzoo);
+        ChangeStateThroughBetween(StateExzoo);
     }
     
     switch(nav_equippable){
