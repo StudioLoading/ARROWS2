@@ -1,16 +1,27 @@
-- ripristino dei nemici al ritorno di stato;
+- gravità
+
+- ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 - FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
 	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
 - disegnare un percorso che scimmiotta il 3d, sempre in orizzontale. Attraversando un cancello
 e salendo di 8 pixel. Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
+- Legna + metallo + powder = Frecce Esplosive!
+- doppia freccia corre?
 
-PIXELART:
+PIXELART INVENTARIO
 16x16 e 40x40
 balestra, frecce normali, perforanti, bastarde, dinamite, 
 sacca coins, metallo, legna, polvere
+PIXEL ART COVER
+cover dal mio schizzo
+
+ANIMAZIONI
+- overworld
+- dialoghi in negozi
 
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
+- camera overworld
 
 
 ZGB HACKS:

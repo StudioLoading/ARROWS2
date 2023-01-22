@@ -22,7 +22,7 @@
 #define DEAD_COOLDOWN_MAX 64
 #define BLOCKED_COOLDOWN_MAX 200
 #define FLY_MAX 10
-#define PICKINGUP_COOLDOWN 18
+#define PICKINGUP_COOLDOWN 16
 #define DASH_COOLDOWN_MAX 24
 
 extern UINT8 J_JUMP;
@@ -43,7 +43,7 @@ const UINT8 motherpl_anim_hit[] = {2, 0, 1};
 const UINT8 motherpl_anim_dead[] = {2, 0, 1};
 const UINT8 motherpl_anim_crawl[] = {1, 8};
 const UINT8 motherpl_anim_blocked[] = {2, 2, 1};
-const UINT8 motherpl_anim_dash[] = {8, 8, 9, 9, 9, 9, 9, 9, 9}; 
+const UINT8 motherpl_anim_dash[] = {1, 9}; 
 
 struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
@@ -193,7 +193,10 @@ void UPDATE(){
         break;
         case MOTHERPL_HIT:
             motherpl_vy = GRAVITY;
-            if(motherpl_hp <= 0){changeMotherplState(MOTHERPL_DEAD);}
+            refreshAnimation();
+            if(motherpl_hp <= 0){
+                changeMotherplState(MOTHERPL_DEAD);
+            }
         break;
         case MOTHERPL_DEAD:
             if(motherpl_hit_cooldown > 0){
@@ -359,10 +362,11 @@ void UPDATE(){
             motherpl_inertiax--;
         }
     //EFFECTIVE VX
-        UINT8 effective_vx = motherpl_vx;
+        //UINT8 effective_vx = motherpl_vx;
         if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) 
             && motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_DASH){
-            effective_vx = 0;
+            motherpl_vx = 0; 
+            //effective_vx = 0;
         }
     //RELATIVE POSITION
         if(motherpl_surfing_goton == GOTON_COOLDOWN && motherpl_state != MOTHERPL_IDLE){//just got on a ride
@@ -377,10 +381,11 @@ void UPDATE(){
     //ACTUAL MOVEMENT
         UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
         if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
+            spawnDust();
             changeMotherplState(MOTHERPL_IDLE);
         }        
         if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
-            motherpl_coll = TranslateSprite(THIS, effective_vx << delta_time, 0);
+            motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
         }
     //REACTION DI TILE COLLISION
         switch(current_state){
@@ -503,11 +508,7 @@ void refreshAnimation(){
             SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
         break;
         case MOTHERPL_WALK:
-            if(motherpl_hit_cooldown > 0){
-                SetSpriteAnim(THIS, motherpl_anim_walk_hit, 12u);
-            }else{
-                SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
-            }
+            SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
         break;
         case MOTHERPL_JUMP:
             SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
@@ -521,11 +522,17 @@ void refreshAnimation(){
         case MOTHERPL_BLOCKED:
             SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
         break;
+        case MOTHERPL_HIT:        
+            if(motherpl_vx != 0 ){
+                SetSpriteAnim(THIS, motherpl_anim_walk_hit, 24u);
+            }else{
+                SetSpriteAnim(THIS, motherpl_anim_hit, 24u);
+            }
+        break;
     }
 }
 
-void spawnDust(){
-    if(motherpl_inertiax < (INERTIA_MAX >> 2)){ return; }
+void spawnDust(){   
     UINT16 dust_x = (UINT16) THIS->x - 8u;
     if(motherpl_state == MOTHERPL_DASH){
         dust_x += 28u;
@@ -625,15 +632,15 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             break;
             case MOTHERPL_WALK:
                 if(motherpl_attack_cooldown == 0u){
-                    SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
+                    refreshAnimation();
                 }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
             break;
             case MOTHERPL_HIT:
+                motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
-                motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 if(motherpl_hp > 0){
                     SetSpriteAnim(THIS, motherpl_anim_hit, 32u);
                 }else{

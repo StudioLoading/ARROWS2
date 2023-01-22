@@ -29,7 +29,7 @@ UINT8 frameskip = 0u;
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
-
+extern void ShowTipOW() BANKED;
 
 void START(){
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
@@ -130,7 +130,7 @@ void owCollision(){
     }
     if(trigger_tip){
         if(show_tip == 0u && showed_tip == 0u){
-            show_tip = 1u;
+            ShowTipOW();
         }
         if(showed_tip == 1u){
             showed_tip_goback = 1u;

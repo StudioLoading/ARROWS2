@@ -48,6 +48,7 @@ void Log() BANKED;
 void update_camera_position() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ReloadEnemiesPL() BANKED;
 
 UINT8 test_countdown = 255u;
 
@@ -72,12 +73,6 @@ void START(){
         }
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
-    //TEST
-        /*
-        PRINT(0, 11, "WORLD");
-        PRINT(17, 5, "FPS");
-        PRINT(5, 5, "TETRA");
-        */
     //HUD
 	INIT_FONT(fontbw, PRINT_BKG);
     INIT_HUD(hudpl);
@@ -85,16 +80,7 @@ void START(){
     UpdateHUD();
 
     //RELOAD ENEMIES
-    init_enemy = 0u;
-    test_countdown = 255u;
-    enemy_counter = 0u;
-    UINT8 i = 0u;
-    for(i = 0u; i < 3u; ++i){
-        if(e_to_reload[i].alive == 1u){
-            SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
-            enemy_counter++;
-        }
-    }
+    ReloadEnemiesPL();
 }
 
 void UPDATE(){

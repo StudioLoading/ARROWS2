@@ -19,7 +19,7 @@
 #include "Dialogs.h"
 
 #define CAMERA_DELTA_RIGHT 40
-#define CAMERA_DELTA_LEFT 24
+#define CAMERA_DELTA_LEFT 32
 
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
@@ -31,6 +31,7 @@ extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
+extern UINT8 test_countdown;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -202,7 +203,10 @@ void update_camera_position() BANKED{
             break;
         }
     }else{
-        if(KEY_PRESSED(J_DOWN) || motherpl_state == MOTHERPL_PICKUP){camera_ok = 0u;}
+        if((KEY_PRESSED(J_DOWN) && motherpl_state != MOTHERPL_JUMP) 
+            || motherpl_state == MOTHERPL_PICKUP){
+                camera_ok = 0u;
+            }
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
         if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
@@ -235,6 +239,19 @@ void update_camera_position() BANKED{
                     break;
                 }
             }
+        }
+    }
+}
+
+void ReloadEnemiesPL() BANKED{    
+    init_enemy = 0u;
+    test_countdown = 255u;
+    enemy_counter = 0u;
+    UINT8 i = 0u;
+    for(i = 0u; i < 3u; ++i){
+        if(e_to_reload[i].alive == 1u){
+            SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
+            enemy_counter++;
         }
     }
 }

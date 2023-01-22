@@ -53,5 +53,4 @@ void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED{
 }
 
 void DESTROY(){
-    Edestroy();
 }

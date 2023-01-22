@@ -63,6 +63,7 @@ void PauseGameOW();
 void UnpauseGameOW();
 void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
+void ShowTipOW() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 
 void START(){
@@ -99,6 +100,32 @@ void START(){
 	//hudow_opened = 0;	
 }
 
+void ShowTipOW() BANKED{
+	show_tip = 1u;
+	if(showed_tip == 0u){
+		if(show_tip_movingscroll < 64u){
+			show_tip_movingscroll+=2;
+			scroll_target->y+=2;
+		}else{
+			if(print_target != PRINT_BKG){
+				print_target = PRINT_BKG;
+			}
+			showing_tip();
+		}
+	}
+	if(showed_tip_goback == 1u){//SpriteMotherow lo setta a 1
+		if(show_tip_movingscroll > -24u){
+			show_tip_movingscroll-=2;
+			scroll_target->y-=2;
+		}else{
+			show_tip_movingscroll = 0u;
+			showed_tip_goback = 0u;
+			showed_tip = 0u;
+			show_tip = 0u;
+		}
+	}
+}
+
 void UPDATE(){
 	if(KEY_RELEASED(J_START)){
 		switch(hudow_opened){
@@ -117,32 +144,12 @@ void UPDATE(){
 		return;
 	}
 	if(show_tip == 1u){
-		if(showed_tip == 0u){
-			if(show_tip_movingscroll < 64u){
-				show_tip_movingscroll+=2;
-				scroll_target->y+=2;
-			}else{
-				if(print_target != PRINT_BKG){
-					print_target = PRINT_BKG;
-				}
-				showing_tip();
-			}
-		}
-		if(showed_tip_goback == 1u){//SpriteMotherow lo setta a 1
-			if(show_tip_movingscroll > -24u){
-				show_tip_movingscroll-=2;
-				scroll_target->y-=2;
-			}else{
-				show_tip_movingscroll = 0u;
-				showed_tip_goback = 0u;
-				showed_tip = 0u;
-				show_tip = 0u;
-			}
-		}
-	}else if (scroll_target->x != s_motherow->x || scroll_target->y != s_motherow->y){
-		scroll_target->x = s_motherow->x;
-		scroll_target->y = s_motherow->y;
+		ShowTipOW();
+		return;
 	}
+	scroll_target->x = s_motherow->x;
+	scroll_target->y = s_motherow->y;
+	
 }
 
 void showing_tip(){
