@@ -21,6 +21,7 @@ _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateCave)\
 _STATE(StateInventory)\
+_STATE(StateTitlescreen)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 

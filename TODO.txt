@@ -1,12 +1,12 @@
-- gravità
-
-- ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
+- Titlescreen
 - FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
 	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
-- disegnare un percorso che scimmiotta il 3d, sempre in orizzontale. Attraversando un cancello
-e salendo di 8 pixel. Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
+- disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
+	Attraversando un cancello ad es. e salendo di 8 pixel. 
+	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 - Legna + metallo + powder = Frecce Esplosive!
 - doppia freccia corre?
+- dialoghi: spingere ovviamente sul fatto che io sono la healer!
 
 PIXELART INVENTARIO
 16x16 e 40x40
@@ -22,6 +22,7 @@ ANIMAZIONI
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
 - camera overworld
+- ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
 
 ZGB HACKS:
