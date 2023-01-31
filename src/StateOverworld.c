@@ -83,10 +83,10 @@ void START(){
 				set_sgb_palette_2();
 			}
 			if(motherow_pos_y == 0u){
-				motherow_pos_y = (UINT16) 13u << 3;
+				motherow_pos_y = (UINT16) 39u << 3;
 			}
 			if(motherow_pos_x == 0u){
-				motherow_pos_x = (UINT16) 13u << 3;
+				motherow_pos_x = (UINT16) 38u << 3;
 			}
 			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 			scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);

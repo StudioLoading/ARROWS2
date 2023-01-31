@@ -75,7 +75,7 @@ void START() {
 void UPDATE() {
 	credit_wait_time += 1u;
 	UINT8 cb = 0;
-	if(credit_step == 0){
+	/*if(credit_step == 0){
 		switch(thunder_delay){
 			case 20u:
 				Anim_StudioLoading_1();
@@ -86,7 +86,7 @@ void UPDATE() {
 			break;
 		}
 		thunder_delay++;
-	}	
+	}	*/
 	if(KEY_TICKED(J_START)){
 		StopMusic;
 		//SetState(StateTitlescreen);
@@ -100,7 +100,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateTitlescreen);// StateExzoo // StateOverworld
+			SetState(StateTitlescreen);// 
 		}
 	}
 		

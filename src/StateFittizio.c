@@ -21,6 +21,8 @@
 #define CAMERA_DELTA_RIGHT 40
 #define CAMERA_DELTA_LEFT 32
 
+IMPORT_MAP(exzoomap0);
+
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
 extern INT8 motherpl_surf_dx;
@@ -45,6 +47,8 @@ UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
 struct EtoReload e_to_reload[3];
 UINT8 enemy_counter = 0u;
+UINT8 mapwidth;
+UINT8 mapheight;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -110,50 +114,50 @@ void UpdateHUD() BANKED{
     //EQUIPPED ITEM
         switch(itemEquipped->itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,0,0);
-                UPDATE_HUD_TILE(17,0,21);
-                UPDATE_HUD_TILE(18,0,0);
+                UPDATE_HUD_TILE(16,1,0);
+                UPDATE_HUD_TILE(17,1,21);
+                UPDATE_HUD_TILE(18,1,0);
             break;
 	        case INVITEM_ARROW_NORMAL:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,17);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,17);
             break;
 	        case INVITEM_ARROW_PERFO:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,18);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,18);
             break;
 	        case INVITEM_ARROW_BASTARD:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,19);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,19);
             break;
 	        case INVITEM_BOMB:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,20);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,20);
             break;
         }
         print_target = PRINT_WIN;
-        if(itemEquipped->quantity < 10){ PRINT(16,1,"00%i", itemEquipped->quantity); }
-        else if(itemEquipped->quantity < 100){ PRINT(16,1,"0%i", itemEquipped->quantity);}
-        else {PRINT(16,1,"%i", itemEquipped->quantity);}
+        if(itemEquipped->quantity < 10){ PRINT(16,2,"00%i", itemEquipped->quantity); }
+        else if(itemEquipped->quantity < 100){ PRINT(16,2,"0%i", itemEquipped->quantity);}
+        else {PRINT(16,2,"%i", itemEquipped->quantity);}
     //HP
         hud_motherpl_hp = motherpl_hp;
         for(idx_leftheart=6; idx_leftheart<14 ;idx_leftheart+=2){
             if(tmp_hp > 0){
-                UPDATE_HUD_TILE(idx_leftheart,0,7);
-                UPDATE_HUD_TILE(idx_leftheart,1,8);
+                UPDATE_HUD_TILE(idx_leftheart,1,7);
+                UPDATE_HUD_TILE(idx_leftheart,2,8);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,0,9);
-                UPDATE_HUD_TILE(idx_rightheart,1,10);
+                UPDATE_HUD_TILE(idx_rightheart,1,9);
+                UPDATE_HUD_TILE(idx_rightheart,2,10);
             }else{
-                UPDATE_HUD_TILE(idx_leftheart,0,1);
-                UPDATE_HUD_TILE(idx_leftheart,1,2);
+                UPDATE_HUD_TILE(idx_leftheart,1,1);
+                UPDATE_HUD_TILE(idx_leftheart,2,2);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,0,3);
-                UPDATE_HUD_TILE(idx_rightheart,1,4);
+                UPDATE_HUD_TILE(idx_rightheart,1,3);
+                UPDATE_HUD_TILE(idx_rightheart,2,4);
             }
             tmp_hp--;
             idx_rightheart++;
@@ -161,34 +165,46 @@ void UpdateHUD() BANKED{
     //UPS
         hud_motherpl_ups = motherpl_ups;
         print_target = PRINT_WIN;
-        if(hud_motherpl_ups < 10){PRINT(2,1,"0%i", hud_motherpl_ups);}
-        else{PRINT(2,1,"%i", hud_motherpl_ups);}
+        if(hud_motherpl_ups < 10){PRINT(2,2,"0%i", hud_motherpl_ups);}
+        else{PRINT(2,2,"%i", hud_motherpl_ups);}
 }
 
 void Log() BANKED{    
-    if(print_target != PRINT_WIN){
-        print_target = PRINT_WIN;
-    }
     switch(motherpl_state){
-        case MOTHERPL_IDLE: PRINT(0, 2, "IDLE"); break;
-        case MOTHERPL_JUMP: PRINT(0, 2, "JUMP"); break;
-        case MOTHERPL_WALK: PRINT(0, 2, "WALK"); break;
-        case MOTHERPL_HIT: PRINT(0, 2, " HIT"); break;
-        case MOTHERPL_DEAD: PRINT(0, 2, "DEAD"); break;
-        case MOTHERPL_CRAWL: PRINT(0, 2, "CRAW"); break;
-        case MOTHERPL_DASH: PRINT(0, 2, "DASH"); break;
+        case MOTHERPL_IDLE: PRINT(0, 3, "IDLE"); break;
+        case MOTHERPL_JUMP: PRINT(0, 3, "JUMP"); break;
+        case MOTHERPL_WALK: PRINT(0, 3, "WALK"); break;
+        case MOTHERPL_HIT: PRINT(0, 3, " HIT"); break;
+        case MOTHERPL_DEAD: PRINT(0, 3, "DEAD"); break;
+        case MOTHERPL_CRAWL: PRINT(0, 3, "CRAW"); break;
+        case MOTHERPL_DASH: PRINT(0, 3, "DASH"); break;
     }
     if(s_surf){
-        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
-    }else{
-        PRINT(5, 2, "     ");
+        PRINT(5, 3, "SURF%i",motherpl_surf_dx);
     }
-    //PRINT(10, 2, "AR:%u%u", arrows_onscreen, 5u);
-    PRINT(16, 2, "!");
-    PRINT(17, 2, "LOG");
+    //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
+    PRINT(16, 3, "!");
+    PRINT(17, 3, "LOG");
 }
 
-void update_camera_position() BANKED{
+void update_camera_position() BANKED{    
+    //LIMITS
+        //HORIZONTAL
+        if(s_motherpl->x < (UINT16)8u){
+            s_motherpl->x = 8u;
+            ChangeState(StateOverworld, s_motherpl);
+        }
+        if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
+            s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
+        }  
+        //VERTICAL
+        if(s_motherpl->y > (((UINT16) mapheight) << 3)){
+            s_motherpl->y = ((UINT16) mapheight) - 32u;
+        }
+        if(s_motherpl->y <= 0u){
+            s_motherpl->y = 32u;
+        }  
+    //SCROLL TARGET Y
     if(scroll_target->y != (s_motherpl->y + 16u)){
         scroll_target->y = s_motherpl->y + 16u;
     }

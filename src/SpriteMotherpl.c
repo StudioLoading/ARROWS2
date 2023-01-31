@@ -456,7 +456,8 @@ void UPDATE(){
                     case SpriteEnemythrowable:
                         {
                             struct ThrowableData* throwable_data = (struct ThrowableData*) s_blocking->custom_data;
-                            if(throwable_data->type == WEB && motherpl_blocked == 0u){
+                            if(throwable_data->type == WEB && motherpl_blocked == 0u 
+                                && motherpl_state != MOTHERPL_DASH){
                                 if(motherpl_blocked_cooldown == 0u){
                                     if(throwable_data->type == T_DESTROYED){
                                         s_blocking = implspr;

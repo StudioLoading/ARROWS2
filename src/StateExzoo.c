@@ -22,25 +22,24 @@ IMPORT_TILES(exzootiles);
 IMPORT_MAP(exzoomap0);
 IMPORT_MAP(hudpl);
 
-extern UINT8 border_set_exzoo;
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
-extern Sprite* s_motherpl;
-extern UINT8 init_enemy;
 extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
+extern Sprite* s_motherpl;
+extern UINT8 init_enemy;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
-extern struct EtoReload e_to_reload[3];
 extern UINT8 enemy_counter;
 extern UINT8 MAX_ENEMY;
-
-const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 0};
-const UINT8 coll_surface_exzoo[] = {1u, 0};
+extern UINT8 mapwidth;
+extern UINT8 mapheight;
+const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
+const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
 
 void UpdateHUD() BANKED;
@@ -66,21 +65,22 @@ void START(){
             set_sgb_palette_2();
         }
     //INIT GRAPHICS
-        if(motherpl_pos_x != 0u && motherpl_pos_y != 0u){
-            s_motherpl = SpriteManagerAdd(SpriteMotherpl, motherpl_pos_x, motherpl_pos_y);
-        }else{
-            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 6u << 3);
-        }
+        //if(motherpl_pos_x != 0u && motherpl_pos_y != 0u){
+        //    s_motherpl = SpriteManagerAdd(SpriteMotherpl, motherpl_pos_x, motherpl_pos_y);
+        //}else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+        //}
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
-        InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);
+        InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
     //HUD
-	INIT_FONT(fontbw, PRINT_BKG);
-    INIT_HUD(hudpl);
-    hud_motherpl_hp = 0;
-    UpdateHUD();
-
+        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_HUD(hudpl);
+        hud_motherpl_hp = 0;
+        UpdateHUD();
     //RELOAD ENEMIES
-    ReloadEnemiesPL();
+        ReloadEnemiesPL();
+    //GET MAP DIMENSIONS
+        GetMapSize(BANK(exzoomap0), &exzoomap0, &mapwidth, &mapheight);
 }
 
 void UPDATE(){
@@ -106,19 +106,19 @@ void UPDATE(){
                 SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
             break;
             case 2u:
-                SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
             break;
             case 3u:
-                SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
             break;
             case 4u:
-                SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
+
             break;
             case 5u:
                 SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
             break;
             case 6u:
-                SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
             break;
             case 7u:
                 init_enemy = 0;

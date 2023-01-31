@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 191
+  Tiles                : 0 to 210
 
   Palette colors       : Included.
   SGB Palette          : None.
@@ -86,12 +86,12 @@
 #define titlescreentilesCGBPal5c0 32767
 #define titlescreentilesCGBPal5c1 8863
 #define titlescreentilesCGBPal5c2 30
-#define titlescreentilesCGBPal5c3 85
+#define titlescreentilesCGBPal5c3 0
 
 /* Gameboy Color palette 6 */
 #define titlescreentilesCGBPal6c0 32767
 #define titlescreentilesCGBPal6c1 32660
-#define titlescreentilesCGBPal6c2 32131
+#define titlescreentilesCGBPal6c2 9752
 #define titlescreentilesCGBPal6c3 0
 
 /* Gameboy Color palette 7 */

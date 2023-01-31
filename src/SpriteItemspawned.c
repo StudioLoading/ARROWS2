@@ -75,6 +75,7 @@ void UPDATE(){
                     spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
                 }
             }
+            }
             spawned_data->hp--;
             if(spawned_data->hp == 0){
                 switch(spawned_data->itemtype){
@@ -88,7 +89,6 @@ void UPDATE(){
                 }
                 spawned_data->hp = 120u;
                 spawned_data->configured = 3u;
-            }
             }
         break;
         case 3u:

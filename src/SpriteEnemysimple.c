@@ -132,8 +132,8 @@ void Emanagement() BANKED{
                         {
                             struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
                             arrow_data->hit = 1u;
+                            changeEstate(ENEMY_HIT);
                         }
-                        changeEstate(ENEMY_HIT);
                     break;
                     case SpriteEnemythrowable:
                         if(THIS->type == SpriteEnemysimplerat || THIS->type == SpriteEnemysimplesnake){
@@ -161,6 +161,16 @@ void Emanagement() BANKED{
             break;
             case ENEMY_WALK:
                 eu_info->wait--;
+                {
+                    INT16 distance = THIS->x - s_motherpl->x;
+                    if(THIS->mirror == NO_MIRROR && distance > 100){
+                        ETurn(eu_info->vx);
+                        return;
+                    }else if( THIS->mirror == V_MIRROR && distance < -100){
+                        ETurn(eu_info->vx);
+                        return;
+                    }
+                }
                 if(eu_info->wait == 0u){
                     switch(THIS->type){
                         case SpriteEnemyAttackerCobra:
@@ -211,6 +221,7 @@ void Emanagement() BANKED{
 }
 
 void Estart() BANKED{
+    THIS->lim_x = 64u;
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
@@ -264,14 +275,13 @@ UINT8 getEmaxFrameskip(){
 void ETurn(UINT8 e_vx){
     struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
     if(e_info->vx > 0){
-        e_info->vx = -e_vx;
         THIS->mirror = V_MIRROR;
         THIS->x--;
     }else{
-        e_info->vx = e_vx;
         THIS->mirror = NO_MIRROR;
         THIS->x++;
     }
+    e_info->vx = -e_vx;
     e_info->wait = 24u;
     changeEstate(ENEMY_WAIT);
 }
@@ -385,6 +395,9 @@ void Edestroy(){
     for(i = 0; i < 3; ++i){
         if(e_to_reload[i].type == THIS->type){
             e_to_reload[i].alive = 0u;
+            e_to_reload[i].type = 0u;
+            e_to_reload[i].x = 0u;
+            e_to_reload[i].y = 0u;
             i = 3u;
         }
     }
