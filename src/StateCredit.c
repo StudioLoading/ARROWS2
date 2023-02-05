@@ -18,7 +18,7 @@
 
 IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
-IMPORT_MAP(mapcredit0);
+IMPORT_MAP(creditmap);
 DECLARE_MUSIC(bgm_credits);
 
 extern UINT8 J_JUMP;
@@ -52,7 +52,7 @@ void START() {
 			if(sgb_check()){
 				set_sgb_palette01_WOLF();
 			}
-			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
+			InitScroll(BANK(creditmap), &creditmap, collision_tiles_credits, 0);
 		break;
 	}
 	

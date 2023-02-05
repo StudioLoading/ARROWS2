@@ -32,8 +32,6 @@ extern INT8 hud_motherpl_hp;
 extern INT8 hud_motherpl_ups;
 extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
-extern UINT16 motherpl_pos_x;
-extern UINT16 motherpl_pos_y;
 extern UINT8 enemy_counter;
 extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
@@ -65,11 +63,7 @@ void START(){
             set_sgb_palette_2();
         }
     //INIT GRAPHICS
-        //if(motherpl_pos_x != 0u && motherpl_pos_y != 0u){
-        //    s_motherpl = SpriteManagerAdd(SpriteMotherpl, motherpl_pos_x, motherpl_pos_y);
-        //}else{
-            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
-        //}
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
     //HUD

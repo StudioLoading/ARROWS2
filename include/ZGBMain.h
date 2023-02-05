@@ -22,6 +22,7 @@ _STATE(StateBlackiecave)\
 _STATE(StateCave)\
 _STATE(StateInventory)\
 _STATE(StateTitlescreen)\
+_STATE(StateSmith)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 

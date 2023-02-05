@@ -41,7 +41,6 @@ INT8 hud_motherpl_hp = 0;
 INT8 hud_motherpl_ups = 0;
 struct InvItem* itemEquipped = &itemMoney;
 UINT8 camera_ok = 0u;
-UINT16 motherpl_pos_x = 0u;
 UINT16 motherpl_pos_y = 0u;
 UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
@@ -98,10 +97,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             motherow_pos_x = s_mother->x;
             motherow_pos_y = s_mother->y;
         break;
+        /*
         case SpriteMotherpl:
-            motherpl_pos_x = s_mother->x;
-            motherpl_pos_y = s_mother->y;
         break;
+        */
     }
 	//SetWindowY(160);
 	ChangeStateThroughBetween(new_state);

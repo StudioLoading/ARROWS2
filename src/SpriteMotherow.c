@@ -104,11 +104,12 @@ void owCollision(){
         break;
         case 83u:
         case 85u://SMITH
-            tip_to_show = TIP_SMITH_NO;
-            trigger_tip = 1u;
+            // tip_to_show = TIP_SMITH_NO;
+            // trigger_tip = 1u;
+            ChangeState(StateSmith, THIS);
         break;
         case 46u:
-        case 47u://BLACKIE CAVESMITH
+        case 47u://BLACKIE CAVE
             tip_to_show = TIP_BLACKIE_CAVE;
             trigger_tip = 1u;
         break;
