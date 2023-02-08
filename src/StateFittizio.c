@@ -34,6 +34,7 @@ extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 extern UINT8 test_countdown;
+extern UINT8 motherpl_hit_cooldown;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -41,6 +42,8 @@ INT8 hud_motherpl_hp = 0;
 INT8 hud_motherpl_ups = 0;
 struct InvItem* itemEquipped = &itemMoney;
 UINT8 camera_ok = 0u;
+MirroMode motherpl_mirror = NO_MIRROR; 
+UINT16 motherpl_pos_x = 0u;
 UINT16 motherpl_pos_y = 0u;
 UINT16 motherow_pos_x = 0u;
 UINT16 motherow_pos_y = 0u;
@@ -48,6 +51,7 @@ struct EtoReload e_to_reload[3];
 UINT8 enemy_counter = 0u;
 UINT8 mapwidth;
 UINT8 mapheight;
+UINT8 previous_state;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -78,8 +82,7 @@ void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
     reward_data->configured = 1u;
 }
 
-void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
-    
+void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{    
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -97,11 +100,13 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             motherow_pos_x = s_mother->x;
             motherow_pos_y = s_mother->y;
         break;
-        /*
         case SpriteMotherpl:
-        break;
-        */
+            motherpl_pos_x = s_mother->x;
+            motherpl_pos_y = s_mother->y;
+            motherpl_mirror = s_mother->mirror;
+        break;        
     }
+    previous_state = current_state;
 	//SetWindowY(160);
 	ChangeStateThroughBetween(new_state);
 }
@@ -186,7 +191,26 @@ void Log() BANKED{
     PRINT(17, 3, "LOG");
 }
 
-void update_camera_position() BANKED{    
+void camera_tramble() BANKED{
+    UINT8 cooldown_shifted = 1;
+    if(motherpl_hit_cooldown > 40){
+        cooldown_shifted = motherpl_hit_cooldown % 4;
+    }
+    else if(motherpl_hit_cooldown > 17){
+        cooldown_shifted = motherpl_hit_cooldown % 6;
+    } else {
+        cooldown_shifted = motherpl_hit_cooldown % 6;
+    }     
+    if(cooldown_shifted == 0){
+        if(scroll_target->y > s_motherpl->y){
+            scroll_target->y = s_motherpl->y - 14u;
+        }else{
+            scroll_target->y = s_motherpl->y + 12u;
+        }
+    }
+}
+
+void update_camera_position() BANKED{
     //LIMITS
         //HORIZONTAL
         if(s_motherpl->x < (UINT16)8u){
@@ -207,6 +231,8 @@ void update_camera_position() BANKED{
     if(scroll_target->y != (s_motherpl->y + 16u)){
         scroll_target->y = s_motherpl->y + 16u;
     }
+    if(motherpl_state == MOTHERPL_BLOCKED ){return;}
+    if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
     //in ogni caso non uscire dai margini
     if(s_surf){
         switch(s_motherpl->mirror){
@@ -217,42 +243,39 @@ void update_camera_position() BANKED{
                 scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
             break;
         }
-    }else{
-        if((KEY_PRESSED(J_DOWN) && motherpl_state != MOTHERPL_JUMP) 
-            || motherpl_state == MOTHERPL_PICKUP){
-                camera_ok = 0u;
+        return;
+    }
+    if((KEY_PRESSED(J_DOWN) && motherpl_state != MOTHERPL_JUMP) 
+        || motherpl_state == MOTHERPL_PICKUP){
+            camera_ok = 0u;
+    }
+    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
+        if(camera_ok == 1u){
+            switch(s_motherpl->mirror){
+                case NO_MIRROR:
+                    scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
+                break;
+                case V_MIRROR:
+                    scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
+                break;
             }
-        if(motherpl_state == MOTHERPL_BLOCKED ){return;}
-        if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
-            if(camera_ok == 1u){
-                switch(s_motherpl->mirror){
-                    case NO_MIRROR:
-                        scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
-                    break;
-                    case V_MIRROR:
-                        scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
-                    break;
-                }
-            }else{
-                switch(s_motherpl->mirror){
-                    case NO_MIRROR://going right
-                        if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
-                            scroll_target->x+=3;
-                        }else if (!KEY_PRESSED(J_LEFT) 
-                            && !KEY_PRESSED(J_DOWN)){
-                            camera_ok = 1u;
-                        }
-                    break;
-                    case V_MIRROR:
-                        if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
-                            scroll_target->x-=3;
-                        }else if (!KEY_PRESSED(J_RIGHT) 
-                            && !KEY_PRESSED(J_DOWN)){
-                            camera_ok = 1u;
-                        }
-                    break;
-                }
+        }else{
+            switch(s_motherpl->mirror){
+                case NO_MIRROR://going right
+                    if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
+                        scroll_target->x+=2;
+                    }else if (!KEY_PRESSED(J_LEFT) 
+                        && !KEY_PRESSED(J_DOWN)){
+                        camera_ok = 1u;
+                    }
+                break;
+                case V_MIRROR:
+                    if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
+                        scroll_target->x-=2;
+                    }else if (!KEY_PRESSED(J_RIGHT) && !KEY_PRESSED(J_DOWN)){
+                        camera_ok = 1u;
+                    }
+                break;
             }
         }
     }

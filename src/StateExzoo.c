@@ -36,6 +36,13 @@ extern UINT8 enemy_counter;
 extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
+extern UINT8 previous_state;
+extern UINT16 motherpl_pos_x;
+extern UINT16 motherpl_pos_y;
+extern MirroMode motherpl_mirror; 
+extern UINT8 motherpl_hit_cooldown;
+extern INT8 motherpl_vx;
+
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
@@ -44,6 +51,7 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 
+extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 
@@ -64,6 +72,11 @@ void START(){
         }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+        if(previous_state == StateInventory){
+            s_motherpl->x = motherpl_pos_x;
+            s_motherpl->y = motherpl_pos_y;
+            s_motherpl->mirror = motherpl_mirror;
+        }
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
     //HUD
@@ -87,8 +100,14 @@ void UPDATE(){
         }
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
-    //SCROLL CAMERA
-        update_camera_position();    
+    //CAMERA MANAGEMENT
+        if(motherpl_hit_cooldown > 0 && motherpl_vx == 0){
+            //CAMERA TRAMBLE
+            camera_tramble();
+        }else{
+            //SCROLL CAMERA
+            update_camera_position();
+        }
     //INIT ENEMIES
     if(test_countdown == 0u){
         if(enemy_counter >= MAX_ENEMY){

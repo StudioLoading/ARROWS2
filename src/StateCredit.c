@@ -100,7 +100,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateTitlescreen);// 
+			SetState(StateExzoo);// 
 		}
 	}
 		

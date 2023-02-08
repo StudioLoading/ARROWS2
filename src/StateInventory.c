@@ -71,6 +71,7 @@ struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equi
 struct InvItem* inventory[12] = {&itemMoney, &item00, &item01, &item02, &item03, &item04,
                             &unequip00, &unequip01, &unequip02, &unequip03, &unequip04, &unequip05};
 extern struct InvItem* itemEquipped;
+extern UINT8 previous_state;
 
 void invselectitem() BANKED;
 void fixInvcursor() BANKED;
@@ -81,7 +82,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED;
 void change_detail();
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
-extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+extern void ChangeState(UINT8 new_state) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -238,7 +239,7 @@ void invselectitem() BANKED{
 
 void UPDATE(){
     if(KEY_PRESSED(J_START)){
-        ChangeStateThroughBetween(StateExzoo);
+        ChangeState(previous_state);
     }
     
     switch(nav_equippable){

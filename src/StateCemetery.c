@@ -37,6 +37,11 @@ extern UINT8 enemy_counter;
 extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
+extern UINT8 previous_state;
+extern UINT16 motherpl_pos_x;
+extern UINT16 motherpl_pos_y;
+extern MirroMode motherpl_mirror; 
+
 const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
 
@@ -62,6 +67,11 @@ void START(){
         }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 6u << 3);
+        if(previous_state == StateInventory){
+            s_motherpl->x = motherpl_pos_x;
+            s_motherpl->y = motherpl_pos_y;
+            s_motherpl->mirror = motherpl_mirror;
+        }
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(cemeterymap), &cemeterymap, coll_tiles_cemetery, coll_surface_cemetery);    
     //HUD
