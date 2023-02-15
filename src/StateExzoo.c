@@ -12,6 +12,7 @@
 #include "Music.h"
 
 #include "custom_datas.h"
+#include "custom_datas_npc.h"
 #include "TilesAnimations0.h"
 #include "sgb_palette.h"
 #include "Dialogs.h"
@@ -72,11 +73,20 @@ void START(){
         }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
-        if(previous_state == StateInventory){
+        if(previous_state == StateInventory) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
+    //SPAWN NPC
+        Sprite* s_whead1 = SpriteManagerAdd(SpritePgexzoo, 200u, 76u);
+        struct NpcInfo* whead1_data = (struct NpcInfo*) s_whead1->custom_data;
+        whead1_data->type = WOMAN_HEAD1;
+        Sprite* s_wbody1 = SpriteManagerAdd(SpritePgexzoo, 200u, 92u);
+        struct NpcInfo* wbody1_data = (struct NpcInfo*) s_wbody1->custom_data;
+        wbody1_data->type = WOMAN_BODY1;
+        whead1_data->configured = 1u;
+        wbody1_data->configured = 1u;
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
     //HUD

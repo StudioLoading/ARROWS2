@@ -418,6 +418,11 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
             if(CheckCollision(THIS, implspr)) {
                 switch(implspr->type){
+                    case SpritePgexzoo:
+                        if(KEY_PRESSED(J_FIRE)){
+                            ChangeState(StateDialog, THIS);
+                        }
+                    break;
                     case SpriteArrow:
                         motherpl_blocked = 0u;
                         if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){

@@ -23,6 +23,7 @@ _STATE(StateCave)\
 _STATE(StateInventory)\
 _STATE(StateTitlescreen)\
 _STATE(StateSmith)\
+_STATE(StateDialog)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 
@@ -54,6 +55,7 @@ _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
 _SPRITE_DMG(SpriteItemspawned, itemspawned)\
+_SPRITE_DMG(SpritePgexzoo, pgexzoo)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

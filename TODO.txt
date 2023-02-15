@@ -1,4 +1,5 @@
 TODO x demo:
+- npc
 - Cimitero
 - Dialogo Fabbro
 - Dialogo Ospedale

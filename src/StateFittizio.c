@@ -35,6 +35,7 @@ extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 extern UINT8 test_countdown;
 extern UINT8 motherpl_hit_cooldown;
+extern WHOSTALKING whostalking;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -94,13 +95,14 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             }
         }
     };
-	//HIDE_WIN;
+	//
     switch(s_mother->type){
         case SpriteMotherow:
             motherow_pos_x = s_mother->x;
             motherow_pos_y = s_mother->y;
         break;
         case SpriteMotherpl:
+            HIDE_WIN;
             motherpl_pos_x = s_mother->x;
             motherpl_pos_y = s_mother->y;
             motherpl_mirror = s_mother->mirror;
@@ -108,7 +110,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
     }
     previous_state = current_state;
 	//SetWindowY(160);
-	ChangeStateThroughBetween(new_state);
+    if(new_state != StateDialog){
+	    ChangeStateThroughBetween(new_state);
+    }else{
+        whostalking = EXZOO_WOMAN1;
+        SetState(new_state);
+    }
 }
 
 void UpdateHUD() BANKED{
@@ -193,19 +200,19 @@ void Log() BANKED{
 
 void camera_tramble() BANKED{
     UINT8 cooldown_shifted = 1;
-    if(motherpl_hit_cooldown > 40){
+    if(motherpl_hit_cooldown > 50){
         cooldown_shifted = motherpl_hit_cooldown % 4;
     }
     else if(motherpl_hit_cooldown > 17){
         cooldown_shifted = motherpl_hit_cooldown % 6;
     } else {
-        cooldown_shifted = motherpl_hit_cooldown % 6;
-    }     
+        cooldown_shifted = motherpl_hit_cooldown % 8;
+    }
     if(cooldown_shifted == 0){
         if(scroll_target->y > s_motherpl->y){
-            scroll_target->y = s_motherpl->y - 14u;
+            scroll_target->y = s_motherpl->y - 13u;
         }else{
-            scroll_target->y = s_motherpl->y + 12u;
+            scroll_target->y = s_motherpl->y + 14u;
         }
     }
 }
