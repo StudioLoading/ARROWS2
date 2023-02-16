@@ -10,6 +10,9 @@ unsigned char d1[22];
 unsigned char d2[22];
 unsigned char d3[22];
 unsigned char d4[22];
+unsigned char d5[22];
+unsigned char d6[22];
+unsigned char d7[22];
 
 unsigned char EMPTY_STRING_21[22] = "                     \0";
 unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
@@ -54,6 +57,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 	}
 }
+
 void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 	switch(label){
 		case DIARIO_MISSIONI:
@@ -63,4 +67,16 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 			memcpy(d, "GAME OPTIONS", 20);
 		break;		
 	}	
+}
+
+void GetLocalizedDialog_EN(WHOSTALKING whostalking, UINT8* n_lines) BANKED{
+	switch(whostalking){
+		case EXZOO_WOMAN1:
+			*n_lines = 2u;
+			memcpy(d1, "THE SMITH IS YET TO \0", 22);
+			memcpy(d2, "COME.               \0", 22);
+			memcpy(d3, EMPTY_STRING_21 , 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+	}
 }

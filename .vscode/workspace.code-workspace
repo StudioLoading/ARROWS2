@@ -23,7 +23,8 @@
 			"sprite.h": "c",
 			"string.h": "c",
 			"main.h": "c",
-			"palette.h": "c"
+			"palette.h": "c",
+			"dialogs.h": "c"
 		}
 	}
 }

@@ -291,8 +291,4 @@ struct InvcursorInfo{
 	UINT8 square_or_arrow;
 };
 
-typedef enum{
-    DESSA,
-    EXZOO_WOMAN1
-}WHOSTALKING;
 

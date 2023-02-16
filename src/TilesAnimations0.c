@@ -2,6 +2,7 @@
 
 #include "ZGBMain.h"
 #include "custom_datas.h"
+#include "Dialogs.h"
 
 IMPORT_TILES(tiles);
 IMPORT_TILES(tiles4);
