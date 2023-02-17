@@ -9,7 +9,6 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 #include "Music.h"
 
 #include "TilesAnimations0.h"
@@ -56,6 +55,7 @@ void START() {
 	NR50_REG = 0x77; //Max volume 0x77
     SpriteManagerLoad(SpriteInvcursor);
 	//PlayMusic(bgm_credits, 0);
+    HIDE_WIN;
     InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);
     dialog_map();
     INIT_FONT(font, PRINT_BKG);
@@ -66,18 +66,18 @@ void START() {
 }
 
 void UPDATE() {
-    if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B)){
+    if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
         wait_char = 1u;
     }
     if(dialog_ready == 0u){
         PRINT(0, 7, EMPTY_STRING_21);
-        PRINT(1, 7, EMPTY_STRING_21);
-        PRINT(2, 7, EMPTY_STRING_21);
-        PRINT(3, 7, EMPTY_STRING_21);
-        PRINT(4, 7, EMPTY_STRING_21);
-        PRINT(5, 7, EMPTY_STRING_21);
-        PRINT(6, 7, EMPTY_STRING_21);
-
+        PRINT(0, 8, EMPTY_STRING_21);
+        PRINT(0, 9, EMPTY_STRING_21);
+        PRINT(0, 10, EMPTY_STRING_21);
+        PRINT(0, 11, EMPTY_STRING_21);
+        PRINT(0, 12, EMPTY_STRING_21);
+        PRINT(0, 13, EMPTY_STRING_21);
+        SpriteManagerRemoveSprite(dialog_cursor);
         GetLocalizedDialog_EN(whostalking, &n_lines);
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
@@ -109,24 +109,19 @@ void UPDATE() {
         }
     }
     if(dialog_ready == 2u){
-        dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)17u << 3, (UINT16)16u << 3);
-        struct InvcursorInfo* dialog_cursor_data = (struct InvcursorInfo*) dialog_cursor->custom_data;
-	    dialog_cursor_data->switch_animation = 1u;
+        dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u){
-        if(KEY_PRESSED(J_A)){
+        if(KEY_RELEASED(J_A)){
             move_on();
-        }else if(KEY_PRESSED(J_B)){
-            dialog_ready = 0u;//reload dialog
         }
     }
-    if(KEY_TICKED(J_START)){
-        move_on();
-    }		
 }
 
 void move_on(){
+    SpriteManagerRemoveSprite(dialog_cursor);
+    dialog_ready = 0u;
     if(previous_state == StateOverworld){
         ChangeState(previous_state, s_motherow);
     }else{

@@ -659,6 +659,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;                
             break;
             case MOTHERPL_BLOCKED:
+                motherpl_vx = 0;
                 motherpl_blocked = 2u;
                 SetSpriteAnim(THIS, motherpl_anim_blocked, 32u);
                 motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;

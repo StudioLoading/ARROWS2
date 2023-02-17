@@ -96,21 +96,26 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
         }
     };
 	//
-    switch(s_mother->type){
-        case SpriteMotherow:
-            motherow_pos_x = s_mother->x;
-            motherow_pos_y = s_mother->y;
-        break;
-        case SpriteMotherpl:
-            HIDE_WIN;
-            motherpl_pos_x = s_mother->x;
-            motherpl_pos_y = s_mother->y;
-            motherpl_mirror = s_mother->mirror;
-        break;        
+    
+    if(current_state == StateOverworld || current_state == StateExzoo){
+        switch(s_mother->type){
+            case SpriteMotherow:
+                motherow_pos_x = s_mother->x;
+                motherow_pos_y = s_mother->y;
+            break;
+            case SpriteMotherpl:
+                motherpl_pos_x = s_mother->x;
+                motherpl_pos_y = s_mother->y;
+                motherpl_mirror = s_mother->mirror;
+            break;        
+        }
+    }
+    if(current_state == StateExzoo){
+        HIDE_WIN;
+        SetWindowY(160);
     }
     previous_state = current_state;
-	//SetWindowY(160);
-    if(new_state != StateDialog){
+	if(new_state != StateDialog){
 	    ChangeStateThroughBetween(new_state);
     }else{
         whostalking = EXZOO_WOMAN1;
