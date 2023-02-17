@@ -35,7 +35,6 @@ extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 extern UINT8 test_countdown;
 extern UINT8 motherpl_hit_cooldown;
-extern WHOSTALKING whostalking;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -53,12 +52,14 @@ UINT8 enemy_counter = 0u;
 UINT8 mapwidth;
 UINT8 mapheight;
 UINT8 previous_state;
+WHOSTALKING whostalking;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED;
+void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
@@ -118,7 +119,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
 	if(new_state != StateDialog){
 	    ChangeStateThroughBetween(new_state);
     }else{
-        whostalking = EXZOO_WOMAN1;
         SetState(new_state);
     }
 }
@@ -304,6 +304,21 @@ void ReloadEnemiesPL() BANKED{
             enemy_counter++;
         }
     }
+}
+
+void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED{
+    Sprite* s_head = SpriteManagerAdd(type, posx, posy);
+    s_head->mirror = mirror;
+    struct NpcInfo* head_data = (struct NpcInfo*) s_head->custom_data;
+    head_data->type = head;
+    head_data->whotalks = whos;
+    Sprite* s_body = SpriteManagerAdd(type, posx, posy+16u);
+    s_body->mirror = mirror;
+    struct NpcInfo* body_data = (struct NpcInfo*) s_body->custom_data;
+    body_data->type = body;
+    body_data->whotalks = whos;
+    head_data->configured = 1u;
+    body_data->configured = 1u;
 }
 
 void START(){}

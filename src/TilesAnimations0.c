@@ -92,6 +92,7 @@ void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalki
     SWITCH_ROM(bank);
 	switch(whostalking){
 		case EXZOO_WOMAN1:
+		case EXZOO_WOMAN2:
     		set_bkg_data(first_tile, nb_tiles, dialogtiles00.data+((16u) * first_tile));
 		break;
 	}
@@ -103,6 +104,7 @@ void dialog_map() BANKED{
 		case DESSA:
 		break;
 		case EXZOO_WOMAN1:
+		case EXZOO_WOMAN2:
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogtiles00));
 		break;
 	}

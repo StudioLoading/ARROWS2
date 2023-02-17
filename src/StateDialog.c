@@ -37,8 +37,7 @@ extern unsigned char d4[];
 extern unsigned char d5[];
 extern unsigned char d6[];
 extern unsigned char d7[];
-
-WHOSTALKING whostalking;
+extern WHOSTALKING whostalking;
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
 UINT8 wait_char = MAX_WAIT_CHAR;
@@ -78,7 +77,7 @@ void UPDATE() {
         PRINT(0, 12, EMPTY_STRING_21);
         PRINT(0, 13, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
-        GetLocalizedDialog_EN(whostalking, &n_lines);
+        GetLocalizedDialog_EN(&n_lines);
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
         dialog_ready = 1u;
@@ -113,13 +112,14 @@ void UPDATE() {
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u){
-        if(KEY_RELEASED(J_A)){
+        if(KEY_RELEASED(J_A) || KEY_RELEASED(J_B)){
             move_on();
         }
     }
 }
 
 void move_on(){
+    whostalking = NOBODY;
     SpriteManagerRemoveSprite(dialog_cursor);
     dialog_ready = 0u;
     if(previous_state == StateOverworld){

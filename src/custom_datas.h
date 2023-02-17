@@ -285,10 +285,29 @@ struct ItemSpawned{
 	UINT8 equippable;
 };
 
-
 struct InvcursorInfo{
 	UINT8 switch_animation;
 	UINT8 square_or_arrow;
+};
+
+typedef enum{
+    WOMAN_HEAD1,
+    WOMAN_HEAD2,
+    WOMAN_BODY1,
+    WOMAN_BODY2,
+}NPCTYPE;
+
+typedef enum{
+	NOBODY,
+    DESSA,
+    EXZOO_WOMAN1,
+    EXZOO_WOMAN2
+}WHOSTALKING;
+
+struct NpcInfo{
+    WHOSTALKING whotalks;
+	NPCTYPE type;
+    UINT8 configured;
 };
 
 

@@ -31,6 +31,7 @@ extern INT8 invcursor_posi;
 extern INT8 invcursor_posimax;
 extern struct InvItem* itemEquipped;
 extern UINT8 camera_ok;
+extern WHOSTALKING whostalking;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -419,6 +420,10 @@ void UPDATE(){
             if(CheckCollision(THIS, implspr)) {
                 switch(implspr->type){
                     case SpritePgexzoo:
+                        {
+                            struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
+                            whostalking = npc_data->whotalks;
+                        }
                         if(KEY_PRESSED(J_FIRE)){
                             ChangeState(StateDialog, THIS);
                         }

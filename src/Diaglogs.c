@@ -5,6 +5,9 @@
 #include "Music.h"
 
 #include "Dialogs.h"
+#include "custom_datas.h"
+
+extern WHOSTALKING whostalking;
 
 unsigned char d1[22];
 unsigned char d2[22];
@@ -69,13 +72,20 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 	}	
 }
 
-void GetLocalizedDialog_EN(WHOSTALKING whostalking, UINT8* n_lines) BANKED{
+void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
 		case EXZOO_WOMAN1:
 			*n_lines = 2u;
 			memcpy(d1, "THE SMITH IS YET TO \0", 22);
 			memcpy(d2, "COME.               \0", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case EXZOO_WOMAN2:
+			*n_lines = 3u;
+			memcpy(d1, "HI I AM THE WOMAN2  \0", 22);
+			memcpy(d2, "I AM A CHATTING NPC \0", 22);
+			memcpy(d3, "HOW DO YOU DO?      \0" , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 	}

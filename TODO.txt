@@ -1,6 +1,4 @@
 TODO x demo:
-- cursore al dialogo terminato imputtanato
-- perché al ritorno del dialogo non respawno dove dovrei?
 - npc
 - Cimitero
 - Dialogo Fabbro

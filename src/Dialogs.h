@@ -12,11 +12,7 @@ typedef enum{
 	TIP_OWLIMIT_SOUTH
 }TIP_TO_BE_LOCALIZED;
 
-typedef enum{
-    DESSA,
-    EXZOO_WOMAN1
-}WHOSTALKING;
 
 void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;
-void GetLocalizedDialog_EN(WHOSTALKING whostalking, UINT8* n_lines) BANKED;
+void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;

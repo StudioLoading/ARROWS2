@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 
-#include "custom_datas_npc.h"
+#include "custom_datas.h"
 #include "Dialogs.h"
 
 const UINT8 whead1_anim_idle[] = {1, 0}; //The first number indicates the number of frames

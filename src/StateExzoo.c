@@ -12,7 +12,6 @@
 #include "Music.h"
 
 #include "custom_datas.h"
-#include "custom_datas_npc.h"
 #include "TilesAnimations0.h"
 #include "sgb_palette.h"
 #include "Dialogs.h"
@@ -55,6 +54,8 @@ void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
+extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
+
 
 UINT8 test_countdown = 255u;
 
@@ -79,15 +80,10 @@ void START(){
             s_motherpl->mirror = motherpl_mirror;
         }
     //SPAWN NPC
-        Sprite* s_whead1 = SpriteManagerAdd(SpritePgexzoo, 200u, 76u);
-        struct NpcInfo* whead1_data = (struct NpcInfo*) s_whead1->custom_data;
-        whead1_data->type = WOMAN_HEAD1;
-        Sprite* s_wbody1 = SpriteManagerAdd(SpritePgexzoo, 200u, 92u);
-        struct NpcInfo* wbody1_data = (struct NpcInfo*) s_wbody1->custom_data;
-        wbody1_data->type = WOMAN_BODY1;
-        whead1_data->configured = 1u;
-        wbody1_data->configured = 1u;
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
+        spawn_npc(SpritePgexzoo, 200u, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
+        spawn_npc(SpritePgexzoo, 212u, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
+    //INIT CHAR & MAP
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
