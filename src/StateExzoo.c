@@ -46,6 +46,7 @@ extern INT8 motherpl_vx;
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
+UINT8 npc_spawned_zone = 0u;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -79,9 +80,6 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-    //SPAWN NPC
-        spawn_npc(SpritePgexzoo, 200u, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
-        spawn_npc(SpritePgexzoo, 212u, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(exzoomap0), &exzoomap0, coll_tiles_exzoo, coll_surface_exzoo);    
@@ -115,37 +113,56 @@ void UPDATE(){
             update_camera_position();
         }
     //INIT ENEMIES
-    if(test_countdown == 0u){
-        if(enemy_counter >= MAX_ENEMY){
-            return;
-        }
-        test_countdown = 255u;
-        switch(init_enemy){
-            case 1u:
-                SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
-            break;
-            case 2u:
-                //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
-            break;
-            case 3u:
-                //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
-            break;
-            case 4u:
+        if(test_countdown == 0u){
+            if(enemy_counter >= MAX_ENEMY){
+                return;
+            }
+            test_countdown = 255u;
+            switch(init_enemy){
+                case 1u:
+                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 2u:
+                    //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 3u:
+                    //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 4u:
 
-            break;
-            case 5u:
-                SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
-            break;
-            case 6u:
-                //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
-            break;
-            case 7u:
-                init_enemy = 0;
-            break;
+                break;
+                case 5u:
+                    SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 6u:
+                    //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 7u:
+                    init_enemy = 0;
+                break;
+            }
+            init_enemy++;
         }
-        init_enemy++;
+    //MANAGE NPC
+    if(s_motherpl->x < ((UINT16)40u << 3)){
+        if(npc_spawned_zone != 1u){
+            spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
+            spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
+            npc_spawned_zone = 1u;
+        }
+    }else if(s_motherpl->x < ((UINT16)70u << 3)){
+        if(npc_spawned_zone != 2u){
+            spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2);
+            npc_spawned_zone = 2u;
+        }
+    }else if(s_motherpl->x < ((UINT16)120u << 3)){
+        if(npc_spawned_zone != 3u){
+            spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1);
+            spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3);
+            npc_spawned_zone = 3u;
+        }
     }
-
+    
     Log();
 }
 

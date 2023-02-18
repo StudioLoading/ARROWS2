@@ -295,13 +295,22 @@ typedef enum{
     WOMAN_HEAD2,
     WOMAN_BODY1,
     WOMAN_BODY2,
+    WOMAN_BODY3,
+    MAN_HEAD1,
+    MAN_HEAD2,
+    MAN_HEAD3,
+    MAN_BODY1,
+    MAN_BODY2
 }NPCTYPE;
 
 typedef enum{
 	NOBODY,
     DESSA,
     EXZOO_WOMAN1,
-    EXZOO_WOMAN2
+    EXZOO_WOMAN2,
+    EXZOO_WOMAN3,
+    EXZOO_MAN1,
+    EXZOO_MAN2
 }WHOSTALKING;
 
 struct NpcInfo{

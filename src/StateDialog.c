@@ -112,7 +112,7 @@ void UPDATE() {
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u){
-        if(KEY_RELEASED(J_A) || KEY_RELEASED(J_B)){
+        if(KEY_RELEASED(J_JUMP)){
             move_on();
         }
     }

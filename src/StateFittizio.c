@@ -35,6 +35,7 @@ extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 extern UINT8 test_countdown;
 extern UINT8 motherpl_hit_cooldown;
+extern UINT8 npc_spawned_zone;
 
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -96,8 +97,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             }
         }
     };
-	//
-    
+    npc_spawned_zone = 0u;
     if(current_state == StateOverworld || current_state == StateExzoo){
         switch(s_mother->type){
             case SpriteMotherow:
@@ -231,6 +231,7 @@ void update_camera_position() BANKED{
         }
         if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
             s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
+            ChangeState(StateOverworld, s_motherpl);
         }  
         //VERTICAL
         if(s_motherpl->y > (((UINT16) mapheight) << 3)){

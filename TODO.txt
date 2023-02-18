@@ -1,6 +1,6 @@
 TODO x demo:
-- npc
 - Cimitero
+- Miniera
 - Dialogo Fabbro
 - Dialogo Ospedale
 - dialoghi: spingere ovviamente sul fatto che io sono la healer!

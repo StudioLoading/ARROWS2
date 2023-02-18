@@ -30,6 +30,7 @@ UINT8 bank_invdetail0tiles = BANK(invdetail0tiles);
 UINT8 bank_dialogtiles00 = BANK(dialogtiles00);
 
 extern WHOSTALKING whostalking;
+extern UINT8 previous_state;
 
 
 void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, UINT8 isEmpty) NONBANKED {
@@ -90,9 +91,8 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, UINT8 tiles_used, UIN
 void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalking, UINT8 bank) NONBANKED {
     uint8_t save = _current_bank;
     SWITCH_ROM(bank);
-	switch(whostalking){
-		case EXZOO_WOMAN1:
-		case EXZOO_WOMAN2:
+	switch(previous_state){
+		case StateExzoo:
     		set_bkg_data(first_tile, nb_tiles, dialogtiles00.data+((16u) * first_tile));
 		break;
 	}
@@ -100,11 +100,8 @@ void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalki
 }
 
 void dialog_map() BANKED{
-	switch(whostalking){
-		case DESSA:
-		break;
-		case EXZOO_WOMAN1:
-		case EXZOO_WOMAN2:
+	switch(previous_state){
+		case StateExzoo:
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogtiles00));
 		break;
 	}
