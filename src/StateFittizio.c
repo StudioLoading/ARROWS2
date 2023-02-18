@@ -33,7 +33,7 @@ extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
-extern UINT8 test_countdown;
+UINT8 test_countdown = 255u;
 extern UINT8 motherpl_hit_cooldown;
 extern UINT8 npc_spawned_zone;
 

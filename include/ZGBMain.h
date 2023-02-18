@@ -56,6 +56,7 @@ _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
 _SPRITE_DMG(SpriteItemspawned, itemspawned)\
 _SPRITE_DMG(SpritePgexzoo, pgexzoo)\
+_SPRITE_DMG(SpritePgcemetery, pgcemetery)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

@@ -26,7 +26,7 @@ const UINT8 mbody2_anim_idle[] = {1, 10}; //The first number indicates the numbe
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
     npc_data->configured = 0;
-    THIS->lim_x = 160u;
+    THIS->lim_x = 100u;
 }
 
 void UPDATE(){

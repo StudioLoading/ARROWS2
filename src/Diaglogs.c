@@ -89,13 +89,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "WHERE'S THE CHAMP?  \0", 22);
 		break;
 		case EXZOO_WOMAN3:
-			*n_lines = 7u;
+			*n_lines = 8u;
 			memcpy(d1, "THIS MAN' NAME IS   \0", 22);
 			memcpy(d2, "PAUL. BUT WE CALL   \0", 22);
 			memcpy(d3, "HIM 'LEGO'. GUESS   \0", 22);
 			memcpy(d4, "WHY...? HIHIHI      \0", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "ANYWAY, IT'S NOT HIM\0", 22);
+			memcpy(d6, "HE IS NOT GONNA BE  \0", 22);
 			memcpy(d7, "THE NEXT TETRA CHAMP\0", 22);
 		break;
 		case EXZOO_MAN1:
@@ -116,6 +116,29 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HE IS GOING TO      \0", 22);
 			memcpy(d7, "TEACH ME VERY SOON. \0", 22);
+		break;		
+		case CEMETERY_WOMAN1:
+			*n_lines = 3u;
+			memcpy(d1, "HELLO 'DESSA. THE   \0", 22);
+			memcpy(d2, "BLACK WOLF IS LOOKIN\0", 22);
+			memcpy(d3, "FOR YOU.            \0" , 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case CEMETERY_WOMAN2:
+			*n_lines = 4u;
+			memcpy(d1, "THERE'S GOING TO BE \0", 22);
+			memcpy(d2, "A TOURNAMENT AT THE \0", 22);
+			memcpy(d3, "INN IN FEW DAYS.    \0" , 22);
+			memcpy(d4, "WHERE'S THE CHAMP?  \0", 22);
+		break;
+		case CEMETERY_MAN1:
+			*n_lines = 6u;
+			memcpy(d1, "HI! I'M PAUL.       \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "I'VE HEARD TETRA    \0", 22);
+			memcpy(d4, "CHAMP IS NOT GONNA  \0", 22);
+			memcpy(d5, "COME. MAYBE I HAVE A\0" , 22);
+			memcpy(d6, "CHANCE THIS TIME!   \0", 22);
 		break;
 	}
 }

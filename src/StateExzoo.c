@@ -42,23 +42,20 @@ extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
+extern UINT8 npc_spawned_zone;
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
-UINT8 npc_spawned_zone = 0u;
 
-void UpdateHUD() BANKED;
-void Log() BANKED;
-void update_camera_position() BANKED;
-
+extern void UpdateHUD() BANKED;
+extern void Log() BANKED;
+extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 
-
-UINT8 test_countdown = 255u;
 
 void START(){
     LOAD_SGB_BORDER(border);
@@ -95,9 +92,9 @@ void START(){
 }
 
 void UPDATE(){
-    if(test_countdown > 0u){
+    /*if(test_countdown > 0u){
         test_countdown--;
-    }
+    }*/
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp || hud_motherpl_ups != motherpl_ups){
             UpdateHUD();
@@ -113,6 +110,7 @@ void UPDATE(){
             update_camera_position();
         }
     //INIT ENEMIES
+        /*
         if(test_countdown == 0u){
             if(enemy_counter >= MAX_ENEMY){
                 return;
@@ -143,25 +141,26 @@ void UPDATE(){
             }
             init_enemy++;
         }
+        */
     //MANAGE NPC
-    if(s_motherpl->x < ((UINT16)40u << 3)){
-        if(npc_spawned_zone != 1u){
-            spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
-            spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
-            npc_spawned_zone = 1u;
+        if(s_motherpl->x < ((UINT16)40u << 3)){
+            if(npc_spawned_zone != 1u){
+                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
+                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
+                npc_spawned_zone = 1u;
+            }
+        }else if(s_motherpl->x < ((UINT16)70u << 3)){
+            if(npc_spawned_zone != 2u){
+                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2);
+                npc_spawned_zone = 2u;
+            }
+        }else if(s_motherpl->x < ((UINT16)120u << 3)){
+            if(npc_spawned_zone != 3u){
+                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1);
+                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3);
+                npc_spawned_zone = 3u;
+            }
         }
-    }else if(s_motherpl->x < ((UINT16)70u << 3)){
-        if(npc_spawned_zone != 2u){
-            spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2);
-            npc_spawned_zone = 2u;
-        }
-    }else if(s_motherpl->x < ((UINT16)120u << 3)){
-        if(npc_spawned_zone != 3u){
-            spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1);
-            spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3);
-            npc_spawned_zone = 3u;
-        }
-    }
     
     Log();
 }

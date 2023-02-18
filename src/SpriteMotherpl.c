@@ -420,6 +420,7 @@ void UPDATE(){
             if(CheckCollision(THIS, implspr)) {
                 switch(implspr->type){
                     case SpritePgexzoo:
+                    case SpritePgcemetery:
                         {
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;

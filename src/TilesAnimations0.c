@@ -19,6 +19,7 @@ IMPORT_TILES(tilesanimcredit);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
 IMPORT_TILES(dialogtiles00);
+IMPORT_TILES(dialogtiles01);
 
 UINT8 bank_tiles = BANK(tiles);
 UINT8 bank_tiles4 = BANK(tiles4);
@@ -95,6 +96,9 @@ void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalki
 		case StateExzoo:
     		set_bkg_data(first_tile, nb_tiles, dialogtiles00.data+((16u) * first_tile));
 		break;
+		case StateCemetery:
+    		set_bkg_data(first_tile, nb_tiles, dialogtiles01.data+((16u) * first_tile));
+		break;
 	}
     SWITCH_ROM(save);
 }
@@ -103,6 +107,9 @@ void dialog_map() BANKED{
 	switch(previous_state){
 		case StateExzoo:
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogtiles00));
+		break;
+		case StateCemetery:
+			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogtiles01));
 		break;
 	}
 }
