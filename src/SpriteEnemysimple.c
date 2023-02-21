@@ -38,6 +38,7 @@ UINT8 getEmaxFrameskip();
 void Econfiguration() BANKED;
 void Emanagement() BANKED;
 void Edestroy() BANKED;
+void EspawnItem() BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
@@ -47,7 +48,6 @@ extern void EthrowerSpiderAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowerTarantulaAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowWeb(ENEMY_STATE estate) BANKED;
 extern void EthrowAcid(ENEMY_STATE estate) BANKED;
-extern void spawnItem(UINT16 x, UINT16 y, UINT8 enemy_type_dead) BANKED;
 
 
 void START(){
@@ -62,9 +62,6 @@ void UPDATE(){
         }
         if(eu_info->configured == 1){
             Econfiguration();
-            return;
-        }
-        if(eu_info->configured != 2u){
             return;
         }
     //CHECK DEATH
@@ -346,7 +343,10 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_DEAD:
-                spawnItem(THIS->x, THIS->y, THIS->type);
+                if(e_info->configured == 2u){
+                    EspawnItem();
+                    e_info->configured = 3u;
+                }
                 e_info->wait = 24u;
             break;
             case ENEMY_PREATTACK:
@@ -371,6 +371,10 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 }else{
                     THIS->mirror = H_MIRROR;
                 }
+                if(e_info->configured == 2u){
+                    EspawnItem();
+                    e_info->configured = 3u;
+                }
                 TranslateSprite(THIS, 0, -10 << delta_time);
             break;
         }
@@ -385,6 +389,27 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
         }
         e_info->e_state = new_e_state;
     }
+}
+
+void EspawnItem() BANKED{
+    //SPAWN ITEM
+    INVITEMTYPE itemtype = INVITEM_MONEY;
+    if(enemy_random_30_100 < 40){
+        itemtype = INVITEM_CROSSBOW;
+    }else if (enemy_random_30_100 < 50){
+        itemtype = INVITEM_METAL;
+    }else if (enemy_random_30_100 < 60){
+        itemtype = INVITEM_HEART;
+    }else if (enemy_random_30_100 < 70){
+        itemtype = INVITEM_WOOD;
+    }
+    UINT16 quantity = 1u;        
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 8u);
+    struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
+    reward_data->itemtype = itemtype;
+    reward_data->quantity = quantity;
+    reward_data->equippable = 1u;
+    reward_data->configured = 1u;
 }
 
 void Edestroy(){

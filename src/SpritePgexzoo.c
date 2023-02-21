@@ -2,14 +2,11 @@
 
 #include "main.h"
 
-#include "Keys.h"
 #include "ZGBMain.h"
-#include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
 
 #include "custom_datas.h"
-#include "Dialogs.h"
 
 const UINT8 whead1_anim_idle[] = {1, 0}; //The first number indicates the number of frames
 const UINT8 whead2_anim_idle[] = {1, 1}; //The first number indicates the number of frames
@@ -26,6 +23,7 @@ const UINT8 mbody2_anim_idle[] = {1, 10}; //The first number indicates the numbe
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
     npc_data->configured = 0;
+    npc_data->whotalks  =NOBODY;
     THIS->lim_x = 100u;
 }
 

@@ -23,6 +23,7 @@ DECLARE_MUSIC(bgm_credits);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
+extern WHOSTALKING whostalking;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;

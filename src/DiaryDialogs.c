@@ -35,6 +35,15 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case FIND_BLACKIE_D1:
 			memcpy(d, "THE BLACK WOLF.", 20);
 		break;
+		case ENGAGE_SMITH_TITLE:
+			memcpy(d, "ENGAGE THE SMITH", 20);
+		break;
+		case ENGAGE_SMITH_D0:
+			memcpy(d, "BRING METAL AND WOOD", 20);
+		break;
+		case ENGAGE_SMITH_D1:
+			memcpy(d, "TO THE FORGE.", 20);
+		break;
 		case HELP_DESPARATE_WOMAN_TITLE:
 			memcpy(d, "HELP THE DESPERATE", 20);
 		break;

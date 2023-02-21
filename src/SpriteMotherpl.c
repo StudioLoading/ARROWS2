@@ -9,7 +9,7 @@
 #include "SpriteManager.h"
 
 #include "custom_datas.h"
-#include "Dialogs.h"
+//#include "Dialogs.h"
 
 #define GRAVITY 2
 #define JUMP_MIN_POWER 0
@@ -382,7 +382,7 @@ void UPDATE(){
     //ACTUAL MOVEMENT
         UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
         if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
-            spawnDust();
+            //spawnDust();
             changeMotherplState(MOTHERPL_IDLE);
         }        
         if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
@@ -404,6 +404,20 @@ void UPDATE(){
                     break;
                 }
             break;
+            case StateCave:
+                switch(motherpl_coll){
+                    case 11u:
+                        if(motherpl_state == MOTHERPL_DASH){
+                            if(THIS->mirror == NO_MIRROR){
+                                THIS->x++;
+                            }else{
+                                THIS->x--;
+                            }
+                            motherpl_dash_cooldown++;
+                        }
+                    break;
+                }
+            break;
             case StateCemetery:
             case StateBlackiecave:
                 switch(motherpl_coll){
@@ -419,14 +433,14 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
             if(CheckCollision(THIS, implspr)) {
                 switch(implspr->type){
+                    case SpritePgceme:
                     case SpritePgexzoo:
-                    case SpritePgcemetery:
                         {
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;
                         }
-                        if(KEY_PRESSED(J_FIRE)){
-                            ChangeState(StateDialog, THIS);
+                        if(KEY_RELEASED(J_FIRE)){
+                            ChangeState(StateDialog, THIS);                        
                         }
                     break;
                     case SpriteArrow:
@@ -511,7 +525,7 @@ void die(){
     motherpl_hp = 4;
     motherpl_ups--;
     if(motherpl_ups < 0){ChangeState(StateCredit, motherpl_state);}
-    else{ChangeState(StateExzoo, motherpl_state);}
+    else{ChangeState(current_state, motherpl_state);}
 }
 
 void refreshAnimation(){

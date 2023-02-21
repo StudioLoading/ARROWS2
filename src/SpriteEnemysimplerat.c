@@ -29,10 +29,11 @@ void START(){
 void UPDATE(){
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     //configuration
+        if(eu_info->configured == 0){
+            return;
+        }
         if(eu_info->configured == 1){
             Econfiguration();
-        }
-        if(eu_info->configured != 2u){
             return;
         }
     //CHECK DEATH

@@ -44,8 +44,8 @@ extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
-
-UINT8 npc_spawned_zone = 0u;
+extern UINT8 npc_spawned_zone;
+extern struct MISSION missions[4];
 
 const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
@@ -74,11 +74,12 @@ void START(){
         }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 10u << 3);
-        if(previous_state == StateInventory){
+        if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
+    //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(cemeterymap), &cemeterymap, coll_tiles_cemetery, coll_surface_cemetery);    
     //HUD
@@ -86,8 +87,6 @@ void START(){
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
-    //RELOAD ENEMIES
-        ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
 }
@@ -108,17 +107,18 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC
-        if(s_motherpl->x < ((UINT16)11u << 3)){
+        if(s_motherpl->x < ((UINT16)35u << 3)){
             if(npc_spawned_zone != 1u){
-                //spawn_npc(SpritePgcemetery, (UINT16) 16u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
-                spawn_npc(SpritePgcemetery, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
-                spawn_npc(SpritePgcemetery, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
+                spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
+                spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
                 npc_spawned_zone = 1u;
             }
-        }else if(s_motherpl->x > ((UINT16)35u << 3)){
+        }else if(s_motherpl->x < ((UINT16)60u << 3)){
             if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgcemetery, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, CEMETERY_MAN1);
-                spawn_npc(SpritePgcemetery, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
+                if(missions[1].mission_state == MISSION_STATE_DISABLED){
+                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH);
+                }
+                spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2);
                 npc_spawned_zone = 2u;
             }
         }

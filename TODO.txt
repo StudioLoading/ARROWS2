@@ -1,4 +1,5 @@
 TODO x demo:
+- IL TACKLE STACCA L' ITEM, L' UCCISIONE STACCA ITEM + MONETA.
 - Cimitero
 - Miniera
 - Dialogo Fabbro

@@ -1,3 +1,6 @@
+#ifndef CUSTOMDATAS_FILE
+#define CUSTOMDATAS_FILE
+
 struct FlipperballInfo{
 	INT8 impulse_y;
 	INT8 impulse_x;
@@ -219,6 +222,10 @@ struct EnemyData{
 	INT8 vx;
 	UINT8 wait;
 	UINT8 configured;
+	//0 da configurare
+	//1 in configurazione
+	//2 non ancora spawnato item
+	//3 già spawnato item
 	ENEMY_TYPE type;
 	UINT8 et_collision;
 	ENEMY_STATE e_state;
@@ -268,6 +275,44 @@ typedef enum{
 	INVITEM_DISAPPEARING,
 }INVITEMTYPE;
 
+
+typedef enum{
+	NOBODY,
+    DESSA,
+    EXZOO_WOMAN1,
+    EXZOO_WOMAN2,
+    EXZOO_WOMAN3,
+    EXZOO_MAN1,
+    EXZOO_MAN2,
+    CEMETERY_WOMAN1,
+    CEMETERY_WOMAN2,
+    SMITH
+}WHOSTALKING;
+
+typedef enum{
+    WOMAN_HEAD1,
+    WOMAN_HEAD2,
+    WOMAN_BODY1,
+    WOMAN_BODY2,
+    WOMAN_BODY3,
+    MAN_HEAD1,
+    MAN_HEAD2,
+    MAN_HEAD3,
+    MAN_BODY1,
+    MAN_BODY2
+}NPCTYPE;
+
+struct NpcInfo{
+	UINT8 none1;
+	UINT8 none2;
+	UINT8 none3;
+	UINT8 none4;
+	UINT8 none5;
+    WHOSTALKING whotalks;
+	NPCTYPE type;
+    UINT8 configured;
+};
+
 struct InvItem{
 	INVITEMTYPE itemtype;
 	UINT16 quantity;
@@ -290,36 +335,5 @@ struct InvcursorInfo{
 	UINT8 square_or_arrow;
 };
 
-typedef enum{
-    WOMAN_HEAD1,
-    WOMAN_HEAD2,
-    WOMAN_BODY1,
-    WOMAN_BODY2,
-    WOMAN_BODY3,
-    MAN_HEAD1,
-    MAN_HEAD2,
-    MAN_HEAD3,
-    MAN_BODY1,
-    MAN_BODY2
-}NPCTYPE;
-
-typedef enum{
-	NOBODY,
-    DESSA,
-    EXZOO_WOMAN1,
-    EXZOO_WOMAN2,
-    EXZOO_WOMAN3,
-    EXZOO_MAN1,
-    EXZOO_MAN2,
-    CEMETERY_WOMAN1,
-    CEMETERY_WOMAN2,
-    CEMETERY_MAN1
-}WHOSTALKING;
-
-struct NpcInfo{
-    WHOSTALKING whotalks;
-	NPCTYPE type;
-    UINT8 configured;
-};
-
+#endif
 

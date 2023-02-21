@@ -35,8 +35,8 @@ extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 UINT8 test_countdown = 255u;
 extern UINT8 motherpl_hit_cooldown;
-extern UINT8 npc_spawned_zone;
 
+UINT8 npc_spawned_zone = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
@@ -53,37 +53,15 @@ UINT8 enemy_counter = 0u;
 UINT8 mapwidth;
 UINT8 mapheight;
 UINT8 previous_state;
-WHOSTALKING whostalking;
+extern WHOSTALKING whostalking;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
-void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
-
-void spawnItem(UINT16 x, UINT16 y, UINT8 spawner_type) BANKED{
-    //SPAWN ITEM
-    INVITEMTYPE itemtype = INVITEM_MONEY;
-    if(enemy_random_30_100 < 40){
-        itemtype = INVITEM_CROSSBOW;
-    }else if (enemy_random_30_100 < 50){
-        itemtype = INVITEM_METAL;
-    }else if (enemy_random_30_100 < 60){
-        itemtype = INVITEM_HEART;
-    }else if (enemy_random_30_100 < 70){
-        itemtype = INVITEM_WOOD;
-    }
-    UINT16 quantity = 1u;        
-    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x + 4u, y - 8u);
-    struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
-    reward_data->itemtype = itemtype;
-    reward_data->quantity = quantity;
-    reward_data->equippable = 1u;
-    reward_data->configured = 1u;
-}
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{    
     UINT8 mfit_a_tile;
@@ -98,7 +76,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
         }
     };
     npc_spawned_zone = 0u;
-    if(current_state == StateOverworld || current_state == StateExzoo){
+    if(current_state != StateInventory && current_state != StateDiary
+        && current_state != StateDialog){
         switch(s_mother->type){
             case SpriteMotherow:
                 motherow_pos_x = s_mother->x;
@@ -110,13 +89,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                 motherpl_mirror = s_mother->mirror;
             break;        
         }
-    }
-    if(current_state == StateExzoo){
         HIDE_WIN;
         SetWindowY(160);
     }
     previous_state = current_state;
-	if(new_state != StateDialog){
+	if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state);
     }else{
         SetState(new_state);

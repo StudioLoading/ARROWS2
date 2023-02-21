@@ -2,14 +2,11 @@
 
 #include "main.h"
 
-#include "Keys.h"
 #include "ZGBMain.h"
-#include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
 
 #include "custom_datas.h"
-#include "Dialogs.h"
 
 const UINT8 whead1_cemetery[] = {1, 0}; //The first number indicates the number of frames
 const UINT8 whead2_cemetery[] = {1, 6}; //The first number indicates the number of frames
@@ -22,7 +19,8 @@ const UINT8 mbody1_cemetery[] = {1, 5}; //The first number indicates the number 
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
     npc_data->configured = 0;
-    THIS->lim_x = 160u;
+    npc_data->whotalks = NOBODY;
+    THIS->lim_x = 100u;
 }
 
 void UPDATE(){

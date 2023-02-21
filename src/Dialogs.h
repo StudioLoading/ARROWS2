@@ -1,3 +1,5 @@
+#include "custom_datas.h"
+
 typedef enum{
 	DIARIO_MISSIONI,
 	OPZIONI_PARTITA

@@ -12,7 +12,7 @@
 #include "Music.h"
 
 #include "TilesAnimations0.h"
-#include "Dialogs.h"
+//#include "Dialogs.h"
 #include "custom_datas.h"
 #include "sgb_palette.h"
 
@@ -28,7 +28,6 @@ extern UINT8 J_FIRE;
 extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 extern UINT8 previous_state;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern unsigned char EMPTY_STRING_21[];
 extern unsigned char d1[];
 extern unsigned char d2[];
@@ -38,6 +37,8 @@ extern unsigned char d5[];
 extern unsigned char d6[];
 extern unsigned char d7[];
 extern WHOSTALKING whostalking;
+extern struct MISSION missions[4];
+
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
 UINT8 wait_char = MAX_WAIT_CHAR;
@@ -46,6 +47,10 @@ UINT8 n_lines = 0u;
 Sprite* dialog_cursor = 0;
 
 void move_on();
+
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
+extern void dialog_map();
 
 void START() {
 	//SOUND
@@ -62,11 +67,16 @@ void START() {
     wait_char = MAX_WAIT_CHAR;
     writing_line = 1u;
     counter_char = 0u;
+    n_lines = 0u;
+    dialog_ready = 0u;
 }
 
 void UPDATE() {
     if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
         wait_char = 1u;
+    }    
+    if(KEY_RELEASED(J_JUMP)){
+        move_on();
     }
     if(dialog_ready == 0u){
         PRINT(0, 7, EMPTY_STRING_21);
@@ -77,6 +87,7 @@ void UPDATE() {
         PRINT(0, 12, EMPTY_STRING_21);
         PRINT(0, 13, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
+        n_lines = 0u;
         GetLocalizedDialog_EN(&n_lines);
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
@@ -112,16 +123,18 @@ void UPDATE() {
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u){
-        if(KEY_RELEASED(J_JUMP)){
-            move_on();
+        switch(previous_state){
+            case StateCemetery:
+                if(whostalking == SMITH){
+                    missions[1].mission_state = MISSION_STATE_ENABLED;
+                }
+            break;
         }
     }
 }
 
 void move_on(){
-    whostalking = NOBODY;
     SpriteManagerRemoveSprite(dialog_cursor);
-    dialog_ready = 0u;
     if(previous_state == StateOverworld){
         ChangeState(previous_state, s_motherow);
     }else{

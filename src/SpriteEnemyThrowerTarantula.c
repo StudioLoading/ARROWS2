@@ -37,6 +37,7 @@ void UPDATE(){
         }
         if(eu_info->configured == 1){
             Econfiguration();
+            return;
         }
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(ENEMY_DEAD);}

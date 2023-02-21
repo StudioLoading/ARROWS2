@@ -10,20 +10,20 @@
 
 #define STATES \
 _STATE(StateFittizio)\
+_STATE(StateTitlescreen)\
 _STATE(StateInbetween)\
 _STATE(StateCredit)\
 _STATE(StateBonus)\
 _STATE(StateTetra)\
 _STATE(StateOverworld)\
 _STATE(StateDiary)\
+_STATE(StateInventory)\
+_STATE(StateDialog)\
 _STATE(StateExzoo)\
 _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateCave)\
-_STATE(StateInventory)\
-_STATE(StateTitlescreen)\
 _STATE(StateSmith)\
-_STATE(StateDialog)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/
 
@@ -55,8 +55,8 @@ _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
 _SPRITE_DMG(SpriteItemspawned, itemspawned)\
+_SPRITE_DMG(SpritePgceme, pgcemetery)\
 _SPRITE_DMG(SpritePgexzoo, pgexzoo)\
-_SPRITE_DMG(SpritePgcemetery, pgcemetery)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

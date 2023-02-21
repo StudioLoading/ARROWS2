@@ -2,12 +2,9 @@
 
 #include "ZGBMain.h"
 #include "string.h"
-#include "Music.h"
 
 #include "Dialogs.h"
 #include "custom_datas.h"
-
-extern WHOSTALKING whostalking;
 
 unsigned char d1[22];
 unsigned char d2[22];
@@ -16,7 +13,7 @@ unsigned char d4[22];
 unsigned char d5[22];
 unsigned char d6[22];
 unsigned char d7[22];
-
+WHOSTALKING whostalking = NOBODY;
 unsigned char EMPTY_STRING_21[22] = "                     \0";
 unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
 
@@ -36,8 +33,8 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_MINE_CAVE:
 			memcpy(d1, " THIS IS THE OLD     \0", 22);
-			memcpy(d2, " MINE. HERE YOU CAN  \0", 22);
-			memcpy(d3, " FIND METAL.         \0", 22);
+			memcpy(d2, " MINE. HERE I CAN GET\0", 22);
+			memcpy(d3, " METAL AND WOOD.     \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_BLACKIE_CAVE:
@@ -82,11 +79,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case EXZOO_WOMAN2:
-			*n_lines = 4u;
+			*n_lines = 6u;
 			memcpy(d1, "THERE'S GOING TO BE \0", 22);
 			memcpy(d2, "A TOURNAMENT AT THE \0", 22);
 			memcpy(d3, "INN IN FEW DAYS.    \0" , 22);
-			memcpy(d4, "WHERE'S THE CHAMP?  \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "WHERE'S THE CHAMP?  \0", 22);
+			memcpy(d6, "I WONDER...         \0", 22);
 		break;
 		case EXZOO_WOMAN3:
 			*n_lines = 8u;
@@ -118,27 +117,31 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "TEACH ME VERY SOON. \0", 22);
 		break;		
 		case CEMETERY_WOMAN1:
-			*n_lines = 3u;
-			memcpy(d1, "HELLO 'DESSA. THE   \0", 22);
-			memcpy(d2, "BLACK WOLF IS LOOKIN\0", 22);
-			memcpy(d3, "FOR YOU.            \0" , 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
+			*n_lines = 7u;
+			memcpy(d1, "ETERNAL REST GRANT  \0", 22);
+			memcpy(d2, "UNTO THEM, O LORD   \0", 22);
+			memcpy(d3, "AND LET PERPETUAL   \0", 22);
+			memcpy(d4, "LIGHT SHINE UPON EM.\0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "MAY THEY REST IN   .\0", 22);
+			memcpy(d7, "PEACE... AMEN.      \0", 22);
 		break;
 		case CEMETERY_WOMAN2:
 			*n_lines = 4u;
-			memcpy(d1, "THERE'S GOING TO BE \0", 22);
-			memcpy(d2, "A TOURNAMENT AT THE \0", 22);
-			memcpy(d3, "INN IN FEW DAYS.    \0" , 22);
-			memcpy(d4, "WHERE'S THE CHAMP?  \0", 22);
+			memcpy(d1, "WE DON'T USE WEAPONS\0", 22);
+			memcpy(d2, "HERE.               \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "LET US PRAY...      \0", 22);
 		break;
-		case CEMETERY_MAN1:
-			*n_lines = 6u;
-			memcpy(d1, "HI! I'M PAUL.       \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "I'VE HEARD TETRA    \0", 22);
-			memcpy(d4, "CHAMP IS NOT GONNA  \0", 22);
-			memcpy(d5, "COME. MAYBE I HAVE A\0" , 22);
-			memcpy(d6, "CHANCE THIS TIME!   \0", 22);
+		case SMITH:
+			*n_lines = 7u;
+			memcpy(d1, "HI, I AM THE SMITH. \0", 22);
+			memcpy(d2, "I'D LIKE TO HELP YOU\0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "BRING TO THE FORGE  \0", 22);
+			memcpy(d5, "   20 OF WOOD AND   \0", 22);
+			memcpy(d6, "METAL. GO CHECK THE \0" , 22);
+			memcpy(d7, "OLD MINE.           \0", 22);
 		break;
 	}
 }
