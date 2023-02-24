@@ -5,6 +5,7 @@
 #include "ZGBMain.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Scroll.h"
 
 #include "custom_datas.h"
 
@@ -40,6 +41,17 @@ void UPDATE(){
         if(eu_info->hp <= 0){changeEstate( ENEMY_DEAD);}
     //MANAGEMENT
         Emanagement();
+    //HIDE IN HOLES
+        if(eu_info->vx > 0){
+            if(GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 1u) == 48u){
+                changeEstate( ENEMY_DEAD);
+            }
+        }else{
+            
+            if(GetScrollTile((THIS->x >> 3), (THIS->y >> 3) + 1u) == 48u){
+                changeEstate( ENEMY_DEAD);
+            }
+        }
 }
 
 void EsimpleRatAnim(ENEMY_STATE estate) BANKED{

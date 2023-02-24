@@ -20,6 +20,8 @@ IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
 IMPORT_TILES(dialogtiles00);
 IMPORT_TILES(dialogtiles01);
+IMPORT_TILES(cavetiles);
+IMPORT_TILES(cavetilesanim);
 
 UINT8 bank_tiles = BANK(tiles);
 UINT8 bank_tiles4 = BANK(tiles4);
@@ -85,6 +87,12 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, UINT8 tiles_used, UIN
 		case 11u:
 		    set_bkg_data(first_tile, nb_tiles, tdiagcrossbowempty.data+((16u) * first_tile));
 		break;
+		case 12u:
+			set_bkg_data(first_tile, nb_tiles, cavetiles.data+((16u) * first_tile));
+		break;
+		case 13u:
+			set_bkg_data(first_tile, nb_tiles, cavetilesanim.data+((16u) * first_tile));
+		break;
 	}
     SWITCH_ROM(save);
 }
@@ -127,6 +135,17 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 		}
 	}
+}
+
+void Anim_Cave_0() BANKED{
+	set_banked_bkg_data(29u, 2u, 13u, BANK(cavetilesanim));//fiammella
+	set_banked_bkg_data(41u, 7u, 13u, BANK(cavetilesanim));//luce lanterna
+	set_banked_bkg_data(60u, 2u, 13u, BANK(cavetilesanim));//carrello
+}
+void Anim_Cave_1() BANKED{
+	set_banked_bkg_data(29u, 2u, 12u, BANK(cavetiles));//fiammella
+	set_banked_bkg_data(41u, 7u, 12u, BANK(cavetiles));//luce lanterna
+	set_banked_bkg_data(60u, 2u, 12u, BANK(cavetiles));//carrello
 }
 
 void Anim_StudioLoading_0() BANKED{

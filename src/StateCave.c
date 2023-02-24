@@ -44,8 +44,15 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 
-const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 0};
-const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 0};
+const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 35u, 52u, 0};
+const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
+
+UINT8 tiles_anim_interval = 60u;
+UINT8 timeout_enemy = 104u;
+UINT8 timeout_cavesand = 0u;
+UINT8 enemy_wave = 0u;
+Sprite* s_superstone = 0;
+UINT8 superstone_destroyed = 0u;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -54,7 +61,8 @@ extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
-
+extern void Anim_Cave_0() BANKED;
+extern void Anim_Cave_1() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(bordercave);
@@ -85,15 +93,42 @@ void START(){
         hud_motherpl_hp = 0;
         UpdateHUD();
     //RELOAD ENEMIES
+        enemy_counter = 0u;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cavemap), &cavemap, &mapwidth, &mapheight);
+    s_superstone = 0;
 }
 
 void UPDATE(){
-    /*if(test_countdown > 0u){
-        test_countdown--;
-    }*/
+    //CAVE TILES ANIM
+        tiles_anim_interval--;
+        if(tiles_anim_interval == 0u){
+            Anim_Cave_0();
+            tiles_anim_interval = 16u;
+        }
+        if(tiles_anim_interval == 8u){
+            Anim_Cave_1();
+        }
+    //CAVESAND ANIM
+        if(
+            (s_motherpl->x>((UINT16)43u)<<3 && s_motherpl->x<((UINT16)63u)<<3)
+            ||
+            (s_motherpl->x>((UINT16)83u)<<3 && s_motherpl->x<((UINT16)103u)<<3)
+        )        
+        {
+            timeout_cavesand--;
+            if(timeout_cavesand == 80u){
+                SpriteManagerAdd(SpriteCavesand, s_motherpl->x+24u, (UINT16) 24u);
+            }
+            if(timeout_cavesand == 160u){
+                SpriteManagerAdd(SpriteCavesand, s_motherpl->x-12u, (UINT16) 24u);
+            }
+            if(timeout_cavesand == 0u){
+                SpriteManagerAdd(SpriteCavesand, s_motherpl->x+64u, (UINT16) 24u);
+                timeout_cavesand = 240u;
+            }
+        }
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp || hud_motherpl_ups != motherpl_ups){
             UpdateHUD();
@@ -109,11 +144,56 @@ void UPDATE(){
             update_camera_position();
         }
     //INIT ENEMIES
-        /*
-        if(test_countdown == 0u){
-            if(enemy_counter >= MAX_ENEMY){
+        if(s_motherpl->x > ((UINT16)58u)<<3 && 
+            s_motherpl->x < ((UINT16)93u)<<3){
+            if(enemy_counter >= MAX_ENEMY || enemy_wave > 6u){
                 return;
             }
+            timeout_enemy--;
+            if(timeout_enemy == 0u){
+                timeout_enemy = 255u;
+                switch(init_enemy){
+                    case 1u:
+                    case 2u:
+                    case 3u:
+                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 73u << 3, (UINT16) 6u << 3);
+                        enemy_wave++;
+                    break;
+                    case 4u:
+                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 73u << 3, (UINT16) 6u << 3);
+                        enemy_wave++;
+                    break;
+                    case 5u:
+                        init_enemy = 0;
+                    break;
+                /*
+                case 3u:
+                    //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 4u:
+                break;
+                case 5u:
+                    //SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 6u:
+                    //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
+                break;
+                case 7u:
+                    init_enemy = 0;
+                break;
+                */
+                }
+                init_enemy++;
+            }
+        }else{
+            enemy_wave = 0u;
+        }
+    //INIT SUPERSTONE
+    if(s_motherpl->x > (120u << 3) && s_superstone == 0){
+        s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
+    }
+        /*
+        if(test_countdown == 0u){
             test_countdown = 255u;
             switch(init_enemy){
                 case 1u:
@@ -141,6 +221,7 @@ void UPDATE(){
             init_enemy++;
         }
         */
+    
     //MANAGE NPC
     /*
         if(s_motherpl->x < ((UINT16)40u << 3)){

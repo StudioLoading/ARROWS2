@@ -235,7 +235,7 @@ void Estart() BANKED{
         }
     }
     enemy_counter++;
-    THIS->lim_x = 255u;
+    THIS->lim_x = 80u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
 }
@@ -375,6 +375,9 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                     EspawnItem();
                     e_info->configured = 3u;
                 }
+                if(THIS->type == SpriteEnemysimplesnake){
+                    changeEstate(ENEMY_HIT);
+                }
                 TranslateSprite(THIS, 0, -10 << delta_time);
             break;
         }
@@ -394,17 +397,29 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 void EspawnItem() BANKED{
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
-    if(enemy_random_30_100 < 40){
-        itemtype = INVITEM_CROSSBOW;
-    }else if (enemy_random_30_100 < 50){
-        itemtype = INVITEM_METAL;
-    }else if (enemy_random_30_100 < 60){
-        itemtype = INVITEM_HEART;
-    }else if (enemy_random_30_100 < 70){
-        itemtype = INVITEM_WOOD;
+    if(current_state == StateCave){
+        if (enemy_random_30_100 < 60){
+            itemtype = INVITEM_METAL;
+        }else if (enemy_random_30_100 < 90){
+            itemtype = INVITEM_WOOD;        
+        }else{
+            itemtype = INVITEM_HEART;        
+        }
+    }else{
+        if(enemy_random_30_100 < 37){
+            itemtype = INVITEM_CROSSBOW;
+        }else if (enemy_random_30_100 < 50){
+            itemtype = INVITEM_METAL;
+        }else if (enemy_random_30_100 < 58){
+            itemtype = INVITEM_HEART;
+        }else if (enemy_random_30_100 < 70){
+            itemtype = INVITEM_WOOD;
+        }else if (enemy_random_30_100 < 80){
+            return;
+        }
     }
     UINT16 quantity = 1u;        
-    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 8u);
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 12u);
     struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
     reward_data->itemtype = itemtype;
     reward_data->quantity = quantity;

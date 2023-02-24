@@ -104,7 +104,7 @@ void START(){
     jump_ticked_delay = 0u;
     jump_max_toched = 0u;
     motherpl_attack_cooldown = 0u;
-    SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+    SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (12 - (motherpl_hp << 1)));
     motherpl_data = (struct MotherplData*) THIS->custom_data;
     changeMotherplState(MOTHERPL_IDLE);
     s_surf = 0;
@@ -133,7 +133,7 @@ void UPDATE(){
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             if(motherpl_attack_cooldown == 0u){
-                SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+                SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (8 - (motherpl_hp << 1)));
             }
             motherpl_jpower = 0;
             jump_max_toched = 0u;
@@ -498,14 +498,24 @@ void UPDATE(){
                     break;
                     case SpriteItemspawned:
                         {
-                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
-                        pickup(pickedup_data);
-                        SpriteManagerRemoveSprite(implspr);
-                        if(motherpl_state != MOTHERPL_DASH 
-                            && motherpl_state != MOTHERPL_HIT && motherpl_state != MOTHERPL_JUMP){
-                            changeMotherplState(MOTHERPL_PICKUP);
+                            if(motherpl_state != MOTHERPL_DASH){
+                                struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
+                                pickup(pickedup_data);
+                                SpriteManagerRemoveSprite(implspr);
+                                if(motherpl_state != MOTHERPL_HIT 
+                                    && motherpl_state != MOTHERPL_JUMP){
+                                    changeMotherplState(MOTHERPL_PICKUP);
+                                }
+                            }
                         }
+                    break;
+                    case SpriteSuperstone:
+                        if(THIS->mirror == NO_MIRROR){
+                            THIS->x--;
+                        }else{
+                            THIS->x++;
                         }
+                        motherpl_vx = 0u;
                     break;
                 }
             }
@@ -531,7 +541,7 @@ void die(){
 void refreshAnimation(){
     switch(motherpl_state){
         case MOTHERPL_IDLE:
-            SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+            SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (8 - (motherpl_hp << 1) ));
         break;
         case MOTHERPL_WALK:
             SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
@@ -631,7 +641,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                     spawnDust();
                 }
                 if(motherpl_attack_cooldown == 0u){
-                    SetSpriteAnim(THIS, motherpl_anim_idle, 8u);
+                    SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (8 - (motherpl_hp << 1) ));
                 }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
