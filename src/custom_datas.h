@@ -286,7 +286,8 @@ typedef enum{
     EXZOO_MAN2,
     CEMETERY_WOMAN1,
     CEMETERY_WOMAN2,
-    SMITH
+    SMITH,
+	SUPERSTONE
 }WHOSTALKING;
 
 typedef enum{

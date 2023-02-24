@@ -517,8 +517,28 @@ void UPDATE(){
                         }
                         motherpl_vx = 0u;
                     break;
-                }
+                }            
             }
+        }
+    //TILE SCROLL MONITOR    
+        UINT8 scroll_tile = 0u;
+        UINT8 scroll_tile_overlapping = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 1u);
+        if(THIS->mirror == NO_MIRROR){
+            scroll_tile = GetScrollTile((THIS->x >> 3) + 2u, (THIS->y >> 3) + 1u);
+        }else{
+            scroll_tile = GetScrollTile((THIS->x >> 3) - 1u, (THIS->y >> 3) + 1u);
+        }
+        switch(current_state){
+            case StateCave:
+                if(KEY_PRESSED(J_FIRE)){
+                    if(scroll_tile == 78u || scroll_tile == 79u 
+                        || scroll_tile_overlapping == 78u 
+                        || scroll_tile_overlapping == 79u){
+                        whostalking = SUPERSTONE;
+                        ChangeState(StateDialog, THIS);
+                    }
+                }
+            break;
         }
     if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
         getOff();

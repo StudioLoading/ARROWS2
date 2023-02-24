@@ -68,37 +68,18 @@ C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-mast
 
 DISCORD MARKDOWN: ```c ```
 	```c
-#ifdef CGB	
-void SetPalette(PALETTE_TYPE t, UINT8 first_palette, UINT8 nb_palettes, UINT16 *rgb_data, UINT8 bank) {
-	if(first_palette + nb_palettes > 8)
-		return; //Adding more palettes than supported
-
-	UWORD* pal_ptr = (t == BG_PALETTE) ? ZGB_Fading_BPal : ZGB_Fading_SPal;
-	PUSH_BANK(bank);
-		UINT8 i = 0u;
-		if(t == BG_PALETTE) {
-			set_bkg_palette(first_palette, nb_palettes, rgb_data);
-		} else {
-			/*for(i=0; i<8; i++){
-				if(memcmp(&pal_ptr[i << 2], rgb_data, 8u) == 0){
-					set_sprite_palette(first_palette, nb_palettes, rgb_data);				
-					i = 99u;
-				}
-			}
-			if( i < 99u){*/
-				set_sprite_palette(first_palette, nb_palettes, rgb_data);
-			//}
-		}
-		//if(i < 99u){
-			memcpy(&pal_ptr[first_palette << 2], rgb_data, nb_palettes << 3);
-		//}
-	POP_BANK;
-}
-#endif
 ```
 
+png2asset produces the human readable C files for the sprites/actors. 
+nobody forbids you to look into those and make your own or tweak 
+the results of the image conversion.
+[11:47 PM]
+When the sprite is loaded, there is a “base tile” variable 
+somewhere in the structures that sprite manager operates. 
+That is the tile id where your tile data for that sprite was loaded. 
+Just load some other data over, starting from that tile id
 
-FLYING ARROWS 2 
+FLYING ARROWS 4 
 come Predator 2 per Sega Master System. Mi piace molto quella prospettiva lì. 
 Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto bene. Se ce ne fosse uno con un po' di profondità...
 come TMNT 3 sulla NES

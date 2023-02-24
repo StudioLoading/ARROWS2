@@ -13,6 +13,7 @@ const UINT8 superstone_anim2[] = {1, 1};
 extern UINT8 superstone_destroyed;
 
 void START(){
+    THIS->lim_x = 100u;
     if(superstone_destroyed == 0u){
         SetSpriteAnim(THIS,superstone_anim0, 16u);
     }else{

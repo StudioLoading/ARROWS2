@@ -143,5 +143,14 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "METAL. GO CHECK THE \0" , 22);
 			memcpy(d7, "OLD MINE.           \0", 22);
 		break;
+		case SUPERSTONE:
+			*n_lines = 6u;
+			memcpy(d1, "IT SEEMS TO ME THAT \0", 22);
+			memcpy(d2, "THIS BIG STONE CAN  \0", 22);
+			memcpy(d3, "BE BROKEN SOMEHOW...\0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "LET'S BRING SOME GUN\0", 22);
+			memcpy(d6, "POWDER TO THE SMITH.\0", 22);
+		break;
 	}
 }
