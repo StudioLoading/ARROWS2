@@ -52,7 +52,7 @@ UINT8 timeout_enemy = 104u;
 UINT8 timeout_cavesand = 0u;
 UINT8 enemy_wave = 0u;
 Sprite* s_superstone = 0;
-UINT8 superstone_destroyed = 0u;
+UINT8 superstone_spawned = 0u;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -97,7 +97,9 @@ void START(){
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cavemap), &cavemap, &mapwidth, &mapheight);
-    s_superstone = 0;
+    if(superstone_spawned < 2){
+        superstone_spawned = 0u;
+    }
 }
 
 void UPDATE(){
@@ -189,8 +191,9 @@ void UPDATE(){
             enemy_wave = 0u;
         }
     //INIT SUPERSTONE
-    if(s_motherpl->x > (110u << 3) && s_superstone == 0){
+    if(s_motherpl->x > (110u << 3) && superstone_spawned == 0u){
         s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
+        superstone_spawned = 1u;
     }
         /*
         if(test_countdown == 0u){

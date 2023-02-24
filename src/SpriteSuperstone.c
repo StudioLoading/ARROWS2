@@ -10,15 +10,11 @@
 const UINT8 superstone_anim0[] = {1, 0};
 const UINT8 superstone_anim1[] = {1, 1};
 const UINT8 superstone_anim2[] = {1, 1};
-extern UINT8 superstone_destroyed;
+extern UINT8 superstone_spawned;
 
 void START(){
     THIS->lim_x = 100u;
-    if(superstone_destroyed == 0u){
-        SetSpriteAnim(THIS,superstone_anim0, 16u);
-    }else{
-        SpriteManagerRemoveSprite(THIS);
-    }
+    SetSpriteAnim(THIS,superstone_anim0, 16u);
 }
 
 void UPDATE(){
@@ -26,4 +22,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    superstone_spawned = 0u;    
 }
