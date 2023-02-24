@@ -22,7 +22,7 @@ _STATE(StateDialog)\
 _STATE(StateExzoo)\
 _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
-_STATE(StateCave)\
+_STATE(StateMine)\
 _STATE(StateSmith)\
 STATE_DEF_END
 /*_STATE(StateFlipper)\*/

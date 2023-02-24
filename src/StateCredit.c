@@ -105,7 +105,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateCave);// StateTitlescreen
+			SetState(StateMine);// StateTitlescreen
 		}
 	}
 		

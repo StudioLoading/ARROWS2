@@ -397,7 +397,7 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 void EspawnItem() BANKED{
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
-    if(current_state == StateCave){
+    if(current_state == StateMine){
         if (enemy_random_30_100 < 60){
             itemtype = INVITEM_METAL;
         }else if (enemy_random_30_100 < 90){

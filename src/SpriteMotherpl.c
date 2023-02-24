@@ -404,7 +404,7 @@ void UPDATE(){
                     break;
                 }
             break;
-            case StateCave:
+            case StateMine:
                 switch(motherpl_coll){
                     case 11u:
                         if(motherpl_state == MOTHERPL_DASH){
@@ -529,7 +529,7 @@ void UPDATE(){
             scroll_tile = GetScrollTile((THIS->x >> 3) - 1u, (THIS->y >> 3) + 1u);
         }
         switch(current_state){
-            case StateCave:
+            case StateMine:
                 if(KEY_PRESSED(J_FIRE)){
                     if(scroll_tile == 78u || scroll_tile == 79u 
                         || scroll_tile_overlapping == 78u 

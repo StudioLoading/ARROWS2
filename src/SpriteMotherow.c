@@ -68,7 +68,7 @@ void UPDATE(){
         switch(motherow_info->tile_collision){
             case 50u:
             case 51u:
-                ChangeState(StateCave, THIS);
+                ChangeState(StateMine, THIS);
             break;
             case 62u:
             case 64u:
