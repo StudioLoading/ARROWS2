@@ -139,7 +139,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "I'D LIKE TO HELP YOU\0", 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "BRING TO THE FORGE  \0", 22);
-			memcpy(d5, "   20 OF WOOD AND   \0", 22);
+			memcpy(d5, "10 OF WOOD AND 10 OF\0", 22);
 			memcpy(d6, "METAL. GO CHECK THE \0" , 22);
 			memcpy(d7, "OLD MINE.           \0", 22);
 		break;

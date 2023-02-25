@@ -124,6 +124,9 @@ void UPDATE(){
                         changeEstate(iarrspr, ENEMY_HIT);
                         if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
                     break;
+                    case SpriteSuperstone:
+                        SpriteManagerRemoveSprite(THIS);
+                    break;
                 }
             }
         };

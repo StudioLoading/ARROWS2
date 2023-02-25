@@ -445,4 +445,9 @@ void Edestroy(){
 }
 
 void DESTROY(){
+    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+    if(e_info->e_state != ENEMY_DEAD){
+        e_info->e_state = ENEMY_DEAD;
+        Edestroy();
+    }
 }

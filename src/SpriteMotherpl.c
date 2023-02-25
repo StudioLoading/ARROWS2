@@ -77,7 +77,6 @@ INT8 motherpl_hp = 4;
 INT8 motherpl_ups = 3;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
-UINT8 spawnitem_random = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void shoot();
@@ -120,15 +119,14 @@ void START(){
 }
 
 void UPDATE(){
-    //RANDOM REWARD COUNTER
-    spawnitem_random++;
-    if(KEY_TICKED(J_SELECT)){
-        invcursor_posi++;
-        fixInvcursor();
-        if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
-        invselectitem();//STATEINVENTORY
-        UpdateHUD();//STATEFITTIZIO
-    }
+    //SELECT
+        if(KEY_TICKED(J_SELECT)){
+            invcursor_posi++;
+            fixInvcursor();
+            if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
+            invselectitem();//STATEINVENTORY
+            UpdateHUD();//STATEFITTIZIO
+        }
     //BEHAVIORS
     switch(motherpl_state){
         case MOTHERPL_IDLE:
@@ -371,7 +369,7 @@ void UPDATE(){
         }
     //RELATIVE POSITION
         if(motherpl_surfing_goton == GOTON_COOLDOWN && motherpl_state != MOTHERPL_IDLE){//just got on a ride
-            changeMotherplState(MOTHERPL_IDLE);
+            changeMotherplState(MOTHERPL_CRAWL);
         }
         if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
         if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
@@ -445,13 +443,15 @@ void UPDATE(){
                     break;
                     case SpriteArrow:
                         motherpl_blocked = 0u;
-                        if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
-                            if(s_surf == 0 && motherpl_surfing_getoff == 0u){
-                                changeMotherplState(MOTHERPL_IDLE);
-                                motherpl_surfing_goton = GOTON_COOLDOWN;
-                                s_surf = implspr;
-                                surf_data =(struct ArrowData*) s_surf->custom_data;
-                                motherpl_surf_dx = THIS->x - implspr->x;
+                        if(motherpl_vy > 0){
+                            if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
+                                if(s_surf == 0 && motherpl_surfing_getoff == 0u){
+                                    changeMotherplState(MOTHERPL_CRAWL);
+                                    motherpl_surfing_goton = GOTON_COOLDOWN;
+                                    s_surf = implspr;
+                                    surf_data =(struct ArrowData*) s_surf->custom_data;
+                                    motherpl_surf_dx = THIS->x - implspr->x;
+                                }
                             }
                         }
                     break;
@@ -464,7 +464,8 @@ void UPDATE(){
                         {
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
-                            if(e_data->e_state != ENEMY_DEAD){
+                            if(e_data->e_state != ENEMY_DEAD && 
+                                e_data->e_state != ENEMY_HIT){
                                 if(motherpl_state == MOTHERPL_DASH){
                                     if(e_data->e_state == ENEMY_ATTACK){
                                         motherpl_hit = 1u;
@@ -646,7 +647,6 @@ void shoot(){
     }
     refreshAnimation();
 }
-
 
 void changeMotherplState(MOTHERPL_STATE new_state){
     if(motherpl_state != new_state){

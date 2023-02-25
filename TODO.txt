@@ -1,9 +1,8 @@
 TODO x demo:
-- IL TACKLE STACCA L' ITEM, L' UCCISIONE STACCA ITEM + MONETA.
-- Cimitero
-- Miniera
+- Miniera: non ricordo dove trovo la powder, ma potrei dashare sui buchi
 - Dialogo Fabbro
 - Dialogo Ospedale
+- INVENTARIO da mettere a posto!
 - dialoghi: spingere ovviamente sul fatto che io sono la healer!
 - FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
 	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.

@@ -16,6 +16,8 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
+#define HORDE 5
+
 IMPORT_MAP(bordercave);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(cavetiles);
@@ -48,7 +50,7 @@ const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 60u;
-UINT8 timeout_enemy = 104u;
+UINT8 timeout_enemy = 1u;
 UINT8 timeout_cavesand = 0u;
 UINT8 enemy_wave = 0u;
 Sprite* s_superstone = 0;
@@ -117,6 +119,8 @@ void UPDATE(){
             (s_motherpl->x>((UINT16)43u)<<3 && s_motherpl->x<((UINT16)63u)<<3)
             ||
             (s_motherpl->x>((UINT16)83u)<<3 && s_motherpl->x<((UINT16)103u)<<3)
+            || 
+            (s_motherpl->x>((UINT16)132u)<<3)
         )        
         {
             timeout_cavesand--;
@@ -145,12 +149,25 @@ void UPDATE(){
             //SCROLL CAMERA
             update_camera_position();
         }
+    //INIT SUPERSTONE
+        if(s_motherpl->x > (110u << 3) && superstone_spawned == 0u){
+            s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
+            superstone_spawned = 1u;
+        }
     //INIT ENEMIES
-        if(s_motherpl->x > ((UINT16)58u)<<3 && 
+        UINT16 spawn_posx = 0u;
+        if(s_motherpl->x > ((UINT16)50u)<<3 && 
             s_motherpl->x < ((UINT16)93u)<<3){
-            if(enemy_counter >= MAX_ENEMY || enemy_wave > 6u){
-                return;
-            }
+            spawn_posx = 73u;
+        }
+        if(s_motherpl->x > ((UINT16)154u)<<3 && 
+            s_motherpl->x < ((UINT16)184u)<<3){
+            spawn_posx = 169u;
+        }
+        if(spawn_posx == 0u && enemy_wave > 0){
+            enemy_wave = 0u;
+        }
+        if(s_motherpl && spawn_posx && enemy_wave < HORDE){
             timeout_enemy--;
             if(timeout_enemy == 0u){
                 timeout_enemy = 255u;
@@ -158,43 +175,21 @@ void UPDATE(){
                     case 1u:
                     case 2u:
                     case 3u:
-                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 73u << 3, (UINT16) 6u << 3);
+                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
                         enemy_wave++;
                     break;
                     case 4u:
-                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 73u << 3, (UINT16) 6u << 3);
+                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
                         enemy_wave++;
                     break;
                     case 5u:
                         init_enemy = 0;
                     break;
-                /*
-                case 3u:
-                    //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 4u:
-                break;
-                case 5u:
-                    //SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 6u:
-                    //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 7u:
-                    init_enemy = 0;
-                break;
-                */
                 }
                 init_enemy++;
             }
-        }else{
-            enemy_wave = 0u;
         }
-    //INIT SUPERSTONE
-    if(s_motherpl->x > (110u << 3) && superstone_spawned == 0u){
-        s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
-        superstone_spawned = 1u;
-    }
+    //ENEMIES
         /*
         if(test_countdown == 0u){
             test_countdown = 255u;
@@ -223,8 +218,7 @@ void UPDATE(){
             }
             init_enemy++;
         }
-        */
-    
+        */    
     //MANAGE NPC
     /*
         if(s_motherpl->x < ((UINT16)40u << 3)){
