@@ -23,6 +23,10 @@
 
 IMPORT_MAP(exzoomap0);
 
+extern struct InvItem itemEquipped;
+extern struct MISSION find_blackie;
+extern struct MISSION engage_smith;
+extern struct MISSION missions[4];
 extern INT8 motherpl_hp;
 extern INT8 motherpl_ups;
 extern INT8 motherpl_surf_dx;
@@ -33,15 +37,15 @@ extern UINT8 arrows_onscreen;
 extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
-UINT8 test_countdown = 255u;
 extern UINT8 motherpl_hit_cooldown;
+extern WHOSTALKING whostalking;
+UINT8 mine_powderspawned = 3u;
 
 UINT8 npc_spawned_zone = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
 INT8 hud_motherpl_ups = 0;
-struct InvItem* itemEquipped = &itemMoney;
 UINT8 camera_ok = 0u;
 MirroMode motherpl_mirror = NO_MIRROR; 
 UINT16 motherpl_pos_x = 0u;
@@ -53,13 +57,15 @@ UINT8 enemy_counter = 0u;
 UINT8 mapwidth;
 UINT8 mapheight;
 UINT8 previous_state;
-extern WHOSTALKING whostalking;
+UINT8 test_countdown = 255u;
+UINT8 item_spawned_cooldown = 255u;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
+void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
@@ -105,7 +111,7 @@ void UpdateHUD() BANKED{
     UINT8 idx_rightheart = 6;
     INT8 tmp_hp = motherpl_hp;
     //EQUIPPED ITEM
-        switch(itemEquipped->itemtype){
+        switch(itemEquipped.itemtype){
             case INVITEM_MONEY:
                 UPDATE_HUD_TILE(16,1,0);
                 UPDATE_HUD_TILE(17,1,21);
@@ -133,9 +139,9 @@ void UpdateHUD() BANKED{
             break;
         }
         print_target = PRINT_WIN;
-        if(itemEquipped->quantity < 10){ PRINT(16,2,"00%i", itemEquipped->quantity); }
-        else if(itemEquipped->quantity < 100){ PRINT(16,2,"0%i", itemEquipped->quantity);}
-        else {PRINT(16,2,"%i", itemEquipped->quantity);}
+        if(itemEquipped.quantity < 10){ PRINT(16,2,"00%i", itemEquipped.quantity); }
+        else if(itemEquipped.quantity < 100){ PRINT(16,2,"0%i", itemEquipped.quantity);}
+        else {PRINT(16,2,"%i", itemEquipped.quantity);}
     //HP
         hud_motherpl_hp = motherpl_hp;
         for(idx_leftheart=6; idx_leftheart<14 ;idx_leftheart+=2){
@@ -297,6 +303,20 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     body_data->whotalks = whos;
     head_data->configured = 1u;
     body_data->configured = 1u;
+}
+
+void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED{
+    //SPAWN ITEM
+    if(item_spawned_cooldown == 0u && mine_powderspawned){
+        mine_powderspawned--;
+        Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x, y);
+        struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
+        reward_data->itemtype = itemtype;
+        reward_data->quantity = 1;
+        reward_data->equippable = 0u;
+        reward_data->configured = 1u;
+        item_spawned_cooldown = 255u;
+    }
 }
 
 void START(){}

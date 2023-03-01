@@ -300,6 +300,9 @@ void configure() BANKED{
     e_info->configured = 2u;
     e_info->e_state =  ENEMY_IDLE;
     changeEstate(ENEMY_WALK);
+    if(s_motherpl->x < THIS->x){
+        ETurn(E_VX);
+    }
 }
 
 void changeEstate(ENEMY_STATE new_e_state) BANKED{

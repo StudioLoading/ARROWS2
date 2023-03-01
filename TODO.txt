@@ -1,23 +1,20 @@
 TODO x demo:
-- Miniera: non ricordo dove trovo la powder, ma potrei dashare sui buchi
-- Dialogo Fabbro
-- Dialogo Ospedale
-- INVENTARIO da mettere a posto!
-- dialoghi: spingere ovviamente sul fatto che io sono la healer!
-- FRECCE NORMALI, PERFO, BASTARDE, BOMBA sono craftate dal fabbro
-	il fabbro fabbrica frecce ad un costo minimo di soldi, legna e metallo.
+- Cave of the Black Wolf: 
+	- dialoghi: spingere ovviamente sul fatto che io sono la healer!
+	- design delle acrobazie da fare per arrivare al carrello dietro i lupi
+		chiudendo così la demo
+- colori SGB vari
+- check dei bordi coerenti con
+- polish titlescreen
+- intro?
+- schermata finale di fine demo
 
-PIXELART INVENTARIO
-16x16 e 40x40
-balestra, frecce normali, perforanti, bastarde, dinamite, 
-sacca coins, metallo, legna, polvere
-PIXEL ART COVER
-cover dal mio schizzo
-
-ANIMAZIONI
-- overworld
-- dialoghi in negozi
-- acqua sulla titlescreen
+POST DEMO:
+- StateHospital per gurarsi e salvare.
+- caricare la partita da titlescreen
+- Overworld: sprite animate in  e animazione acque 
+- Dialog: miglioramento pixelArt
+- TitleScreen: nave come sprite in movimento, animazione acque, cheatCode
 
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
@@ -44,7 +41,8 @@ PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
 
 PNG2MAP
-C:\GB\ZGB-2021.3\tools\png2map\png2gbtiles.exe test2.png -gbm -g -pal=mypal.pal
+C:\Users\checc\GB\ZGB-2022.0\tools\png2map\
+png2gbtiles.exe test2.png -gbm -g -pal=mypal.pal
 maypal.pal file di testo contenente solo le seguenti
 #C6D783
 #8DCD53

@@ -29,7 +29,7 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern INT8 invcursor_posi;
 extern INT8 invcursor_posimax;
-extern struct InvItem* itemEquipped;
+extern struct InvItem itemEquipped;
 extern UINT8 camera_ok;
 extern WHOSTALKING whostalking;
 
@@ -86,10 +86,11 @@ void die();
 void spawnDust();
 
 extern void UpdateHUD() BANKED;
-extern void invselectitem() BANKED;
-extern void fixInvcursor() BANKED;
+extern void invselectitem(INT8 max_idx) BANKED;
+extern void fixInvcursor(INT8 max_idx) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -122,9 +123,9 @@ void UPDATE(){
     //SELECT
         if(KEY_TICKED(J_SELECT)){
             invcursor_posi++;
-            fixInvcursor();
-            if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
-            invselectitem();//STATEINVENTORY
+            //fixInvcursor(5);
+            //if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
+            invselectitem(5);//STATEINVENTORY
             UpdateHUD();//STATEFITTIZIO
         }
     //BEHAVIORS
@@ -244,6 +245,12 @@ void UPDATE(){
             if(motherpl_dash_cooldown == 0){
                 motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
                 changeMotherplState(MOTHERPL_IDLE);
+            }
+            {
+                UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
+                if(dash_floor == 48u){
+                        spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
+                }
             }
         break;
     }
@@ -606,12 +613,12 @@ void spawnDust(){
 
 void shoot(){
     if(motherpl_blocked > 0){return;}
-    if(itemEquipped->quantity == 0){return;}
-    switch(itemEquipped->itemtype){
+    if(itemEquipped.quantity == 0){return;}
+    switch(itemEquipped.itemtype){
         case INVITEM_ARROW_NORMAL:
         case INVITEM_ARROW_PERFO:
         case INVITEM_ARROW_BASTARD:
-            itemEquipped->quantity--;
+            itemEquipped.quantity--;
             UpdateHUD();
             UINT16 arrowix = THIS->x;
             if(THIS->mirror == NO_MIRROR){
@@ -622,7 +629,7 @@ void shoot(){
             if(motherpl_state == MOTHERPL_CRAWL)arrowiy = THIS->y + 13u;
             Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
             struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
-            switch(itemEquipped->itemtype){
+            switch(itemEquipped.itemtype){
                 case INVITEM_ARROW_NORMAL:
                     arrow_data->arrow_type = ARROW_NORMAL;
                 break;
@@ -634,7 +641,7 @@ void shoot(){
                 break;
             }
             INT8 arrow_vx = 2;
-            if(itemEquipped->itemtype == INVITEM_ARROW_NORMAL){
+            if(itemEquipped.itemtype == INVITEM_ARROW_NORMAL){
                 arrow_vx = 1;
             }
             if(THIS->mirror == NO_MIRROR){//looking right

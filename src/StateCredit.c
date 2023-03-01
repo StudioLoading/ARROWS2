@@ -34,14 +34,54 @@ UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
-struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_DISABLED, 
+struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_ENABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
-void START() {
-    LOAD_SGB_BORDER(border2);
+struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0, .equippable = 1u};
+struct InvItem item02 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
+struct InvItem item03 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
+struct InvItem item04 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
+struct InvItem unequip00 = {.itemtype = INVITEM_METAL, .quantity = 11, .equippable = 0u};
+struct InvItem unequip01 = {.itemtype = INVITEM_WOOD, .quantity = 15, .equippable = 0u};
+struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+	
+struct InvItem inventory[12];
+struct InvItem itemEquipped = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
+
+void missions_init() BANKED;
+void inventory_init() BANKED;
+
+void missions_init() BANKED{
 	missions[0] = find_blackie;
 	missions[1] = engage_smith;
+}
+
+void inventory_init() BANKED{
+	inventory[0] = itemMoney;
+	inventory[1] = item00;
+	inventory[2] = item01;
+	inventory[3] = item02;
+	inventory[4] = item03;
+	inventory[5] = item04;
+	inventory[6] = unequip00;
+	inventory[7] = unequip01;
+	inventory[8] = unequip02;
+	inventory[9] = unequip03;
+	inventory[10] = unequip04;
+	inventory[11] = unequip05;
+	itemEquipped = inventory[0];
+}
+
+void START() {
+    LOAD_SGB_BORDER(border2);
+	missions_init();
+	inventory_init();
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -105,7 +145,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateMine);// StateTitlescreen
+			SetState(StateOverworld);// StateTitlescreen
 		}
 	}
 		

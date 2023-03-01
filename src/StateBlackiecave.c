@@ -19,7 +19,7 @@
 
 IMPORT_TILES(fontbw);
 IMPORT_TILES(blackiecavetiles);
-IMPORT_MAP(border2);
+IMPORT_MAP(bordercave);
 IMPORT_MAP(blackiecavemap);
 IMPORT_MAP(hudpl);
 
@@ -41,7 +41,7 @@ void UpdateHUD() BANKED;
 void Log() BANKED;
 
 void START(){
-    LOAD_SGB_BORDER(border2);
+    LOAD_SGB_BORDER(bordercave);
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)

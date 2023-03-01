@@ -20,7 +20,6 @@
 
 IMPORT_TILES(font);
 IMPORT_TILES(dialogtilesbase);
-IMPORT_TILES(dialogtiles00);
 IMPORT_MAP(dialogmapbase);
 
 extern UINT8 J_JUMP;
@@ -45,6 +44,7 @@ UINT8 wait_char = MAX_WAIT_CHAR;
 UINT8 writing_line = 1u;
 UINT8 n_lines = 0u;
 Sprite* dialog_cursor = 0;
+UINT8 next_page = 0u;
 
 void move_on();
 
@@ -69,13 +69,14 @@ void START() {
     counter_char = 0u;
     n_lines = 0u;
     dialog_ready = 0u;
+	next_page = 0u;
 }
 
 void UPDATE() {
     if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
         wait_char = 1u;
     }    
-    if(KEY_RELEASED(J_JUMP)){
+    if(KEY_RELEASED(J_JUMP) || KEY_PRESSED(J_DOWN)){
         move_on();
     }
     if(dialog_ready == 0u){
@@ -135,6 +136,11 @@ void UPDATE() {
 
 void move_on(){
     SpriteManagerRemoveSprite(dialog_cursor);
+	if(next_page){
+		next_page = 0u;
+		dialog_ready = 0u;
+		return;
+	}
     if(previous_state == StateOverworld){
         ChangeState(previous_state, s_motherow);
     }else{

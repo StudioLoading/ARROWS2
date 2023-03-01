@@ -77,16 +77,17 @@ void START(){
 		scroll_top_movement_limit = 56u;
 		scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
+	show_tip = 0u;
 	switch (current_map){
 		case 0u:
 			if(sgb_check()){
-				set_sgb_palette_2();
-			}
-			if(motherow_pos_y == 0u){
-				motherow_pos_y = (UINT16) 39u << 3;
+				set_sgb_palette_7();
 			}
 			if(motherow_pos_x == 0u){
-				motherow_pos_x = (UINT16) 38u << 3;
+				motherow_pos_x = (UINT16) 24u << 3;
+			}
+			if(motherow_pos_y == 0u){
+				motherow_pos_y = (UINT16) 11u << 3;
 			}
 			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 			scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);

@@ -24,7 +24,9 @@
 			"string.h": "c",
 			"main.h": "c",
 			"palette.h": "c",
-			"dialogs.h": "c"
+			"dialogs.h": "c",
+			"savegame.h": "c",
+			"sram.h": "c"
 		}
 	}
 }

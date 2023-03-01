@@ -101,6 +101,7 @@ void owCollision(){
         case 68u://HOSPITAL
             tip_to_show = TIP_HOSPITAL_NO;
             trigger_tip = 1u;
+            //ChangeState(StateHospital, THIS);
         break;
         case 83u:
         case 85u://SMITH

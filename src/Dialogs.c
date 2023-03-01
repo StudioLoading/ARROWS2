@@ -152,5 +152,39 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "LET'S BRING SOME GUN\0", 22);
 			memcpy(d6, "POWDER TO THE SMITH.\0", 22);
 		break;
+		case SMITH_DISABLED:
+			*n_lines = 5u;
+			memcpy(d1, "THERE'S NO ONE IN   \0", 22);
+			memcpy(d2, "HERE...             \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "'SHOULD CHECK THE   \0", 22);
+			memcpy(d5, "INN AND THE CEMETERY\0", 22);
+		break;
+		case SMITH_CHECKING_WOODANDMETAL:
+			*n_lines = 3u;
+			memcpy(d1, "I SEE... BROUGHT    \0", 22);
+			memcpy(d2, "THE METAL AND HOOD? \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+		break;
+		case SMITH_CHECKING_NOWOODANDMETAL:
+			*n_lines = 7u;
+			memcpy(d1, "SORRY DESSA...      \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "'NEED AT LEAST 10   \0", 22);
+			memcpy(d4, "PIECES OF METAL AND \0", 22);
+			memcpy(d5, "WOOD THEN I MAY HELP\0", 22);
+			memcpy(d6, "PLEASE COME BACK AS \0", 22);
+			memcpy(d7, "SOON AS YOU HAVE IT.\0", 22);
+		break;
+		case SMITH_GIVING_ARROWS:
+			*n_lines = 7u;
+			memcpy(d1, "AAAAALRIIIGHT!      \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "*SPLINK! SPLINK!*   \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
+			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
+		break;
 	}
 }

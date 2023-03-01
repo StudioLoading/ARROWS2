@@ -16,7 +16,6 @@
 #include "sgb_palette.h"
 #include "InventoryDialogs.h"
 
-IMPORT_MAP(border2);
 IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(inventorymap);
@@ -56,36 +55,24 @@ UINT8 invcursor_unequip_posy = 104u;
 
 UINT8 nav_equippable = 0u;
 
-struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
-struct InvItem item00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
-struct InvItem item01 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .equippable = 1u};
-struct InvItem item02 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 100, .equippable = 1u};
-struct InvItem item03 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 100, .equippable = 1u};
-struct InvItem item04 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
-struct InvItem unequip00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip01 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem* inventory[12] = {&itemMoney, &item00, &item01, &item02, &item03, &item04,
-                            &unequip00, &unequip01, &unequip02, &unequip03, &unequip04, &unequip05};
-extern struct InvItem* itemEquipped;
+extern struct InvItem inventory[12];
+extern struct InvItem itemEquipped;
 extern UINT8 previous_state;
 
-void invselectitem() BANKED;
-void fixInvcursor() BANKED;
+void invselectitem(INT8 max_idx) BANKED;
+void fixInvcursor(INT8 max_idx) BANKED;
 void fixUnequipInvcursor() BANKED;
 void change_navigation();
 void refresh_equipped();
 void pickup(struct ItemSpawned* pickedup_data) BANKED;
 void change_detail();
+UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
 extern void ChangeState(UINT8 new_state) BANKED;
 
 void START(){
-    LOAD_SGB_BORDER(border2);
 	//SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -102,16 +89,18 @@ void START(){
         invcursor_old_posi = invcursor_posi;
         inv_cursor->x = invcursor_posx[invcursor_old_posi];
         inv_cursor->y = invcursor_posy[invcursor_old_posi];
-        UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
+        UINT8 isEmpty = inventory[invcursor_posi].quantity == 0 ? 1 : 0;
         Sprite* s_invitem = 0;
         for(UINT8 i = 0u; i < 6; i++){
-            s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]+16u);
-            struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
-            cdata->itemtype = inventory[i]->itemtype;
-            cdata->quantity = inventory[i]->quantity;
+            if(inventory[i].quantity > 0){
+                s_invitem = SpriteManagerAdd(SpriteInvitem, invcursor_posx[i],invcursor_posy[i]+16u);
+                struct InvItem* cdata = (struct InvItem*) s_invitem->custom_data;
+                cdata->itemtype = inventory[i].itemtype;
+                cdata->quantity = inventory[i].quantity;
+            }
         }
-        invselectitem();
-        Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
+        invselectitem(12);
+        Inv_change_detail(inventory[invcursor_posi].itemtype, isEmpty);
         change_detail();    
         InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
     //HUD
@@ -119,8 +108,7 @@ void START(){
         INIT_HUD(invwindowmap);
         UINT8 uneq_x = 1u;
         for(UINT8 i = 6u; i < 12; i++){
-            struct InvItem* unequippable = (struct InvItem*) inventory[i];
-            switch(unequippable->itemtype){
+            switch(inventory[i].itemtype){
                 case INVITEM_UNASSIGNED:
                     UPDATE_HUD_TILE(uneq_x,1,10);
                     UPDATE_HUD_TILE(uneq_x,2,10);
@@ -184,12 +172,12 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     if(item_added == 0){
         for(UINT8 i = 0; item_added == 0u && i<12; ++i){
-            if(inventory[i]->itemtype == pickedup_data->itemtype){
+            if(inventory[i].itemtype == pickedup_data->itemtype){
                 item_added = 1u;
-                if((inventory[i]->quantity + pickedup_data->quantity) > 999){
-                    inventory[i]->quantity = 999;
+                if((inventory[i].quantity + pickedup_data->quantity) > 999){
+                    inventory[i].quantity = 999;
                 }else{
-                    inventory[i]->quantity += pickedup_data->quantity;
+                    inventory[i].quantity += pickedup_data->quantity;
                 }
             }
         }
@@ -198,21 +186,21 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
         switch(pickedup_data->equippable){
             case 1u://equippable
                 for(UINT8 i = 0; item_added == 0u && i<6; ++i){
-                    if(inventory[i]->itemtype == INVITEM_UNASSIGNED){
+                    if(inventory[i].itemtype == INVITEM_UNASSIGNED){
                         item_added = 1u;
-                        inventory[i]->itemtype = pickedup_data->itemtype; 
-                        inventory[i]->quantity = pickedup_data->quantity;
-                        inventory[i]->equippable = pickedup_data->equippable; 
+                        inventory[i].itemtype = pickedup_data->itemtype; 
+                        inventory[i].quantity = pickedup_data->quantity;
+                        inventory[i].equippable = pickedup_data->equippable; 
                     }
                 }
             break;
             case 0u://not equippable
                 for(UINT8 j = 6; item_added == 0u && j<12; ++j){
-                    if(inventory[j]->itemtype == INVITEM_UNASSIGNED){
+                    if(inventory[j].itemtype == INVITEM_UNASSIGNED){
                         item_added = 1u;
-                        inventory[j]->itemtype = pickedup_data->itemtype; 
-                        inventory[j]->quantity = pickedup_data->quantity;
-                        inventory[j]->equippable = pickedup_data->equippable; 
+                        inventory[j].itemtype = pickedup_data->itemtype; 
+                        inventory[j].quantity = pickedup_data->quantity;
+                        inventory[j].equippable = pickedup_data->equippable; 
                     }
                 }
             break;
@@ -223,17 +211,16 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
 }
 
-void invselectitem() BANKED{
+void invselectitem(INT8 max_idx) BANKED{
     UINT8 qOk = 0u;
     while (qOk == 0u){
-        if(inventory[invcursor_posi]->quantity > 0){qOk = 1u;}
+        if(inventory[invcursor_posi].quantity > 0){qOk = 1u;}
         else{
             invcursor_posi++;
-            fixInvcursor();
-            if(inventory[invcursor_posi]->quantity > 0){qOk = 1u;}
+            fixInvcursor(max_idx);
+            if(inventory[invcursor_posi].quantity > 0){qOk = 1u;}
         }
-    }
-    
+    }    
     itemEquipped = inventory[invcursor_posi];
 }
 
@@ -245,7 +232,7 @@ void UPDATE(){
     switch(nav_equippable){
         case 0u:
             if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
-                invselectitem();
+                invselectitem(12);
             }
             if(KEY_RELEASED(J_UP)){
                 invcursor_posi-=3;      
@@ -266,7 +253,7 @@ void UPDATE(){
                 invcursor_posi--;
             }
             if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
-                fixInvcursor();
+                fixInvcursor(12);
                 refresh_equipped();
             }
         break;
@@ -277,49 +264,53 @@ void refresh_equipped(){
     invcursor_old_posi = invcursor_posi;
     inv_cursor->x = (UINT16) invcursor_posx[invcursor_posi];
     inv_cursor->y = (UINT16) invcursor_posy[invcursor_posi];
-    UINT8 isEmpty = inventory[invcursor_posi]->quantity == 0 ? 1 : 0;
-    Inv_change_detail(inventory[invcursor_posi]->itemtype, isEmpty);
+    UINT8 isEmpty = inventory[invcursor_posi].quantity == 0 ? 1 : 0;
+    Inv_change_detail(inventory[invcursor_posi].itemtype, isEmpty);
     change_detail();
 }
 
-void fixInvcursor() BANKED{
+void fixInvcursor(INT8 max_idx) BANKED{
     if(invcursor_posi < 0){
-        invcursor_posi = 6;
+        if(max_idx){
+            invcursor_posi = max_idx;
+        }else{
+            invcursor_posi = 6;
+        }
     }
-    if(invcursor_posi >= invcursor_posimax){
+    if(invcursor_posi >= invcursor_posimax || invcursor_posi > max_idx){
         invcursor_posi = 0;        
     }
 }
 
 void change_detail(){
     print_target = PRINT_BKG;
-    if(inventory[invcursor_posi]->equippable){
+    if(inventory[invcursor_posi].equippable){
         PRINT(3, 8, "   ");
-        if(inventory[invcursor_posi]->quantity < 10){
-            PRINT(2, 14, "X 00%u", inventory[invcursor_posi]->quantity);
-        } else if(inventory[invcursor_posi]->quantity < 100){
-            PRINT(2, 14, "X 0%u", inventory[invcursor_posi]->quantity);
+        if(inventory[invcursor_posi].quantity < 10){
+            PRINT(2, 14, "X 00%u", inventory[invcursor_posi].quantity);
+        } else if(inventory[invcursor_posi].quantity < 100){
+            PRINT(2, 14, "X 0%u", inventory[invcursor_posi].quantity);
         } else {
-            PRINT(2, 14, "X %u", inventory[invcursor_posi]->quantity);
+            PRINT(2, 14, "X %u", inventory[invcursor_posi].quantity);
         }
     }else{
         PRINT(2, 14, "     ");
-        if(inventory[invcursor_posi]->quantity < 10){
-            PRINT(3, 8, "X0%u", inventory[invcursor_posi]->quantity);
-        } else if(inventory[invcursor_posi]->quantity < 100){
-            PRINT(3, 8, "X%u", inventory[invcursor_posi]->quantity);
+        if(inventory[invcursor_posi].quantity < 10){
+            PRINT(3, 8, "X0%u", inventory[invcursor_posi].quantity);
+        } else if(inventory[invcursor_posi].quantity < 100){
+            PRINT(3, 8, "X%u", inventory[invcursor_posi].quantity);
         } else {
-            PRINT(3, 8, "%u", inventory[invcursor_posi]->quantity);
+            PRINT(3, 8, "%u", inventory[invcursor_posi].quantity);
         }
     }    
-    if(inventory[invcursor_posi]->quantity == 0){
+    if(inventory[invcursor_posi].quantity == 0){
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv1);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv2);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv3);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv4);
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv5);
     }else{
-        switch(inventory[invcursor_posi]->itemtype){
+        switch(inventory[invcursor_posi].itemtype){
             case INVITEM_CROSSBOW:
                 GetLocalizedINVLabel_EN(CROSSBOW_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(CROSSBOW_DETAIL1, ddinv2);
@@ -369,4 +360,36 @@ void change_detail(){
     PRINT(8, 11, "%s", ddinv3);
     PRINT(8, 12, "%s", ddinv4);
     PRINT(8, 13, "%s", ddinv5);
+}
+
+UINT8 get_quantity(INVITEMTYPE itemtype) BANKED{
+    UINT8 q = 0u;
+    for(UINT8 i = 0u; i < 12; i++){
+        if(itemtype == inventory[i].itemtype){
+            q = inventory[i].quantity;
+        }
+    }
+    return q;
+}
+
+INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
+    INT8 idx = -1;
+    for(UINT8 i = 0u; i < 12; i++){
+        if(itemtype == inventory[i].itemtype){
+            if(l < 0){
+                if(inventory[i].quantity > (-l)){
+                    idx = i;
+                }
+            }else{
+                idx = i;
+            }
+            i = 12;
+        }
+    }
+    if(idx > -1){
+        inventory[idx].quantity+=l;
+    }else{
+        idx = 0;
+    }
+    return inventory[idx].quantity;
 }

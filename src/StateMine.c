@@ -18,7 +18,7 @@
 
 #define HORDE 5
 
-IMPORT_MAP(bordercave);
+IMPORT_MAP(bordermine);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(cavetiles);
 IMPORT_MAP(cavemap);
@@ -45,8 +45,9 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
+extern UINT8 item_spawned_cooldown;
 
-const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 35u, 52u, 0};
+const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 33u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 60u;
@@ -67,7 +68,7 @@ extern void Anim_Cave_0() BANKED;
 extern void Anim_Cave_1() BANKED;
 
 void START(){
-    LOAD_SGB_BORDER(bordercave);
+    LOAD_SGB_BORDER(bordermine);
     //SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -77,7 +78,7 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //SGB PALETTE
         if(sgb_check()){
-            set_sgb_palette_2();
+            set_sgb_palette_7();
         }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 7u << 3);
@@ -105,6 +106,10 @@ void START(){
 }
 
 void UPDATE(){
+    //SPAWNING ITEM COOLDOWN
+        if(item_spawned_cooldown > 0u){
+            item_spawned_cooldown--;
+        }
     //CAVE TILES ANIM
         tiles_anim_interval--;
         if(tiles_anim_interval == 0u){
@@ -140,7 +145,9 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
+        if(KEY_PRESSED(J_START)){
+            ChangeState(StateInventory, s_motherpl);
+        }
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0 && motherpl_vx == 0){
             //CAMERA TRAMBLE

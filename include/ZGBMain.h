@@ -25,7 +25,10 @@ _STATE(StateBlackiecave)\
 _STATE(StateMine)\
 _STATE(StateSmith)\
 STATE_DEF_END
-/*_STATE(StateFlipper)\*/
+/*
+_STATE(StateHospital)\
+_STATE(StateFlipper)\
+*/
 
 
 #define SPRITES \
