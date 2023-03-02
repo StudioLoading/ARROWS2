@@ -172,8 +172,8 @@ void set_sgb_palette_statusbar() __banked {
         UINT8 padding;
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
-        .pal1 = {RGB8(255, 255, 255), SGB_STATUS_LIGHT, SGB_STATUS_DARK, SGB_STATUS_RED},
-        .pal2 = {SGB_STATUS_LIGHT, SGB_STATUS_DARK, SGB_STATUS_DARKER},
+        .pal1 = {RGB8(255, 255, 255), SGB_STATUS_LIGHT, SGB_STATUS_RED, SGB_STATUS_DARKER},
+        .pal2 = {SGB_STATUS_DARKER, SGB_STATUS_LIGHT, SGB_PAL2_LIGHT},
         .padding = 0 
     };
 	struct {
@@ -183,16 +183,48 @@ void set_sgb_palette_statusbar() __banked {
 		UINT16 ndata;
 		UINT8 style;
         UINT8 ds[10];
-    } SGB_PALETTE_STATUS_PACKET = {
+    } SGB_PALETTE_STATUS_PACKET_0 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 17u,
-        .ndata = 16u,
+        .ycoo = 14u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b10011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_STATUS_PACKET_1 = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 15u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_STATUS_PACKET_2 = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 16u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
     };
     sgb_transfer((void *)&SGB_PALETTE2_PACKET);
-    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_0);
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_1);
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_2);
 }
 
 void set_sgb_palette(UINT16 c0, UINT16 c1, UINT16 c2, UINT16 c3) __banked {
@@ -218,15 +250,47 @@ void reset_sgb_palette_statusbar() __banked{
 		UINT16 ndata;
 		UINT8 style;
         UINT8 ds[10];
-    } SGB_PALETTE_STATUS_PACKET = {
+    } SGB_PALETTE_STATUS_PACKET_0 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 17u,
-        .ndata = 16u,
+        .ycoo = 14u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+    };	
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_STATUS_PACKET_1 = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 15u,
+        .ndata = 20u,
 		.style = 0,
 		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
     };
-    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET);	
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_STATUS_PACKET_2 = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 16u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+    };
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_0);	
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_1);	
+    sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_2);	
 }
 
 void set_sgb_palette_7() __banked{
@@ -316,6 +380,9 @@ void set_sgb_palette01_worldmap() __banked{
 }
 void set_sgb_palette01_WOLF() __banked{
 	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PAL2H_DARK, SGB_PAL2H_DARKER);
+}
+void set_sgb_palette01_BLACKIECAVE() __banked{
+    set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PALBLUE_DARK, SGB_PAL2H_DARKER);
 }
 void set_sgb_palette01_MISTYHILLS() __banked{
 	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, RGB8(4, 255, 0), SGB_PAL2H_DARKER);

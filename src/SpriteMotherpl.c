@@ -129,131 +129,131 @@ void UPDATE(){
             UpdateHUD();//STATEFITTIZIO
         }
     //BEHAVIORS
-    switch(motherpl_state){
-        case MOTHERPL_IDLE:
-            if(motherpl_attack_cooldown == 0u){
-                SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (8 - (motherpl_hp << 1)));
-            }
-            motherpl_jpower = 0;
-            jump_max_toched = 0u;
-            motherpl_vy = GRAVITY;
-            if(motherpl_vx != 0){
-                changeMotherplState(MOTHERPL_WALK);
-            }
-        break;
-        case MOTHERPL_JUMP:               
-            if(motherpl_coll && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
-                changeMotherplState(MOTHERPL_IDLE);
-            }
-            if(KEY_RELEASED(J_JUMP)){
-                motherpl_jpower = JUMP_MIN_POWER;
+        switch(motherpl_state){
+            case MOTHERPL_IDLE:
+                if(motherpl_attack_cooldown == 0u){
+                    SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (8 - (motherpl_hp << 1)));
+                }
+                motherpl_jpower = 0;
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
-                jump_ticked_delay = JUMP_TICKED_COOLDOWN;
-            }else if(KEY_PRESSED(J_JUMP) && jump_ticked_delay == 0){
-                if(motherpl_jpower < JUMP_MAX_POWER){
-                    motherpl_jpower++;
-                    if(motherpl_jpower < (JUMP_MAX_POWER / 3)){
-                        motherpl_vy = -3;
-                    }else if(motherpl_jpower < (JUMP_MAX_POWER / 2)){
-                        motherpl_vy = -2;
-                    }else{
-                        motherpl_vy = -1;
+                if(motherpl_vx != 0){
+                    changeMotherplState(MOTHERPL_WALK);
+                }
+            break;
+            case MOTHERPL_JUMP:               
+                if(motherpl_coll && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
+                if(KEY_RELEASED(J_JUMP)){
+                    motherpl_jpower = JUMP_MIN_POWER;
+                    jump_max_toched = 0u;
+                    motherpl_vy = GRAVITY;
+                    jump_ticked_delay = JUMP_TICKED_COOLDOWN;
+                }else if(KEY_PRESSED(J_JUMP) && jump_ticked_delay == 0){
+                    if(motherpl_jpower < JUMP_MAX_POWER){
+                        motherpl_jpower++;
+                        if(motherpl_jpower < (JUMP_MAX_POWER / 3)){
+                            motherpl_vy = -3;
+                        }else if(motherpl_jpower < (JUMP_MAX_POWER / 2)){
+                            motherpl_vy = -2;
+                        }else{
+                            motherpl_vy = -1;
+                        }
+                    }       
+                    if(motherpl_jpower == JUMP_MAX_POWER){
+                        if(fly_counter < FLY_MAX){
+                            fly_counter++;
+                            motherpl_vy = 0;
+                        }else if(motherpl_vy < GRAVITY){
+                            motherpl_vy++;
+                        }
                     }
-                }       
-                if(motherpl_jpower == JUMP_MAX_POWER){
-                    if(fly_counter < FLY_MAX){
-                        fly_counter++;
-                        motherpl_vy = 0;
-                    }else if(motherpl_vy < GRAVITY){
+                }else{
+                    if (motherpl_jpower > JUMP_MIN_POWER){
+                        motherpl_jpower--;
+                    }
+                    /*if(fly_counter < FLY_MAX){
+                            fly_counter++;
+                            motherpl_vy = 0;
+                    }else */
+                    if(motherpl_vy < GRAVITY){
                         motherpl_vy++;
                     }
                 }
-            }else{
-                if (motherpl_jpower > JUMP_MIN_POWER){
-                    motherpl_jpower--;
+                if(motherpl_vy > 0){
+                    SetSpriteAnim(THIS, motherpl_anim_jump_descending, 4u);
                 }
-                /*if(fly_counter < FLY_MAX){
-                        fly_counter++;
-                        motherpl_vy = 0;
-                }else */
-                if(motherpl_vy < GRAVITY){
-                    motherpl_vy++;
+            break;
+            case MOTHERPL_WALK:
+                refreshAnimation();
+                if(motherpl_inertiax == 0){//|| (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
+                    changeMotherplState(MOTHERPL_IDLE);
                 }
-            }
-            if(motherpl_vy > 0){
-                SetSpriteAnim(THIS, motherpl_anim_jump_descending, 4u);
-            }
-        break;
-        case MOTHERPL_WALK:
-            refreshAnimation();
-            if(motherpl_inertiax == 0){//|| (KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT))){
-                changeMotherplState(MOTHERPL_IDLE);
-            }
-        break;
-        case MOTHERPL_HIT:
-            motherpl_vy = GRAVITY;
-            refreshAnimation();
-            if(motherpl_hp <= 0){
-                changeMotherplState(MOTHERPL_DEAD);
-            }
-        break;
-        case MOTHERPL_DEAD:
-            if(motherpl_hit_cooldown > 0){
-                motherpl_hit_cooldown--;
-                if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 1)){
-                    THIS->y--;
-                    if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 2)){
-                        refreshAnimation();
+            break;
+            case MOTHERPL_HIT:
+                motherpl_vy = GRAVITY;
+                refreshAnimation();
+                if(motherpl_hp <= 0){
+                    changeMotherplState(MOTHERPL_DEAD);
+                }
+            break;
+            case MOTHERPL_DEAD:
+                if(motherpl_hit_cooldown > 0){
+                    motherpl_hit_cooldown--;
+                    if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 1)){
+                        THIS->y--;
+                        if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 2)){
+                            refreshAnimation();
+                        }
+                    }
+                }else{//già fatto il giro verso l' alto
+                    die();
+                }
+                return;
+            break;
+            case MOTHERPL_BLOCKED:
+                if(KEY_TICKED(J_LEFT) || KEY_TICKED(J_RIGHT)){
+                    motherpl_blocked_cooldown -= 40;
+                }
+                //motherpl_blocked_cooldown--;
+                if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX){
+                    SpriteManagerRemoveSprite(s_blocking);
+                    motherpl_blocked = 0u;
+                    motherpl_blocked_cooldown = 16u;
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
+            break;
+            case MOTHERPL_PICKUP:
+                pickingup_cooldown--;
+                if(pickingup_cooldown <= 0){
+                    pickingup_cooldown = PICKINGUP_COOLDOWN;
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
+                return;
+            break;
+            case MOTHERPL_CRAWL:
+                if(KEY_RELEASED(J_DOWN)){
+                    camera_ok = 0u;
+                }
+            break;
+            case MOTHERPL_DASH:
+                if(motherpl_dash_cooldown % 8 == 0){
+                    spawnDust();
+                }
+                motherpl_dash_cooldown--;
+                if(motherpl_dash_cooldown == 0){
+                    motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
+                {
+                    UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
+                    if(dash_floor == 48u){
+                            spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
                     }
                 }
-            }else{//già fatto il giro verso l' alto
-                die();
-            }
-            return;
-        break;
-        case MOTHERPL_BLOCKED:
-            if(KEY_TICKED(J_LEFT) || KEY_TICKED(J_RIGHT)){
-                motherpl_blocked_cooldown -= 40;
-            }
-            //motherpl_blocked_cooldown--;
-            if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX){
-                SpriteManagerRemoveSprite(s_blocking);
-                motherpl_blocked = 0u;
-                motherpl_blocked_cooldown = 16u;
-                changeMotherplState(MOTHERPL_IDLE);
-            }
-        break;
-        case MOTHERPL_PICKUP:
-            pickingup_cooldown--;
-            if(pickingup_cooldown <= 0){
-                pickingup_cooldown = PICKINGUP_COOLDOWN;
-                changeMotherplState(MOTHERPL_IDLE);
-            }
-            return;
-        break;
-        case MOTHERPL_CRAWL:
-            if(KEY_RELEASED(J_DOWN)){
-                camera_ok = 0u;
-            }
-        break;
-        case MOTHERPL_DASH:
-            if(motherpl_dash_cooldown % 8 == 0){
-                spawnDust();
-            }
-            motherpl_dash_cooldown--;
-            if(motherpl_dash_cooldown == 0){
-                motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
-                changeMotherplState(MOTHERPL_IDLE);
-            }
-            {
-                UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
-                if(dash_floor == 48u){
-                        spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
-                }
-            }
-        break;
-    }
+            break;
+        }
     //BLOCK
         if(motherpl_blocked == 1u){// && motherpl_blocked_cooldown == 0u){
             changeMotherplState(MOTHERPL_BLOCKED);
@@ -424,10 +424,19 @@ void UPDATE(){
                 }
             break;
             case StateCemetery:
+            break;
             case StateBlackiecave:
                 switch(motherpl_coll){
-                    case 8u:
-                        ChangeState(StateOverworld, motherpl_state);
+                    case 34u://tiles di soffitto che quando dash non voglio incastri
+                    case 35u:
+                        if(motherpl_state == MOTHERPL_DASH){
+                            if(THIS->mirror == NO_MIRROR){
+                                THIS->x++;
+                            }else{
+                                THIS->x--;
+                            }
+                            motherpl_dash_cooldown++;
+                        }
                     break;
                 }
             break;

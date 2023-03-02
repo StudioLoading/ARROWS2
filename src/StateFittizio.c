@@ -98,6 +98,37 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
         HIDE_WIN;
         SetWindowY(160);
     }
+    //SGB PALETTE
+        if(sgb_check()){
+            switch(new_state){
+                case StateOverworld:
+                    reset_sgb_palette_statusbar();
+                break;
+                case StateInventory:
+                    reset_sgb_palette_statusbar();
+                break;
+                case StateExzoo:
+                    set_sgb_palette01_ZOO();
+                    set_sgb_palette_statusbar();
+                break;
+                case StateSmith:
+                    set_sgb_palette01_WOLF();
+                    reset_sgb_palette_statusbar();
+                break;
+                case StateBlackiecave:
+                    set_sgb_palette01_BLACKIECAVE();
+                    set_sgb_palette_statusbar();
+                break;
+                case StateCemetery:
+                    set_sgb_palette01_CEMATERYCRYPT();
+                    set_sgb_palette_statusbar();
+                break;
+                case StateMine:
+                    set_sgb_palette01_TREES();
+                    set_sgb_palette_statusbar();
+                break;
+            }
+        }
     previous_state = current_state;
 	if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state);

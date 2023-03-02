@@ -76,10 +76,6 @@ void START(){
 	//SCROLL LIMITS
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
-    //SGB PALETTE
-        if(sgb_check()){
-            set_sgb_palette_7();
-        }
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 7u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {

@@ -60,6 +60,10 @@ void START() {
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	NR50_REG = 0x77; //Max volume 0x77
     SpriteManagerLoad(SpriteInvcursor);
+    //SGB PALETTE
+        if(sgb_check()){
+            set_sgb_palette01_WOLF();
+        }
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
     InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);

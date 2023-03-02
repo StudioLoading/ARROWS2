@@ -2,6 +2,8 @@
 
 #define RGB8(r, g, b) (((UINT16)((b) >> 3) << 10) | ((UINT16)((g) >> 3) << 5) | ((UINT16)((r) >> 3) << 0))
 
+#define SGB_PALBLUE_DARK      RGB8(0, 0, 252)
+
 #define SGB_COMUNEKO_LIGHTER  RGB8(180, 219, 214)
 #define SGB_COMUNEKO_LIGHT    RGB8(193, 166, 224)
 #define SGB_COMUNEKO_DARK     RGB8(193, 166, 224)
@@ -96,15 +98,17 @@ void set_sgb_palette_2() __banked;
 void set_sgb_palette_title() __banked;
 void reset_sgb_palette_title() __banked;
 void set_sgb_palette_statusbar() __banked;
+void reset_sgb_palette_statusbar() __banked;
+
 void set_sgb_palette01_TITLESCREEN() __banked;
 void set_sgb_palette01_MISTYHILLS() __banked;
 void set_sgb_palette01_intro() __banked;
 void set_sgb_palette01_secret() __banked;
 void set_sgb_palette01_worldmap() __banked;
 void set_sgb_palette01_WOLF() __banked;
+void set_sgb_palette01_BLACKIECAVE() __banked;
 void set_sgb_palette01_TITLEINVERTED() __banked;
 void set_sgb_palette01_COMUNEKO() __banked;
-void reset_sgb_palette_statusbar() __banked;
 void set_sgb_palette01_ZOO() __banked;
 void set_sgb_palette01_SEWER() __banked;
 void set_sgb_palette01_GATORSWAMP() __banked;

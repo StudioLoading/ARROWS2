@@ -40,7 +40,7 @@ struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 struct InvItem item00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
-struct InvItem item01 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
 struct InvItem item03 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
 struct InvItem item04 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
@@ -56,6 +56,10 @@ struct InvItem itemEquipped = {.itemtype = INVITEM_MONEY, .quantity = 10, .equip
 
 void missions_init() BANKED;
 void inventory_init() BANKED;
+
+extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern Sprite* s_motherpl;
+extern Sprite* s_motherow;
 
 void missions_init() BANKED{
 	missions[0] = find_blackie;
@@ -145,7 +149,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			SetState(StateOverworld);// StateTitlescreen
+			ChangeState(StateBlackiecave, s_motherpl);// StateTitlescreen
 		}
 	}
 		

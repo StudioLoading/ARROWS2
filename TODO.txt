@@ -8,6 +8,9 @@ TODO x demo:
 - polish titlescreen
 - intro?
 - schermata finale di fine demo
+- migliorie sulla mappa overworld: ho un sacco di suggerimenti sulla cartella
+	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
+- overworld sul ghiaino vado più lento
 
 POST DEMO:
 - StateHospital per gurarsi e salvare.
