@@ -237,6 +237,14 @@ void UPDATE(){
                     camera_ok = 0u;
                 }
             break;
+            case MOTHERPL_CRAWL_SURF:
+                if(s_surf){
+                    THIS->x = s_surf->x + motherpl_surf_dx;
+                    THIS->y = s_surf->y - 20u;
+                    //THIS->x = s_surf->x;
+                    //THIS->y = s_surf->y -16u;
+                }
+            break;
             case MOTHERPL_DASH:
                 if(motherpl_dash_cooldown % 8 == 0){
                     spawnDust();
@@ -376,22 +384,24 @@ void UPDATE(){
         }
     //RELATIVE POSITION
         if(motherpl_surfing_goton == GOTON_COOLDOWN && motherpl_state != MOTHERPL_IDLE){//just got on a ride
-            changeMotherplState(MOTHERPL_CRAWL);
+            changeMotherplState(MOTHERPL_CRAWL_SURF);
         }
         if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
         if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
         if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
-            THIS->x = s_surf->x + motherpl_surf_dx;
-            THIS->y = s_surf->y - 23u;
+            //THIS->x = s_surf->x + motherpl_surf_dx;
+            //THIS->y = s_surf->y - 23u;
         }
     //ACTUAL MOVEMENT
-        UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-        if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
-            //spawnDust();
-            changeMotherplState(MOTHERPL_IDLE);
-        }        
-        if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
-            motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
+        if(motherpl_state != MOTHERPL_CRAWL_SURF){      
+            UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+            if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
+                //spawnDust();
+                changeMotherplState(MOTHERPL_IDLE);
+            }        
+            if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
+                motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
+            }
         }
     //REACTION DI TILE COLLISION
         switch(current_state){
@@ -429,6 +439,8 @@ void UPDATE(){
                 switch(motherpl_coll){
                     case 34u://tiles di soffitto che quando dash non voglio incastri
                     case 35u:
+                    case 36u:
+                    case 37u:
                         if(motherpl_state == MOTHERPL_DASH){
                             if(THIS->mirror == NO_MIRROR){
                                 THIS->x++;
@@ -462,7 +474,8 @@ void UPDATE(){
                         if(motherpl_vy > 0){
                             if((implspr->y < THIS->y+24u) && (implspr->y > THIS->y +16u)){
                                 if(s_surf == 0 && motherpl_surfing_getoff == 0u){
-                                    changeMotherplState(MOTHERPL_CRAWL);
+                                    //changeMotherplState(MOTHERPL_CRAWL);
+                                    changeMotherplState(MOTHERPL_CRAWL_SURF);
                                     motherpl_surfing_goton = GOTON_COOLDOWN;
                                     s_surf = implspr;
                                     surf_data =(struct ArrowData*) s_surf->custom_data;
@@ -696,6 +709,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 }
             break;
             case MOTHERPL_CRAWL:
+            case MOTHERPL_CRAWL_SURF:
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
                 }

@@ -207,6 +207,7 @@ void Log() BANKED{
         case MOTHERPL_HIT: PRINT(0, 3, " HIT"); break;
         case MOTHERPL_DEAD: PRINT(0, 3, "DEAD"); break;
         case MOTHERPL_CRAWL: PRINT(0, 3, "CRAW"); break;
+        case MOTHERPL_CRAWL_SURF: PRINT(0, 3, "CRAS"); break;
         case MOTHERPL_DASH: PRINT(0, 3, "DASH"); break;
     }
     if(s_surf){

@@ -90,6 +90,8 @@ void START(){
     idx_page = 0u;
     show_missions();
     showing_detail = 0u;
+    
+	SHOW_SPRITES;
 }
 
 void empty_dds(){

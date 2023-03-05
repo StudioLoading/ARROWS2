@@ -62,6 +62,8 @@ _SPRITE_DMG(SpritePgceme, pgcemetery)\
 _SPRITE_DMG(SpritePgexzoo, pgexzoo)\
 _SPRITE_DMG(SpriteCavesand, cavesand)\
 _SPRITE_DMG(SpriteSuperstone, superstone)\
+_SPRITE_DMG(SpriteWolf, wolf)\
+_SPRITE_DMG(SpriteDrop , drop)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

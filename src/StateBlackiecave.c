@@ -50,7 +50,8 @@ extern struct MISSION missions[4];
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
 
-
+UINT8 wolf_spawned = 0u;
+UINT8 timeout_drop = 0u;
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
 extern void update_camera_position() BANKED;
@@ -72,7 +73,7 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 25u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 20u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -88,6 +89,9 @@ void START(){
         UpdateHUD();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(blackiecavemap), &blackiecavemap, &mapwidth, &mapheight);
+    wolf_spawned = 0u;
+    timeout_drop = 0u;
+	SHOW_SPRITES;
 }
 
 void UPDATE(){
@@ -106,23 +110,27 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC 
-    /*
-        if(s_motherpl->x < ((UINT16)35u << 3)){
-            if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
-                spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
-                npc_spawned_zone = 1u;
-            }
-        }else if(s_motherpl->x < ((UINT16)60u << 3)){
-            if(npc_spawned_zone != 2u){
-                if(missions[1].mission_state == MISSION_STATE_DISABLED){
-                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH);
-                }
-                spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2);
-                npc_spawned_zone = 2u;
+        if(s_motherpl->x > ((UINT16)56u << 3)){
+            if(wolf_spawned == 0u){
+                wolf_spawned = 1u;
+                Sprite* wolf_1 = SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
             }
         }
-    */
+     //DROPS ANIM
+        if(s_motherpl->x<((UINT16)50u)<<3)   
+        {
+            timeout_drop--;
+            if(timeout_drop == 80u){
+                SpriteManagerAdd(SpriteDrop, s_motherpl->x+24u, (UINT16) 44u);
+            }
+            if(timeout_drop == 160u){
+                SpriteManagerAdd(SpriteDrop, s_motherpl->x-12u, (UINT16) 44u);
+            }
+            if(timeout_drop == 0u){
+                SpriteManagerAdd(SpriteDrop, s_motherpl->x+64u, (UINT16) 44u);
+                timeout_drop = 240u;
+            }
+        }
 
     Log();
 }

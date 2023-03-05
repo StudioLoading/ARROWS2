@@ -45,7 +45,7 @@ extern UINT8 n_lines;
 extern Sprite* dialog_cursor;
 extern UINT8 next_page;
 
-extern void move_on();
+extern void move_on() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -175,6 +175,7 @@ void UPDATE() {
                 }
             break;
         }
+        move_on();
     }
 }
 

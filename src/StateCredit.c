@@ -119,6 +119,7 @@ void START() {
 	whostalking = NOBODY;
 
 	SHOW_BKG;
+	SHOW_SPRITES;
 }
 
 void UPDATE() {
@@ -149,7 +150,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			ChangeState(StateBlackiecave, s_motherpl);// StateTitlescreen
+			ChangeState(StateOverworld, s_motherpl);// StateTitlescreen
 		}
 	}
 		

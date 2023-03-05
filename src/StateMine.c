@@ -99,6 +99,7 @@ void START(){
     if(superstone_spawned < 2){
         superstone_spawned = 0u;
     }
+	SHOW_SPRITES;
 }
 
 void UPDATE(){

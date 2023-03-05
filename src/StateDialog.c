@@ -46,7 +46,7 @@ UINT8 n_lines = 0u;
 Sprite* dialog_cursor = 0;
 UINT8 next_page = 0u;
 
-void move_on();
+void move_on() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -70,6 +70,7 @@ void START() {
     n_lines = 0u;
     dialog_ready = 0u;
 	next_page = 0u;
+	SHOW_SPRITES;
 }
 
 void UPDATE() {
@@ -134,7 +135,7 @@ void UPDATE() {
     }
 }
 
-void move_on(){
+void move_on() BANKED{
     SpriteManagerRemoveSprite(dialog_cursor);
 	if(next_page){
 		next_page = 0u;

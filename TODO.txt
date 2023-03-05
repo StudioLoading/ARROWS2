@@ -1,8 +1,12 @@
 TODO x demo:
+- gli indoor meno claustrofobici, più spazio per far numeri
 - Cave of the Black Wolf: 
-	- dialoghi: spingere ovviamente sul fatto che io sono la healer!
-	- design delle acrobazie da fare per arrivare al carrello dietro i lupi
-		chiudendo così la demo
+	cutscene finale
+		lupo parla con me
+		torno sul place, la madre è già oltre lui e dentro al carrello
+		dire di premere destra
+		il carrello parte e va a destra fino a fuori schermo
+		schermata finale di fine demo
 - colori SGB vari
 - check dei bordi coerenti con
 - polish titlescreen
@@ -18,6 +22,9 @@ POST DEMO:
 - Overworld: sprite animate in  e animazione acque 
 - Dialog: miglioramento pixelArt
 - TitleScreen: nave come sprite in movimento, animazione acque, cheatCode
+- Oh no il villaggio è sotto attacco! sull' overworld vedo dei mostri attaccabili
+ e appena ci vado contro entro in un place dal quale posso uscire solo se 
+ uccido tutti i nemici presenti
 
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 

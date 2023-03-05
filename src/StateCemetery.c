@@ -84,6 +84,7 @@ void START(){
         UpdateHUD();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
+	SHOW_SPRITES;
 }
 
 void UPDATE(){

@@ -173,7 +173,7 @@ void set_sgb_palette_statusbar() __banked {
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
         .pal1 = {RGB8(255, 255, 255), SGB_STATUS_LIGHT, SGB_STATUS_RED, SGB_STATUS_DARKER},
-        .pal2 = {SGB_STATUS_DARKER, SGB_STATUS_LIGHT, SGB_PAL2_LIGHT},
+        .pal2 = {SGB_PAL2_LIGHT, SGB_STATUS_LIGHT, SGB_STATUS_DARKER},
         .padding = 0 
     };
 	struct {

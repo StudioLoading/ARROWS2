@@ -154,6 +154,8 @@ void START(){
             }
             uneq_x += 2;
         }
+    
+	SHOW_SPRITES;
 }
 
 void pickup(struct ItemSpawned* pickedup_data) BANKED{
