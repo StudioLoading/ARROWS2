@@ -81,7 +81,7 @@ void START(){
 	switch (current_map){
 		case 0u:
 			if(sgb_check()){
-				set_sgb_palette_7();
+				set_sgb_palette_overworldsw();
 			}
 			if(motherow_pos_x == 0u){
 				motherow_pos_x = (UINT16) 24u << 3;

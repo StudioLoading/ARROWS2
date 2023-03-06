@@ -118,7 +118,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                     set_sgb_palette_statusbar();
                 break;
                 case StateMine:
-                    set_sgb_palette01_TREES();
+                    set_sgb_palette01_MINE();
                     set_sgb_palette_statusbar();
                 break;
                 case StateDiary:

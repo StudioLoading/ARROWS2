@@ -92,7 +92,7 @@ void set_sgb_palette_6() __banked;*/
 #define SGB_PAL7_DARK		RGB8(0, 128, 128)
 #define SGB_PAL7_DARKER 	RGB8(96, 56, 32)
 
-void set_sgb_palette_7() __banked;
+void set_sgb_palette_overworldsw() __banked;
 void set_sgb_palette_2() __banked;
 
 void set_sgb_palette_title() __banked;
@@ -109,7 +109,10 @@ void set_sgb_palette01_WOLF() __banked;
 void set_sgb_palette01_BLACKIECAVE() __banked;
 void set_sgb_palette01_TITLEINVERTED() __banked;
 void set_sgb_palette01_COMUNEKO() __banked;
+void set_sgb_palette01_MINE() __banked;
 void set_sgb_palette01_ZOO() __banked;
+void set_sgb_palette01_CEMATERYCRYPT() __banked;
+/*
 void set_sgb_palette01_SEWER() __banked;
 void set_sgb_palette01_GATORSWAMP() __banked;
 void set_sgb_palette01_GATOR() __banked;
@@ -118,11 +121,9 @@ void set_sgb_palette01_EAGLE() __banked;
 void set_sgb_palette01_IBEX() __banked;
 void set_sgb_palette01_AMULET_THUNDER() __banked;
 void set_sgb_palette01_AMULET_ICE() __banked;
-void set_sgb_palette01_TREES() __banked;
 void set_sgb_palette01_BEAR() __banked;
 void set_sgb_palette01_ICE() __banked;
 void set_sgb_palette01_WALRUS() __banked;
-void set_sgb_palette01_CEMATERYCRYPT() __banked;
 void set_sgb_palette01_CASTLE() __banked;
 void set_sgb_palette01_MOTHER() __banked;
 void set_sgb_palette01_BOSS() __banked;
@@ -139,7 +140,7 @@ void set_sgb_palette01_2E() __banked;
 void set_sgb_palette01_2H() __banked;
 void set_sgb_palette01_3C() __banked;
 void set_sgb_palette01_4B() __banked;
-
+*/
 
 /*
 Color Palette 1-A
