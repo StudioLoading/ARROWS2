@@ -101,19 +101,13 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
     //SGB PALETTE
         if(sgb_check()){
             switch(new_state){
-                case StateOverworld:
-                    reset_sgb_palette_statusbar();
-                break;
-                case StateInventory:
-                    reset_sgb_palette_statusbar();
-                break;
                 case StateExzoo:
                     set_sgb_palette01_ZOO();
                     set_sgb_palette_statusbar();
                 break;
                 case StateSmith:
                     set_sgb_palette01_WOLF();
-                    reset_sgb_palette_statusbar();
+                    set_sgb_palette_statusbar();
                 break;
                 case StateBlackiecave:
                     set_sgb_palette01_BLACKIECAVE();
@@ -126,6 +120,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                 case StateMine:
                     set_sgb_palette01_TREES();
                     set_sgb_palette_statusbar();
+                break;
+                case StateDiary:
+                case StateDialog:
+                case StateInventory:
+                case StateOverworld:
+                    reset_sgb_palette_statusbar();
                 break;
             }
         }

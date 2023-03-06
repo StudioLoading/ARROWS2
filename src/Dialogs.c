@@ -38,9 +38,9 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_BLACKIE_CAVE:
+			memcpy(d1, " RED RIDING HOOD   \0", 22);
+			memcpy(d2, " WORST ENEMY CAVE  \0", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " RED RIDING HOOD      \0", 22);
-			memcpy(d2, " WORST ENEMY' FAMILY  \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_OWLIMIT_EAST:
