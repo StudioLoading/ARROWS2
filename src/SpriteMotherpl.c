@@ -569,6 +569,15 @@ void UPDATE(){
                     }
                 }
             break;
+            case StateBlackiecave:
+                if(KEY_PRESSED(J_FIRE)){
+                    if(scroll_tile == 18u){
+                        whostalking = BOUNCINGBLOCK;
+                        ChangeState(StateDialog, THIS);
+                    }
+                }
+            break;
+
         }
     if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
         getOff();

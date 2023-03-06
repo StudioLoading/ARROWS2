@@ -113,6 +113,51 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ARROWBASTARD_DETAIL4:
 			memcpy(d, "           ", 12);
 		break;
+		case METAL_NAME:
+			memcpy(d, "   METAL:  ", 12);
+		break;
+		case METAL_DETAIL1:
+			memcpy(d, "PIECE OF   ", 12);
+		break;
+		case METAL_DETAIL2:
+			memcpy(d, "METAL.     ", 12);
+		break;
+		case METAL_DETAIL3:
+			memcpy(d, "           ", 12);
+		break;
+		case METAL_DETAIL4:
+			memcpy(d, "           ", 12);
+		break;
+		case WOOD_NAME:
+			memcpy(d, "    WOOD:  ", 12);
+		break;
+		case WOOD_DETAIL1:
+			memcpy(d, "PIECE OF   ", 12);
+		break;
+		case WOOD_DETAIL2:
+			memcpy(d, "WOOD.      ", 12);
+		break;
+		case WOOD_DETAIL3:
+			memcpy(d, "           ", 12);
+		break;
+		case WOOD_DETAIL4:
+			memcpy(d, "           ", 12);
+		break;
+		case POWDER_NAME:
+			memcpy(d, "GUNPOWDER: ", 12);
+		break;
+		case POWDER_DETAIL1:
+			memcpy(d, "SOME GUNPOW", 12);
+		break;
+		case POWDER_DETAIL2:
+			memcpy(d, "DER.THE SMI", 12);
+		break;
+		case POWDER_DETAIL3:
+			memcpy(d, "TH MAY USE ", 12);
+		break;
+		case POWDER_DETAIL4:
+			memcpy(d, "IT         ", 12);
+		break;
 		/*
 		,
 		ARROWBASTARD_DETAIL*/

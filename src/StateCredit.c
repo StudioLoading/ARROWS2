@@ -34,7 +34,7 @@ UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
-struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_ENABLED, 
+struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
@@ -150,7 +150,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;			
-			ChangeState(StateOverworld, s_motherpl);// StateTitlescreen
+			ChangeState(StateBlackiecave, s_motherpl);// StateTitlescreen
 		}
 	}
 		

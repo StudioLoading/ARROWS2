@@ -99,7 +99,7 @@ void START(){
 	INIT_HUD(hudow); 
 	HIDE_WIN;
 	SHOW_SPRITES;
-	//hudow_opened = 0;	
+	hudow_opened = 0;	
 }
 
 void ShowTipOW() BANKED{

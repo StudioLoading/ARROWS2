@@ -299,6 +299,9 @@ void set_sgb_palette_overworldsw() __banked{
 void set_sgb_palette_2() __banked{
     set_sgb_palette(SGB_PAL2_LIGHTER, SGB_PAL2_LIGHT, SGB_PAL2_DARK, SGB_PAL2_DARKER);
 }
+void set_sgb_palette_inventory() __banked{
+    set_sgb_palette(SGB_INVENTORY_LIGHTER, SGB_INVENTORY_LIGHT, SGB_INVENTORY_DARK, SGB_INVENTORY_DARKER);
+}
 
 void set_sgb_palette01_TITLESCREEN() __banked {
 	set_sgb_palette(SGB_PAL2A_LIGHTER, SGB_PAL2A_LIGHT, SGB_PAL2A_DARK, SGB_PAL2A_DARKER);

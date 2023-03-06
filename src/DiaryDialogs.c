@@ -21,13 +21,13 @@ unsigned char dd8[21];
 void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 	switch(label){
 		case EMPTY_STRING:
-			memcpy(d, "                    ", 20);
+			memcpy(d, "                  ", 18);
 		break;
 		case MISSIONI_IN_CORSO:
-			memcpy(d, "IN PROGRESS", 20);
+			memcpy(d, "IN PROGRESS", 18);
 		break;
 		case FIND_BLACKIE_TITLE:
-			memcpy(d, "FIND BLACKIE", 20);
+			memcpy(d, "FIND BLACKIE", 18);
 		break;
 		case FIND_BLACKIE_D0:
 			memcpy(d, "I NEED THE HELP OF", 20);
@@ -36,16 +36,16 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 			memcpy(d, "THE BLACK WOLF.", 20);
 		break;
 		case ENGAGE_SMITH_TITLE:
-			memcpy(d, "ENGAGE THE SMITH", 20);
+			memcpy(d, "ENGAGE THE SMITH", 18);
 		break;
 		case ENGAGE_SMITH_D0:
-			memcpy(d, "BRING METAL AND WOOD", 20);
+			memcpy(d, "BRING METAL AND", 20);
 		break;
 		case ENGAGE_SMITH_D1:
-			memcpy(d, "TO THE FORGE.", 20);
+			memcpy(d, "WOOD TO THE FORGE", 20);
 		break;
-		case HELP_DESPARATE_WOMAN_TITLE:
-			memcpy(d, "HELP THE DESPERATE", 20);
+		case HELP_DESPARATE_WIDOW_TITLE:
+			memcpy(d, "HELP THE WIDOW", 18);
 		break;
 	}	
 }

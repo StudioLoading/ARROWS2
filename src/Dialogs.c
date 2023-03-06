@@ -152,6 +152,15 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "LET'S BRING SOME GUN\0", 22);
 			memcpy(d6, "POWDER TO THE SMITH.\0", 22);
 		break;
+		case BOUNCINGBLOCK:
+			*n_lines = 6u;
+			memcpy(d1, "I SHOULD TRY TO     \0", 22);
+			memcpy(d2, "SHOOT AN ARROW TO   \0", 22);
+			memcpy(d3, "THIS BLOCK...       \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "IS IT GOING TO      \0", 22);
+			memcpy(d6, "BOUNCE IT?          \0", 22);
+		break;
 		case SMITH_DISABLED:
 			*n_lines = 5u;
 			memcpy(d1, "THERE'S NO ONE IN   \0", 22);

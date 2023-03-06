@@ -18,9 +18,9 @@
 #include "sgb_palette.h"
 #include "DiaryDialogs.h"
 
+IMPORT_MAP(borderdiary);
 IMPORT_TILES(fontbw);
 DECLARE_MUSIC(bgm_credits);
-IMPORT_MAP(border);
 IMPORT_MAP(mapdiary);
 
 extern UINT8 J_JUMP;
@@ -63,8 +63,8 @@ void change_page(INT8 inc);
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START(){
-    LOAD_SGB_BORDER(border);        
     //HIDE_WIN;
+    LOAD_SGB_BORDER(borderdiary);
 
 	//SOUND
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
@@ -72,11 +72,6 @@ void START(){
 	NR50_REG = 0x77; //Max volume
 	//PlayMusic(bgm_credits, 0);
     
-    //SGB palette
-    if(sgb_check()){
-        set_sgb_palette_2();
-    }
-    //scroll_target = 
     diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
 	InitScroll(BANK(mapdiary), &mapdiary, collision_tiles_diary, 0);
     scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
@@ -130,7 +125,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, dd2);
             }
             if(missions[1].mission_state == MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(HELP_DESPARATE_WOMAN_TITLE, dd4);
+                GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, dd4);
             }
         break;
         case 1u:

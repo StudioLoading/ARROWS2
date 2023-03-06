@@ -7,12 +7,18 @@
 #define SGB_COMUNEKO_LIGHTER  RGB8(180, 219, 214)
 #define SGB_COMUNEKO_LIGHT    RGB8(193, 166, 224)
 #define SGB_COMUNEKO_DARK     RGB8(193, 166, 224)
-#define SGB_COMUNEKO_DARKER	  RGB8(0, 0, 0)
+#define SGB_COMUNEKO_DARKER	 RGB8(0, 0, 0)
 
-#define SGB_STATUS_LIGHT    RGB8(248, 184, 0)
-#define SGB_STATUS_DARK     RGB8(0, 88, 248)
+#define SGB_STATUS_LIGHT      RGB8(248, 184, 0)
+#define SGB_STATUS_DARK       RGB8(0, 88, 248)
 #define SGB_STATUS_DARKER 	RGB8(0, 0, 0)
 #define SGB_STATUS_RED	 	RGB8(254, 0, 0)
+
+#define SGB_INVENTORY_LIGHTER RGB8(250, 250, 250)
+#define SGB_INVENTORY_LIGHT   RGB8(240, 208, 176)
+#define SGB_INVENTORY_DARK    RGB8(228,  92,  16)
+#define SGB_INVENTORY_DARKER  RGB8(0, 0, 0)
+
 
 #define SGB_PAL1A_LIGHTER 	RGB8(255, 232, 207)
 #define SGB_PAL1A_LIGHT 	RGB8(223, 144, 79)
@@ -94,6 +100,7 @@ void set_sgb_palette_6() __banked;*/
 
 void set_sgb_palette_overworldsw() __banked;
 void set_sgb_palette_2() __banked;
+void set_sgb_palette_inventory() __banked;
 
 void set_sgb_palette_title() __banked;
 void reset_sgb_palette_title() __banked;

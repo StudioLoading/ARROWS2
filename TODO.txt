@@ -1,19 +1,22 @@
-TODO x demo:
+TODO demo:
+- SGB colors tuning
+- check borders
+- polish titlescreen
+- paper intro
+- final demo screen
+- overworld improvements: see
+	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
+- overworld: gravel slows the walk
+- sfx
+- bgmusic 
+- tutorial for the buttons!
 - Cave of the Black Wolf: 
 	cutscene finale
-		lupo parla con me
-		torno sul place, la madre è già oltre lui e dentro al carrello
-		dire di premere destra
-		il carrello parte e va a destra fino a fuori schermo
-		schermata finale di fine demo
-- colori SGB vari
-- check dei bordi coerenti con
-- polish titlescreen
-- intro?
-- schermata finale di fine demo
-- migliorie sulla mappa overworld: ho un sacco di suggerimenti sulla cartella
-	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
-- overworld sul ghiaino vado più lento
+		wolf talks
+		back to the mine, inside the basket
+		"press right"
+		basket starts moving right
+		final demo screen
 
 POST DEMO:
 - StateHospital per gurarsi e salvare.
@@ -24,6 +27,7 @@ POST DEMO:
 - Oh no il villaggio è sotto attacco! sull' overworld vedo dei mostri attaccabili
  e appena ci vado contro entro in un place dal quale posso uscire solo se 
  uccido tutti i nemici presenti
+ - scrigni
 
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 
@@ -51,7 +55,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 C:\Users\checc\GB\ZGB-2022.0\tools\png2map\
-png2gbtiles.exe test2.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe invdetailpowder.png -gbm -g -pal=mypal.pal
 maypal.pal file di testo contenente solo le seguenti
 #C6D783
 #8DCD53

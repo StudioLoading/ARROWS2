@@ -121,9 +121,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                     set_sgb_palette01_MINE();
                     set_sgb_palette_statusbar();
                 break;
+                case StateInventory:
+                    set_sgb_palette_inventory();
+                    reset_sgb_palette_statusbar();
+                break;
                 case StateDiary:
                 case StateDialog:
-                case StateInventory:
                 case StateOverworld:
                     reset_sgb_palette_statusbar();
                 break;

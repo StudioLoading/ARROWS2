@@ -52,9 +52,6 @@ UINT8 invcursor_unequip_old_posi = 0u;
 UINT8 invcursor_unequip_posx[] = {8u, 32u, 56u, 80u, 104u, 128u};
 UINT8 invcursor_unequip_posy = 104u;
 
-
-UINT8 nav_equippable = 0u;
-
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
 extern UINT8 previous_state;
@@ -77,11 +74,7 @@ void START(){
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
         NR50_REG = 0x77; //Max volume
-	//PlayMusic(bgm_credits, 0);    
-    //SGB palette
-        if(sgb_check()){
-            set_sgb_palette_2();
-        }
+	//PlayMusic(bgm_credits, 0);
     //SPRITES SPAWNING 
         HIDE_WIN;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
@@ -154,7 +147,8 @@ void START(){
             }
             uneq_x += 2;
         }
-    
+    refresh_equipped();
+    SHOW_BKG;
 	SHOW_SPRITES;
 }
 
@@ -222,43 +216,42 @@ void invselectitem(INT8 max_idx) BANKED{
             fixInvcursor(max_idx);
             if(inventory[invcursor_posi].quantity > 0){qOk = 1u;}
         }
-    }    
-    itemEquipped = inventory[invcursor_posi];
+    }
+    if(invcursor_posi < 6 && inventory[invcursor_posi].quantity > 0){
+        itemEquipped = inventory[invcursor_posi];
+    }
 }
 
 void UPDATE(){
     if(KEY_PRESSED(J_START)){
         ChangeState(previous_state);
     }
-    
-    switch(nav_equippable){
-        case 0u:
-            if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
-                invselectitem(12);
-            }
-            if(KEY_RELEASED(J_UP)){
-                invcursor_posi-=3;      
-                if(invcursor_posi > 5){
-                    invcursor_posi = 0u;
-                }   
-            }
-            if(KEY_RELEASED(J_DOWN)){
-                invcursor_posi+=3;
-                if(invcursor_posi > 8){
-                    invcursor_posi -= 9u;
-                }
-            }
-            if(KEY_RELEASED(J_RIGHT)){
-                invcursor_posi++;
-            }
-            if(KEY_RELEASED(J_LEFT)){
-                invcursor_posi--;
-            }
-            if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
-                fixInvcursor(12);
-                refresh_equipped();
-            }
-        break;
+    if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+        if(invcursor_posi < 6 && inventory[invcursor_posi].quantity > 0){
+            invselectitem(6);
+        }
+    }
+    if(KEY_RELEASED(J_UP)){
+        invcursor_posi-=3;      
+        if(invcursor_posi > 5){
+            invcursor_posi = 0u;
+        }   
+    }
+    if(KEY_RELEASED(J_DOWN)){
+        invcursor_posi+=3;
+        if(invcursor_posi > 8){
+            invcursor_posi -= 9u;
+        }
+    }
+    if(KEY_RELEASED(J_RIGHT)){
+        invcursor_posi++;
+    }
+    if(KEY_RELEASED(J_LEFT)){
+        invcursor_posi--;
+    }
+    if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
+        fixInvcursor(12);
+        refresh_equipped();
     }
 }
 
@@ -354,6 +347,27 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(ARROWBASTARD_DETAIL4, ddinv5);
+            break;
+            case INVITEM_METAL:
+                GetLocalizedINVLabel_EN(METAL_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(METAL_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(METAL_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(METAL_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(METAL_DETAIL4, ddinv5);
+            break;
+            case INVITEM_WOOD:
+                GetLocalizedINVLabel_EN(WOOD_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(WOOD_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(WOOD_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(WOOD_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(WOOD_DETAIL4, ddinv5);
+            break;
+            case INVITEM_POWDER:
+                GetLocalizedINVLabel_EN(POWDER_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(POWDER_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(POWDER_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(POWDER_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(POWDER_DETAIL4, ddinv5);
             break;
         }
     }
