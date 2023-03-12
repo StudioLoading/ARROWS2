@@ -68,6 +68,7 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
 extern void ChangeState(UINT8 new_state) BANKED;
+extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 
 void START(){
 	//SOUND

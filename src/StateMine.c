@@ -155,7 +155,7 @@ void UPDATE(){
         }
     //INIT SUPERSTONE
         if(s_motherpl->x > (110u << 3) && superstone_spawned == 0u){
-            s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
+            //s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);
             superstone_spawned = 1u;
         }
     //INIT ENEMIES

@@ -8,6 +8,10 @@ void Anim_Ground_Straight_0() BANKED;
 void Anim_Ground_Straight_1() BANKED;
 void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 void dialog_map() BANKED;
+void Anim_Titlescreen_0() BANKED;
+void Anim_Titlescreen_1() BANKED;
+void Anim_Titlescreen_2() BANKED;
+void Anim_Titlescreen_3() BANKED;
 
 void Anim_Tiles_0() BANKED;
 void Anim_Tiles_1() BANKED;

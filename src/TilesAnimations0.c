@@ -13,6 +13,9 @@ IMPORT_TILES(tilesanimsmapworld);
 IMPORT_TILES(invdetail0tiles);
 IMPORT_TILES(invdetailmoneytiles);
 IMPORT_TILES(invdetailpowdertiles);
+IMPORT_TILES(invdetailwoodtiles);
+IMPORT_TILES(invdetailmetaltiles);
+IMPORT_TILES(invdetailnormaltiles);
 IMPORT_TILES(inventorytiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
@@ -26,6 +29,10 @@ IMPORT_TILES(dialogmapblackiecave);
 IMPORT_TILES(dialogmapsmith);
 IMPORT_TILES(cavetiles);
 IMPORT_TILES(cavetilesanim);
+IMPORT_TILES(titlescreentiles);
+IMPORT_TILES(titlescreentilesanim);
+IMPORT_TILES(titlescreentilesanim2);
+IMPORT_TILES(titlescreentilesanim3);
 
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
@@ -41,6 +48,9 @@ void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, 
 			case INVITEM_CROSSBOW:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
 			case INVITEM_MONEY:set_bkg_data(first_tile, nb_tiles, invdetailmoneytiles.data);break;
 			case INVITEM_POWDER:set_bkg_data(first_tile, nb_tiles, invdetailpowdertiles.data);break;
+			case INVITEM_WOOD:set_bkg_data(first_tile, nb_tiles, invdetailwoodtiles.data);break;
+			case INVITEM_METAL:set_bkg_data(first_tile, nb_tiles, invdetailmetaltiles.data);break;
+			case INVITEM_ARROW_NORMAL:set_bkg_data(first_tile, nb_tiles, invdetailnormaltiles.data);break;
 		}
 	}
     SWITCH_ROM(save);
@@ -88,6 +98,18 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, UINT8 tiles_used, UIN
 		break;
 		case 13u:
 			set_bkg_data(first_tile, nb_tiles, cavetilesanim.data+((16u) * first_tile));
+		break;
+		case 14u:
+			set_bkg_data(first_tile, nb_tiles, titlescreentiles.data+((16u) * first_tile));
+		break;
+		case 15u:
+			set_bkg_data(first_tile, nb_tiles, titlescreentilesanim.data+((16u) * first_tile));
+		break;
+		case 16u:
+			set_bkg_data(first_tile, nb_tiles, titlescreentilesanim2.data+((16u) * first_tile));
+		break;
+		case 17u:
+			set_bkg_data(first_tile, nb_tiles, titlescreentilesanim3.data+((16u) * first_tile));
 		break;
 	}
     SWITCH_ROM(save);
@@ -154,8 +176,35 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			case INVITEM_POWDER:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailpowdertiles), isEmpty);
 			break;
+			case INVITEM_WOOD:
+				set_inv_bkg_data(item, 49u, 25, BANK(invdetailwoodtiles), isEmpty);
+			break;
+			case INVITEM_METAL:
+				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmetaltiles), isEmpty);
+			break;
+			case INVITEM_ARROW_NORMAL:
+				set_inv_bkg_data(item, 49u, 25, BANK(invdetailnormaltiles), isEmpty);
+			break;
 		}
 	}
+}
+
+void Anim_Titlescreen_0() BANKED{
+	set_banked_bkg_data(122u, 8u, 14u, BANK(titlescreentiles));//ship
+	set_banked_bkg_data(108u, 3u, 14u, BANK(titlescreentiles));//water
+	set_banked_bkg_data(98u, 2u, 14u, BANK(titlescreentiles));//water
+}
+void Anim_Titlescreen_1() BANKED{
+	set_banked_bkg_data(122u, 8u, 15u, BANK(titlescreentilesanim));//ship
+	set_banked_bkg_data(98u, 2u, 15u, BANK(titlescreentilesanim));//water
+}
+void Anim_Titlescreen_2() BANKED{
+	set_banked_bkg_data(108u, 3u, 16u, BANK(titlescreentilesanim2));//water
+	set_banked_bkg_data(98u, 2u, 16u, BANK(titlescreentilesanim2));//water
+}
+void Anim_Titlescreen_3() BANKED{
+	set_banked_bkg_data(108u, 3u, 17u, BANK(titlescreentilesanim3));//water
+	set_banked_bkg_data(98u, 2u, 17u, BANK(titlescreentilesanim3));//water
 }
 
 void Anim_Cave_0() BANKED{

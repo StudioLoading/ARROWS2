@@ -279,6 +279,7 @@ typedef enum{
 
 typedef enum{
 	NOBODY,
+	INTRO,
     DESSA,
     EXZOO_WOMAN1,
     EXZOO_WOMAN2,

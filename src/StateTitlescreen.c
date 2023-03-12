@@ -24,12 +24,18 @@ DECLARE_MUSIC(bgm_credits);
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
+extern UINT8 previous_state;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;
 INT8 titlescreen_wait_time = 0;
 UINT8 activate_titlescreen_wait_time = 0u;
+INT8 counter_anim = 0u;
 
+extern void Anim_Titlescreen_0() BANKED;
+extern void Anim_Titlescreen_1() BANKED;
+extern void Anim_Titlescreen_2() BANKED;
+extern void Anim_Titlescreen_3() BANKED;
 
 void START() {
     LOAD_SGB_BORDER(border2);
@@ -38,6 +44,10 @@ void START() {
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	//NR50_REG = 0x44; //Max volume 0x77
 	//PlayMusic(bgm_credits, 0);
+
+	if(sgb_check()){
+		set_sgb_palette01_TITLESCREEN();
+	}
 
 	scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 240u);
 	InitScroll(BANK(titlescreenmap), &titlescreenmap, collision_tiles_titlescreen, 0);
@@ -50,12 +60,24 @@ void START() {
 }
 
 void UPDATE() {
+	if(titlescreen_step < 3u){
+		counter_anim++;
+		if(counter_anim < 20u){Anim_Titlescreen_0();}
+		else if(counter_anim < 40u){Anim_Titlescreen_1();}
+		else if(counter_anim < 60u){Anim_Titlescreen_2();}
+		else if(counter_anim < 80u){Anim_Titlescreen_3();}
+		else{ counter_anim = 0;}
+	}
+
 	switch(titlescreen_step){
 		case 0u:
 			if(scroll_target->y > (UINT16) 30u){
 				scroll_target->y--;
 			}else{
 				scroll_target->y = (UINT16) 30u;
+				if(sgb_check()){
+					set_sgb_palette_title();
+				}
 				titlescreen_step = 1u;
 			}
 		break;
@@ -93,7 +115,10 @@ void UPDATE() {
 		case 3u:
 			titlescreen_wait_time++;
 			if(titlescreen_wait_time > 60){
-				SetState(StateOverworld);
+				reset_sgb_palette_title();
+				previous_state = StateTitlescreen;
+				whostalking = SMITH_DISABLED; 
+				SetState(StateDialog);
 			}
 		break;
 	}

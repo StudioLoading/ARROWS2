@@ -15,10 +15,10 @@ void set_sgb_palette_title() __banked {
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
         .pal1 = {RGB8(255, 255, 255), RGB8(88, 216, 84), RGB8(0, 168, 0),  RGB8(0, 84, 0)}, //SGB_STATUS_RED},
-        .pal2 = {SGB_STATUS_LIGHT, RGB8(247, 142, 14), RGB8(228, 92, 16)},
+        .pal2 = {SGB_STATUS_LIGHT, RGB8(247, 142, 14), RGB8(0, 0, 0)}, //RGB8(228, 92, 16)
         .padding = 0 
     };
-	struct {
+	/*struct {
         UINT8 command;
         UINT8 xcoo;
         UINT8 ycoo;
@@ -29,10 +29,13 @@ void set_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 0u,
-        .ndata = 14u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b10101010,0b10101010,0b10101010,0b10101010}
-    };
+		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
+            0b01010101,0b01010101,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010}
+    };*/
 	struct {
         UINT8 command;
         UINT8 xcoo;
@@ -44,9 +47,12 @@ void set_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 1u,
-        .ndata = 14u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
+            0b01010101,0b10101010,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010}
     };	
 	struct {
         UINT8 command;
@@ -59,9 +65,12 @@ void set_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 2u,
-        .ndata = 13u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+   		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
+            0b01010101,0b01010101,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010,
+            0b10101010,0b10101010,0b10101010,0b10101010}
     };	
 	struct {
         UINT8 command;
@@ -74,29 +83,83 @@ void set_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 3u,
-        .ndata = 13u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_FIFTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 4u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_SIXTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 5u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_SEVENTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 6u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010}
     };
     sgb_transfer((void *)&SGB_PALETTE2_PACKET);
-    sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
+    //sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_SECONDLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_THIRDLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_FOURTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_FIFTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_SIXTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_SEVENTHLINE_PACKET);
 }
 
 void reset_sgb_palette_title() __banked {	
-	struct {
-        UINT8 command;
-        UINT16 pal1[4];
-        UINT16 pal2[3];
-        UINT8 padding;
-    } SGB_PALETTE2_PACKET = {
-        .command = (SGB_PAL_12 << 3) | 1,
-        .pal1 = {RGB8(255, 255, 255), RGB8(88, 216, 84), RGB8(0, 168, 0),  RGB8(0, 0, 0)}, //SGB_STATUS_RED},
-        .pal2 = {SGB_STATUS_LIGHT, RGB8(247, 142, 14), RGB8(0, 0, 0)},
-        .padding = 0 
-    };
+	
 	struct {
         UINT8 command;
         UINT8 xcoo;
@@ -108,9 +171,9 @@ void reset_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 0u,
-        .ndata = 14u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
 	struct {
         UINT8 command;
@@ -123,9 +186,9 @@ void reset_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 1u,
-        .ndata = 14u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b01010101,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };	
 	struct {
         UINT8 command;
@@ -138,9 +201,9 @@ void reset_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 2u,
-        .ndata = 13u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+   		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };	
 	struct {
         UINT8 command;
@@ -153,15 +216,70 @@ void reset_sgb_palette_title() __banked {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
         .ycoo = 3u,
-        .ndata = 13u,
+        .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    sgb_transfer((void *)&SGB_PALETTE2_PACKET);
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_FIFTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 4u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_SIXTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 5u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0}
+    };
+	struct {
+        UINT8 command;
+        UINT8 xcoo;
+        UINT8 ycoo;
+		UINT16 ndata;
+		UINT8 style;
+        UINT8 ds[10];
+    } SGB_PALETTE_SEVENTHLINE_PACKET = {
+        .command = (SGB_ATTR_CHR << 3) | 1,
+        .xcoo = 0,
+        .ycoo = 6u,
+        .ndata = 20u,
+		.style = 0,
+		.ds = {0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0}
+    };
     sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_SECONDLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_THIRDLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_FOURTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_FIFTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_SIXTHLINE_PACKET);
+    sgb_transfer((void *)&SGB_PALETTE_SEVENTHLINE_PACKET);
 }
 
 void set_sgb_palette_statusbar() __banked {	
@@ -304,7 +422,7 @@ void set_sgb_palette_inventory() __banked{
 }
 
 void set_sgb_palette01_TITLESCREEN() __banked {
-	set_sgb_palette(SGB_PAL2A_LIGHTER, SGB_PAL2A_LIGHT, SGB_PAL2A_DARK, SGB_PAL2A_DARKER);
+	set_sgb_palette(SGB_TITLE_LIGHTER, SGB_TITLE_LIGHT, SGB_TITLE_DARK, SGB_TITLE_DARKER);
 }
 void set_sgb_palette01_intro() __banked{
 	reset_sgb_palette_statusbar();
@@ -411,7 +529,7 @@ void set_sgb_palette01_ZOO() __banked {
 	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL4B_LIGHT, SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
 void set_sgb_palette01_MINE() __banked {
-	set_sgb_palette(SGB_PAL1E_LIGHTER, RGB8(252, 160, 68), RGB8(168, 16, 0), RGB8(90, 57, 33));
+	set_sgb_palette(SGB_PAL1E_LIGHTER, RGB8(252, 160, 68), RGB8(172, 124, 0), RGB8(90, 57, 33));
 }
 void set_sgb_palette01_CEMATERYCRYPT() __banked {
 	set_sgb_palette(RGB8(255, 255, 255), RGB8(184, 184, 184), RGB8(176, 62, 255), RGB8(40, 0, 136));

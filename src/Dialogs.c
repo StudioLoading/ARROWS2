@@ -71,6 +71,16 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
+		case INTRO:
+			*n_lines = 7u;
+			memcpy(d1, "'DESSA, YOU WITCH!  \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+		break;
 		case EXZOO_WOMAN1:
 			*n_lines = 3u;
 			memcpy(d1, "HELLO 'DESSA. THE   \0", 22);
