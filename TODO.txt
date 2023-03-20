@@ -1,6 +1,7 @@
 TODO demo:
 - sfx
 - bgmusic 
+- fix ghiaia rallentatrice in ow
 - tutorial for the buttons!
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
@@ -11,7 +12,8 @@ TODO demo:
 		"press right"
 		basket starts moving right
 		final demo screen
-
+- azzera l' inventario lascia 10 coins, 2 legna e 3 metallo magari
+- togli il log
 
 POST DEMO:
 - motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
@@ -83,6 +85,7 @@ C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-mast
 
 DISCORD MARKDOWN: ```c ```
 	```c
+	
 ```
 
 png2asset produces the human readable C files for the sprites/actors. 

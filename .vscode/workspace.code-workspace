@@ -27,7 +27,8 @@
 			"dialogs.h": "c",
 			"savegame.h": "c",
 			"sram.h": "c",
-			"bankmanager.h": "c"
+			"bankmanager.h": "c",
+			"fade.h": "c"
 		}
 	}
 }

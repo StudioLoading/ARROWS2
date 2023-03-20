@@ -158,7 +158,7 @@ void showing_tip(){
 		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
 			//SFX
-				//PlayFx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
+				PlayFx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);

@@ -207,7 +207,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     //SFX
         if(item_added == 1){
-			//PlayFx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
+			PlayFx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
         }
 }
 

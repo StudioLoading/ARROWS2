@@ -39,10 +39,10 @@ struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = M
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
-struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0, .equippable = 1u};
-struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
-struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
-struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 10, .equippable = 1u};
+struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 10, .equippable = 1u};
+struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 10, .equippable = 1u};
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
 struct InvItem unequip00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip01 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
@@ -150,7 +150,7 @@ void UPDATE() {
 			return;
 		}else{
 			StopMusic;
-			ChangeState(StateOverworld, s_motherpl);// StateTitlescreen
+			ChangeState(StateMine, s_motherpl);// StateTitlescreen
 		}
 	}
 		

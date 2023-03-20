@@ -7,6 +7,7 @@
 #include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 //#include "Dialogs.h"
@@ -32,6 +33,7 @@ extern INT8 invcursor_posimax;
 extern struct InvItem itemEquipped;
 extern UINT8 camera_ok;
 extern WHOSTALKING whostalking;
+extern INT8 sfx_cooldown;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -91,6 +93,7 @@ extern void fixInvcursor(INT8 max_idx) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -120,6 +123,7 @@ void START(){
 }
 
 void UPDATE(){
+    if(sfx_cooldown > 0){sfx_cooldown--;}
     //SELECT
         if(KEY_TICKED(J_SELECT)){
             invcursor_posi++;
@@ -711,7 +715,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             break;
             case MOTHERPL_JUMP:
                 motherpl_vy = -1;
-                fly_counter = 0;                
+                fly_counter = 0;
+                my_play_fx(CHANNEL_4, 60, 0x3a, 0xd2, 0x00, 0xc0, 0x85);
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);

@@ -11,6 +11,7 @@
 #include "string.h"
 #include "Print.h"
 #include "Fade.h"
+#include "Sound.h"
 #include "Music.h"
 
 #include "custom_datas.h"
@@ -57,8 +58,8 @@ UINT8 enemy_counter = 0u;
 UINT8 mapwidth;
 UINT8 mapheight;
 UINT8 previous_state;
-UINT8 test_countdown = 255u;
 UINT8 item_spawned_cooldown = 255u;
+INT8 sfx_cooldown = 127u;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -66,8 +67,16 @@ void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
+void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+
+void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED{
+    if(sfx_cooldown == 0){
+        PlayFx(c, vol, s0, s1, s2, s3, s4);
+        sfx_cooldown = 20u;
+    }
+}
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{    
     UINT8 mfit_a_tile;
@@ -327,7 +336,6 @@ void update_camera_position() BANKED{
 
 void ReloadEnemiesPL() BANKED{    
     init_enemy = 0u;
-    test_countdown = 255u;
     enemy_counter = 0u;
     UINT8 i = 0u;
     for(i = 0u; i < 3u; ++i){

@@ -27,6 +27,7 @@ extern UINT8 show_tip;
 extern UINT8 showed_tip;
 extern UINT8 showed_tip_goback;
 extern TIP_TO_BE_LOCALIZED tip_to_show;
+extern INT8 sfx_cooldown;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -36,6 +37,7 @@ void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ShowTipOW() BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
@@ -45,6 +47,7 @@ void START(){
 }
 
 void UPDATE(){
+    if(sfx_cooldown > 0){sfx_cooldown--;}
     if(hudow_opened == 1u){return;}
     FA2OW_SPRITE_STATES new_state = motherow_info->ow_state;
     
@@ -52,14 +55,14 @@ void UPDATE(){
     if(show_tip == 0u){        
         UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
         if(scroll_tile == 0){
-            scroll_tile = GetScrollTile((THIS->x >> 3)+1, (THIS->y >> 3)+1);
+            //scroll_tile = GetScrollTile((THIS->x >> 3)+1, (THIS->y >> 3));
         }
         switch(scroll_tile){
             case 8u:
             case 40u:
                 //SFX
                     if(THIS->anim_frame == 1){
-                        //PlayFx(CHANNEL_4, 60, 0x00, 0x59, 0x00, 0xc0, 0x00);
+                        my_play_fx(CHANNEL_4, 60, 0x3f, 0xe1, 0x00, 0x80, 0x00);
                     }
                 if(frameskip_max != OW_PATH_FRAMESKIP){
                     frameskip_max = OW_PATH_FRAMESKIP;

@@ -88,9 +88,6 @@ void START(){
 }
 
 void UPDATE(){
-    /*if(test_countdown > 0u){
-        test_countdown--;
-    }*/
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp || hud_motherpl_ups != motherpl_ups){
             UpdateHUD();
@@ -105,39 +102,7 @@ void UPDATE(){
             //SCROLL CAMERA
             update_camera_position();
         }
-    //INIT ENEMIES
-        /*
-        if(test_countdown == 0u){
-            if(enemy_counter >= MAX_ENEMY){
-                return;
-            }
-            test_countdown = 255u;
-            switch(init_enemy){
-                case 1u:
-                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 2u:
-                    //SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 3u:
-                    //SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 4u:
-
-                break;
-                case 5u:
-                    SpriteManagerAdd(SpriteEnemyThrowerSpider, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 6u:
-                    //SpriteManagerAdd(SpriteEnemyThrowerTarantula, (UINT16) 12u << 3, (UINT16) 6u << 3);
-                break;
-                case 7u:
-                    init_enemy = 0;
-                break;
-            }
-            init_enemy++;
-        }
-        */
+    
     //MANAGE NPC
         if(s_motherpl->x < ((UINT16)40u << 3)){
             if(npc_spawned_zone != 1u){
