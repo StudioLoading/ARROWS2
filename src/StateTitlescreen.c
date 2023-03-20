@@ -116,8 +116,8 @@ void UPDATE() {
 			titlescreen_wait_time++;
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();
-				previous_state = StateTitlescreen;
-				whostalking = SMITH_DISABLED; 
+				previous_state = StateOverworld;
+				whostalking = INTRO; 
 				SetState(StateDialog);
 			}
 		break;

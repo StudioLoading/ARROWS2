@@ -1,4 +1,5 @@
 TODO demo:
+- test camera tramble
 - paper intro
 - final demo screen
 - overworld improvements: see
@@ -16,6 +17,9 @@ TODO demo:
 		final demo screen
 
 POST DEMO:
+- motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
+	ma dovrebbe essere metodo a parte, dedicato a routine per frame
+	che non insistono sulla cemera
 - StateHospital per gurarsi e salvare.
 - caricare la partita da titlescreen
 - Overworld: sprite animate in  e animazione acque 
@@ -30,6 +34,8 @@ POST DEMO:
  e appena ci vado contro entro in un place dal quale posso uscire solo se 
  uccido tutti i nemici presenti
  - scrigni
+ - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
+	tipo SuperGB o Color o DMG.
 
 KNOWN ISSUES:
 - mentre sono in caduta libera(no jump) posso saltare di nuovo. 

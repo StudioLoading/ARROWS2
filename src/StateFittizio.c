@@ -264,6 +264,19 @@ void update_camera_position() BANKED{
     }
     if(motherpl_state == MOTHERPL_BLOCKED ){return;}
     if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
+    //camera fissa per certi stage
+    UINT8 consider_margins = 0u;
+    switch(current_state){
+        case StateMine:
+        case StateBlackiecave:
+            scroll_target->x = s_motherpl->x + 8u;
+            scroll_target->y = s_motherpl->y + 8u;
+            consider_margins = 1u;
+        break;
+    }
+    if(consider_margins){
+        return;
+    }
     //in ogni caso non uscire dai margini
     if(s_surf){
         switch(s_motherpl->mirror){

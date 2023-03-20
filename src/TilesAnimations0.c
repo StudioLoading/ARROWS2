@@ -12,10 +12,10 @@ IMPORT_TILES(tilesanims);
 IMPORT_TILES(tilesanimsmapworld);
 IMPORT_TILES(invdetail0tiles);
 IMPORT_TILES(invdetailmoneytiles);
-IMPORT_TILES(invdetailpowdertiles);
+IMPORT_TILES(idpowdertiles);
 IMPORT_TILES(invdetailwoodtiles);
 IMPORT_TILES(invdetailmetaltiles);
-IMPORT_TILES(invdetailnormaltiles);
+IMPORT_TILES(idnormaltiles);
 IMPORT_TILES(inventorytiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
@@ -25,7 +25,7 @@ IMPORT_TILES(tdiagcrossbowempty);
 IMPORT_TILES(dialogtiles00);
 IMPORT_TILES(dialogtiles01);
 IMPORT_TILES(dialogmapmine);
-IMPORT_TILES(dialogmapblackiecave);
+IMPORT_TILES(dmapblackiecave);
 IMPORT_TILES(dialogmapsmith);
 IMPORT_TILES(cavetiles);
 IMPORT_TILES(cavetilesanim);
@@ -47,10 +47,10 @@ void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, UINT8 bank, 
 		switch(item){
 			case INVITEM_CROSSBOW:set_bkg_data(first_tile, nb_tiles, invdetail0tiles.data);break;
 			case INVITEM_MONEY:set_bkg_data(first_tile, nb_tiles, invdetailmoneytiles.data);break;
-			case INVITEM_POWDER:set_bkg_data(first_tile, nb_tiles, invdetailpowdertiles.data);break;
+			case INVITEM_POWDER:set_bkg_data(first_tile, nb_tiles, idpowdertiles.data);break;
 			case INVITEM_WOOD:set_bkg_data(first_tile, nb_tiles, invdetailwoodtiles.data);break;
 			case INVITEM_METAL:set_bkg_data(first_tile, nb_tiles, invdetailmetaltiles.data);break;
-			case INVITEM_ARROW_NORMAL:set_bkg_data(first_tile, nb_tiles, invdetailnormaltiles.data);break;
+			case INVITEM_ARROW_NORMAL:set_bkg_data(first_tile, nb_tiles, idnormaltiles.data);break;
 		}
 	}
     SWITCH_ROM(save);
@@ -129,7 +129,7 @@ void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalki
     		set_bkg_data(first_tile, nb_tiles, dialogmapmine.data+((16u) * first_tile));
 		break;
 		case StateBlackiecave:
-			set_bkg_data(first_tile, nb_tiles, dialogmapblackiecave.data+((16u) * first_tile));
+			set_bkg_data(first_tile, nb_tiles, dmapblackiecave.data+((16u) * first_tile));
 		break;
 	}
 	switch(current_state){
@@ -152,7 +152,7 @@ void dialog_map() BANKED{
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogmapmine));
 		break;
 		case StateBlackiecave:
-			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogmapblackiecave));
+			set_dialog_bkg_data(0, 101u, whostalking, BANK(dmapblackiecave));
 		break;
 	}
 	switch(current_state){
@@ -174,7 +174,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmoneytiles), isEmpty);
 			break;
 			case INVITEM_POWDER:
-				set_inv_bkg_data(item, 49u, 25, BANK(invdetailpowdertiles), isEmpty);
+				set_inv_bkg_data(item, 49u, 25, BANK(idpowdertiles), isEmpty);
 			break;
 			case INVITEM_WOOD:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailwoodtiles), isEmpty);
@@ -183,7 +183,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmetaltiles), isEmpty);
 			break;
 			case INVITEM_ARROW_NORMAL:
-				set_inv_bkg_data(item, 49u, 25, BANK(invdetailnormaltiles), isEmpty);
+				set_inv_bkg_data(item, 49u, 25, BANK(idnormaltiles), isEmpty);
 			break;
 		}
 	}
