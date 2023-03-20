@@ -16,6 +16,7 @@
 #include "sgb_palette.h"
 
 IMPORT_MAP(border2);
+IMPORT_MAP(borderdiary);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(titlescreenmap);
@@ -36,6 +37,7 @@ extern void Anim_Titlescreen_0() BANKED;
 extern void Anim_Titlescreen_1() BANKED;
 extern void Anim_Titlescreen_2() BANKED;
 extern void Anim_Titlescreen_3() BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START() {
     LOAD_SGB_BORDER(border2);
@@ -117,8 +119,9 @@ void UPDATE() {
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();
 				previous_state = StateOverworld;
-				whostalking = INTRO; 
-				SetState(StateDialog);
+				whostalking = INTRO;
+    			LOAD_SGB_BORDER(borderdiary);
+				ChangeStateThroughBetween(StateDialog);
 			}
 		break;
 	}

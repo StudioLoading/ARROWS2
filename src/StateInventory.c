@@ -1,7 +1,6 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
-#include "BankManager.h"
+//#include "BankManager.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -9,11 +8,11 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
+#include "Sound.h"
 #include "Music.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "InventoryDialogs.h"
 
 IMPORT_TILES(fontbw);
@@ -206,6 +205,10 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     if(item_added == 0u){//non ancora aggiunto causa mancanza di posto
 
     }
+    //SFX
+        if(item_added == 1){
+			//PlayFx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
+        }
 }
 
 void invselectitem(INT8 max_idx) BANKED{

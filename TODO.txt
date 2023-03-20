@@ -1,13 +1,9 @@
 TODO demo:
-- test camera tramble
-- paper intro
-- final demo screen
-- overworld improvements: see
-	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
-- overworld: gravel slows the walk
 - sfx
 - bgmusic 
 - tutorial for the buttons!
+- overworld improvements: see
+	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 - Cave of the Black Wolf: 
 	cutscene finale
 		wolf talks
@@ -15,6 +11,7 @@ TODO demo:
 		"press right"
 		basket starts moving right
 		final demo screen
+
 
 POST DEMO:
 - motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera

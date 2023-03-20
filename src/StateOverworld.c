@@ -2,16 +2,14 @@
 
 #include "SGB.h"
 #include "BankManager.h"
-#include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
-#include "string.h"
 #include "Print.h"
-#include "Fade.h"
 #include "Music.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
@@ -159,6 +157,8 @@ void showing_tip(){
 		UINT8 r = scroll_target->x % 8u;
 		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
+			//SFX
+				//PlayFx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);

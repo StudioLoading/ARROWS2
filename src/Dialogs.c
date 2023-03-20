@@ -74,12 +74,12 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 		case INTRO:
 			*n_lines = 7u;
 			memcpy(d1, "'DESSA, YOU WITCH!  \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, EMPTY_STRING_21, 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d2, "I TOOK YOUR BOY TO  \0", 22);
+			memcpy(d3, "SHOW HIM WHAT WE ALL\0", 22);
+			memcpy(d4, "ARE GOING TO DEAL   \0", 22);
+			memcpy(d5, "WITH. DRAGONS ARE   \0", 22);
+			memcpy(d6, "COMING AND WE MUST  \0", 22);
+			memcpy(d7, "BE READY. COME HERE!\0", 22);
 		break;
 		case EXZOO_WOMAN1:
 			*n_lines = 3u;

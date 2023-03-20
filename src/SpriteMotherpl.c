@@ -739,6 +739,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             case MOTHERPL_HIT:
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
+                if(THIS->mirror == NO_MIRROR){THIS->x-=4;}
+                else{THIS->x+=4;}
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
                 if(motherpl_hp > 0){
                     SetSpriteAnim(THIS, motherpl_anim_hit, 32u);

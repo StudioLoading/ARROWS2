@@ -149,8 +149,8 @@ void UPDATE() {
 			//SetState(StateTitlescreen);
 			return;
 		}else{
-			StopMusic;			
-			ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
+			StopMusic;
+			ChangeState(StateOverworld, s_motherpl);// StateTitlescreen
 		}
 	}
 		

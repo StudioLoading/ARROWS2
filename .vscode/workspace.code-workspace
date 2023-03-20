@@ -26,7 +26,8 @@
 			"palette.h": "c",
 			"dialogs.h": "c",
 			"savegame.h": "c",
-			"sram.h": "c"
+			"sram.h": "c",
+			"bankmanager.h": "c"
 		}
 	}
 }

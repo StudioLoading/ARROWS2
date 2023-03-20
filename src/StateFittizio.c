@@ -233,9 +233,9 @@ void camera_tramble() BANKED{
     }
     if(cooldown_shifted == 0){
         if(scroll_target->y > s_motherpl->y){
-            scroll_target->y = s_motherpl->y - 13u;
+            scroll_target->y = ((UINT16)s_motherpl->y) - 6u;
         }else{
-            scroll_target->y = s_motherpl->y + 14u;
+            scroll_target->y = ((UINT16)s_motherpl->y) + 20u;
         }
     }
 }

@@ -27,6 +27,7 @@ IMPORT_TILES(dialogtiles01);
 IMPORT_TILES(dialogmapmine);
 IMPORT_TILES(dmapblackiecave);
 IMPORT_TILES(dialogmapsmith);
+IMPORT_TILES(dialogmapintro);
 IMPORT_TILES(cavetiles);
 IMPORT_TILES(cavetilesanim);
 IMPORT_TILES(titlescreentiles);
@@ -131,6 +132,11 @@ void set_dialog_bkg_data(UINT8 first_tile, UINT8 nb_tiles, WHOSTALKING whostalki
 		case StateBlackiecave:
 			set_bkg_data(first_tile, nb_tiles, dmapblackiecave.data+((16u) * first_tile));
 		break;
+		case StateOverworld:
+			if(whostalking == INTRO){
+				set_bkg_data(first_tile, nb_tiles, dialogmapintro.data+((16u) * first_tile));
+			}
+		break;
 	}
 	switch(current_state){
 		case StateSmith:
@@ -154,11 +160,16 @@ void dialog_map() BANKED{
 		case StateBlackiecave:
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dmapblackiecave));
 		break;
+		case StateOverworld:
+			if(whostalking == INTRO){
+				set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogmapintro));
+			}
+		break;
 	}
 	switch(current_state){
 		case StateSmith:
 			set_dialog_bkg_data(0, 101u, whostalking, BANK(dialogmapsmith));
-		break;	
+		break;
 	}
 }
 

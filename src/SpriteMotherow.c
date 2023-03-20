@@ -4,11 +4,16 @@
 
 #include "Keys.h"
 #include "ZGBMain.h"
+#include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 #include "Dialogs.h"
+
+#define OW_NORMAL_FRAMESKIP 3
+#define OW_PATH_FRAMESKIP 1 
 
 const UINT8 motherow_anim_down[] = {2, 0, 1}; //The first number indicates the number of frames
 const UINT8 motherow_anim_up[] = {2, 2, 3}; //The first number indicates the number of frames
@@ -25,6 +30,7 @@ extern TIP_TO_BE_LOCALIZED tip_to_show;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
+UINT8 frameskip_max = 2u;// same as OW_NORMAL_FRAMESKIP
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
@@ -43,8 +49,28 @@ void UPDATE(){
     FA2OW_SPRITE_STATES new_state = motherow_info->ow_state;
     
     //WALKING
-    if(show_tip == 0u){
-        if(frameskip < 2u){
+    if(show_tip == 0u){        
+        UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
+        if(scroll_tile == 0){
+            scroll_tile = GetScrollTile((THIS->x >> 3)+1, (THIS->y >> 3)+1);
+        }
+        switch(scroll_tile){
+            case 8u:
+            case 40u:
+                //SFX
+                    if(THIS->anim_frame == 1){
+                        //PlayFx(CHANNEL_4, 60, 0x00, 0x59, 0x00, 0xc0, 0x00);
+                    }
+                if(frameskip_max != OW_PATH_FRAMESKIP){
+                    frameskip_max = OW_PATH_FRAMESKIP;
+                }
+            break;
+            default:
+                if(frameskip_max != OW_NORMAL_FRAMESKIP){
+                    frameskip_max = OW_NORMAL_FRAMESKIP;
+                }
+        }
+        if(frameskip < frameskip_max){
             if(KEY_PRESSED(J_DOWN)){motherow_info->tile_collision = TranslateSprite(THIS, 0, 1 << delta_time);new_state = WALK_DOWN;}
             else if(KEY_PRESSED(J_UP)){motherow_info->tile_collision = TranslateSprite(THIS, 0, -1 << delta_time);new_state = WALK_UP;}
             else if(KEY_PRESSED(J_LEFT)){motherow_info->tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);new_state = WALK_LEFT;}
