@@ -93,7 +93,7 @@ extern void fixInvcursor(INT8 max_idx) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
-extern void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -716,7 +716,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             case MOTHERPL_JUMP:
                 motherpl_vy = -1;
                 fly_counter = 0;
-                my_play_fx(CHANNEL_4, 60, 0x3a, 0xd2, 0x00, 0xc0, 0x85);
+                my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
@@ -742,6 +742,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 jump_max_toched = 0u;
             break;
             case MOTHERPL_HIT:
+                my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
                 if(THIS->mirror == NO_MIRROR){THIS->x-=4;}

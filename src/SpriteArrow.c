@@ -6,6 +6,7 @@
 #include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 
@@ -27,6 +28,7 @@ const UINT8 arrow_anim_bastard[] = {1,2};
 UINT8 arrows_onscreen = 0u;
 
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
@@ -80,6 +82,7 @@ void UPDATE(){
             arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
             arrow_data->arrow_fskipx = arrow_data->arrow_fskipx_max;
             if(arrow_t_coll == TILE_ARROW_SLOW){
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
                 if(arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
                     arrow_data->vx = arrow_data->vx >> 1;
                     arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
@@ -88,6 +91,7 @@ void UPDATE(){
                 else{THIS->x += 16u;}
             }
             else if(arrow_t_coll == TILE_ARROW_FAST){
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
                 if(arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
                     arrow_data->vx = arrow_data->vx << 1;
                     arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
@@ -96,13 +100,18 @@ void UPDATE(){
                 else{THIS->x += 8u;}
             }
             else if(arrow_t_coll == TILE_ARROW_LEFT){
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
                 if(arrow_data->vx > 0){arrow_data->vx = -arrow_data->vx;}
                 THIS->x -= 8u;
+                THIS->y -= 4u;
             }
             else if(arrow_t_coll == TILE_ARROW_RIGHT){
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
                 if(arrow_data->vx < 0){arrow_data->vx = -arrow_data->vx;}
                 THIS->x += 8u;
+                THIS->y -= 4u;
             }else if(arrow_t_coll != 0){
+                my_play_fx(CHANNEL_1, 60u, 0x00, 0x80, 0xe1, 0xd7, 0x87);
                 SpriteManagerRemoveSprite(THIS);
             }
         }
@@ -133,6 +142,7 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y);
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;

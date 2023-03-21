@@ -20,7 +20,7 @@ IMPORT_MAP(borderdiary);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(titlescreenmap);
-DECLARE_MUSIC(bgm_credits);
+DECLARE_MUSIC(bgm_titlescreen);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -37,7 +37,7 @@ extern void Anim_Titlescreen_0() BANKED;
 extern void Anim_Titlescreen_1() BANKED;
 extern void Anim_Titlescreen_2() BANKED;
 extern void Anim_Titlescreen_3() BANKED;
-extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
 void START() {
     LOAD_SGB_BORDER(border2);
@@ -45,7 +45,6 @@ void START() {
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	//NR50_REG = 0x44; //Max volume 0x77
-	//PlayMusic(bgm_credits, 0);
 
 	if(sgb_check()){
 		set_sgb_palette01_TITLESCREEN();
@@ -58,6 +57,7 @@ void START() {
 	INIT_FONT(fontbw, PRINT_BKG);
 	
 	titlescreen_step = 0u;
+	PlayMusic(bgm_titlescreen, 0);
 	titlescreen_wait_time = 0;
 }
 
@@ -121,7 +121,7 @@ void UPDATE() {
 				previous_state = StateOverworld;
 				whostalking = INTRO;
     			LOAD_SGB_BORDER(borderdiary);
-				ChangeStateThroughBetween(StateDialog);
+				ChangeStateThroughBetween(StateDialog, StateTitlescreen);
 			}
 		break;
 	}

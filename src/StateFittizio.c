@@ -3,6 +3,8 @@
 #include "SGB.h"
 #include "BankManager.h"
 #include "Palette.h"
+#include "Sound.h"
+#include "Music.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -11,8 +13,6 @@
 #include "string.h"
 #include "Print.h"
 #include "Fade.h"
-#include "Sound.h"
-#include "Music.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
@@ -22,7 +22,11 @@
 #define CAMERA_DELTA_RIGHT 40
 #define CAMERA_DELTA_LEFT 32
 
-IMPORT_MAP(exzoomap0);
+DECLARE_MUSIC(bgm_intro);
+DECLARE_MUSIC(bgm_ow);
+DECLARE_MUSIC(bgm_exzoo);
+DECLARE_MUSIC(bgm_blackiecave);
+DECLARE_MUSIC(bgm_mine);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION find_blackie;
@@ -67,13 +71,44 @@ void update_camera_position() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
-void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 
-extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
-void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED{
+void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
+    if(previous_state == new_state){
+        return;
+    }
+    switch(new_state){
+        case StateDialog:
+            if(previous_state == StateTitlescreen){
+                PauseMusic;
+            }
+            switch(whostalking){
+                case INTRO:
+                    PlayMusic(bgm_intro, 1);
+                break;
+            }
+        break;
+        case StateOverworld:
+            PlayMusic(bgm_ow, 1);            
+        break;
+        case StateExzoo:
+            PlayMusic(bgm_exzoo, 1);
+        break;
+        case StateBlackiecave:
+            PlayMusic(bgm_blackiecave, 1);
+        break;
+        case StateMine:
+            PlayMusic(bgm_mine, 1);
+        break;
+    }
+}
+
+void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED{
     if(sfx_cooldown == 0){
-        PlayFx(c, vol, s0, s1, s2, s3, s4);
+        PlayFx(c, mute_frames, s0, s1, s2, s3, s4);
         sfx_cooldown = 20u;
     }
 }
@@ -142,8 +177,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             }
         }
     previous_state = current_state;
+    manage_bgm(new_state, previous_state);
 	if(new_state != StateDialog && current_state != StateDialog){
-	    ChangeStateThroughBetween(new_state);
+	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
         SetState(new_state);
     }

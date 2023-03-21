@@ -11,7 +11,6 @@
 #include "string.h"
 #include "Print.h"
 #include "Fade.h"
-#include "Music.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
@@ -20,7 +19,6 @@
 
 IMPORT_MAP(borderdiary);
 IMPORT_TILES(fontbw);
-DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(mapdiary);
 
 extern UINT8 J_JUMP;
@@ -60,7 +58,7 @@ void show_missions();
 void show_detail();
 void change_page(INT8 inc);
 
-extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
 void START(){
     //HIDE_WIN;
@@ -151,7 +149,7 @@ void change_page(INT8 inc){
 void UPDATE(){
     if(KEY_RELEASED(J_START)){
         border_set_diary = 0u;
-        ChangeStateThroughBetween(StateOverworld);
+        ChangeStateThroughBetween(StateOverworld, StateDiary);
     }
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){

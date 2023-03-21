@@ -37,7 +37,7 @@ void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ShowTipOW() BANKED;
-extern void my_play_fx(SOUND_CHANNEL c, UINT8 vol, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
@@ -62,7 +62,7 @@ void UPDATE(){
             case 40u:
                 //SFX
                     if(THIS->anim_frame == 1){
-                        my_play_fx(CHANNEL_4, 60, 0x3f, 0xe1, 0x00, 0x80, 0x00);
+                        my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);
                     }
                 if(frameskip_max != OW_PATH_FRAMESKIP){
                     frameskip_max = OW_PATH_FRAMESKIP;

@@ -9,14 +9,12 @@
 #include "string.h"
 #include "Print.h"
 #include "Sound.h"
-#include "Music.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
 #include "InventoryDialogs.h"
 
 IMPORT_TILES(fontbw);
-DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(inventorymap);
 IMPORT_MAP(invwindowmap);
 
@@ -68,6 +66,7 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
 extern void ChangeState(UINT8 new_state) BANKED;
 extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
 	//SOUND
@@ -154,7 +153,10 @@ void START(){
 
 void pickup(struct ItemSpawned* pickedup_data) BANKED{
     UINT8 item_added = 0u;
+    UINT8 sfx_played = 0u;
     if(pickedup_data->itemtype == INVITEM_HEART){
+        my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe9, 0x5a, 0x86);
+        sfx_played = 1u;
         if(motherpl_hp < 4){
             motherpl_hp++;
         }
@@ -165,6 +167,8 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
             motherpl_ups++;
         }
         item_added = 1u;
+        my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);
+        sfx_played = 1u;
     }
     if(item_added == 0){
         for(UINT8 i = 0; item_added == 0u && i<12; ++i){
@@ -206,8 +210,8 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
 
     }
     //SFX
-        if(item_added == 1){
-			PlayFx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
+        if(item_added == 1 && sfx_played == 0u){
+			my_play_fx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
         }
 }
 

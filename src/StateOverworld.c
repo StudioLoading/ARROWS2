@@ -8,7 +8,6 @@
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "Print.h"
-#include "Music.h"
 #include "Sound.h"
 
 #include "custom_datas.h"
@@ -22,7 +21,6 @@ IMPORT_TILES(fontbw);
 IMPORT_TILES(tilesowsouthwest);
 
 IMPORT_MAP(owsouthwest);
-DECLARE_MUSIC(bgm_credits);
 IMPORT_MAP(hudow);
 
 extern UINT8 scroll_top_movement_limit;
@@ -63,6 +61,7 @@ void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -158,7 +157,7 @@ void showing_tip(){
 		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
 			//SFX
-				PlayFx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
+				my_play_fx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);

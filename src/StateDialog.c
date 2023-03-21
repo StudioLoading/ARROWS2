@@ -9,10 +9,8 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Music.h"
 
 #include "TilesAnimations0.h"
-//#include "Dialogs.h"
 #include "custom_datas.h"
 #include "sgb_palette.h"
 
@@ -21,6 +19,7 @@
 IMPORT_TILES(font);
 IMPORT_TILES(dialogtilesbase);
 IMPORT_MAP(dialogmapbase);
+
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -51,6 +50,8 @@ void move_on() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void dialog_map();
+extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
+
 
 void START() {
 	//SOUND
@@ -136,6 +137,7 @@ void UPDATE() {
 }
 
 void move_on() BANKED{
+    manage_bgm(previous_state, StateDialog);
     SpriteManagerRemoveSprite(dialog_cursor);
 	if(next_page){
 		next_page = 0u;

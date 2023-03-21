@@ -25,6 +25,7 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern struct EtoReload e_to_reload[3];
 extern WHOSTALKING whostalking;
+extern UINT8 stop_music_on_new_state;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_counter;
@@ -87,10 +88,10 @@ void START() {
 	missions_init();
 	inventory_init();
 	//SOUND
+	stop_music_on_new_state = 0;
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	//NR50_REG = 0x44; //Max volume 0x77
-	//PlayMusic(bgm_credits, 0);
 
 	//FadeIn();
 	//DISPLAY_OFF;
@@ -120,6 +121,8 @@ void START() {
 
 	SHOW_BKG;
 	SHOW_SPRITES;
+	
+	PlayMusic(bgm_credits, 0);
 }
 
 void UPDATE() {
@@ -144,12 +147,11 @@ void UPDATE() {
 	}else if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;
 		credit_step += 1u;
+		StopMusic;
 		if(credit_step == 5u){
-			StopMusic;
 			//SetState(StateTitlescreen);
 			return;
 		}else{
-			StopMusic;
 			ChangeState(StateMine, s_motherpl);// StateTitlescreen
 		}
 	}
