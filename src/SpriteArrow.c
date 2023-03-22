@@ -82,7 +82,7 @@ void UPDATE(){
             arrow_t_coll = TranslateSprite(THIS, arrow_data->vx << delta_time, 0);
             arrow_data->arrow_fskipx = arrow_data->arrow_fskipx_max;
             if(arrow_t_coll == TILE_ARROW_SLOW){
-                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);//SFX_ARROW_BOUNCE
                 if(arrow_data->arrow_fskipx_max != SLOW_FRAMESKIPX){
                     arrow_data->vx = arrow_data->vx >> 1;
                     arrow_data->arrow_fskipx_max = SLOW_FRAMESKIPX;
@@ -91,7 +91,7 @@ void UPDATE(){
                 else{THIS->x += 16u;}
             }
             else if(arrow_t_coll == TILE_ARROW_FAST){
-                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);//SFX_ARROW_BOUNCE
                 if(arrow_data->arrow_fskipx_max != FAST_FRAMESKIPX){
                     arrow_data->vx = arrow_data->vx << 1;
                     arrow_data->arrow_fskipx_max = FAST_FRAMESKIPX;
@@ -100,18 +100,18 @@ void UPDATE(){
                 else{THIS->x += 8u;}
             }
             else if(arrow_t_coll == TILE_ARROW_LEFT){
-                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);//SFX_ARROW_BOUNCE
                 if(arrow_data->vx > 0){arrow_data->vx = -arrow_data->vx;}
                 THIS->x -= 8u;
                 THIS->y -= 4u;
             }
             else if(arrow_t_coll == TILE_ARROW_RIGHT){
-                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);
+                my_play_fx(CHANNEL_1, 50, 0x2e, 0x81, 0xc2, 0x73, 0x86);//SFX_ARROW_BOUNCE
                 if(arrow_data->vx < 0){arrow_data->vx = -arrow_data->vx;}
                 THIS->x += 8u;
                 THIS->y -= 4u;
             }else if(arrow_t_coll != 0){
-                my_play_fx(CHANNEL_1, 60u, 0x00, 0x80, 0xe1, 0xd7, 0x87);
+                my_play_fx(CHANNEL_1, 60u, 0x00, 0x80, 0xe1, 0xd7, 0x87);//SFX_ARROW_CRASH
                 SpriteManagerRemoveSprite(THIS);
             }
         }

@@ -10,6 +10,7 @@
 #include "Print.h"
 #include "Fade.h"
 #include "Music.h"
+#include "Sound.h"
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
@@ -38,6 +39,7 @@ extern void Anim_Titlescreen_1() BANKED;
 extern void Anim_Titlescreen_2() BANKED;
 extern void Anim_Titlescreen_3() BANKED;
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START() {
     LOAD_SGB_BORDER(border2);
@@ -116,6 +118,9 @@ void UPDATE() {
 		break;
 		case 3u:
 			titlescreen_wait_time++;
+			if(titlescreen_wait_time == 20){
+				my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
+			}
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();
 				previous_state = StateOverworld;

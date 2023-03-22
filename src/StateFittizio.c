@@ -81,6 +81,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
         return;
     }
     switch(new_state){
+        case StateInventory:
+            PauseMusic;
+        break;
         case StateDialog:
             if(previous_state == StateTitlescreen){
                 PauseMusic;
@@ -95,13 +98,16 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
             PlayMusic(bgm_ow, 1);            
         break;
         case StateExzoo:
-            PlayMusic(bgm_exzoo, 1);
+            if(previous_state == StateInventory){ResumeMusic;}
+            else{PlayMusic(bgm_exzoo, 1);}
         break;
         case StateBlackiecave:
-            PlayMusic(bgm_blackiecave, 1);
+            if(previous_state == StateInventory){ResumeMusic;}
+            else{PlayMusic(bgm_blackiecave, 1);}
         break;
         case StateMine:
-            PlayMusic(bgm_mine, 1);
+            if(previous_state == StateInventory){ResumeMusic;}
+            else{PlayMusic(bgm_mine, 1);}
         break;
     }
 }
@@ -114,6 +120,13 @@ void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2
 }
 
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{    
+    if(new_state == StateInventory){
+	    PauseMusic;
+        my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
+    }else if (current_state == StateInventory){
+        ResumeMusic;
+        //AUDIO REVERSE dell' entrata all' inventario, dato che ora ne sto uscendo
+    }
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -248,6 +261,7 @@ void UpdateHUD() BANKED{
 }
 
 void Log() BANKED{    
+    /* hudpl.gbm aggiungi una linea sotto, 4 tiles height
     switch(motherpl_state){
         case MOTHERPL_IDLE: PRINT(0, 3, "IDLE"); break;
         case MOTHERPL_JUMP: PRINT(0, 3, "JUMP"); break;
@@ -264,6 +278,7 @@ void Log() BANKED{
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
     PRINT(16, 3, "!");
     PRINT(17, 3, "LOG");
+    */
 }
 
 void camera_tramble() BANKED{

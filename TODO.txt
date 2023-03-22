@@ -1,9 +1,4 @@
 TODO demo:
--sfx sullo push start
-- qualche istante di pausa tra una bgm e l' altra da dentro al manage
-- tutorial for the buttons!
-- overworld improvements: see
-	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 - Cave of the Black Wolf: 
 	cutscene finale
 		wolf talks
@@ -11,10 +6,13 @@ TODO demo:
 		"press right"
 		basket starts moving right
 		final demo screen
-- azzera l' inventario lascia 10 coins, 2 legna e 3 metallo magari
-- togli il log
+- azzera l' inventario: lascia 10 coins, 2 legna e 3 metallo magari
 
 POST DEMO:
+- overworld improvements: see
+	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
+- tutorial for the buttons!
+- qualche istante di pausa tra una bgm e l' altra da dentro al manage
 - motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
 	ma dovrebbe essere metodo a parte, dedicato a routine per frame
 	che non insistono sulla cemera

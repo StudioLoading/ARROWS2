@@ -40,13 +40,13 @@ struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = M
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
-struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
-struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 10, .equippable = 1u};
-struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 10, .equippable = 1u};
-struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 10, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 3, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
+struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
+struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
-struct InvItem unequip00 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
-struct InvItem unequip01 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 2, .equippable = 0u};
+struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 3, .equippable = 0u};
 struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
@@ -140,11 +140,7 @@ void UPDATE() {
 		}
 		thunder_delay++;
 	}	*/
-	if(KEY_TICKED(J_START)){
-		StopMusic;
-		//SetState(StateTitlescreen);
-		return;
-	}else if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
+	if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;
 		credit_step += 1u;
 		StopMusic;
@@ -152,7 +148,7 @@ void UPDATE() {
 			//SetState(StateTitlescreen);
 			return;
 		}else{
-			ChangeState(StateMine, s_motherpl);// StateTitlescreen
+			ChangeState(StateBlackiecave, s_motherpl);// StateTitlescreen
 		}
 	}
 		

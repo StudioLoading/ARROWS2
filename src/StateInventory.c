@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-//#include "BankManager.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -73,7 +72,6 @@ void START(){
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
         NR50_REG = 0x77; //Max volume
-	//PlayMusic(bgm_credits, 0);
     //SPRITES SPAWNING 
         HIDE_WIN;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
@@ -155,7 +153,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     UINT8 item_added = 0u;
     UINT8 sfx_played = 0u;
     if(pickedup_data->itemtype == INVITEM_HEART){
-        my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe9, 0x5a, 0x86);
+        my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe9, 0x5a, 0x86);//SFX_HEART
         sfx_played = 1u;
         if(motherpl_hp < 4){
             motherpl_hp++;
@@ -167,7 +165,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
             motherpl_ups++;
         }
         item_added = 1u;
-        my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);
+        my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);//SFX_CROSSBOW
         sfx_played = 1u;
     }
     if(item_added == 0){
@@ -211,7 +209,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     //SFX
         if(item_added == 1 && sfx_played == 0u){
-			my_play_fx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);
+			my_play_fx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);//SFX_ITEM
         }
 }
 

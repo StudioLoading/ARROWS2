@@ -655,9 +655,9 @@ void shoot(){
         case INVITEM_ARROW_BASTARD:
             itemEquipped.quantity--;
             UpdateHUD();
-            UINT16 arrowix = THIS->x;
+            UINT16 arrowix = THIS->x - 2u;
             if(THIS->mirror == NO_MIRROR){
-                arrowix += 4u;
+                arrowix += 8u;
             }
             UINT16 arrowiy = THIS->y + 6u;
             if(motherpl_state == MOTHERPL_JUMP)arrowiy = THIS->y + 4u;
@@ -716,7 +716,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             case MOTHERPL_JUMP:
                 motherpl_vy = -1;
                 fly_counter = 0;
-                my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);
+                my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);//SFX_JUMP
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
@@ -742,7 +742,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 jump_max_toched = 0u;
             break;
             case MOTHERPL_HIT:
-                my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);
+                my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);//SFX_HIT
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
                 if(THIS->mirror == NO_MIRROR){THIS->x-=4;}

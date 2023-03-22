@@ -62,7 +62,7 @@ void UPDATE(){
             case 40u:
                 //SFX
                     if(THIS->anim_frame == 1){
-                        my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);
+                        my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
                     }
                 if(frameskip_max != OW_PATH_FRAMESKIP){
                     frameskip_max = OW_PATH_FRAMESKIP;

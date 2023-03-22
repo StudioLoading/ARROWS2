@@ -129,6 +129,7 @@ void UPDATE(){
 	if(KEY_RELEASED(J_START)){
 		switch(hudow_opened){
 			case 0u://vado in 
+				my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
 				PauseGameOW();
 				hudow_opened = 1u;
 			break;
@@ -157,7 +158,7 @@ void showing_tip(){
 		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
 			//SFX
-				my_play_fx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);	
+				my_play_fx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);//SFX_OW_TIP	
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);
