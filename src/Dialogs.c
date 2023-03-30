@@ -33,7 +33,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_MINE_CAVE:
 			memcpy(d1, " THIS IS THE OLD     \0", 22);
-			memcpy(d2, " MINE. HERE I CAN GET\0", 22);
+			memcpy(d2, " MINE. HERE I FIND   \0", 22);
 			memcpy(d3, " METAL AND WOOD.     \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;

@@ -95,19 +95,21 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
             }
         break;
         case StateOverworld:
+        	StopMusic;
             PlayMusic(bgm_ow, 1);            
         break;
         case StateExzoo:
+        case StateCemetery:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{PlayMusic(bgm_exzoo, 1);}
+            else{StopMusic;PlayMusic(bgm_exzoo, 1);}
         break;
         case StateBlackiecave:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{PlayMusic(bgm_blackiecave, 1);}
+            else{StopMusic;PlayMusic(bgm_blackiecave, 1);}
         break;
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{PlayMusic(bgm_mine, 1);}
+            else{StopMusic;PlayMusic(bgm_mine, 1);}
         break;
     }
 }

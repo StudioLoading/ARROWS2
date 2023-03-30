@@ -30,7 +30,7 @@ extern UINT8 stop_music_on_new_state;
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_counter;
 UINT8 credit_step = 0u;
-UINT8 credit_wait_time;
+UINT16 credit_wait_time;
 UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
@@ -40,7 +40,7 @@ struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = M
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
-struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 0, .equippable = 1u};
 struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
 struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
@@ -123,11 +123,11 @@ void START() {
 	SHOW_SPRITES;
 	
 	PlayMusic(bgm_credits, 0);
+	credit_wait_time = 0u;
 }
 
 void UPDATE() {
 	credit_wait_time += 1u;
-	UINT8 cb = 0;
 	/*if(credit_step == 0){
 		switch(thunder_delay){
 			case 20u:
@@ -140,7 +140,12 @@ void UPDATE() {
 		}
 		thunder_delay++;
 	}	*/
-	if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
+	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
+		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
+		StopMusic;
+		ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
+	}
+	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;
 		credit_step += 1u;
 		StopMusic;
@@ -150,6 +155,6 @@ void UPDATE() {
 		}else{
 			ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
 		}
-	}
+	}*/
 		
 }
