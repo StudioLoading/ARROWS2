@@ -304,7 +304,7 @@ void set_sgb_palette_statusbar() __banked {
     } SGB_PALETTE_STATUS_PACKET_0 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 14u,
+        .ycoo = 15u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
@@ -319,7 +319,7 @@ void set_sgb_palette_statusbar() __banked {
     } SGB_PALETTE_STATUS_PACKET_1 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 15u,
+        .ycoo = 16u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
@@ -334,7 +334,7 @@ void set_sgb_palette_statusbar() __banked {
     } SGB_PALETTE_STATUS_PACKET_2 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 16u,
+        .ycoo = 17u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
@@ -371,7 +371,7 @@ void reset_sgb_palette_statusbar() __banked{
     } SGB_PALETTE_STATUS_PACKET_0 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 14u,
+        .ycoo = 15u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
@@ -386,7 +386,7 @@ void reset_sgb_palette_statusbar() __banked{
     } SGB_PALETTE_STATUS_PACKET_1 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 15u,
+        .ycoo = 16u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
@@ -401,7 +401,7 @@ void reset_sgb_palette_statusbar() __banked{
     } SGB_PALETTE_STATUS_PACKET_2 = {
         .command = (SGB_ATTR_CHR << 3) | 1,
         .xcoo = 0,
-        .ycoo = 16u,
+        .ycoo = 17u,
         .ndata = 20u,
 		.style = 0,
 		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}

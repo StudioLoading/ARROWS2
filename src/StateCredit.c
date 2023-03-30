@@ -40,7 +40,7 @@ struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = M
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
-struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 3, .equippable = 1u};
+struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
 struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
 struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
@@ -148,7 +148,7 @@ void UPDATE() {
 			//SetState(StateTitlescreen);
 			return;
 		}else{
-			ChangeState(StateBlackiecave, s_motherpl);// StateTitlescreen
+			ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
 		}
 	}
 		

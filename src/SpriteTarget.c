@@ -11,7 +11,7 @@
 
 extern struct MirinoInfo* mirino_info;
 
-const UINT8 target_palloncino_idle[] = {1, 0}; //The first number indicates the number of frames
+const UINT8 target_palloncino_idle[] = {1, 1}; //The first number indicates the number of frames
 const UINT8 target_axe_idle[] = {3, 1, 2, 3}; //The first number indicates the number of frames
 
 void START(){
@@ -39,9 +39,9 @@ void UPDATE(){
         break;
         case TARGET_IDLE_PALLONCINO:    
             if(KEY_PRESSED(J_RIGHT)){
-                this_target_info->vx = -1;
+                this_target_info->vx = -2;
             }else if(KEY_PRESSED(J_LEFT)){
-                this_target_info->vx = 1;
+                this_target_info->vx = 2;
             }else if(KEY_RELEASED(J_RIGHT) || KEY_RELEASED(J_LEFT)){
                 this_target_info->vx = 0;
             }

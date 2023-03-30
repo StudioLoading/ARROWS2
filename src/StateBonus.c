@@ -16,7 +16,7 @@
 #include "custom_datas.h"
 
 #define MAX_CROSSBOW_ANIM_COOLDOWN 12
-#define MAX_TARGET_COUNTER 100
+#define MAX_TARGET_COUNTER 255
 #define MAX_COUNTER_GROUND_ANIMATION 20
 
 IMPORT_TILES(tiles00);
@@ -115,12 +115,12 @@ void UPDATE(){
 	}
 
 	//SPAWNING
-	/*target_counter++;
-	if(target_counter == (MAX_TARGET_COUNTER >> 1)){
+	target_counter++;
+	/*if(target_counter == (MAX_TARGET_COUNTER >> 1)){
 		target_0 = SpriteManagerAdd(SpriteTarget, (UINT16) 16u << 3, (UINT16) 9u << 3);
 		t0_info = (struct TargetInfo*) target_0->custom_data;
 		t0_info->target_state = TARGET_INIT_AXE;
-	}
+	}*/
 	if(target_counter == MAX_TARGET_COUNTER){
 		target_counter = 0u;
 		target_0 = SpriteManagerAdd(SpriteTarget, (UINT16) 10u << 3, (UINT16) 20u << 3);
@@ -128,6 +128,6 @@ void UPDATE(){
 		t0_info->target_state = TARGET_INIT_PALLONCINO;
 		t0_info->vy = -1;
 	}
-	*/
+	
 		
 }

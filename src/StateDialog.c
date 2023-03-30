@@ -139,6 +139,9 @@ void UPDATE() {
 void move_on() BANKED{
     manage_bgm(previous_state, StateDialog);
     SpriteManagerRemoveSprite(dialog_cursor);
+    if(previous_state == StateBlackiecave && whostalking == WOLF){
+        return;//DEMO ENDS HERE
+    }
 	if(next_page){
 		next_page = 0u;
 		dialog_ready = 0u;

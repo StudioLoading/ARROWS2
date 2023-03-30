@@ -45,6 +45,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION missions[4];
+extern WHOSTALKING whostalking;
 
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
@@ -58,8 +59,6 @@ extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
-
-
 
 
 void START(){
@@ -109,10 +108,15 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC 
-        if(s_motherpl->x > ((UINT16)56u << 3)){
-            if(wolf_spawned == 0u){
-                wolf_spawned = 1u;
-                Sprite* wolf_1 = SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
+        if(wolf_spawned == 0u && s_motherpl->x > ((UINT16)56u << 3)){
+            wolf_spawned = 1u;
+            SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
+        }else if(wolf_spawned > 0u){
+            wolf_spawned++;
+            if(wolf_spawned >= 60u){
+                //trigger cutscene
+                whostalking = WOLF;
+                ChangeState(StateDialog, s_motherpl);
             }
         }
      //DROPS ANIM

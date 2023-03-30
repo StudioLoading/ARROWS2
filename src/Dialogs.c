@@ -205,5 +205,15 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
 		break;
+		case WOLF:
+			*n_lines = 7u;
+			memcpy(d1, "GOOD JOB 'DESSA!    \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "YOUR QUEST IS OVER  \0", 22);
+			memcpy(d4, "BUT YOUR JOURNEY    \0", 22);
+			memcpy(d5, "CONTINUES IN THE    \0", 22);
+			memcpy(d6, "FULL VERSION OF THIS\0", 22);
+			memcpy(d7, "VIDEOGAME!!         \0", 22);	
+		break;
 	}
 }

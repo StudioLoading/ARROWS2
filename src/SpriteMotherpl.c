@@ -301,28 +301,33 @@ void UPDATE(){
             }
         }
     //INPUTS JUMP
-        if((motherpl_state != MOTHERPL_BLOCKED && motherpl_state != MOTHERPL_HIT
-            && motherpl_state != MOTHERPL_DASH
-            ) || 
-            (motherpl_state != MOTHERPL_DASH && motherpl_coll != 0u)
-            ){
-            if(KEY_RELEASED(J_JUMP)){
-                motherpl_rabbit = 0u;
-            }
-            if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
-                && motherpl_jpower == JUMP_MIN_POWER){
-                    //  || motherpl_coll != 0u
-                //&& motherpl_state != MOTHERPL_JUMP
-                if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
-                    if(motherpl_rabbit == 0u){
-                        motherpl_rabbit = 1u;
-                        changeMotherplState(MOTHERPL_JUMP);
+        //if(motherpl_state != MOTHERPL_JUMP){
+            if((motherpl_state != MOTHERPL_BLOCKED 
+                && motherpl_state != MOTHERPL_HIT
+                && motherpl_state != MOTHERPL_DASH
+                ) || 
+                (motherpl_state != MOTHERPL_DASH && motherpl_coll != 0u)
+                ){
+                if(KEY_RELEASED(J_JUMP)){
+                    motherpl_rabbit = 0u;
+                }
+                if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
+                    && motherpl_jpower == JUMP_MIN_POWER){
+                        //  || motherpl_coll != 0u
+                    //&& motherpl_state != MOTHERPL_JUMP
+                    if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
+                        if(motherpl_rabbit == 0u){
+                            motherpl_rabbit = 1u;
+                            if(motherpl_state != MOTHERPL_JUMP){
+                                changeMotherplState(MOTHERPL_JUMP);
+                            }
+                        }
+                    }else if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){ //motherpl_state != MOTHERPL_JUMP && 
+                        changeMotherplState(MOTHERPL_WALK);
                     }
-                }else if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){ //motherpl_state != MOTHERPL_JUMP && 
-                    changeMotherplState(MOTHERPL_WALK);
                 }
             }
-        }
+        //}
         if(jump_ticked_delay > 0){
             jump_ticked_delay--;
         }
