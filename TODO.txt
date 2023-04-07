@@ -1,23 +1,8 @@
-TODO demo:
-- countdown initial credit
-- Cave of the Black Wolf: 
-	cutscene finale
-		wolf appears, i get near him and
-		dialog wolf talks
-		back to the mine, inside the basket to the right of the wolf
-		"press right"
-		basket starts moving right
-		final demo screen
-- azzera l' inventario: lascia 10 coins, 2 legna e 3 metallo magari
 
-KS
-foto tetra 
-screenshots
-gifs
-trailer
-check foto sui perk
 
 POST DEMO:
+- ow flicker
+- primo select in inventario con frecce canna
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 - tutorial for the buttons!
