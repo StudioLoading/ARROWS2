@@ -1,17 +1,30 @@
-
-
 POST DEMO:
 - ow flicker
 - primo select in inventario con frecce canna
+- dopo il lupo nella caverna di Blackie, lo faccio andare
+	- in un altro State
+	- con un corridoio lungo in cutscene, si ferma nella stanza
+	- dentro c'è blackie, in alto a destra in un altura non raggiungibile
+	- dialog di minaccia
+	- ondata di topi
+	- ondata di ragni
+	- ragnone
+	- dialogo di vittoria
+	- io e blackie fuori dalla caverna
+- le volte dopo che visito la blackie cave la stanza non sarà visitabile
+- disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
+	Attraversando un cancello ad es. e salendo di 8 pixel. 
+	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
-- tutorial for the buttons!
 - qualche istante di pausa tra una bgm e l' altra da dentro al manage
 - motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
 	ma dovrebbe essere metodo a parte, dedicato a routine per frame
 	che non insistono sulla cemera
-- StateHospital per gurarsi e salvare.
-- caricare la partita da titlescreen
+- salva/carica
+	- la implemento con l' FRAM o con sistema a password?
+		- StateHospital per curarsi e salvare.
+		- caricare la partita da titlescreen
 - Overworld: sprite animate in  e animazione acque 
 - Dialog: miglioramento pixelArt
 - TitleScreen: 
@@ -26,19 +39,18 @@ POST DEMO:
  - scrigni
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
 	tipo SuperGB o Color o DMG.
+- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
+- Legna + metallo + powder = Frecce Esplosive!
+- fare i carrelli alla Donkey Kong Country
 
 KNOWN ISSUES:
-- mentre sono in caduta libera(no jump) posso saltare di nuovo. 
-- camera overworld
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
-NICE TO HAVE POST DEMO:
-- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
-- disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
-	Attraversando un cancello ad es. e salendo di 8 pixel. 
-	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
-- doppia freccia corre?
-- Legna + metallo + powder = Frecce Esplosive!
+
+PRODUCTION:
+- tutorial for the buttons!
+
+
 
 
 ZGB HACKS:

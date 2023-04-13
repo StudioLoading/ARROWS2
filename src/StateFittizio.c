@@ -263,7 +263,7 @@ void UpdateHUD() BANKED{
 }
 
 void Log() BANKED{    
-    /* hudpl.gbm aggiungi una linea sotto, 4 tiles height
+    /* hudpl.gbm aggiungi una linea sotto, 4 tiles height */
     switch(motherpl_state){
         case MOTHERPL_IDLE: PRINT(0, 3, "IDLE"); break;
         case MOTHERPL_JUMP: PRINT(0, 3, "JUMP"); break;
@@ -279,8 +279,7 @@ void Log() BANKED{
     }
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
     PRINT(16, 3, "!");
-    PRINT(17, 3, "LOG");
-    */
+    PRINT(17, 3, "LOG");    
 }
 
 void camera_tramble() BANKED{

@@ -52,7 +52,8 @@ struct MotherplData* motherpl_data = 0;
 INT8 motherpl_vx = 0;
 INT8 motherpl_vy = 0;
 MOTHERPL_STATE motherpl_state = MOTHERPL_IDLE;
-UINT8 motherpl_coll = 0u;
+UINT8 motherpl_coll_x = 0u;
+UINT8 motherpl_coll_y = 0u;
 UINT8 motherpl_jpower = 0u;
 UINT8 motherpl_inertiax = 0u;
 UINT8 motherpl_inertia_down = 0u;
@@ -97,7 +98,8 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 
 void START(){
     motherpl_vx = 0u;
-    motherpl_coll = 0u;
+    motherpl_coll_x = 0u;
+    motherpl_coll_y = 0u;
     motherpl_jpower = 0u;
     motherpl_inertiax = 0u;
     motherpl_inertia_down = 0u;
@@ -146,7 +148,7 @@ void UPDATE(){
                 }
             break;
             case MOTHERPL_JUMP:               
-                if(motherpl_coll && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
+                if(motherpl_coll_y && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
                     changeMotherplState(MOTHERPL_IDLE);
                 }
                 if(KEY_RELEASED(J_JUMP)){
@@ -306,23 +308,22 @@ void UPDATE(){
                 && motherpl_state != MOTHERPL_HIT
                 && motherpl_state != MOTHERPL_DASH
                 ) || 
-                (motherpl_state != MOTHERPL_DASH && motherpl_coll != 0u)
+                (motherpl_state != MOTHERPL_DASH && motherpl_coll_x != 0u)
                 ){
                 if(KEY_RELEASED(J_JUMP)){
                     motherpl_rabbit = 0u;
                 }
                 if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
-                    && motherpl_jpower == JUMP_MIN_POWER){
+                    && motherpl_jpower == JUMP_MIN_POWER
+                    && motherpl_rabbit == 0u){
                         //  || motherpl_coll != 0u
                     //&& motherpl_state != MOTHERPL_JUMP
                     if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
                         if(motherpl_rabbit == 0u){
                             motherpl_rabbit = 1u;
-                            if(motherpl_state != MOTHERPL_JUMP){
-                                changeMotherplState(MOTHERPL_JUMP);
-                            }
+                            changeMotherplState(MOTHERPL_JUMP);                            
                         }
-                    }else if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){ //motherpl_state != MOTHERPL_JUMP && 
+                    }else if(motherpl_state != MOTHERPL_JUMP && (KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){
                         changeMotherplState(MOTHERPL_WALK);
                     }
                 }
@@ -403,19 +404,19 @@ void UPDATE(){
         }
     //ACTUAL MOVEMENT
         if(motherpl_state != MOTHERPL_CRAWL_SURF){      
-            UINT8 t_vertical_coll = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-            if(t_vertical_coll && motherpl_state == MOTHERPL_JUMP){
+            motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+            if(motherpl_coll_y && motherpl_state == MOTHERPL_JUMP){
                 //spawnDust();
-                changeMotherplState(MOTHERPL_IDLE);
+                changeMotherplState(MOTHERPL_WALK);
             }        
             if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
-                motherpl_coll = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
+                motherpl_coll_x = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
             }
         }
     //REACTION DI TILE COLLISION
         switch(current_state){
             case StateExzoo:
-                switch(motherpl_coll){
+                switch(motherpl_coll_x){
                     case 5u:
                         if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
                             ChangeState(StateTetra, motherpl_state);
@@ -429,7 +430,7 @@ void UPDATE(){
                 }
             break;
             case StateMine:
-                switch(motherpl_coll){
+                switch(motherpl_coll_x){
                     case 11u:
                         if(motherpl_state == MOTHERPL_DASH){
                             if(THIS->mirror == NO_MIRROR){
@@ -445,7 +446,7 @@ void UPDATE(){
             case StateCemetery:
             break;
             case StateBlackiecave:
-                switch(motherpl_coll){
+                switch(motherpl_coll_x){
                     case 34u://tiles di soffitto che quando dash non voglio incastri
                     case 35u:
                     case 36u:
@@ -507,7 +508,7 @@ void UPDATE(){
                                 if(motherpl_state == MOTHERPL_DASH){
                                     if(e_data->e_state == ENEMY_ATTACK){
                                         motherpl_hit = 1u;
-                                    }else if(motherpl_coll == 0u){
+                                    }else if(motherpl_coll_x == 0u){
                                         motherpl_dash_cooldown++;
                                     }
                                 }else if(e_data->e_state != ENEMY_UPSIDEDOWN 

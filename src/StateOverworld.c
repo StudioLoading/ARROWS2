@@ -73,24 +73,23 @@ void START(){
 		scroll_top_movement_limit = 56u;
 		scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-	show_tip = 0u;
-	switch (current_map){
-		case 0u:
-			if(sgb_check()){
-				set_sgb_palette_overworldsw();
-			}
-			if(motherow_pos_x == 0u){
-				motherow_pos_x = (UINT16) 19u << 3;
-			}
-			if(motherow_pos_y == 0u){
-				motherow_pos_y = (UINT16) 24u << 3;
-			}
-			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
-			scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
-			InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
-        break;
-	}
-
+		show_tip = 0u;
+		switch (current_map){
+			case 0u:
+				if(sgb_check()){
+					set_sgb_palette_overworldsw();
+				}
+				if(motherow_pos_x == 0u){
+					motherow_pos_x = (UINT16) 19u << 3;
+				}
+				if(motherow_pos_y == 0u){
+					motherow_pos_y = (UINT16) 24u << 3;
+				}
+				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
+				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
+			break;
+		}
 	INIT_FONT(fontbw, PRINT_WIN);
 	INIT_HUD(hudow); 
 	HIDE_WIN;
@@ -146,9 +145,8 @@ void UPDATE(){
 		ShowTipOW();
 		return;
 	}
-	scroll_target->x = s_motherow->x;
-	scroll_target->y = s_motherow->y;
-	
+	scroll_target->x = s_motherow->x+4u;
+	scroll_target->y = s_motherow->y+4u;
 }
 
 void showing_tip(){
