@@ -145,8 +145,10 @@ void UPDATE(){
 		ShowTipOW();
 		return;
 	}
-	scroll_target->x = s_motherow->x+4u;
-	scroll_target->y = s_motherow->y+4u;
+	if(delta_time == 0){
+		scroll_target->x = s_motherow->x+4u;
+		scroll_target->y = s_motherow->y+4u;
+	}
 }
 
 void showing_tip(){

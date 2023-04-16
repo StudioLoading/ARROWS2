@@ -130,7 +130,6 @@ void UPDATE(){
         if(KEY_TICKED(J_SELECT)){
             invcursor_posi++;
             //fixInvcursor(5);
-            //if(invcursor_posi == 0){invcursor_posi = 1;}////Dodge Crossbow equip
             invselectitem(5);//STATEINVENTORY
             UpdateHUD();//STATEFITTIZIO
         }

@@ -12,8 +12,8 @@
 #include "custom_datas.h"
 #include "Dialogs.h"
 
-#define OW_NORMAL_FRAMESKIP 2
-#define OW_PATH_FRAMESKIP 1
+#define OW_NORMAL_FRAMESKIP 1
+#define OW_PATH_FRAMESKIP 3
 
 const UINT8 motherow_anim_down[] = {2, 0, 1}; //The first number indicates the number of frames
 const UINT8 motherow_anim_up[] = {2, 2, 3}; //The first number indicates the number of frames
@@ -52,13 +52,13 @@ void UPDATE(){
     FA2OW_SPRITE_STATES new_state = motherow_info->ow_state;
     //WALKING
         if(show_tip == 0u){        
-            if(frameskip < frameskip_max){
-                frameskip++;
+            if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
+            if(frameskip == 0u){
                 if(KEY_PRESSED(J_DOWN)){motherow_info->tile_collision = TranslateSprite(THIS, 0, 1 << delta_time);new_state = WALK_DOWN;}
                 else if(KEY_PRESSED(J_UP)){motherow_info->tile_collision = TranslateSprite(THIS, 0, -1 << delta_time);new_state = WALK_UP;}
                 else if(KEY_PRESSED(J_LEFT)){motherow_info->tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);new_state = WALK_LEFT;}
                 else if(KEY_PRESSED(J_RIGHT)){motherow_info->tile_collision = TranslateSprite(THIS, 1 << delta_time, 0);new_state = WALK_RIGHT;}
-            }else{frameskip = 0u;}
+            }
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
             switch(scroll_tile){
                 case 8u:
@@ -67,9 +67,9 @@ void UPDATE(){
                         if(THIS->anim_frame == 1){
                             my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
                         }
-                    if(frameskip_max != OW_PATH_FRAMESKIP){
-                        frameskip_max = OW_PATH_FRAMESKIP;
-                    }
+                        if(frameskip_max != OW_PATH_FRAMESKIP){
+                            frameskip_max = OW_PATH_FRAMESKIP;
+                        }
                 break;
                 default:
                     if(frameskip_max != OW_NORMAL_FRAMESKIP){

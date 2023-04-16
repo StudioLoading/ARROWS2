@@ -1,6 +1,4 @@
 POST DEMO:
-- ow flicker
-- primo select in inventario con frecce canna
 - dopo il lupo nella caverna di Blackie, lo faccio andare
 	- in un altro State
 	- con un corridoio lungo in cutscene, si ferma nella stanza
@@ -46,6 +44,8 @@ POST DEMO:
 KNOWN ISSUES:
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
+BUGS TO FEATURES:
+- ow flicker - è diventata una feature per segnalare terreno instabile
 
 PRODUCTION:
 - tutorial for the buttons!
