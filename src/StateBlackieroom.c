@@ -20,7 +20,7 @@ IMPORT_MAP(bordercave);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_TILES(hudpltiles);
-IMPORT_MAP(blackiecavemap);
+IMPORT_MAP(blackieroommap);
 IMPORT_MAP(hudpl);
 
 
@@ -47,11 +47,9 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION missions[4];
 extern WHOSTALKING whostalking;
 
-const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
-const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
+const UINT8 coll_tiles_blackieroom[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
+const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 0};
 
-UINT8 wolf_spawned = 0u;
-UINT8 timeout_drop = 0u;
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
 extern void update_camera_position() BANKED;
@@ -71,24 +69,25 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 20u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 2u << 3, (UINT16) 10u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
-        InitScroll(BANK(blackiecavemap), &blackiecavemap, coll_tiles_blackiecave, coll_surface_blackiecave);    
+        SpriteManagerAdd(SpriteBlackie, (UINT16)15u << 3, (UINT16) 0u);
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 72u); 
+        InitScroll(BANK(blackieroommap), &blackieroommap, coll_tiles_blackieroom, coll_surface_blackieroom);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(blackiecavemap), &blackiecavemap, &mapwidth, &mapheight);
-    wolf_spawned = 0u;
-    timeout_drop = 0u;
+        GetMapSize(BANK(blackieroommap), &blackieroommap, &mapwidth, &mapheight);
+    //wolf_spawned = 0u;
+    //timeout_drop = 0u;
 	SHOW_SPRITES;
 }
 
@@ -108,32 +107,17 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC 
-        if(s_motherpl->x > ((UINT16)56u << 3)){
-            if(wolf_spawned == 0u){
-                wolf_spawned = 1u;
-                SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
-            }else if(wolf_spawned > 0u){
-                if(s_motherpl->x > ((UINT16)62u << 3)){
-                    //trigger cutscene
-                    whostalking = WOLF01;
-                    ChangeState(StateDialog, s_motherpl);
-                }
+        /*if(wolf_spawned == 0u && s_motherpl->x > ((UINT16)56u << 3)){
+            wolf_spawned = 1u;
+            SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
+        }else if(wolf_spawned > 0u){
+            wolf_spawned++;
+            if(wolf_spawned >= 60u){
+                //trigger cutscene
+                whostalking = WOLF01;
+                ChangeState(StateDialog, s_motherpl);
             }
-        }
-     //DROPS ANIM
-        if(s_motherpl->x<((UINT16)50u)<<3){
-            timeout_drop--;
-            if(timeout_drop == 80u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x+24u, (UINT16) 44u);
-            }
-            if(timeout_drop == 160u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x-12u, (UINT16) 44u);
-            }
-            if(timeout_drop == 0u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x+64u, (UINT16) 44u);
-                timeout_drop = 240u;
-            }
-        }
+        }*/
 
     Log();
 }

@@ -302,6 +302,11 @@ void camera_tramble() BANKED{
 }
 
 void update_camera_position() BANKED{
+    switch(current_state){
+        case StateBlackieroom:
+            return;
+        break;
+    }
     //LIMITS
         //HORIZONTAL
         if(s_motherpl->x < (UINT16)8u){

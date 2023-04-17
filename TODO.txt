@@ -19,6 +19,9 @@ POST DEMO:
 - motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
 	ma dovrebbe essere metodo a parte, dedicato a routine per frame
 	che non insistono sulla cemera
+- animazioni degli npc:
+	- lupo iniziale
+	- blackie in attesa che battiamo le orde
 - salva/carica
 	- la implemento con l' FRAM o con sistema a password?
 		- StateHospital per curarsi e salvare.

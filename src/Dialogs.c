@@ -13,9 +13,14 @@ unsigned char d4[22];
 unsigned char d5[22];
 unsigned char d6[22];
 unsigned char d7[22];
+unsigned char d8[22];
+unsigned char d9[22];
 WHOSTALKING whostalking = NOBODY;
 unsigned char EMPTY_STRING_21[22] = "                     \0";
 unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
+UINT8 choice = 0u;
+UINT8 choice_left = 0u;
+UINT8 choice_right = 0u;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -205,15 +210,20 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
 		break;
-		case WOLF:
-			*n_lines = 7u;
-			memcpy(d1, "GOOD JOB 'DESSA!    \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "YOUR QUEST IS OVER  \0", 22);
-			memcpy(d4, "BUT YOUR JOURNEY    \0", 22);
-			memcpy(d5, "CONTINUES IN THE    \0", 22);
-			memcpy(d6, "FULL VERSION OF THIS\0", 22);
-			memcpy(d7, "VIDEOGAME!!         \0", 22);	
+		case WOLF01:
+			*n_lines = 9u;
+			memcpy(d1, "HONORED TO SEE YOU, \0", 22);
+			memcpy(d2, "HEALER. MOTHER BLAC \0", 22);
+			memcpy(d3, "KIE NEEDS SOME HELP \0", 22);
+			memcpy(d4, "IN THE NEXT ROOM.   \0", 22);
+			memcpy(d5, "ARE YOU READY TO    \0", 22);
+			memcpy(d6, "HELP HER?           \0", 22);			
+			memcpy(d7, EMPTY_STRING_21, 22);	
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, " NO          YES    \0", 22);
+			choice = 1u;
+			choice_left = 0u;
+			choice_right = 0u;
 		break;
 	}
 }

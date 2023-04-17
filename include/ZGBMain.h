@@ -24,6 +24,7 @@ _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateMine)\
 _STATE(StateSmith)\
+_STATE(StateBlackieroom)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -64,6 +65,7 @@ _SPRITE_DMG(SpriteCavesand, cavesand)\
 _SPRITE_DMG(SpriteSuperstone, superstone)\
 _SPRITE_DMG(SpriteWolf, wolf)\
 _SPRITE_DMG(SpriteDrop , drop)\
+_SPRITE_DMG(SpriteBlackie , blackie)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

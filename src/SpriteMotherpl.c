@@ -406,7 +406,10 @@ void UPDATE(){
             motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
             if(motherpl_coll_y && motherpl_state == MOTHERPL_JUMP){
                 //spawnDust();
-                changeMotherplState(MOTHERPL_WALK);
+                if(motherpl_vy > 0){
+                    changeMotherplState(MOTHERPL_WALK);
+                }
+                motherpl_vy = 0;
             }        
             if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
                 motherpl_coll_x = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
