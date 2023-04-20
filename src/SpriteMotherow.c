@@ -32,9 +32,11 @@ extern INT8 sfx_cooldown;
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
 UINT8 frameskip_max = 1u;// same as OW_NORMAL_FRAMESKIP
+FA2OW_SPRITE_STATES new_state = 0;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owCollision();
+void update_position_motherow() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
@@ -43,21 +45,18 @@ void START(){
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
     motherow_info->ow_state = IDLE_DOWN;
     motherow_info->tile_collision = 0u;
+    motherow_info->vx = 0u;
+    motherow_info->vy = 0u;
     frameskip = 0u;
 }
 
-void UPDATE(){
-    if(sfx_cooldown > 0){sfx_cooldown--;}
-    if(hudow_opened == 1u){return;}
-    FA2OW_SPRITE_STATES new_state = motherow_info->ow_state;
+void update_position_motherow() BANKED{
+    //new_state = motherow_info->ow_state;
     //WALKING
         if(show_tip == 0u){        
             if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
             if(frameskip == 0u){
-                if(KEY_PRESSED(J_DOWN)){motherow_info->tile_collision = TranslateSprite(THIS, 0, 1 << delta_time);new_state = WALK_DOWN;}
-                else if(KEY_PRESSED(J_UP)){motherow_info->tile_collision = TranslateSprite(THIS, 0, -1 << delta_time);new_state = WALK_UP;}
-                else if(KEY_PRESSED(J_LEFT)){motherow_info->tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);new_state = WALK_LEFT;}
-                else if(KEY_PRESSED(J_RIGHT)){motherow_info->tile_collision = TranslateSprite(THIS, 1 << delta_time, 0);new_state = WALK_RIGHT;}
+                motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
             }
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
             switch(scroll_tile){
@@ -77,10 +76,20 @@ void UPDATE(){
                     }
             }
         }
-    if(KEY_RELEASED(J_DOWN)){new_state = IDLE_DOWN;}
-    if(KEY_RELEASED(J_UP)){new_state = IDLE_UP;}
-    if(KEY_RELEASED(J_LEFT)){new_state = IDLE_LEFT;}
-    if(KEY_RELEASED(J_RIGHT)){new_state = IDLE_RIGHT;}    
+}
+void UPDATE(){
+    if(sfx_cooldown > 0){sfx_cooldown--;}
+    if(hudow_opened == 1u){return;}
+    //new_state = motherow_info->ow_state;    
+    if(KEY_PRESSED(J_DOWN)){new_state = WALK_DOWN;}
+    else if(KEY_PRESSED(J_UP)){new_state = WALK_UP;}
+    else if(KEY_PRESSED(J_LEFT)){new_state = WALK_LEFT;}
+    else if(KEY_PRESSED(J_RIGHT)){new_state = WALK_RIGHT;}
+    else if(KEY_RELEASED(J_DOWN)){new_state = IDLE_DOWN;}
+    else if(KEY_RELEASED(J_UP)){new_state = IDLE_UP;}
+    else if(KEY_RELEASED(J_LEFT)){new_state = IDLE_LEFT;}
+    else if(KEY_RELEASED(J_RIGHT)){new_state = IDLE_RIGHT;}  
+    update_position_motherow();  
     if(motherow_info->ow_state != new_state){ 
         owChangeState(new_state);
     }
@@ -161,6 +170,8 @@ void owCollision(){
 
 void owChangeState(FA2OW_SPRITE_STATES new_state){
     if(new_state == GENERIC_IDLE){
+        motherow_info->vy = 0;
+        motherow_info->vx = 0;
         if(motherow_info->ow_state == WALK_DOWN){
             new_state = IDLE_DOWN;
         }
@@ -176,30 +187,46 @@ void owChangeState(FA2OW_SPRITE_STATES new_state){
     }
     switch(new_state){
         case IDLE_DOWN:
+            motherow_info->vy = 0;
+            motherow_info->vx = 0;
             SetSpriteAnim(THIS, motherow_anim_idle_down, 4u);
         break;
         case IDLE_UP:
+            motherow_info->vy = 0;
+            motherow_info->vx = 0;
             SetSpriteAnim(THIS, motherow_anim_idle_up, 4u);
         break;
         case IDLE_LEFT:
+            motherow_info->vy = 0;
+            motherow_info->vx = 0;
             SetSpriteAnim(THIS, motherow_anim_idle_h, 4u);
             THIS->mirror = V_MIRROR;
         break;
         case IDLE_RIGHT:
+            motherow_info->vx = 0;
+            motherow_info->vy = 0;
             SetSpriteAnim(THIS, motherow_anim_idle_h, 4u);
             THIS->mirror = NO_MIRROR;
         break;
         case WALK_DOWN:
+            motherow_info->vx = 0;
+            motherow_info->vy = 1;
             SetSpriteAnim(THIS, motherow_anim_down, 12u);
         break;
         case WALK_UP:
+            motherow_info->vx = 0;
+            motherow_info->vy = -1;
             SetSpriteAnim(THIS, motherow_anim_up, 12u);
         break;
         case WALK_LEFT:
+            motherow_info->vx = -1;
+            motherow_info->vy = 0;
             SetSpriteAnim(THIS, motherow_anim_h, 12u);
             THIS->mirror = V_MIRROR;
         break;
         case WALK_RIGHT:
+            motherow_info->vx = 1;
+            motherow_info->vy = 0;
             SetSpriteAnim(THIS, motherow_anim_h, 12u);
             THIS->mirror = NO_MIRROR;
         break;

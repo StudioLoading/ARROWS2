@@ -101,13 +101,13 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 			memcpy(d, "  BASTARD: ", 12);
 		break;
 		case ARROWBASTARD_DETAIL1:
-			memcpy(d, "MOST POWER", 12);
+			memcpy(d, "MOST POWER ", 12);
 		break;
 		case ARROWBASTARD_DETAIL2:
-			memcpy(d, "FUL ARROWS", 12);
+			memcpy(d, "FUL ARROWS ", 12);
 		break;
 		case ARROWBASTARD_DETAIL3:
-			memcpy(d, "I CAN FIND", 12);
+			memcpy(d, "I CAN FIND ", 12);
 		break;
 		case ARROWBASTARD_DETAIL4:
 			memcpy(d, "           ", 12);

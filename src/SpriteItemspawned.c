@@ -66,6 +66,10 @@ void UPDATE(){
                 }
             }
             if(spawned_tile_coll || spawned_data->vy > 0){
+                if(spawned_tile_coll && 
+                    spawned_data->vy <= 0){
+                    spawned_data->vy=1;
+                }
                 spawned_data->vx = 0;
                 spawned_data->frmskip--;
                 if(spawned_data->frmskip == 0){

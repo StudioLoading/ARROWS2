@@ -44,6 +44,7 @@ extern UINT8 spawnitem_random;
 extern UINT8 enemy_random_30_100;
 extern UINT8 motherpl_hit_cooldown;
 extern WHOSTALKING whostalking;
+extern Sprite* s_motherow;
 UINT8 mine_powderspawned = 3u;
 
 UINT8 npc_spawned_zone = 0u;
@@ -64,15 +65,21 @@ UINT8 mapheight;
 UINT8 previous_state;
 UINT8 item_spawned_cooldown = 255u;
 INT8 sfx_cooldown = 127u;
+UINT8 dialog_bg_cooldown = 32u;
+UINT8 dialog_bg_activated = 0u;
+UINT8 dialog_bg_charcounter = 0u;
+unsigned char dbg1[50];
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
 void update_camera_position() BANKED;
+void update_camera_position_ow() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
+void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
@@ -304,6 +311,11 @@ void camera_tramble() BANKED{
 void update_camera_position() BANKED{
     switch(current_state){
         case StateBlackieroom:
+            if(scroll_target->x != (UINT16) 80u || 
+                scroll_target->y != (UINT16) 56u){
+                scroll_target->x = (UINT16) 80u;
+                scroll_target->y = (UINT16) 56u;
+            }
             return;
         break;
     }
@@ -430,6 +442,48 @@ void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED{
         reward_data->configured = 1u;
         item_spawned_cooldown = 255u;
     }
+}
+
+
+void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED{
+/*	if(on_off == 0u){//spegni
+        UINT8 i = 0u;
+        for(i = 0u; i<nchar; i++){
+            PRINT(x-i, y, " ");
+        }
+        dialog_bg_charcounter = 0u;
+        dialog_bg_cooldown = 32u;
+        dialog_bg_activated = 0u;
+        return;
+    }else if(on_off == 1 && dialog_bg_activated == 0u){
+        dialog_bg_activated = 1u;
+    }
+    if(dialog_bg_activated == 1u){
+        if(dialog_bg_cooldown > 0){
+            dialog_bg_cooldown--;
+        }else{
+            memcpy(dbg1, "HORDE!A12\0", 10);
+            print_target = PRINT_BKG;
+            if(dialog_bg_charcounter == 0u){
+                UINT8 i = 0u;
+                for(i = 0u; i<nchar; i++){
+                    PRINT(x-i, y, dbg1[dialog_bg_charcounter+(nchar-i)]);
+                }
+            }else if(dialog_bg_charcounter >= nchar){//SHIFTING
+                dialog_bg_cooldown = 32u;
+                UINT8 i = 0u;
+                for(i = 0u; i<nchar; i++){
+                    UINT8 yx = 0u;
+                        for(yx = 0u; i<nchar; i++){
+                    
+                    PRINT(x-i, y, " ");
+                }
+                PRINT(x, y, dbg1[dialog_bg_charcounter]);
+            }
+            dialog_bg_charcounter++;
+        }
+
+    }*/
 }
 
 void START(){}

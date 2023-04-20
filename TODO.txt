@@ -1,15 +1,14 @@
 POST DEMO:
-- dopo il lupo nella caverna di Blackie, lo faccio andare
-	- in un altro State
-	- con un corridoio lungo in cutscene, si ferma nella stanza
-	- dentro c'è blackie, in alto a destra in un altura non raggiungibile
-	- dialog di minaccia
-	- ondata di topi
-	- ondata di ragni
-	- ragnone
-	- dialogo di vittoria
+- StateBlackieroom
+	- Blackie dice qualcosa;
+	- quando termina, partono le orde
+	- all' inizio del countdown di ogni orda Blackie dice qualcosa
+		con testo tipo cercapersone alla sua sinistra
+	- finito l' ultimo nemico dell' orda deve comparire a destra
+		del buco un gradino. lo faccio comparire magicamente
+		dopo un "puff"?
 	- io e blackie fuori dalla caverna
-- le volte dopo che visito la blackie cave la stanza non sarà visitabile
+- le volte dopo che visito la cave la room non sarà visitabile
 - disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.

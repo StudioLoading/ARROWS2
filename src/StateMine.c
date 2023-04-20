@@ -145,7 +145,7 @@ void UPDATE(){
             ChangeState(StateInventory, s_motherpl);
         }
     //CAMERA MANAGEMENT
-        if(motherpl_hit_cooldown > 0 && motherpl_vx == 0){
+        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
             //CAMERA TRAMBLE
             camera_tramble();
         }else{

@@ -206,10 +206,9 @@ void Emanagement() BANKED{
             case ENEMY_UPSIDEDOWN:
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
+                    THIS->mirror = V_MIRROR;
                     if(eu_info->vx >= 0){
                         THIS->mirror = NO_MIRROR;
-                    }else{
-                        THIS->mirror = V_MIRROR;
                     }
                     changeEstate(ENEMY_WAIT);
                 }
@@ -239,6 +238,7 @@ void Estart() BANKED{
     THIS->lim_x = 80u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
+    eu_info->wait = 40u;
 }
 
 void Econfiguration() BANKED{

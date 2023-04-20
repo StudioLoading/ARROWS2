@@ -16,6 +16,12 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
+#define HORDE_SNAKE 4
+#define HORDE_RAT 4
+#define HORDE_SPIDER 2
+#define HORDE_COBRA 3
+#define HORDE_COOLDOWN_MAX 180
+
 IMPORT_MAP(bordercave);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(blackiecavetiles);
@@ -46,9 +52,16 @@ extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION missions[4];
 extern WHOSTALKING whostalking;
+extern UINT8 choice;
+extern UINT8 timeout_enemy;
+extern struct EtoReload e_to_reload[3];
 
 const UINT8 coll_tiles_blackieroom[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
-const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 0};
+const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 50u, 0};
+UINT8 horde_step = 0u;
+UINT8 horde_counter = 0u;
+UINT16 horde_cooldown = 0u;
+UINT8 enemies_alive = 0u;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -57,7 +70,7 @@ extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
-
+extern void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(bordercave);
@@ -69,15 +82,16 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 2u << 3, (UINT16) 10u << 3);
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 3u << 3, (UINT16) 8u << 3);
+        if(previous_state == StateInventory
+            || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
         SpriteManagerAdd(SpriteBlackie, (UINT16)15u << 3, (UINT16) 0u);
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 72u); 
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 56u); 
         InitScroll(BANK(blackieroommap), &blackieroommap, coll_tiles_blackieroom, coll_surface_blackieroom);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
@@ -88,6 +102,13 @@ void START(){
         GetMapSize(BANK(blackieroommap), &blackieroommap, &mapwidth, &mapheight);
     //wolf_spawned = 0u;
     //timeout_drop = 0u;
+    horde_cooldown = HORDE_COOLDOWN_MAX/2;
+    timeout_enemy = 200u;
+    if(previous_state != StateInventory && previous_state != StateDialog 
+        && horde_step < 8u ){//potrei esser morto durante un orda
+        // azzerare counter
+        horde_counter = 0u;
+    }
 	SHOW_SPRITES;
 }
 
@@ -99,12 +120,74 @@ void UPDATE(){
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
     //CAMERA MANAGEMENT
-        if(motherpl_hit_cooldown > 0 && motherpl_vx == 0){
+        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
             //CAMERA TRAMBLE
             camera_tramble();
         }else{
             //SCROLL CAMERA
-            update_camera_position();
+            scroll_target->x = (UINT16) 80u;
+            scroll_target->y = (UINT16) 56u;
+            //update_camera_position();
+        }
+    //FORCE MOTHERPL LIMITS
+        if(s_motherpl->x < (UINT16)8u){
+            s_motherpl->x = (UINT16)8u;
+        }
+    //INIT ENEMIES
+        if(horde_cooldown == 0){
+            if(timeout_enemy > 0){timeout_enemy--;}            
+            else{
+                UINT8 enemy_type = SpriteEnemysimplesnake;
+                UINT8 horde_counter_max = 0u;         
+                switch(horde_step){
+                    case 0u://SNAKE HORDE
+                    case 2u:
+                        //trigger_dialog_bg(1, 13u, 0u, 9);
+                        horde_counter_max = HORDE_SNAKE;
+                        enemy_type = SpriteEnemysimplesnake; 
+                    break;
+                    case 1u://RAT HORDE
+                    case 3u:
+                        horde_counter_max = HORDE_RAT;
+                        enemy_type = SpriteEnemysimplerat;
+                    break;                
+                    case 5u://COBRA HORDE
+                    case 7u:
+                        horde_counter_max = HORDE_COBRA;
+                        enemy_type = SpriteEnemyAttackerCobra;
+                    break;           
+                    case 6u://SPIDER HORDE
+                    case 8u:
+                        horde_counter_max = HORDE_SPIDER;
+                        enemy_type = SpriteEnemyThrowerSpider;
+                    break;
+                }            
+                if(horde_counter < horde_counter_max){
+                    Sprite* s_snake2 = SpriteManagerAdd(enemy_type, (UINT16) 9u << 3, (UINT16) 52u);
+                    if(horde_counter % 2 == 0){
+                        struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
+                        s_snake2_data->vx = 4;
+                    }
+                    horde_counter++;
+                    timeout_enemy = 100u;
+                }else{        
+                    UINT8 i = 0u;
+                    enemies_alive = 0u;
+                    for(i = 0u; i < 3u; ++i){
+                        if(e_to_reload[i].alive == 1u){
+                            enemies_alive++;
+                        }
+                    }
+                    if(enemies_alive == 0u){
+                        horde_counter = 0u;
+                        horde_step++;
+                        timeout_enemy = 255u;
+                        horde_cooldown = HORDE_COOLDOWN_MAX;
+                    }
+                }
+            }
+        }else{
+            horde_cooldown--;
         }
     //MANAGE NPC 
         /*if(wolf_spawned == 0u && s_motherpl->x > ((UINT16)56u << 3)){

@@ -46,6 +46,7 @@ HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
 
+extern struct OwSpriteInfo* motherow_info;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern unsigned char EMPTY_STRING_21[];
@@ -62,6 +63,7 @@ void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void update_position_motherow() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -124,6 +126,10 @@ void ShowTipOW() BANKED{
 }
 
 void UPDATE(){
+	if(show_tip == 0u){
+		scroll_target->x = s_motherow->x+4u;
+		scroll_target->y = s_motherow->y+4u;
+	}
 	if(KEY_RELEASED(J_START)){
 		switch(hudow_opened){
 			case 0u://vado in 
@@ -144,11 +150,7 @@ void UPDATE(){
 	if(show_tip == 1u){
 		ShowTipOW();
 		return;
-	}
-	if(delta_time == 0){
-		scroll_target->x = s_motherow->x+4u;
-		scroll_target->y = s_motherow->y+4u;
-	}
+	}	
 }
 
 void showing_tip(){

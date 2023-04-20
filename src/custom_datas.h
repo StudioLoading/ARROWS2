@@ -128,6 +128,8 @@ typedef enum{
 struct OwSpriteInfo{
 	FA2OW_SPRITE_STATES ow_state;
 	UINT8 tile_collision;
+	INT8 vx;
+	INT8 vy;	
 };
 
 typedef enum{
