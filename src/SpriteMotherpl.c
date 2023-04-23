@@ -146,7 +146,10 @@ void UPDATE(){
                     changeMotherplState(MOTHERPL_WALK);
                 }
             break;
-            case MOTHERPL_JUMP:               
+            case MOTHERPL_JUMP:
+                if(KEY_TICKED(J_JUMP)){
+                    jump_ticked_delay = JUMP_TICKED_COOLDOWN;
+                }
                 if(motherpl_coll_y && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
                     changeMotherplState(MOTHERPL_IDLE);
                 }
@@ -165,8 +168,7 @@ void UPDATE(){
                         }else{
                             motherpl_vy = -1;
                         }
-                    }       
-                    if(motherpl_jpower == JUMP_MAX_POWER){
+                    }else if(motherpl_jpower == JUMP_MAX_POWER){
                         if(fly_counter < FLY_MAX){
                             fly_counter++;
                             motherpl_vy = 0;
@@ -175,13 +177,9 @@ void UPDATE(){
                         }
                     }
                 }else{
-                    if (motherpl_jpower > JUMP_MIN_POWER){
+                    if (!KEY_PRESSED(J_JUMP) && motherpl_jpower > JUMP_MIN_POWER){
                         motherpl_jpower--;
                     }
-                    /*if(fly_counter < FLY_MAX){
-                            fly_counter++;
-                            motherpl_vy = 0;
-                    }else */
                     if(motherpl_vy < GRAVITY){
                         motherpl_vy++;
                     }
@@ -243,11 +241,19 @@ void UPDATE(){
                 }
             break;
             case MOTHERPL_CRAWL_SURF:
-                if(s_surf){
+                if(s_surf != NULL){
                     THIS->x = s_surf->x + motherpl_surf_dx;
                     THIS->y = s_surf->y - 20u;
                     //THIS->x = s_surf->x;
                     //THIS->y = s_surf->y -16u;
+                }else{
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
+                if(KEY_TICKED(J_JUMP)){
+                    if(motherpl_rabbit == 0u){
+                        motherpl_rabbit = 1u;
+                        changeMotherplState(MOTHERPL_JUMP);
+                    }
                 }
             break;
             case MOTHERPL_DASH:
@@ -257,9 +263,13 @@ void UPDATE(){
                 motherpl_dash_cooldown--;
                 if(motherpl_dash_cooldown == 0){
                     motherpl_dash_cooldown = DASH_COOLDOWN_MAX;
-                    changeMotherplState(MOTHERPL_IDLE);
+                    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
+                        changeMotherplState(MOTHERPL_WALK);
+                    }else{
+                        changeMotherplState(MOTHERPL_IDLE);
+                    }
                 }
-                {
+                {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
                     if(dash_floor == 48u){
                             spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
@@ -286,7 +296,11 @@ void UPDATE(){
             motherpl_hit_cooldown--;
             if(motherpl_hit_cooldown == 0u){
                 motherpl_hit = 0u;
-                changeMotherplState(MOTHERPL_IDLE);
+                if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
+                    changeMotherplState(MOTHERPL_WALK);
+                }else{
+                    changeMotherplState(MOTHERPL_IDLE);
+                }
             }
         }else{
             if(motherpl_hit == 1u){
@@ -303,16 +317,16 @@ void UPDATE(){
         }
     //INPUTS JUMP
         //if(motherpl_state != MOTHERPL_JUMP){
+            if(KEY_RELEASED(J_JUMP)){
+                motherpl_rabbit = 0u;
+            }
             if((motherpl_state != MOTHERPL_BLOCKED 
                 && motherpl_state != MOTHERPL_HIT
                 && motherpl_state != MOTHERPL_DASH
                 ) || 
                 (motherpl_state != MOTHERPL_DASH && motherpl_coll_x != 0u)
                 ){
-                if(KEY_RELEASED(J_JUMP)){
-                    motherpl_rabbit = 0u;
-                }
-                if(jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
+                if(motherpl_coll_y && jump_ticked_delay == 0 && motherpl_vy == GRAVITY 
                     && motherpl_jpower == JUMP_MIN_POWER
                     && motherpl_rabbit == 0u){
                         //  || motherpl_coll != 0u
@@ -320,9 +334,9 @@ void UPDATE(){
                     if(KEY_TICKED(J_JUMP) || KEY_PRESSED(J_JUMP)){
                         if(motherpl_rabbit == 0u){
                             motherpl_rabbit = 1u;
-                            changeMotherplState(MOTHERPL_JUMP);                            
+                            changeMotherplState(MOTHERPL_JUMP);
                         }
-                    }else if(motherpl_state != MOTHERPL_JUMP && (KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){
+                    }else if(motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_WALK && (KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT))){
                         changeMotherplState(MOTHERPL_WALK);
                     }
                 }
@@ -409,7 +423,7 @@ void UPDATE(){
                 if(motherpl_vy > 0){
                     changeMotherplState(MOTHERPL_WALK);
                 }
-                motherpl_vy = 0;
+                //motherpl_vy = 0;
             }        
             if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
                 motherpl_coll_x = TranslateSprite(THIS, motherpl_vx << delta_time, 0);

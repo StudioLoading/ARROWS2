@@ -1,12 +1,7 @@
 POST DEMO:
 - StateBlackieroom
-	- Blackie dice qualcosa;
-	- quando termina, partono le orde
-	- all' inizio del countdown di ogni orda Blackie dice qualcosa
-		con testo tipo cercapersone alla sua sinistra
-	- finito l' ultimo nemico dell' orda deve comparire a destra
-		del buco un gradino. lo faccio comparire magicamente
-		dopo un "puff"?
+	- se raggiungo blackie prima di aver sconfitto l' ultima orda
+	non succede niente
 	- io e blackie fuori dalla caverna
 - le volte dopo che visito la cave la room non sarà visitabile
 - disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
@@ -42,6 +37,13 @@ POST DEMO:
 - titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
 - Legna + metallo + powder = Frecce Esplosive!
 - fare i carrelli alla Donkey Kong Country
+
+LOG:
+- al posto del log di sviluppo ci va un testo di suggerimento: il nome
+delle persone su cui sono sopra, il nome della stanza in cui mi trovo, gli npc
+che parlano fra di loro, voci di ambiente in generale.
+	- blackieroom: se arrivo a Blackie prima di aver sconfitto l' ultima orda,
+	il suggerimento mi dice "ripulisci la stanza!"
 
 KNOWN ISSUES:
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);

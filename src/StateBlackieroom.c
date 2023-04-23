@@ -16,8 +16,8 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-#define HORDE_SNAKE 4
-#define HORDE_RAT 4
+#define HORDE_SNAKE 1//4
+#define HORDE_RAT 1//4--
 #define HORDE_SPIDER 2
 #define HORDE_COBRA 3
 #define HORDE_COOLDOWN_MAX 180
@@ -55,6 +55,7 @@ extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT8 timeout_enemy;
 extern struct EtoReload e_to_reload[3];
+extern MOTHERPL_STATE motherpl_state;
 
 const UINT8 coll_tiles_blackieroom[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 50u, 0};
@@ -62,6 +63,7 @@ UINT8 horde_step = 0u;
 UINT8 horde_counter = 0u;
 UINT16 horde_cooldown = 0u;
 UINT8 enemies_alive = 0u;
+UINT8 mother_exit_cooldown = 60u;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -90,7 +92,7 @@ void START(){
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        SpriteManagerAdd(SpriteBlackie, (UINT16)15u << 3, (UINT16) 0u);
+        SpriteManagerAdd(SpriteBlackie, (UINT16)16u << 3, (UINT16) 0u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 56u); 
         InitScroll(BANK(blackieroommap), &blackieroommap, coll_tiles_blackieroom, coll_surface_blackieroom);    
     //HUD
@@ -122,7 +124,7 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
             //CAMERA TRAMBLE
-            camera_tramble();
+            //camera_tramble();
         }else{
             //SCROLL CAMERA
             scroll_target->x = (UINT16) 80u;
@@ -131,10 +133,17 @@ void UPDATE(){
         }
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
-            s_motherpl->x = (UINT16)8u;
+            s_motherpl->x = 8u;
+            mother_exit_cooldown--;
+            if(mother_exit_cooldown == 0u && motherpl_state == MOTHERPL_WALK){
+                mother_exit_cooldown = 60u;
+                previous_state = StateBlackieroom;
+                ChangeState(StateBlackiecave, s_motherpl);
+                //go back
+            }
         }
     //INIT ENEMIES
-        if(horde_cooldown == 0){
+        if(horde_cooldown == 0 && s_motherpl->y > 40u){
             if(timeout_enemy > 0){timeout_enemy--;}            
             else{
                 UINT8 enemy_type = SpriteEnemysimplesnake;

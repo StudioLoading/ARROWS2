@@ -158,6 +158,14 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             case SpriteMotherpl:
                 motherpl_pos_x = s_mother->x;
                 motherpl_pos_y = s_mother->y;
+                switch(current_state){
+                    case StateBlackieroom:
+                        if(new_state == StateBlackiecave){
+                            motherpl_pos_x = (UINT16)60u << 3;
+                            motherpl_pos_y = (UINT16)8u << 3;
+                        }
+                    break;
+                }
                 motherpl_mirror = s_mother->mirror;
             break;        
         }

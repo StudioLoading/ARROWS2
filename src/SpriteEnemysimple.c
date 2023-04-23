@@ -114,7 +114,12 @@ void Emanagement() BANKED{
                 switch(iespr->type){
                     case SpriteMotherpl://io enemy ho colpito motherpl
                         if(motherpl_state == MOTHERPL_DASH){
-                            changeEstate(ENEMY_UPSIDEDOWN);
+                            switch(THIS->type){
+                                case SpriteEnemysimplesnake:
+                                case SpriteEnemysimplerat:
+                                    changeEstate(ENEMY_UPSIDEDOWN);
+                                break;
+                            }
                         } else if(motherpl_hit != 1u){
                             motherpl_hit = 1u;
                             changeEstate(ENEMY_WAIT);
@@ -206,11 +211,17 @@ void Emanagement() BANKED{
             case ENEMY_UPSIDEDOWN:
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
-                    THIS->mirror = V_MIRROR;
                     if(eu_info->vx >= 0){
                         THIS->mirror = NO_MIRROR;
+                    }else{
+                        THIS->mirror = V_MIRROR;
                     }
-                    changeEstate(ENEMY_WAIT);
+                    if(eu_info->hp > 1){
+                        changeEstate(ENEMY_HIT);
+                    }else{
+                        changeEstate(ENEMY_DEAD);
+                    }
+                    //changeEstate(ENEMY_WAIT);
                 }
                 return;
             break;
@@ -288,12 +299,16 @@ void configure() BANKED{
     struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
     switch(THIS->type){
         case SpriteEnemysimplesnake:
+            e_info->hp = 1;
+        break;
         case SpriteEnemysimplerat:
         case SpriteEnemyAttackerCobra:
+            e_info->hp = 2;
+        break;
         case SpriteEnemyAttackerPine:
         case SpriteEnemyThrowerSpider:
         case SpriteEnemyThrowerTarantula:
-            e_info->hp = 1;
+            e_info->hp = 3;
         break;
     }
     e_info->x_frameskip = 1u;
@@ -370,7 +385,7 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_UPSIDEDOWN:
-                e_info->wait = 200u;
+                e_info->wait = 72u;
                 if(e_info->vx < 0){
                     THIS->mirror = HV_MIRROR;
                 }else{
@@ -379,9 +394,6 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 if(e_info->configured == 2u){
                     EspawnItem();
                     e_info->configured = 3u;
-                }
-                if(THIS->type == SpriteEnemysimplesnake){
-                    changeEstate(ENEMY_HIT);
                 }
                 TranslateSprite(THIS, 0, -10 << delta_time);
             break;
@@ -403,15 +415,15 @@ void EspawnItem() BANKED{
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
     if(current_state == StateMine){
-        if (enemy_random_30_100 < 60){
+        if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;
-        }else if (enemy_random_30_100 < 90){
+        }else if (enemy_random_30_100 < 85){
             itemtype = INVITEM_WOOD;        
         }else{
             itemtype = INVITEM_HEART;        
         }
     }else{
-        if(enemy_random_30_100 < 37){
+        if(enemy_random_30_100 < 35){
             itemtype = INVITEM_CROSSBOW;
         }else if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;

@@ -72,10 +72,14 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 20u << 3);
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInventory || previous_state == StateDialog
+            || previous_state == StateBlackieroom) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
+        }
+        if(s_motherpl->x > (UINT16)62u << 3){
+            s_motherpl->x = (UINT16)60u << 3;
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
