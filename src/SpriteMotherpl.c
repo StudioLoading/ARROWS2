@@ -487,12 +487,13 @@ void UPDATE(){
                 switch(implspr->type){
                     case SpritePgceme:
                     case SpritePgexzoo:
+                    case SpriteBlackie:
                         {
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;
                         }
                         if(KEY_RELEASED(J_FIRE)){
-                            ChangeState(StateDialog, THIS);                        
+                            ChangeState(StateDialog, THIS);
                         }
                     break;
                     case SpriteArrow:

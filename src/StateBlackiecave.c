@@ -118,7 +118,7 @@ void UPDATE(){
                 SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
             }else if(wolf_spawned > 0u){
                 if(s_motherpl->x > ((UINT16)62u << 3)){
-                    //trigger cutscene
+                    //trigger dialog
                     whostalking = WOLF01;
                     ChangeState(StateDialog, s_motherpl);
                 }

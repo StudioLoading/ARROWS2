@@ -22,6 +22,9 @@ UINT8 choice = 0u;
 UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
 
+extern struct MISSION missions[4];
+
+
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
 		case TIP_SMITH_NO:
@@ -211,19 +214,48 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
 		break;
 		case WOLF01:
-			*n_lines = 9u;
-			memcpy(d1, "HONORED TO SEE YOU, \0", 22);
-			memcpy(d2, "HEALER. MOTHER BLAC \0", 22);
-			memcpy(d3, "KIE NEEDS SOME HELP \0", 22);
-			memcpy(d4, "IN THE NEXT ROOM.   \0", 22);
-			memcpy(d5, "ARE YOU READY TO    \0", 22);
-			memcpy(d6, "HELP HER?           \0", 22);			
-			memcpy(d7, EMPTY_STRING_21, 22);	
-			memcpy(d8, EMPTY_STRING_21, 22);
-			memcpy(d9, " NO          YES    \0", 22);
-			choice = 1u;
-			choice_left = 0u;
-			choice_right = 0u;
+			switch(missions[0].current_step){
+				case 0u:
+				case 1u://non ho sconfitto le orde
+					*n_lines = 9u;
+					memcpy(d1, "HONORED TO SEE YOU, \0", 22);
+					memcpy(d2, "HEALER. MOTHER BLAC \0", 22);
+					memcpy(d3, "KIE NEEDS SOME HELP \0", 22);
+					memcpy(d4, "IN THE NEXT ROOM.   \0", 22);
+					memcpy(d5, "ARE YOU READY TO    \0", 22);
+					memcpy(d6, "HELP HER?           \0", 22);
+					memcpy(d7, EMPTY_STRING_21, 22);	
+					memcpy(d8, EMPTY_STRING_21, 22);
+					memcpy(d9, " NO          YES    \0", 22);
+					choice = 1u;
+					choice_left = 0u;
+					choice_right = 0u;
+				break;
+			}
+		break;
+		case BLACKIE:
+			switch(missions[0].current_step){
+				case 0u:
+				case 1u://non ho sconfitto le orde
+					*n_lines = 6u;
+					memcpy(d1, "GOOD MORNING HEALER \0", 22);
+					memcpy(d2, "I AM TIRED BEATING  \0", 22);
+					memcpy(d3, "UP ALL THESE LITTLE \0", 22);
+					memcpy(d4, "BEASTS. PLEASE      \0", 22);
+					memcpy(d5, "FINISH THE JOB AND  \0", 22);
+					memcpy(d6, "COME BACK HERE.     \0", 22);
+				break;
+				case 2u://ho sconfitto le orde
+					*n_lines = 6u;
+					memcpy(d1, "THANK YOU HEALER.   \0", 22);
+					memcpy(d2, EMPTY_STRING_21, 22);	
+					memcpy(d3, "LET'S GO OUTSIDE.   \0", 22);
+					memcpy(d4, EMPTY_STRING_21, 22);	
+					memcpy(d5, EMPTY_STRING_21, 22);	
+					memcpy(d6, "WE NEED TO TALK.   \0", 22);
+					missions[0].current_step = 3u;
+				break;
+			}
 		break;
 	}
 }

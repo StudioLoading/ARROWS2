@@ -60,7 +60,7 @@ void update_position_motherow() BANKED{
             }
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
             switch(scroll_tile){
-                case 8u:
+                //case 8u:
                 case 40u:
                     //SFX
                         if(THIS->anim_frame == 1){

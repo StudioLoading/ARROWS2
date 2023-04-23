@@ -55,6 +55,7 @@ extern unsigned char d1[];
 extern unsigned char d2[];
 extern unsigned char d3[];
 extern unsigned char d4[];
+extern struct MISSION missions[4];
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -90,6 +91,10 @@ void START(){
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
+				if(missions[0].current_step == 3u){
+					SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 8u, motherow_pos_y - 16u);
+					missions[0].current_step = 4u;
+				}
 			break;
 		}
 	INIT_FONT(fontbw, PRINT_WIN);

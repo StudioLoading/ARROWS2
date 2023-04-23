@@ -66,6 +66,7 @@ _SPRITE_DMG(SpriteSuperstone, superstone)\
 _SPRITE_DMG(SpriteWolf, wolf)\
 _SPRITE_DMG(SpriteDrop , drop)\
 _SPRITE_DMG(SpriteBlackie , blackie)\
+_SPRITE_DMG(SpriteBlackieow , blackieow)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

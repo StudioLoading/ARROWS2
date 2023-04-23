@@ -92,7 +92,9 @@ void START(){
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        SpriteManagerAdd(SpriteBlackie, (UINT16)16u << 3, (UINT16) 0u);
+        Sprite* s_blackie = SpriteManagerAdd(SpriteBlackie, (UINT16)16u << 3, (UINT16) 0u);
+        struct NpcInfo* s_blackie_data = (struct NpcInfo*) s_blackie->custom_data;
+        s_blackie_data->whotalks = BLACKIE;
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 56u); 
         InitScroll(BANK(blackieroommap), &blackieroommap, coll_tiles_blackieroom, coll_surface_blackieroom);    
     //HUD
@@ -104,7 +106,7 @@ void START(){
         GetMapSize(BANK(blackieroommap), &blackieroommap, &mapwidth, &mapheight);
     //wolf_spawned = 0u;
     //timeout_drop = 0u;
-    horde_cooldown = HORDE_COOLDOWN_MAX/2;
+    horde_cooldown = (HORDE_COOLDOWN_MAX/2);
     timeout_enemy = 200u;
     if(previous_state != StateInventory && previous_state != StateDialog 
         && horde_step < 8u ){//potrei esser morto durante un orda
@@ -141,9 +143,14 @@ void UPDATE(){
                 ChangeState(StateBlackiecave, s_motherpl);
                 //go back
             }
+        }else if(mother_exit_cooldown != 60u){
+            mother_exit_cooldown = 60u;
+        }
+        if(s_motherpl->x > ((UINT16)19u << 3)){
+            s_motherpl->x = ((UINT16)19u << 3);
         }
     //INIT ENEMIES
-        if(horde_cooldown == 0 && s_motherpl->y > 40u){
+        if(horde_cooldown == 0 && s_motherpl->y > 40u && missions[0].current_step < 2u){
             if(timeout_enemy > 0){timeout_enemy--;}            
             else{
                 UINT8 enemy_type = SpriteEnemysimplesnake;
@@ -169,6 +176,9 @@ void UPDATE(){
                     case 8u:
                         horde_counter_max = HORDE_SPIDER;
                         enemy_type = SpriteEnemyThrowerSpider;
+                    break;
+                    case 9u:
+                        missions[0].current_step = 2u;
                     break;
                 }            
                 if(horde_counter < horde_counter_max){

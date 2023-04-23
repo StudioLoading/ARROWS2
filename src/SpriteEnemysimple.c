@@ -30,6 +30,7 @@ extern struct MotherplData* d_motherpl;
 extern UINT8 motherpl_hit;
 extern MOTHERPL_STATE motherpl_state;
 extern struct EtoReload e_to_reload[3];
+extern UINT8 mapwidth;
 
 void Estart() BANKED;
 void configure() BANKED;
@@ -72,6 +73,13 @@ void UPDATE(){
 }
 
 void Emanagement() BANKED{
+    //map screen limit
+        if(THIS->x < 10u){
+            THIS->x = 10u;
+        }
+        if(THIS->x > ((mapwidth << 3) - 16u)){
+            THIS->x = (mapwidth << 3) - 16u;
+        }
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     //ErandomManagement();
         enemy_random_30_100++;

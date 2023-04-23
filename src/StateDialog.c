@@ -199,8 +199,14 @@ void move_on() BANKED{
         //choice_right == YES
         if(choice_right == 1u){
             previous_state = StateBlackieroom;
+            missions[0].current_step = 1u;
+            missions[0].mission_state = MISSION_STATE_STARTED;
         }
         //return;//DEMO ENDS HERE
+    }else if(previous_state == StateBlackieroom && whostalking == BLACKIE){
+        if(missions[0].current_step == 3u){//to OW out of cave
+            previous_state = StateOverworld;
+        }
     }
 	if(next_page){
 		next_page = 0u;

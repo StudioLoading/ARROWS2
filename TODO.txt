@@ -1,18 +1,31 @@
 POST DEMO:
-- StateBlackieroom
-	- se raggiungo blackie prima di aver sconfitto l' ultima orda
-	non succede niente
-	- io e blackie fuori dalla caverna
+- StateOverworld
+	- se sono con mission[0].current_state == 3 parte un dialogo
+	che deve essere abbastanza lunghetto, tra healer e blackie
+	per spiegare la situa in generale e il piano da attuare per arrivare all' isola
+	tipo andare al porto. "ma prima di andare al porto vai al cimitero che una 
+	signora ha bisogno del tuo aiuto" - così devo andare a sbloccare quella missione lì
+	per accedere al nuovo stage: il bosco. che, arrivato infondo, mi sposterà di
+	mappa overworld. obv sulla owsouthwest devo fare una pista verso nord da intraprendere
+	solo quando avrò attivato la missione della mamma al cimitero che cerca il figlio
+	- finito questo, la missions[0] è rewarded,
+	- e il reward è il metallo speciale per l' ospedale
+	- potrei effettivamente lasciare la missions[0] come
+	missione principale, cambiandole il testo volta per volta sul diario,
+	e le altre tutte secondarie...
+- il game over!
+- l' ospedale, che faccia riferimento alla missione di trovare metallo speciale
 - le volte dopo che visito la cave la room non sarà visitabile
+	devo semplicemente guardare il missions[0].current_state < 2
 - disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 - qualche istante di pausa tra una bgm e l' altra da dentro al manage
-- motherpl_blocked_cooldownè usato nello StateFittizio sull' updatecamera
+- motherpl_blocked_cooldown è usato nello StateFittizio sull' updatecamera
 	ma dovrebbe essere metodo a parte, dedicato a routine per frame
-	che non insistono sulla cemera
+	che non insistono sulla camera
 - animazioni degli npc:
 	- lupo iniziale
 	- blackie in attesa che battiamo le orde
