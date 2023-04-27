@@ -141,6 +141,13 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,22);
                     UPDATE_HUD_TILE(uneq_x,2,23);
                 break;
+                case INVITEM_LETTER:
+                    UPDATE_HUD_TILE(uneq_x,1,24);
+                    UPDATE_HUD_TILE(uneq_x,2,25);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,26);
+                    UPDATE_HUD_TILE(uneq_x,2,27);
+                break;
             }
             uneq_x += 2;
         }
@@ -375,6 +382,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(POWDER_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(POWDER_DETAIL4, ddinv5);
             break;
+            case INVITEM_LETTER:
+                GetLocalizedINVLabel_EN(LETTER_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(LETTER_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(LETTER_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(LETTER_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(LETTER_DETAIL4, ddinv5);
+            break;
         }
     }
     PRINT(8, 8, "%s", ddinv1);
@@ -399,7 +413,7 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
     for(UINT8 i = 0u; i < 12; i++){
         if(itemtype == inventory[i].itemtype){
             if(l < 0){
-                if(inventory[i].quantity > (-l)){
+                if(inventory[i].quantity > 0){
                     idx = i;
                 }
             }else{
@@ -408,10 +422,9 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
             i = 12;
         }
     }
-    if(idx > -1){
-        inventory[idx].quantity+=l;
-    }else{
-        idx = 0;
+    if(idx > -1){inventory[idx].quantity+=l;}else{idx = 0;}
+    if(inventory[idx].quantity == 0){
+        inventory[idx].itemtype = INVITEM_UNASSIGNED; 
     }
     return inventory[idx].quantity;
 }

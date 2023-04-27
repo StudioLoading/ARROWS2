@@ -56,6 +56,7 @@ extern unsigned char d2[];
 extern unsigned char d3[];
 extern unsigned char d4[];
 extern struct MISSION missions[4];
+extern struct EnemyData* blackieow_data;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -65,6 +66,7 @@ void ShowTipOW() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
+extern void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border2);
@@ -91,9 +93,14 @@ void START(){
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
-				if(missions[0].current_step == 3u){
-					SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 8u, motherow_pos_y - 16u);
-					missions[0].current_step = 4u;
+				if(missions[0].current_step == 3u || missions[0].current_step == 4u){
+					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 12u);
+					s_blackieow->mirror = V_MIRROR;
+					if(missions[0].current_step == 4u){
+						missions[0].current_step = 5u;
+						blackieow_data->wait = 60u;
+						blackieow_data->vx = -2;
+					}
 				}
 			break;
 		}
@@ -131,10 +138,23 @@ void ShowTipOW() BANKED{
 }
 
 void UPDATE(){
-	if(show_tip == 0u){
-		scroll_target->x = s_motherow->x+4u;
-		scroll_target->y = s_motherow->y+4u;
-	}
+	//MAP LIMITS
+		if(s_motherow->y < 68u){//non diminuire, ci sono problemi col ritorno camera
+		//il testo rimane sullo schermo
+			switch(current_map){
+				case 0u:
+					if(missions[0].current_step < 4u || missions[2].mission_state == MISSION_STATE_DISABLED){
+						s_motherow->y = 70u;
+						owTips(TIP_STILL_SOMETHING);
+					}
+				break;
+			}
+		}
+	//CAMERA FOLLOW
+		if(show_tip == 0u){
+			scroll_target->x = s_motherow->x+4u;
+			scroll_target->y = s_motherow->y+4u;
+		}
 	if(KEY_RELEASED(J_START)){
 		switch(hudow_opened){
 			case 0u://vado in 
@@ -152,10 +172,17 @@ void UPDATE(){
 		UpdateHUDOW();
 		return;
 	}
-	if(show_tip == 1u){
-		ShowTipOW();
-		return;
-	}	
+	//DISMISS TIP
+		if(showed_tip == 1u && showed_tip_goback == 0u){
+			if(KEY_RELEASED(J_FIRE) || KEY_RELEASED(J_JUMP)){
+				showed_tip_goback = 1u;
+			}
+		}
+	//OPEN TIP
+		if(show_tip == 1u){
+			ShowTipOW();
+			return;
+		}
 }
 
 void showing_tip(){

@@ -15,6 +15,16 @@ unsigned char d6[22];
 unsigned char d7[22];
 unsigned char d8[22];
 unsigned char d9[22];
+unsigned char d10[22];
+unsigned char d11[22];
+unsigned char d12[22];
+unsigned char d13[22];
+unsigned char d14[22];
+unsigned char d15[22];
+unsigned char d16[22];
+unsigned char d17[22];
+unsigned char d18[22];
+unsigned char d19[22];
 WHOSTALKING whostalking = NOBODY;
 unsigned char EMPTY_STRING_21[22] = "                     \0";
 unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
@@ -23,7 +33,8 @@ UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
 
 extern struct MISSION missions[4];
-
+extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
+extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -61,6 +72,12 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d1, " SON- WHERE ARE YOU? \0" , 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_STILL_SOMETHING:
+			memcpy(d1, " I HAVE TO DO SOMETH \0", 22);
+			memcpy(d2, " ING ELSE HERE,      \0", 22);
+			memcpy(d3, " BEFORE EAVING       \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 	}
@@ -252,10 +269,39 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d3, "LET'S GO OUTSIDE.   \0", 22);
 					memcpy(d4, EMPTY_STRING_21, 22);	
 					memcpy(d5, EMPTY_STRING_21, 22);	
-					memcpy(d6, "WE NEED TO TALK.   \0", 22);
+					memcpy(d6, "WE NEED TO TALK.    \0", 22);
 					missions[0].current_step = 3u;
 				break;
-			}
-		break;
-	}
+            	case 3u://ow orde sconfitte
+					*n_lines = 18u;
+					memcpy(d1, "I SAW A LOT OF ALLIG\0", 22);
+					memcpy(d2, "ATORS IN THE EASTERN\0", 22);	
+					memcpy(d3, "RN RIVER...         \0", 22);
+					memcpy(d4, EMPTY_STRING_21, 22);	
+					memcpy(d5, "UMH, I SEE... GIVE  \0", 22);	
+					memcpy(d6, "ME THE LETTER. LET  \0", 22);	
+					memcpy(d7, "ME GET TO THE MOUNTA\0", 22);	
+					memcpy(d8, "INS AND ASK THE LORD\0", 22);	
+					memcpy(d9, "OF THE THUNDERS TO  \0", 22);	
+					memcpy(d10, "HELP US.           \0", 22);
+					memcpy(d11, EMPTY_STRING_21, 22);	
+					memcpy(d12, "I'VE HEARD A CRYING\0", 22);
+					memcpy(d13, "LADY AT THE CEMETER\0", 22);
+					memcpy(d14, "Y: PLEASE GO       \0", 22);
+					memcpy(d15, "HELP HER.          \0", 22);
+					memcpy(d16, EMPTY_STRING_21, 22);	
+					memcpy(d17, "THEN               \0", 22);
+					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
+                	missions[0].current_step = 4u;
+					missions[2].mission_state = MISSION_STATE_ENABLED;
+                	missions[0].mission_state = MISSION_STATE_REWARDED;
+					{
+						change_quantity(INVITEM_LETTER, -1);
+						struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
+						pickup(&metal_special_data);
+					}
+				break;
+            }
+        break;
+    }
 }

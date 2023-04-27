@@ -1,15 +1,7 @@
 POST DEMO:
-- StateOverworld
-	- se sono con mission[0].current_state == 3 parte un dialogo
-	che deve essere abbastanza lunghetto, tra healer e blackie
-	per spiegare la situa in generale e il piano da attuare per arrivare all' isola
-	tipo andare al porto. "ma prima di andare al porto vai al cimitero che una 
-	signora ha bisogno del tuo aiuto" - così devo andare a sbloccare quella missione lì
-	per accedere al nuovo stage: il bosco. che, arrivato infondo, mi sposterà di
-	mappa overworld. obv sulla owsouthwest devo fare una pista verso nord da intraprendere
+- dopo il discorso di Blackie:
+	- obv sulla owsouthwest devo fare una pista verso nord da intraprendere
 	solo quando avrò attivato la missione della mamma al cimitero che cerca il figlio
-	- finito questo, la missions[0] è rewarded,
-	- e il reward è il metallo speciale per l' ospedale
 	- potrei effettivamente lasciare la missions[0] come
 	missione principale, cambiandole il testo volta per volta sul diario,
 	e le altre tutte secondarie...
@@ -50,6 +42,14 @@ POST DEMO:
 - titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
 - Legna + metallo + powder = Frecce Esplosive!
 - fare i carrelli alla Donkey Kong Country
+- mountain bike per andare più veloce?
+
+PIXELART:
+- blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
+- dialogs:
+	- blackie dentro room
+	- blackie fuori room
+	- figlio di blackie dentro cave
 
 LOG:
 - al posto del log di sviluppo ci va un testo di suggerimento: il nome

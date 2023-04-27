@@ -28,14 +28,15 @@ extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
 
 const UINT8 collision_tiles_credits[] = {1,0};
-UINT8 credit_counter;
 UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
-.current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
+.current_step = 3, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
 struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_DISABLED, 
+.current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
+struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, .mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
 struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
 
@@ -47,7 +48,7 @@ struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
 struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 2, .equippable = 0u};
 struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 3, .equippable = 0u};
-struct InvItem unequip02 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
+struct InvItem unequip02 = {.itemtype = INVITEM_LETTER, .quantity = 1, .equippable = 0u};
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
@@ -65,6 +66,7 @@ extern Sprite* s_motherow;
 void missions_init() BANKED{
 	missions[0] = find_blackie;
 	missions[1] = engage_smith;
+	missions[2] = help_cemetery_woman;
 }
 
 void inventory_init() BANKED{
@@ -143,7 +145,7 @@ void UPDATE() {
 	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		StopMusic;
-		ChangeState(StateBlackieroom, s_motherpl);// 
+		ChangeState(StateOverworld, s_motherpl);// 
 	}
 	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;

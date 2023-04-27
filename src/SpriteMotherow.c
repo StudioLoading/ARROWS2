@@ -35,13 +35,15 @@ UINT8 frameskip_max = 1u;// same as OW_NORMAL_FRAMESKIP
 FA2OW_SPRITE_STATES new_state = 0;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
-void owCollision();
+void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 void update_position_motherow() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void trigger_dialog(WHOSTALKING whost) BANKED;
 
 void START(){
+    new_state = IDLE_DOWN;
     motherow_info = (struct OwSpriteInfo*) THIS->custom_data;
     motherow_info->ow_state = IDLE_DOWN;
     motherow_info->tile_collision = 0u;
@@ -77,6 +79,7 @@ void update_position_motherow() BANKED{
             }
         }
 }
+
 void UPDATE(){
     if(sfx_cooldown > 0){sfx_cooldown--;}
     if(hudow_opened == 1u){return;}
@@ -94,76 +97,94 @@ void UPDATE(){
         owChangeState(new_state);
     }
     //CHECK COLLIDED PLACE
-    if(motherow_info->tile_collision){
-        switch(motherow_info->tile_collision){
-            case 50u:
-            case 51u:
-                ChangeState(StateMine, THIS);
-            break;
-            case 62u:
-            case 64u:
-                ChangeState(StateExzoo, THIS);
-            break;
-            case 70u:
-            case 72u:
-                ChangeState(StateCemetery, THIS);
-            break;
-            case 95u:
-            case 96u:
-                ChangeState(StateBlackiecave, THIS);
-            break;
+        if(motherow_info->tile_collision){
+            switch(motherow_info->tile_collision){
+                case 50u:
+                case 51u:
+                    ChangeState(StateMine, THIS);
+                break;
+                case 62u:
+                case 64u:
+                    ChangeState(StateExzoo, THIS);
+                break;
+                case 70u:
+                case 72u:
+                    ChangeState(StateCemetery, THIS);
+                break;
+                case 95u:
+                case 96u:
+                    ChangeState(StateBlackiecave, THIS);
+                break;
+            }
         }
-    }
-    //INTERACT
-    if(motherow_info->tile_collision){//diverso da zero
-        if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
-            owCollision();            
+    //INTERACT WITH MAP
+        if(motherow_info->tile_collision){//diverso da zero
+            if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+                owTips(TIP_NOTHING);            
+            }
         }
-    }
+    //INTERACT WITH SPRITES    
+        UINT8 mow_a_tile;
+        Sprite* imowspr;
+        SPRITEMANAGER_ITERATE(mow_a_tile, imowspr) {
+            if(CheckCollision(THIS, imowspr)) {
+                switch(imowspr->type){
+                    case SpriteBlackieow:
+                        if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+                            trigger_dialog(BLACKIE);
+                        }
+                    break;
+                }
+            }
+        };
 }
 
-void owCollision(){
+void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     UINT8 trigger_tip = 0u;
-    switch(motherow_info->tile_collision){//sul gioco completo sarà switch su mappa e poi su tile
-        case 66u:
-        case 68u://HOSPITAL
-            tip_to_show = TIP_HOSPITAL_NO;
+    switch(forced_tip){
+        case TIP_NOTHING:
+            switch(motherow_info->tile_collision){//sul gioco completo sarà switch su mappa e poi su tile
+                case 66u:
+                case 68u://HOSPITAL
+                    tip_to_show = TIP_HOSPITAL_NO;
+                    trigger_tip = 1u;
+                    //ChangeState(StateHospital, THIS);
+                break;
+                case 83u:
+                case 85u://SMITH
+                    // tip_to_show = TIP_SMITH_NO;
+                    // trigger_tip = 1u;
+                    ChangeState(StateSmith, THIS);
+                break;
+                case 46u:
+                case 47u://BLACKIE CAVE
+                    tip_to_show = TIP_BLACKIE_CAVE;
+                    trigger_tip = 1u;
+                break;
+                case 86u:
+                case 87u://MINE
+                    tip_to_show = TIP_MINE_CAVE;
+                    trigger_tip = 1u;
+                break;
+                case 56u:
+                case 57u://EAST LIMIT
+                    tip_to_show = TIP_OWLIMIT_EAST;
+                    trigger_tip = 1u;
+                break;
+                case 16u:
+                case 18u://SEA SOUTH
+                    tip_to_show = TIP_OWLIMIT_SOUTH;
+                    trigger_tip = 1u;
+                break;
+            }
+        break;
+        default:
+            tip_to_show = forced_tip;
             trigger_tip = 1u;
-            //ChangeState(StateHospital, THIS);
-        break;
-        case 83u:
-        case 85u://SMITH
-            // tip_to_show = TIP_SMITH_NO;
-            // trigger_tip = 1u;
-            ChangeState(StateSmith, THIS);
-        break;
-        case 46u:
-        case 47u://BLACKIE CAVE
-            tip_to_show = TIP_BLACKIE_CAVE;
-            trigger_tip = 1u;
-        break;
-        case 86u:
-        case 87u://MINE
-            tip_to_show = TIP_MINE_CAVE;
-            trigger_tip = 1u;
-        break;
-        case 56u:
-        case 57u://EAST LIMIT
-            tip_to_show = TIP_OWLIMIT_EAST;
-            trigger_tip = 1u;
-        break;
-        case 16u:
-        case 18u://SEA SOUTH
-            tip_to_show = TIP_OWLIMIT_SOUTH;
-            trigger_tip = 1u;
-        break;
     }
     if(trigger_tip){
         if(show_tip == 0u && showed_tip == 0u){
             ShowTipOW();
-        }
-        if(showed_tip == 1u){
-            showed_tip_goback = 1u;
         }
     }
 }

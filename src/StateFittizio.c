@@ -68,6 +68,7 @@ INT8 sfx_cooldown = 127u;
 UINT8 dialog_bg_cooldown = 32u;
 UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
+UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
 
 void UpdateHUD() BANKED;
@@ -80,8 +81,16 @@ void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
+void trigger_dialog(WHOSTALKING whost) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+
+void trigger_dialog(WHOSTALKING whost) BANKED{
+    
+    whostalking = whost;
+    ChangeState(StateDialog, s_motherpl);
+
+}
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
     if(previous_state == new_state){

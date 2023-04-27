@@ -36,6 +36,15 @@ extern unsigned char d6[];
 extern unsigned char d7[];
 extern unsigned char d8[];
 extern unsigned char d9[];
+extern unsigned char d10[];
+extern unsigned char d11[];
+extern unsigned char d12[];
+extern unsigned char d13[];
+extern unsigned char d14[];
+extern unsigned char d15[];
+extern unsigned char d16[];
+extern unsigned char d17[];
+extern unsigned char d18[];
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT8 choice_left;
@@ -116,6 +125,15 @@ void UPDATE() {
                 case 7u:to_print[0] = d7[counter_char];break;
                 case 8u:to_print[0] = d8[counter_char];break;
                 case 9u:to_print[0] = d9[counter_char];break;
+                case 10u:to_print[0] = d10[counter_char];break;
+                case 11u:to_print[0] = d11[counter_char];break;
+                case 12u:to_print[0] = d12[counter_char];break;
+                case 13u:to_print[0] = d13[counter_char];break;
+                case 14u:to_print[0] = d14[counter_char];break;
+                case 15u:to_print[0] = d15[counter_char];break;
+                case 16u:to_print[0] = d16[counter_char];break;
+                case 17u:to_print[0] = d17[counter_char];break;
+                case 18u:to_print[0] = d18[counter_char];break;
             }
             UINT8 writing_line_on_video = writing_line;
             if(writing_line > 7){writing_line_on_video = 7;}
@@ -125,7 +143,7 @@ void UPDATE() {
             if(counter_char == 21u){
                 counter_char = 0u;
                 writing_line++;
-                if(writing_line > 7 && writing_line < n_lines){
+                if(writing_line > 7 && writing_line <= n_lines){
                     shift_text_one_line_up();
                 }
                 if(writing_line > n_lines){
@@ -169,8 +187,18 @@ void UPDATE() {
 }
 
 void shift_text_one_line_up() BANKED{
+    PRINT(0, 14, EMPTY_STRING_21);
     switch(writing_line){
         case 8u:
+            PRINT(0, 7, d1);
+            PRINT(0, 8, d2);
+            PRINT(0, 9, d3);
+            PRINT(0, 10, d4);
+            PRINT(0, 11, d5);
+            PRINT(0, 12, d6);
+            PRINT(0, 13, d7);
+        break;
+        case 9u:
             PRINT(0, 7, d2);
             PRINT(0, 8, d3);
             PRINT(0, 9, d4);
@@ -179,7 +207,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 12, d7);
             PRINT(0, 13, d8);
         break;
-        case 9u:
+        case 10u:
             PRINT(0, 7, d3);
             PRINT(0, 8, d4);
             PRINT(0, 9, d5);
@@ -187,6 +215,78 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 11, d7);
             PRINT(0, 12, d8);
             PRINT(0, 13, d9);
+        break;
+        case 11u:
+            PRINT(0, 7, d4);
+            PRINT(0, 8, d5);
+            PRINT(0, 9, d6);
+            PRINT(0, 10, d7);
+            PRINT(0, 11, d8);
+            PRINT(0, 12, d9);
+            PRINT(0, 13, d10);
+        break;
+        case 12u:
+            PRINT(0, 7, d5);
+            PRINT(0, 8, d6);
+            PRINT(0, 9, d7);
+            PRINT(0, 10, d8);
+            PRINT(0, 11, d9);
+            PRINT(0, 12, d10);
+            PRINT(0, 13, d11);
+        break;
+        case 13u:
+            PRINT(0, 7, d6);
+            PRINT(0, 8, d7);
+            PRINT(0, 9, d8);
+            PRINT(0, 10, d9);
+            PRINT(0, 11, d10);
+            PRINT(0, 12, d11);
+            PRINT(0, 13, d12);
+        break;
+        case 14u:
+            PRINT(0, 7, d7);
+            PRINT(0, 8, d8);
+            PRINT(0, 9, d9);
+            PRINT(0, 10, d10);
+            PRINT(0, 11, d11);
+            PRINT(0, 12, d12);
+            PRINT(0, 13, d13);
+        break;
+        case 15u:
+            PRINT(0, 7, d8);
+            PRINT(0, 8, d9);
+            PRINT(0, 9, d10);
+            PRINT(0, 10, d11);
+            PRINT(0, 11, d12);
+            PRINT(0, 12, d13);
+            PRINT(0, 13, d14);
+        break;
+        case 16u:
+            PRINT(0, 7, d9);
+            PRINT(0, 8, d10);
+            PRINT(0, 9, d11);
+            PRINT(0, 10, d12);
+            PRINT(0, 11, d13);
+            PRINT(0, 12, d14);
+            PRINT(0, 13, d15);
+        break;
+        case 17u:
+            PRINT(0, 7, d10);
+            PRINT(0, 8, d11);
+            PRINT(0, 9, d12);
+            PRINT(0, 10, d13);
+            PRINT(0, 11, d14);
+            PRINT(0, 12, d15);
+            PRINT(0, 13, d16);
+        break;
+        case 18u:
+            PRINT(0, 7, d11);
+            PRINT(0, 8, d12);
+            PRINT(0, 9, d13);
+            PRINT(0, 10, d14);
+            PRINT(0, 11, d15);
+            PRINT(0, 12, d16);
+            PRINT(0, 13, d17);
         break;
     }
 }

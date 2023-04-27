@@ -13,6 +13,7 @@ IMPORT_TILES(tilesanimsmapworld);
 IMPORT_TILES(invdetail0tiles);
 IMPORT_TILES(invdetailmoneytiles);
 IMPORT_TILES(idpowdertiles);
+IMPORT_TILES(idlettertiles);
 IMPORT_TILES(invdetailwoodtiles);
 IMPORT_TILES(invdetailmetaltiles);
 IMPORT_TILES(idnormaltiles);
@@ -98,6 +99,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_POWDER:
 				set_inv_bkg_data(item, 49u, 25, BANK(idpowdertiles), isEmpty, &idpowdertiles);
+			break;			
+			case INVITEM_LETTER:
+				set_inv_bkg_data(item, 49u, 25, BANK(idlettertiles), isEmpty, &idlettertiles);
 			break;
 			case INVITEM_WOOD:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetailwoodtiles), isEmpty, &invdetailwoodtiles);
