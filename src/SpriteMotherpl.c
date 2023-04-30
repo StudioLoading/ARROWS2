@@ -76,8 +76,7 @@ Sprite* s_surf = 0;
 Sprite* s_blocking = 0;
 Sprite* s_blockcmd = 0;
 struct ArrowData* surf_data = 0;
-INT8 motherpl_hp = 4;
-INT8 motherpl_ups = 3;
+INT8 motherpl_hp = 2;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
 
@@ -618,10 +617,8 @@ void getOff(){
 }
 
 void die(){
-    motherpl_hp = 4;
-    motherpl_ups--;
-    if(motherpl_ups < 0){ChangeState(StateCredit, motherpl_state);}
-    else{ChangeState(current_state, motherpl_state);}
+    whostalking = DEATH;
+    ChangeState(StateDialog, THIS);
 }
 
 void refreshAnimation(){
@@ -768,8 +765,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);//SFX_HIT
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
-                if(THIS->mirror == NO_MIRROR){THIS->x-=4;}
-                else{THIS->x+=4;}
+                if(THIS->mirror == NO_MIRROR){THIS->x-=6;}
+                else{THIS->x+=6;}
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
                 if(motherpl_hp > 0){
                     SetSpriteAnim(THIS, motherpl_anim_hit, 32u);

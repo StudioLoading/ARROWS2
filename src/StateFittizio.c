@@ -33,7 +33,6 @@ extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
 extern struct MISSION missions[4];
 extern INT8 motherpl_hp;
-extern INT8 motherpl_ups;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_surf;
@@ -51,7 +50,6 @@ UINT8 npc_spawned_zone = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
-INT8 hud_motherpl_ups = 0;
 UINT8 camera_ok = 0u;
 MirroMode motherpl_mirror = NO_MIRROR; 
 UINT16 motherpl_pos_x = 0u;
@@ -217,7 +215,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
         }
     previous_state = current_state;
     manage_bgm(new_state, previous_state);
-	if(new_state != StateDialog && current_state != StateDialog){
+    if(motherpl_state == MOTHERPL_DEAD){
+        motherpl_hp = 5;
+        ChangeStateThroughBetween(new_state, previous_state);
+    }else if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
         SetState(new_state);
@@ -225,85 +226,81 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
 }
 
 void UpdateHUD() BANKED{
-    UINT8 idx_leftheart = 6;
-    UINT8 idx_rightheart = 6;
+    UINT8 idx_leftheart = 5;
+    UINT8 idx_rightheart = 5;
     INT8 tmp_hp = motherpl_hp;
     //EQUIPPED ITEM
         switch(itemEquipped.itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,1,0);
-                UPDATE_HUD_TILE(17,1,21);
-                UPDATE_HUD_TILE(18,1,0);
+                UPDATE_HUD_TILE(16,0,22);
+                UPDATE_HUD_TILE(17,0,21);
+                UPDATE_HUD_TILE(18,0,22);
             break;
 	        case INVITEM_ARROW_NORMAL:
-                UPDATE_HUD_TILE(16,1,6);
-                UPDATE_HUD_TILE(17,1,5);
-                UPDATE_HUD_TILE(18,1,17);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,17);
             break;
 	        case INVITEM_ARROW_PERFO:
-                UPDATE_HUD_TILE(16,1,6);
-                UPDATE_HUD_TILE(17,1,5);
-                UPDATE_HUD_TILE(18,1,18);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,18);
             break;
 	        case INVITEM_ARROW_BASTARD:
-                UPDATE_HUD_TILE(16,1,6);
-                UPDATE_HUD_TILE(17,1,5);
-                UPDATE_HUD_TILE(18,1,19);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,19);
             break;
 	        case INVITEM_BOMB:
-                UPDATE_HUD_TILE(16,1,6);
-                UPDATE_HUD_TILE(17,1,5);
-                UPDATE_HUD_TILE(18,1,20);
+                UPDATE_HUD_TILE(16,0,6);
+                UPDATE_HUD_TILE(17,0,5);
+                UPDATE_HUD_TILE(18,0,20);
             break;
         }
         print_target = PRINT_WIN;
-        if(itemEquipped.quantity < 10){ PRINT(16,2,"00%i", itemEquipped.quantity); }
-        else if(itemEquipped.quantity < 100){ PRINT(16,2,"0%i", itemEquipped.quantity);}
-        else {PRINT(16,2,"%i", itemEquipped.quantity);}
+        if(itemEquipped.quantity < 10){ PRINT(16,1,"00%i", itemEquipped.quantity); }
+        else if(itemEquipped.quantity < 100){ PRINT(16,1,"0%i", itemEquipped.quantity);}
+        else {PRINT(16,1,"%i", itemEquipped.quantity);}
     //HP
         hud_motherpl_hp = motherpl_hp;
-        for(idx_leftheart=6; idx_leftheart<14 ;idx_leftheart+=2){
+        for(idx_leftheart=5; idx_leftheart<15 ;idx_leftheart+=2){
             if(tmp_hp > 0){
-                UPDATE_HUD_TILE(idx_leftheart,1,7);
-                UPDATE_HUD_TILE(idx_leftheart,2,8);
+                UPDATE_HUD_TILE(idx_leftheart,0,7);
+                UPDATE_HUD_TILE(idx_leftheart,1,8);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,1,9);
-                UPDATE_HUD_TILE(idx_rightheart,2,10);
+                UPDATE_HUD_TILE(idx_rightheart,0,9);
+                UPDATE_HUD_TILE(idx_rightheart,1,10);
             }else{
-                UPDATE_HUD_TILE(idx_leftheart,1,1);
-                UPDATE_HUD_TILE(idx_leftheart,2,2);
+                UPDATE_HUD_TILE(idx_leftheart,0,1);
+                UPDATE_HUD_TILE(idx_leftheart,1,2);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,1,3);
-                UPDATE_HUD_TILE(idx_rightheart,2,4);
+                UPDATE_HUD_TILE(idx_rightheart,0,3);
+                UPDATE_HUD_TILE(idx_rightheart,1,4);
             }
             tmp_hp--;
             idx_rightheart++;
         }
-    //UPS
-        hud_motherpl_ups = motherpl_ups;
-        print_target = PRINT_WIN;
-        if(hud_motherpl_ups < 10){PRINT(2,2,"0%i", hud_motherpl_ups);}
-        else{PRINT(2,2,"%i", hud_motherpl_ups);}
+
 }
 
 void Log() BANKED{    
     /* hudpl.gbm aggiungi una linea sotto, 4 tiles height */
     switch(motherpl_state){
-        case MOTHERPL_IDLE: PRINT(0, 3, "IDLE"); break;
-        case MOTHERPL_JUMP: PRINT(0, 3, "JUMP"); break;
-        case MOTHERPL_WALK: PRINT(0, 3, "WALK"); break;
-        case MOTHERPL_HIT: PRINT(0, 3, " HIT"); break;
-        case MOTHERPL_DEAD: PRINT(0, 3, "DEAD"); break;
-        case MOTHERPL_CRAWL: PRINT(0, 3, "CRAW"); break;
-        case MOTHERPL_CRAWL_SURF: PRINT(0, 3, "CRAS"); break;
-        case MOTHERPL_DASH: PRINT(0, 3, "DASH"); break;
+        case MOTHERPL_IDLE: PRINT(0, 2, "IDLE"); break;
+        case MOTHERPL_JUMP: PRINT(0, 2, "JUMP"); break;
+        case MOTHERPL_WALK: PRINT(0, 2, "WALK"); break;
+        case MOTHERPL_HIT: PRINT(0, 2, " HIT"); break;
+        case MOTHERPL_DEAD: PRINT(0, 2, "DEAD"); break;
+        case MOTHERPL_CRAWL: PRINT(0, 2, "CRAW"); break;
+        case MOTHERPL_CRAWL_SURF: PRINT(0, 2, "CRAS"); break;
+        case MOTHERPL_DASH: PRINT(0, 2, "DASH"); break;
     }
     if(s_surf){
-        PRINT(5, 3, "SURF%i",motherpl_surf_dx);
+        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
     }
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
-    PRINT(16, 3, "!");
-    PRINT(17, 3, "LOG");    
+    PRINT(16, 2, "!");
+    PRINT(17, 2, "LOG");    
 }
 
 void camera_tramble() BANKED{

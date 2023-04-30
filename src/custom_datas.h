@@ -284,6 +284,7 @@ typedef enum{
 	NOBODY,
 	INTRO,
     DESSA,
+	DEATH,
     EXZOO_WOMAN1,
     EXZOO_WOMAN2,
     EXZOO_WOMAN3,

@@ -20,7 +20,6 @@ typedef struct {
     struct InvItem bag[12];
     struct InvItem item;
     struct MISSION diary[4];
-    UINT8 ups;
     UINT8 hp;
     UINT8 state;
 } Savegame;

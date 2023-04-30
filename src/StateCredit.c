@@ -145,7 +145,7 @@ void UPDATE() {
 	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		StopMusic;
-		ChangeState(StateOverworld, s_motherpl);// 
+		ChangeState(StateMine, s_motherpl);// 
 	}
 	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;

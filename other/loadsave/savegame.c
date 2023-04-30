@@ -7,7 +7,6 @@ extern struct MISSION missions[4];
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
 extern INT8 motherpl_hp;
-extern INT8 motherpl_ups;
 extern UINT8 previous_state;
 Savegame savegame;
 
@@ -17,7 +16,6 @@ UINT8 load_game() BANKED;
 UINT8 save_game() BANKED{
     ENABLE_RAM;
     savegame.hp = motherpl_hp;
-    savegame.ups = motherpl_ups;
     savegame.state = previous_state;
     memcpy(&savegame.item, &itemEquipped, sizeof(itemEquipped));
     memcpy(&savegame.diary, &missions, sizeof(missions));
@@ -29,7 +27,6 @@ UINT8 save_game() BANKED{
 UINT8 load_game() BANKED{
     ENABLE_RAM;
     motherpl_hp = savegame.hp;
-    motherpl_ups = savegame.ups;
     previous_state = savegame.state;
     memcpy(&itemEquipped, &savegame.item, sizeof(savegame.item));
     memcpy(&missions, &savegame.diary, sizeof(savegame.diary));

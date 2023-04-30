@@ -1,11 +1,5 @@
 POST DEMO:
-- dopo il discorso di Blackie:
-	- obv sulla owsouthwest devo fare una pista verso nord da intraprendere
-	solo quando avrò attivato la missione della mamma al cimitero che cerca il figlio
-	- potrei effettivamente lasciare la missions[0] come
-	missione principale, cambiandole il testo volta per volta sul diario,
-	e le altre tutte secondarie...
-- il game over!
+
 - l' ospedale, che faccia riferimento alla missione di trovare metallo speciale
 - le volte dopo che visito la cave la room non sarà visitabile
 	devo semplicemente guardare il missions[0].current_state < 2

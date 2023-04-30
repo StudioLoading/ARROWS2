@@ -42,6 +42,8 @@ UINT8 showed_tip = 0u;
 UINT8 showed_tip_goback = 0u;
 UINT8 showing_tip_line = 0u;
 UINT8 showing_tip_delay = 8u;
+UINT16 lim_up_y = ((UINT16) 9u << 3);
+UINT16 lim_east_x = ((UINT16) 46u << 3);
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
@@ -57,6 +59,8 @@ extern unsigned char d3[];
 extern unsigned char d4[];
 extern struct MISSION missions[4];
 extern struct EnemyData* blackieow_data;
+extern MOTHERPL_STATE motherpl_state;
+extern WHOSTALKING whostalking;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -90,11 +94,15 @@ void START(){
 				if(motherow_pos_y == 0u){
 					motherow_pos_y = (UINT16) 24u << 3;
 				}
+				if(whostalking == DEATH){
+					motherow_pos_x = (UINT16) 36u << 3;
+					motherow_pos_y = (UINT16) 14u << 3;
+				}
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
 				if(missions[0].current_step == 3u || missions[0].current_step == 4u){
-					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 12u);
+					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
 					s_blackieow->mirror = V_MIRROR;
 					if(missions[0].current_step == 4u){
 						missions[0].current_step = 5u;
@@ -108,7 +116,13 @@ void START(){
 	INIT_HUD(hudow); 
 	HIDE_WIN;
 	SHOW_SPRITES;
-	hudow_opened = 0;	
+	hudow_opened = 0;
+	switch(current_map){
+		case 0u:
+			lim_up_y = ((UINT16) 9u << 3);
+			lim_east_x = ((UINT16) 46u << 3);
+		break;
+	}
 }
 
 void ShowTipOW() BANKED{
@@ -139,12 +153,17 @@ void ShowTipOW() BANKED{
 
 void UPDATE(){
 	//MAP LIMITS
-		if(s_motherow->y < 68u){//non diminuire, ci sono problemi col ritorno camera
+		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x){//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			switch(current_map){
 				case 0u:
-					if(missions[0].current_step < 4u || missions[2].mission_state == MISSION_STATE_DISABLED){
-						s_motherow->y = 70u;
+					if(missions[0].current_step < 5u || missions[2].mission_state == MISSION_STATE_DISABLED){
+						if(s_motherow->y < lim_up_y){
+							s_motherow->y = lim_up_y + 6u;
+						}
+						if(s_motherow->x > lim_east_x){
+							s_motherow->x = lim_east_x - 6u;
+						}												
 						owTips(TIP_STILL_SOMETHING);
 					}
 				break;

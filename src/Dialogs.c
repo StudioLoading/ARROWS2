@@ -76,8 +76,8 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_STILL_SOMETHING:
 			memcpy(d1, " I HAVE TO DO SOMETH \0", 22);
-			memcpy(d2, " ING ELSE HERE,      \0", 22);
-			memcpy(d3, " BEFORE EAVING       \0", 22);
+			memcpy(d2, " ING ELSE HERE       \0", 22);
+			memcpy(d3, " BEFORE LEAVING      \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 	}
@@ -294,7 +294,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
                 	missions[0].current_step = 4u;
 					missions[2].mission_state = MISSION_STATE_ENABLED;
-                	missions[0].mission_state = MISSION_STATE_REWARDED;
+                	missions[0].mission_state = MISSION_STATE_STARTED;
 					{
 						change_quantity(INVITEM_LETTER, -1);
 						struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
@@ -303,5 +303,14 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				break;
             }
         break;
+		case DEATH:
+			*n_lines = 6u;
+			memcpy(d1, "DESSA PASSED OUT.   \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "SHE WAS TAKEN TO THE\0", 22);
+			memcpy(d4, "CLOSEST HUMAN       \0", 22);
+			memcpy(d5, "HOSPITAL.           \0", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+		break;
     }
 }

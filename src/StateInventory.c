@@ -32,7 +32,6 @@ extern unsigned char ddinv6[];
 extern unsigned char ddinv7[];
 extern unsigned char ddinv8[];
 extern INT8 motherpl_hp;
-extern INT8 motherpl_ups;
 
 const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
@@ -162,15 +161,13 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     if(pickedup_data->itemtype == INVITEM_HEART){
         my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe9, 0x5a, 0x86);//SFX_HEART
         sfx_played = 1u;
-        if(motherpl_hp < 4){
+        if(motherpl_hp < 5){
             motherpl_hp++;
         }
         item_added = 1u;
     }
     if(pickedup_data->itemtype == INVITEM_CROSSBOW){
-        if(motherpl_ups < 99){
-            motherpl_ups++;
-        }
+        motherpl_hp = 5;
         item_added = 1u;
         my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);//SFX_CROSSBOW
         sfx_played = 1u;

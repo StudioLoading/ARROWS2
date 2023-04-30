@@ -28,9 +28,7 @@ extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern INT8 motherpl_hp;
-extern INT8 motherpl_ups;
 extern INT8 hud_motherpl_hp;
-extern INT8 hud_motherpl_ups;
 extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
 extern UINT8 enemy_counter;
@@ -137,7 +135,7 @@ void UPDATE(){
             }
         }
     //UPDATE HUD for HP changings
-        if(hud_motherpl_hp != motherpl_hp || hud_motherpl_ups != motherpl_ups){
+        if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
         }
     //GO TO INVENTORY

@@ -313,7 +313,10 @@ void move_on() BANKED{
 		dialog_ready = 0u;
 		return;
 	}
-    if(previous_state == StateOverworld){
+    if(whostalking == DEATH){
+        ChangeState(StateOverworld, s_motherpl);
+        return;
+    }else if(previous_state == StateOverworld){
         ChangeState(previous_state, s_motherow);
     }else{
         ChangeState(previous_state, s_motherpl);
