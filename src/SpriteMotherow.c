@@ -146,14 +146,10 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
             switch(motherow_info->tile_collision){//sul gioco completo sarà switch su mappa e poi su tile
                 case 66u:
                 case 68u://HOSPITAL
-                    tip_to_show = TIP_HOSPITAL_NO;
-                    trigger_tip = 1u;
-                    //ChangeState(StateHospital, THIS);
+                    ChangeState(StateHospital, THIS);
                 break;
                 case 83u:
                 case 85u://SMITH
-                    // tip_to_show = TIP_SMITH_NO;
-                    // trigger_tip = 1u;
                     ChangeState(StateSmith, THIS);
                 break;
                 case 46u:

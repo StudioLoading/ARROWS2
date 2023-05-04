@@ -263,13 +263,18 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d6, "COME BACK HERE.     \0", 22);
 				break;
 				case 2u://ho sconfitto le orde
-					*n_lines = 6u;
+					*n_lines = 9u;
 					memcpy(d1, "THANK YOU HEALER.   \0", 22);
 					memcpy(d2, EMPTY_STRING_21, 22);	
-					memcpy(d3, "LET'S GO OUTSIDE.   \0", 22);
-					memcpy(d4, EMPTY_STRING_21, 22);	
-					memcpy(d5, EMPTY_STRING_21, 22);	
-					memcpy(d6, "WE NEED TO TALK.    \0", 22);
+					memcpy(d3, "FIRST TAKE THIS...  \0", 22);	
+					memcpy(d4, "IT'S A SPECIAL METAL\0", 22);	
+					memcpy(d5, "THE HOSPITAL IS LOOK\0", 22);	
+					memcpy(d6, "ING FOR.            \0", 22);	
+					memcpy(d7, EMPTY_STRING_21, 22);	
+					memcpy(d8, "NOW LET'S GO OUTSIDE\0", 22);
+					memcpy(d9, "WE NEED TO TALK.    \0", 22);					
+					struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
+					pickup(&metal_special_data);
 					missions[0].current_step = 3u;
 				break;
             	case 3u://ow orde sconfitte
@@ -297,8 +302,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
                 	missions[0].mission_state = MISSION_STATE_STARTED;
 					{
 						change_quantity(INVITEM_LETTER, -1);
-						struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
-						pickup(&metal_special_data);
 					}
 				break;
             }
@@ -311,6 +314,32 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "CLOSEST HUMAN       \0", 22);
 			memcpy(d5, "HOSPITAL.           \0", 22);
 			memcpy(d6, EMPTY_STRING_21, 22);
+		break;
+		case HOSPITAL_DISABLED:
+			*n_lines = 7u;
+			memcpy(d1, "WE KNOW YOU ARE THE \0", 22);
+			memcpy(d2, "HEALER BUT YOU CAN'T\0", 22);
+			memcpy(d3, "HEAL YOURSELF.      \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "BRING US THE SPECIAL\0", 22);
+			memcpy(d6, "METAL AND WE CAN    \0", 22);
+			memcpy(d7, "START DOING OUR JOB.\0", 22);
+		break;
+		case HOSPITAL_ENABLING:
+			*n_lines = 5u;
+			memcpy(d1, "HERE IT IS!         \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "THANK YOU, FROM NOW \0", 22);
+			memcpy(d4, "ON WE ARE ABLE TO   \0", 22);
+			memcpy(d5, "CURE YOUR WOUNDS.   \0", 22);
+		break;
+		case HOSPITAL_CURE:
+			*n_lines = 5u;
+			memcpy(d1, "HELLO DESSA         \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "NOW REST, WE CAN    \0", 22);
+			memcpy(d4, "TAKE CARE OF YOUR   \0", 22);
+			memcpy(d5, "WOUNDS.             \0", 22);
 		break;
     }
 }

@@ -33,7 +33,7 @@ UINT16 credit_wait_time;
 UINT8 thunder_delay;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
-.current_step = 3, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
+.current_step = 5, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
 struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
 struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, .mission_state = MISSION_STATE_DISABLED, 
@@ -46,8 +46,8 @@ struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 10, .equip
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 10, .equippable = 1u};
 struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
-struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 2, .equippable = 0u};
-struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 3, .equippable = 0u};
+struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 20, .equippable = 0u};//2
+struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 30, .equippable = 0u};//3
 struct InvItem unequip02 = {.itemtype = INVITEM_LETTER, .quantity = 1, .equippable = 0u};
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};

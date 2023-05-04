@@ -25,6 +25,7 @@ _STATE(StateBlackiecave)\
 _STATE(StateMine)\
 _STATE(StateSmith)\
 _STATE(StateBlackieroom)\
+_STATE(StateHospital)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
