@@ -314,7 +314,11 @@ void move_on() BANKED{
 		return;
 	}
     if(whostalking == DEATH){
-        ChangeState(StateOverworld, s_motherpl);
+		if(missions[0].current_step < 4){
+            ChangeState(StateCredit, s_motherpl);
+        }else{
+            ChangeState(StateOverworld, s_motherpl);
+        }
         return;
     }else if(previous_state == StateOverworld){
         ChangeState(previous_state, s_motherow);

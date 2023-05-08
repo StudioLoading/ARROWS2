@@ -308,12 +308,21 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
         break;
 		case DEATH:
 			*n_lines = 6u;
-			memcpy(d1, "DESSA PASSED OUT.   \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "SHE WAS TAKEN TO THE\0", 22);
-			memcpy(d4, "CLOSEST HUMAN       \0", 22);
-			memcpy(d5, "HOSPITAL.           \0", 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
+			if(missions[0].current_step < 4){
+				memcpy(d1, EMPTY_STRING_21, 22);
+				memcpy(d2, EMPTY_STRING_21, 22);
+				memcpy(d3, "DESSA IS DEAD.      \0", 22);
+				memcpy(d4, EMPTY_STRING_21, 22);
+				memcpy(d5, EMPTY_STRING_21, 22);
+				memcpy(d6, "     GAME  OVER     \0", 22);
+			}else{
+				memcpy(d1, "DESSA PASSED OUT.   \0", 22);
+				memcpy(d2, EMPTY_STRING_21, 22);
+				memcpy(d3, "SHE WAS TAKEN TO THE\0", 22);
+				memcpy(d4, "CLOSEST HUMAN       \0", 22);
+				memcpy(d5, "HOSPITAL.           \0", 22);
+				memcpy(d6, EMPTY_STRING_21, 22);
+			}
 		break;
 		case HOSPITAL_DISABLED:
 			*n_lines = 7u;

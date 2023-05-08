@@ -44,6 +44,7 @@ extern UINT8 enemy_random_30_100;
 extern UINT8 motherpl_hit_cooldown;
 extern WHOSTALKING whostalking;
 extern Sprite* s_motherow;
+
 UINT8 mine_powderspawned = 3u;
 
 UINT8 npc_spawned_zone = 0u;
@@ -298,6 +299,16 @@ void Log() BANKED{
     if(s_surf){
         PRINT(5, 2, "SURF%i",motherpl_surf_dx);
     }
+    /*else{
+        if(hurricane_info->step < 10){
+            PRINT(5, 2, "00%u",hurricane_info->step);   
+        }else if(hurricane_info->step < 100){
+            PRINT(5, 2, "0%u",hurricane_info->step);
+        }else{
+            PRINT(5, 2, "%u",hurricane_info->step);
+        }
+    }*/
+    
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
     PRINT(16, 2, "!");
     PRINT(17, 2, "LOG");    

@@ -110,7 +110,7 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC 
-        if(s_motherpl->x > ((UINT16)56u << 3)){
+        if(s_motherpl->x > ((UINT16)56u << 3) && missions[0].current_step < 2){
             if(wolf_spawned == 0u){
                 wolf_spawned = 1u;
                 SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);

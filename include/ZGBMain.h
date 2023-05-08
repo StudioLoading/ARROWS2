@@ -26,6 +26,7 @@ _STATE(StateMine)\
 _STATE(StateSmith)\
 _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
+_STATE(StateHood)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -65,9 +66,11 @@ _SPRITE_DMG(SpritePgexzoo, pgexzoo)\
 _SPRITE_DMG(SpriteCavesand, cavesand)\
 _SPRITE_DMG(SpriteSuperstone, superstone)\
 _SPRITE_DMG(SpriteWolf, wolf)\
-_SPRITE_DMG(SpriteDrop , drop)\
-_SPRITE_DMG(SpriteBlackie , blackie)\
-_SPRITE_DMG(SpriteBlackieow , blackieow)\
+_SPRITE_DMG(SpriteDrop, drop)\
+_SPRITE_DMG(SpriteBlackie, blackie)\
+_SPRITE_DMG(SpriteBlackieow, blackieow)\
+_SPRITE_DMG(SpriteLeaf, leaf)\
+_SPRITE_DMG(SpriteHurricane, hurricane)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

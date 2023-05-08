@@ -352,5 +352,13 @@ struct InvcursorInfo{
 	UINT8 square_or_arrow;
 };
 
+struct PlatformInfo {
+	UINT8 type:3;
+	UINT8 distance;
+	UINT8 step;
+	INT8 vx;
+	INT8 vy;
+};
+
 #endif
 
