@@ -350,5 +350,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "TAKE CARE OF YOUR   \0", 22);
 			memcpy(d5, "WOUNDS.             \0", 22);
 		break;
+		case CHILD:
+			*n_lines = 5u;
+			memcpy(d1, "HE-HELLO            \0", 22);
+			memcpy(d2, "I RUN OFF A BEAR... \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "CAN YOU BRING ME TO \0", 22);
+			memcpy(d5, "MOM?                \0", 22);
+		break;
     }
 }

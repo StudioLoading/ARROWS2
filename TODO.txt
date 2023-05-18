@@ -63,6 +63,29 @@ PIXELART:
 	- blackie fuori room
 	- figlio di blackie dentro cave
 
+CHATGPT MISSIONS:
+Healing Expedition: Dessa embarks on a mission to heal wounded soldiers scattered 
+across a war-torn battlefield. As she navigates through the dangerous terrain, 
+Dessa must avoid enemy fire and obstacles while locating and healing injured allies.
+The mission's success depends on her ability to prioritize her healing tasks 
+and make strategic decisions under pressure.
+
+Herbal Gathering: Dessa ventures into a mystical forest to collect rare herbs and 
+plants with powerful healing properties. However, the forest is filled with 
+dangerous creatures and treacherous paths. Dessa must navigate through the forest, 
+avoiding or pacifying hostile creatures, to gather the necessary ingredients 
+for her healing potions. The mission could involve puzzle-solving elements and 
+require Dessa to use her healing abilities creatively.
+
+Plague Outbreak: A deadly plague has struck a village, and Dessa is called upon to heal the afflicted residents. As Dessa moves through the village, she encounters infected individuals who require immediate treatment. She must identify the symptoms, administer the correct remedies, and prevent the spread of the disease by isolating and treating the infected. The mission's challenge lies in managing limited resources and making quick decisions to save as many lives as possible.
+
+Sanctuary Defense: Dessa's sanctuary is under attack by enemy forces seeking to disrupt her healing abilities. Dessa must defend the sanctuary from waves of enemies by using her healing powers to create protective barriers and restore the health of any wounded allies. The mission becomes progressively challenging as more powerful enemies and obstacles are introduced, testing Dessa's healing and defensive skills.
+
+Healing Trials: Dessa participates in a series of healing trials to prove her skills and gain recognition among healers. The trials could involve various scenarios, such as healing a critically injured patient within a time limit, solving medical puzzles, or mastering advanced healing techniques. Dessa must demonstrate her expertise and adaptability to overcome each trial and progress to the next level.
+
+Healing Journey: Dessa embarks on a pilgrimage to sacred healing sites scattered across the realm. Each site poses unique challenges, requiring Dessa to solve puzzles, overcome environmental hazards, and heal spiritual beings. The mission explores Dessa's spiritual growth and her connection to the healing arts as she completes each site and uncovers the secrets of her healing abilities.
+
+
 LOG:
 - al posto del log di sviluppo ci va un testo di suggerimento: il nome
 delle persone su cui sono sopra, il nome della stanza in cui mi trovo, gli npc

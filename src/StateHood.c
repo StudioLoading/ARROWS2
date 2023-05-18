@@ -40,10 +40,12 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 generic_counter;
+extern struct MISSION missions[4];
+extern WHOSTALKING whostalking;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_hood[] = {0};
-
+Sprite* s_child;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -70,6 +72,10 @@ void START(){
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
+        }
+        if(missions[2].current_step == 2u){
+            s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
+            missions[2].current_step = 3u;
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
@@ -114,14 +120,38 @@ void UPDATE(){
         switch(generic_counter){
             case 0u:generic_counter = 255u;break;
             case 80u:SpriteManagerAdd(SpriteLeaf, s_motherpl->x, ((UINT16)6 << 3));break;
-            case 160u: {                
-                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, s_motherpl->x + 80u, ((UINT16)7 << 3));
+            case 160u: {
+                UINT16 leafx = s_motherpl->x + 80u;
+                if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 80u;}
+                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
                 struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
                 leaf2_info->step = 100u;}break;
-            case 240u:{                
-                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, s_motherpl->x + 80u, ((UINT16)7 << 3));
+            case 200u:{
+                UINT16 leafx = s_motherpl->x + 50u;
+                if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 50u;}
+                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
+                struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
+                leaf2_info->step = 130u;}break;
+            case 240u:{
+                UINT16 leafx = s_motherpl->x;
+                //if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 20u;}
+                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
                 struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
                 leaf2_info->step = 160u;}break;
+        }
+        if(s_motherpl->x > ((UINT16)30u << 3)){
+            if(missions[2].current_step == 1u){
+                if(CheckCollision(s_motherpl, s_child)){
+                    missions[2].current_step = 2u;
+                    whostalking = CHILD;
+                    ChangeState(StateDialog, s_motherpl);
+                }
+            }
+            if(missions[2].current_step == 0u){
+                s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
+                missions[2].current_step = 1u;
+            }
+            
         }
         /*if(s_motherpl->x < ((UINT16)40u << 3)){
             if(npc_spawned_zone != 1u){
