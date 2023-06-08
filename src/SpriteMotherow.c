@@ -28,6 +28,7 @@ extern UINT8 showed_tip;
 extern UINT8 showed_tip_goback;
 extern TIP_TO_BE_LOCALIZED tip_to_show;
 extern INT8 sfx_cooldown;
+extern UINT8 just_started;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -37,6 +38,7 @@ FA2OW_SPRITE_STATES new_state = 0;
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 void update_position_motherow() BANKED;
+void ow_check_place() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
@@ -81,6 +83,13 @@ void update_position_motherow() BANKED{
 }
 
 void UPDATE(){
+    if(just_started == 0u){
+        new_state = WALK_UP;
+        update_position_motherow();
+        owChangeState(new_state);
+        ow_check_place();
+        return; 
+    }
     if(sfx_cooldown > 0){sfx_cooldown--;}
     if(hudow_opened == 1u){return;}
     //new_state = motherow_info->ow_state;    
@@ -97,26 +106,7 @@ void UPDATE(){
         owChangeState(new_state);
     }
     //CHECK COLLIDED PLACE
-        if(motherow_info->tile_collision){
-            switch(motherow_info->tile_collision){
-                case 50u:
-                case 51u:
-                    ChangeState(StateMine, THIS);
-                break;
-                case 62u:
-                case 64u:
-                    ChangeState(StateExzoo, THIS);
-                break;
-                case 70u:
-                case 72u:
-                    ChangeState(StateCemetery, THIS);
-                break;
-                case 95u:
-                case 96u:
-                    ChangeState(StateBlackiecave, THIS);
-                break;
-            }
-        }
+        ow_check_place();
     //INTERACT WITH MAP
         if(motherow_info->tile_collision){//diverso da zero
             if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
@@ -137,6 +127,30 @@ void UPDATE(){
                 }
             }
         };
+}
+
+void ow_check_place() BANKED{
+    if(motherow_info->tile_collision){
+        switch(motherow_info->tile_collision){
+            case 50u:
+            case 51u:
+                ChangeState(StateMine, THIS);
+            break;
+            case 62u:
+            case 64u:
+                just_started = 1u;
+                ChangeState(StateExzoo, THIS);
+            break;
+            case 70u:
+            case 72u:
+                ChangeState(StateCemetery, THIS);
+            break;
+            case 95u:
+            case 96u:
+                ChangeState(StateBlackiecave, THIS);
+            break;
+        }
+    }
 }
 
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{

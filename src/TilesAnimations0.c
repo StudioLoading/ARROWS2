@@ -91,7 +91,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 		set_inv_bkg_data(item, 49u, 25, BANK(inventorytiles), isEmpty, &inventorytiles);
 	}else{
 		switch(item){
-			case INVITEM_CROSSBOW:
+			case INVITEM_HEARTS:
 				set_inv_bkg_data(item, 49u, 25, BANK(invdetail0tiles), isEmpty, &invdetail0tiles);
 			break;
 			case INVITEM_MONEY:

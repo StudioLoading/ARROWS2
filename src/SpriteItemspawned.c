@@ -44,7 +44,7 @@ void UPDATE(){
             spawned_data->vx = 0;
             spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
             switch(spawned_data->itemtype){
-                case INVITEM_CROSSBOW: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_crossb, 4u); break;
+                case INVITEM_HEARTS: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_crossb, 4u); break;
                 case INVITEM_HEART: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_heart, 4u); break;
                 case INVITEM_MONEY: spawned_data->equippable = 1u; SetSpriteAnim(THIS, is_money, 8u); break;
                 case INVITEM_METAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal, 4u); break;
@@ -83,7 +83,7 @@ void UPDATE(){
             spawned_data->hp--;
             if(spawned_data->hp == 0){
                 switch(spawned_data->itemtype){
-                    case INVITEM_CROSSBOW: SetSpriteAnim(THIS, is_crossb_dis, 20u); break;
+                    case INVITEM_HEARTS: SetSpriteAnim(THIS, is_crossb_dis, 20u); break;
                     case INVITEM_HEART: SetSpriteAnim(THIS, is_heart_dis, 20u); break;
                     case INVITEM_MONEY: SetSpriteAnim(THIS, is_money_dis, 20u); break;
                     case INVITEM_METAL:  SetSpriteAnim(THIS, is_metal_dis, 20u); break;

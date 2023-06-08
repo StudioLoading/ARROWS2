@@ -42,10 +42,13 @@ extern UINT8 npc_spawned_zone;
 extern UINT8 generic_counter;
 extern struct MISSION missions[4];
 extern WHOSTALKING whostalking;
+extern UINT16 timeout_enemy;
+extern UINT8 enemy_counter;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_hood[] = {0};
 Sprite* s_child;
+UINT16 spawn_child_cooldown = 100u;
 
 extern void UpdateHUD() BANKED;
 extern void Log() BANKED;
@@ -86,11 +89,14 @@ void START(){
         hud_motherpl_hp = 0;
         UpdateHUD();
     //RELOAD ENEMIES
+        enemy_counter = 0u;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(hoodswnwmap), &hoodswnwmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
+    timeout_enemy = 400u;
     generic_counter = 60u;
+    spawn_child_cooldown = 100u;
 }
 
 void UPDATE(){
@@ -110,67 +116,69 @@ void UPDATE(){
         }
     
     //MANAGE NPC
-        if(test_counter > 0){
+        /*if(test_counter > 0){
             test_counter--;
             if(test_counter == 0){
                 SpriteManagerAdd(SpriteHurricane, s_motherpl->x + 20u, s_motherpl->y - 8u);
             }
-        }
-        generic_counter--;
-        switch(generic_counter){
-            case 0u:generic_counter = 255u;break;
-            case 80u:SpriteManagerAdd(SpriteLeaf, s_motherpl->x, ((UINT16)6 << 3));break;
-            case 160u: {
-                UINT16 leafx = s_motherpl->x + 80u;
-                if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 80u;}
-                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                leaf2_info->step = 100u;}break;
-            case 200u:{
-                UINT16 leafx = s_motherpl->x + 50u;
-                if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 50u;}
-                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                leaf2_info->step = 130u;}break;
-            case 240u:{
-                UINT16 leafx = s_motherpl->x;
-                //if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 20u;}
-                Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                leaf2_info->step = 160u;}break;
-        }
-        if(s_motherpl->x > ((UINT16)30u << 3)){
-            if(missions[2].current_step == 1u){
-                if(CheckCollision(s_motherpl, s_child)){
-                    missions[2].current_step = 2u;
-                    whostalking = CHILD;
-                    ChangeState(StateDialog, s_motherpl);
-                }
-            }
-            if(missions[2].current_step == 0u){
-                s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
-                missions[2].current_step = 1u;
-            }
-            
-        }
-        /*if(s_motherpl->x < ((UINT16)40u << 3)){
-            if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
-                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
-                npc_spawned_zone = 1u;
-            }
-        }else if(s_motherpl->x < ((UINT16)70u << 3)){
-            if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2);
-                npc_spawned_zone = 2u;
-            }
-        }else if(s_motherpl->x < ((UINT16)120u << 3)){
-            if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1);
-                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3);
-                npc_spawned_zone = 3u;
-            }
         }*/
+        //LEAF
+            generic_counter--;
+            switch(generic_counter){
+                case 0u:generic_counter = 255u;break;
+                case 80u:SpriteManagerAdd(SpriteLeaf, s_motherpl->x, ((UINT16)6 << 3));break;
+                case 160u: {
+                    UINT16 leafx = s_motherpl->x + 100u;
+                    if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 80u;}
+                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
+                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
+                    leaf2_info->step = 100u;}break;
+                case 200u:{
+                    UINT16 leafx = s_motherpl->x + 80u;
+                    if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 50u;}
+                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
+                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
+                    leaf2_info->step = 130u;}break;
+                case 240u:{
+                    UINT16 leafx = s_motherpl->x + 20u;
+                    //if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 20u;}
+                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
+                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
+                    leaf2_info->step = 160u;}break;
+            }
+        //ENEMIES
+        if(s_motherpl->x > (UINT16)30u && s_motherpl->x < ((mapwidth << 3) - 80u)){
+            switch(missions[2].current_step){
+                case 3u:
+                    if(missions[2].current_step == 3u && enemy_counter < 3){
+                        timeout_enemy--;
+                        if(timeout_enemy == 200u){
+                            SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
+                        }
+                        if(timeout_enemy == 0u){
+                            timeout_enemy = 600u;
+                            SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 80u), (UINT16) 6u << 3);
+                        }
+                    }
+                break;
+                case 1u:
+                    if(CheckCollision(s_motherpl, s_child)){
+                        missions[2].current_step = 2u;
+                        whostalking = CHILD;
+                        ChangeState(StateDialog, s_motherpl);
+                    }
+                break;
+                case 0u:
+                    if(s_motherpl->x > ((UINT16) 60u << 3) && s_motherpl->x < ((UINT16) 62u << 3)){
+                        spawn_child_cooldown--;
+                        if(spawn_child_cooldown == 0){
+                            s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
+                            missions[2].current_step = 1u;
+                        }
+                    }
+                break;
+            }            
+        }
     
     Log();
 }

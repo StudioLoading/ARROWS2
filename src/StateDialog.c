@@ -87,6 +87,9 @@ void START() {
     dialog_ready = 0u;
 	next_page = 0u;
 	SHOW_SPRITES;
+    choice = 0u;
+    choice_left = 0u;
+    choice_right = 0u;
 }
 
 void UPDATE() {

@@ -16,11 +16,11 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-#define HORDE_SNAKE 1//4
-#define HORDE_RAT 1//4--
-#define HORDE_SPIDER 2
-#define HORDE_COBRA 3
-#define HORDE_COOLDOWN_MAX 180
+#define HORDE_SNAKE 3//4
+#define HORDE_RAT 2//4--
+#define HORDE_SPIDER 1
+#define HORDE_COBRA 2
+#define HORDE_COOLDOWN_MAX 140
 
 IMPORT_MAP(bordercave);
 IMPORT_TILES(fontbw);
@@ -51,7 +51,7 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION missions[4];
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
-extern UINT8 timeout_enemy;
+extern UINT16 timeout_enemy;
 extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 

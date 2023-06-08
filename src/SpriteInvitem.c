@@ -24,7 +24,7 @@ void START(){
 void UPDATE(){
     struct InvItem* invitem_data = (struct InvItem*) THIS->custom_data;
     switch(invitem_data->itemtype){
-        case INVITEM_CROSSBOW:
+        case INVITEM_HEARTS:
             SetSpriteAnim(THIS, itm_crossbow, 4u);
         break;
         case INVITEM_MONEY:

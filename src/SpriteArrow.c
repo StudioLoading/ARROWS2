@@ -130,8 +130,18 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
                     //io freccia ho colpito enemy
-                        changeEstate(iarrspr, ENEMY_HIT);
-                        if(arrow_data->arrow_type == ARROW_NORMAL){arrow_data->hit = 1u;}
+                        switch(arrow_data->arrow_type){
+                            case ARROW_NORMAL:
+                                changeEstate(iarrspr, ENEMY_HIT_1);
+                            break;
+                            case ARROW_PERF:
+                            case ARROW_BASTARD:
+                                changeEstate(iarrspr, ENEMY_HIT_2);
+                            break;
+                        }
+                        //if(arrow_data->arrow_type == ARROW_NORMAL){
+                            arrow_data->hit = 1u;
+                        //}
                     break;
                     case SpriteSuperstone:
                         SpriteManagerRemoveSprite(THIS);

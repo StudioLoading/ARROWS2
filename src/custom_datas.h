@@ -205,7 +205,8 @@ typedef enum{
 	ENEMY_JUMP,
 	ENEMY_WALK,
 	ENEMY_WAIT,
-	ENEMY_HIT,
+	ENEMY_HIT_1,
+	ENEMY_HIT_2,
 	ENEMY_DEAD,
 	ENEMY_PREATTACK,
 	ENEMY_ATTACK,
@@ -264,7 +265,7 @@ struct ArrowData{
 
 typedef enum{
 	INVITEM_MONEY, //COINS
-	INVITEM_CROSSBOW, //UP
+	INVITEM_HEARTS, //FULLHP
 	INVITEM_METAL, 
 	INVITEM_HEART, //HP
 	INVITEM_WOOD,//IMPORTANT: da qui in su devono esser quelli spawnati, c'è un random su StateFittizio!
@@ -304,7 +305,9 @@ typedef enum{
 	HOSPITAL_DISABLED,
 	HOSPITAL_ENABLING,
 	HOSPITAL_CURE,
-	CHILD
+	CRYING_MOTHER,
+	CHILD,
+	CHILDS_SAVED
 }WHOSTALKING;
 
 typedef enum{

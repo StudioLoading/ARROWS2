@@ -44,7 +44,8 @@ void UPDATE(){
 void EattackerCobraAnim(ENEMY_STATE estate) BANKED{
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     switch(estate){
-        case ENEMY_HIT: SetSpriteAnim(THIS, cobra_anim_hit, 24u); break;
+        case ENEMY_HIT_1:
+        case ENEMY_HIT_2: SetSpriteAnim(THIS, cobra_anim_hit, 24u); break;
         case ENEMY_WALK: SetSpriteAnim(THIS, cobra_anim_walk, 12u); break;
         case ENEMY_WAIT: SetSpriteAnim(THIS, cobra_anim_idle, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(THIS, cobra_anim_idle, 12u); break;

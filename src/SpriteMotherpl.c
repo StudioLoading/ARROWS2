@@ -76,7 +76,7 @@ Sprite* s_surf = 0;
 Sprite* s_blocking = 0;
 Sprite* s_blockcmd = 0;
 struct ArrowData* surf_data = 0;
-INT8 motherpl_hp = 2;
+INT8 motherpl_hp = 4;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
 
@@ -94,6 +94,7 @@ extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -520,15 +521,16 @@ void UPDATE(){
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
                             if(e_data->e_state != ENEMY_DEAD && 
-                                e_data->e_state != ENEMY_HIT){
+                                e_data->e_state != ENEMY_HIT_1 && 
+                                e_data->e_state != ENEMY_HIT_2 &&
+                                e_data->e_state != ENEMY_UPSIDEDOWN){
                                 if(motherpl_state == MOTHERPL_DASH){
                                     if(e_data->e_state == ENEMY_ATTACK){
                                         motherpl_hit = 1u;
                                     }else if(motherpl_coll_x == 0u){
                                         motherpl_dash_cooldown++;
                                     }
-                                }else if(e_data->e_state != ENEMY_UPSIDEDOWN 
-                                        && motherpl_hit != 1u){
+                                }else if(motherpl_hit != 1u){
                                     motherpl_hit = 1u;
                                 }
                             }
@@ -684,6 +686,7 @@ void shoot(){
             if(motherpl_state == MOTHERPL_CRAWL)arrowiy = THIS->y + 13u;
             Sprite* arrow = SpriteManagerAdd(SpriteArrow, arrowix, arrowiy);
             struct ArrowData* arrow_data = (struct ArrowData*) arrow->custom_data;
+            arrow_data->hit = 0u;
             switch(itemEquipped.itemtype){
                 case INVITEM_ARROW_NORMAL:
                     arrow_data->arrow_type = ARROW_NORMAL;
@@ -705,6 +708,7 @@ void shoot(){
                 arrow_data->vx = -arrow_vx;
             }
             arrow_data->configured = 1u;
+            change_quantity(itemEquipped.itemtype, -1);
         break;
     }
     refreshAnimation();

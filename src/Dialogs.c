@@ -32,6 +32,9 @@ UINT8 choice = 0u;
 UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
 
+extern UINT16 motherow_pos_x;
+extern UINT16 motherow_pos_y;
+
 extern struct MISSION missions[4];
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
@@ -97,14 +100,23 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
 		case INTRO:
-			*n_lines = 7u;
+			*n_lines = 16u;
 			memcpy(d1, "'DESSA, YOU WITCH!  \0", 22);
-			memcpy(d2, "I TOOK YOUR BOY TO  \0", 22);
-			memcpy(d3, "SHOW HIM WHAT WE ALL\0", 22);
-			memcpy(d4, "ARE GOING TO DEAL   \0", 22);
-			memcpy(d5, "WITH. DRAGONS ARE   \0", 22);
-			memcpy(d6, "COMING AND WE MUST  \0", 22);
-			memcpy(d7, "BE READY. COME HERE!\0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "DO YOU THINK HELPING \0", 22);
+			memcpy(d4, "WILD ANIMALS WILL    \0", 22);
+			memcpy(d5, "GUARANTEE OUR SURVI  \0", 22);
+			memcpy(d6, "VAL IN THIS WORLD?   \0", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "DRAGONS ARE COMING! \0", 22);
+			memcpy(d9, "AND WE MUST BE READY\0", 22);
+			memcpy(d10, EMPTY_STRING_21, 22);
+			memcpy(d11, "I'M TEACHING SOME   \0", 22);
+			memcpy(d12, "TRICKS TO LIAM WITH \0", 22);
+			memcpy(d13, "THAT BOW. WE ARE IN \0", 22);
+			memcpy(d14, "THE NORTHERN ISLE.  \0", 22);
+			memcpy(d15, EMPTY_STRING_21, 22);
+			memcpy(d16, "GET OVER HERE!      \0", 22);
 		break;
 		case EXZOO_WOMAN1:
 			*n_lines = 3u;
@@ -169,14 +181,16 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "LET US PRAY...      \0", 22);
 		break;
 		case SMITH:
-			*n_lines = 7u;
-			memcpy(d1, "HI, I AM THE SMITH. \0", 22);
+			*n_lines = 9u;
+			memcpy(d1, "HI I AM THE SMITH.  \0", 22);
 			memcpy(d2, "I'D LIKE TO HELP YOU\0", 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "BRING TO THE FORGE  \0", 22);
 			memcpy(d5, "10 OF WOOD AND 10 OF\0", 22);
-			memcpy(d6, "METAL. GO CHECK THE \0" , 22);
+			memcpy(d6, "METAL. GO CHECK THE \0", 22);
 			memcpy(d7, "OLD MINE.           \0", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, "SEE YOU TO THE FORGE\0", 22);
 		break;
 		case SUPERSTONE:
 			*n_lines = 6u;
@@ -279,11 +293,11 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				break;
             	case 3u://ow orde sconfitte
 					*n_lines = 18u;
-					memcpy(d1, "I SAW A LOT OF ALLIG\0", 22);
-					memcpy(d2, "ATORS IN THE EASTERN\0", 22);	
-					memcpy(d3, "RN RIVER...         \0", 22);
-					memcpy(d4, EMPTY_STRING_21, 22);	
-					memcpy(d5, "UMH, I SEE... GIVE  \0", 22);	
+					memcpy(d1, "SALUTE HEALER, I AM \0", 22);
+					memcpy(d2, "SORRY THE ARCHER HAS\0", 22);	
+					memcpy(d3, "BEEN CAUGHT. LET ME \0", 22);
+					memcpy(d4, "THINK...            \0", 22);	
+					memcpy(d5, "GOT AN IDEA!   GIVE \0", 22);	
 					memcpy(d6, "ME THE LETTER. LET  \0", 22);	
 					memcpy(d7, "ME GET TO THE MOUNTA\0", 22);	
 					memcpy(d8, "INS AND ASK THE LORD\0", 22);	
@@ -293,9 +307,9 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d12, "I'VE HEARD A CRYING\0", 22);
 					memcpy(d13, "LADY AT THE CEMETER\0", 22);
 					memcpy(d14, "Y: PLEASE GO       \0", 22);
-					memcpy(d15, "HELP HER.          \0", 22);
+					memcpy(d15, "HELP HER. THEN     \0", 22);
 					memcpy(d16, EMPTY_STRING_21, 22);	
-					memcpy(d17, "THEN               \0", 22);
+					memcpy(d17, EMPTY_STRING_21, 22);
 					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
                 	missions[0].current_step = 4u;
 					missions[2].mission_state = MISSION_STATE_ENABLED;
@@ -350,6 +364,20 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "TAKE CARE OF YOUR   \0", 22);
 			memcpy(d5, "WOUNDS.             \0", 22);
 		break;
+		case CRYING_MOTHER:
+			*n_lines = 10u;
+			memcpy(d1, "SIGH!...OH HEALER I \0", 22);
+			memcpy(d2, "KNOW YOU CAN FEEL ME\0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "MY CHILD HAS BEEN LO\0", 22);
+			memcpy(d5, "ST IN THE HOODS...! \0", 22);
+			memcpy(d6, "I AM SO SCARED!     \0", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "PLEASE HELP ME FIND \0", 22);
+			memcpy(d9, "HIM. I'LL GO WEST   \0", 22);
+			memcpy(d10, "YOU GO NORTH.      \0", 22);
+			missions[2].mission_state = MISSION_STATE_STARTED;
+		break;
 		case CHILD:
 			*n_lines = 5u;
 			memcpy(d1, "HE-HELLO            \0", 22);
@@ -357,6 +385,15 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "CAN YOU BRING ME TO \0", 22);
 			memcpy(d5, "MOM?                \0", 22);
+		break;
+		case CHILDS_SAVED:
+			*n_lines = 4u;
+			motherow_pos_x = ((UINT16) 18u << 3);
+			motherow_pos_y = ((UINT16) 3u << 3);
+			memcpy(d1, "THANK YOU HEALER!   \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "IS SAFE HERE. I CAN \0", 22);
+			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
 		break;
     }
 }

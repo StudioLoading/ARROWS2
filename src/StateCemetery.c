@@ -103,7 +103,11 @@ void UPDATE(){
         if(s_motherpl->x < ((UINT16)35u << 3)){
             if(npc_spawned_zone != 1u){
                 spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
-                spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
+                if(missions[2].mission_state == MISSION_STATE_ENABLED){
+                    spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER);
+                }else{
+                    spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
+                }
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3)){
@@ -112,6 +116,7 @@ void UPDATE(){
                     spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH);
                 }
                 spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2);
+                
                 npc_spawned_zone = 2u;
             }
         }

@@ -61,12 +61,14 @@ extern struct MISSION missions[4];
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
+extern UINT8 child_hooked;
 
 void PauseGameOW();
 void UnpauseGameOW();
 void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
+void ChangeMapOW() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
@@ -112,6 +114,14 @@ void START(){
 				}
 			break;
 		}
+	//CUTSCENES
+		if(child_hooked == 1u && missions[2].current_step == 3u){
+			missions[2].current_step = 4u;
+			whostalking = CHILDS_SAVED;
+			ChangeState(StateDialog, s_motherow);
+		}else if(missions[2].current_step > 3u && missions[2].mission_state == MISSION_STATE_ENABLED){
+			missions[2].current_step = 0u;
+		}
 	INIT_FONT(fontbw, PRINT_WIN);
 	INIT_HUD(hudow); 
 	HIDE_WIN;
@@ -121,6 +131,14 @@ void START(){
 		case 0u:
 			lim_up_y = ((UINT16) 9u << 3);
 			lim_east_x = ((UINT16) 46u << 3);
+		break;
+	}
+}
+
+void ChangeMapOW() BANKED{
+	switch(current_map){
+		case 0u:
+			
 		break;
 	}
 }
@@ -153,11 +171,12 @@ void ShowTipOW() BANKED{
 
 void UPDATE(){
 	//MAP LIMITS
-		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x){//non diminuire, ci sono problemi col ritorno camera
+		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x){
+		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			switch(current_map){
 				case 0u:
-					if(missions[0].current_step < 5u || missions[2].mission_state == MISSION_STATE_DISABLED){
+					if(missions[0].current_step < 5u || missions[2].mission_state != MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
 							s_motherow->y = lim_up_y + 6u;
 						}
@@ -165,6 +184,10 @@ void UPDATE(){
 							s_motherow->x = lim_east_x - 6u;
 						}												
 						owTips(TIP_STILL_SOMETHING);
+					}else{
+						if(s_motherow->y < 10u){//go north to StateHood
+							ChangeState(StateHood, s_motherow);
+						}
 					}
 				break;
 			}

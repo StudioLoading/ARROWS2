@@ -128,7 +128,10 @@ void Emanagement() BANKED{
                                     changeEstate(ENEMY_UPSIDEDOWN);
                                 break;
                             }
-                        } else if(motherpl_hit != 1u){
+                        } else if(eu_info->e_state != ENEMY_UPSIDEDOWN 
+                            && eu_info->e_state != ENEMY_HIT_1 
+                            && eu_info->e_state != ENEMY_HIT_2
+                            && motherpl_hit != 1u){
                             motherpl_hit = 1u;
                             changeEstate(ENEMY_WAIT);
                         }
@@ -143,12 +146,20 @@ void Emanagement() BANKED{
                         {                            
                             struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
                             arrow_data->hit = 1u;
-                            changeEstate(ENEMY_HIT);
+                            switch(arrow_data->arrow_type){
+                                case ARROW_NORMAL:
+                                    changeEstate(ENEMY_HIT_1);
+                                break;
+                                case ARROW_PERF:
+                                case ARROW_BASTARD:
+                                    changeEstate(ENEMY_HIT_2);
+                                break;
+                            }
                         }
                     break;
                     case SpriteEnemythrowable:
                         if(THIS->type == SpriteEnemysimplerat || THIS->type == SpriteEnemysimplesnake){
-                            changeEstate(ENEMY_HIT);
+                            changeEstate(ENEMY_HIT_1);
                         }
                     break;
                 }
@@ -164,7 +175,8 @@ void Emanagement() BANKED{
                 }
                 return;
             break;
-            case ENEMY_HIT:
+            case ENEMY_HIT_1:
+            case ENEMY_HIT_2:
             case ENEMY_WAIT:
                 if(eu_info->wait){eu_info->wait--;}
                 else{changeEstate(ENEMY_WALK);}
@@ -225,7 +237,7 @@ void Emanagement() BANKED{
                         THIS->mirror = V_MIRROR;
                     }
                     if(eu_info->hp > 1){
-                        changeEstate(ENEMY_HIT);
+                        changeEstate(ENEMY_HIT_1);
                     }else{
                         changeEstate(ENEMY_DEAD);
                     }
@@ -311,9 +323,9 @@ void configure() BANKED{
         break;
         case SpriteEnemysimplerat:
         case SpriteEnemyAttackerCobra:
+        case SpriteEnemyAttackerPine:
             e_info->hp = 2;
         break;
-        case SpriteEnemyAttackerPine:
         case SpriteEnemyThrowerSpider:
         case SpriteEnemyThrowerTarantula:
             e_info->hp = 3;
@@ -331,7 +343,8 @@ void configure() BANKED{
 
 void changeEstate(ENEMY_STATE new_e_state) BANKED{
     struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
-    if(new_e_state == ENEMY_HIT && e_info->e_state == ENEMY_ATTACK){
+    if((new_e_state == ENEMY_HIT_1 || new_e_state == ENEMY_HIT_2)
+         && e_info->e_state == ENEMY_ATTACK){
         return;//Invulnerabilità durante l' attacco!
     }
     if(e_info->e_state != new_e_state && e_info->e_state != ENEMY_DEAD){
@@ -361,7 +374,21 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
             case ENEMY_WAIT:
                 e_info->wait = 40u;
             break;
-            case ENEMY_HIT:
+            case ENEMY_HIT_2:
+                e_info->wait = 56u;
+                my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
+                e_info->hp--;
+                if(e_info->hp <= 0u){
+                    changeEstate(ENEMY_DEAD);
+                    return;
+                }
+                e_info->hp--;
+                if(e_info->hp <= 0u){
+                    changeEstate(ENEMY_DEAD);
+                    return;
+                }
+            break;
+            case ENEMY_HIT_1:
                 my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
                 e_info->hp--;
                 e_info->wait = 56u;
@@ -432,7 +459,7 @@ void EspawnItem() BANKED{
         }
     }else{
         if(enemy_random_30_100 < 35){
-            itemtype = INVITEM_CROSSBOW;
+            itemtype = INVITEM_HEARTS;
         }else if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;
         }else if (enemy_random_30_100 < 58){

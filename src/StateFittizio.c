@@ -69,6 +69,7 @@ UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
+UINT8 just_started = 0u;
 
 void UpdateHUD() BANKED;
 void Log() BANKED;
@@ -171,6 +172,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                         if(new_state == StateBlackiecave){
                             motherpl_pos_x = (UINT16)60u << 3;
                             motherpl_pos_y = (UINT16)8u << 3;
+                        }
+                    break;
+                    case StateHood:
+                        if(new_state == StateOverworld){
+                            motherow_pos_x = (UINT16)18u << 3;
+                            motherow_pos_y = (UINT16)4u << 3;
                         }
                     break;
                 }
@@ -348,11 +355,20 @@ void update_camera_position() BANKED{
         //HORIZONTAL
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
-            ChangeState(StateOverworld, s_motherpl);
+            if(current_state == StateHood && (missions[2].current_step == 3u 
+            || missions[2].mission_state == MISSION_STATE_STARTED)){
+            }else{
+                ChangeState(StateOverworld, s_motherpl);
+            }
         }
         if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
             s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
-            ChangeState(StateOverworld, s_motherpl);
+            if(missions[2].current_step == 3u 
+            || (missions[2].mission_state == MISSION_STATE_STARTED
+                && current_state == StateHood)){
+            }else{
+                ChangeState(StateOverworld, s_motherpl);
+            }
         }  
         //VERTICAL
         if(s_motherpl->y > (((UINT16) mapheight) << 3)){

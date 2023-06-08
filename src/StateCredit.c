@@ -32,22 +32,25 @@ UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 UINT8 thunder_delay;
 
-struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, .mission_state = MISSION_STATE_ENABLED, 
-.current_step = 5, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
-struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, .mission_state = MISSION_STATE_DISABLED, 
+struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
+.mission_state = MISSION_STATE_ENABLED, 
+.current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
+struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, 
+.mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
-struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, .mission_state = MISSION_STATE_DISABLED, 
+struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, 
+.mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
-struct MISSION missions[4];//= {find_blackie, 0, 0, 0};
+struct MISSION missions[4];//= {find_blackie, engage_smith, help_cemetery_woman, 0};
 
 struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 10, .equippable = 1u};
-struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 10, .equippable = 1u};
-struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 10, .equippable = 1u};
+struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
+struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
 struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 1u};
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
-struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 20, .equippable = 0u};//2
-struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 30, .equippable = 0u};//3
+struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 4, .equippable = 0u};//2
+struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 5, .equippable = 0u};//3
 struct InvItem unequip02 = {.itemtype = INVITEM_LETTER, .quantity = 1, .equippable = 0u};
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
@@ -145,7 +148,7 @@ void UPDATE() {
 	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		StopMusic;
-		ChangeState(StateHood, s_motherpl);// 
+		ChangeState(StateTitlescreen, s_motherpl);// StateOverworld
 	}
 	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;

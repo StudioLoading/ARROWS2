@@ -48,7 +48,7 @@ const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 33u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 60u;
-UINT8 timeout_enemy = 10u;
+UINT16 timeout_enemy = 10u;
 UINT8 timeout_cavesand = 0u;
 UINT8 enemy_wave = 0u;
 Sprite* s_superstone = 0;

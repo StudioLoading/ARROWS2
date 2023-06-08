@@ -105,7 +105,7 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,10);
                     UPDATE_HUD_TILE(uneq_x,2,10);
                 break;
-                case INVITEM_CROSSBOW:
+                case INVITEM_HEARTS:
                     UPDATE_HUD_TILE(uneq_x,1,6);
                     UPDATE_HUD_TILE(uneq_x,2,7);
                     uneq_x += 1;
@@ -166,7 +166,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
         }
         item_added = 1u;
     }
-    if(pickedup_data->itemtype == INVITEM_CROSSBOW){
+    if(pickedup_data->itemtype == INVITEM_HEARTS){
         motherpl_hp = 5;
         item_added = 1u;
         my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);//SFX_CROSSBOW
@@ -316,7 +316,7 @@ void change_detail(){
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv5);
     }else{
         switch(inventory[invcursor_posi].itemtype){
-            case INVITEM_CROSSBOW:
+            case INVITEM_HEARTS:
                 GetLocalizedINVLabel_EN(CROSSBOW_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(CROSSBOW_DETAIL1, ddinv2);
                 GetLocalizedINVLabel_EN(CROSSBOW_DETAIL2, ddinv3);
