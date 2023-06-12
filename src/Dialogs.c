@@ -101,7 +101,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
 		case INTRO:
 			*n_lines = 16u;
-			memcpy(d1, "'DESSA, YOU WITCH!  \0", 22);
+			memcpy(d1, "'DESSA YOU WITCH!    \0", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "DO YOU THINK HELPING \0", 22);
 			memcpy(d4, "WILD ANIMALS WILL    \0", 22);

@@ -492,6 +492,7 @@ void UPDATE(){
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;
                         }
+                        motherpl_canshoot = 0u;
                         if(KEY_RELEASED(J_FIRE)){
                             ChangeState(StateDialog, THIS);
                         }
@@ -520,10 +521,10 @@ void UPDATE(){
                         {
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
-                            if(e_data->e_state != ENEMY_DEAD && 
-                                e_data->e_state != ENEMY_HIT_1 && 
-                                e_data->e_state != ENEMY_HIT_2 &&
-                                e_data->e_state != ENEMY_UPSIDEDOWN){
+                            if(e_data->hp > 0 && 
+                                (e_data->e_state == ENEMY_WAIT || 
+                                e_data->e_state == ENEMY_WALK || 
+                                e_data->e_state == ENEMY_ATTACK)){
                                 if(motherpl_state == MOTHERPL_DASH){
                                     if(e_data->e_state == ENEMY_ATTACK){
                                         motherpl_hit = 1u;

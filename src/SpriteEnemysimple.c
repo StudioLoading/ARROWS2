@@ -126,11 +126,13 @@ void Emanagement() BANKED{
                                 case SpriteEnemysimplesnake:
                                 case SpriteEnemysimplerat:
                                     changeEstate(ENEMY_UPSIDEDOWN);
+                                    return;
                                 break;
                             }
-                        } else if(eu_info->e_state != ENEMY_UPSIDEDOWN 
+                        } else if(eu_info->hp > 0 && eu_info->e_state != ENEMY_UPSIDEDOWN 
                             && eu_info->e_state != ENEMY_HIT_1 
                             && eu_info->e_state != ENEMY_HIT_2
+                            && eu_info->e_state != ENEMY_DEAD
                             && motherpl_hit != 1u){
                             motherpl_hit = 1u;
                             changeEstate(ENEMY_WAIT);
@@ -179,7 +181,8 @@ void Emanagement() BANKED{
             case ENEMY_HIT_2:
             case ENEMY_WAIT:
                 if(eu_info->wait){eu_info->wait--;}
-                else{changeEstate(ENEMY_WALK);}
+                else if(eu_info->hp > 0){changeEstate(ENEMY_WALK);}
+                else{changeEstate(ENEMY_DEAD);}
                 return;
             break;
             case ENEMY_WALK:

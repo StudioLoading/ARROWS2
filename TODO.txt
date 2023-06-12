@@ -5,27 +5,26 @@ POST DEMO:
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 - qualche istante di pausa tra una bgm e l' altra da dentro al manage
+- un negozio diverso per ogni consumabile!
+	- smith fa frecce normali
+	- carpentiere fa frecce perforanti
+	- qualcuno fa le esplosive
+	- qualcuno fa le bastarde
 - animazioni degli npc:
 	- lupo iniziale
-- salva/carica
-	- la implemento con l' FRAM o con sistema a password?
-		- StateHospital per curarsi e salvare.
-		- caricare la partita da titlescreen
+- sistema a password
+- schermata dei capitoli
+- caricare la partita da titlescreen con sistema password
 - Overworld: sprite animate in  e animazione acque 
-- Dialog: miglioramento pixelArt
+- Dialog: pixelArt
 - TitleScreen: 
-	nave come sprite in movimento, 
-	animazione 
-		acque che per ora è ogni 2 px, farla ogni 1 perchè ha effetto miglioramento
-		thunder animation
-	cheatCode - la mia faccia col dito medio dopo il Konami	
-- Oh no il villaggio è sotto attacco! sull' overworld vedo dei mostri attaccabili
- e appena ci vado contro entro in un place dal quale posso uscire solo se 
- uccido tutti i nemici presenti
- - scrigni
+	- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
+	- acque che per ora è ogni 2 px, farla ogni 1 perchè ha effetto miglioramento
+	- thunder animation
+	- cheatCode: la mia faccia col dito medio dopo il Konami
+ - scrigni?
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
 	tipo SuperGB o Color o DMG.
-- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
 - Legna + metallo + powder = Frecce Esplosive!
 - fare i carrelli alla Donkey Kong Country
 - mountain bike per andare più veloce?
@@ -36,6 +35,8 @@ PIXELART:
 	- blackie dentro room
 	- blackie fuori room
 	- figlio di blackie dentro cave
+
+
 
 CHATGPT MISSIONS:
 Healing Expedition: Dessa embarks on a mission to heal wounded soldiers scattered 
