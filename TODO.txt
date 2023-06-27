@@ -1,4 +1,8 @@
-POST DEMO:
+POST DEMO:   
+- creare lo state di inserimento password per agevolare i test
+- fix del settaggio frameskip sugli enemy. ci vuole funzione dedicata
+	che esiste già e si chiama getEmaxFrameskip ma non viene invocata sempre per bene
+	
 - disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
@@ -142,6 +146,9 @@ That is the tile id where your tile data for that sprite was loaded.
 Just load some other data over, starting from that tile id
 
 FLYING ARROWS 3
+posso superare il limite della VRAM sui frame se stacco la testa.
+se la testa la faccio 16x16 come sprite a se stante, 
+posso riusarla sempre, e lo sprite del personaggio diventa solo il corpo!
 GRAFICA E PROSPETTIVA
 come Predator 2 per Sega Master System. Mi piace molto quella prospettiva lì. 
 Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto bene. 

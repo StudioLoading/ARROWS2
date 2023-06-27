@@ -104,7 +104,9 @@ void Emanagement() BANKED{
                     break;
                 }
             }
-            eu_info->x_frameskip = 1u;
+            if(THIS->type != SpriteEnemysimplesnake){
+                eu_info->x_frameskip = 1u;
+            }
         }else{
             UINT8 max_frameskip = getEmaxFrameskip();
             if(eu_info->x_frameskip < max_frameskip){
@@ -189,10 +191,10 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 {
                     INT16 distance = THIS->x - s_motherpl->x;
-                    if(THIS->mirror == NO_MIRROR && distance > 100){
+                    if(THIS->mirror == NO_MIRROR && distance > 80){
                         ETurn(eu_info->vx);
                         return;
-                    }else if( THIS->mirror == V_MIRROR && distance < -100){
+                    }else if( THIS->mirror == V_MIRROR && distance < -80){
                         ETurn(eu_info->vx);
                         return;
                     }
@@ -320,8 +322,10 @@ void ETurn(UINT8 e_vx){
 
 void configure() BANKED{
     struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+    e_info->x_frameskip = 1u;
     switch(THIS->type){
         case SpriteEnemysimplesnake:
+            e_info->x_frameskip = 0u;
             e_info->hp = 1;
         break;
         case SpriteEnemysimplerat:
@@ -334,7 +338,6 @@ void configure() BANKED{
             e_info->hp = 3;
         break;
     }
-    e_info->x_frameskip = 1u;
     e_info->vx = E_VX;
     e_info->configured = 2u;
     e_info->e_state =  ENEMY_IDLE;

@@ -90,7 +90,7 @@ void UPDATE(){
                     case 1u:
                     case 2u:
                     case 3u:
-                        dado_info->tetradado_faccia =  FACCIA_1;
+                        dado_info->tetradado_faccia = FACCIA_1;
                         SetSpriteAnim(THIS, dado_faccia1, 4u);
                     break;
                     case 4u:
@@ -149,6 +149,24 @@ void UPDATE(){
                 case FACCIA_4:
                     SetSpriteAnim(THIS, dado_faccia4_selected, 4u);
                 break;
+            }
+        break;
+        case PASSWORD:
+            {
+            switch(dado_info->tetradado_faccia){
+                case FACCIA_1:
+                    SetSpriteAnim(THIS, dado_faccia1, 4u);
+                break; 
+                case FACCIA_2:
+                    SetSpriteAnim(THIS, dado_faccia2, 4u);
+                break; 
+                case FACCIA_3:
+                    SetSpriteAnim(THIS, dado_faccia3, 4u);
+                break; 
+                case FACCIA_4:
+                    SetSpriteAnim(THIS, dado_faccia4, 4u);
+                break; 
+            }
             }
         break;
     }

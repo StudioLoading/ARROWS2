@@ -27,6 +27,7 @@ _STATE(StateSmith)\
 _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
 _STATE(StateHood)\
+_STATE(StatePassword)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\

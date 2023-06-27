@@ -17,7 +17,6 @@
 #include "sgb_palette.h"
 
 IMPORT_MAP(border2);
-IMPORT_MAP(borderdiary);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(titlescreenmap);
@@ -123,10 +122,7 @@ void UPDATE() {
 			}
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();
-				previous_state = StateOverworld;
-				whostalking = INTRO;
-    			LOAD_SGB_BORDER(borderdiary);
-				ChangeStateThroughBetween(StateDialog, StateTitlescreen);
+				ChangeStateThroughBetween(StatePassword, StateTitlescreen);
 			}
 		break;
 	}

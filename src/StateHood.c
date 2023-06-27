@@ -150,7 +150,7 @@ void UPDATE(){
         if(s_motherpl->x > (UINT16)30u && s_motherpl->x < ((mapwidth << 3) - 80u)){
             switch(missions[2].current_step){
                 case 3u:
-                    if(missions[2].current_step == 3u && enemy_counter < 3){
+                    if(missions[2].current_step == 3u && enemy_counter < 2){
                         timeout_enemy--;
                         if(timeout_enemy == 200u){
                             SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
