@@ -1,5 +1,6 @@
-POST DEMO:   
-- creare lo state di inserimento password per agevolare i test
+POST DEMO:
+- missions[2] deve diventare l' abilitazione dell' ospedale
+- creative commons per depositare musica
 - fix del settaggio frameskip sugli enemy. ci vuole funzione dedicata
 	che esiste già e si chiama getEmaxFrameskip ma non viene invocata sempre per bene
 	

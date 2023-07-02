@@ -31,6 +31,7 @@ const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 UINT8 thunder_delay;
+INT8 chapter = 0;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
 .mission_state = MISSION_STATE_ENABLED, 
@@ -43,7 +44,7 @@ struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN,
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
 struct MISSION missions[4];//= {find_blackie, engage_smith, help_cemetery_woman, 0};
 
-struct InvItem itemMoney= {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
+struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .equippable = 1u};
 struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
@@ -67,12 +68,59 @@ extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 
 void missions_init() BANKED{
+	switch(chapter){
+		case 0u:
+			find_blackie.mission_state = MISSION_STATE_ENABLED;
+			find_blackie.current_step = 0u;
+			engage_smith.mission_state = MISSION_STATE_DISABLED;
+			engage_smith.current_step = 0u;
+			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
+			help_cemetery_woman.current_step = 0u;
+		break;
+		case 1u:
+			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+			find_blackie.current_step = 6u;
+			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
+			engage_smith.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 0u;
+		break;
+	}
 	missions[0] = find_blackie;
 	missions[1] = engage_smith;
 	missions[2] = help_cemetery_woman;
 }
 
 void inventory_init() BANKED{
+	switch(chapter){
+		case 0:
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 10; item00.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
+			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
+			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 4; unequip00.equippable = 0u;//2
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 5; unequip01.equippable = 0u;//3
+			unequip02.itemtype = INVITEM_LETTER; unequip02.quantity = 1; unequip02.equippable = 0u;
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
+			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
+			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
+		break;
+		case 1:
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 20; item00.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
+			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
+			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
+			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
+			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
+			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
+
+		break;
+	}
 	inventory[0] = itemMoney;
 	inventory[1] = item00;
 	inventory[2] = item01;

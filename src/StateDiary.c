@@ -19,7 +19,7 @@
 
 IMPORT_MAP(borderdiary);
 IMPORT_TILES(fontbw);
-IMPORT_MAP(mapdiary);
+IMPORT_MAP(diarym);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -36,6 +36,8 @@ extern unsigned char dd5[];
 extern unsigned char dd6[];
 extern unsigned char dd7[];
 extern unsigned char dd8[];
+extern unsigned char dd9[];
+extern INT8 chapter;
 
 extern struct MISSION missions[4];
 extern const UINT8 TOTAL_MISSIONS;
@@ -62,27 +64,25 @@ extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BAN
 
 void START(){
     //HIDE_WIN;
-    LOAD_SGB_BORDER(borderdiary);
-
+        LOAD_SGB_BORDER(borderdiary);
 	//SOUND
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0x77; //Max volume
-	//PlayMusic(bgm_credits, 0);
-    
-    diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
-	InitScroll(BANK(mapdiary), &mapdiary, collision_tiles_diary, 0);
-    scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
-	INIT_FONT(fontbw, PRINT_BKG);
-    SHOW_BKG;
-
-    cursor_old_posi = cursor_posi;
-    diary_cursor->x = cursor_posx[cursor_old_posi];
-    diary_cursor->y = cursor_posy[cursor_old_posi];
-
-    idx_page = 0u;
-    show_missions();
-    showing_detail = 0u;
+        NR52_REG = 0x80; //Enables sound, you should always setup this first
+        NR51_REG = 0xFF; //Enables all channels (left and right)
+        NR50_REG = 0x77; //Max volume
+        //PlayMusic(bgm_credits, 0);    
+    //INIT GRAPHICS
+        diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
+        InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
+        INIT_FONT(fontbw, PRINT_BKG);
+        SHOW_BKG;
+    //INIT VARS
+        cursor_old_posi = cursor_posi;
+        diary_cursor->x = cursor_posx[cursor_old_posi];
+        diary_cursor->y = cursor_posy[cursor_old_posi];
+        idx_page = 0u;
+        show_missions();
+        showing_detail = 0u;
     
 	SHOW_SPRITES;
 }
@@ -106,7 +106,23 @@ void show_detail(){
             switch(cursor_posi){
                 case 0u:
                     GetLocalizedDDLabel_EN(FIND_BLACKIE_D0, dd2);    
-                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D1, dd3);                    
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D1, dd3);
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D2, dd4); 
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D3, dd5);
+                    if(missions[0].current_step >= 1){
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D4, dd6); 
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D5, dd7);
+                    }
+                    if(missions[0].current_step >= 5){
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D6, dd8); 
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
+                    }
+                break;
+                case 1u:
+                    if(missions[1].mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D0, dd2);
+                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D1, dd3);
+                    }
                 break;
             }
         break;
@@ -115,25 +131,31 @@ void show_detail(){
 
 void show_missions(){
     empty_dds();
-    GetLocalizedDDLabel_EN(MISSIONI_IN_CORSO, dd1);
+    if(idx_page == chapter){
+        GetLocalizedDDLabel_EN(MISSIONI_IN_CORSO, dd1);
+    }else if (idx_page < chapter){
+        GetLocalizedDDLabel_EN(MISSIONI_COMPLETATE, dd1);
+    }else{ 
+        GetLocalizedDDLabel_EN(EMPTY_STRING, dd1);
+    }
 	PRINT(8, 0, dd1);
     switch(idx_page){
         case 0u:
-            if(missions[0].mission_state == MISSION_STATE_ENABLED){
+            if(missions[0].mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, dd2);
             }
-            if(missions[1].mission_state == MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, dd4);
+            if(missions[1].mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, dd4);
             }
         break;
         case 1u:
-            if(missions[4].mission_state == MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, dd2);
+            if(missions[2].mission_state == MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, dd2);
             }
         break;
     }
     PRINT(3, 2, dd2);
-    PRINT(3, 4, dd4);
+    PRINT(3, 5, dd4);
     
 	PRINT(7, 16, "%i:%u", idx_page+1, TOTAL_MISSIONS<<2);
 }
@@ -197,6 +219,10 @@ void UPDATE(){
             PRINT(20, 3, dd3);
             PRINT(20, 4, dd4);
             PRINT(20, 5, dd5);
+            PRINT(20, 6, dd6);
+            PRINT(20, 7, dd7);
+            PRINT(20, 8, dd8);
+            PRINT(20, 9, dd9);
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             showing_detail = 0u;

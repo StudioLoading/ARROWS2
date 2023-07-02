@@ -62,6 +62,8 @@ extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
 extern UINT8 child_hooked;
+extern INT8 chapter;
+extern UINT8 previous_state;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -90,11 +92,24 @@ void START(){
 				if(sgb_check()){
 					set_sgb_palette_overworldsw();
 				}
-				if(motherow_pos_x == 0u){
-					motherow_pos_x = (UINT16) 19u << 3;
-				}
-				if(motherow_pos_y == 0u){
-					motherow_pos_y = (UINT16) 24u << 3;
+				if(previous_state == StatePassword){
+					switch(chapter){
+						case 0u:
+							motherow_pos_x = (UINT16) 19u << 3;
+							motherow_pos_y = (UINT16) 24u << 3;
+						break;
+						case 1u:
+							motherow_pos_x = (UINT16) 38u << 3;
+							motherow_pos_y = (UINT16) 33u << 3;
+						break;
+					}
+				}else{
+					if(motherow_pos_x == 0u){
+						motherow_pos_x = (UINT16) 19u << 3;
+					}
+					if(motherow_pos_y == 0u){
+						motherow_pos_y = (UINT16) 24u << 3;
+					}
 				}
 				if(whostalking == DEATH){
 					motherow_pos_x = (UINT16) 36u << 3;
@@ -103,11 +118,12 @@ void START(){
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
-				if(missions[0].current_step == 3u || missions[0].current_step == 4u){
+				if(chapter == 0 && missions[0].current_step == 3u || missions[0].current_step == 4u){
 					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
 					s_blackieow->mirror = V_MIRROR;
 					if(missions[0].current_step == 4u){
 						missions[0].current_step = 5u;
+						missions[0].mission_state = MISSION_STATE_ACCOMPLISHED;
 						blackieow_data->wait = 60u;
 						blackieow_data->vx = -2;
 					}
