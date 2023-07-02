@@ -37,13 +37,17 @@ extern unsigned char dd6[];
 extern unsigned char dd7[];
 extern unsigned char dd8[];
 extern unsigned char dd9[];
+extern unsigned char dd10[];
+extern unsigned char dd11[];
+extern unsigned char dd12[];
+extern unsigned char dd13[];
 extern INT8 chapter;
 
 extern struct MISSION missions[4];
 extern const UINT8 TOTAL_MISSIONS;
 
 
-UINT8 cursor_posx[] = {12u, 12u, 12u, 12u, 12u, 132u};
+UINT8 cursor_posx[] = {4u, 4u, 4u, 4u, 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u, 116u, 116u};
 INT8 cursor_posi = 0u;
 UINT8 cursor_old_posi = 0u;
@@ -122,6 +126,10 @@ void show_detail(){
                     if(missions[1].mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(ENGAGE_SMITH_D0, dd2);
                         GetLocalizedDDLabel_EN(ENGAGE_SMITH_D1, dd3);
+                        if(missions[0].mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
+                        }
                     }
                 break;
             }
@@ -145,7 +153,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, dd2);
             }
             if(missions[1].mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, dd4);
+                GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, dd3);
             }
         break;
         case 1u:
@@ -154,8 +162,9 @@ void show_missions(){
             }
         break;
     }
-    PRINT(3, 2, dd2);
-    PRINT(3, 5, dd4);
+    PRINT(2, 2, dd2);
+    PRINT(2, 5, dd3);
+    PRINT(2, 7, dd4);
     
 	PRINT(7, 16, "%i:%u", idx_page+1, TOTAL_MISSIONS<<2);
 }
@@ -217,12 +226,16 @@ void UPDATE(){
         }else{            
             PRINT(20, 2, dd2);
             PRINT(20, 3, dd3);
-            PRINT(20, 4, dd4);
-            PRINT(20, 5, dd5);
-            PRINT(20, 6, dd6);
-            PRINT(20, 7, dd7);
-            PRINT(20, 8, dd8);
-            PRINT(20, 9, dd9);
+            PRINT(20, 5, dd4);
+            PRINT(20, 6, dd5);
+            PRINT(20, 8, dd6);
+            PRINT(20, 9, dd7);
+            PRINT(20, 11, dd8);
+            PRINT(20, 12, dd9);
+            PRINT(20, 14, dd10);
+            PRINT(20, 15, dd11);
+            PRINT(20, 17, dd12);
+            PRINT(20, 18, dd13);
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             showing_detail = 0u;

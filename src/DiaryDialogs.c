@@ -19,6 +19,7 @@ unsigned char dd9[21];
 unsigned char dd10[21];
 unsigned char dd11[21];
 unsigned char dd12[21];
+unsigned char dd13[21];
 
 
 void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
@@ -33,7 +34,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 			memcpy(d, "COMPLETED  ", 18);
 		break;
 		case FIND_BLACKIE_TITLE:
-			memcpy(d, "FIND BLACKIE", 18);
+			memcpy(d, "FIND BLACKIE   ", 16);
 		break;
 		case FIND_BLACKIE_D0:
 			memcpy(d, "I NEED THE HELP OF", 20);
@@ -45,22 +46,22 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 			memcpy(d, "SHOULD START GOING", 20);
 		break;
 		case FIND_BLACKIE_D3:
-			memcpy(d, "TO SOUTH-WEST CAVE", 20);
+			memcpy(d, "TO SOUTHWEST CAVE ", 20);
 		break;
 		case FIND_BLACKIE_D4:
-			memcpy(d, "BLACKIE NEEDS MY  ", 20);
+			memcpy(d, "BLACKIE NEEDS HELP", 20);
 		break;
 		case FIND_BLACKIE_D5:
-			memcpy(d, "HELP TO CLEAR THE AREA", 20);
+			memcpy(d, "TO CLEAR THE AREA ", 20);
 		break;
 		case FIND_BLACKIE_D6:
-			memcpy(d, "BLACKIE IS GOIGN UP", 20);
+			memcpy(d, "BLACKIE IS GOING UP", 20);
 		break;
 		case FIND_BLACKIE_D7:
 			memcpy(d, "TO THE MOUNTAIN    ", 20);
 		break;
 		case ENGAGE_SMITH_TITLE:
-			memcpy(d, "ENGAGE THE SMITH", 18);
+			memcpy(d, "ENGAGE THE SMITH", 16);
 		break;
 		case ENGAGE_SMITH_D0:
 			memcpy(d, "BRING METAL AND", 20);
@@ -68,8 +69,14 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ENGAGE_SMITH_D1:
 			memcpy(d, "WOOD TO THE FORGE", 20);
 		break;
+		case ENGAGE_SMITH_D2:
+			memcpy(d, "THIS SMITH FORGES", 20);
+		break;
+		case ENGAGE_SMITH_D3:
+			memcpy(d, "NORMAL ARROWS    ", 20);
+		break;
 		case HELP_DESPARATE_WIDOW_TITLE:
-			memcpy(d, "HELP THE WIDOW", 18);
+			memcpy(d, "HELP THE WIDOW  ", 16);
 		break;
 	}	
 }
