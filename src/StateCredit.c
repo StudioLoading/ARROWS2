@@ -36,6 +36,9 @@ INT8 chapter = 0;
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
 .mission_state = MISSION_STATE_ENABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
+struct MISSION enable_hospital = {.mission_title = ENABLE_HOSPITAL, 
+.mission_state = MISSION_STATE_DISABLED, 
+.current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = 0};
 struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, 
 .mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
@@ -72,6 +75,8 @@ void missions_init() BANKED{
 		case 0u:
 			find_blackie.mission_state = MISSION_STATE_ENABLED;
 			find_blackie.current_step = 0u;
+			enable_hospital.mission_state = MISSION_STATE_DISABLED;
+			enable_hospital.current_step = 0u;
 			engage_smith.mission_state = MISSION_STATE_DISABLED;
 			engage_smith.current_step = 0u;
 			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
@@ -80,6 +85,8 @@ void missions_init() BANKED{
 		case 1u:
 			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
 			find_blackie.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
 			engage_smith.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
@@ -88,7 +95,8 @@ void missions_init() BANKED{
 	}
 	missions[0] = find_blackie;
 	missions[1] = engage_smith;
-	missions[2] = help_cemetery_woman;
+	missions[2] = enable_hospital;
+	missions[3] = help_cemetery_woman;
 }
 
 void inventory_init() BANKED{

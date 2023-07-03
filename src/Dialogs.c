@@ -312,7 +312,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d17, EMPTY_STRING_21, 22);
 					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
                 	missions[0].current_step = 4u;
-					missions[2].mission_state = MISSION_STATE_ENABLED;
+					missions[3].mission_state = MISSION_STATE_ENABLED;
                 	missions[0].mission_state = MISSION_STATE_STARTED;
 					{
 						change_quantity(INVITEM_LETTER, -1);
@@ -376,7 +376,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d8, "PLEASE HELP ME FIND \0", 22);
 			memcpy(d9, "HIM. I'LL GO WEST   \0", 22);
 			memcpy(d10, "YOU GO NORTH.      \0", 22);
-			missions[2].mission_state = MISSION_STATE_STARTED;
+			missions[3].mission_state = MISSION_STATE_STARTED;
 		break;
 		case CHILD:
 			*n_lines = 5u;

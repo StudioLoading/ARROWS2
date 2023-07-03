@@ -27,11 +27,11 @@ void START(){
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
     child_hooked = 0u;
-    missions[2].mission_state = MISSION_STATE_STARTED;
+    missions[3].mission_state = MISSION_STATE_STARTED;
 }
 
 void UPDATE(){
-    if(missions[2].current_step == 3u){
+    if(missions[3].current_step == 3u){
         child_info->x_frameskip--;
         if(child_info->x_frameskip == 0u){
             child_behavior();
@@ -53,7 +53,7 @@ void child_behavior() BANKED{
     if (distx > 120u){
         child_hooked = 0u;
         SpriteManagerRemoveSprite(THIS);
-        missions[2].current_step = 0u;
+        missions[3].current_step = 0u;
     }else if(distx > 40u){
         child_hooked = 0u;
         change_child_state(ENEMY_IDLE);

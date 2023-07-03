@@ -355,15 +355,15 @@ void update_camera_position() BANKED{
         //HORIZONTAL
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
-            if(current_state == StateHood && missions[2].current_step < 3u){ 
-            //|| missions[2].mission_state == MISSION_STATE_STARTED)){
+            if(current_state == StateHood && missions[3].current_step < 3u){ 
+            //|| missions[3].mission_state == MISSION_STATE_STARTED)){
             }else{
                 ChangeState(StateOverworld, s_motherpl);
             }
         }
         if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
             s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
-            if(current_state == StateHood && missions[2].current_step < 3u){
+            if(current_state == StateHood && missions[3].current_step < 3u){
             }else{
                 ChangeState(StateOverworld, s_motherpl);
             }

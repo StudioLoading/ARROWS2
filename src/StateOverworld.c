@@ -131,12 +131,12 @@ void START(){
 			break;
 		}
 	//CUTSCENES
-		if(child_hooked == 1u && missions[2].current_step == 3u){
-			missions[2].current_step = 4u;
+		if(child_hooked == 1u && missions[3].current_step == 3u){
+			missions[3].current_step = 4u;
 			whostalking = CHILDS_SAVED;
 			ChangeState(StateDialog, s_motherow);
-		}else if(missions[2].current_step > 3u && missions[2].mission_state == MISSION_STATE_ENABLED){
-			missions[2].current_step = 0u;
+		}else if(missions[3].current_step > 3u && missions[3].mission_state == MISSION_STATE_ENABLED){
+			missions[3].current_step = 0u;
 		}
 	INIT_FONT(fontbw, PRINT_WIN);
 	INIT_HUD(hudow); 
@@ -192,7 +192,7 @@ void UPDATE(){
 		//il testo rimane sullo schermo
 			switch(current_map){
 				case 0u:
-					if(missions[0].current_step < 5u || missions[2].mission_state != MISSION_STATE_STARTED){
+					if(missions[0].current_step < 5u || missions[3].mission_state != MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
 							s_motherow->y = lim_up_y + 6u;
 						}

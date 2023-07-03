@@ -44,7 +44,7 @@ extern unsigned char dd13[];
 extern INT8 chapter;
 
 extern struct MISSION missions[4];
-extern const UINT8 TOTAL_MISSIONS;
+extern const UINT8 TOTAL_CHAPTERS;
 
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u, 12u, 132u};
@@ -54,8 +54,7 @@ UINT8 cursor_old_posi = 0u;
 const INT8 cursor_posimax = 6;
 Sprite* diary_cursor = 0;
 // cursor_posi
-// TOTAL_MISSIONS / 4 = numero di pagine
-UINT8 idx_mission = 0u;///TOTAL_MISSIONS
+UINT8 idx_mission = 0u;
 INT8 idx_page = 0u;
 UINT8 showing_detail = 0u;
 
@@ -155,25 +154,28 @@ void show_missions(){
             if(missions[1].mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, dd3);
             }
+            if(missions[2].mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_TITLE, dd4);
+            }
         break;
         case 1u:
-            if(missions[2].mission_state == MISSION_STATE_ENABLED){
+            if(missions[3].mission_state == MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, dd2);
             }
         break;
     }
     PRINT(2, 2, dd2);
     PRINT(2, 5, dd3);
-    PRINT(2, 7, dd4);
+    PRINT(2, 8, dd4);
     
-	PRINT(7, 16, "%i:%u", idx_page+1, TOTAL_MISSIONS<<2);
+	PRINT(7, 16, "%i:%u", idx_page+1, TOTAL_CHAPTERS);
 }
 
 void change_page(INT8 inc){
     idx_page+=inc;
     if(showing_detail == 0u){//sto mostrando elenco missioni
-        if(idx_page<0){idx_page = (TOTAL_MISSIONS<<2)-1;}
-        else{idx_page %= TOTAL_MISSIONS<<2;}
+        if(idx_page<0){idx_page = TOTAL_CHAPTERS-1;}
+        else{idx_page %= TOTAL_CHAPTERS;}
     }
 }
 

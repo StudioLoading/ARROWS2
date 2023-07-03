@@ -75,8 +75,29 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ENGAGE_SMITH_D3:
 			memcpy(d, "NORMAL ARROWS    ", 20);
 		break;
+		case ENABLE_HOSPITAL_TITLE:
+			memcpy(d, "ENABLE HOSPITAL ", 16);
+		break;
+		case ENABLE_HOSPITAL_D0:
+			memcpy(d, "THE HOSPITAL NEEDS", 20);
+		break;
+		case ENABLE_HOSPITAL_D1:
+			memcpy(d, "SOME SPECIAL METAL", 20);
+		break;
+		case ENABLE_HOSPITAL_D2:
+			memcpy(d, "BLACKIE GAVE ME   ", 20);
+		break;
+		case ENABLE_HOSPITAL_D3:
+			memcpy(d, "THE METAL NEEDED  ", 20);
+		break;
+		case ENABLE_HOSPITAL_D4:
+			memcpy(d, "NOW I CAN GET     ", 20);
+		break;
+		case ENABLE_HOSPITAL_D5:
+			memcpy(d, "HEALED EVERYTIME  ", 20);
+		break;
 		case HELP_DESPARATE_WIDOW_TITLE:
-			memcpy(d, "HELP THE WIDOW  ", 16);
+			memcpy(d, "HELP THE WIDOW  ", 6);
 		break;
 	}	
 }

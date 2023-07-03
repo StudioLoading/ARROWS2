@@ -76,9 +76,9 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-        if(missions[2].current_step == 2u){
+        if(missions[3].current_step == 2u){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
-            missions[2].current_step = 3u;
+            missions[3].current_step = 3u;
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
@@ -148,9 +148,9 @@ void UPDATE(){
             }
         //ENEMIES
         if(s_motherpl->x > (UINT16)30u && s_motherpl->x < ((mapwidth << 3) - 80u)){
-            switch(missions[2].current_step){
+            switch(missions[3].current_step){
                 case 3u:
-                    if(missions[2].current_step == 3u && enemy_counter < 2){
+                    if(missions[3].current_step == 3u && enemy_counter < 2){
                         timeout_enemy--;
                         if(timeout_enemy == 200u){
                             SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
@@ -163,7 +163,7 @@ void UPDATE(){
                 break;
                 case 1u:
                     if(CheckCollision(s_motherpl, s_child)){
-                        missions[2].current_step = 2u;
+                        missions[3].current_step = 2u;
                         whostalking = CHILD;
                         ChangeState(StateDialog, s_motherpl);
                     }
@@ -173,7 +173,7 @@ void UPDATE(){
                         spawn_child_cooldown--;
                         if(spawn_child_cooldown == 0){
                             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
-                            missions[2].current_step = 1u;
+                            missions[3].current_step = 1u;
                         }
                     }
                 break;
