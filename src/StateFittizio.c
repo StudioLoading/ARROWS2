@@ -29,9 +29,7 @@ DECLARE_MUSIC(bgm_blackiecave);
 DECLARE_MUSIC(bgm_mine);
 
 extern struct InvItem itemEquipped;
-extern struct MISSION find_blackie;
-extern struct MISSION engage_smith;
-extern struct MISSION missions[4];
+extern struct MISSION help_cemetery_woman;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
@@ -44,6 +42,7 @@ extern UINT8 enemy_random_30_100;
 extern UINT8 motherpl_hit_cooldown;
 extern WHOSTALKING whostalking;
 extern Sprite* s_motherow;
+extern unsigned char log0[];
 
 UINT8 mine_powderspawned = 3u;
 
@@ -240,50 +239,50 @@ void UpdateHUD() BANKED{
     //EQUIPPED ITEM
         switch(itemEquipped.itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,0,22);
-                UPDATE_HUD_TILE(17,0,21);
-                UPDATE_HUD_TILE(18,0,22);
+                UPDATE_HUD_TILE(16,1,0);
+                UPDATE_HUD_TILE(17,1,21);
+                UPDATE_HUD_TILE(18,1,0);
             break;
 	        case INVITEM_ARROW_NORMAL:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,17);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,17);
             break;
 	        case INVITEM_ARROW_PERFO:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,18);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,18);
             break;
 	        case INVITEM_ARROW_BASTARD:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,19);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,19);
             break;
 	        case INVITEM_BOMB:
-                UPDATE_HUD_TILE(16,0,6);
-                UPDATE_HUD_TILE(17,0,5);
-                UPDATE_HUD_TILE(18,0,20);
+                UPDATE_HUD_TILE(16,1,6);
+                UPDATE_HUD_TILE(17,1,5);
+                UPDATE_HUD_TILE(18,1,20);
             break;
         }
         print_target = PRINT_WIN;
-        if(itemEquipped.quantity < 10){ PRINT(16,1,"00%i", itemEquipped.quantity); }
-        else if(itemEquipped.quantity < 100){ PRINT(16,1,"0%i", itemEquipped.quantity);}
-        else {PRINT(16,1,"%i", itemEquipped.quantity);}
+        if(itemEquipped.quantity < 10){ PRINT(16,2,"00%i", itemEquipped.quantity); }
+        else if(itemEquipped.quantity < 100){ PRINT(16,2,"0%i", itemEquipped.quantity);}
+        else {PRINT(16,2,"%i", itemEquipped.quantity);}
     //HP
         hud_motherpl_hp = motherpl_hp;
         for(idx_leftheart=5; idx_leftheart<15 ;idx_leftheart+=2){
             if(tmp_hp > 0){
-                UPDATE_HUD_TILE(idx_leftheart,0,7);
-                UPDATE_HUD_TILE(idx_leftheart,1,8);
+                UPDATE_HUD_TILE(idx_leftheart,1,7);
+                UPDATE_HUD_TILE(idx_leftheart,2,8);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,0,9);
-                UPDATE_HUD_TILE(idx_rightheart,1,10);
+                UPDATE_HUD_TILE(idx_rightheart,1,9);
+                UPDATE_HUD_TILE(idx_rightheart,2,10);
             }else{
-                UPDATE_HUD_TILE(idx_leftheart,0,1);
-                UPDATE_HUD_TILE(idx_leftheart,1,2);
+                UPDATE_HUD_TILE(idx_leftheart,1,1);
+                UPDATE_HUD_TILE(idx_leftheart,2,2);
                 idx_rightheart++;
-                UPDATE_HUD_TILE(idx_rightheart,0,3);
-                UPDATE_HUD_TILE(idx_rightheart,1,4);
+                UPDATE_HUD_TILE(idx_rightheart,1,3);
+                UPDATE_HUD_TILE(idx_rightheart,2,4);
             }
             tmp_hp--;
             idx_rightheart++;
@@ -292,20 +291,20 @@ void UpdateHUD() BANKED{
 }
 
 void Log() BANKED{    
-    /* hudpl.gbm aggiungi una linea sotto, 4 tiles height */
-    switch(motherpl_state){
-        case MOTHERPL_IDLE: PRINT(0, 2, "IDLE"); break;
-        case MOTHERPL_JUMP: PRINT(0, 2, "JUMP"); break;
-        case MOTHERPL_WALK: PRINT(0, 2, "WALK"); break;
-        case MOTHERPL_HIT: PRINT(0, 2, " HIT"); break;
-        case MOTHERPL_DEAD: PRINT(0, 2, "DEAD"); break;
-        case MOTHERPL_CRAWL: PRINT(0, 2, "CRAW"); break;
-        case MOTHERPL_CRAWL_SURF: PRINT(0, 2, "CRAS"); break;
-        case MOTHERPL_DASH: PRINT(0, 2, "DASH"); break;
+    /*switch(motherpl_state){
+        case MOTHERPL_IDLE: PRINT(0, 0, "IDLE"); break;
+        case MOTHERPL_JUMP: PRINT(0, 0, "JUMP"); break;
+        case MOTHERPL_WALK: PRINT(0, 0, "WALK"); break;
+        case MOTHERPL_HIT: PRINT(0, 0, " HIT"); break;
+        case MOTHERPL_DEAD: PRINT(0, 0, "DEAD"); break;
+        case MOTHERPL_CRAWL: PRINT(0, 0, "CRAW"); break;
+        case MOTHERPL_CRAWL_SURF: PRINT(0, 0, "CRAS"); break;
+        case MOTHERPL_DASH: PRINT(0, 0, "DASH"); break;
     }
     if(s_surf){
-        PRINT(5, 2, "SURF%i",motherpl_surf_dx);
+        PRINT(5, 0, "SURF%i",motherpl_surf_dx);
     }
+    */
     /*else{
         if(hurricane_info->step < 10){
             PRINT(5, 2, "00%u",hurricane_info->step);   
@@ -314,11 +313,11 @@ void Log() BANKED{
         }else{
             PRINT(5, 2, "%u",hurricane_info->step);
         }
-    }*/
-    
+    }*/    
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
-    PRINT(16, 2, "!");
-    PRINT(17, 2, "LOG");    
+    //PRINT(16, 0, "!LOG");
+    GetLocalizedLog_EN();
+    PRINT(0,0,log0);   
 }
 
 void camera_tramble() BANKED{
@@ -355,15 +354,15 @@ void update_camera_position() BANKED{
         //HORIZONTAL
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
-            if(current_state == StateHood && missions[3].current_step < 3u){ 
-            //|| missions[3].mission_state == MISSION_STATE_STARTED)){
+            if(current_state == StateHood && help_cemetery_woman.current_step < 3u){ 
+            //|| help_cemetery_woman.mission_state == MISSION_STATE_STARTED)){
             }else{
                 ChangeState(StateOverworld, s_motherpl);
             }
         }
         if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
             s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
-            if(current_state == StateHood && missions[3].current_step < 3u){
+            if(current_state == StateHood && help_cemetery_woman.current_step < 3u){
             }else{
                 ChangeState(StateOverworld, s_motherpl);
             }

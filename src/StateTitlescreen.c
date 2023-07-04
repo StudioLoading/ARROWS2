@@ -69,7 +69,13 @@ void UPDATE() {
 		else if(counter_anim < 40u){Anim_Titlescreen_1();}
 		else if(counter_anim < 60u){Anim_Titlescreen_2();}
 		else if(counter_anim < 80u){Anim_Titlescreen_3();}
-		else{ counter_anim = 0;}
+		else{ counter_anim = 0;}		
+		if(KEY_TICKED(J_START)){
+			StopMusic;
+			titlescreen_wait_time = 0;
+			PRINT(5, 9, " LET'S GO! ");
+			titlescreen_step = 3u;
+		}
 	}
 
 	switch(titlescreen_step){

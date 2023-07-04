@@ -1,10 +1,10 @@
 POST DEMO:
-- missions[2] deve diventare l' abilitazione dell' ospedale
-- creative commons per depositare musica
-- fix del settaggio frameskip sugli enemy. ci vuole funzione dedicata
-	che esiste già e si chiama getEmaxFrameskip ma non viene invocata sempre per bene
-	
-- disegnare un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
+- Log() di ogni state pl
+- proseguire con l'implementazione del design del chapter 1
+- schermata iniziale per settaggio tasti, copy/paste da FA1
+- DIARY: i simboli del chapter in corso così uno ce li ha sempre
+
+- segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 - overworld improvements: see
@@ -15,12 +15,8 @@ POST DEMO:
 	- carpentiere fa frecce perforanti
 	- qualcuno fa le esplosive
 	- qualcuno fa le bastarde
-- animazioni degli npc:
-	- lupo iniziale
-- sistema a password
 - schermata dei capitoli
-- caricare la partita da titlescreen con sistema password
-- Overworld: sprite animate in  e animazione acque 
+- Overworld: sprite animate in e animazione acque 
 - Dialog: pixelArt
 - TitleScreen: 
 	- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
@@ -33,6 +29,11 @@ POST DEMO:
 - Legna + metallo + powder = Frecce Esplosive!
 - fare i carrelli alla Donkey Kong Country
 - mountain bike per andare più veloce?
+- creative commons per depositare musica
+- sulle mappe ow c'è da mettere la sprite owsign sopra 
+	ogni cartello leggibile
+- chiamare il Log() solo alla start dello state? Ora lo sto chiamando
+	fisso sulle UPDATE() degli state...
 
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
@@ -87,7 +88,7 @@ delle persone su cui sono sopra, il nome della stanza in cui mi trovo, gli npc
 che parlano fra di loro, voci di ambiente in generale.
 	- blackieroom: se arrivo a Blackie prima di aver sconfitto l' ultima orda,
 	il suggerimento mi dice "ripulisci la stanza!"
-	- missions[2].current_step == 0 in StateHood e s_motherpl->x > 60 && < 62
+	- enable_hospital.current_step == 0 in StateHood e s_motherpl->x > 60 && < 62
 	per il countdown del far spuntare il child
 
 KNOWN ISSUES:

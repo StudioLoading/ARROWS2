@@ -73,6 +73,7 @@ _SPRITE_DMG(SpriteBlackieow, blackieow)\
 _SPRITE_DMG(SpriteLeaf, leaf)\
 _SPRITE_DMG(SpriteHurricane, hurricane)\
 _SPRITE_DMG(SpriteChild, child)\
+_SPRITE_DMG(SpriteOwsign, owsign)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

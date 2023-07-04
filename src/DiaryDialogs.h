@@ -26,4 +26,5 @@ typedef enum{
 	HELP_DESPARATE_WIDOW_TITLE
 }DD_TO_BE_LOCALIZED;
 
+void GetLocalizedMLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED;

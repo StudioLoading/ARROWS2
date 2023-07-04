@@ -41,7 +41,8 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
-extern struct MISSION missions[4];
+extern struct MISSION engage_smith;
+extern struct MISSION help_cemetery_woman;
 
 const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
@@ -103,7 +104,7 @@ void UPDATE(){
         if(s_motherpl->x < ((UINT16)35u << 3)){
             if(npc_spawned_zone != 1u){
                 spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
-                if(missions[3].mission_state == MISSION_STATE_ENABLED){
+                if(help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
                     spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER);
                 }else{
                     spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
@@ -112,7 +113,7 @@ void UPDATE(){
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3)){
             if(npc_spawned_zone != 2u){
-                if(missions[1].mission_state == MISSION_STATE_DISABLED){
+                if(engage_smith.mission_state == MISSION_STATE_DISABLED){
                     spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH);
                 }
                 spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2);

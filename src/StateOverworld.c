@@ -57,7 +57,8 @@ extern unsigned char d1[];
 extern unsigned char d2[];
 extern unsigned char d3[];
 extern unsigned char d4[];
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
+extern struct MISSION help_cemetery_woman;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -115,15 +116,17 @@ void START(){
 					motherow_pos_x = (UINT16) 36u << 3;
 					motherow_pos_y = (UINT16) 14u << 3;
 				}
+				SpriteManagerAdd(SpriteOwsign, ((UINT16) 17u << 3)+5u, ((UINT16) 11u << 3)-6u);
+				SpriteManagerAdd(SpriteOwsign, ((UINT16) 15u << 3)+5u, ((UINT16) 35u << 3)-6u);
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
-				if(chapter == 0 && missions[0].current_step == 3u || missions[0].current_step == 4u){
+				if(chapter == 0 && find_blackie.current_step == 3u || find_blackie.current_step == 4u){
 					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
 					s_blackieow->mirror = V_MIRROR;
-					if(missions[0].current_step == 4u){
-						missions[0].current_step = 5u;
-						missions[0].mission_state = MISSION_STATE_ACCOMPLISHED;
+					if(find_blackie.current_step == 4u){
+						find_blackie.current_step = 5u;
+						find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
 						blackieow_data->wait = 60u;
 						blackieow_data->vx = -2;
 					}
@@ -131,12 +134,12 @@ void START(){
 			break;
 		}
 	//CUTSCENES
-		if(child_hooked == 1u && missions[3].current_step == 3u){
-			missions[3].current_step = 4u;
+		if(child_hooked == 1u && help_cemetery_woman.current_step == 3u){
+			help_cemetery_woman.current_step = 4u;
 			whostalking = CHILDS_SAVED;
 			ChangeState(StateDialog, s_motherow);
-		}else if(missions[3].current_step > 3u && missions[3].mission_state == MISSION_STATE_ENABLED){
-			missions[3].current_step = 0u;
+		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
+			help_cemetery_woman.current_step = 0u;
 		}
 	INIT_FONT(fontbw, PRINT_WIN);
 	INIT_HUD(hudow); 
@@ -192,7 +195,7 @@ void UPDATE(){
 		//il testo rimane sullo schermo
 			switch(current_map){
 				case 0u:
-					if(missions[0].current_step < 5u || missions[3].mission_state != MISSION_STATE_STARTED){
+					if(find_blackie.current_step < 5u || help_cemetery_woman.mission_state != MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
 							s_motherow->y = lim_up_y + 6u;
 						}
@@ -214,6 +217,7 @@ void UPDATE(){
 			scroll_target->y = s_motherow->y+4u;
 		}
 	if(KEY_RELEASED(J_START)){
+		/*
 		switch(hudow_opened){
 			case 0u://vado in 
 				my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
@@ -225,11 +229,16 @@ void UPDATE(){
 				hudow_opened = 0u;
 			break;
 		}
+		*/
+		HIDE_WIN;
+		ChangeState(StateDiary, s_motherow);
 	}
+	/*
 	if(hudow_opened == 1u){
 		UpdateHUDOW();
 		return;
 	}
+	*/
 	//DISMISS TIP
 		if(showed_tip == 1u && showed_tip_goback == 0u){
 			if(KEY_RELEASED(J_FIRE) || KEY_RELEASED(J_JUMP)){

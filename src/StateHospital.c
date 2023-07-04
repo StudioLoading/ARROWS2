@@ -33,7 +33,7 @@ extern unsigned char d5[];
 extern unsigned char d6[];
 extern unsigned char d7[];
 extern WHOSTALKING whostalking;
-extern struct MISSION missions[4];
+extern struct MISSION enable_hospital;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -94,19 +94,19 @@ void UPDATE() {
         PRINT(0, 13, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
-		switch(missions[2].mission_state){            
+		switch(enable_hospital.mission_state){            
             case MISSION_STATE_ACCOMPLISHED:
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
-				missions[2].mission_state = MISSION_STATE_REWARDED;
+				enable_hospital.mission_state = MISSION_STATE_REWARDED;
                 whostalking = HOSPITAL_CURE;
                 motherpl_hp = 5;
             break;
             case MISSION_STATE_DISABLED:
 			case MISSION_STATE_ENABLED://ho bisogno di metallo speciale
 				whostalking = HOSPITAL_DISABLED; 
-                missions[2].mission_state = MISSION_STATE_ENABLED;
+                enable_hospital.mission_state = MISSION_STATE_ENABLED;
                 if(get_quantity(INVITEM_METAL_SPECIAL) > 0){//se in inventario ho il metallo specialo
-                    missions[2].mission_state = MISSION_STATE_ACCOMPLISHED;
+                    enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
                     whostalking = HOSPITAL_ENABLING;
                 }
 			break;

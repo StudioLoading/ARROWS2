@@ -48,7 +48,7 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
@@ -148,7 +148,7 @@ void UPDATE(){
             s_motherpl->x = ((UINT16)19u << 3);
         }
     //INIT ENEMIES
-        if(horde_cooldown == 0 && s_motherpl->y > 40u && missions[0].current_step < 2u){
+        if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
             if(timeout_enemy > 0){timeout_enemy--;}            
             else{
                 UINT8 enemy_type = SpriteEnemysimplesnake;
@@ -176,7 +176,7 @@ void UPDATE(){
                         enemy_type = SpriteEnemyThrowerSpider;
                     break;
                     case 9u:
-                        missions[0].current_step = 2u;
+                        find_blackie.current_step = 2u;
                     break;
                 }            
                 if(horde_counter < horde_counter_max){

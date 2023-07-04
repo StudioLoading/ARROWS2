@@ -49,7 +49,8 @@ extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT8 choice_left;
 extern UINT8 choice_right;
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
+extern struct MISSION engage_smith;
 
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
@@ -182,7 +183,7 @@ void UPDATE() {
         switch(previous_state){
             case StateCemetery:
                 if(whostalking == SMITH){
-                    missions[1].mission_state = MISSION_STATE_ENABLED;
+                    engage_smith.mission_state = MISSION_STATE_ENABLED;
                 }
             break;
         }
@@ -302,12 +303,12 @@ void move_on() BANKED{
         //choice_right == YES
         if(choice_right == 1u){
             previous_state = StateBlackieroom;
-            missions[0].current_step = 1u;
-            missions[0].mission_state = MISSION_STATE_STARTED;
+            find_blackie.current_step = 1u;
+            find_blackie.mission_state = MISSION_STATE_STARTED;
         }
         //return;//DEMO ENDS HERE
     }else if(previous_state == StateBlackieroom && whostalking == BLACKIE){
-        if(missions[0].current_step == 3u){//to OW out of cave
+        if(find_blackie.current_step == 3u){//to OW out of cave
             previous_state = StateOverworld;
         }
     }
@@ -317,7 +318,7 @@ void move_on() BANKED{
 		return;
 	}
     if(whostalking == DEATH){
-		if(missions[0].current_step < 4){
+		if(find_blackie.current_step < 4){
             ChangeState(StateCredit, s_motherpl);
         }else{
             ChangeState(StateOverworld, s_motherpl);

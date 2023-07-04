@@ -42,7 +42,7 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
 extern WHOSTALKING whostalking;
 
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
@@ -110,7 +110,7 @@ void UPDATE(){
             update_camera_position();
         }
     //MANAGE NPC 
-        if(s_motherpl->x > ((UINT16)56u << 3) && missions[0].current_step < 2){
+        if(s_motherpl->x > ((UINT16)56u << 3) && find_blackie.current_step < 2){
             if(wolf_spawned == 0u){
                 wolf_spawned = 1u;
                 SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);

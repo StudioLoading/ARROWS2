@@ -33,7 +33,8 @@ extern unsigned char d5[];
 extern unsigned char d6[];
 extern unsigned char d7[];
 extern WHOSTALKING whostalking;
-extern struct MISSION missions[4];
+extern struct MISSION enable_hospital;
+extern struct MISSION engage_smith;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -93,8 +94,9 @@ void UPDATE() {
         PRINT(0, 13, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
-		switch(missions[1].mission_state){
+		switch(engage_smith.mission_state){
 			case MISSION_STATE_DISABLED:
+                //engage_smith.mission_state = MISSION_STATE_ENABLED;
 				whostalking = SMITH_DISABLED; 
 			break;
 			case MISSION_STATE_ENABLED:
@@ -102,7 +104,7 @@ void UPDATE() {
 				whostalking = SMITH_CHECKING_WOODANDMETAL; 
 				if(get_quantity(INVITEM_METAL) >= 10u 
 					&& get_quantity(INVITEM_WOOD) >= 10u){//se nell' inventario non ha ancora il materiale
-				    missions[1].mission_state = MISSION_STATE_ACCOMPLISHED;
+				    engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
 				    next_page = 1u;
 				}else{
 					whostalking = SMITH_CHECKING_NOWOODANDMETAL;
@@ -169,7 +171,7 @@ void UPDATE() {
         switch(previous_state){
             case StateCemetery:
                 if(whostalking == SMITH){
-                    missions[1].mission_state = MISSION_STATE_ENABLED;
+                    engage_smith.mission_state = MISSION_STATE_ENABLED;
                 }
             break;
         }

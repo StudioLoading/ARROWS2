@@ -17,6 +17,7 @@ typedef enum{
 }TIP_TO_BE_LOCALIZED;
 
 
+void GetLocalizedLog_EN() BANKED;
 void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;

@@ -45,7 +45,7 @@ struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH,
 struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, 
 .mission_state = MISSION_STATE_DISABLED, 
 .current_step = 0, .reward_quantity = 1u, .goal = 1u, .sprite_goal_type = SpritePgceme};
-struct MISSION missions[4];//= {find_blackie, engage_smith, help_cemetery_woman, 0};
+struct MISSION* missions[4];//= {find_blackie, engage_smith, help_cemetery_woman, 0};
 
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .equippable = 1u};
@@ -93,10 +93,10 @@ void missions_init() BANKED{
 			help_cemetery_woman.current_step = 0u;
 		break;
 	}
-	missions[0] = find_blackie;
-	missions[1] = engage_smith;
-	missions[2] = enable_hospital;
-	missions[3] = help_cemetery_woman;
+	missions[0] = &find_blackie;
+	missions[1] = &engage_smith;
+	missions[2] = &enable_hospital;
+	missions[3] = &help_cemetery_woman;
 }
 
 void inventory_init() BANKED{

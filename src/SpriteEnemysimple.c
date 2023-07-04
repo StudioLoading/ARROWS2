@@ -36,7 +36,7 @@ void Estart() BANKED;
 void configure() BANKED;
 void ETurn(UINT8 e_vx);
 void changeEstate(ENEMY_STATE new_e_state) BANKED;
-UINT8 getEmaxFrameskip();
+UINT8 getEmaxFrameskip() BANKED;
 void Econfiguration() BANKED;
 void Emanagement() BANKED;
 void Edestroy() BANKED;
@@ -104,9 +104,9 @@ void Emanagement() BANKED{
                     break;
                 }
             }
-            if(THIS->type != SpriteEnemysimplesnake){
-                eu_info->x_frameskip = 1u;
-            }
+            //if(THIS->type != SpriteEnemysimplesnake){
+                eu_info->x_frameskip = getEmaxFrameskip();//1u;
+            //}
         }else{
             UINT8 max_frameskip = getEmaxFrameskip();
             if(eu_info->x_frameskip < max_frameskip){
@@ -285,7 +285,7 @@ void Econfiguration() BANKED{
     }
 }
 
-UINT8 getEmaxFrameskip(){
+UINT8 getEmaxFrameskip() BANKED{
     UINT8 result = 0u;
     switch(THIS->type){
         case SpriteEnemysimplesnake:

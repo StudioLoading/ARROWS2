@@ -10,7 +10,7 @@
 #include "custom_datas.h"
 
 extern Sprite* s_motherpl;
-extern struct MISSION missions[4];
+extern struct MISSION help_cemetery_woman;
 
 struct EnemyData* child_info;
 const UINT8 child_anim_idle[] = {8,1,2,1,2,0,2,0,2};
@@ -27,11 +27,11 @@ void START(){
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
     child_hooked = 0u;
-    missions[3].mission_state = MISSION_STATE_STARTED;
+    help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
 }
 
 void UPDATE(){
-    if(missions[3].current_step == 3u){
+    if(help_cemetery_woman.current_step == 3u){
         child_info->x_frameskip--;
         if(child_info->x_frameskip == 0u){
             child_behavior();
@@ -53,7 +53,7 @@ void child_behavior() BANKED{
     if (distx > 120u){
         child_hooked = 0u;
         SpriteManagerRemoveSprite(THIS);
-        missions[3].current_step = 0u;
+        help_cemetery_woman.current_step = 0u;
     }else if(distx > 40u){
         child_hooked = 0u;
         change_child_state(ENEMY_IDLE);

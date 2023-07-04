@@ -6,6 +6,11 @@
 #include "Dialogs.h"
 #include "custom_datas.h"
 
+unsigned char log0[21];
+unsigned char m0[17];
+unsigned char m1[17];
+unsigned char m2[17];
+unsigned char m3[17];
 unsigned char d1[22];
 unsigned char d2[22];
 unsigned char d3[22];
@@ -34,8 +39,8 @@ UINT8 choice_right = 0u;
 
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
-
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
+extern struct MISSION help_cemetery_woman;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
@@ -245,7 +250,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
 		break;
 		case WOLF01:
-			switch(missions[0].current_step){
+			switch(find_blackie.current_step){
 				case 0u:
 				case 1u://non ho sconfitto le orde
 					*n_lines = 9u;
@@ -265,7 +270,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			}
 		break;
 		case BLACKIE:
-			switch(missions[0].current_step){
+			switch(find_blackie.current_step){
 				case 0u:
 				case 1u://non ho sconfitto le orde
 					*n_lines = 6u;
@@ -289,7 +294,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d9, "WE NEED TO TALK.    \0", 22);					
 					struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
 					pickup(&metal_special_data);
-					missions[0].current_step = 3u;
+					find_blackie.current_step = 3u;
 				break;
             	case 3u://ow orde sconfitte
 					*n_lines = 18u;
@@ -311,9 +316,9 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d16, EMPTY_STRING_21, 22);	
 					memcpy(d17, EMPTY_STRING_21, 22);
 					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
-                	missions[0].current_step = 4u;
-					missions[3].mission_state = MISSION_STATE_ENABLED;
-                	missions[0].mission_state = MISSION_STATE_STARTED;
+                	find_blackie.current_step = 4u;
+					help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
+                	find_blackie.mission_state = MISSION_STATE_STARTED;
 					{
 						change_quantity(INVITEM_LETTER, -1);
 					}
@@ -322,7 +327,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
         break;
 		case DEATH:
 			*n_lines = 6u;
-			if(missions[0].current_step < 4){
+			if(find_blackie.current_step < 4){
 				memcpy(d1, EMPTY_STRING_21, 22);
 				memcpy(d2, EMPTY_STRING_21, 22);
 				memcpy(d3, "DESSA IS DEAD.      \0", 22);
@@ -376,7 +381,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d8, "PLEASE HELP ME FIND \0", 22);
 			memcpy(d9, "HIM. I'LL GO WEST   \0", 22);
 			memcpy(d10, "YOU GO NORTH.      \0", 22);
-			missions[3].mission_state = MISSION_STATE_STARTED;
+			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
 		break;
 		case CHILD:
 			*n_lines = 5u;
@@ -396,4 +401,12 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
 		break;
     }
+}
+
+void GetLocalizedLog_EN() BANKED{
+	switch(current_state){
+		case StateExzoo:
+			memcpy(log0, "EXZOO VILLAGE       ", 20);
+		break;
+	}
 }

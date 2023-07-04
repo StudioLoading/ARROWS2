@@ -3,7 +3,7 @@
 #include "savegame.h"
 #include "ZGBMain.h"
 
-extern struct MISSION missions[4];
+extern struct MISSION find_blackie;
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
 extern INT8 motherpl_hp;
