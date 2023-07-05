@@ -112,6 +112,7 @@ void START(){
         horde_counter = 0u;
     }
 	SHOW_SPRITES;
+    Log();
 }
 
 void UPDATE(){
@@ -206,18 +207,6 @@ void UPDATE(){
         }else{
             horde_cooldown--;
         }
-    //MANAGE NPC 
-        /*if(wolf_spawned == 0u && s_motherpl->x > ((UINT16)56u << 3)){
-            wolf_spawned = 1u;
-            SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
-        }else if(wolf_spawned > 0u){
-            wolf_spawned++;
-            if(wolf_spawned >= 60u){
-                //trigger cutscene
-                whostalking = WOLF01;
-                ChangeState(StateDialog, s_motherpl);
-            }
-        }*/
 
-    Log();
+    //Log();
 }

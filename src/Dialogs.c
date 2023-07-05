@@ -41,6 +41,7 @@ extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
+extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
@@ -407,6 +408,25 @@ void GetLocalizedLog_EN() BANKED{
 	switch(current_state){
 		case StateExzoo:
 			memcpy(log0, "EXZOO VILLAGE       ", 20);
+		break;
+		case StateBlackiecave:
+			memcpy(log0, "CAVE OF THE WOLVES  ", 20);
+		break;
+		case StateBlackieroom:
+			memcpy(log0, "SLAY THE HORDES!    ", 20);
+		break;
+		case StateCemetery:
+			memcpy(log0, "HUMAN CEMETERY      ", 20);
+		break;
+		case StateHood:
+			if(spawn_child_cooldown < 100u && spawn_child_cooldown > 0u){
+				memcpy(log0, "HEY! WHO'S THERE?   ", 20);
+			}else{
+				memcpy(log0, "THE HOOD            ", 20);
+			}
+		break;
+		case StateMine:
+			memcpy(log0, "THE OLD MINE        ", 20);
 		break;
 	}
 }

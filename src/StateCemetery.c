@@ -83,6 +83,7 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
+    Log();
 }
 
 void UPDATE(){
@@ -122,6 +123,6 @@ void UPDATE(){
             }
         }
     
-    Log();
+    //Log();
 }
 

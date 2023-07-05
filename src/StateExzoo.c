@@ -82,6 +82,7 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(exzoomap0), &exzoomap0, &mapwidth, &mapheight);
 	SHOW_SPRITES;
+    Log();
 }
 
 void UPDATE(){
@@ -120,6 +121,6 @@ void UPDATE(){
             }
         }
     
-    Log();
+    //Log();
 }
 

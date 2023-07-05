@@ -52,13 +52,16 @@ extern struct MISSION enable_hospital;
 extern struct MISSION engage_smith;
 extern struct MISSION help_cemetery_woman;
 
-UINT8 cursor_posx[] = {4u, 4u, 4u, 4u, 12u, 132u};
-UINT8 cursor_posy[] = {12u, 36u, 60u, 84u, 116u, 116u};
+UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
+UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
 INT8 cursor_posi = 0u;
 UINT8 cursor_old_posi = 0u;
-const INT8 cursor_posimax = 6;
+const INT8 cursor_posimax = 4;//6
 Sprite* diary_cursor = 0;
-// cursor_posi
+Sprite* dado0 = 0;
+extern Sprite* dado1;
+extern Sprite* dado2;
+extern Sprite* dado3;
 UINT8 idx_mission = 0u;
 INT8 idx_page = 0u;
 UINT8 showing_detail = 0u;
@@ -68,6 +71,7 @@ void empty_dds();
 void show_missions();
 void show_detail();
 void change_page(INT8 inc);
+void show_pcodes();
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
@@ -84,6 +88,7 @@ void START(){
         InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
         INIT_FONT(fontbw, PRINT_BKG);
+        show_pcodes();
         SHOW_BKG;
     //INIT VARS
         cursor_old_posi = cursor_posi;
@@ -94,6 +99,41 @@ void START(){
         showing_detail = 0u;
     
 	SHOW_SPRITES;
+}
+
+void show_pcodes(){
+    SpriteManagerRemoveSprite(dado0);
+    SpriteManagerRemoveSprite(dado1);
+    SpriteManagerRemoveSprite(dado2);
+    SpriteManagerRemoveSprite(dado3);
+    dado0 = SpriteManagerAdd(SpriteTetradado, 52u, 104u);
+    struct TetradadoInfo* dado0_info = (struct TetradadoInfo*) dado0->custom_data;
+    dado0_info->tetradado_state = DADO_WAITING;
+    dado1 = SpriteManagerAdd(SpriteTetradado, 66u, 104u);
+    struct TetradadoInfo* dado1_info = (struct TetradadoInfo*) dado1->custom_data;
+    dado1_info->tetradado_state = DADO_WAITING;
+    dado2 = SpriteManagerAdd(SpriteTetradado, 80u, 104u);
+    struct TetradadoInfo* dado2_info = (struct TetradadoInfo*) dado2->custom_data;
+    dado2_info->tetradado_state = DADO_WAITING;
+    dado3 = SpriteManagerAdd(SpriteTetradado, 94u, 104u);
+    struct TetradadoInfo* dado3_info = (struct TetradadoInfo*) dado3->custom_data;
+    dado3_info->tetradado_state = DADO_WAITING;
+    if(idx_page < chapter){//show just the pwd for completed chapters!
+        switch(idx_page){
+            case 0u:
+                dado0_info->tetradado_state = PASSWORD;
+                dado1_info->tetradado_state = PASSWORD;
+                dado2_info->tetradado_state = PASSWORD;
+                dado3_info->tetradado_state = PASSWORD;
+                dado0_info->tetradado_faccia = FACCIA_4;
+                dado1_info->tetradado_faccia = FACCIA_1;
+                dado2_info->tetradado_faccia = FACCIA_4;
+                dado3_info->tetradado_faccia = FACCIA_1;
+            break;
+        }
+    }else{
+
+    }
 }
 
 void empty_ms(){
@@ -203,7 +243,7 @@ void show_missions(){
     PRINT(2, 8, m2);
     PRINT(2, 11, m3);
     
-	PRINT(7, 16, "%i:%u", idx_page+1, chapter+1);
+	PRINT(0, 0, "%i:%u", idx_page+1, chapter+1);
 }
 
 void change_page(INT8 inc){
@@ -212,6 +252,7 @@ void change_page(INT8 inc){
         if(idx_page<0){idx_page = chapter;}
         else{idx_page %= (chapter+1);}
     }
+    show_pcodes();
 }
 
 void UPDATE(){
