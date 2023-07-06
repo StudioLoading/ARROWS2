@@ -69,13 +69,14 @@ UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
 UINT8 just_started = 0u;
+UINT8 logtimeout = 10u;
 
 void UpdateHUD() BANKED;
-void Log() BANKED;
+void Log(NPCNAME npcname) BANKED;
 void update_camera_position() BANKED;
 void update_camera_position_ow() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
-void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
+void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
@@ -290,7 +291,7 @@ void UpdateHUD() BANKED{
 
 }
 
-void Log() BANKED{    
+void Log(NPCNAME npcname) BANKED{    
     /*switch(motherpl_state){
         case MOTHERPL_IDLE: PRINT(0, 0, "IDLE"); break;
         case MOTHERPL_JUMP: PRINT(0, 0, "JUMP"); break;
@@ -316,7 +317,12 @@ void Log() BANKED{
     }*/    
     //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
     //PRINT(16, 0, "!LOG");
-    GetLocalizedLog_EN();
+    if(logtimeout > 0){logtimeout--;}
+    else{GetLocalizedLog_EN();}
+    if(npcname != NONAME){
+        if(logtimeout == 0u){logtimeout = 60u;}
+        GetLocalizedLogName_EN(npcname);
+    }
     PRINT(0,0,log0);   
 }
 
@@ -453,7 +459,7 @@ void ReloadEnemiesPL() BANKED{
     }
 }
 
-void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED{
+void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED{
     Sprite* s_head = SpriteManagerAdd(type, posx, posy);
     s_head->mirror = mirror;
     struct NpcInfo* head_data = (struct NpcInfo*) s_head->custom_data;
@@ -464,6 +470,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     struct NpcInfo* body_data = (struct NpcInfo*) s_body->custom_data;
     body_data->type = body;
     body_data->whotalks = whos;
+    body_data->npcname = npcname;
     head_data->configured = 1u;
     body_data->configured = 1u;
 }

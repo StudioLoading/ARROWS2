@@ -64,12 +64,11 @@ UINT8 enemies_alive = 0u;
 UINT8 mother_exit_cooldown = 60u;
 
 extern void UpdateHUD() BANKED;
-extern void Log() BANKED;
+extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 extern void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 
 void START(){
@@ -112,7 +111,7 @@ void START(){
         horde_counter = 0u;
     }
 	SHOW_SPRITES;
-    Log();
+    Log(NONAME);
 }
 
 void UPDATE(){

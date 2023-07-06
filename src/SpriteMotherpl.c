@@ -95,6 +95,8 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
+extern void Log(NPCNAME npcname) BANKED;
+
 
 void START(){
     motherpl_vx = 0u;
@@ -491,6 +493,7 @@ void UPDATE(){
                         {
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;
+                            Log(npc_data->npcname);
                         }
                         motherpl_canshoot = 0u;
                         if(KEY_RELEASED(J_FIRE)){

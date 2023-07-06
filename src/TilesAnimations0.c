@@ -35,6 +35,7 @@ IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(titlescreentilesanim);
 IMPORT_TILES(titlescreentilesanim2);
 IMPORT_TILES(titlescreentilesanim3);
+IMPORT_TILES(diaryt);
 
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
@@ -61,18 +62,10 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, struct TilesInfo* t, 
 
 void dialog_map() BANKED{
 	switch(previous_state){
-		case StateExzoo:
-			set_banked_bkg_data(0, 101u, &dialogtiles00, BANK(dialogtiles00));
-		break;
-		case StateCemetery:
-			set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));
-		break;
-		case StateMine:
-			set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));
-		break;
-		case StateBlackiecave:
-			set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));
-		break;
+		case StateExzoo:set_banked_bkg_data(0, 101u, &dialogtiles00, BANK(dialogtiles00));break;
+		case StateCemetery:set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));break;
+		case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
+		case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
 		case StateOverworld:
 			if(whostalking == INTRO){
 				set_banked_bkg_data(0, 101u, &dialogmapintro, BANK(dialogmapintro));
@@ -80,9 +73,7 @@ void dialog_map() BANKED{
 		break;
 	}
 	switch(current_state){
-		case StateSmith:
-			set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));
-		break;
+		case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
 	}
 }
 

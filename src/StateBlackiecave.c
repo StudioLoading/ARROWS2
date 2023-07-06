@@ -51,12 +51,11 @@ const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
 UINT8 wolf_spawned = 0u;
 UINT8 timeout_drop = 0u;
 extern void UpdateHUD() BANKED;
-extern void Log() BANKED;
+extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
 
 
 void START(){
@@ -92,7 +91,7 @@ void START(){
     wolf_spawned = 0u;
     timeout_drop = 0u;
 	SHOW_SPRITES;
-    Log();
+    Log(NONAME);
 }
 
 void UPDATE(){

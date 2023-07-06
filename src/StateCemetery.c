@@ -48,12 +48,12 @@ const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
 
 extern void UpdateHUD() BANKED;
-extern void Log() BANKED;
+extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
+extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 
 
 void START(){
@@ -83,7 +83,7 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
-    Log();
+    Log(NONAME);
 }
 
 void UPDATE(){
@@ -104,20 +104,20 @@ void UPDATE(){
     //MANAGE NPC
         if(s_motherpl->x < ((UINT16)35u << 3)){
             if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2);
+                spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2, WOMAN);
                 if(help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
-                    spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER);
+                    spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER, MARGARET);
                 }else{
-                    spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1);
+                    spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1, WOMAN);
                 }
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3)){
             if(npc_spawned_zone != 2u){
                 if(engage_smith.mission_state == MISSION_STATE_DISABLED){
-                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH);
+                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH, JOHN);
                 }
-                spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2);
+                spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2, WOMAN);
                 
                 npc_spawned_zone = 2u;
             }

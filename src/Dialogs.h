@@ -16,7 +16,7 @@ typedef enum{
 	TIP_STILL_SOMETHING
 }TIP_TO_BE_LOCALIZED;
 
-
+void GetLocalizedLogName_EN(NPCNAME npcname) BANKED;
 void GetLocalizedLog_EN() BANKED;
 void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;

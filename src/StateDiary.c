@@ -63,7 +63,7 @@ extern Sprite* dado1;
 extern Sprite* dado2;
 extern Sprite* dado3;
 UINT8 idx_mission = 0u;
-INT8 idx_page = 0u;
+INT8 idx_page = 0;
 UINT8 showing_detail = 0u;
 
 void empty_ms();
@@ -88,13 +88,13 @@ void START(){
         InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
         INIT_FONT(fontbw, PRINT_BKG);
-        show_pcodes();
         SHOW_BKG;
     //INIT VARS
         cursor_old_posi = cursor_posi;
         diary_cursor->x = cursor_posx[cursor_old_posi];
         diary_cursor->y = cursor_posy[cursor_old_posi];
         idx_page = chapter;
+        show_pcodes();
         show_missions();
         showing_detail = 0u;
     
@@ -102,37 +102,49 @@ void START(){
 }
 
 void show_pcodes(){
+    /*SOSTITUIRE LE FRECCE NAVIGAZIONE CON BARRE ORIZZONTALI A SECONDA
+    SE SONO A PAGINA ZERO (ELIMINO LA FRECCIA A SINISTRA),IN MEZZO (COMPAIONO ENTRAMBE),
+    O CHAPTER (ELIMINO LA FRECCIA A DESTRA). E IN PIù DOVREI DISABILITARE IL FATTO CHE 
+    ALLA ULTIMA PAGINA PREMENDO DESTRA TORNO ALLA PAGINA 0, E DALLA PAGINA 0 PREMENDO
+    SINISTRA VADO ALLA PAGINA CHAPTER. FORSE MEGLIO CASSARE.
+    O FORSE MEGLIO GESTIRE CON SPRITE, MA NON è CHE SONO A TAPPO SUL DMG DEL NUMERO DI SPRITE
+    CONSIDERANDO I DADI SOPRA DI PCODE?
+    if(idx_page == 0){
+        UPDATE_HUD_TILE(2,15,10); //10 is the # tile to substitute the left arrow for navigation
+    }else if(idx_page == chapter){
+        set_banked_bkg_data(4u, 1u, &diaryt, BANK(diaryt));
+    }
+    */
     SpriteManagerRemoveSprite(dado0);
     SpriteManagerRemoveSprite(dado1);
     SpriteManagerRemoveSprite(dado2);
     SpriteManagerRemoveSprite(dado3);
     dado0 = SpriteManagerAdd(SpriteTetradado, 52u, 104u);
     struct TetradadoInfo* dado0_info = (struct TetradadoInfo*) dado0->custom_data;
-    dado0_info->tetradado_state = DADO_WAITING;
     dado1 = SpriteManagerAdd(SpriteTetradado, 66u, 104u);
     struct TetradadoInfo* dado1_info = (struct TetradadoInfo*) dado1->custom_data;
-    dado1_info->tetradado_state = DADO_WAITING;
     dado2 = SpriteManagerAdd(SpriteTetradado, 80u, 104u);
     struct TetradadoInfo* dado2_info = (struct TetradadoInfo*) dado2->custom_data;
-    dado2_info->tetradado_state = DADO_WAITING;
     dado3 = SpriteManagerAdd(SpriteTetradado, 94u, 104u);
     struct TetradadoInfo* dado3_info = (struct TetradadoInfo*) dado3->custom_data;
-    dado3_info->tetradado_state = DADO_WAITING;
-    if(idx_page < chapter){//show just the pwd for completed chapters!
+    if(idx_page == chapter){
+        dado0_info->tetradado_state = DADO_WAITING;
+        dado1_info->tetradado_state = DADO_WAITING;
+        dado2_info->tetradado_state = DADO_WAITING;
+        dado3_info->tetradado_state = DADO_WAITING;
+    }else {//show just the pwd for completed chapters!
+        dado0_info->tetradado_state = PASSWORD;
+        dado1_info->tetradado_state = PASSWORD;
+        dado2_info->tetradado_state = PASSWORD;
+        dado3_info->tetradado_state = PASSWORD;
         switch(idx_page){
             case 0u:
-                dado0_info->tetradado_state = PASSWORD;
-                dado1_info->tetradado_state = PASSWORD;
-                dado2_info->tetradado_state = PASSWORD;
-                dado3_info->tetradado_state = PASSWORD;
                 dado0_info->tetradado_faccia = FACCIA_4;
                 dado1_info->tetradado_faccia = FACCIA_1;
                 dado2_info->tetradado_faccia = FACCIA_4;
                 dado3_info->tetradado_faccia = FACCIA_1;
             break;
         }
-    }else{
-
     }
 }
 
@@ -201,6 +213,24 @@ void show_detail(){
                         if(enable_hospital.mission_state >= MISSION_STATE_ACCOMPLISHED){
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D4, dd4);
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D5, dd5);
+                        }
+                    }
+                break;
+            }
+        break;
+        case 1u:
+            switch(cursor_posi){
+                case 0u:
+                    if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(WIDOW_D0, dd2);
+                        GetLocalizedDDLabel_EN(WIDOW_D1, dd3);
+                        if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+                            GetLocalizedDDLabel_EN(WIDOW_D2, dd4);
+                            GetLocalizedDDLabel_EN(WIDOW_D3, dd5);
+                            if(help_cemetery_woman.current_step >= 2u){
+                                GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
+                                GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
+                            }   
                         }
                     }
                 break;
@@ -311,9 +341,9 @@ void UPDATE(){
             PRINT(20, 11, dd8);
             PRINT(20, 12, dd9);
             PRINT(20, 14, dd10);
-            PRINT(20, 15, dd11);
-            PRINT(20, 17, dd12);
-            PRINT(20, 18, dd13);
+            //PRINT(20, 15, dd11);
+            //PRINT(20, 17, dd12);
+            //PRINT(20, 18, dd13);
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             showing_detail = 0u;

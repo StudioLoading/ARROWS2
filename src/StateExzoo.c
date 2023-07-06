@@ -45,12 +45,12 @@ const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
 
 extern void UpdateHUD() BANKED;
-extern void Log() BANKED;
+extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos) BANKED;
+extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 
 
 void START(){
@@ -82,7 +82,6 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(exzoomap0), &exzoomap0, &mapwidth, &mapheight);
 	SHOW_SPRITES;
-    Log();
 }
 
 void UPDATE(){
@@ -104,23 +103,23 @@ void UPDATE(){
     //MANAGE NPC
         if(s_motherpl->x < ((UINT16)40u << 3)){
             if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1);
-                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2);
+                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1, WOMAN);
+                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2, WOMAN);
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)70u << 3)){
             if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2);
+                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
                 npc_spawned_zone = 2u;
             }
         }else if(s_motherpl->x < ((UINT16)120u << 3)){
             if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1);
-                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3);
+                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
+                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
                 npc_spawned_zone = 3u;
             }
         }
     
-    //Log();
+    Log(NONAME);
 }
 

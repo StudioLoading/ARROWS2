@@ -187,16 +187,17 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "LET US PRAY...      \0", 22);
 		break;
 		case SMITH:
-			*n_lines = 9u;
-			memcpy(d1, "HI I AM THE SMITH.  \0", 22);
-			memcpy(d2, "I'D LIKE TO HELP YOU\0", 22);
-			memcpy(d3, EMPTY_STRING_21, 22);
-			memcpy(d4, "BRING TO THE FORGE  \0", 22);
-			memcpy(d5, "10 OF WOOD AND 10 OF\0", 22);
-			memcpy(d6, "METAL. GO CHECK THE \0", 22);
-			memcpy(d7, "OLD MINE.           \0", 22);
-			memcpy(d8, EMPTY_STRING_21, 22);
-			memcpy(d9, "SEE YOU TO THE FORGE\0", 22);
+			*n_lines = 10u;
+			memcpy(d1, "HI, I AM JOHN.      \0", 22);
+			memcpy(d2, "I AM THE SMITH AND  \0", 22);
+			memcpy(d3, "I'D LIKE TO HELP YOU\0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "BRING TO THE FORGE  \0", 22);
+			memcpy(d6, "10 OF WOOD AND 10 OF\0", 22);
+			memcpy(d7, "METAL. GO CHECK THE \0", 22);
+			memcpy(d8, "OLD MINE.           \0", 22);
+			memcpy(d9, EMPTY_STRING_21, 22);
+			memcpy(d10, "SEE YOU TO THE FORGE\0", 22);
 		break;
 		case SUPERSTONE:
 			*n_lines = 6u;
@@ -298,7 +299,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					find_blackie.current_step = 3u;
 				break;
             	case 3u://ow orde sconfitte
-					*n_lines = 18u;
+					*n_lines = 19u;
 					memcpy(d1, "SALUTE HEALER, I AM \0", 22);
 					memcpy(d2, "SORRY THE ARCHER HAS\0", 22);	
 					memcpy(d3, "BEEN CAUGHT. LET ME \0", 22);
@@ -311,12 +312,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d10, "HELP US.           \0", 22);
 					memcpy(d11, EMPTY_STRING_21, 22);	
 					memcpy(d12, "I'VE HEARD A CRYING\0", 22);
-					memcpy(d13, "LADY AT THE CEMETER\0", 22);
-					memcpy(d14, "Y: PLEASE GO       \0", 22);
-					memcpy(d15, "HELP HER. THEN     \0", 22);
-					memcpy(d16, EMPTY_STRING_21, 22);	
-					memcpy(d17, EMPTY_STRING_21, 22);
-					memcpy(d18, "MEET ME AT THE DOCK\0", 22);
+					memcpy(d13, "LADY, MARGARET, AT \0", 22);
+					memcpy(d14, "THE CEMETERY:      \0", 22);
+					memcpy(d15, "PLEASE GO HELP HER.\0", 22);
+					memcpy(d16, "THEN MEET ME UP TO \0", 22);
+					memcpy(d17, EMPTY_STRING_21, 22);	
+					memcpy(d18, EMPTY_STRING_21, 22);
+					memcpy(d19, "THE MOUNTAINS      \0", 22);
                 	find_blackie.current_step = 4u;
 					help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
                 	find_blackie.mission_state = MISSION_STATE_STARTED;
@@ -371,17 +373,20 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "WOUNDS.             \0", 22);
 		break;
 		case CRYING_MOTHER:
-			*n_lines = 10u;
-			memcpy(d1, "SIGH!...OH HEALER I \0", 22);
-			memcpy(d2, "KNOW YOU CAN FEEL ME\0", 22);
+			*n_lines = 13u;
+			memcpy(d1, "SIGH!... HI...      \0", 22);
+			memcpy(d2, "MY NAME IS MARGARET.\0", 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
-			memcpy(d4, "MY CHILD HAS BEEN LO\0", 22);
-			memcpy(d5, "ST IN THE HOODS...! \0", 22);
-			memcpy(d6, "I AM SO SCARED!     \0", 22);
-			memcpy(d7, EMPTY_STRING_21, 22);
-			memcpy(d8, "PLEASE HELP ME FIND \0", 22);
-			memcpy(d9, "HIM. I'LL GO WEST   \0", 22);
-			memcpy(d10, "YOU GO NORTH.      \0", 22);
+			memcpy(d4, "SIGHT! OH HEALER I  \0", 22);
+			memcpy(d5, "KNOW YOU CAN FEEL ME\0", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "MY CHILD HAS BEEN LO\0", 22);
+			memcpy(d8, "ST IN THE HOODS...! \0", 22);
+			memcpy(d9, "I AM SO SCARED!     \0", 22);
+			memcpy(d10, EMPTY_STRING_21, 22);
+			memcpy(d11, "PLEASE HELP ME FIND \0", 22);
+			memcpy(d12, "HIM. I'LL GO WEST   \0", 22);
+			memcpy(d13, "YOU GO NORTH.      \0", 22);
 			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
 		break;
 		case CHILD:
@@ -402,6 +407,24 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
 		break;
     }
+}
+
+
+void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
+	switch(npcname){
+		case JOHN:
+			memcpy(log0, "JOHN                ", 20);
+		break;
+		case WOMAN:
+			memcpy(log0, "WOMAN               ", 20);
+		break;
+		case LUKE:
+			memcpy(log0, "LUKE                ", 20);
+		break;
+		case LEGO:
+			memcpy(log0, "LEGO                ", 20);
+		break;
+	}
 }
 
 void GetLocalizedLog_EN() BANKED{

@@ -56,5 +56,11 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ENABLE_HOSPITAL_D4:memcpy(d, "NOW I CAN GET      ", 20);break;
 		case ENABLE_HOSPITAL_D5:memcpy(d, "HEALED EVERYTIME   ", 20);break;
 		case HELP_DESPARATE_WIDOW_TITLE:memcpy(d, "HELP THE WIDOW  ", 16);break;
+		case WIDOW_D0:memcpy(d, "TALK TO THE WIDOW  ", 20);break;
+		case WIDOW_D1:memcpy(d, "AT THE CEMETERY    ", 20);break;
+		case WIDOW_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
+		case WIDOW_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
+		case WIDOW_D4:memcpy(d, "GOTTA BRING THE KID", 20);break;
+		case WIDOW_D5:memcpy(d, "BACK TO THE VILLAGE", 20);break;
 	}	
 }

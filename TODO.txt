@@ -1,4 +1,5 @@
 POST DEMO:
+- replicare l'invocazione di Log() come su StateExzoo negli altri state di place
 - proseguire con l'implementazione del design del chapter 1
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
 
@@ -32,6 +33,9 @@ POST DEMO:
 	ogni cartello leggibile
 - chiamare il Log() solo alla start dello state? Ora lo sto chiamando
 	fisso sulle UPDATE() degli state...
+- diary: le frecce di navigazione dovrei forse gestirle come sprites, così
+	ne faccio animazione quando premo destra o sinistra, le faccio scomparire
+	quando sono ai limiti delle pagine 0-chapter...
 
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)

@@ -324,12 +324,22 @@ typedef enum{
     MAN_BODY2
 }NPCTYPE;
 
+typedef enum{
+	NONAME,
+	JOHN,
+	LUKE,
+	MARGARET,
+	WOMAN,
+	LEGO,
+	MAN
+}NPCNAME;
+
 struct NpcInfo{
 	UINT8 none1;
 	UINT8 none2;
 	UINT8 none3;
 	UINT8 none4;
-	UINT8 none5;
+	NPCNAME npcname;
     WHOSTALKING whotalks;
 	NPCTYPE type;
     UINT8 configured;
