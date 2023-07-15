@@ -424,6 +424,9 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		case LEGO:
 			memcpy(log0, "LEGO                ", 20);
 		break;
+		case WOLF_BLACKIE:
+			memcpy(log0, "BLACKIE             ", 20);
+		break;
 	}
 }
 

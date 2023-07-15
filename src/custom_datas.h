@@ -331,7 +331,8 @@ typedef enum{
 	MARGARET,
 	WOMAN,
 	LEGO,
-	MAN
+	MAN,
+	WOLF_BLACKIE
 }NPCNAME;
 
 struct NpcInfo{

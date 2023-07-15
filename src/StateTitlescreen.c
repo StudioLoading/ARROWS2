@@ -11,6 +11,7 @@
 #include "Fade.h"
 #include "Music.h"
 #include "Sound.h"
+#include "Music.h"
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
@@ -20,7 +21,8 @@ IMPORT_MAP(border2);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(titlescreenmap);
-DECLARE_MUSIC(bgm_titlescreen);
+//DECLARE_MUSIC(bgm_titlescreen);
+DECLARE_MUSIC(sloopy);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -58,7 +60,9 @@ void START() {
 	INIT_FONT(fontbw, PRINT_BKG);
 	
 	titlescreen_step = 0u;
-	PlayMusic(bgm_titlescreen, 0);
+	
+	PlayMusic(sloopy, 1);
+	//PlayMusic(bgm_titlescreen, 0);
 	titlescreen_wait_time = 0;
 }
 

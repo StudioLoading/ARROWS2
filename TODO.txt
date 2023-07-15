@@ -37,13 +37,16 @@ POST DEMO:
 	ne faccio animazione quando premo destra o sinistra, le faccio scomparire
 	quando sono ai limiti delle pagine 0-chapter...
 
+SGB BORDER LIMITATIONS:
+The border cannot utilize more than 16 colors.
+The border cannot contain more than 256 unique 8×8 pixel tiles.
+
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
 - dialogs:
 	- blackie dentro room
 	- blackie fuori room
 	- figlio di blackie dentro cave
-
 
 
 CHATGPT MISSIONS:

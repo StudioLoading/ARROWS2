@@ -91,7 +91,6 @@ void START(){
     wolf_spawned = 0u;
     timeout_drop = 0u;
 	SHOW_SPRITES;
-    Log(NONAME);
 }
 
 void UPDATE(){
@@ -137,5 +136,6 @@ void UPDATE(){
             }
         }
 
-    //Log();
+    
+    Log(NONAME);
 }

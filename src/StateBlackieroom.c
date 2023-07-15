@@ -111,7 +111,6 @@ void START(){
         horde_counter = 0u;
     }
 	SHOW_SPRITES;
-    Log(NONAME);
 }
 
 void UPDATE(){
@@ -207,5 +206,6 @@ void UPDATE(){
             horde_cooldown--;
         }
 
-    //Log();
+    
+    Log(NONAME);
 }

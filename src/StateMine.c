@@ -96,7 +96,6 @@ void START(){
         superstone_spawned = 0u;
     }
 	SHOW_SPRITES;
-    Log(NONAME);
 }
 
 void UPDATE(){
@@ -192,6 +191,7 @@ void UPDATE(){
         }else if (timeout_enemy != 10u){
             timeout_enemy = 10u;
         }
-    //Log();
+    
+    Log(NONAME);
 }
 

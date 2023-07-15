@@ -96,7 +96,6 @@ void START(){
     timeout_enemy = 400u;
     generic_counter = 60u;
     spawn_child_cooldown = 100u;
-    Log(NONAME);
 }
 
 void UPDATE(){
@@ -180,6 +179,7 @@ void UPDATE(){
             }            
         }
     
-    //Log();
+    
+    Log(NONAME);
 }
 

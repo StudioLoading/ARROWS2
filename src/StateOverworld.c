@@ -23,12 +23,13 @@ IMPORT_TILES(tilesowsouthwest);
 IMPORT_MAP(owsouthwest);
 IMPORT_MAP(hudow);
 
+
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
-const UINT8 collision_tiles_ow_sw[] = {1, 2, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 28, 29, 32, 
+const UINT8 collision_tiles_ow_sw[] = {1, 2, 14, 15, 16, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 95, 96, 0};
 UINT8 border_set_ow = 0u;
@@ -96,7 +97,7 @@ void START(){
 				if(previous_state == StatePassword){
 					switch(chapter){
 						case 0u:
-							motherow_pos_x = (UINT16) 19u << 3;
+							motherow_pos_x = (UINT16) 14u << 3;
 							motherow_pos_y = (UINT16) 24u << 3;
 						break;
 						case 1u:
@@ -106,10 +107,11 @@ void START(){
 					}
 				}else{
 					if(motherow_pos_x == 0u){
-						motherow_pos_x = (UINT16) 19u << 3;
+						motherow_pos_x = (UINT16) 15u << 3;
+						motherow_pos_x -= 3u;
 					}
 					if(motherow_pos_y == 0u){
-						motherow_pos_y = (UINT16) 24u << 3;
+						motherow_pos_y = (UINT16) 26u << 3;
 					}
 				}
 				if(whostalking == DEATH){
