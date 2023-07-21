@@ -64,6 +64,7 @@ extern void change_cursor(UINT8 square_or_arrow) BANKED;
 extern void ChangeState(UINT8 new_state) BANKED;
 extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 void START(){
 	//SOUND
@@ -406,16 +407,7 @@ UINT8 get_quantity(INVITEMTYPE itemtype) BANKED{
 
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
     INT8 idx = -1;
-    UINT8 equippable = 0u;
-    switch(itemtype){
-        case INVITEM_ARROW_NORMAL:
-        case INVITEM_ARROW_BASTARD:
-        case INVITEM_ARROW_PERFO:
-        case INVITEM_MONEY:
-        case INVITEM_BOMB:
-            equippable = 1u;
-        break;
-    }
+    UINT8 equippable = is_item_equippable(itemtype);
     for(UINT8 i = 0u; i < 12; ++i){
         if(itemtype == inventory[i].itemtype){
             if(l < 0){

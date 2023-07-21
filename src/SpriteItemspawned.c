@@ -27,6 +27,9 @@ const UINT8 is_crossb_dis[] = {2, 7, 3};
 const UINT8 is_powd[] = {1, 8};
 const UINT8 is_powd_dis[] = {2, 8, 3};
 
+void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
+UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
+
 
 void START(){
     THIS->lim_x = 255u;
@@ -102,6 +105,32 @@ void UPDATE(){
             }
         break;
     }
+}
+
+UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED{
+    UINT8 equippable = 0u;
+    switch(itemtype){
+        case INVITEM_ARROW_NORMAL:
+        case INVITEM_ARROW_BASTARD:
+        case INVITEM_ARROW_PERFO:
+        case INVITEM_MONEY:
+        case INVITEM_BOMB:
+            equippable = 1u;
+        break;
+    }
+    return equippable;
+}
+
+void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED{
+    //SPAWN ITEM
+    UINT16 quantity = 1u;        
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, spawn_at_x, spawn_at_y -8u);
+    struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
+    reward_data->itemtype = itemtype;
+    reward_data->quantity = quantity;
+    UINT8 eq = is_item_equippable(itemtype);
+    reward_data->equippable = eq;
+    reward_data->configured = 1u;
 }
 
 void DESTROY(){}

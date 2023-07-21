@@ -29,6 +29,7 @@ UINT8 arrows_onscreen = 0u;
 
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 
 void START(){
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
@@ -145,6 +146,11 @@ void UPDATE(){
                     break;
                     case SpriteSuperstone:
                         SpriteManagerRemoveSprite(THIS);
+                    break;
+                    case SpriteLeaf:
+                        arrow_data->hit = 1u;
+                        SpriteManagerRemoveSprite(iarrspr);
+                        spawnItem(INVITEM_MONEY, THIS->x + 8u, THIS->y);
                     break;
                 }
             }

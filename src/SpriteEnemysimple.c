@@ -41,6 +41,7 @@ void Econfiguration() BANKED;
 void Emanagement() BANKED;
 void Edestroy() BANKED;
 void EspawnItem() BANKED;
+UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
@@ -458,10 +459,10 @@ void EspawnItem() BANKED{
     if(current_state == StateMine){
         if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;
-        }else if (enemy_random_30_100 < 85){
+        }else if (enemy_random_30_100 < 90){
             itemtype = INVITEM_WOOD;        
         }else{
-            itemtype = INVITEM_HEART;        
+            itemtype = INVITEM_HEARTS;        
         }
     }else{
         if(enemy_random_30_100 < 35){
@@ -469,7 +470,7 @@ void EspawnItem() BANKED{
         }else if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;
         }else if (enemy_random_30_100 < 58){
-            itemtype = INVITEM_HEART;
+            //itemtype = INVITEM_HEART;
         }else if (enemy_random_30_100 < 70){
             itemtype = INVITEM_WOOD;
         }else if (enemy_random_30_100 < 80){
@@ -481,7 +482,7 @@ void EspawnItem() BANKED{
     struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
     reward_data->itemtype = itemtype;
     reward_data->quantity = quantity;
-    reward_data->equippable = 1u;
+    reward_data->equippable = is_item_equippable(itemtype);
     reward_data->configured = 1u;
 }
 
