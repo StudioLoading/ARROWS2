@@ -21,6 +21,7 @@ IMPORT_TILES(fontbw);
 IMPORT_TILES(tilesowsouthwest);
 
 IMPORT_MAP(owsouthwest);
+IMPORT_MAP(ownorthwest);
 IMPORT_MAP(hudow);
 
 
@@ -31,7 +32,7 @@ extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_ow_sw[] = {1, 2, 14, 15, 16, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
-68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 95, 96, 0};
+68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 95, 96, 0};
 UINT8 border_set_ow = 0u;
 UINT8 border_set_diary = 0u;
 UINT8 border_set_exzoo = 0u;
@@ -44,10 +45,12 @@ UINT8 showed_tip_goback = 0u;
 UINT8 showing_tip_line = 0u;
 UINT8 showing_tip_delay = 8u;
 UINT16 lim_up_y = ((UINT16) 9u << 3);
+UINT16 lim_down_y = ((UINT16) 46u << 3);
 UINT16 lim_east_x = ((UINT16) 46u << 3);
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
+UINT8 delay_spawning = 0;
 
 extern struct OwSpriteInfo* motherow_info;
 extern UINT16 motherow_pos_x;
@@ -66,6 +69,7 @@ extern WHOSTALKING whostalking;
 extern UINT8 child_hooked;
 extern INT8 chapter;
 extern UINT8 previous_state;
+extern FA2OW_SPRITE_STATES new_state;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -73,6 +77,7 @@ void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
 void ChangeMapOW() BANKED;
+void initial_sprite_spawning() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
@@ -118,23 +123,41 @@ void START(){
 					motherow_pos_x = (UINT16) 36u << 3;
 					motherow_pos_y = (UINT16) 14u << 3;
 				}
-				SpriteManagerAdd(SpriteOwsign, ((UINT16) 17u << 3)+5u, ((UINT16) 11u << 3)-6u);
-				SpriteManagerAdd(SpriteOwsign, ((UINT16) 15u << 3)+5u, ((UINT16) 35u << 3)-6u);
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
-				if(chapter == 0 && find_blackie.current_step == 3u || find_blackie.current_step == 4u){
-					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
-					s_blackieow->mirror = V_MIRROR;
-					if(find_blackie.current_step == 4u){
-						find_blackie.current_step = 5u;
-						find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
-						blackieow_data->wait = 60u;
-						blackieow_data->vx = -2;
+			break;
+			case 1u:
+				if(sgb_check()){
+					set_sgb_palette_overworldsw();
+				}
+				if(previous_state == StatePassword){
+					switch(chapter){
+						case 0u:
+							motherow_pos_x = (UINT16) 14u << 3;
+							motherow_pos_y = (UINT16) 24u << 3;
+						break;
+						case 1u:
+							motherow_pos_x = (UINT16) 38u << 3;
+							motherow_pos_y = (UINT16) 33u << 3;
+						break;
+					}
+				}else{
+					if(motherow_pos_x == 0u){
+						motherow_pos_x = (UINT16) 14u << 3;
+						motherow_pos_x -= 3u;
+					}
+					if(motherow_pos_y == 0u){
+						motherow_pos_y = (UINT16) 43u << 3;
 					}
 				}
+				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+				new_state = IDLE_UP;
+				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
+				InitScroll(BANK(ownorthwest), &ownorthwest, collision_tiles_ow_sw, 0);				
 			break;
 		}
+		delay_spawning = 80u;
 	//CUTSCENES
 		if(child_hooked == 1u && help_cemetery_woman.current_step == 3u){
 			help_cemetery_woman.current_step = 4u;
@@ -151,6 +174,11 @@ void START(){
 	switch(current_map){
 		case 0u:
 			lim_up_y = ((UINT16) 9u << 3);
+			lim_east_x = ((UINT16) 46u << 3);
+		break;
+		case 1u:
+			lim_up_y = ((UINT16) 9u << 3);
+			lim_down_y = ((UINT16) 48u << 3);
 			lim_east_x = ((UINT16) 46u << 3);
 		break;
 	}
@@ -190,14 +218,39 @@ void ShowTipOW() BANKED{
 	}
 }
 
+void initial_sprite_spawning() BANKED{
+	switch(current_map){
+		case 0u:
+			SpriteManagerAdd(SpriteOwsign, ((UINT16) 17u << 3)+4u, ((UINT16) 10u << 3));
+			SpriteManagerAdd(SpriteOwsign, ((UINT16) 15u << 3)+4u, ((UINT16) 42u << 3));
+			if(chapter == 0 && find_blackie.current_step == 3u || find_blackie.current_step == 4u){
+				Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
+				s_blackieow->mirror = V_MIRROR;
+				if(find_blackie.current_step == 4u){
+					find_blackie.current_step = 5u;
+					find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+					blackieow_data->wait = 60u;
+					blackieow_data->vx = -2;
+				}
+			}
+		break;
+		case 1u:{
+			SpriteManagerAdd(SpriteOwsign, ((63u << 3)+5u),(UINT16) 30u << 3);
+			SpriteManagerAdd(SpriteOwsign, ((15u << 3)+5u),(UINT16) 30u << 3);
+			SpriteManagerAdd(SpriteOwsign, ((40u << 3)+5u),(UINT16) 31u << 3);
+			}
+		break;
+	}
+}
+
 void UPDATE(){
 	//MAP LIMITS
-		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x){
+		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x || s_motherow->y > lim_down_y){
 		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			switch(current_map){
-				case 0u:
-					if(find_blackie.current_step < 5u || help_cemetery_woman.mission_state != MISSION_STATE_STARTED){
+				case 0u://ow south west
+					if(find_blackie.current_step < 5u || help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
 							s_motherow->y = lim_up_y + 6u;
 						}
@@ -211,6 +264,11 @@ void UPDATE(){
 						}
 					}
 				break;
+				case 1u://ow north west
+					if(s_motherow->y > lim_down_y){//go south to StateHood
+						ChangeState(StateHood, s_motherow);
+					}
+				break;
 			}
 		}
 	//CAMERA FOLLOW
@@ -218,7 +276,14 @@ void UPDATE(){
 			scroll_target->x = s_motherow->x+4u;
 			scroll_target->y = s_motherow->y+4u;
 		}
-	if(KEY_RELEASED(J_START)){
+	//INITIAL SPRITE SPAWNING
+	if(delay_spawning > 0){
+		delay_spawning--;
+		if(delay_spawning == 0){
+			initial_sprite_spawning();
+		}
+	}
+	if(KEY_RELEASED(J_SELECT)){
 		/*
 		switch(hudow_opened){
 			case 0u://vado in 
@@ -234,6 +299,10 @@ void UPDATE(){
 		*/
 		HIDE_WIN;
 		ChangeState(StateDiary, s_motherow);
+	}
+	if(KEY_TICKED(J_START)){	
+		HIDE_WIN;
+		ChangeState(StateInventory, s_motherow);
 	}
 	/*
 	if(hudow_opened == 1u){

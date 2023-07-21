@@ -22,7 +22,6 @@ extern UINT8 J_FIRE;
 
 extern UINT8 border_set_diary;
 extern UINT8 border_set_ow;
-extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 extern unsigned char ddinv1[];
 extern unsigned char ddinv2[];
 extern unsigned char ddinv3[];
@@ -407,7 +406,17 @@ UINT8 get_quantity(INVITEMTYPE itemtype) BANKED{
 
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
     INT8 idx = -1;
-    for(UINT8 i = 0u; i < 12; i++){
+    UINT8 equippable = 0u;
+    switch(itemtype){
+        case INVITEM_ARROW_NORMAL:
+        case INVITEM_ARROW_BASTARD:
+        case INVITEM_ARROW_PERFO:
+        case INVITEM_MONEY:
+        case INVITEM_BOMB:
+            equippable = 1u;
+        break;
+    }
+    for(UINT8 i = 0u; i < 12; ++i){
         if(itemtype == inventory[i].itemtype){
             if(l < 0){
                 if(inventory[i].quantity > 0){
@@ -416,10 +425,34 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
             }else{
                 idx = i;
             }
-            i = 12;
+            i = 65;
         }
     }
-    if(idx > -1){inventory[idx].quantity+=l;}else{idx = 0;}
+    if(idx > -1 && idx < 12){//i<12 sennò non va e non so perchè
+        inventory[idx].quantity+=l;
+    }else{
+        idx = -1;
+        if(equippable == 0){
+            for(UINT8 i = 6u; i < 12; i++){
+                if(INVITEM_UNASSIGNED == inventory[i].itemtype){
+                    idx = i;
+                    i = 65;
+                }
+            }
+        }else{
+            for(UINT8 i = 0u; i < 6; i++){
+                if(INVITEM_UNASSIGNED == inventory[i].itemtype){
+                    idx = i;
+                    i = 65;
+                }
+            }
+        }
+        if(idx > -1){
+            inventory[idx].itemtype = itemtype;
+            inventory[idx].equippable = equippable; 
+            inventory[idx].quantity+=l;
+        }
+    }
     if(inventory[idx].quantity == 0){
         inventory[idx].itemtype = INVITEM_UNASSIGNED; 
     }

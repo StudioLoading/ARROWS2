@@ -1,8 +1,18 @@
 POST DEMO:
-- replicare l'invocazione di Log() come su StateExzoo negli altri state di place
-- proseguire con l'implementazione del design del chapter 1
+- sistemare il change_quantity per considerare il fatto del equippable
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
-
+- cambiare bg in state cemetery perché è troppo allegra
+- spawning moneta quando colpisco foglia con freccia
+- controllo dell' altezza del salto sul DMG perché temo vada più in alto del color :S 
+- bgm hood
+- animare i loghi in primo screen di crediti, troppo importante per feeling altrimenti cheap
+- conto alla rovescia sulla schermata password per tornare alla titlescreen
+- bg di immissione password oppure sfx di cambio card
+	- sfx di ok/ko caricamento e timeout
+- ow trovare oggetti nascosti, col tip di cosa sia stato preso
+- owmaze labirinto dungeon - i metterei nemici inseguitori da battere in platform! così 
+	questo sistema verrà ripreso nel capitolo plague con gli scorpioni.
+- proseguire con l'implementazione del design del chapter 1
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.

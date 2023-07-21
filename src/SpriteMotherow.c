@@ -29,6 +29,7 @@ extern UINT8 showed_tip_goback;
 extern TIP_TO_BE_LOCALIZED tip_to_show;
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
+extern UINT8 current_map;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -134,20 +135,52 @@ void ow_check_place() BANKED{
         switch(motherow_info->tile_collision){
             case 50u:
             case 51u:
-                ChangeState(StateMine, THIS);
+                switch(current_map){
+                    case 0u:
+                        ChangeState(StateMine, THIS);
+                    break;
+                    case 1u:
+                        //ChangeState(StateBandit, THIS);
+                    break;
+                }
             break;
             case 62u:
             case 64u:
                 just_started = 1u;
-                ChangeState(StateExzoo, THIS);
+                switch(current_map){
+                    case 0u:
+                        ChangeState(StateExzoo, THIS);
+                    break;
+                    case 1u:
+                        //ChangeState(StateCops, THIS);
+                    break;
+                }
             break;
             case 70u:
             case 72u:
                 ChangeState(StateCemetery, THIS);
             break;
+            case 90u:
+            case 91u:
+                switch(current_map){
+                    case 0u:
+                        //ChangeState(StateBlackiecave, THIS);
+                    break;
+                    case 1u:
+                        //ChangeState(StateLabirynth, THIS);
+                    break;
+                }
+            break;
             case 95u:
             case 96u:
-                ChangeState(StateBlackiecave, THIS);
+                switch(current_map){
+                    case 0u:
+                        ChangeState(StateBlackiecave, THIS);
+                    break;
+                    case 1u:
+                        //ChangeState(StateLabirynth, THIS);
+                    break;
+                }
             break;
         }
     }
@@ -167,13 +200,28 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                     ChangeState(StateSmith, THIS);
                 break;
                 case 46u:
-                case 47u://BLACKIE CAVE
-                    tip_to_show = TIP_BLACKIE_CAVE;
+                case 47u:
+                    switch(current_map){
+                        case 0u://sw map = BLACKIE CAVE
+                            tip_to_show = TIP_BLACKIE_CAVE;
+                        break;
+                        case 1u:
+                            tip_to_show = TIP_DARK_FOREST;
+                        break;
+                    }
                     trigger_tip = 1u;
                 break;
                 case 86u:
-                case 87u://MINE
-                    tip_to_show = TIP_MINE_CAVE;
+                case 87u:
+                    switch(current_map){
+                        case 0u://sw map = MINE CAVE
+                            tip_to_show = TIP_MINE_CAVE;
+                        break;
+                        case 1u:
+                            if(THIS->x > ((UINT16) 60u << 3)){tip_to_show = TIP_LABIRYNTH;}
+                            else{tip_to_show = TIP_GROTTO;}
+                        break;
+                    }
                     trigger_tip = 1u;
                 break;
                 case 56u:

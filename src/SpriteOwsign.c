@@ -9,8 +9,8 @@
 const UINT8 a_owsign[] = {4, 1,2,3,0}; //The first number indicates the number of frames
 
 void START() {
-	THIS->lim_x = 255u;
-	THIS->lim_y = 255u;
+	THIS->lim_x = 250u;
+	THIS->lim_y = 250u;
 	SetSpriteAnim(THIS, a_owsign, 5u);
 }
 

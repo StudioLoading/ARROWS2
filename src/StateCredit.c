@@ -26,6 +26,7 @@ extern UINT8 J_FIRE;
 extern struct EtoReload e_to_reload[3];
 extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
+extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
@@ -73,6 +74,7 @@ extern Sprite* s_motherow;
 void missions_init() BANKED{
 	switch(chapter){
 		case 0u:
+			current_map = 0u;
 			find_blackie.mission_state = MISSION_STATE_ENABLED;
 			find_blackie.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_DISABLED;
@@ -83,14 +85,15 @@ void missions_init() BANKED{
 			help_cemetery_woman.current_step = 0u;
 		break;
 		case 1u:
+			current_map = 1u;
 			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
 			find_blackie.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
 			engage_smith.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 0u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
+			help_cemetery_woman.current_step = 4u;
 		break;
 	}
 	missions[0] = &find_blackie;

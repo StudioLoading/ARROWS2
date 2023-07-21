@@ -43,6 +43,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern WHOSTALKING whostalking;
 extern Sprite* s_motherow;
 extern unsigned char log0[];
+extern UINT8 current_map;
 
 UINT8 mine_powderspawned = 3u;
 
@@ -176,8 +177,16 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                     break;
                     case StateHood:
                         if(new_state == StateOverworld){
-                            motherow_pos_x = (UINT16)18u << 3;
-                            motherow_pos_y = (UINT16)4u << 3;
+                            switch(current_map){
+                                case 0u:
+                                    motherow_pos_x = (UINT16)18u << 3;
+                                    motherow_pos_y = (UINT16)4u << 3;
+                                break;
+                                case 1u:
+						            motherow_pos_x = (UINT16) 14u << 3;
+                                    motherow_pos_y = (UINT16) 46u << 3;
+                                break;
+                            }
                         }
                     break;
                 }
@@ -358,21 +367,32 @@ void update_camera_position() BANKED{
     }
     //LIMITS
         //HORIZONTAL
-        if(s_motherpl->x < (UINT16)8u){
-            s_motherpl->x = 8u;
-            if(current_state == StateHood && help_cemetery_woman.current_step < 3u){ 
-            //|| help_cemetery_woman.mission_state == MISSION_STATE_STARTED)){
-            }else{
-                ChangeState(StateOverworld, s_motherpl);
+            if(s_motherpl->x < (UINT16)8u){
+                s_motherpl->x = 8u;
+                if(current_state == StateHood && help_cemetery_woman.current_step < 3u){ 
+                //|| help_cemetery_woman.mission_state == MISSION_STATE_STARTED)){
+                }else{
+                    if(current_state == StateHood){//exiting hoods to the south
+                        current_map = 0u;
+                    }
+                    ChangeState(StateOverworld, s_motherpl);
+                }
             }
-        }
-        if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
-            s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
-            if(current_state == StateHood && help_cemetery_woman.current_step < 3u){
-            }else{
-                ChangeState(StateOverworld, s_motherpl);
-            }
-        }  
+            if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
+                s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
+                if(current_state == StateHood){
+                    if(help_cemetery_woman.current_step < 3u){
+                    }else{//exiting hoods to the north
+                        current_map = 1u;
+                        motherow_pos_x = 0u;
+                        motherow_pos_y = 0u;
+                        ChangeState(StateOverworld, s_motherpl);
+                    }
+                }else{
+                    current_map = 0u;
+                    ChangeState(StateOverworld, s_motherpl);
+                }
+            }  
         //VERTICAL
         if(s_motherpl->y > (((UINT16) mapheight) << 3)){
             s_motherpl->y = ((UINT16) mapheight) - 32u;

@@ -44,6 +44,7 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
+extern UINT8 current_map;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 0};
 const UINT8 coll_surface_hood[] = {0};
@@ -69,7 +70,15 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+        switch(current_map){
+            case 0u://comes from south-west
+                s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+            break;
+            case 1u://comes from north-west
+                s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 91u << 3, (UINT16) 9u << 3);
+                s_motherpl->mirror = V_MIRROR;
+            break;
+        }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
