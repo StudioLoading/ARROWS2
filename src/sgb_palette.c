@@ -322,7 +322,7 @@ void set_sgb_palette_statusbar() __banked {
         .ycoo = 16u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -337,7 +337,7 @@ void set_sgb_palette_statusbar() __banked {
         .ycoo = 17u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10100101,0b01010101,0b01011010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
     };
     sgb_transfer((void *)&SGB_PALETTE2_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_0);
@@ -514,17 +514,14 @@ void set_sgb_palette01_TITLEINVERTED() __banked{
 void set_sgb_palette01_COMUNEKO() __banked{
 	set_sgb_palette(SGB_COMUNEKO_LIGHTER, SGB_COMUNEKO_LIGHT, SGB_COMUNEKO_DARK, SGB_COMUNEKO_DARKER);
 }
+void set_sgb_palette01_HOOD() __banked{
+	set_sgb_palette(RGB8(255, 255, 255), RGB8(252, 160, 68), RGB8(0, 120, 0), SGB_PAL4B_DARKER);
+}
 /*
 void set_sgb_palette01_MOTHER() __banked{
     set_sgb_palette(SGB_PAL2A_LIGHTER, RGB8(255, 194, 209), RGB8(198, 132, 74), SGB_PAL2A_DARKER);
 }
 */
-void set_sgb_palette01_AMULET_THUNDER() __banked{
-	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(198, 132, 74), SGB_PAL1B_DARKER);
-}
-void set_sgb_palette01_AMULET_ICE() __banked{
-	set_sgb_palette(RGB8(255, 255, 173), RGB8(248, 248, 248), RGB8(60, 188, 252), SGB_PAL1B_DARKER);
-}
 void set_sgb_palette01_ZOO() __banked {
 	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL4B_LIGHT, SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
@@ -535,6 +532,12 @@ void set_sgb_palette01_CEMATERYCRYPT() __banked {
 	set_sgb_palette(RGB8(255, 255, 255), RGB8(184, 184, 184), RGB8(176, 62, 255), RGB8(40, 0, 136));
 }
 /*
+void set_sgb_palette01_AMULET_THUNDER() __banked{
+	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(198, 132, 74), SGB_PAL1B_DARKER);
+}
+void set_sgb_palette01_AMULET_ICE() __banked{
+	set_sgb_palette(RGB8(255, 255, 173), RGB8(248, 248, 248), RGB8(60, 188, 252), SGB_PAL1B_DARKER);
+}
 void set_sgb_palette01_SEWER() __banked {
 	set_sgb_palette(RGB8(188, 188, 188), RGB8(152, 120, 248), RGB8(0, 64, 88), RGB8(0, 0, 0));
 }

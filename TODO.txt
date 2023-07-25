@@ -1,13 +1,10 @@
 POST DEMO:
-- spawning moneta quando colpisco foglia con freccia
-- cambiare bg in state cemetery perché è troppo allegra
-- controllo dell' altezza del salto sul DMG perché temo vada più in alto del color :S 
 - bgm hood
-- animare i loghi in primo screen di crediti, troppo importante per feeling altrimenti cheap
-- conto alla rovescia sulla schermata password per tornare alla titlescreen
+- cambiare bg in state cemetery perché è troppo allegra
 - bg di immissione password oppure sfx di cambio card
 	- sfx di ok/ko caricamento e timeout
 - ow trovare oggetti nascosti, col tip di cosa sia stato preso
+- controllo dell' altezza del salto sul DMG perché temo vada più in alto del color :S 
 - owmaze labirinto dungeon - i metterei nemici inseguitori da battere in platform! così 
 	questo sistema verrà ripreso nel capitolo plague con gli scorpioni.
 - proseguire con l'implementazione del design del chapter 1

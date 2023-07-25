@@ -158,47 +158,52 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
         }
     };
     npc_spawned_zone = 0u;
-    if(current_state != StateInventory && current_state != StateDiary
-        && current_state != StateDialog){
-        switch(s_mother->type){
-            case SpriteMotherow:
-                motherow_pos_x = s_mother->x;
-                motherow_pos_y = s_mother->y;
-            break;
-            case SpriteMotherpl:
-                motherpl_pos_x = s_mother->x;
-                motherpl_pos_y = s_mother->y;
-                switch(current_state){
-                    case StateBlackieroom:
-                        if(new_state == StateBlackiecave){
-                            motherpl_pos_x = (UINT16)60u << 3;
-                            motherpl_pos_y = (UINT16)8u << 3;
-                        }
-                    break;
-                    case StateHood:
-                        if(new_state == StateOverworld){
-                            switch(current_map){
-                                case 0u:
-                                    motherow_pos_x = (UINT16)18u << 3;
-                                    motherow_pos_y = (UINT16)4u << 3;
-                                break;
-                                case 1u:
-						            motherow_pos_x = (UINT16) 14u << 3;
-                                    motherow_pos_y = (UINT16) 46u << 3;
-                                break;
+    //MOTHERPL POS X Y, HIDE_WIN
+        if(current_state != StateInventory && current_state != StateDiary
+            && current_state != StateDialog){
+            switch(s_mother->type){
+                case SpriteMotherow:
+                    motherow_pos_x = s_mother->x;
+                    motherow_pos_y = s_mother->y;
+                break;
+                case SpriteMotherpl:
+                    motherpl_pos_x = s_mother->x;
+                    motherpl_pos_y = s_mother->y;
+                    switch(current_state){
+                        case StateBlackieroom:
+                            if(new_state == StateBlackiecave){
+                                motherpl_pos_x = (UINT16)60u << 3;
+                                motherpl_pos_y = (UINT16)8u << 3;
                             }
-                        }
-                    break;
-                }
-                motherpl_mirror = s_mother->mirror;
-            break;        
+                        break;
+                        case StateHood:
+                            if(new_state == StateOverworld){
+                                switch(current_map){
+                                    case 0u:
+                                        motherow_pos_x = (UINT16)18u << 3;
+                                        motherow_pos_y = (UINT16)4u << 3;
+                                    break;
+                                    case 1u:
+                                        motherow_pos_x = (UINT16) 14u << 3;
+                                        motherow_pos_y = (UINT16) 46u << 3;
+                                    break;
+                                }
+                            }
+                        break;
+                    }
+                    motherpl_mirror = s_mother->mirror;
+                break;        
+            }
+            HIDE_WIN;
+            SetWindowY(160);
         }
-        HIDE_WIN;
-        SetWindowY(160);
-    }
     //SGB PALETTE
         if(sgb_check()){
             switch(new_state){
+                case StateHood:
+                    set_sgb_palette01_HOOD();
+                    set_sgb_palette_statusbar();
+                break;
                 case StateExzoo:
                     set_sgb_palette01_ZOO();
                     set_sgb_palette_statusbar();

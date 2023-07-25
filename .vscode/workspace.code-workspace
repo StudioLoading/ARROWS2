@@ -29,7 +29,8 @@
 			"sram.h": "c",
 			"bankmanager.h": "c",
 			"fade.h": "c",
-			"diarydialogs.h": "c"
+			"diarydialogs.h": "c",
+			"inventorydialogs.h": "c"
 		}
 	}
 }

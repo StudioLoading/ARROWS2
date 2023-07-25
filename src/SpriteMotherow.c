@@ -17,7 +17,7 @@
 
 const UINT8 motherow_anim_down[] = {2, 0, 1}; //The first number indicates the number of frames
 const UINT8 motherow_anim_up[] = {2, 2, 3}; //The first number indicates the number of frames
-const UINT8 motherow_anim_h[] = {2, 4, 5}; //The first number indicates the number of frames
+const UINT8 motherow_anim_h[] = {4, 4, 7, 6, 7}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_h[] = {1, 5}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_up[] = {1, 2}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_down[] = {1, 1}; //The first number indicates the number of frames
@@ -300,13 +300,13 @@ void owChangeState(FA2OW_SPRITE_STATES new_state){
         case WALK_LEFT:
             motherow_info->vx = -1;
             motherow_info->vy = 0;
-            SetSpriteAnim(THIS, motherow_anim_h, 12u);
+            SetSpriteAnim(THIS, motherow_anim_h, 10u);
             THIS->mirror = V_MIRROR;
         break;
         case WALK_RIGHT:
             motherow_info->vx = 1;
             motherow_info->vy = 0;
-            SetSpriteAnim(THIS, motherow_anim_h, 12u);
+            SetSpriteAnim(THIS, motherow_anim_h, 10u);
             THIS->mirror = NO_MIRROR;
         break;
     }

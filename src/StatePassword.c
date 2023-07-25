@@ -1,5 +1,6 @@
 #include "Banks/SetAutoBank.h"
 
+#include "SGB.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -10,8 +11,7 @@
 #include "Sound.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
-#include "InventoryDialogs.h"
+#include "sgb_palette.h"
 
 
 IMPORT_TILES(fontbw);
@@ -26,6 +26,7 @@ extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
 extern INT8 chapter;
 extern UINT8 just_started;
+extern UINT8 generic_counter;
 
 const UINT8 coll_tiles_password[] = {1,0};
 Sprite* pcode_0;
@@ -39,6 +40,7 @@ struct TetradadoInfo* pcode3_info;
 UINT16 cur_posx[4];
 UINT16 cur_posy[4];
 UINT8 cur_posi = 0u;
+UINT8 generic_counter2 = 0u;
 
 void update_curpos(INT8 move) BANKED;
 void update_pcode(INT8 move) BANKED;
@@ -50,7 +52,11 @@ extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BAN
 extern void missions_init() BANKED;
 extern void inventory_init() BANKED;
 
-void START(){    
+void START(){
+    //SGB PALETTE
+        if(sgb_check()){
+            set_sgb_palette01_WOLF();
+        }  
     //SPRITES SPAWNING & SETTINGS
         HIDE_WIN;
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 8u << 3);
@@ -80,6 +86,8 @@ void START(){
         cur_posy[2] = 40u;
         cur_posx[3] = 120u;
         cur_posy[3] = 72u;
+        generic_counter = 0u;
+        generic_counter2 = 0u;
     //SHOW
         SHOW_BKG;
         SHOW_SPRITES;
@@ -92,6 +100,13 @@ void START(){
 }
 
 void UPDATE(){
+    generic_counter++;
+    if(generic_counter == 0u){
+        generic_counter2++;
+        if(generic_counter2 == 5u){
+            ChangeStateThroughBetween(StateCredit, StatePassword);
+        }
+    }
     if(KEY_TICKED(J_RIGHT)){ update_curpos(1); }
     if(KEY_TICKED(J_LEFT)){ update_curpos(-1); }
     if(KEY_TICKED(J_UP)){ update_pcode(1);}

@@ -20,7 +20,8 @@ IMPORT_TILES(idnormaltiles);
 IMPORT_TILES(inventorytiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
-IMPORT_TILES(tilesanimcredit);
+IMPORT_TILES(tacredit0);
+IMPORT_TILES(tacredit1);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
 IMPORT_TILES(dialogtiles00);
@@ -137,12 +138,22 @@ void Anim_Cave_1() BANKED{
 }
 
 void Anim_StudioLoading_0() BANKED{
-	set_banked_bkg_data(14u, 1u, &tilescredit, BANK(tilescredit));
-	set_banked_bkg_data(15u, 1u, &tilescredit, BANK(tilescredit));
+	set_banked_bkg_data(14u, 10u, &tilescredit, BANK(tilescredit));
+	set_banked_bkg_data(30u, 1u, &tilescredit, BANK(tilescredit));
+	set_banked_bkg_data(40u, 5u, &tilescredit, BANK(tilescredit));
+	set_banked_bkg_data(48u, 5u, &tilescredit, BANK(tilescredit));
 }
 void Anim_StudioLoading_1() BANKED{
-	set_banked_bkg_data(14u, 1u, &tilesanimcredit, BANK(tilesanimcredit));
-	set_banked_bkg_data(15u, 1u, &tilesanimcredit, BANK(tilesanimcredit));
+	set_banked_bkg_data(14u, 10u, &tacredit0, BANK(tacredit0));
+	set_banked_bkg_data(30u, 1u, &tacredit0, BANK(tacredit0));
+	set_banked_bkg_data(40u, 5u, &tacredit0, BANK(tacredit0));
+	set_banked_bkg_data(48u, 5u, &tacredit0, BANK(tacredit0));
+}
+void Anim_StudioLoading_2() BANKED{
+	set_banked_bkg_data(14u, 10u, &tacredit1, BANK(tacredit1));
+	set_banked_bkg_data(30u, 1u, &tacredit1, BANK(tacredit1));
+	set_banked_bkg_data(40u, 5u, &tacredit1, BANK(tacredit1));
+	set_banked_bkg_data(48u, 5u, &tacredit1, BANK(tacredit1));
 }
 //set_bkg_data
 void Anim_Crossbow_0() BANKED{

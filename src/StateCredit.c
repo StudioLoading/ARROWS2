@@ -1,7 +1,6 @@
 #include "Banks/SetAutoBank.h"
 
 #include "SGB.h"
-#include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Palette.h"
@@ -18,7 +17,7 @@
 
 IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
-IMPORT_MAP(creditmap);
+IMPORT_MAP(mapcredit0);
 DECLARE_MUSIC(bgm_credits);
 
 extern UINT8 J_JUMP;
@@ -27,11 +26,11 @@ extern struct EtoReload e_to_reload[3];
 extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
 extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
+extern UINT8 generic_counter;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
-UINT8 thunder_delay;
 INT8 chapter = 0;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
@@ -164,7 +163,7 @@ void START() {
 			if(sgb_check()){
 				set_sgb_palette01_WOLF();
 			}
-			InitScroll(BANK(creditmap), &creditmap, collision_tiles_credits, 0);
+			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
 		break;
 	}
 	
@@ -188,22 +187,26 @@ void START() {
 	
 	PlayMusic(bgm_credits, 0);
 	credit_wait_time = 0u;
+	generic_counter = 0u;
 }
 
 void UPDATE() {
 	credit_wait_time += 1u;
-	/*if(credit_step == 0){
-		switch(thunder_delay){
-			case 20u:
-				Anim_StudioLoading_1();
-			break;		
-			case 40u:
+	/*if(credit_step == 0){*/
+		switch(generic_counter){
+			case 15u:
 				Anim_StudioLoading_0();
-				thunder_delay = 0;
+			break;		
+			case 30u:
+				Anim_StudioLoading_1();
+			break;
+			case 45u:
+				Anim_StudioLoading_2();
+				generic_counter = 0;
 			break;
 		}
-		thunder_delay++;
-	}	*/
+		generic_counter++;
+	//}
 	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		StopMusic;
