@@ -1,10 +1,9 @@
 POST DEMO:
-- bgm hood
-- cambiare bg in state cemetery perché è troppo allegra
-- bg di immissione password oppure sfx di cambio card
-	- sfx di ok/ko caricamento e timeout
-- ow trovare oggetti nascosti, col tip di cosa sia stato preso
-- controllo dell' altezza del salto sul DMG perché temo vada più in alto del color :S 
+
+- ow oggetti:
+	- farli roteare vedi codice hurricane
+	- trovare oggetti nascosti, frame vuoto e stato HIDDEN
+	- tip di cosa sia stato preso (come quando legge i cartelli)
 - owmaze labirinto dungeon - i metterei nemici inseguitori da battere in platform! così 
 	questo sistema verrà ripreso nel capitolo plague con gli scorpioni.
 - proseguire con l'implementazione del design del chapter 1
@@ -14,6 +13,7 @@ POST DEMO:
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
+	distribuzione della tile di erba-vuoto a scacchiera
 - qualche istante di pausa tra una bgm e l' altra da dentro al manage
 - un negozio diverso per ogni consumabile!
 	- smith fa frecce normali
@@ -22,11 +22,11 @@ POST DEMO:
 	- qualcuno fa le bastarde
 - schermata dei capitoli
 - Overworld: sprite animate in e animazione acque 
-- Dialog: pixelArt
+- Dialogs: pixelArt
 - TitleScreen: 
-	- titlescreen: la nave arriva dopo un po', avanza e rimpicciolisce verso largo
+	- la nave (Sprite!) arriva dopo un po', avanza e rimpicciolisce verso largo
 	- acque che per ora è ogni 2 px, farla ogni 1 perchè ha effetto miglioramento
-	- thunder animation
+	- thunder animation (Sprite!)
 	- cheatCode: la mia faccia col dito medio dopo il Konami
  - scrigni?
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi

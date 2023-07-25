@@ -15,7 +15,7 @@
 #define OW_NORMAL_FRAMESKIP 1
 #define OW_PATH_FRAMESKIP 3
 
-const UINT8 motherow_anim_down[] = {2, 0, 1}; //The first number indicates the number of frames
+const UINT8 motherow_anim_down[] = {4, 0, 8, 1, 8}; //The first number indicates the number of frames
 const UINT8 motherow_anim_up[] = {2, 2, 3}; //The first number indicates the number of frames
 const UINT8 motherow_anim_h[] = {4, 4, 7, 6, 7}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_h[] = {1, 5}; //The first number indicates the number of frames

@@ -79,6 +79,7 @@ struct ArrowData* surf_data = 0;
 INT8 motherpl_hp = 4;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
+UINT8 jump_max_power = 0u;
 
 void changeMotherplState(MOTHERPL_STATE new_state);
 void shoot();
@@ -124,6 +125,10 @@ void START(){
     motherpl_blocked = 0u;
     motherpl_blocked_cooldown = 0u;
     pickingup_cooldown = PICKINGUP_COOLDOWN;
+    jump_max_power = GRAVITY*11;
+    if(_cpu != CGB_TYPE){
+        jump_max_power = GRAVITY*9;
+    }
 }
 
 void UPDATE(){
@@ -161,16 +166,16 @@ void UPDATE(){
                     motherpl_vy = GRAVITY;
                     jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 }else if(KEY_PRESSED(J_JUMP) && jump_ticked_delay == 0){
-                    if(motherpl_jpower < JUMP_MAX_POWER){
+                    if(motherpl_jpower < jump_max_power){
                         motherpl_jpower++;
-                        if(motherpl_jpower < (JUMP_MAX_POWER / 3)){
+                        if(motherpl_jpower < (jump_max_power / 3)){
                             motherpl_vy = -3;
-                        }else if(motherpl_jpower < (JUMP_MAX_POWER / 2)){
+                        }else if(motherpl_jpower < (jump_max_power / 2)){
                             motherpl_vy = -2;
                         }else{
                             motherpl_vy = -1;
                         }
-                    }else if(motherpl_jpower == JUMP_MAX_POWER){
+                    }else if(motherpl_jpower == jump_max_power){
                         if(fly_counter < FLY_MAX){
                             fly_counter++;
                             motherpl_vy = 0;

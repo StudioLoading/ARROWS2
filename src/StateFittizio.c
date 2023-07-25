@@ -25,8 +25,10 @@
 DECLARE_MUSIC(bgm_intro);
 DECLARE_MUSIC(bgm_ow);
 DECLARE_MUSIC(bgm_exzoo);
+DECLARE_MUSIC(bgm_cemetery);
 DECLARE_MUSIC(bgm_blackiecave);
 DECLARE_MUSIC(bgm_mine);
+DECLARE_MUSIC(bgm_hood);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -63,7 +65,7 @@ UINT8 mapwidth;
 UINT8 mapheight;
 UINT8 previous_state;
 UINT8 item_spawned_cooldown = 255u;
-INT8 sfx_cooldown = 127u;
+INT8 sfx_cooldown = 0u;
 UINT8 dialog_bg_cooldown = 32u;
 UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
@@ -116,9 +118,12 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
             PlayMusic(bgm_ow, 1);            
         break;
         case StateExzoo:
-        case StateCemetery:
             if(previous_state == StateInventory){ResumeMusic;}
             else{StopMusic;PlayMusic(bgm_exzoo, 1);}
+        break;
+        case StateCemetery:
+            if(previous_state == StateInventory){ResumeMusic;}
+            else{StopMusic;PlayMusic(bgm_cemetery, 1);}
         break;
         case StateBlackiecave:
             if(previous_state == StateInventory){ResumeMusic;}
@@ -127,6 +132,10 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
             else{StopMusic;PlayMusic(bgm_mine, 1);}
+        break;
+        case StateHood:
+            if(previous_state == StateInventory){ResumeMusic;}
+            else{StopMusic;PlayMusic(bgm_hood, 1);}
         break;
     }
 }

@@ -11,7 +11,6 @@
 #include "Fade.h"
 #include "Music.h"
 #include "Sound.h"
-#include "Music.h"
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
@@ -28,6 +27,7 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
+extern INT8 sfx_cooldown;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;
@@ -67,6 +67,7 @@ void START() {
 }
 
 void UPDATE() {
+    if(sfx_cooldown > 0){sfx_cooldown--;}
 	if(titlescreen_step < 3u){
 		counter_anim++;
 		if(counter_anim < 20u){Anim_Titlescreen_0();}
@@ -128,7 +129,7 @@ void UPDATE() {
 		case 3u:
 			titlescreen_wait_time++;
 			if(titlescreen_wait_time == 20){
-				my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
+				my_play_fx(CHANNEL_1, 10, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
 			}
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();

@@ -27,6 +27,7 @@ extern unsigned char EMPTY_STRING_21[];
 extern INT8 chapter;
 extern UINT8 just_started;
 extern UINT8 generic_counter;
+extern INT8 sfx_cooldown;
 
 const UINT8 coll_tiles_password[] = {1,0};
 Sprite* pcode_0;
@@ -51,6 +52,7 @@ void password_reset() BANKED;
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void missions_init() BANKED;
 extern void inventory_init() BANKED;
+extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
     //SGB PALETTE
@@ -73,6 +75,10 @@ void START(){
         pcode3_info = (struct TetradadoInfo*) pcode_3->custom_data;
         pcode3_info->tetradado_state = DADO_WAITING;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, pcode_0->x, pcode_0->y-16u);
+        NR52_REG = 0x80; //Enables sound, you should always setup this first
+        NR51_REG = 0xFF; //Enables all channels (left and right)
+        //NR50_REG = 0x44; //Max volume 0x77
+
     //MAP
         InitScroll(BANK(password), &password, coll_tiles_password, 0);
         INIT_FONT(fontbw, PRINT_BKG);
@@ -100,6 +106,7 @@ void START(){
 }
 
 void UPDATE(){
+    if(sfx_cooldown > 0){sfx_cooldown--;}
     generic_counter++;
     if(generic_counter == 0u){
         generic_counter2++;
@@ -116,9 +123,11 @@ void UPDATE(){
     if(KEY_TICKED(J_START)){
         chapter = check_password();
         if(chapter == -1){//invalid code inserted, reset
+            my_play_fx(CHANNEL_1, 50, 0x29, 0x81, 0x43, 0x01, 0x85);//SFX WRONG PWD
             password_reset();
             return;
         }
+        my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
         missions_init();
         inventory_init();
         just_started = 1u;
@@ -138,6 +147,7 @@ void UPDATE(){
 }
 
 void update_curpos(INT8 move) BANKED{
+    my_play_fx(CHANNEL_1, 50, 0x16, 0x86, 0x76, 0xDE, 0x86);
     cur_posi += move;
     cur_posi = cur_posi % 4;
     inv_cursor->x = cur_posx[cur_posi];
@@ -145,6 +155,7 @@ void update_curpos(INT8 move) BANKED{
 }
 
 void update_pcode(INT8 move) BANKED{
+    my_play_fx(CHANNEL_4, 50, 0x05, 0x28, 0x21, 0xc0, 0x00);
     Sprite* current_pcode = 0;
     switch(cur_posi){
         case 0u:
