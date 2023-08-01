@@ -78,21 +78,20 @@ void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
 void update_camera_position() BANKED;
 void update_camera_position_ow() BANKED;
-void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
-void trigger_dialog(WHOSTALKING whost) BANKED;
+void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+void save_mother_pos(Sprite* s_mother) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
-void trigger_dialog(WHOSTALKING whost) BANKED{
-    
+void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     whostalking = whost;
-    ChangeState(StateDialog, s_motherpl);
-
+    ChangeState(StateDialog, s_mother, -1);
 }
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
@@ -115,7 +114,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
         break;
         case StateOverworld:
         	StopMusic;
-            PlayMusic(bgm_ow, 1);            
+            if(just_started > 0){
+                PlayMusic(bgm_ow, 1);
+            }            
         break;
         case StateExzoo:
             if(previous_state == StateInventory){ResumeMusic;}
@@ -147,7 +148,20 @@ void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2
     }
 }
 
-void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{    
+void save_mother_pos(Sprite* s_mother) BANKED{
+    switch(s_mother->type){
+        case SpriteMotherpl:
+            motherpl_pos_x = s_mother->x;
+            motherpl_pos_y = s_mother->y;
+        break;
+        case SpriteMotherow:
+            motherow_pos_x = s_mother->x;
+            motherow_pos_y = s_mother->y;
+        break;
+    }
+}
+
+void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{    
     if(new_state == StateInventory){
 	    PauseMusic;
         my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
@@ -169,15 +183,24 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
     npc_spawned_zone = 0u;
     //MOTHERPL POS X Y, HIDE_WIN
         if(current_state != StateInventory && current_state != StateDiary
-            && current_state != StateDialog){
+            && current_state != StateDialog && current_state != StatePassword){
+            if(new_state != current_state){save_mother_pos(s_mother);}
             switch(s_mother->type){
                 case SpriteMotherow:
-                    motherow_pos_x = s_mother->x;
-                    motherow_pos_y = s_mother->y;
+                    if(new_state == StateOverworld){
+                        if(current_map == 2 && next_map == 1){
+                            motherow_pos_x = (UINT16) 56u << 3;
+                            motherow_pos_y = (UINT16) 42u << 3;
+                        }else if(next_map == 2){
+                            motherow_pos_x = (UINT16) 6u << 3;
+                            motherow_pos_y = (UINT16) 3u << 3;
+                        }
+                    }
+                    if(next_map != -1){
+                        current_map = next_map;
+                    }
                 break;
                 case SpriteMotherpl:
-                    motherpl_pos_x = s_mother->x;
-                    motherpl_pos_y = s_mother->y;
                     switch(current_state){
                         case StateBlackieroom:
                             if(new_state == StateBlackiecave){
@@ -205,6 +228,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
             }
             HIDE_WIN;
             SetWindowY(160);
+        }
+        if(just_started == 0){
+            motherow_pos_x = ((UINT16) 14u << 3) + 4u;
+            motherow_pos_y = (UINT16) 23u << 3;
         }
     //SGB PALETTE
         if(sgb_check()){
@@ -240,6 +267,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED{
                 case StateDiary:
                 case StateDialog:
                 case StateOverworld:
+                    if(new_state == StateOverworld && current_map == 2u){
+                        set_sgb_palette01_MAZE();   
+                    }
                     reset_sgb_palette_statusbar();
                 break;
             }
@@ -389,7 +419,7 @@ void update_camera_position() BANKED{
                     if(current_state == StateHood){//exiting hoods to the south
                         current_map = 0u;
                     }
-                    ChangeState(StateOverworld, s_motherpl);
+                    ChangeState(StateOverworld, s_motherpl, -1);
                 }
             }
             if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
@@ -397,14 +427,12 @@ void update_camera_position() BANKED{
                 if(current_state == StateHood){
                     if(help_cemetery_woman.current_step < 3u){
                     }else{//exiting hoods to the north
-                        current_map = 1u;
                         motherow_pos_x = 0u;
                         motherow_pos_y = 0u;
-                        ChangeState(StateOverworld, s_motherpl);
+                        ChangeState(StateOverworld, s_motherpl, 1);
                     }
                 }else{
-                    current_map = 0u;
-                    ChangeState(StateOverworld, s_motherpl);
+                    ChangeState(StateOverworld, s_motherpl, 0);
                 }
             }  
         //VERTICAL

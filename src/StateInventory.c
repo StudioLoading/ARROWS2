@@ -105,13 +105,6 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,10);
                     UPDATE_HUD_TILE(uneq_x,2,10);
                 break;
-                case INVITEM_HEARTS:
-                    UPDATE_HUD_TILE(uneq_x,1,6);
-                    UPDATE_HUD_TILE(uneq_x,2,7);
-                    uneq_x += 1;
-                    UPDATE_HUD_TILE(uneq_x,1,8);
-                    UPDATE_HUD_TILE(uneq_x,2,9);
-                break;
                 case INVITEM_METAL:
                     UPDATE_HUD_TILE(uneq_x,1,11);
                     UPDATE_HUD_TILE(uneq_x,2,12);
@@ -316,13 +309,6 @@ void change_detail(){
         GetLocalizedINVLabel_EN(INV_EMPTY_STRING, ddinv5);
     }else{
         switch(inventory[invcursor_posi].itemtype){
-            case INVITEM_HEARTS:
-                GetLocalizedINVLabel_EN(CROSSBOW_NAME, ddinv1);
-                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL1, ddinv2);
-                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL2, ddinv3);
-                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL3, ddinv4);
-                GetLocalizedINVLabel_EN(CROSSBOW_DETAIL4, ddinv5);
-            break;
             case INVITEM_MONEY:
                 GetLocalizedINVLabel_EN(MONEY_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(MONEY_DETAIL1, ddinv2);

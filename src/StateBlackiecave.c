@@ -54,8 +54,9 @@ extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 
 void START(){
@@ -99,7 +100,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0){//&& motherpl_vx == 0){
             //CAMERA TRAMBLE
@@ -115,9 +116,7 @@ void UPDATE(){
                 SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);
             }else if(wolf_spawned > 0u){
                 if(s_motherpl->x > ((UINT16)62u << 3)){
-                    //trigger dialog
-                    whostalking = WOLF01;
-                    ChangeState(StateDialog, s_motherpl);
+                    trigger_dialog(WOLF01, s_motherpl);
                 }
             }
         }

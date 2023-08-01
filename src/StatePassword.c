@@ -28,6 +28,8 @@ extern INT8 chapter;
 extern UINT8 just_started;
 extern UINT8 generic_counter;
 extern INT8 sfx_cooldown;
+extern UINT16 motherow_pos_x;
+extern UINT16 motherow_pos_y;
 
 const UINT8 coll_tiles_password[] = {1,0};
 Sprite* pcode_0;
@@ -52,6 +54,7 @@ void password_reset() BANKED;
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void missions_init() BANKED;
 extern void inventory_init() BANKED;
+extern void position_init() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
@@ -130,6 +133,7 @@ void UPDATE(){
         my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
         missions_init();
         inventory_init();
+        position_init();
         just_started = 1u;
         switch(chapter){
             case 0:

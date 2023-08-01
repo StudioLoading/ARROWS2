@@ -35,15 +35,18 @@ struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
 UINT8 frameskip_max = 1u;// same as OW_NORMAL_FRAMESKIP
 FA2OW_SPRITE_STATES new_state = 0;
+UINT8 step_counter = 0u;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 void update_position_motherow() BANKED;
 void ow_check_place() BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void trigger_dialog(WHOSTALKING whost) BANKED;
+extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
+extern void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
 
 void START(){
     new_state = IDLE_DOWN;
@@ -53,6 +56,8 @@ void START(){
     motherow_info->vx = 0u;
     motherow_info->vy = 0u;
     frameskip = 0u;
+    step_counter = 0u;
+    frameskip_max = OW_NORMAL_FRAMESKIP;
 }
 
 void update_position_motherow() BANKED{
@@ -64,21 +69,57 @@ void update_position_motherow() BANKED{
                 motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
             }
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
-            switch(scroll_tile){
-                //case 8u:
-                case 40u:
-                    //SFX
-                        if(THIS->anim_frame == 1){
-                            my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
+            if(current_map != 2u){//NOT IN MAZE
+                switch(scroll_tile){
+                    //case 8u:
+                    case 40u: case 92u:
+                    case 93u: case 94u:
+                    case 99u: case 101u: 
+                    case 102u: case 105u: case 106u:
+                        //SFX
+                            if(THIS->anim_frame == 1){
+                                my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
+                                //STEP
+                                    if(motherow_info->ow_state == WALK_DOWN ||
+                                        motherow_info->ow_state == WALK_UP ||
+                                        motherow_info->ow_state == WALK_LEFT ||
+                                        motherow_info->ow_state == WALK_RIGHT){
+                                        step_counter++;
+                                        if(step_counter == 8u){
+                                            step_counter = 0u;
+                                            UINT16 step_x = THIS->x;
+                                            UINT16 step_y = THIS->y;
+                                            switch(motherow_info->ow_state){
+                                                case WALK_DOWN:
+                                                    step_x += 1u;
+                                                    step_y -= 12u;
+                                                break;
+                                                case WALK_UP:
+                                                    step_x += 1u;
+                                                    step_y -= 6u;
+                                                break;
+                                                case WALK_LEFT:
+                                                    step_x += 2u;
+                                                    step_y -= 8u;
+                                                break;
+                                                case WALK_RIGHT:
+                                                    step_x -= 2u;
+                                                    step_y -= 8u;
+                                                break;
+                                            }
+                                            spawn_step(step_x, step_y);
+                                        }
+                                    }
+                            }
+                            if(frameskip_max != OW_PATH_FRAMESKIP){
+                                frameskip_max = OW_PATH_FRAMESKIP;
+                            }
+                    break;
+                    default:
+                        if(frameskip_max != OW_NORMAL_FRAMESKIP){
+                            frameskip_max = OW_NORMAL_FRAMESKIP;
                         }
-                        if(frameskip_max != OW_PATH_FRAMESKIP){
-                            frameskip_max = OW_PATH_FRAMESKIP;
-                        }
-                break;
-                default:
-                    if(frameskip_max != OW_NORMAL_FRAMESKIP){
-                        frameskip_max = OW_NORMAL_FRAMESKIP;
-                    }
+                }
             }
         }
 }
@@ -125,6 +166,24 @@ void UPDATE(){
                             trigger_dialog(BLACKIE);
                         }
                     break;
+                    case SpriteItemspawned:
+                        {
+                            struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
+                            if(spawned_data->configured == 4u){//means hidden
+                                if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+                                    pickup(spawned_data);
+                                    switch(spawned_data->itemtype){
+                                        case INVITEM_ARROW_BASTARD:
+                                        case INVITEM_ARROW_NORMAL:
+                                        case INVITEM_ARROW_PERFO:
+                                            owTips(TIP_HIDDEN_ARROWS);            
+                                        break;
+                                    }
+                                    SpriteManagerRemoveSprite(imowspr);
+                                }
+                            }
+                        }
+                    break;
                 }
             }
         };
@@ -137,7 +196,7 @@ void ow_check_place() BANKED{
             case 51u:
                 switch(current_map){
                     case 0u:
-                        ChangeState(StateMine, THIS);
+                        ChangeState(StateMine, THIS, -1);
                     break;
                     case 1u:
                         //ChangeState(StateBandit, THIS);
@@ -149,7 +208,7 @@ void ow_check_place() BANKED{
                 just_started = 1u;
                 switch(current_map){
                     case 0u:
-                        ChangeState(StateExzoo, THIS);
+                        ChangeState(StateExzoo, THIS, -1);
                     break;
                     case 1u:
                         //ChangeState(StateCops, THIS);
@@ -158,7 +217,7 @@ void ow_check_place() BANKED{
             break;
             case 70u:
             case 72u:
-                ChangeState(StateCemetery, THIS);
+                ChangeState(StateCemetery, THIS, -1);
             break;
             case 90u:
             case 91u:
@@ -167,7 +226,7 @@ void ow_check_place() BANKED{
                         //ChangeState(StateBlackiecave, THIS);
                     break;
                     case 1u:
-                        //ChangeState(StateLabirynth, THIS);
+                        ChangeState(StateOverworld, THIS, 2);
                     break;
                 }
             break;
@@ -175,7 +234,7 @@ void ow_check_place() BANKED{
             case 96u:
                 switch(current_map){
                     case 0u:
-                        ChangeState(StateBlackiecave, THIS);
+                        ChangeState(StateBlackiecave, THIS, -1);
                     break;
                     case 1u:
                         //ChangeState(StateLabirynth, THIS);
@@ -193,11 +252,11 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
             switch(motherow_info->tile_collision){//sul gioco completo sarà switch su mappa e poi su tile
                 case 66u:
                 case 68u://HOSPITAL
-                    ChangeState(StateHospital, THIS);
+                    ChangeState(StateHospital, THIS, -1);
                 break;
                 case 83u:
                 case 85u://SMITH
-                    ChangeState(StateSmith, THIS);
+                    ChangeState(StateSmith, THIS, -1);
                 break;
                 case 46u:
                 case 47u:

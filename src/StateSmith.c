@@ -46,7 +46,6 @@ extern UINT8 next_page;
 
 extern void move_on() BANKED;
 
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void dialog_map() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;

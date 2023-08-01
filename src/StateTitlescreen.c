@@ -28,6 +28,8 @@ extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
 extern INT8 sfx_cooldown;
+extern UINT8 generic_counter;
+extern UINT8 generic_counter2;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;
@@ -45,22 +47,23 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 void START() {
     LOAD_SGB_BORDER(border2);
 	//SOUND
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	//NR50_REG = 0x44; //Max volume 0x77
+		NR52_REG = 0x80; //Enables sound, you should always setup this first
+		NR51_REG = 0xFF; //Enables all channels (left and right)
+		//NR50_REG = 0x44; //Max volume 0x77
+	//SGB
+		if(sgb_check()){
+			set_sgb_palette01_TITLESCREEN();
+		}
+	//SPRITES & SCROLL_TARGET
+		scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 240u);
+		InitScroll(BANK(titlescreenmap), &titlescreenmap, collision_tiles_titlescreen, 0);
 
-	if(sgb_check()){
-		set_sgb_palette01_TITLESCREEN();
-	}
-
-	scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 240u);
-	InitScroll(BANK(titlescreenmap), &titlescreenmap, collision_tiles_titlescreen, 0);
-	//scroll_target->y = (UINT16) 200u;
 	SHOW_BKG;
 	INIT_FONT(fontbw, PRINT_BKG);
 	
 	titlescreen_step = 0u;
-	
+	generic_counter = 0;
+	generic_counter2 = 0;
 	PlayMusic(sloopy, 1);
 	//PlayMusic(bgm_titlescreen, 0);
 	titlescreen_wait_time = 0;
@@ -68,6 +71,13 @@ void START() {
 
 void UPDATE() {
     if(sfx_cooldown > 0){sfx_cooldown--;}
+    generic_counter++;
+    if(generic_counter == 0u){
+        generic_counter2++;
+        if(generic_counter2 == 8u){
+            ChangeStateThroughBetween(StateCredit, StateTitlescreen);
+        }
+    }
 	if(titlescreen_step < 3u){
 		counter_anim++;
 		if(counter_anim < 20u){Anim_Titlescreen_0();}

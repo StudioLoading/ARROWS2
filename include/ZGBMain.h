@@ -71,9 +71,11 @@ _SPRITE_DMG(SpriteDrop, drop)\
 _SPRITE_DMG(SpriteBlackie, blackie)\
 _SPRITE_DMG(SpriteBlackieow, blackieow)\
 _SPRITE_DMG(SpriteLeaf, leaf)\
-_SPRITE_DMG(SpriteHurricane, hurricane)\
+_SPRITE_DMG(SpriteArmor, hurricane)\
 _SPRITE_DMG(SpriteChild, child)\
 _SPRITE_DMG(SpriteOwsign, owsign)\
+_SPRITE_DMG(SpriteMotherowstep, motherowstep)\
+_SPRITE_DMG(SpriteFlame, flame)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

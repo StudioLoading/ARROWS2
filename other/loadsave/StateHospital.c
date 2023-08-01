@@ -21,7 +21,7 @@ extern Sprite* s_motherpl;
 extern unsigned char EMPTY_STRING_21[];
 extern UINT8 current_map;
 
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern UINT8 save_game() BANKED;
 extern UINT8 load_game() BANKED;
 
@@ -86,6 +86,6 @@ void UPDATE(){
     }
     if(text_written == 5u){
         current_map = 0u;
-        ChangeState(StateExzoo, s_motherpl);
+        ChangeState(StateExzoo, s_motherpl, -1);
     }
 }

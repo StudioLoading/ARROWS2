@@ -27,6 +27,8 @@ extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
 extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 extern UINT8 generic_counter;
+extern UINT16 motherow_pos_x;
+extern UINT16 motherow_pos_y;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
@@ -65,8 +67,9 @@ struct InvItem itemEquipped = {.itemtype = INVITEM_MONEY, .quantity = 10, .equip
 
 void missions_init() BANKED;
 void inventory_init() BANKED;
+void position_init() BANKED;
 
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 
@@ -118,8 +121,8 @@ void inventory_init() BANKED{
 		break;
 		case 1:
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
-			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
-			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
 			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
@@ -144,6 +147,21 @@ void inventory_init() BANKED{
 	inventory[10] = unequip04;
 	inventory[11] = unequip05;
 	itemEquipped = inventory[0];
+}
+
+void position_init() BANKED{
+	switch(chapter){
+		case 0u:
+			current_map = 0u;
+			motherow_pos_x = (UINT16) 14u << 3;
+			motherow_pos_y = (UINT16) 24u << 3;
+		break;
+		case 1u:
+			current_map = 1u;
+			motherow_pos_x = (UINT16) 14u << 3;
+			motherow_pos_y = (UINT16) 42u << 3;
+		break;
+	}
 }
 
 void START() {
@@ -188,6 +206,10 @@ void START() {
 	PlayMusic(bgm_credits, 0);
 	credit_wait_time = 0u;
 	generic_counter = 0u;
+
+	SpriteManagerAdd(SpriteFlame, (UINT16) 2u << 3, (UINT16) 2u << 3);
+	Sprite* s_flame = SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 2u << 3);
+	s_flame->anim_frame = 4;
 }
 
 void UPDATE() {
@@ -210,7 +232,7 @@ void UPDATE() {
 	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		StopMusic;
-		ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
+		ChangeState(StateTitlescreen, s_motherpl, -1);// StateTitlescreen
 	}
 	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		credit_wait_time = 0u;
@@ -220,7 +242,7 @@ void UPDATE() {
 			//SetState(StateTitlescreen);
 			return;
 		}else{
-			ChangeState(StateTitlescreen, s_motherpl);// StateTitlescreen
+			ChangeState(StateTitlescreen, s_motherpl, -1);// StateTitlescreen
 		}
 	}*/
 		

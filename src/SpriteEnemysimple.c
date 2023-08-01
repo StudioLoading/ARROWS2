@@ -462,11 +462,11 @@ void EspawnItem() BANKED{
         }else if (enemy_random_30_100 < 90){
             itemtype = INVITEM_WOOD;        
         }else{
-            itemtype = INVITEM_HEARTS;        
+            itemtype = INVITEM_HEART;        
         }
     }else{
         if(enemy_random_30_100 < 35){
-            itemtype = INVITEM_HEARTS;
+            itemtype = INVITEM_HEART;
         }else if (enemy_random_30_100 < 50){
             itemtype = INVITEM_METAL;
         }else if (enemy_random_30_100 < 58){

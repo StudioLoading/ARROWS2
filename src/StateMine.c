@@ -47,7 +47,7 @@ extern UINT8 item_spawned_cooldown;
 const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 33u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
 
-UINT8 tiles_anim_interval = 60u;
+UINT8 tiles_anim_interval = 0u;
 UINT16 timeout_enemy = 10u;
 UINT8 timeout_cavesand = 0u;
 UINT8 enemy_wave = 0u;
@@ -58,10 +58,8 @@ extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void Anim_Cave_0() BANKED;
-extern void Anim_Cave_1() BANKED;
 
 void START(){
     LOAD_SGB_BORDER(bordermine);
@@ -79,6 +77,7 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
+      	//SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 5u << 3);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(cavemap), &cavemap, coll_tiles_cave, coll_surface_cave);    
@@ -95,6 +94,7 @@ void START(){
     if(superstone_spawned < 2){
         superstone_spawned = 0u;
     }
+    tiles_anim_interval = 0u;
 	SHOW_SPRITES;
 }
 
@@ -104,13 +104,27 @@ void UPDATE(){
             item_spawned_cooldown--;
         }
     //CAVE TILES ANIM
-        tiles_anim_interval--;
-        if(tiles_anim_interval == 0u){
-            Anim_Cave_0();
-            tiles_anim_interval = 16u;
-        }
-        if(tiles_anim_interval == 8u){
-            Anim_Cave_1();
+        tiles_anim_interval++;
+        switch(tiles_anim_interval){
+            case 6u:
+                Anim_Cave_1();
+            break;
+            case 12u:
+                Anim_Cave_2();
+            break;
+            case 18u:
+                Anim_Cave_3();
+            break;
+            case 24u:
+                Anim_Cave_4();
+            break;
+            case 30u:
+                Anim_Cave_5();
+            break;
+            case 36u:
+                Anim_Cave_0();
+                tiles_anim_interval = 0u;
+            break;
         }
     //CAVESAND ANIM
         if(
@@ -139,7 +153,7 @@ void UPDATE(){
         }
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){
-            ChangeState(StateInventory, s_motherpl);
+            ChangeState(StateInventory, s_motherpl, -1);
         }
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){

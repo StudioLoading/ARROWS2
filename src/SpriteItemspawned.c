@@ -18,7 +18,7 @@ const UINT8 is_metal[] = {1, 0};
 const UINT8 is_metal_dis[] = {2, 0, 3};
 const UINT8 is_wood[] = {1, 1};
 const UINT8 is_wood_dis[] = {2, 1, 3};
-const UINT8 is_heart[] = {1, 2};
+const UINT8 is_heart[] = {4, 6, 7, 2, 7};
 const UINT8 is_heart_dis[] = {2, 2, 3};
 const UINT8 is_money[] = {4, 6, 5, 4, 5};
 const UINT8 is_money_dis[] = {2, 4, 3};
@@ -26,6 +26,7 @@ const UINT8 is_crossb[] = {1, 7};
 const UINT8 is_crossb_dis[] = {2, 7, 3};
 const UINT8 is_powd[] = {1, 8};
 const UINT8 is_powd_dis[] = {2, 8, 3};
+const UINT8 is_hidden[] = {1, 3};
 
 void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
@@ -33,6 +34,7 @@ UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 void START(){
     THIS->lim_x = 255u;
+    THIS->lim_y = 255u;
     struct ItemSpawned* spawned_data = (struct ItemSpawned*) THIS->custom_data;
     spawned_data->configured = 0u;
 }
@@ -76,7 +78,8 @@ void UPDATE(){
                 spawned_data->vx = 0;
                 spawned_data->frmskip--;
                 if(spawned_data->frmskip == 0){
-                    if(spawned_data->itemtype == INVITEM_MONEY){
+                    if(spawned_data->itemtype == INVITEM_MONEY 
+                        || spawned_data->itemtype == INVITEM_HEART){
                         spawned_data->vx = 1;
                     }
                     spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
@@ -103,6 +106,9 @@ void UPDATE(){
             if(spawned_data->hp == 0u){
                 SpriteManagerRemoveSprite(THIS);
             }
+        break;
+        case 4u://hidden in overworld
+            SetSpriteAnim(THIS, is_hidden, 1u);
         break;
     }
 }

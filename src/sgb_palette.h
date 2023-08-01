@@ -125,6 +125,8 @@ void set_sgb_palette01_MINE() __banked;
 void set_sgb_palette01_ZOO() __banked;
 void set_sgb_palette01_CEMATERYCRYPT() __banked;
 void set_sgb_palette01_HOOD() __banked;
+void set_sgb_palette01_MAZE() __banked;
+
 /*
 void set_sgb_palette01_SEWER() __banked;
 void set_sgb_palette01_GATORSWAMP() __banked;

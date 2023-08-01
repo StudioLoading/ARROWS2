@@ -1,11 +1,10 @@
 POST DEMO:
-
-- ow oggetti:
-	- farli roteare vedi codice hurricane
-	- trovare oggetti nascosti, frame vuoto e stato HIDDEN
-	- tip di cosa sia stato preso (come quando legge i cartelli)
-- owmaze labirinto dungeon - i metterei nemici inseguitori da battere in platform! così 
-	questo sistema verrà ripreso nel capitolo plague con gli scorpioni.
+- owmaze labirinto dungeon.
+- dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
+	potrei fare la stessa cosa su un certo oggetto equipaggiabile
+	che se equippato da overworld in una certa posizione attiva qualcosa.
+	potrei fare sta cosa come side-mission super hidden secret per accesso ad area
+	segreta di oggetto tipo l' Armatura!!
 - proseguire con l'implementazione del design del chapter 1
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
@@ -37,11 +36,18 @@ POST DEMO:
 - creative commons per depositare musica
 - sulle mappe ow c'è da mettere la sprite owsign sopra 
 	ogni cartello leggibile
+- ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
+	su ow rotea tipo hurricane
 - chiamare il Log() solo alla start dello state? Ora lo sto chiamando
 	fisso sulle UPDATE() degli state...
 - diary: le frecce di navigazione dovrei forse gestirle come sprites, così
 	ne faccio animazione quando premo destra o sinistra, le faccio scomparire
 	quando sono ai limiti delle pagine 0-chapter...
+- mettere nel libretto mappa mondo con gli hidden items! descritti sulla
+void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
+di StateOverworld. Forse ce n'è pochi, aggiungerne
+
+
 
 SGB BORDER LIMITATIONS:
 The border cannot utilize more than 16 colors.

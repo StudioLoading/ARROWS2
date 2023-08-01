@@ -51,7 +51,7 @@ extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 
@@ -91,7 +91,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0){//&& motherpl_vx == 0){
             //CAMERA TRAMBLE

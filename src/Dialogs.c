@@ -37,8 +37,6 @@ UINT8 choice = 0u;
 UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
 
-extern UINT16 motherow_pos_x;
-extern UINT16 motherow_pos_y;
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
 extern UINT16 spawn_child_cooldown;
@@ -47,6 +45,12 @@ extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
+		case TIP_HIDDEN_ARROWS:
+			memcpy(d1, " SOMETHING'S ON THE  \0", 22);
+			memcpy(d2, EMPTY_STRING_21 , 22);
+			memcpy(d3, " GROUND:   ARROWS!   \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
 		case TIP_SMITH_NO:
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d1, " THE SMITH IS YET TO \0", 22);
@@ -417,8 +421,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 		break;
 		case CHILDS_SAVED:
 			*n_lines = 4u;
-			motherow_pos_x = ((UINT16) 18u << 3);
-			motherow_pos_y = ((UINT16) 3u << 3);
 			memcpy(d1, "THANK YOU HEALER!   \0", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "IS SAFE HERE. I CAN \0", 22);

@@ -67,7 +67,7 @@ extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void camera_tramble() BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 
@@ -119,7 +119,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
             //CAMERA TRAMBLE
@@ -137,7 +137,7 @@ void UPDATE(){
             if(mother_exit_cooldown == 0u && motherpl_state == MOTHERPL_WALK){
                 mother_exit_cooldown = 60u;
                 previous_state = StateBlackieroom;
-                ChangeState(StateBlackiecave, s_motherpl);
+                ChangeState(StateBlackiecave, s_motherpl, -1);
                 //go back
             }
         }else if(mother_exit_cooldown != 60u){

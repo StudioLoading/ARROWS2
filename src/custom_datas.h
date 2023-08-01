@@ -268,7 +268,7 @@ typedef enum{
 	INVITEM_MONEY, //COINS
 	INVITEM_HEARTS, //FULLHP
 	INVITEM_METAL, 
-	INVITEM_HEART, //HP
+	INVITEM_HEART, //HP+1
 	INVITEM_WOOD,//IMPORTANT: da qui in su devono esser quelli spawnati, c'è un random su StateFittizio!
 	INVITEM_UNASSIGNED,
 	INVITEM_ARROW_NORMAL,
@@ -308,7 +308,8 @@ typedef enum{
 	HOSPITAL_CURE,
 	CRYING_MOTHER,
 	CHILD,
-	CHILDS_SAVED
+	CHILDS_SAVED,
+	HIDDEN_ARROWS
 }WHOSTALKING;
 
 typedef enum{

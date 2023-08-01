@@ -92,11 +92,12 @@ extern void UpdateHUD() BANKED;
 extern void invselectitem(INT8 max_idx) BANKED;
 extern void fixInvcursor(INT8 max_idx) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
-extern void ChangeState(UINT8 new_state, Sprite* s_mother) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void Log(NPCNAME npcname) BANKED;
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 
 void START(){
@@ -442,13 +443,13 @@ void UPDATE(){
                 switch(motherpl_coll_x){
                     case 5u:
                         if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                            ChangeState(StateTetra, motherpl_state);
+                            ChangeState(StateTetra, motherpl_state, -1);
                         }else{ //GO TO MAP
-                            ChangeState(StateOverworld, motherpl_state);
+                            ChangeState(StateOverworld, motherpl_state, -1);
                         }
                     break;
                     case 7u:
-                        ChangeState(StateBonus, motherpl_state);
+                        ChangeState(StateBonus, motherpl_state, -1);
                     break;
                 }
             break;
@@ -502,7 +503,7 @@ void UPDATE(){
                         }
                         motherpl_canshoot = 0u;
                         if(KEY_RELEASED(J_FIRE)){
-                            ChangeState(StateDialog, THIS);
+                            trigger_dialog(whostalking, THIS);
                         }
                     break;
                     case SpriteArrow:
@@ -601,16 +602,14 @@ void UPDATE(){
                     if(scroll_tile == 78u || scroll_tile == 79u 
                         || scroll_tile_overlapping == 78u 
                         || scroll_tile_overlapping == 79u){
-                        whostalking = SUPERSTONE;
-                        ChangeState(StateDialog, THIS);
+                        trigger_dialog(SUPERSTONE, THIS);
                     }
                 }
             break;
             case StateBlackiecave:
                 if(KEY_PRESSED(J_FIRE)){
                     if(scroll_tile == 18u){
-                        whostalking = BOUNCINGBLOCK;
-                        ChangeState(StateDialog, THIS);
+                        trigger_dialog(BOUNCINGBLOCK, THIS);
                     }
                 }
             break;
@@ -628,8 +627,7 @@ void getOff(){
 }
 
 void die(){
-    whostalking = DEATH;
-    ChangeState(StateDialog, THIS);
+    trigger_dialog(DEATH, THIS);
 }
 
 void refreshAnimation(){
