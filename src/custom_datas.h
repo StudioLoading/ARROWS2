@@ -377,5 +377,10 @@ struct PlatformInfo {
 	INT8 vy;
 };
 
+struct TeleportInfo{
+	UINT16 dest_x;
+	UINT16 dest_y;
+};
+
 #endif
 

@@ -31,7 +31,7 @@ extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
-const UINT8 collision_tiles_ow_sw[] = {1, 2, 14, 15, 16, 18, 23, 24, 25, 26, 28, 29, 32, 
+const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 95, 96, 112, 113, 
 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 0};
@@ -151,9 +151,8 @@ void START(){
 				lim_east_x = ((UINT16) 46u << 3);
 			break;
 			case 1u://NORTH WEST
-				lim_up_y = ((UINT16) 9u << 3);
 				lim_down_y = ((UINT16) 48u << 3);
-				lim_east_x = ((UINT16) 46u << 3);
+				lim_east_x = ((UINT16) 79u << 3);
 			break;
 			case 2u://MAZE
 				lim_down_y = ((UINT16) 36u << 3);
@@ -191,8 +190,6 @@ void ShowTipOW() BANKED{
 void initial_sprite_spawning() BANKED{
 	switch(current_map){
 		case 0u:
-			SpriteManagerAdd(SpriteOwsign, ((UINT16) 17u << 3)+4u, ((UINT16) 10u << 3));
-			SpriteManagerAdd(SpriteOwsign, ((UINT16) 15u << 3)+4u, ((UINT16) 42u << 3));
 			if(chapter == 0){
 				if(find_blackie.current_step == 3u || find_blackie.current_step == 4u){
 					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
@@ -210,11 +207,17 @@ void initial_sprite_spawning() BANKED{
 			}
 		break;
 		case 1u:
-			SpriteManagerAdd(SpriteOwsign, ((63u << 3)+5u),(UINT16) 30u << 3);
-			SpriteManagerAdd(SpriteOwsign, ((15u << 3)+5u),(UINT16) 30u << 3);
-			SpriteManagerAdd(SpriteOwsign, ((40u << 3)+5u),(UINT16) 31u << 3);
 			if(chapter == 1){
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u);
+			}
+		break;
+		case 2u://maze
+			//configuring teleporting
+			{
+				Sprite* s_teleport0 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 23u << 3) + 4, (UINT16) 17u << 3);
+				struct TeleportInfo* teleport0_data = (struct TeleportInfo*) s_teleport0->custom_data;
+				teleport0_data->dest_x = (UINT16) 46u << 3;
+				teleport0_data->dest_y = (UINT16) 9u << 3;
 			}
 		break;
 	}
@@ -238,16 +241,18 @@ void UPDATE(){
 		if(current_map != 2){// 2 means labyrinth
 			anim_counter++;
 			switch(anim_counter){//see animation
-				case 32u:
+				case 24u:
+				case 120u:
 					Anim_Ow_see_1();
 				break;
-				case 64u:
+				case 48u:
 					Anim_Ow_see_2();
 				break;
-				case 96u:
+				case 72u:
+				case 144u:
 					Anim_Ow_see_3();
 				break;
-				case 160u:
+				case 96u:
 					Anim_Ow_see_0();
 				break;
 			}
@@ -300,6 +305,11 @@ void UPDATE(){
 				case 1u://ow north west
 					if(s_motherow->y > lim_down_y){//go south to StateHood
 						ChangeState(StateHood, s_motherow, -1);
+					}else if(s_motherow->x > lim_east_x){
+						if(chapter == 1){
+							s_motherow->x = lim_east_x - 6u;
+							owTips(TIP_STILL_SOMETHING);
+						}
 					}
 				break;
 				case 2u:
@@ -447,7 +457,7 @@ void DrawHUD(HUD_OPTION opt){
 			break;
 		}
 }
-
+/*
 void PauseGameOW(){
 	//TODO metti scroll_target in idle
 	print_target = PRINT_WIN;
@@ -462,4 +472,4 @@ void PauseGameOW(){
 void UnpauseGameOW(){
 	HIDE_WIN;
 }
-
+*/

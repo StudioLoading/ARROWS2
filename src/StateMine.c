@@ -19,8 +19,8 @@
 
 IMPORT_MAP(bordermine);
 IMPORT_TILES(fontbw);
-IMPORT_TILES(cavetiles);
-IMPORT_MAP(cavemap);
+IMPORT_TILES(minetiles);
+IMPORT_MAP(minemap);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -44,8 +44,8 @@ extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
 
-const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 25u, 33u, 35u, 52u, 0};
-const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 24u, 53u, 65u, 0};
+const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 35u, 52u, 0};
+const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 0u;
 UINT16 timeout_enemy = 10u;
@@ -57,7 +57,6 @@ UINT8 superstone_spawned = 0u;
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
-extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 
@@ -80,7 +79,7 @@ void START(){
       	//SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 5u << 3);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(cavemap), &cavemap, coll_tiles_cave, coll_surface_cave);    
+        InitScroll(BANK(minemap), &minemap, coll_tiles_cave, coll_surface_cave);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -90,7 +89,7 @@ void START(){
         enemy_counter = 0u;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(cavemap), &cavemap, &mapwidth, &mapheight);
+        GetMapSize(BANK(minemap), &minemap, &mapwidth, &mapheight);
     if(superstone_spawned < 2){
         superstone_spawned = 0u;
     }
@@ -156,13 +155,7 @@ void UPDATE(){
             ChangeState(StateInventory, s_motherpl, -1);
         }
     //CAMERA MANAGEMENT
-        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
-            //CAMERA TRAMBLE
-            camera_tramble();
-        }else{
-            //SCROLL CAMERA
-            update_camera_position();
-        }
+        update_camera_position();
     //INIT SUPERSTONE
         if(s_motherpl->x > (110u << 3) && superstone_spawned == 0u){
             //s_superstone = SpriteManagerAdd(SpriteSuperstone, 130u << 3, 13u << 3);

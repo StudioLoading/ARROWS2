@@ -114,6 +114,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	}
 }
 
+/*
 void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 	switch(label){
 		case DIARIO_MISSIONI:
@@ -124,6 +125,7 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 		break;		
 	}	
 }
+*/
 
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
@@ -355,10 +357,10 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			if(find_blackie.current_step < 4){
 				memcpy(d1, EMPTY_STRING_21, 22);
 				memcpy(d2, EMPTY_STRING_21, 22);
-				memcpy(d3, "DESSA IS DEAD.      \0", 22);
+				memcpy(d3, "  DESSA IS DEAD.    \0", 22);
 				memcpy(d4, EMPTY_STRING_21, 22);
 				memcpy(d5, EMPTY_STRING_21, 22);
-				memcpy(d6, "     GAME  OVER     \0", 22);
+				memcpy(d6, "        GAME  OVER  \0", 22);
 			}else{
 				memcpy(d1, "DESSA PASSED OUT.   \0", 22);
 				memcpy(d2, EMPTY_STRING_21, 22);

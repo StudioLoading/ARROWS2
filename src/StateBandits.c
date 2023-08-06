@@ -17,11 +17,9 @@
 
 IMPORT_MAP(border);
 IMPORT_TILES(fontbw);
-IMPORT_TILES(cemeterytiles);
-IMPORT_TILES(hudpltiles);
-IMPORT_MAP(cemeterymap);
+IMPORT_TILES(banditstiles);
+IMPORT_MAP(banditsmap);
 IMPORT_MAP(hudpl);
-
 
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
@@ -41,11 +39,10 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
-extern struct MISSION engage_smith;
-extern struct MISSION help_cemetery_woman;
 
-const UINT8 coll_tiles_cemetery[] = {0u, 0};
-const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
+const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
+const UINT8 coll_surface_bandits[] = {105u, 106u, 0};
+
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -65,22 +62,24 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 10u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
-        InitScroll(BANK(cemeterymap), &cemeterymap, coll_tiles_cemetery, coll_surface_cemetery);    
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
+        InitScroll(BANK(banditsmap), &banditsmap, coll_tiles_bandits, coll_surface_bandits);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
+    //RELOAD ENEMIES
+        ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
+        GetMapSize(BANK(banditsmap), &banditsmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
 }
 
@@ -90,31 +89,28 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
-        if(s_motherpl->x < ((UINT16)35u << 3)){
+        if(s_motherpl->x < ((UINT16)40u << 3)){
             if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2, WOMAN);
-                if(help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
-                    spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER, MARGARET);
-                }else{
-                    spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1, WOMAN);
-                }
+                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1, WOMAN);
+                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2, WOMAN);
                 npc_spawned_zone = 1u;
             }
-        }else if(s_motherpl->x < ((UINT16)60u << 3)){
+        }else if(s_motherpl->x < ((UINT16)70u << 3)){
             if(npc_spawned_zone != 2u){
-                if(engage_smith.mission_state == MISSION_STATE_DISABLED){
-                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH, JOHN);
-                }
-                spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2, WOMAN);
-                
+                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
                 npc_spawned_zone = 2u;
             }
+        }else if(s_motherpl->x < ((UINT16)120u << 3)){
+            if(npc_spawned_zone != 3u){
+                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
+                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
+                npc_spawned_zone = 3u;
+            }
         }
-    
     
     Log(NONAME);
 }

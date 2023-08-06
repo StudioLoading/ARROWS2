@@ -30,12 +30,15 @@ extern TIP_TO_BE_LOCALIZED tip_to_show;
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
 extern UINT8 current_map;
+extern UINT16 motherow_pos_x;
+extern UINT16 motherow_pos_y;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
 UINT8 frameskip_max = 1u;// same as OW_NORMAL_FRAMESKIP
 FA2OW_SPRITE_STATES new_state = 0;
 UINT8 step_counter = 0u;
+UINT8 teleporting = 0u;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
@@ -58,6 +61,7 @@ void START(){
     frameskip = 0u;
     step_counter = 0u;
     frameskip_max = OW_NORMAL_FRAMESKIP;
+    teleporting = 0u;
 }
 
 void update_position_motherow() BANKED{
@@ -74,8 +78,7 @@ void update_position_motherow() BANKED{
                     //case 8u:
                     case 40u: case 92u:
                     case 93u: case 94u:
-                    case 99u: case 101u: 
-                    case 102u: case 105u: case 106u:
+                    case 99u: case 102u: 
                         //SFX
                             if(THIS->anim_frame == 1){
                                 my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
@@ -184,14 +187,25 @@ void UPDATE(){
                             }
                         }
                     break;
+                    case SpriteTeleport:
+                        //teleport!
+                            {
+                                struct TeleportInfo* tport_data = (struct TeleportInfo*) imowspr->custom_data;
+                                motherow_pos_x = tport_data->dest_x;
+                                motherow_pos_y = tport_data->dest_y;
+                                teleporting = 1u;
+                                ChangeState(StateOverworld, THIS, -1);
+                            }
+                    break;
                 }
             }
         };
 }
 
-void ow_check_place() BANKED{
+void ow_check_place() BANKED{//tile collision
     if(motherow_info->tile_collision){
         switch(motherow_info->tile_collision){
+            case 16u:
             case 50u:
             case 51u:
                 switch(current_map){
@@ -199,7 +213,7 @@ void ow_check_place() BANKED{
                         ChangeState(StateMine, THIS, -1);
                     break;
                     case 1u:
-                        //ChangeState(StateBandit, THIS);
+                        ChangeState(StateBandits, THIS, -1);
                     break;
                 }
             break;
@@ -230,6 +244,7 @@ void ow_check_place() BANKED{
                     break;
                 }
             break;
+            case 17u:
             case 95u:
             case 96u:
                 switch(current_map){
@@ -237,7 +252,7 @@ void ow_check_place() BANKED{
                         ChangeState(StateBlackiecave, THIS, -1);
                     break;
                     case 1u:
-                        //ChangeState(StateLabirynth, THIS);
+                        ChangeState(StateOverworld, THIS, 2);
                     break;
                 }
             break;

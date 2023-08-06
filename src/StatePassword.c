@@ -50,12 +50,14 @@ void update_pcode(INT8 move) BANKED;
 void update_pcode_face(struct TetradadoInfo* pcode_data, INT8 move) BANKED;
 INT8 check_password() BANKED;
 void password_reset() BANKED;
+void load_chapter() BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void missions_init() BANKED;
 extern void inventory_init() BANKED;
 extern void position_init() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+
 
 void START(){
     //SGB PALETTE
@@ -130,28 +132,34 @@ void UPDATE(){
             password_reset();
             return;
         }
-        my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
-        missions_init();
-        inventory_init();
-        position_init();
-        just_started = 1u;
-        switch(chapter){
-            case 0:
-                just_started = 0;
-                previous_state = StateOverworld;
-                whostalking = INTRO;
-                //LOAD_SGB_BORDER(borderdiary);
-                ChangeStateThroughBetween(StateDialog, StateTitlescreen);
-            break;
-            case 1:
-                ChangeStateThroughBetween(StateOverworld, StatePassword);
-            break;
-        }
+        load_chapter();
+    }
+}
+
+void load_chapter() BANKED{
+    my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
+    missions_init();
+    inventory_init();
+    position_init();
+    just_started = 1u;
+    switch(chapter){
+        case 0:
+            just_started = 0;
+            previous_state = StateOverworld;
+            whostalking = INTRO;
+            //LOAD_SGB_BORDER(borderdiary);
+            ChangeStateThroughBetween(StateDialog, StateTitlescreen);
+        break;
+        case 1:
+            ChangeStateThroughBetween(StateOverworld, StatePassword);
+        break;
     }
 }
 
 void update_curpos(INT8 move) BANKED{
-    my_play_fx(CHANNEL_1, 50, 0x16, 0x86, 0x76, 0xDE, 0x86);
+    generic_counter = 0;
+    generic_counter2 = 0;
+    my_play_fx(CHANNEL_2, 50, 0xBF, 0xF1, 0x27, 0x87, 0x00);
     cur_posi += move;
     cur_posi = cur_posi % 4;
     inv_cursor->x = cur_posx[cur_posi];
@@ -159,7 +167,8 @@ void update_curpos(INT8 move) BANKED{
 }
 
 void update_pcode(INT8 move) BANKED{
-    my_play_fx(CHANNEL_4, 50, 0x05, 0x28, 0x21, 0xc0, 0x00);
+    generic_counter = 0;
+    generic_counter2 = 0;
     Sprite* current_pcode = 0;
     switch(cur_posi){
         case 0u:

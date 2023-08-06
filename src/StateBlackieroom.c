@@ -66,7 +66,6 @@ UINT8 mother_exit_cooldown = 60u;
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
-extern void camera_tramble() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
@@ -121,15 +120,12 @@ void UPDATE(){
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
-        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
-            //CAMERA TRAMBLE
-            //camera_tramble();
-        }else{
-            //SCROLL CAMERA
-            scroll_target->x = (UINT16) 80u;
-            scroll_target->y = (UINT16) 56u;
-            //update_camera_position();
-        }
+        scroll_target->x = (UINT16) 80u;
+        scroll_target->y = (UINT16) 56u;
+        /*
+        //CAMERA MANAGEMENT
+        update_camera_position();
+        */
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;

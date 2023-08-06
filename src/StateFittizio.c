@@ -29,6 +29,12 @@ DECLARE_MUSIC(bgm_cemetery);
 DECLARE_MUSIC(bgm_blackiecave);
 DECLARE_MUSIC(bgm_mine);
 DECLARE_MUSIC(bgm_hood);
+DECLARE_MUSIC(bgm_gameover);
+
+DECLARE_MUSIC(_03_ow2_noch2);
+DECLARE_MUSIC(_03_ow2);
+DECLARE_MUSIC(_04);
+DECLARE_MUSIC(_04_noch2);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -46,9 +52,9 @@ extern WHOSTALKING whostalking;
 extern Sprite* s_motherow;
 extern unsigned char log0[];
 extern UINT8 current_map;
+extern UINT8 teleporting;
 
 UINT8 mine_powderspawned = 3u;
-
 UINT8 npc_spawned_zone = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
@@ -78,11 +84,12 @@ void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
 void update_camera_position() BANKED;
 void update_camera_position_ow() BANKED;
+void camera_tramble() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
-void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
+void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 void save_mother_pos(Sprite* s_mother) BANKED;
@@ -94,13 +101,14 @@ void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     ChangeState(StateDialog, s_mother, -1);
 }
 
-void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
-    if(previous_state == new_state){
+void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
+    if(previous_state == new_state && next_map == current_map){
         return;
     }
     switch(new_state){
         case StateInventory:
             PauseMusic;
+            my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
         break;
         case StateDialog:
             if(previous_state == StateTitlescreen){
@@ -110,12 +118,19 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
                 case INTRO:
                     PlayMusic(bgm_intro, 1);
                 break;
+                case DEATH:
+                    PlayMusic(bgm_gameover, 1);
+                break;
             }
         break;
         case StateOverworld:
         	StopMusic;
             if(just_started > 0){
-                PlayMusic(bgm_ow, 1);
+                switch(current_map){
+                    case 0u:PlayMusic(_03_ow2_noch2, 1);break;
+                    case 1u:PlayMusic(bgm_ow, 1);break;
+                    case 2u:break;
+                }
             }            
         break;
         case StateExzoo:
@@ -132,7 +147,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED{
         break;
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{StopMusic;PlayMusic(bgm_mine, 1);}
+            else{StopMusic;PlayMusic(_04_noch2, 1);}//bgm_mine
         break;
         case StateHood:
             if(previous_state == StateInventory){ResumeMusic;}
@@ -161,14 +176,8 @@ void save_mother_pos(Sprite* s_mother) BANKED{
     }
 }
 
-void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{    
-    if(new_state == StateInventory){
-	    PauseMusic;
-        my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
-    }else if (current_state == StateInventory){
-        ResumeMusic;
-        //AUDIO REVERSE dell' entrata all' inventario, dato che ora ne sto uscendo
-    }
+void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{            
+    manage_bgm(new_state, previous_state, next_map);
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -183,7 +192,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     npc_spawned_zone = 0u;
     //MOTHERPL POS X Y, HIDE_WIN
         if(current_state != StateInventory && current_state != StateDiary
-            && current_state != StateDialog && current_state != StatePassword){
+            && current_state != StateDialog && current_state != StatePassword
+            && teleporting == 0){
             if(new_state != current_state){save_mother_pos(s_mother);}
             switch(s_mother->type){
                 case SpriteMotherow:
@@ -236,6 +246,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     //SGB PALETTE
         if(sgb_check()){
             switch(new_state){
+                case StateBandits:
                 case StateHood:
                     set_sgb_palette01_HOOD();
                     set_sgb_palette_statusbar();
@@ -275,7 +286,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             }
         }
     previous_state = current_state;
-    manage_bgm(new_state, previous_state);
     if(motherpl_state == MOTHERPL_DEAD){
         motherpl_hp = 5;
         ChangeStateThroughBetween(new_state, previous_state);
@@ -436,16 +446,21 @@ void update_camera_position() BANKED{
                 }
             }  
         //VERTICAL
-        if(s_motherpl->y > (((UINT16) mapheight) << 3)){
-            s_motherpl->y = ((UINT16) mapheight) - 32u;
+            if(s_motherpl->y > (((UINT16) mapheight) << 3)){
+                s_motherpl->y = ((UINT16) mapheight) - 32u;
+            }
+            if(s_motherpl->y <= 0u){
+                s_motherpl->y = 32u;
+            }  
+    //SCROLL TARGET Y    
+        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
+            //CAMERA TRAMBLE
+            camera_tramble();
+        }else{
+            if(scroll_target->y != (s_motherpl->y + 16u)){
+                scroll_target->y = s_motherpl->y + 16u;
+            }
         }
-        if(s_motherpl->y <= 0u){
-            s_motherpl->y = 32u;
-        }  
-    //SCROLL TARGET Y
-    if(scroll_target->y != (s_motherpl->y + 16u)){
-        scroll_target->y = s_motherpl->y + 16u;
-    }
     if(motherpl_state == MOTHERPL_BLOCKED ){return;}
     if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
     //camera fissa per certi stage
@@ -454,7 +469,9 @@ void update_camera_position() BANKED{
         case StateMine:
         case StateBlackiecave:
             scroll_target->x = s_motherpl->x + 8u;
-            scroll_target->y = s_motherpl->y + 8u;
+            if(motherpl_hit_cooldown == 0){
+                scroll_target->y = s_motherpl->y + 8u;
+            }
             consider_margins = 1u;
         break;
     }

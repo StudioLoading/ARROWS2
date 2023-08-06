@@ -1,5 +1,14 @@
 POST DEMO:
-- owmaze labirinto dungeon.
+- owmaze labirinto dungeon stairs system
+- SGB colori stateBandits
+- SGB colori ow nw 
+- DEATH: ripartire dal chapter corrente invocando la load_chapter();
+- bandits:
+	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
+- titlescreen: NEW GAME or PASSWORD selection (after pressing start? so I can move the blinking
+	PUSH START below)
+- il 2 del titlescreen sul SGB è colorato a metà
+- SGB credit le fiamme non sono rosse e nemmeno BN
 - dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
 	potrei fare la stessa cosa su un certo oggetto equipaggiabile
 	che se equippato da overworld in una certa posizione attiva qualcosa.

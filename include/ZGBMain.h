@@ -28,6 +28,7 @@ _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
 _STATE(StateHood)\
 _STATE(StatePassword)\
+_STATE(StateBandits)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -73,9 +74,9 @@ _SPRITE_DMG(SpriteBlackieow, blackieow)\
 _SPRITE_DMG(SpriteLeaf, leaf)\
 _SPRITE_DMG(SpriteArmor, hurricane)\
 _SPRITE_DMG(SpriteChild, child)\
-_SPRITE_DMG(SpriteOwsign, owsign)\
 _SPRITE_DMG(SpriteMotherowstep, motherowstep)\
 _SPRITE_DMG(SpriteFlame, flame)\
+_SPRITE_DMG(SpriteTeleport, teleport)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

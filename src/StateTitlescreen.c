@@ -64,7 +64,7 @@ void START() {
 	titlescreen_step = 0u;
 	generic_counter = 0;
 	generic_counter2 = 0;
-	PlayMusic(sloopy, 1);
+	//PlayMusic(sloopy, 1);
 	//PlayMusic(bgm_titlescreen, 0);
 	titlescreen_wait_time = 0;
 }
@@ -75,6 +75,7 @@ void UPDATE() {
     if(generic_counter == 0u){
         generic_counter2++;
         if(generic_counter2 == 8u){
+			StopMusic;
             ChangeStateThroughBetween(StateCredit, StateTitlescreen);
         }
     }

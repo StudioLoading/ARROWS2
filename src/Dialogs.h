@@ -1,10 +1,10 @@
 #include "custom_datas.h"
-
+/*
 typedef enum{
 	DIARIO_MISSIONI,
 	OPZIONI_PARTITA
 }TO_BE_LOCALIZED;
-
+*/
 typedef enum{
 	TIP_NOTHING,
 	TIP_SMITH_NO,
@@ -22,6 +22,6 @@ typedef enum{
 
 void GetLocalizedLogName_EN(NPCNAME npcname) BANKED;
 void GetLocalizedLog_EN() BANKED;
-void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
+//void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;

@@ -19,6 +19,8 @@ IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
 DECLARE_MUSIC(bgm_credits);
+DECLARE_MUSIC(creditstitlescreen);
+DECLARE_MUSIC(creditstitlescreen_noch2);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -157,9 +159,14 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 24u << 3;
 		break;
 		case 1u:
+			/*
 			current_map = 1u;
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 42u << 3;
+			*/
+			current_map = 2u;
+			motherow_pos_x = (UINT16) 3u << 3;
+			motherow_pos_y = (UINT16) 2u << 3;
 		break;
 	}
 }
@@ -203,7 +210,8 @@ void START() {
 	SHOW_BKG;
 	SHOW_SPRITES;
 	
-	PlayMusic(bgm_credits, 0);
+	//PlayMusic(bgm_credits, 0);
+	PlayMusic(creditstitlescreen_noch2, 0);
 	credit_wait_time = 0u;
 	generic_counter = 0u;
 
@@ -229,9 +237,10 @@ void UPDATE() {
 		}
 		generic_counter++;
 	//}
-	if(credit_wait_time == 511u || KEY_TICKED(J_START) 
+	if(credit_wait_time == 240u || KEY_TICKED(J_START)){
+		/*) 
 		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
-		StopMusic;
+		StopMusic;*/
 		ChangeState(StateTitlescreen, s_motherpl, -1);// StateTitlescreen
 	}
 	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){

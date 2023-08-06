@@ -52,6 +52,7 @@ extern UINT8 choice_right;
 extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
 extern UINT8 current_map;
+extern INT8 chapter;
 
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
@@ -69,6 +70,8 @@ extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void dialog_map();
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void position_init() BANKED;
+extern void load_chapter() BANKED;
+
 
 void START() {
 	//SOUND
@@ -319,13 +322,7 @@ void move_on() BANKED{
 		return;
 	}
     if(whostalking == DEATH){
-        position_init();
-		if(find_blackie.current_step < 4){
-            ChangeState(StateCredit, s_motherpl, -1);
-        }else{
-            ChangeState(StateOverworld, s_motherpl, 0);
-        }
-        return;
+        load_chapter();
     }else if(previous_state == StateOverworld || previous_state == StatePassword){
         ChangeState(previous_state, s_motherow, current_map);
     }else{

@@ -30,12 +30,12 @@ IMPORT_TILES(dialogmapmine);
 IMPORT_TILES(dmapblackiecave);
 IMPORT_TILES(dialogmapsmith);
 IMPORT_TILES(dialogmapintro);
-IMPORT_TILES(cavetiles);
-IMPORT_TILES(cavetilesanim1);
-IMPORT_TILES(cavetilesanim2);
-IMPORT_TILES(cavetilesanim3);
-IMPORT_TILES(cavetilesanim4);
-IMPORT_TILES(cavetilesanim5);
+IMPORT_TILES(minetiles);
+IMPORT_TILES(minetilesanim1);
+IMPORT_TILES(minetilesanim2);
+IMPORT_TILES(minetilesanim3);
+IMPORT_TILES(minetilesanim4);
+IMPORT_TILES(minetilesanim5);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(titlescreentilesanim);
 IMPORT_TILES(titlescreentilesanim2);
@@ -66,19 +66,23 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, struct TilesInfo* t, 
 }
 
 void dialog_map() BANKED{
-	switch(previous_state){
-		case StateExzoo:set_banked_bkg_data(0, 101u, &dialogtiles00, BANK(dialogtiles00));break;
-		case StateCemetery:set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));break;
-		case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
-		case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
-		case StateOverworld:
-			if(whostalking == INTRO){
-				set_banked_bkg_data(0, 101u, &dialogmapintro, BANK(dialogmapintro));
-			}
-		break;
-	}
-	switch(current_state){
-		case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
+	if(whostalking == DEATH){
+		set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));
+	}else{
+		switch(previous_state){
+			case StateExzoo:set_banked_bkg_data(0, 101u, &dialogtiles00, BANK(dialogtiles00));break;
+			case StateCemetery:set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));break;
+			case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
+			case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
+			case StateOverworld:
+				if(whostalking == INTRO){
+					set_banked_bkg_data(0, 101u, &dialogmapintro, BANK(dialogmapintro));
+				}
+			break;
+		}
+		switch(current_state){
+			case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
+		}
 	}
 }
 
@@ -119,26 +123,30 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 void Anim_Ow_0() BANKED{
 	set_banked_bkg_data(7u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//grass
 	set_banked_bkg_data(103u, 5u, &owsouthwesttiles, BANK(owsouthwesttiles));//water
+	set_banked_bkg_data(105u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//updown arrows
+	set_banked_bkg_data(132u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//leftright arrows
 }
 void Anim_Ow_1() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim1, BANK(owswanim1));//grass
-	set_banked_bkg_data(103u, 5u, &owswanim1, BANK(owswanim1));//water
+	set_banked_bkg_data(103u, 2u, &owswanim1, BANK(owswanim1));//water
 }
 void Anim_Ow_2() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim2, BANK(owswanim2));//grass
-	set_banked_bkg_data(103u, 5u, &owswanim2, BANK(owswanim2));//water
+	set_banked_bkg_data(103u, 2u, &owswanim2, BANK(owswanim2));//water
 }
 void Anim_Ow_3() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim3, BANK(owswanim3));//grass
-	set_banked_bkg_data(103u, 5u, &owswanim3, BANK(owswanim3));//water
+	set_banked_bkg_data(103u, 2u, &owswanim3, BANK(owswanim3));//water
+	set_banked_bkg_data(105u, 2u, &owswanim3, BANK(owswanim3));//updown arrows
+	set_banked_bkg_data(132u, 2u, &owswanim3, BANK(owswanim3));//leftright arrows
 }
 void Anim_Ow_4() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim2, BANK(owswanim2));//grass
-	set_banked_bkg_data(103u, 5u, &owswanim2, BANK(owswanim2));//water
+	set_banked_bkg_data(103u, 2u, &owswanim2, BANK(owswanim2));//water
 }
 void Anim_Ow_5() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim1, BANK(owswanim1));//grass
-	set_banked_bkg_data(103u, 5u, &owswanim1, BANK(owswanim1));//water
+	set_banked_bkg_data(103u, 2u, &owswanim1, BANK(owswanim1));//water
 }
 
 void Anim_Ow_see_0() BANKED{
@@ -173,34 +181,34 @@ void Anim_Titlescreen_3() BANKED{
 }
 
 void Anim_Cave_0() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetiles, BANK(cavetiles));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetiles, BANK(cavetiles));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetiles, BANK(cavetiles));//carrello
+	set_banked_bkg_data(23u, 2u, &minetiles, BANK(minetiles));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetiles, BANK(minetiles));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetiles, BANK(minetiles));//carrello
 }
 void Anim_Cave_1() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetilesanim1, BANK(cavetilesanim1));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetilesanim1, BANK(cavetilesanim1));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetilesanim1, BANK(cavetilesanim1));//carrello
+	set_banked_bkg_data(23u, 2u, &minetilesanim1, BANK(minetilesanim1));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetilesanim1, BANK(minetilesanim1));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetilesanim1, BANK(minetilesanim1));//carrello
 }
 void Anim_Cave_2() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetilesanim2, BANK(cavetilesanim2));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetilesanim2, BANK(cavetilesanim2));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetilesanim2, BANK(cavetilesanim2));//carrello
+	set_banked_bkg_data(23u, 2u, &minetilesanim2, BANK(minetilesanim2));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetilesanim2, BANK(minetilesanim2));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetilesanim2, BANK(minetilesanim2));//carrello
 }
 void Anim_Cave_3() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetilesanim3, BANK(cavetilesanim3));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetilesanim3, BANK(cavetilesanim3));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetilesanim3, BANK(cavetilesanim3));//carrello
+	set_banked_bkg_data(23u, 2u, &minetilesanim3, BANK(minetilesanim3));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetilesanim3, BANK(minetilesanim3));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetilesanim3, BANK(minetilesanim3));//carrello
 }
 void Anim_Cave_4() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetilesanim4, BANK(cavetilesanim4));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetilesanim4, BANK(cavetilesanim4));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetilesanim4, BANK(cavetilesanim4));//carrello
+	set_banked_bkg_data(23u, 2u, &minetilesanim4, BANK(minetilesanim4));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetilesanim4, BANK(minetilesanim4));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetilesanim4, BANK(minetilesanim4));//carrello
 }
 void Anim_Cave_5() BANKED{
-	set_banked_bkg_data(23u, 2u, &cavetilesanim5, BANK(cavetilesanim5));//fiammella
-	set_banked_bkg_data(41u, 7u, &cavetilesanim5, BANK(cavetilesanim5));//luce lanterna
-	set_banked_bkg_data(60u, 2u, &cavetilesanim5, BANK(cavetilesanim5));//carrello
+	set_banked_bkg_data(23u, 2u, &minetilesanim5, BANK(minetilesanim5));//fiammella
+	set_banked_bkg_data(41u, 7u, &minetilesanim5, BANK(minetilesanim5));//luce lanterna
+	set_banked_bkg_data(60u, 2u, &minetilesanim5, BANK(minetilesanim5));//carrello
 }
 
 void Anim_StudioLoading_0() BANKED{
