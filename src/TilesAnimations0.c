@@ -96,8 +96,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_POWDER:
 				set_inv_bkg_data(item, 49u, 25, BANK(idpowdertiles), isEmpty, &idpowdertiles);
-			break;			
+			break;
 			case INVITEM_LETTER:
+			case INVITEM_PASS:
 				set_inv_bkg_data(item, 49u, 25, BANK(idlettertiles), isEmpty, &idlettertiles);
 			break;
 			case INVITEM_WOOD:

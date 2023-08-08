@@ -92,7 +92,7 @@ void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
-void save_mother_pos(Sprite* s_mother) BANKED;
+void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
@@ -163,15 +163,15 @@ void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2
     }
 }
 
-void save_mother_pos(Sprite* s_mother) BANKED{
-    switch(s_mother->type){
+void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
+    switch(sprite_type){
         case SpriteMotherpl:
-            motherpl_pos_x = s_mother->x;
-            motherpl_pos_y = s_mother->y;
+            motherpl_pos_x = x;
+            motherpl_pos_y = y;
         break;
         case SpriteMotherow:
-            motherow_pos_x = s_mother->x;
-            motherow_pos_y = s_mother->y;
+            motherow_pos_x = x;
+            motherow_pos_y = y;
         break;
     }
 }
@@ -194,7 +194,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(current_state != StateInventory && current_state != StateDiary
             && current_state != StateDialog && current_state != StatePassword
             && teleporting == 0){
-            if(new_state != current_state){save_mother_pos(s_mother);}
+            if(new_state != current_state){save_mother_pos(s_mother->type, s_mother->x, s_mother->y);}
             switch(s_mother->type){
                 case SpriteMotherow:
                     if(new_state == StateOverworld){
@@ -292,6 +292,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     }else if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
+        //if(new_state == StateDialog){
+            //save_mother_pos(s_mother->type, s_mother->x, s_mother->y);
+        //s}
         SetState(new_state);
     }
 }

@@ -39,6 +39,7 @@ UINT8 choice_right = 0u;
 
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION outwalker_chief;
 extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
@@ -427,6 +428,49 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "IS SAFE HERE. I CAN \0", 22);
 			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
+		break;
+		case OUTWALKER_NO_ENTER:
+			*n_lines = 5u;
+			memcpy(d1, "SORRY HEALER,       \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "YOU CAN NOT GET IN  \0", 22);
+			memcpy(d4, "HERE WITHOUT A PASS.\0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+		break;
+		case POLICE_0_GET_PASS:
+			*n_lines = 15u;
+			memcpy(d1, "SALUTE HEALER,      \0", 22);
+			memcpy(d2, "WE KNOW THAT TO THE \0", 22);
+			memcpy(d3, "WEST THERE'S A BUNCH\0", 22);
+			memcpy(d4, "OF PEOPLE LIVING BY \0", 22);
+			memcpy(d5, "THEIR OWN. WE WANT  \0", 22);
+			memcpy(d6, "TO KNOW WHO IS THEIR\0", 22);
+			memcpy(d7, "LEADER. BECAUSE THEY\0", 22);
+			memcpy(d8, "WON'T TELL US, TAKE \0", 22);
+			memcpy(d9, "THIS PASS. SHOW IT  \0", 22);
+			memcpy(d10, "AND THEY WILL LET  \0", 22);
+			memcpy(d11, "YOU IN.            \0", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+			memcpy(d13, "PLEASE COME BACK AS\0", 22);
+			memcpy(d14, "SOON AS YOU FIND   \0", 22);
+			memcpy(d15, "OUT. THANK YOU.    \0", 22);				
+			{
+				struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
+				pickup(&pass_data);
+				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
+			}
+		break;
+		case POLICE_0_STILL_NOT_FOUND:
+			*n_lines = 8u;
+			memcpy(d1, "SALUTE HEALER,      \0", 22);
+			memcpy(d2, "WE ARE STILL WAITING\0", 22);
+			memcpy(d3, "FOR YOU TO TELL US  \0", 22);
+			memcpy(d4, "WHO'S THE OUTWALKER \0", 22);
+			memcpy(d4, "CHIEF.              \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "PLEASE COME BACK AS\0", 22);
+			memcpy(d7, "SOON AS YOU FIND   \0", 22);
+			memcpy(d8, "OUT. THANK YOU.    \0", 22);
 		break;
     }
 }

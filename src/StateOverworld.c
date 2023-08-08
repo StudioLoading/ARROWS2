@@ -85,6 +85,8 @@ void ShowTipOW() BANKED;
 void initial_sprite_spawning() BANKED;
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED;
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
+void maze_teleport() BANKED;
+
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
@@ -155,8 +157,8 @@ void START(){
 				lim_east_x = ((UINT16) 79u << 3);
 			break;
 			case 2u://MAZE
-				lim_down_y = ((UINT16) 36u << 3);
-				lim_west_x = ((UINT16) 3u << 3);
+				lim_west_x = ((UINT16) 2u << 3);
+				lim_down_y = ((UINT16) 38u << 3);
 			break;
 		}
 }
@@ -187,6 +189,80 @@ void ShowTipOW() BANKED{
 	}
 }
 
+void maze_teleport() BANKED{	
+	Sprite* s_teleport10 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 12u << 3) + 6, ((UINT16) 5u << 3) + 8);
+	Sprite* s_teleport11 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 17u << 3) + 6, ((UINT16) 14u << 3) + 8);
+	struct TeleportInfo* teleport10_data = (struct TeleportInfo*) s_teleport10->custom_data;
+	teleport10_data->dest_x = (UINT16) 19u << 3;
+	teleport10_data->dest_y = (UINT16) 14u << 3;
+	struct TeleportInfo* teleport11_data = (struct TeleportInfo*) s_teleport11->custom_data;
+	teleport11_data->dest_x = (UINT16) 14u << 3;
+	teleport11_data->dest_y = (UINT16) 5u << 3;
+	Sprite* s_teleport20 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 18u << 3) + 8);
+	Sprite* s_teleport21 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 24u << 3) + 8);
+	struct TeleportInfo* teleport20_data = (struct TeleportInfo*) s_teleport20->custom_data;
+	teleport20_data->dest_x = (UINT16) 32u << 3;
+	teleport20_data->dest_y = (UINT16) 24u << 3;
+	struct TeleportInfo* teleport21_data = (struct TeleportInfo*) s_teleport21->custom_data;
+	teleport21_data->dest_x = (UINT16) 4u << 3;
+	teleport21_data->dest_y = (UINT16) 18u << 3;
+
+	Sprite* s_teleport30 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 41u << 3) + 6, ((UINT16) 24u << 3) + 8);
+	Sprite* s_teleport31 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 9u << 3) + 8);
+	struct TeleportInfo* teleport30_data = (struct TeleportInfo*) s_teleport30->custom_data;
+	teleport30_data->dest_x = (UINT16) 42u << 3;
+	teleport30_data->dest_y = (UINT16) 9u << 3;
+	struct TeleportInfo* teleport31_data = (struct TeleportInfo*) s_teleport31->custom_data;
+	teleport31_data->dest_x = (UINT16) 40u << 3;
+	teleport31_data->dest_y = (UINT16) 24u << 3;
+
+	Sprite* s_teleport40 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 64u << 3) + 6, ((UINT16) 6u << 3) + 8);
+	Sprite* s_teleport41 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 34u << 3) + 8);
+	struct TeleportInfo* teleport40_data = (struct TeleportInfo*) s_teleport40->custom_data;
+	teleport40_data->dest_x = (UINT16) 42u << 3;
+	teleport40_data->dest_y = (UINT16) 34u << 3;
+	struct TeleportInfo* teleport41_data = (struct TeleportInfo*) s_teleport41->custom_data;
+	teleport41_data->dest_x = (UINT16) 63u << 3;
+	teleport41_data->dest_y = (UINT16) 6u << 3;
+
+	Sprite* s_teleport50 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 34u << 3) + 8);
+	Sprite* s_teleport51 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 68u << 3) + 6, ((UINT16) 23u << 3) + 8);
+	struct TeleportInfo* teleport50_data = (struct TeleportInfo*) s_teleport50->custom_data;
+	teleport50_data->dest_x = (UINT16) 68u << 3;
+	teleport50_data->dest_y = (UINT16) 25u << 3;
+	struct TeleportInfo* teleport51_data = (struct TeleportInfo*) s_teleport51->custom_data;
+	teleport51_data->dest_x = (UINT16) 31u << 3;
+	teleport51_data->dest_y = (UINT16) 34u << 3;
+
+	Sprite* s_teleport60 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 5u << 3) + 8);
+	Sprite* s_teleport61 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 26u << 3) + 8);
+	struct TeleportInfo* teleport60_data = (struct TeleportInfo*) s_teleport60->custom_data;
+	teleport60_data->dest_x = (UINT16) 4u << 3;
+	teleport60_data->dest_y = (UINT16) 26u << 3;
+	struct TeleportInfo* teleport61_data = (struct TeleportInfo*) s_teleport61->custom_data;
+	teleport61_data->dest_x = (UINT16) 18u << 3;
+	teleport61_data->dest_y = (UINT16) 5u << 3;
+
+	Sprite* s_teleport70 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 3u << 3) + 6, ((UINT16) 31u << 3) + 8);
+	Sprite* s_teleport71 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 14u << 3) + 6, ((UINT16) 30u << 3) + 8);
+	struct TeleportInfo* teleport70_data = (struct TeleportInfo*) s_teleport70->custom_data;
+	teleport70_data->dest_x = (UINT16) 16u << 3;
+	teleport70_data->dest_y = (UINT16) 30u << 3;
+	struct TeleportInfo* teleport71_data = (struct TeleportInfo*) s_teleport71->custom_data;
+	teleport71_data->dest_x = (UINT16) 2u << 3;
+	teleport71_data->dest_y = (UINT16) 31u << 3;
+
+	Sprite* s_teleport80 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 3u << 3) + 8);
+	Sprite* s_teleport81 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 47u << 3) + 6, ((UINT16) 24u << 3) + 8);
+	struct TeleportInfo* teleport80_data = (struct TeleportInfo*) s_teleport80->custom_data;
+	teleport80_data->dest_x = (UINT16) 49u << 3;
+	teleport80_data->dest_y = (UINT16) 24u << 3;
+	struct TeleportInfo* teleport81_data = (struct TeleportInfo*) s_teleport81->custom_data;
+	teleport81_data->dest_x = (UINT16) 18u << 3;
+	teleport81_data->dest_y = (UINT16) 3u << 3;
+
+}
+
 void initial_sprite_spawning() BANKED{
 	switch(current_map){
 		case 0u:
@@ -213,11 +289,11 @@ void initial_sprite_spawning() BANKED{
 		break;
 		case 2u://maze
 			//configuring teleporting
-			{
-				Sprite* s_teleport0 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 23u << 3) + 4, (UINT16) 17u << 3);
-				struct TeleportInfo* teleport0_data = (struct TeleportInfo*) s_teleport0->custom_data;
-				teleport0_data->dest_x = (UINT16) 46u << 3;
-				teleport0_data->dest_y = (UINT16) 9u << 3;
+			maze_teleport();
+			if(chapter == 1){//memoria a tappo!
+				//spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 21u, 30u);
+				//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
+				//spawn_hidden_item(INVITEM_HEART, 1, 47u, 6u);
 			}
 		break;
 	}
@@ -316,6 +392,10 @@ void UPDATE(){
 					if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
                         current_map = 1u;
                         ChangeState(StateOverworld, THIS, 1);
+					}
+					if(s_motherow->y > lim_down_y){
+						//TODO dove spunta quando esce dal labirinto?
+						ChangeState(StateExzoo, THIS, -1);
 					}
 				break;
 

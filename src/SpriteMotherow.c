@@ -32,6 +32,7 @@ extern UINT8 just_started;
 extern UINT8 current_map;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
+extern struct MISSION outwalker_chief;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -47,7 +48,7 @@ void ow_check_place() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
-extern void trigger_dialog(WHOSTALKING whost) BANKED;
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
 
@@ -166,7 +167,7 @@ void UPDATE(){
                 switch(imowspr->type){
                     case SpriteBlackieow:
                         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
-                            trigger_dialog(BLACKIE);
+                            trigger_dialog(BLACKIE, THIS);
                         }
                     break;
                     case SpriteItemspawned:
@@ -213,7 +214,11 @@ void ow_check_place() BANKED{//tile collision
                         ChangeState(StateMine, THIS, -1);
                     break;
                     case 1u:
-                        ChangeState(StateBandits, THIS, -1);
+                        if(outwalker_chief.mission_state != MISSION_STATE_DISABLED){
+                            ChangeState(StateBandits, THIS, -1);
+                        }else{
+                            trigger_dialog(OUTWALKER_NO_ENTER, THIS);
+                        }
                     break;
                 }
             break;
@@ -223,9 +228,6 @@ void ow_check_place() BANKED{//tile collision
                 switch(current_map){
                     case 0u:
                         ChangeState(StateExzoo, THIS, -1);
-                    break;
-                    case 1u:
-                        //ChangeState(StateCops, THIS);
                     break;
                 }
             break;
@@ -271,7 +273,21 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 break;
                 case 83u:
                 case 85u://SMITH
-                    ChangeState(StateSmith, THIS, -1);
+                {
+                    switch(current_map){
+                        case 0u:
+                            ChangeState(StateSmith, THIS, -1);
+                        break;
+                        case 1u:
+                            if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
+                                trigger_dialog(POLICE_0_GET_PASS, THIS);
+                            }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED &&
+                                outwalker_chief.current_step == 0){
+                                trigger_dialog(POLICE_0_STILL_NOT_FOUND, THIS);
+                            }
+                        break;
+                    }
+                }
                 break;
                 case 46u:
                 case 47u:

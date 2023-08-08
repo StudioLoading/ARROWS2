@@ -1,5 +1,10 @@
 POST DEMO:
-- owmaze labirinto dungeon stairs system
+- outwalkers come sprite sul loro state - come fatto sullo StateExzoo
+- outwalkers il girarrosto
+- log sulla StateBandits - da rinominare in StateOutwalkers
+- owmaze labirinto dungeon hidden obj, ci stanno adesso?
+- State in cui comunico una nuova password!
+- testare se SPriteManagerRemove() mi rimuove effettivamente una certa sprite dalla VRAM
 - SGB colori stateBandits
 - SGB colori ow nw 
 - DEATH: ripartire dal chapter corrente invocando la load_chapter();
@@ -7,7 +12,7 @@ POST DEMO:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
 - titlescreen: NEW GAME or PASSWORD selection (after pressing start? so I can move the blinking
 	PUSH START below)
-- il 2 del titlescreen sul SGB è colorato a metà
+- il 2 del titlescreen sul SGB è colorato a metà verde e metà nero
 - SGB credit le fiamme non sono rosse e nemmeno BN
 - dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
 	potrei fare la stessa cosa su un certo oggetto equipaggiabile
@@ -47,8 +52,7 @@ POST DEMO:
 	ogni cartello leggibile
 - ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
 	su ow rotea tipo hurricane
-- chiamare il Log() solo alla start dello state? Ora lo sto chiamando
-	fisso sulle UPDATE() degli state...
+- ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
 - diary: le frecce di navigazione dovrei forse gestirle come sprites, così
 	ne faccio animazione quando premo destra o sinistra, le faccio scomparire
 	quando sono ai limiti delle pagine 0-chapter...

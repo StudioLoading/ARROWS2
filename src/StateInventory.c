@@ -134,6 +134,7 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,2,23);
                 break;
                 case INVITEM_LETTER:
+                case INVITEM_PASS:
                     UPDATE_HUD_TILE(uneq_x,1,24);
                     UPDATE_HUD_TILE(uneq_x,2,25);
                     uneq_x += 1;
@@ -371,6 +372,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(LETTER_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(LETTER_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(LETTER_DETAIL4, ddinv5);
+            break;
+            case INVITEM_PASS:
+                GetLocalizedINVLabel_EN(PASS_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(PASS_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(PASS_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(PASS_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(PASS_DETAIL4, ddinv5);
             break;
         }
     }

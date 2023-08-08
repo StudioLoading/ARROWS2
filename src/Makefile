@@ -2,7 +2,7 @@ PROJECT_NAME = FLYINGARROWS2
 
 all: build_gb
 
-N_BANKS = 32
+N_BANKS = 64
 
 # Music player: HUGETRACKER(default) or GBT_PLAYER
 MUSIC_PLAYER = HUGETRACKER

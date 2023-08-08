@@ -28,8 +28,6 @@ extern INT8 chapter;
 extern UINT8 just_started;
 extern UINT8 generic_counter;
 extern INT8 sfx_cooldown;
-extern UINT16 motherow_pos_x;
-extern UINT16 motherow_pos_y;
 
 const UINT8 coll_tiles_password[] = {1,0};
 Sprite* pcode_0;
