@@ -1,7 +1,9 @@
 POST DEMO:
-- outwalkers come sprite sul loro state - come fatto sullo StateExzoo
+- outwalkers npc
 - outwalkers il girarrosto
-- log sulla StateBandits - da rinominare in StateOutwalkers
+- lego outwalker_chief mission
+- granchio gigante
+- fiori per lo smith
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
 - testare se SPriteManagerRemove() mi rimuove effettivamente una certa sprite dalla VRAM

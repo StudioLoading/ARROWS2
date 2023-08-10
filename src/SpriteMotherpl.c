@@ -34,6 +34,8 @@ extern struct InvItem itemEquipped;
 extern UINT8 camera_ok;
 extern WHOSTALKING whostalking;
 extern INT8 sfx_cooldown;
+extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_glass;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -87,6 +89,7 @@ void getOff();
 void refreshAnimation();
 void die();
 void spawnDust();
+void check_automatic_dialog_trigger(NPCNAME npcname) BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void invselectitem(INT8 max_idx) BANKED;
@@ -493,15 +496,17 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(mpl_a_tile, implspr) {
             if(CheckCollision(THIS, implspr)) {
                 switch(implspr->type){
+                    case SpritePgoutwalker:
                     case SpritePgceme:
                     case SpritePgexzoo:
                     case SpriteBlackie:
+                        motherpl_canshoot = 0u;
                         {
                             struct NpcInfo* npc_data = (struct NpcInfo*) implspr->custom_data;
                             whostalking = npc_data->whotalks;
                             Log(npc_data->npcname);
+                            check_automatic_dialog_trigger(npc_data->npcname);
                         }
-                        motherpl_canshoot = 0u;
                         if(KEY_RELEASED(J_FIRE)){
                             trigger_dialog(whostalking, THIS);
                         }
@@ -617,6 +622,24 @@ void UPDATE(){
         }
     if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
         getOff();
+    }
+}
+
+void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
+    if(npcname == OUTWALKER_SIMON){
+        if(outwalker_chief.mission_state != MISSION_STATE_REWARDED){
+            THIS->x -= 6u;
+            trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, THIS);
+        }else if(outwalker_glass.mission_state != MISSION_STATE_REWARDED){
+            THIS->x -= 6u;
+            trigger_dialog(OUTWALKER_GUARD_NOGLASS, THIS);
+        }
+        /*
+        }else if()//non ancora compiuta missione dei fiori per il fabbro
+        else{//POSSO PASSARE SULLA MONTAGNA
+            //TODO NUOVA MISSIONE "GET TO THE HIGH MOUNTAIN" E 
+            //NUOVO LIVELLO PER SCALARE LA MONTAGNA E ARRIVARE DALL' IBEX
+        }*/
     }
 }
 

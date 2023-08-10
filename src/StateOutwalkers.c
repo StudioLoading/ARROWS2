@@ -62,7 +62,7 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 5u << 3, (UINT16) 7u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -81,6 +81,7 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(banditsmap), &banditsmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
+    npc_spawned_zone = 0u;
 }
 
 void UPDATE(){
@@ -93,22 +94,27 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
-        if(s_motherpl->x < ((UINT16)40u << 3)){
+        if(s_motherpl->x < ((UINT16)20u << 3) ){
             if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1, WOMAN);
-                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2, WOMAN);
+                spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
+                spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
                 npc_spawned_zone = 1u;
             }
-        }else if(s_motherpl->x < ((UINT16)70u << 3)){
+        }else if(s_motherpl->x < ((UINT16)65u << 3)){
             if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
+                spawn_npc(SpritePgoutwalker, (UINT16) 56u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
+                spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
                 npc_spawned_zone = 2u;
             }
-        }else if(s_motherpl->x < ((UINT16)120u << 3)){
+        }else if(s_motherpl->x < ((UINT16)72u << 3)){
             if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
-                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
+                spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
                 npc_spawned_zone = 3u;
+            }
+        }else{
+            if(npc_spawned_zone != 4u){
+                spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_NOCHIEF_NOGLASS, OUTWALKER_SIMON);
+                npc_spawned_zone = 4u;
             }
         }
     

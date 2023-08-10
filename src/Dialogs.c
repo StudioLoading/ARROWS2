@@ -40,6 +40,7 @@ UINT8 choice_right = 0u;
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_glass;
 extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
@@ -429,14 +430,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "IS SAFE HERE. I CAN \0", 22);
 			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
 		break;
-		case OUTWALKER_NO_ENTER:
-			*n_lines = 5u;
-			memcpy(d1, "SORRY HEALER,       \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "YOU CAN NOT GET IN  \0", 22);
-			memcpy(d4, "HERE WITHOUT A PASS.\0", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-		break;
 		case POLICE_0_GET_PASS:
 			*n_lines = 15u;
 			memcpy(d1, "SALUTE HEALER,      \0", 22);
@@ -458,6 +451,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
 				pickup(&pass_data);
 				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
+				outwalker_chief.current_step = 1;
 			}
 		break;
 		case POLICE_0_STILL_NOT_FOUND:
@@ -471,6 +465,151 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "PLEASE COME BACK AS\0", 22);
 			memcpy(d7, "SOON AS YOU FIND   \0", 22);
 			memcpy(d8, "OUT. THANK YOU.    \0", 22);
+		break;
+		case OUTWALKER_NO_ENTER:
+			*n_lines = 5u;
+			memcpy(d1, "SORRY HEALER,       \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "YOU CAN NOT GET IN  \0", 22);
+			memcpy(d4, "HERE WITHOUT A PASS.\0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+		break;
+		case OUTWALKER_MAN1:
+			*n_lines = 12u;
+			memcpy(d1, "WE ARE SO SORRY FOR \0", 22);
+			memcpy(d2, "YOUR CHILD KIDNAP!  \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "ARE YOU SURE NO WILD\0", 22);
+			memcpy(d5, "ANIMALS ARE INVOLVED\0", 22);
+			memcpy(d6, "IN THIS?            \0", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "LIAM HAS DEFEATED   \0", 22);
+			memcpy(d9, "THEIR MASTER IN THE \0", 22);
+			memcpy(d10, "BATTLE OF THE COLUS \0", 22);
+			memcpy(d11, "SEUM, SOME TIME AGO.\0", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+		break;
+		case OUTWALKER_MAN2:
+			*n_lines = 4u;
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WILD ANIMALS ARE NOT\0", 22);
+			memcpy(d3, "TO BE TRUSTED.      \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case OUTWALKER_WOMAN1:		
+			*n_lines = 11u;
+			memcpy(d1, "WE ARE THE  OUTWAL  \0", 22);
+			memcpy(d2, "KERS. WE DON'T BELIE\0", 22);
+			memcpy(d3, "VE THE NOW INTELLIGE\0", 22);
+			memcpy(d4, "NT ANIMALS AREN'T   \0", 22);
+			memcpy(d5, "WILD NO MORE...     \0", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "THEY ARE PETTING THE\0", 22);
+			memcpy(d8, "HUMANS AT THE EX ZOO\0", 22);
+			memcpy(d9, "BECAUSE THEY WANT TO\0", 22);
+			memcpy(d10, "RULE THEM!         \0", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
+		break;
+		case OUTWALKER_WOMAN2:
+			*n_lines = 8u;
+			memcpy(d1, "WE ARE CALLED       \0", 22);
+			memcpy(d2, "OUTWALKERS. WE ARE  \0", 22);
+			memcpy(d3, "VERY PROUD OF WHO WE\0", 22);
+			memcpy(d4, "ARE AND HOW WE LIVE.\0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "WE ARE PEACEFUL, BUT\0", 22);
+			memcpy(d7, "ALWAYS READY TO DEFE\0", 22);
+			memcpy(d8, "ND OURSELVES.       \0", 22);
+		break;
+		case OUTWALKER_GLASS:
+			if(outwalker_glass.mission_state == MISSION_STATE_ENABLED){
+				switch(outwalker_glass.current_step){
+					case 0u://give mission
+						*n_lines = 5u;
+						memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+						memcpy(d2, "THE SEE, I SAW A    \0", 22);
+						memcpy(d3, "GIANT CRAB ATTACKING\0", 22);
+						memcpy(d4, "AND I PANICED.      \0", 22);
+						memcpy(d5, EMPTY_STRING_21, 22);
+						memcpy(d6, "NOW THAT YOU KNOW   \0", 22);
+						memcpy(d7, "WHO IS OUR CHIEF I  \0", 22);
+						memcpy(d8, "CAN TRUST YOU. CAN  \0", 22);
+						memcpy(d9, "YOU PLEASE BRING MY \0", 22);
+						memcpy(d10, "GLASSES BACK?      \0", 22);
+						memcpy(d11, EMPTY_STRING_21, 22);
+						memcpy(d12, "TAKE THESE PEARCING\0", 22);
+						memcpy(d13, "ARROWS, GUESS YOU  \0", 22);
+						memcpy(d14, "GONNA NEED FOR THE \0", 22);
+						memcpy(d15, "FIGHTING...        \0", 22);
+						{
+							struct ItemSpawned pass_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 8, .equippable = 1u};
+							pickup(&pass_data);
+							outwalker_glass.mission_state = MISSION_STATE_STARTED;
+							outwalker_glass.current_step = 1;
+						}
+					break;
+					case 1u://occhiali non ancora trovati
+						*n_lines = 5u;
+						memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+						memcpy(d2, "THE SEE... CAN YOU  \0", 22);
+						memcpy(d3, "PLEASE BRING THOSE  \0", 22);
+						memcpy(d4, "BACK?               \0", 22);
+						memcpy(d5, EMPTY_STRING_21, 22);
+					break;
+					case 2u://occhiali trovati
+						*n_lines = 5u;
+						memcpy(d1, "THANK YOU MY DEAR!  \0", 22);
+						memcpy(d2, "NOW I CAN FINALLY   \0", 22);
+						memcpy(d3, "SEE AGAIN!!         \0", 22);
+						memcpy(d4, EMPTY_STRING_21, 22);
+						memcpy(d5, "OH, PLEASE, ACCEPT  \0", 22);
+						memcpy(d6, "THESE FEW COINS AS A\0", 22);
+						memcpy(d7, "REWARD!!            \0", 22);
+						memcpy(d8, EMPTY_STRING_21, 22);
+						{
+							struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 20, .equippable = 1u};
+							pickup(&pass_data);
+							outwalker_glass.mission_state = MISSION_STATE_REWARDED;
+							outwalker_glass.current_step = 3;
+						}
+					break;
+					case 3u:
+						*n_lines = 5u;
+						memcpy(d1, "THANK YOU MY DEAR!  \0", 22);
+						memcpy(d2, "NOW I CAN FINALLY   \0", 22);
+						memcpy(d3, "SEE AGAIN!!         \0", 22);
+						memcpy(d4, EMPTY_STRING_21, 22);
+					break;
+				}
+			}else{
+				*n_lines = 5u;
+				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+				memcpy(d2, "THE SEE, I SAW A    \0", 22);
+				memcpy(d3, "GIANT CRAB ATTACKING\0", 22);
+				memcpy(d4, "AND I PANICED.      \0", 22);
+				memcpy(d5, EMPTY_STRING_21, 22);
+			}
+		break;
+		case OUTWALKER_GUARD_NOCHIEF_NOGLASS:
+				*n_lines = 5u;
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d1, "TO THE MOUNTAIN.    \0", 22);
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+		break;
+		case OUTWALKER_GUARD_NOGLASS:
+				*n_lines = 5u;
+				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+		break;
+		case OUTWALKER_GUARD_NOSMITH:
+				*n_lines = 5u;
+				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+		break;
+		case OUTWALKER_GUARD_OK:
+				*n_lines = 5u;
+				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
 		break;
     }
 }
@@ -492,6 +631,24 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		break;
 		case WOLF_BLACKIE:
 			memcpy(log0, "BLACKIE             ", 20);
+		break;
+		case OUTWALKER_JERRY:
+			memcpy(log0, "JERRY               ", 20);
+		break;
+		case OUTWALKER_JASON:
+			memcpy(log0, "JASON               ", 20);
+		break;
+		case OUTWALKER_ANNETTE:
+			memcpy(log0, "ANNETTE             ", 20);
+		break;
+		case OUTWALKER_JESSICA:
+			memcpy(log0, "JESSICA             ", 20);
+		break;
+		case OUTWALKER_JACK:
+			memcpy(log0, "JACK                ", 20);
+		break;
+		case OUTWALKER_SIMON:
+			memcpy(log0, "SIMON THE GUARD     ", 20);
 		break;
 	}
 }
@@ -519,6 +676,9 @@ void GetLocalizedLog_EN() BANKED{
 		break;
 		case StateMine:
 			memcpy(log0, "THE OLD MINE        ", 20);
+		break;
+		case StateOutwalkers:
+			memcpy(log0, "OUTWALKER CAMP      ", 20);
 		break;
 	}
 }

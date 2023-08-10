@@ -215,7 +215,7 @@ void ow_check_place() BANKED{//tile collision
                     break;
                     case 1u:
                         if(outwalker_chief.mission_state != MISSION_STATE_DISABLED){
-                            ChangeState(StateBandits, THIS, -1);
+                            ChangeState(StateOutwalkers, THIS, -1);
                         }else{
                             trigger_dialog(OUTWALKER_NO_ENTER, THIS);
                         }
@@ -282,7 +282,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                             if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                                 trigger_dialog(POLICE_0_GET_PASS, THIS);
                             }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED &&
-                                outwalker_chief.current_step == 0){
+                                outwalker_chief.current_step <= 3){
                                 trigger_dialog(POLICE_0_STILL_NOT_FOUND, THIS);
                             }
                         break;

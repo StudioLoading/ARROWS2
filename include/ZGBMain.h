@@ -28,7 +28,7 @@ _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
 _STATE(StateHood)\
 _STATE(StatePassword)\
-_STATE(StateBandits)\
+_STATE(StateOutwalkers)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -65,6 +65,7 @@ _SPRITE_DMG(SpriteRightleft, rightleft)\
 _SPRITE_DMG(SpriteItemspawned, itemspawned)\
 _SPRITE_DMG(SpritePgceme, pgcemetery)\
 _SPRITE_DMG(SpritePgexzoo, pgexzoo)\
+_SPRITE_DMG(SpritePgoutwalker, pgoutwalker)\
 _SPRITE_DMG(SpriteCavesand, cavesand)\
 _SPRITE_DMG(SpriteSuperstone, superstone)\
 _SPRITE_DMG(SpriteWolf, wolf)\

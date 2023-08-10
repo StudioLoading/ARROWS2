@@ -47,6 +47,8 @@ struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION outwalker_chief = {.mission_title = OUTWALKER_CHIEF, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+struct MISSION outwalker_glass = {.mission_title = OUTWALKER_GLASSES, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION* missions[5];//= {find_blackie, engage_smith, help_cemetery_woman, outwalker_chief 0};
 
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
@@ -87,6 +89,8 @@ void missions_init() BANKED{
 			help_cemetery_woman.current_step = 0u;
 			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
 			outwalker_chief.current_step = 0u;
+			outwalker_glass.mission_state = MISSION_STATE_ENABLED;
+			outwalker_glass.current_step = 0u;
 		break;
 		case 1u:
 			current_map = 1u;
@@ -100,6 +104,8 @@ void missions_init() BANKED{
 			help_cemetery_woman.current_step = 4u;//0u
 			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
 			outwalker_chief.current_step = 0u;
+			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
+			outwalker_glass.current_step = 0u;
 		break;
 	}
 	missions[0] = &find_blackie;

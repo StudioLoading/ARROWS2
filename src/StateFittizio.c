@@ -246,7 +246,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     //SGB PALETTE
         if(sgb_check()){
             switch(new_state){
-                case StateBandits:
+                case StateOutwalkers:
                 case StateHood:
                     set_sgb_palette01_HOOD();
                     set_sgb_palette_statusbar();
