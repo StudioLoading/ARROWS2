@@ -94,19 +94,20 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
-        if(s_motherpl->x < ((UINT16)20u << 3) ){
+        if(s_motherpl->x < (
+            (UINT16)20u << 3) ){
             if(npc_spawned_zone != 1u){
                 spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
                 spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
                 npc_spawned_zone = 1u;
             }
-        }else if(s_motherpl->x < ((UINT16)65u << 3)){
+        }else if(s_motherpl->x < ((UINT16)60u << 3) && s_motherpl->x > ((UINT16)40u << 3)){
             if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 56u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
-                spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
+                spawn_npc(SpritePgoutwalker, (UINT16) 50u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
+                //spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
                 npc_spawned_zone = 2u;
             }
-        }else if(s_motherpl->x < ((UINT16)72u << 3)){
+        }else if(s_motherpl->x < ((UINT16)72u << 3) && s_motherpl->x > ((UINT16)60u << 3)){
             if(npc_spawned_zone != 3u){
                 spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
                 npc_spawned_zone = 3u;

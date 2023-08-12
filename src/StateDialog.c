@@ -53,6 +53,8 @@ extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
 extern UINT8 current_map;
 extern INT8 chapter;
+extern INT8 outwalker_info_step;
+extern INT8 outwalker_info_given;
 
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
@@ -71,7 +73,8 @@ extern void dialog_map();
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void position_init() BANKED;
 extern void load_chapter() BANKED;
-
+extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 void START() {
 	//SOUND
@@ -315,6 +318,26 @@ void move_on() BANKED{
         if(find_blackie.current_step == 3u){//to OW out of cave
             previous_state = StateOverworld;
         }
+    }else if(whostalking == OUTWALKER_MAN2){
+        if(choice_right == 1u && outwalker_info_given < 3){//SPEND 30 to learn some more info
+            UINT8 current_coins = get_quantity(INVITEM_MONEY);
+            if(current_coins > 30){//GOT THE MONEY
+                change_quantity(INVITEM_MONEY, -30);
+                outwalker_info_step = 1;
+                outwalker_info_given++;
+                SetState(StateDialog);
+                return;
+            }else if(outwalker_info_step < 2){//NOT ENOUGH MONEY
+                outwalker_info_step = -1;
+                SetState(StateDialog);
+                return;
+            }
+        }
+        /*else if(choice_right == 1u && outwalker_info_given >= 3){
+            outwalker_info_step = 2;
+            SetState(StateDialog);
+            return;
+        }*/
     }
 	if(next_page){
 		next_page = 0u;

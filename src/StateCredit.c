@@ -49,9 +49,16 @@ struct MISSION outwalker_chief = {.mission_title = OUTWALKER_CHIEF,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION outwalker_glass = {.mission_title = OUTWALKER_GLASSES, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
-struct MISSION* missions[5];//= {find_blackie, engage_smith, help_cemetery_woman, outwalker_chief 0};
-
-struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
+struct MISSION outwalker_smith = {.mission_title = OUTWALKER_SMITH, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+struct MISSION* missions[8];
+/* 
+{find_blackie, engage_smith, help_cemetery_woman, outwalker_chief,
+outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
+*/
+struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 0, .equippable = 1u};
 struct InvItem item00 = {.itemtype = INVITEM_ARROW_NORMAL, .quantity = 100, .equippable = 1u};
 struct InvItem item01 = {.itemtype = INVITEM_ARROW_PERFO, .quantity = 0, .equippable = 1u};
 struct InvItem item02 = {.itemtype = INVITEM_ARROW_BASTARD, .quantity = 0, .equippable = 1u};
@@ -89,8 +96,10 @@ void missions_init() BANKED{
 			help_cemetery_woman.current_step = 0u;
 			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
 			outwalker_chief.current_step = 0u;
-			outwalker_glass.mission_state = MISSION_STATE_ENABLED;
+			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
 			outwalker_glass.current_step = 0u;
+			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
+			outwalker_smith.current_step = 0u;
 		break;
 		case 1u:
 			current_map = 1u;
@@ -106,6 +115,8 @@ void missions_init() BANKED{
 			outwalker_chief.current_step = 0u;
 			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
 			outwalker_glass.current_step = 0u;
+			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
+			outwalker_smith.current_step = 0u;
 		break;
 	}
 	missions[0] = &find_blackie;
@@ -113,11 +124,16 @@ void missions_init() BANKED{
 	missions[2] = &enable_hospital;
 	missions[3] = &help_cemetery_woman;
 	missions[4] = &outwalker_chief;
+	missions[5] = &outwalker_glass;
+	missions[6] = &outwalker_smith;
+	missions[7] = &get_to_the_mountain;
 }
 
 void inventory_init() BANKED{
 	switch(chapter){
 		case 0:
+			itemMoney.itemtype = INVITEM_MONEY;
+			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 10; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
@@ -131,6 +147,8 @@ void inventory_init() BANKED{
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
 		case 1:
+			itemMoney.itemtype = INVITEM_MONEY;
+			itemMoney.quantity = 200;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
@@ -142,7 +160,6 @@ void inventory_init() BANKED{
 			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
-
 		break;
 	}
 	inventory[0] = itemMoney;

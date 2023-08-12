@@ -36,6 +36,8 @@ extern WHOSTALKING whostalking;
 extern INT8 sfx_cooldown;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
+extern struct MISSION outwalker_smith;
+extern struct MISSION get_to_the_mountain;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -627,19 +629,20 @@ void UPDATE(){
 
 void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
     if(npcname == OUTWALKER_SIMON){
-        if(outwalker_chief.mission_state != MISSION_STATE_REWARDED){
+        if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
             THIS->x -= 6u;
             trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, THIS);
-        }else if(outwalker_glass.mission_state != MISSION_STATE_REWARDED){
+        }else if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
             THIS->x -= 6u;
             trigger_dialog(OUTWALKER_GUARD_NOGLASS, THIS);
+        }else if(outwalker_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
+            THIS->x -= 6u;
+            trigger_dialog(OUTWALKER_GUARD_NOSMITH, THIS);
+        }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
+            get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
+            THIS->x -= 6u;
+            trigger_dialog(OUTWALKER_GUARD_OK, THIS);
         }
-        /*
-        }else if()//non ancora compiuta missione dei fiori per il fabbro
-        else{//POSSO PASSARE SULLA MONTAGNA
-            //TODO NUOVA MISSIONE "GET TO THE HIGH MOUNTAIN" E 
-            //NUOVO LIVELLO PER SCALARE LA MONTAGNA E ARRIVARE DALL' IBEX
-        }*/
     }
 }
 

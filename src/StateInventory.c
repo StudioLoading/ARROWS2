@@ -402,7 +402,7 @@ UINT8 get_quantity(INVITEMTYPE itemtype) BANKED{
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
     INT8 idx = -1;
     UINT8 equippable = is_item_equippable(itemtype);
-    for(UINT8 i = 0u; i < 12; ++i){
+    for(UINT8 i = 0u; i < 12u; ++i){
         if(itemtype == inventory[i].itemtype){
             if(l < 0){
                 if(inventory[i].quantity > 0){

@@ -36,6 +36,8 @@ unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
 UINT8 choice = 0u;
 UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
+INT8 outwalker_info_step = 0;
+INT8 outwalker_info_given = 0;
 
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
@@ -49,8 +51,8 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
 		case TIP_HIDDEN_ARROWS:
 			memcpy(d1, " SOMETHING'S ON THE  \0", 22);
-			memcpy(d2, EMPTY_STRING_21 , 22);
-			memcpy(d3, " GROUND:   ARROWS!   \0", 22);
+			memcpy(d2, " GROUND:             \0", 22);
+			memcpy(d3, "           ARROWS!   \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_SMITH_NO:
@@ -490,11 +492,93 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d12, EMPTY_STRING_21, 22);
 		break;
 		case OUTWALKER_MAN2:
-			*n_lines = 4u;
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "WILD ANIMALS ARE NOT\0", 22);
-			memcpy(d3, "TO BE TRUSTED.      \0", 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
+			if(outwalker_info_given >= 4){outwalker_info_step = 2;}
+			switch(outwalker_info_step){
+				case -1://you are poor
+					*n_lines = 4u;
+					memcpy(d1, "I SEE YOU ARE A POOR\0", 22);
+					memcpy(d2, "LADY... COME BACK   \0", 22);
+					memcpy(d3, "WITH THE COINS AND  \0", 22);
+					memcpy(d4, "I'LL TALK!          \0", 22);
+					outwalker_info_step = 0;
+				break;
+				case 0://wanna pay to know?
+					*n_lines = 9u;
+					memcpy(d1, "SO YOU WANT TO KNOW \0", 22);
+					memcpy(d2, "WHO'S OUR CHIEF?    \0", 22);
+					memcpy(d3, EMPTY_STRING_21, 22);
+					memcpy(d4, "WOULD YOU GIVE ME   \0", 22);
+					memcpy(d5, "30 COINS? I'LL SHARE\0", 22);
+					memcpy(d6, "SOME INFORMATIONS...\0", 22);
+					memcpy(d7, EMPTY_STRING_21, 22);	
+					memcpy(d8, EMPTY_STRING_21, 22);
+					memcpy(d9, " NO          YES    \0", 22);
+					choice = 1u;
+					choice_left = 0u;
+					choice_right = 0u;
+				break;
+				case 1://listen...
+					switch(outwalker_info_given){
+						case 1:
+							*n_lines = 8u;
+							memcpy(d1, "ALRIGHT, 30 COINS   \0", 22);
+							memcpy(d2, "FOR ME...           \0", 22);
+							memcpy(d3, EMPTY_STRING_21, 22);
+							memcpy(d4, "LISTEN: AT THE END  \0", 22);
+							memcpy(d5, "OF THE GROTTO MAZE  \0", 22);
+							memcpy(d6, "THE CHIEF LIKES TO  \0", 22);
+							memcpy(d7, "STAY.               \0", 22);
+							memcpy(d8, EMPTY_STRING_21, 22);
+							choice = 0u;
+							choice_left = 0u;
+							choice_right = 0u;
+							outwalker_info_step = 0;
+						break;
+						case 2:
+							*n_lines = 10u;
+							memcpy(d1, "ALRIGHT, 30 COINS   \0", 22);
+							memcpy(d2, "FOR ME...           \0", 22);
+							memcpy(d3, EMPTY_STRING_21, 22);
+							memcpy(d4, "LISTEN: THE ONLY WAY\0", 22);
+							memcpy(d5, "FOR YOU TO BE       \0", 22);
+							memcpy(d6, "NOTICED BY THE CHIEF\0", 22);
+							memcpy(d7, "IS TO POP IN FRONT  \0", 22);
+							memcpy(d8, "OF HIM EXITING THE  \0", 22);
+							memcpy(d9, "GROTTO MAZE.        \0", 22);
+							memcpy(d10, EMPTY_STRING_21, 22);
+							choice = 0u;
+							choice_left = 0u;
+							choice_right = 0u;
+							outwalker_info_step = 0;
+						break;
+						case 3:
+							*n_lines = 8u;
+							memcpy(d1, "ALRIGHT, 30 COINS   \0", 22);
+							memcpy(d2, "FOR ME...           \0", 22);
+							memcpy(d3, EMPTY_STRING_21, 22);
+							memcpy(d4, "LISTEN: THE EXIT OF \0", 22);
+							memcpy(d5, "THE MAZE IS OUR     \0", 22);
+							memcpy(d6, "SECRET PASSAGE TO   \0", 22);
+							memcpy(d7, "THE EXZOO VILLAGE!  \0", 22);
+							memcpy(d8, EMPTY_STRING_21, 22);
+							choice = 0u;
+							choice_left = 0u;
+							choice_right = 0u;
+							outwalker_info_step = 0;
+						break;
+					}
+				break;
+				case 2://i said it all
+					*n_lines = 2u;
+					memcpy(d1, "I TOLD YOU ALL THAT \0", 22);
+					memcpy(d2, "I KNOW...           \0", 22);
+				break;
+				case 3://you know already who the chief is
+					*n_lines = 2u;
+					memcpy(d1, "WILD ANIMALS ARE NOT\0", 22);
+					memcpy(d2, "TO BE TRUSTED.      \0", 22);
+				break;
+			}
 		break;
 		case OUTWALKER_WOMAN1:		
 			*n_lines = 11u;
@@ -583,33 +667,58 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				}
 			}else{
 				*n_lines = 5u;
-				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
-				memcpy(d2, "THE SEE, I SAW A    \0", 22);
-				memcpy(d3, "GIANT CRAB ATTACKING\0", 22);
-				memcpy(d4, "AND I PANICED.      \0", 22);
+				memcpy(d1, EMPTY_STRING_21, 22);
+				memcpy(d2, "WHO ARE YOU?!       \0", 22);
+				memcpy(d3, "I CAN'T SEE WITHOUT \0", 22);
+				memcpy(d4, "MY GLASSES...       \0", 22);
 				memcpy(d5, EMPTY_STRING_21, 22);
 			}
 		break;
 		case OUTWALKER_GUARD_NOCHIEF_NOGLASS:
-				*n_lines = 5u;
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
-				memcpy(d1, "TO THE MOUNTAIN.    \0", 22);
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+			*n_lines = 8u;
+			memcpy(d1, "YES, THIS I THE WAY \0", 22);
+			memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "YOU STILL DON'T KNOW\0", 22);
+			memcpy(d5, "WHO IS OUR CHIEF... \0", 22);
+			memcpy(d6, "SO I CAN'T TRUST YOU\0", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "YOU SHALL NOT PASS! \0", 22);
 		break;
 		case OUTWALKER_GUARD_NOGLASS:
-				*n_lines = 5u;
-				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+			*n_lines = 12u;
+			memcpy(d1, "YES, THIS I THE WAY \0", 22);
+			memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "SO YOU KNOW WHO IS  \0", 22);
+			memcpy(d5, "OUR CHIEF... GOOD!  \0", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "I WILL TRUST YOU AS \0", 22);
+			memcpy(d8, "SOON AS YOU HELP   \0", 22);
+			memcpy(d9, "ONE OF US. JACK MAY\0", 22);
+			memcpy(d10, "NEED YOU.          \0", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
+			memcpy(d12, "YOU SHALL NOT PASS! \0", 22);
 		break;
 		case OUTWALKER_GUARD_NOSMITH:
-				*n_lines = 5u;
-				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+			*n_lines = 8u;
+			memcpy(d1, "YES, THIS I THE WAY \0", 22);
+			memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, "WE NEED SOME WEAPONS\0", 22);
+			memcpy(d5, "AND THE SMITH CAN   \0", 22);
+			memcpy(d6, "FORGE EM FOR US. ASK\0", 22);
+			memcpy(d7, "HIM SO, AND YOU     \0", 22);
+			memcpy(d8, "FINALLY PASS.       \0", 22);
 		break;
 		case OUTWALKER_GUARD_OK:
-				*n_lines = 5u;
-				memcpy(d1, "I MISS MY GLASSES BY\0", 22);
+				*n_lines = 6u;
+				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
+				memcpy(d3, EMPTY_STRING_21, 22);
+				memcpy(d4, "YOU DID A LOT FOR US\0", 22);
+				memcpy(d5, "AND WE THANK YOU    \0", 22);
+				memcpy(d6, "NOW YOU CAN PASS!   \0", 22);
 		break;
     }
 }

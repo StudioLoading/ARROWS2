@@ -1,9 +1,13 @@
 POST DEMO:
 - outwalkers npc
+- bisogna mettere outwalker_info_step a 2 quando scopro chi è il chief
 - outwalkers il girarrosto
+- fumetto quando devo cliccare per aprire una porta di place/dialog
 - lego outwalker_chief mission
+- musichetta di rifocillo all' ospedale quando mi curano!
 - granchio gigante
 - fiori per lo smith
+- che il riccio si fermi e tremi quando è chiuso e riceve freccia
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
 - testare se SPriteManagerRemove() mi rimuove effettivamente una certa sprite dalla VRAM
@@ -38,6 +42,7 @@ POST DEMO:
 - schermata dei capitoli
 - Overworld: sprite animate in e animazione acque 
 - Dialogs: pixelArt
+- il perk "Save the Nerd" sono in 3 e gli ho girato il credito in-game.
 - TitleScreen: 
 	- la nave (Sprite!) arriva dopo un po', avanza e rimpicciolisce verso largo
 	- acque che per ora è ogni 2 px, farla ogni 1 perchè ha effetto miglioramento
