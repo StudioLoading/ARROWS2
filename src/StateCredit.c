@@ -27,7 +27,7 @@ extern UINT8 J_FIRE;
 extern struct EtoReload e_to_reload[3];
 extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
-extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
+extern UINT8 current_map;//0=south-west, 1=north-east, 2=maze, 3=north-east
 extern UINT8 generic_counter;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
@@ -148,7 +148,7 @@ void inventory_init() BANKED{
 		break;
 		case 1:
 			itemMoney.itemtype = INVITEM_MONEY;
-			itemMoney.quantity = 200;
+			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;

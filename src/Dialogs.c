@@ -468,6 +468,17 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "SOON AS YOU FIND   \0", 22);
 			memcpy(d8, "OUT. THANK YOU.    \0", 22);
 		break;
+		case POLICE_0_WONT_TALK:
+			*n_lines = 8u;
+			memcpy(d1, "HOW DARE YOU NOT TO  \0", 22);
+			memcpy(d2, "TELL US THIS PRECIOUS\0", 22);
+			memcpy(d3, "INFORMATION!! THIS IS\0", 22);
+			memcpy(d4, "A BAD DECISION...    \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "...AND WILL HAVE     \0", 22);
+			memcpy(d7, "CONSEQUENCES!        \0", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+		break;
 		case OUTWALKER_NO_ENTER:
 			*n_lines = 5u;
 			memcpy(d1, "SORRY HEALER,       \0", 22);
@@ -564,7 +575,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 							choice = 0u;
 							choice_left = 0u;
 							choice_right = 0u;
-							outwalker_info_step = 0;
+							outwalker_info_step = 2;
 						break;
 					}
 				break;
@@ -719,6 +730,38 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				memcpy(d4, "YOU DID A LOT FOR US\0", 22);
 				memcpy(d5, "AND WE THANK YOU    \0", 22);
 				memcpy(d6, "NOW YOU CAN PASS!   \0", 22);
+		break;
+		case OUTWALKER_CHIEF_FOUND:
+			*n_lines = 18u;
+			memcpy(d1, "WOHA! HOW DID YOU...\0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "OH WELL, NOW YOU    \0", 22);
+			memcpy(d4, "KNOW...             \0", 22);
+			memcpy(d5, "IT'S ME, LEGO, I AM \0", 22);
+			memcpy(d6, "THE CHIEF OF THE OUT\0", 22);
+			memcpy(d7, "WALKERS!!           \0", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, "I LIKE TO KEEP IT A \0", 22);
+			memcpy(d10, "SECRET, SO PEOPLE   \0", 22);
+			memcpy(d11, "ACT NORMALLY WHEN I \0", 22);
+			memcpy(d12, "AM AROUND HERE.     \0", 22);
+			memcpy(d13, EMPTY_STRING_21, 22);
+			memcpy(d14, "PLEASE DON'T CHANGE \0", 22);
+			memcpy(d15, "THIS, DON'T REVEAL  \0", 22);
+			memcpy(d16, "THIS. HERE, TAKE:   \0", 22);
+			memcpy(d17, "100 COINS FOR YOUR  \0", 22);
+			memcpy(d18, "SILENCE.            \0", 22);
+            outwalker_chief.current_step = 3;
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
+			{
+				struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
+				pickup(&pass_data);
+			}
+		break;
+		case MAZE_CANT_GO:
+			*n_lines = 2u;
+			memcpy(d1, "UMH... IT'S NOT SAFE\0", 22);
+			memcpy(d2, "TO ENTER HERE YET.  \0", 22);
 		break;
     }
 }

@@ -190,11 +190,17 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         }
     };
     npc_spawned_zone = 0u;
+    if(s_mother == 0){
+        if(previous_state == StateOverworld){s_mother = s_motherow;}
+        else{s_mother = s_motherpl;}
+    }
+    if(new_state != current_state && next_map != current_map){
+        save_mother_pos(s_mother->type, s_mother->x, s_mother->y);
+    }
     //MOTHERPL POS X Y, HIDE_WIN
         if(current_state != StateInventory && current_state != StateDiary
             && current_state != StateDialog && current_state != StatePassword
             && teleporting == 0){
-            if(new_state != current_state){save_mother_pos(s_mother->type, s_mother->x, s_mother->y);}
             switch(s_mother->type){
                 case SpriteMotherow:
                     if(new_state == StateOverworld){
@@ -205,9 +211,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherow_pos_x = (UINT16) 6u << 3;
                             motherow_pos_y = (UINT16) 3u << 3;
                         }
-                    }
-                    if(next_map != -1){
-                        current_map = next_map;
                     }
                 break;
                 case SpriteMotherpl:
@@ -232,6 +235,13 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 }
                             }
                         break;
+                        case StateExzoo:
+                            if(new_state == StateOverworld){
+                                //gotta do it cause of the maze
+                                motherow_pos_x = ((UINT16) 14u << 3) + 4u;
+                                motherow_pos_y = (UINT16) 21u << 3;
+                            }
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -242,6 +252,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(just_started == 0){
             motherow_pos_x = ((UINT16) 14u << 3) + 4u;
             motherow_pos_y = (UINT16) 23u << 3;
+        }
+    //CURRENT_MAP vs NEXT_MAP
+        if(next_map != -1){
+            current_map = next_map;
         }
     //SGB PALETTE
         if(sgb_check()){
@@ -278,8 +292,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                 case StateDiary:
                 case StateDialog:
                 case StateOverworld:
-                    if(new_state == StateOverworld && current_map == 2u){
-                        set_sgb_palette01_MAZE();   
+                    if(new_state == StateOverworld){
+                        switch(current_map){
+                            case 0:set_sgb_palette01_worldmap();break;//sw
+                            case 1:set_sgb_palette01_worldmap_nw();break;//nw
+                            case 2:set_sgb_palette01_worldmap_maze();break;//maze
+                        }
                     }
                     reset_sgb_palette_statusbar();
                 break;
@@ -306,9 +324,9 @@ void UpdateHUD() BANKED{
     //EQUIPPED ITEM
         switch(itemEquipped.itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,1,0);
+                UPDATE_HUD_TILE(16,1,22);
                 UPDATE_HUD_TILE(17,1,21);
-                UPDATE_HUD_TILE(18,1,0);
+                UPDATE_HUD_TILE(18,1,22);
             break;
 	        case INVITEM_ARROW_NORMAL:
                 UPDATE_HUD_TILE(16,1,6);
@@ -429,7 +447,7 @@ void update_camera_position() BANKED{
                 if(current_state == StateHood && help_cemetery_woman.current_step < 3u){ 
                 //|| help_cemetery_woman.mission_state == MISSION_STATE_STARTED)){
                 }else{
-                    if(current_state == StateHood){//exiting hoods to the south
+                    if(current_state == StateHood || current_state == StateExzoo){//exiting hoods to the south
                         current_map = 0u;
                     }
                     ChangeState(StateOverworld, s_motherpl, -1);
@@ -444,7 +462,7 @@ void update_camera_position() BANKED{
                         motherow_pos_y = 0u;
                         ChangeState(StateOverworld, s_motherpl, 1);
                     }
-                }else{
+                }else{                    
                     ChangeState(StateOverworld, s_motherpl, 0);
                 }
             }  

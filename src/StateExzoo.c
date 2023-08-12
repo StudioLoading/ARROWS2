@@ -39,6 +39,7 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
+extern struct MISSION outwalker_chief;
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
@@ -50,7 +51,7 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
-
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border);
@@ -80,7 +81,15 @@ void START(){
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(exzoomap0), &exzoomap0, &mapwidth, &mapheight);
-	SHOW_SPRITES;
+	//CHECK DIALOG TO ACTIVATE
+        if(outwalker_chief.mission_state == MISSION_STATE_ACCOMPLISHED && 
+            outwalker_chief.current_step < 3){
+                motherpl_pos_x = (UINT16) 82u << 3;
+                motherpl_pos_y = (UINT16) 10u << 3;
+                outwalker_chief.current_step = 3;
+                trigger_dialog(OUTWALKER_CHIEF_FOUND, THIS);
+            }
+    SHOW_SPRITES;
 }
 
 void UPDATE(){
@@ -106,8 +115,10 @@ void UPDATE(){
             }
         }else if(s_motherpl->x < ((UINT16)120u << 3)){
             if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
-                spawn_npc(SpritePgexzoo, (UINT16) 87u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
+                if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
+                    spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
+                }
+                spawn_npc(SpritePgexzoo, (UINT16) 89u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
                 npc_spawned_zone = 3u;
             }
         }

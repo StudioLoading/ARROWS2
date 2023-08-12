@@ -254,7 +254,9 @@ void ow_check_place() BANKED{//tile collision
                         ChangeState(StateBlackiecave, THIS, -1);
                     break;
                     case 1u:
-                        ChangeState(StateOverworld, THIS, 2);
+                        if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
+                            trigger_dialog(MAZE_CANT_GO, THIS);
+                        }else{ChangeState(StateOverworld, THIS, 2);}
                     break;
                 }
             break;
@@ -272,7 +274,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                     ChangeState(StateHospital, THIS, -1);
                 break;
                 case 83u:
-                case 85u://SMITH
+                case 85u://SMITH, POLICE
                 {
                     switch(current_map){
                         case 0u:
@@ -284,6 +286,8 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                             }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED &&
                                 outwalker_chief.current_step <= 3){
                                 trigger_dialog(POLICE_0_STILL_NOT_FOUND, THIS);
+                            }else{
+                                trigger_dialog(POLICE_0_WONT_TALK, THIS);
                             }
                         break;
                     }

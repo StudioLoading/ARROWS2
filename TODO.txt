@@ -1,4 +1,5 @@
 POST DEMO:
+- impedire l' accesso al maze prima di esser stato dalla police
 - outwalkers npc
 - bisogna mettere outwalker_info_step a 2 quando scopro chi è il chief
 - outwalkers il girarrosto

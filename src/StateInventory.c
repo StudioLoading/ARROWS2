@@ -61,7 +61,7 @@ UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
-extern void ChangeState(UINT8 new_state) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
@@ -228,7 +228,7 @@ void invselectitem(INT8 max_idx) BANKED{
 
 void UPDATE(){
     if(KEY_PRESSED(J_START)){
-        ChangeState(previous_state);
+        ChangeState(previous_state, 0, -1);
     }
     if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
         if(invcursor_posi < 6 && inventory[invcursor_posi].quantity > 0){

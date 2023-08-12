@@ -59,7 +59,7 @@ void START() {
 
     //SGB COLORS
     if(sgb_check()){
-		set_sgb_palette01_worldmap();
+		set_sgb_palette01_worldmap();		
     }
 	InitScroll(bank_mapbonus, &mapbonus, collision_bonus_tiles, 0);
 	

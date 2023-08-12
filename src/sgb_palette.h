@@ -117,6 +117,8 @@ void set_sgb_palette01_MISTYHILLS() __banked;
 void set_sgb_palette01_intro() __banked;
 void set_sgb_palette01_secret() __banked;
 void set_sgb_palette01_worldmap() __banked;
+void set_sgb_palette01_worldmap_nw() __banked;
+void set_sgb_palette01_worldmap_maze() __banked;
 void set_sgb_palette01_WOLF() __banked;
 void set_sgb_palette01_BLACKIECAVE() __banked;
 void set_sgb_palette01_TITLEINVERTED() __banked;

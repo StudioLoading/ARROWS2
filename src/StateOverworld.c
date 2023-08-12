@@ -12,7 +12,6 @@
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(border2);
@@ -69,6 +68,7 @@ extern unsigned char d3[];
 extern unsigned char d4[];
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION outwalker_chief;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -106,17 +106,11 @@ void START(){
 		show_tip = 0u;
 		switch (current_map){
 			case 0u://south-west
-				if(sgb_check()){
-					set_sgb_palette_overworldsw();
-				}
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
 			break;
 			case 1u://north-west
-				if(sgb_check()){
-					set_sgb_palette_overworldsw();
-				}
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_UP;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
@@ -124,9 +118,6 @@ void START(){
 				//SpriteManagerAdd(SpriteArmor, (UINT16) 14u << 3, (UINT16) 40u << 3);
 			break;
 			case 2u://labyrinth
-				if(sgb_check()){
-					set_sgb_palette_overworldsw();
-				}
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
@@ -158,7 +149,7 @@ void START(){
 			break;
 			case 2u://MAZE
 				lim_west_x = ((UINT16) 2u << 3);
-				lim_down_y = ((UINT16) 38u << 3);
+				lim_down_y = ((UINT16) 37u << 3);
 			break;
 		}
 }
@@ -388,14 +379,15 @@ void UPDATE(){
 						}
 					}
 				break;
-				case 2u:
+				case 2u://maze
 					if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
-                        current_map = 1u;
-                        ChangeState(StateOverworld, THIS, 1);
+                        ChangeState(StateOverworld, s_motherow, 1);
 					}
 					if(s_motherow->y > lim_down_y){
 						//TODO dove spunta quando esce dal labirinto?
-						ChangeState(StateExzoo, THIS, -1);
+						outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
+						outwalker_chief.current_step = 2;
+						ChangeState(StateExzoo, s_motherow, -1);
 					}
 				break;
 
