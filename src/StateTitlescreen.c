@@ -76,6 +76,7 @@ void UPDATE() {
         generic_counter2++;
         if(generic_counter2 == 8u){
 			StopMusic;
+			reset_sgb_palette_title();
             ChangeStateThroughBetween(StateCredit, StateTitlescreen);
         }
     }

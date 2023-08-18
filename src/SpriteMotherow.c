@@ -33,6 +33,8 @@ extern UINT8 current_map;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_glass;
+extern UINT8 ow_pusha_hp;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -45,6 +47,7 @@ void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 void update_position_motherow() BANKED;
 void ow_check_place() BANKED;
+void show_owpusha_sign() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ShowTipOW() BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
@@ -70,7 +73,7 @@ void update_position_motherow() BANKED{
     //WALKING
         if(show_tip == 0u){        
             if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
-            if(frameskip == 0u){
+            if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
                 motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
             }
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
@@ -155,6 +158,7 @@ void UPDATE(){
         ow_check_place();
     //INTERACT WITH MAP
         if(motherow_info->tile_collision){//diverso da zero
+            show_owpusha_sign();
             if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
                 owTips(TIP_NOTHING);            
             }
@@ -198,9 +202,36 @@ void UPDATE(){
                                 ChangeState(StateOverworld, THIS, -1);
                             }
                     break;
+                    case SpriteOwcrab:
+                        if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
+                            THIS->x = imowspr->x + 24u;
+                            THIS->y = imowspr->y;
+                            trigger_dialog(BOSS_CRAB_FIGHT, THIS);
+                        }
+                    break;
                 }
             }
         };
+}
+
+void show_owpusha_sign() BANKED{
+    UINT8 show = 0u;
+    switch(motherow_info->tile_collision){
+        case 66u:
+        case 68u://HOSPITAL
+        case 83u:
+        case 85u://SMITH, POLICE
+        case 46u:
+        case 47u://CARTEL
+        case 86u:
+        case 87u://CARTEL
+            show = 1u;
+        break;
+    }
+    if(show == 1u && ow_pusha_hp == 0u){
+        ow_pusha_hp = 60u;
+        SpriteManagerAdd(SpriteOwpusha, THIS->x - 1u, THIS->y - 26u);
+    }
 }
 
 void ow_check_place() BANKED{//tile collision

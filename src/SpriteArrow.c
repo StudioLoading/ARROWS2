@@ -27,13 +27,15 @@ const UINT8 arrow_anim_bastard[] = {1,2};
 
 UINT8 arrows_onscreen = 0u;
 
+extern struct EnemyData* crab_data;
+
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 
 void START(){
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
-    THIS->lim_x = 120u;
+    THIS->lim_x = 16u;
     arrows_onscreen++;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
     arrow_data->hit = 0u;
@@ -130,27 +132,35 @@ void UPDATE(){
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
+                    case SpriteBosscrab:
                     //io freccia ho colpito enemy
                         switch(arrow_data->arrow_type){
                             case ARROW_NORMAL:
-                                changeEstate(iarrspr, ENEMY_HIT_1);
+                                if(iarrspr->type != SpriteBosscrab){
+                                    arrow_data->hit = 1u;
+                                    changeEstate(iarrspr, ENEMY_HIT_1);
+                                }
                             break;
                             case ARROW_PERF:
                             case ARROW_BASTARD:
-                                changeEstate(iarrspr, ENEMY_HIT_2);
+                                if(iarrspr->type != SpriteBosscrab){
+                                    arrow_data->hit = 1u;
+                                    changeEstate(iarrspr, ENEMY_HIT_2);
+                                }else if(crab_data->e_state == ENEMY_IDLE){
+                                    changeEstate(iarrspr, ENEMY_HIT_1);
+                                }
                             break;
                         }
-                        //if(arrow_data->arrow_type == ARROW_NORMAL){
-                            arrow_data->hit = 1u;
-                        //}
                     break;
                     case SpriteSuperstone:
                         SpriteManagerRemoveSprite(THIS);
                     break;
                     case SpriteLeaf:
-                        arrow_data->hit = 1u;
-                        SpriteManagerRemoveSprite(iarrspr);
-                        spawnItem(INVITEM_MONEY, THIS->x + 8u, THIS->y);
+                        if(arrow_data->arrow_type == ARROW_PERF){
+                            arrow_data->hit = 1u;
+                            SpriteManagerRemoveSprite(iarrspr);
+                            spawnItem(INVITEM_MONEY, THIS->x + 8u, THIS->y);
+                        }
                     break;
                 }
             }

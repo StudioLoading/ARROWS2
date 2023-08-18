@@ -1,16 +1,15 @@
 POST DEMO:
-- impedire l' accesso al maze prima di esser stato dalla police
-- outwalkers npc
-- bisogna mettere outwalker_info_step a 2 quando scopro chi è il chief
-- outwalkers il girarrosto
-- fumetto quando devo cliccare per aprire una porta di place/dialog
-- lego outwalker_chief mission
-- musichetta di rifocillo all' ospedale quando mi curano!
-- granchio gigante
-- fiori per lo smith
+- fiori per lo smith (ok funziona ma devo sistemare estetica)
+	dettaglio fiore in inventario
+	dialoghi dei fiori smith
+- grab non colpisce motherpl, devo fare la hit testando così veramente la hitBox del grab
+- uscita dei nemici dallo schermo quando eliminat col balzello 
+	all' indietro senza il translate a parabola fino a fuori lo schermo
 - che il riccio si fermi e tremi quando è chiuso e riceve freccia
+- missioni chp1 sul diario
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
+- nemici in StateHood sennò è troppo facile
 - testare se SPriteManagerRemove() mi rimuove effettivamente una certa sprite dalla VRAM
 - SGB colori stateBandits
 - SGB colori ow nw 
@@ -21,6 +20,8 @@ POST DEMO:
 	PUSH START below)
 - il 2 del titlescreen sul SGB è colorato a metà verde e metà nero
 - SGB credit le fiamme non sono rosse e nemmeno BN
+- musichetta di rifocillo all' ospedale quando mi curano!
+- spostare tutti gli sfx sul CH2
 - dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
 	potrei fare la stessa cosa su un certo oggetto equipaggiabile
 	che se equippato da overworld in una certa posizione attiva qualcosa.
@@ -80,44 +81,6 @@ PIXELART:
 	- blackie dentro room
 	- blackie fuori room
 	- figlio di blackie dentro cave
-
-
-CHATGPT MISSIONS:
-Healing Expedition: Dessa embarks on a mission to heal wounded soldiers scattered 
-across a war-torn battlefield. As she navigates through the dangerous terrain, 
-Dessa must avoid enemy fire and obstacles while locating and healing injured allies.
-The mission's success depends on her ability to prioritize her healing tasks 
-and make strategic decisions under pressure.
-Herbal Gathering: Dessa ventures into a mystical forest to collect rare herbs and 
-plants with powerful healing properties. However, the forest is filled with 
-dangerous creatures and treacherous paths. Dessa must navigate through the forest, 
-avoiding or pacifying hostile creatures, to gather the necessary ingredients 
-for her healing potions. The mission could involve puzzle-solving elements and 
-require Dessa to use her healing abilities creatively.
-Plague Outbreak: A deadly plague has struck a village, and Dessa is called upon 
-to heal the afflicted residents. As Dessa moves through the village, she encounters 
-infected individuals who require immediate treatment. She must identify the 
-symptoms, administer the correct remedies, and prevent the spread of the disease
-by isolating and treating the infected. The mission's challenge lies in managing 
-limited resources and making quick decisions to save as many lives as possible.
-Sanctuary Defense: Dessa's sanctuary is under attack by enemy forces seeking to 
-disrupt her healing abilities. Dessa must defend the sanctuary from waves of 
-enemies by using her healing powers to create protective barriers and restore 
-the health of any wounded allies. The mission becomes progressively 
-challenging as more powerful enemies and obstacles are introduced, 
-testing Dessa's healing and defensive skills.
-Healing Trials: Dessa participates in a series of healing trials to prove her 
-skills and gain recognition among healers. The trials could involve various 
-scenarios, such as healing a critically injured patient within a time limit, 
-solving medical puzzles, or mastering advanced healing techniques. Dessa must 
-demonstrate her expertise and adaptability to overcome each trial and progress 
-to the next level.
-Healing Journey: Dessa embarks on a pilgrimage to sacred healing sites 
-scattered across the realm. Each site poses unique challenges, requiring 
-Dessa to solve puzzles, overcome environmental hazards, and heal spiritual 
-beings. The mission explores Dessa's spiritual growth and her connection 
-to the healing arts as she completes each site and uncovers the secrets 
-of her healing abilities.
 
 
 LOG:

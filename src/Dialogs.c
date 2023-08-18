@@ -43,9 +43,11 @@ extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
+extern struct MISSION outwalker_smith;
 extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
+extern struct EnemyData* crab_data;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -278,6 +280,21 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
+		break;
+		case SMITH_FLOWERS_ASKED:
+			*n_lines = 2u;
+			memcpy(d1, "I ASK FOR FLOWERS   \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+		break;
+		case SMITH_FLOWERS_MISSING:
+			*n_lines = 2u;
+			memcpy(d1, "NOT ENOUGH FLOWERS  \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+		break;
+		case SMITH_FLOWERS_THANKYOU:
+			*n_lines = 2u;
+			memcpy(d1, "THANK YOU           \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
 		break;
 		case WOLF01:
 			switch(find_blackie.current_step){
@@ -617,10 +634,10 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d8, "ND OURSELVES.       \0", 22);
 		break;
 		case OUTWALKER_GLASS:
-			if(outwalker_glass.mission_state == MISSION_STATE_ENABLED){
+			if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
 				switch(outwalker_glass.current_step){
 					case 0u://give mission
-						*n_lines = 5u;
+						*n_lines = 15u;
 						memcpy(d1, "I MISS MY GLASSES BY\0", 22);
 						memcpy(d2, "THE SEE, I SAW A    \0", 22);
 						memcpy(d3, "GIANT CRAB ATTACKING\0", 22);
@@ -633,9 +650,9 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 						memcpy(d10, "GLASSES BACK?      \0", 22);
 						memcpy(d11, EMPTY_STRING_21, 22);
 						memcpy(d12, "TAKE THESE PEARCING\0", 22);
-						memcpy(d13, "ARROWS, GUESS YOU  \0", 22);
-						memcpy(d14, "GONNA NEED FOR THE \0", 22);
-						memcpy(d15, "FIGHTING...        \0", 22);
+						memcpy(d13, "ARROWS: GUESS YOU  \0", 22);
+						memcpy(d14, "GONNA NEED EM FOR  \0", 22);
+						memcpy(d15, "THE FIGHTING...    \0", 22);
 						{
 							struct ItemSpawned pass_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 8, .equippable = 1u};
 							pickup(&pass_data);
@@ -651,8 +668,8 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 						memcpy(d4, "BACK?               \0", 22);
 						memcpy(d5, EMPTY_STRING_21, 22);
 					break;
-					case 2u://occhiali trovati
-						*n_lines = 5u;
+					case 3u://occhiali trovati
+						*n_lines = 8u;
 						memcpy(d1, "THANK YOU MY DEAR!  \0", 22);
 						memcpy(d2, "NOW I CAN FINALLY   \0", 22);
 						memcpy(d3, "SEE AGAIN!!         \0", 22);
@@ -662,14 +679,15 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 						memcpy(d7, "REWARD!!            \0", 22);
 						memcpy(d8, EMPTY_STRING_21, 22);
 						{
-							struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 20, .equippable = 1u};
+							struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 40, .equippable = 1u};
 							pickup(&pass_data);
+							change_quantity(INVITEM_GLASSES, -1);
 							outwalker_glass.mission_state = MISSION_STATE_REWARDED;
-							outwalker_glass.current_step = 3;
+							outwalker_glass.current_step = 4;
 						}
 					break;
-					case 3u:
-						*n_lines = 5u;
+					case 4u:
+						*n_lines = 4u;
 						memcpy(d1, "THANK YOU MY DEAR!  \0", 22);
 						memcpy(d2, "NOW I CAN FINALLY   \0", 22);
 						memcpy(d3, "SEE AGAIN!!         \0", 22);
@@ -710,6 +728,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, "NEED YOU.          \0", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
 			memcpy(d12, "YOU SHALL NOT PASS! \0", 22);
+			outwalker_glass.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case OUTWALKER_GUARD_NOSMITH:
 			*n_lines = 8u;
@@ -721,6 +740,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "FORGE EM FOR US. ASK\0", 22);
 			memcpy(d7, "HIM SO, AND YOU     \0", 22);
 			memcpy(d8, "FINALLY PASS.       \0", 22);
+			outwalker_smith.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case OUTWALKER_GUARD_OK:
 				*n_lines = 6u;
@@ -763,9 +783,24 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d1, "UMH... IT'S NOT SAFE\0", 22);
 			memcpy(d2, "TO ENTER HERE YET.  \0", 22);
 		break;
+		case BOSS_CRAB_FIGHT:
+			*n_lines = 11u;
+			memcpy(d1, "*CLICK*! *CLICK*!   \0", 22);
+			memcpy(d2, "WITH THESE GLASSES I\0", 22);
+			memcpy(d3, "SEE A LOT BETTER... \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "WHAT? I FOUND IT!   \0", 22);
+			memcpy(d6, "IT'S MINE NOW! OH   \0", 22);
+			memcpy(d7, "THEY AREN'T?...\0", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, "*CLICK*! *CLICK*!   \0", 22);
+			memcpy(d10, EMPTY_STRING_21, 22);
+			memcpy(d11, "WE'LL SEE...      \0", 22);
+		break;
+		case BOSS_CRAB_END:
+		break;
     }
 }
-
 
 void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 	switch(npcname){
@@ -807,6 +842,17 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 
 void GetLocalizedLog_EN() BANKED{
 	switch(current_state){
+		case StateBosscrab:
+			switch(crab_data->hp){
+				case 0:memcpy(log0, "CRAB: BEATED!       ", 20);break;
+				case 1:memcpy(log0, "CRAB: ( ) ) ) ) )   ", 20);break;
+				case 2:memcpy(log0, "CRAB: ( ( ) ) ) )   ", 20);break;
+				case 3:memcpy(log0, "CRAB: ( ( ( ) ) )   ", 20);break;
+				case 4:memcpy(log0, "CRAB: ( ( ( ( ) )   ", 20);break;
+				case 5:memcpy(log0, "CRAB: ( ( ( ( ( )   ", 20);break;
+				case 6:memcpy(log0, "CRAB: ( ( ( ( ( (   ", 20);break;
+			};
+		break;
 		case StateExzoo:
 			memcpy(log0, "EXZOO VILLAGE       ", 20);
 		break;

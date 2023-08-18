@@ -75,6 +75,11 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case PASS_DETAIL2:memcpy(d, "GET ME INTO", 12);break;
 		case PASS_DETAIL3:memcpy(d, "OUTWALKER' ", 12);break;
 		case PASS_DETAIL4:memcpy(d, "PLACE.     ", 12);break;
+		case GLASS_NAME:memcpy(d, "  GLASSES  ", 12);break;
+		case GLASS_DETAIL1:memcpy(d, "THIS BELONG", 12);break;
+		case GLASS_DETAIL2:memcpy(d, "TO JACK THE", 12);break;
+		case GLASS_DETAIL3:memcpy(d, "OUTWALKER  ", 12);break;
+		case GLASS_DETAIL4:memcpy(d, "           ", 12);break;
 		/*
 		,
 		ARROWBASTARD_DETAIL*/

@@ -141,6 +141,13 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,26);
                     UPDATE_HUD_TILE(uneq_x,2,27);
                 break;
+                case INVITEM_GLASSES:
+                    UPDATE_HUD_TILE(uneq_x,1,28);
+                    UPDATE_HUD_TILE(uneq_x,2,29);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,30);
+                    UPDATE_HUD_TILE(uneq_x,2,31);
+                break;
             }
             uneq_x += 2;
         }
@@ -379,6 +386,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(PASS_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(PASS_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(PASS_DETAIL4, ddinv5);
+            break;
+            case INVITEM_GLASSES:
+                GetLocalizedINVLabel_EN(GLASS_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(GLASS_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(GLASS_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(GLASS_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(GLASS_DETAIL4, ddinv5);
             break;
         }
     }

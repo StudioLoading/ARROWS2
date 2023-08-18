@@ -30,6 +30,7 @@ DECLARE_MUSIC(bgm_blackiecave);
 DECLARE_MUSIC(bgm_mine);
 DECLARE_MUSIC(bgm_hood);
 DECLARE_MUSIC(bgm_gameover);
+DECLARE_MUSIC(bgm_reward);
 
 DECLARE_MUSIC(_03_ow2_noch2);
 DECLARE_MUSIC(_03_ow2);
@@ -79,6 +80,7 @@ UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
 UINT8 just_started = 0u;
 UINT8 logtimeout = 10u;
+UINT8 ow_pusha_hp = 0u;
 
 void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
@@ -93,12 +95,19 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
+void check_sgb_palette(UINT8 new_state) BANKED;
+void play_music_reward() BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     whostalking = whost;
     ChangeState(StateDialog, s_mother, -1);
+}
+
+void play_music_reward() BANKED{
+    StopMusic;
+    PlayMusic(bgm_reward, 0);
 }
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
@@ -223,12 +232,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         break;
                         case StateHood:
                             if(new_state == StateOverworld){
-                                switch(current_map){
-                                    case 0u:
+                                switch(next_map){
+                                    case 0:
                                         motherow_pos_x = (UINT16)18u << 3;
                                         motherow_pos_y = (UINT16)4u << 3;
                                     break;
-                                    case 1u:
+                                    case 1:
                                         motherow_pos_x = (UINT16) 14u << 3;
                                         motherow_pos_y = (UINT16) 46u << 3;
                                     break;
@@ -257,51 +266,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(next_map != -1){
             current_map = next_map;
         }
-    //SGB PALETTE
+    //SGB PALETTE CHECK
         if(sgb_check()){
-            switch(new_state){
-                case StateOutwalkers:
-                case StateHood:
-                    set_sgb_palette01_HOOD();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateExzoo:
-                    set_sgb_palette01_ZOO();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateSmith:
-                    set_sgb_palette01_WOLF();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateBlackiecave:
-                    set_sgb_palette01_BLACKIECAVE();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateCemetery:
-                    set_sgb_palette01_CEMATERYCRYPT();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateMine:
-                    set_sgb_palette01_MINE();
-                    set_sgb_palette_statusbar();
-                break;
-                case StateInventory:
-                    set_sgb_palette_inventory();
-                    reset_sgb_palette_statusbar();
-                break;
-                case StateDiary:
-                case StateDialog:
-                case StateOverworld:
-                    if(new_state == StateOverworld){
-                        switch(current_map){
-                            case 0:set_sgb_palette01_worldmap();break;//sw
-                            case 1:set_sgb_palette01_worldmap_nw();break;//nw
-                            case 2:set_sgb_palette01_worldmap_maze();break;//maze
-                        }
-                    }
-                    reset_sgb_palette_statusbar();
-                break;
-            }
+            check_sgb_palette(new_state);
         }
     previous_state = current_state;
     if(motherpl_state == MOTHERPL_DEAD){
@@ -310,10 +277,57 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     }else if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
-        //if(new_state == StateDialog){
-            //save_mother_pos(s_mother->type, s_mother->x, s_mother->y);
-        //s}
         SetState(new_state);
+    }
+}
+
+void check_sgb_palette(UINT8 new_state) BANKED{
+    switch(new_state){
+        case StateBosscrab:
+            set_sgb_crab();
+            set_sgb_palette_statusbar();
+        break;
+        case StateOutwalkers:
+        case StateHood:
+            set_sgb_palette01_HOOD();
+            set_sgb_palette_statusbar();
+        break;
+        case StateExzoo:
+            set_sgb_palette01_ZOO();
+            set_sgb_palette_statusbar();
+        break;
+        case StateSmith:
+            set_sgb_palette01_WOLF();
+            set_sgb_palette_statusbar();
+        break;
+        case StateBlackiecave:
+            set_sgb_palette01_BLACKIECAVE();
+            set_sgb_palette_statusbar();
+        break;
+        case StateCemetery:
+            set_sgb_palette01_CEMATERYCRYPT();
+            set_sgb_palette_statusbar();
+        break;
+        case StateMine:
+            set_sgb_palette01_MINE();
+            set_sgb_palette_statusbar();
+        break;
+        case StateInventory:
+            set_sgb_palette_inventory();
+            reset_sgb_palette_statusbar();
+        break;
+        case StateDiary:
+        case StateDialog:
+        case StateOverworld:
+            if(new_state == StateOverworld){
+                switch(current_map){
+                    case 0:set_sgb_palette01_worldmap();break;//sw
+                    case 1:set_sgb_worldmap_nw();break;//nw
+                    case 2:set_sgb_palette01_worldmap_maze();break;//maze
+                }
+            }
+            reset_sgb_palette_statusbar();
+        break;
     }
 }
 
@@ -444,14 +458,11 @@ void update_camera_position() BANKED{
         //HORIZONTAL
             if(s_motherpl->x < (UINT16)8u){
                 s_motherpl->x = 8u;
-                if(current_state == StateHood && help_cemetery_woman.current_step < 3u){ 
-                //|| help_cemetery_woman.mission_state == MISSION_STATE_STARTED)){
-                }else{
-                    if(current_state == StateHood || current_state == StateExzoo){//exiting hoods to the south
-                        current_map = 0u;
+                UINT8 next_ = -1;
+                if(current_state == StateHood || current_state == StateExzoo){//exiting hoods to the south
+                        next_ = 0u;
                     }
-                    ChangeState(StateOverworld, s_motherpl, -1);
-                }
+                ChangeState(StateOverworld, s_motherpl, next_);
             }
             if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
                 s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;

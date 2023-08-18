@@ -40,6 +40,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_smith;
 
 const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
@@ -68,6 +69,14 @@ void START(){
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
+        }
+        if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+            UINT8 spawn_flower_3 = outwalker_smith.current_step & 0b00000100;
+            if(spawn_flower_3 == 0){
+                Sprite* s_flower3 = SpriteManagerAdd(SpriteFlower, (UINT16)32u << 3, (UINT16)9u << 3);
+                struct ItemSpawned* flower3_data = (struct ItemSpawned*) s_flower3->custom_data;
+                flower3_data->hp = 0b00000100;
+            }
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 

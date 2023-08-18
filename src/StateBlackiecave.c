@@ -43,6 +43,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION find_blackie;
+extern struct MISSION outwalker_smith;
 extern WHOSTALKING whostalking;
 
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
@@ -77,6 +78,14 @@ void START(){
         }
         if(s_motherpl->x > (UINT16)62u << 3){
             s_motherpl->x = (UINT16)60u << 3;
+        }
+        if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+            UINT8 spawn_flower_2 = outwalker_smith.current_step & 0b00000010;
+            if(spawn_flower_2 == 0){
+                Sprite* s_flower2 = SpriteManagerAdd(SpriteFlower, (UINT16)24u << 3, (UINT16)20u << 3);
+                struct ItemSpawned* flower2_data = (struct ItemSpawned*) s_flower2->custom_data;
+                flower2_data->hp = 0b00000010;
+            }
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 

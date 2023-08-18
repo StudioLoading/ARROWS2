@@ -420,7 +420,9 @@ void set_sgb_palette_2() __banked{
 void set_sgb_palette_inventory() __banked{
     set_sgb_palette(SGB_INVENTORY_LIGHTER, SGB_INVENTORY_LIGHT, SGB_INVENTORY_DARK, SGB_INVENTORY_DARKER);
 }
-
+void set_sbg_credit0() __banked{
+    set_sgb_palette(SGB_INVENTORY_LIGHTER, SGB_INVENTORY_DARK, SGB_INVENTORY_LIGHT, SGB_INVENTORY_DARKER);
+}
 void set_sgb_palette01_TITLESCREEN() __banked {
 	set_sgb_palette(SGB_TITLE_LIGHTER, SGB_TITLE_LIGHT, SGB_TITLE_DARK, SGB_TITLE_DARKER);
 }
@@ -499,8 +501,11 @@ void set_sgb_palette01_secret() __banked{
 void set_sgb_palette01_worldmap() __banked{
     set_sgb_palette(RGB8(255, 255, 255), RGB8(252, 160, 68), SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
-void set_sgb_palette01_worldmap_nw() __banked{
+void set_sgb_worldmap_nw() __banked{
 	set_sgb_palette(RGB8(255, 255, 255), RGB8(240, 208, 176), RGB8(0, 120, 0), RGB8(80, 48, 0));
+}
+void set_sgb_crab() __banked{
+	set_sgb_palette(RGB8(252, 252, 252), RGB8(164, 228, 252), RGB8(60, 188, 252), RGB8(0, 64, 88));
 }
 void set_sgb_palette01_worldmap_maze() __banked{
 	set_sgb_palette(RGB8(255, 255, 255), RGB8(240, 208, 176), RGB8(148, 0, 132), RGB8(0, 0, 0));

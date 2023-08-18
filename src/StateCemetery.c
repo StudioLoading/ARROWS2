@@ -43,6 +43,7 @@ extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION engage_smith;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION outwalker_smith;
 
 const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
@@ -70,6 +71,14 @@ void START(){
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
+        }
+        if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+            UINT8 spawn_flower_4 = outwalker_smith.current_step & 0b00001000;
+            if(spawn_flower_4 == 0){
+                Sprite* s_flower4 = SpriteManagerAdd(SpriteFlower, (UINT16)28u << 3, (UINT16)12u << 3);
+                struct ItemSpawned* flower4_data = (struct ItemSpawned*) s_flower4->custom_data;
+                flower4_data->hp = 0b00001000;
+            }
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 

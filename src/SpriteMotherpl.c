@@ -3,6 +3,7 @@
 #include "main.h"
 
 #include "Keys.h"
+#include "Palette.h"
 #include "ZGBMain.h"
 #include "Scroll.h"
 #include "Sprite.h"
@@ -103,6 +104,7 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+extern void play_music_reward() BANKED;
 
 
 void START(){
@@ -134,6 +136,8 @@ void START(){
     jump_max_power = GRAVITY*11;
     if(_cpu != CGB_TYPE){
         jump_max_power = GRAVITY*9;
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
     }
 }
 
@@ -450,11 +454,11 @@ void UPDATE(){
                         if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
                             ChangeState(StateTetra, motherpl_state, -1);
                         }else{ //GO TO MAP
-                            ChangeState(StateOverworld, motherpl_state, -1);
+                            ChangeState(StateOverworld, THIS, -1);
                         }
                     break;
                     case 7u:
-                        ChangeState(StateBonus, motherpl_state, -1);
+                        ChangeState(StateBonus, THIS, -1);
                     break;
                 }
             break;
@@ -591,6 +595,25 @@ void UPDATE(){
                             THIS->x++;
                         }
                         motherpl_vx = 0u;
+                    break;
+                    case SpriteGlasses:
+                        {
+                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
+                        pickup(pickedup_data);
+                        play_music_reward();
+                        SpriteManagerRemoveSprite(implspr);
+                        outwalker_glass.mission_state = MISSION_STATE_ACCOMPLISHED;
+                        outwalker_glass.current_step = 2;
+                        }
+                    break;
+                    case SpriteFlower:
+                        {
+                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
+                        UINT8 flower_hp = pickedup_data->hp;
+                        outwalker_smith.current_step = outwalker_smith.current_step | flower_hp;
+                        pickup(pickedup_data);
+                        SpriteManagerRemoveSprite(implspr);
+                        }
                     break;
                 }            
             }

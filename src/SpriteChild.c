@@ -27,7 +27,6 @@ void START(){
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
     child_hooked = 0u;
-    help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
 }
 
 void UPDATE(){

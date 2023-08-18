@@ -35,6 +35,7 @@ extern unsigned char d7[];
 extern WHOSTALKING whostalking;
 extern struct MISSION enable_hospital;
 extern struct MISSION engage_smith;
+extern struct MISSION outwalker_smith;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -110,21 +111,43 @@ void UPDATE() {
 				}
 			break;
 			case MISSION_STATE_ACCOMPLISHED:
-				whostalking = SMITH_CHECKING_NOWOODANDMETAL;
-                if(get_quantity(INVITEM_METAL) >= 10u 
-					&& get_quantity(INVITEM_WOOD) >= 10u){
-                    change_quantity(INVITEM_METAL, -10);
-                    change_quantity(INVITEM_WOOD, -10);
-                    change_quantity(INVITEM_ARROW_NORMAL, 30);
-				    whostalking = SMITH_GIVING_ARROWS;
+			case MISSION_STATE_REWARDED:
+                //normal behave
+                if(outwalker_smith.mission_state == MISSION_STATE_DISABLED || 
+                    outwalker_smith.mission_state == MISSION_STATE_REWARDED){   
+                    whostalking = SMITH_CHECKING_NOWOODANDMETAL;
+                    if(get_quantity(INVITEM_METAL) >= 10u 
+                        && get_quantity(INVITEM_WOOD) >= 10u){
+                        change_quantity(INVITEM_METAL, -10);
+                        change_quantity(INVITEM_WOOD, -10);
+                        change_quantity(INVITEM_ARROW_NORMAL, 30);
+                        whostalking = SMITH_GIVING_ARROWS;
+                    }
+                    /*
+                    if(get_quantity(INVITEM_POWDER) > 0u){
+                        change_quantity(INVITEM_POWDER, -1);
+                        change_quantity(INVITEM_BOMB, 1);
+                        whostalking = SMITH_GIVING_BOMB;
+                        next_page = 1u;
+                    }*/
                 }
-                /*
-                if(get_quantity(INVITEM_POWDER) > 0u){
-                    change_quantity(INVITEM_POWDER, -1);
-                    change_quantity(INVITEM_BOMB, 1);
-				    whostalking = SMITH_GIVING_BOMB;
-					next_page = 1u;
-                }*/
+                //special behave for outwalker_smith mission
+                else{
+                    if(outwalker_smith.mission_state == MISSION_STATE_ENABLED){
+                        whostalking = SMITH_FLOWERS_ASKED;
+                        outwalker_smith.mission_state = MISSION_STATE_STARTED;
+                    }else if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+                        UINT8 flowers = get_quantity(INVITEM_FLOWER);
+                        if(flowers < 4){
+                            whostalking = SMITH_FLOWERS_MISSING;
+                        }else{
+                            whostalking = SMITH_FLOWERS_THANKYOU;
+                            outwalker_smith.mission_state = MISSION_STATE_REWARDED;
+                            change_quantity(INVITEM_FLOWER, -4);
+                            change_quantity(INVITEM_BOX, 1);
+                        }
+                    }
+                }
 			break;
 		}
         GetLocalizedDialog_EN(&n_lines);

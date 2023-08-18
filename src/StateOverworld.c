@@ -69,6 +69,7 @@ extern unsigned char d4[];
 extern struct MISSION find_blackie;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_glass;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -276,6 +277,21 @@ void initial_sprite_spawning() BANKED{
 		case 1u:
 			if(chapter == 1){
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u);
+				Sprite* s_crabow = 0;
+				if(current_map == 1u){ 
+					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
+					&& outwalker_glass.current_step < 3){
+						s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
+					}
+					if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
+						&& outwalker_glass.current_step == 2){
+						outwalker_glass.current_step = 3;
+						struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
+						crabow_data->vx = 1;
+						crabow_data->configured = 2;
+						
+					}
+				}
 			}
 		break;
 		case 2u://maze
@@ -443,6 +459,12 @@ void UPDATE(){
 		if(show_tip == 1u){
 			ShowTipOW();
 			return;
+		}
+	//SGB palette switch?
+		if(current_map == 1 && s_motherow->y < (UINT16) 20u << 3){
+    		//set_sgb_crab();
+		}else{
+			
 		}
 }
 

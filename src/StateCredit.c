@@ -111,12 +111,12 @@ void missions_init() BANKED{
 			engage_smith.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
 			help_cemetery_woman.current_step = 4u;//0u
-			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
-			outwalker_chief.current_step = 0u;
-			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
-			outwalker_glass.current_step = 0u;
-			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
-			outwalker_smith.current_step = 0u;
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//disabled
+			outwalker_chief.current_step = 5u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_REWARDED;//DISABLED
+			outwalker_glass.current_step = 4u;//0u
+			outwalker_smith.mission_state = MISSION_STATE_STARTED;//DISABLED
+			outwalker_smith.current_step = 0b00000111;//0u
 		break;
 	}
 	missions[0] = &find_blackie;
@@ -157,7 +157,7 @@ void inventory_init() BANKED{
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
 			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
 			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
-			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
+			unequip03.itemtype = INVITEM_FLOWER; unequip03.quantity = 3; unequip03.equippable = 0u;//UNASSIGNED
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
@@ -185,9 +185,9 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 24u << 3;
 		break;
 		case 1u:
-			current_map = 1u;
-			motherow_pos_x = (UINT16) 14u << 3;
-			motherow_pos_y = (UINT16) 42u << 3;
+			current_map = 0u;//1u
+			motherow_pos_x = (UINT16) 22u << 3;//14
+			motherow_pos_y = (UINT16) 21u << 3;//42
 			/*start chapter 1 into maze for test purpose
 			current_map = 2u;
 			motherow_pos_x = (UINT16) 3u << 3;
@@ -206,13 +206,10 @@ void START() {
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	//NR50_REG = 0x44; //Max volume 0x77
-
-	//FadeIn();
-	//DISPLAY_OFF;
 	switch (credit_step){
 		case 0u:
 			if(sgb_check()){
-				set_sgb_palette01_WOLF();
+				set_sbg_credit0();
 			}
 			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
 		break;
@@ -250,14 +247,14 @@ void UPDATE() {
 	credit_wait_time += 1u;
 	/*if(credit_step == 0){*/
 		switch(generic_counter){
-			case 15u:
-				Anim_StudioLoading_0();
-			break;		
-			case 30u:
+			case 10u:
 				Anim_StudioLoading_1();
-			break;
-			case 45u:
+			break;		
+			case 20u:
 				Anim_StudioLoading_2();
+			break;
+			case 30u:
+				Anim_StudioLoading_0();
 				generic_counter = 0;
 			break;
 		}

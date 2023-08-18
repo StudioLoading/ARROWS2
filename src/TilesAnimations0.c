@@ -18,6 +18,7 @@ IMPORT_TILES(invdetailwoodtiles);
 IMPORT_TILES(invdetailmetaltiles);
 IMPORT_TILES(idnormaltiles);
 IMPORT_TILES(inventorytiles);
+IMPORT_TILES(idglasstiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
 IMPORT_TILES(tacredit0);
@@ -115,6 +116,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_ARROW_BASTARD:
 				set_inv_bkg_data(item, 49u, 25, BANK(idbastardtiles), isEmpty, &idbastardtiles);
+			break;
+			case INVITEM_GLASSES:
+				set_inv_bkg_data(item, 49u, 25, BANK(idglasstiles), isEmpty, &idglasstiles);
 			break;
 		}
 	}

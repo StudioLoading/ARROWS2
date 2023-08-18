@@ -117,7 +117,8 @@ void set_sgb_palette01_MISTYHILLS() __banked;
 void set_sgb_palette01_intro() __banked;
 void set_sgb_palette01_secret() __banked;
 void set_sgb_palette01_worldmap() __banked;
-void set_sgb_palette01_worldmap_nw() __banked;
+void set_sgb_worldmap_nw() __banked;
+void set_sgb_crab() __banked;
 void set_sgb_palette01_worldmap_maze() __banked;
 void set_sgb_palette01_WOLF() __banked;
 void set_sgb_palette01_BLACKIECAVE() __banked;
@@ -128,6 +129,7 @@ void set_sgb_palette01_ZOO() __banked;
 void set_sgb_palette01_CEMATERYCRYPT() __banked;
 void set_sgb_palette01_HOOD() __banked;
 void set_sgb_palette01_MAZE() __banked;
+void set_sbg_credit0() __banked;
 
 /*
 void set_sgb_palette01_SEWER() __banked;

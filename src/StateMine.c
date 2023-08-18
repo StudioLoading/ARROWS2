@@ -43,6 +43,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
+extern struct MISSION outwalker_smith;
 
 const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
@@ -75,6 +76,14 @@ void START(){
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
+        }
+        if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+            UINT8 spawn_flower_1 = outwalker_smith.current_step & 0b00000001;
+            if(spawn_flower_1 == 0){
+                Sprite* s_flower1 = SpriteManagerAdd(SpriteFlower, (UINT16)19u << 3, (UINT16)8u << 3);
+                struct ItemSpawned* flower1_data = (struct ItemSpawned*) s_flower1->custom_data;
+                flower1_data->hp = 0b00000001;
+            }
         }
       	//SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 5u << 3);
     //INIT CHAR & MAP

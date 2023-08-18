@@ -84,9 +84,9 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-        if(help_cemetery_woman.current_step == 2u){
+        if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
-            help_cemetery_woman.current_step = 3u;
+            //help_cemetery_woman.current_step = 3u;
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 

@@ -305,6 +305,7 @@ void shift_text_one_line_up() BANKED{
 void move_on() BANKED{
     manage_bgm(previous_state, StateDialog);
     SpriteManagerRemoveSprite(dialog_cursor);
+    if(whostalking == BOSS_CRAB_FIGHT){previous_state = StateBosscrab;}
     if(previous_state == StateBlackiecave && whostalking == WOLF01){
         //choice_left == NO
         //choice_right == YES
