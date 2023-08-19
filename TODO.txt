@@ -1,7 +1,6 @@
 POST DEMO:
-- fiori per lo smith (ok funziona ma devo sistemare estetica)
-	dettaglio fiore in inventario
-	dialoghi dei fiori smith
+- se parlo a jack e non ho ancora sconfitto il grab e non ho più frecce perforanti
+	lui me ne da ancora
 - grab non colpisce motherpl, devo fare la hit testando così veramente la hitBox del grab
 - uscita dei nemici dallo schermo quando eliminat col balzello 
 	all' indietro senza il translate a parabola fino a fuori lo schermo

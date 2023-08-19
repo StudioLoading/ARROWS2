@@ -75,7 +75,7 @@ void START(){
         if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
             UINT8 spawn_flower_4 = outwalker_smith.current_step & 0b00001000;
             if(spawn_flower_4 == 0){
-                Sprite* s_flower4 = SpriteManagerAdd(SpriteFlower, (UINT16)28u << 3, (UINT16)12u << 3);
+                Sprite* s_flower4 = SpriteManagerAdd(SpriteFlower, (UINT16)31u << 3, (UINT16)12u << 3);
                 struct ItemSpawned* flower4_data = (struct ItemSpawned*) s_flower4->custom_data;
                 flower4_data->hp = 0b00001000;
             }

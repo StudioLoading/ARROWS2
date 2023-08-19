@@ -154,6 +154,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInventory){ResumeMusic;}
             else{StopMusic;PlayMusic(bgm_blackiecave, 1);}
         break;
+        case StateMountain:
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
             else{StopMusic;PlayMusic(_04_noch2, 1);}//bgm_mine
@@ -312,6 +313,10 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette01_MINE();
             set_sgb_palette_statusbar();
         break;
+        case StateMountain:
+            set_sgb_palette01_MINE();
+            set_sgb_palette_statusbar();
+        break;
         case StateInventory:
             set_sgb_palette_inventory();
             reset_sgb_palette_statusbar();
@@ -459,22 +464,41 @@ void update_camera_position() BANKED{
             if(s_motherpl->x < (UINT16)8u){
                 s_motherpl->x = 8u;
                 UINT8 next_ = -1;
-                if(current_state == StateHood || current_state == StateExzoo){//exiting hoods to the south
-                        next_ = 0u;
-                    }
-                ChangeState(StateOverworld, s_motherpl, next_);
+                switch(current_state){
+                    case StateHood:
+                    case StateExzoo:
+                        next_ = 0u;                
+                        ChangeState(StateOverworld, s_motherpl, next_);
+                    break;
+                    case StateMountain:
+                        ChangeState(StateOutwalkers, s_motherpl, -1);
+                    break;
+                    default:
+                        ChangeState(StateOverworld, s_motherpl, next_);
+                    break;
+                }
+                
             }
             if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
                 s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
-                if(current_state == StateHood){
-                    if(help_cemetery_woman.current_step < 3u){
-                    }else{//exiting hoods to the north
-                        motherow_pos_x = 0u;
-                        motherow_pos_y = 0u;
-                        ChangeState(StateOverworld, s_motherpl, 1);
-                    }
-                }else{                    
-                    ChangeState(StateOverworld, s_motherpl, 0);
+                switch(current_state){
+                    case StateHood:
+                        if(help_cemetery_woman.current_step < 3u){
+                        }else{//exiting hoods to the north
+                            motherow_pos_x = 0u;
+                            motherow_pos_y = 0u;
+                            ChangeState(StateOverworld, s_motherpl, 1);
+                        }
+                    break;
+                    case StateMountain:
+                        //andare al ibex
+                    break;
+                    case StateOutwalkers:
+                        ChangeState(StateMountain, s_motherpl, -1);
+                    break;
+                    default:
+                        ChangeState(StateOverworld, s_motherpl, 0);
+                    break;
                 }
             }  
         //VERTICAL
@@ -499,6 +523,7 @@ void update_camera_position() BANKED{
     UINT8 consider_margins = 0u;
     switch(current_state){
         case StateMine:
+        case StateMountain:
         case StateBlackiecave:
             scroll_target->x = s_motherpl->x + 8u;
             if(motherpl_hit_cooldown == 0){

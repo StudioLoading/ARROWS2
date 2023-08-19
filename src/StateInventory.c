@@ -148,6 +148,20 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,30);
                     UPDATE_HUD_TILE(uneq_x,2,31);
                 break;
+                case INVITEM_FLOWER:
+                    UPDATE_HUD_TILE(uneq_x,1,6);
+                    UPDATE_HUD_TILE(uneq_x,2,7);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,8);
+                    UPDATE_HUD_TILE(uneq_x,2,9);
+                break;
+                case INVITEM_BOX:
+                    UPDATE_HUD_TILE(uneq_x,1,32);
+                    UPDATE_HUD_TILE(uneq_x,2,33);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,34);
+                    UPDATE_HUD_TILE(uneq_x,2,35);
+                break;
             }
             uneq_x += 2;
         }
@@ -393,6 +407,20 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(GLASS_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(GLASS_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(GLASS_DETAIL4, ddinv5);
+            break;
+            case INVITEM_FLOWER:
+                GetLocalizedINVLabel_EN(FLOWER_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(FLOWER_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(FLOWER_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(FLOWER_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(FLOWER_DETAIL4, ddinv5);
+            break;
+            case INVITEM_BOX:
+                GetLocalizedINVLabel_EN(BOX_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(BOX_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(BOX_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(BOX_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(BOX_DETAIL4, ddinv5);
             break;
         }
     }

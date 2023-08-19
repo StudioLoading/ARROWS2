@@ -31,6 +31,8 @@ extern UINT8 current_map;//0=south-west, 1=north-east, 2=maze, 3=north-east
 extern UINT8 generic_counter;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
+extern UINT16 motherpl_pos_x;
+extern UINT16 motherpl_pos_y;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
@@ -100,6 +102,8 @@ void missions_init() BANKED{
 			outwalker_glass.current_step = 0u;
 			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
 			outwalker_smith.current_step = 0u;
+			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
+			get_to_the_mountain.current_step = 0u;
 		break;
 		case 1u:
 			current_map = 1u;
@@ -115,8 +119,10 @@ void missions_init() BANKED{
 			outwalker_chief.current_step = 5u;//0u
 			outwalker_glass.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			outwalker_glass.current_step = 4u;//0u
-			outwalker_smith.mission_state = MISSION_STATE_STARTED;//DISABLED
+			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			outwalker_smith.current_step = 0b00000111;//0u
+			get_to_the_mountain.mission_state = MISSION_STATE_STARTED;//DISABLED
+			get_to_the_mountain.current_step = 0u;
 		break;
 	}
 	missions[0] = &find_blackie;
@@ -149,7 +155,7 @@ void inventory_init() BANKED{
 		case 1:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
@@ -157,7 +163,7 @@ void inventory_init() BANKED{
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
 			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
 			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
-			unequip03.itemtype = INVITEM_FLOWER; unequip03.quantity = 3; unequip03.equippable = 0u;//UNASSIGNED
+			unequip03.itemtype = INVITEM_BOX; unequip03.quantity = 1; unequip03.equippable = 0u;//UNASSIGNED
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
@@ -185,9 +191,11 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 24u << 3;
 		break;
 		case 1u:
-			current_map = 0u;//1u
-			motherow_pos_x = (UINT16) 22u << 3;//14
-			motherow_pos_y = (UINT16) 21u << 3;//42
+			current_map = 1u;//1u
+			motherow_pos_x = (UINT16) 14u << 3;//22 MAP0
+			motherow_pos_y = (UINT16) 42u << 3;//21 MAP0
+			motherpl_pos_x = (UINT16) 8u << 3;
+			motherpl_pos_y = (UINT16) 8u << 3;
 			/*start chapter 1 into maze for test purpose
 			current_map = 2u;
 			motherow_pos_x = (UINT16) 3u << 3;

@@ -292,9 +292,10 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_THANKYOU:
-			*n_lines = 2u;
-			memcpy(d1, "THANK YOU           \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
+			*n_lines = 3u;
+			memcpy(d1, "THANK YOU, TAKE THIS\0", 22);
+			memcpy(d2, "BOX TO THE OUTWALKER\0", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
 		break;
 		case WOLF01:
 			switch(find_blackie.current_step){

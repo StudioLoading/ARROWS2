@@ -149,7 +149,8 @@ void load_chapter() BANKED{
             ChangeStateThroughBetween(StateDialog, StateTitlescreen);
         break;
         case 1:
-            ChangeStateThroughBetween(StateOverworld, StatePassword);
+            //ChangeStateThroughBetween(StateOverworld, StatePassword);
+            ChangeStateThroughBetween(StateMountain, StatePassword);
         break;
     }
 }

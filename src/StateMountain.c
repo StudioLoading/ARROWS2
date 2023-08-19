@@ -17,8 +17,8 @@
 
 IMPORT_MAP(border);
 IMPORT_TILES(fontbw);
-IMPORT_TILES(banditstiles);
-IMPORT_MAP(banditsmap);
+IMPORT_TILES(mountaintiles);
+IMPORT_MAP(mountainmap);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -39,18 +39,25 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
+extern UINT8 generic_counter;
+extern struct MISSION help_cemetery_woman;
+extern WHOSTALKING whostalking;
+extern UINT16 timeout_enemy;
+extern UINT8 enemy_counter;
+extern UINT8 current_map;
 
-const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
-const UINT8 coll_surface_bandits[] = {105u, 106u, 0};
-
+const UINT8 coll_tiles_mountain[] = { 14u, 17u, 18u, 19u, 20u, 24u, 25u, 26u, 38u, 
+41u, 64u, 0};
+const UINT8 coll_surface_mountain[] = {10u, 29u, 37u, 40u, 57u, 60u, 63u, 0};
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
+extern UINT16 test_counter;
 
 void START(){
     LOAD_SGB_BORDER(border);
@@ -62,26 +69,28 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 5u << 3, (UINT16) 7u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 49u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
+        SpriteManagerAdd(SpriteBigstone, s_motherpl->x, s_motherpl->y - 40u);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(banditsmap), &banditsmap, coll_tiles_bandits, coll_surface_bandits);    
+        InitScroll(BANK(mountainmap), &mountainmap, coll_tiles_mountain, coll_surface_mountain);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
     //RELOAD ENEMIES
+        enemy_counter = 0u;
+        timeout_enemy = 0;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(banditsmap), &banditsmap, &mapwidth, &mapheight);
+        GetMapSize(BANK(mountainmap), &mountainmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
-    npc_spawned_zone = 0u;
 }
 
 void UPDATE(){
@@ -90,32 +99,15 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
-    //MANAGE NPC
-        if(s_motherpl->x < (
-            (UINT16)20u << 3) ){
-            if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
-                spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
-                npc_spawned_zone = 1u;
-            }
-        }else if(s_motherpl->x < ((UINT16)60u << 3) && s_motherpl->x > ((UINT16)40u << 3)){
-            if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 50u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
-                //spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
-                npc_spawned_zone = 2u;
-            }
-        }else if(s_motherpl->x < ((UINT16)72u << 3) && s_motherpl->x > ((UINT16)60u << 3)){
-            if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
-                npc_spawned_zone = 3u;
-            }
-        }else{
-            if(npc_spawned_zone != 4u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_OK, OUTWALKER_SIMON);
-                npc_spawned_zone = 4u;
+    //MASSI
+        if(enemy_counter < 2){
+            timeout_enemy++;
+            if(timeout_enemy == 200u){
+                SpriteManagerAdd(SpriteBigstone, (UINT16)(s_motherpl->x + 80u), (UINT16)(s_motherpl->y - 60u));
+                timeout_enemy = 0;
             }
         }
     

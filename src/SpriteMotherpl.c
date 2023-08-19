@@ -665,6 +665,7 @@ void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
             get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
             THIS->x -= 6u;
             trigger_dialog(OUTWALKER_GUARD_OK, THIS);
+            change_quantity(INVITEM_BOX, -1);
         }
     }
 }
