@@ -75,7 +75,6 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-        SpriteManagerAdd(SpriteBigstone, s_motherpl->x, s_motherpl->y - 40u);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(mountainmap), &mountainmap, coll_tiles_mountain, coll_surface_mountain);    
@@ -91,6 +90,7 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(mountainmap), &mountainmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
+    test_counter = 0u;
 }
 
 void UPDATE(){
@@ -103,11 +103,29 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MASSI
-        if(enemy_counter < 2){
+        if(enemy_counter < 2 && s_motherpl->y > 60){
             timeout_enemy++;
-            if(timeout_enemy == 200u){
-                SpriteManagerAdd(SpriteBigstone, (UINT16)(s_motherpl->x + 80u), (UINT16)(s_motherpl->y - 60u));
+            if(timeout_enemy == 160u){
+                test_counter++;                
                 timeout_enemy = 0;
+                switch(test_counter){
+                    case 3:
+                        {
+                        test_counter = 0;
+                        Sprite* s_bigstone_1 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x), (UINT16)(s_motherpl->y - 80u));
+                        struct EnemyData* bigstone1_data = (struct EnemyData*) s_bigstone_1->custom_data;
+                        bigstone1_data->configured = 0;                        
+                        }
+                    break;
+                    case 1:
+                        {
+                        Sprite* s_bigstone_2 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x + 50u), (UINT16)(s_motherpl->y - 80u));
+                        s_bigstone_2->mirror = V_MIRROR;
+                        struct EnemyData* bigstone2_data = (struct EnemyData*) s_bigstone_2->custom_data;
+                        bigstone2_data->configured = 1;
+                        }
+                    break;
+                }
             }
         }
     

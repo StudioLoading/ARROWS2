@@ -87,6 +87,7 @@ _SPRITE_DMG(SpriteGlasses, glasses)\
 _SPRITE_DMG(SpriteGocursor, gocursor)\
 _SPRITE_DMG(SpriteFlower, flower)\
 _SPRITE_DMG(SpriteBigstone, bigstone)\
+_SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

@@ -21,7 +21,6 @@ void START(){
     bigstone_data->hp = 1;
     bigstone_data->x_frameskip = 10;
     bigstone_data->wait = 0;
-    bigstone_data->vx = -2;
     enemy_counter++;
     /*    
 	INT8 hp;
@@ -53,6 +52,7 @@ void UPDATE(){
                 }
                 bigstone_data->hp = -7;
                 bigstone_data->wait++;
+                THIS->y++;
             }else{
                 bigstone_data->hp++;
             }
