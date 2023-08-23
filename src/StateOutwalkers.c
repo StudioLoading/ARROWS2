@@ -39,6 +39,7 @@ extern MirroMode motherpl_mirror;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
+extern struct MISSION get_to_the_mountain;
 
 const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
 const UINT8 coll_surface_bandits[] = {105u, 106u, 0};
@@ -50,7 +51,7 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
-
+extern void check_automatic_dialog_trigger(NPCNAME npcname) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(border);
@@ -63,7 +64,8 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 5u << 3, (UINT16) 7u << 3);
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInventory || previous_state == StateDialog
+            || previous_state == StateMountain) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -93,6 +95,10 @@ void UPDATE(){
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
     //CAMERA MANAGEMENT
         update_camera_position();
+        if(s_motherpl->x > ((UINT16)81u << 3) && 
+            get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
+            check_automatic_dialog_trigger(OUTWALKER_SIMON);
+        } 
     //MANAGE NPC
         if(s_motherpl->x < (
             (UINT16)20u << 3) ){

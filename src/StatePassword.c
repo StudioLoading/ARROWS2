@@ -134,6 +134,7 @@ void UPDATE(){
     }
 }
 
+
 void load_chapter() BANKED{
     my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
     missions_init();
@@ -150,7 +151,8 @@ void load_chapter() BANKED{
         break;
         case 1:
             //ChangeStateThroughBetween(StateOverworld, StatePassword);
-            ChangeStateThroughBetween(StateMountain, StatePassword);
+            ChangeStateThroughBetween(StateSky, StatePassword);
+            //ChangeStateThroughBetween(StateOutwalkers, StatePassword);
         break;
     }
 }

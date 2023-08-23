@@ -19,15 +19,15 @@ void START(){
     SetSpriteAnim(THIS,a_anticipation, 12u);
     struct EnemyData* anti_data = (struct EnemyData*) THIS->custom_data;
     anti_data->hp = 2;
-    anti_data->wait = 200u;
+    anti_data->wait = 80u;
 }
 
 void UPDATE(){
     struct EnemyData* anti_data = (struct EnemyData*) THIS->custom_data;
     if(anti_data->configured == 0){THIS->x = s_motherpl->x + 16u;}
     else{THIS->x = s_motherpl->x - 10u;}
-    if(anti_data->hp >= 2){THIS->y = s_motherpl->y - 64u;}
-    else{THIS->y = s_motherpl->y - 72u;}
+    if(anti_data->hp >= 2){THIS->y = s_motherpl->y - 72u;}
+    else{THIS->y = s_motherpl->y - 80u;}
     anti_data->wait--;
     if(anti_data->wait == 0){
         anti_data->hp--;

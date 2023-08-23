@@ -75,6 +75,7 @@ extern void position_init() BANKED;
 extern void load_chapter() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
+extern void restartFromHospital() BANKED;
 
 void START() {
 	//SOUND
@@ -346,7 +347,9 @@ void move_on() BANKED{
 		return;
 	}
     if(whostalking == DEATH){
-        load_chapter();
+        //restart from hospital
+        restartFromHospital();
+        //load_chapter();
     }else if(previous_state == StateOverworld || previous_state == StatePassword){
         ChangeState(previous_state, s_motherow, current_map);
     }else{

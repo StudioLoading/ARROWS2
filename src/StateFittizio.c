@@ -97,8 +97,18 @@ void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 void check_sgb_palette(UINT8 new_state) BANKED;
 void play_music_reward() BANKED;
+void restartFromHospital() BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+
+void restartFromHospital() BANKED{
+    current_map = 0;
+    motherpl_hp = 5;
+    motherow_pos_x = (UINT16) 35u << 3;
+    motherow_pos_y = (UINT16) 20u << 3;
+    previous_state = StateOverworld;
+    ChangeStateThroughBetween(StateHospital, StateOverworld);
+}
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     whostalking = whost;
@@ -210,6 +220,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     //MOTHERPL POS X Y, HIDE_WIN
         if(current_state != StateInventory && current_state != StateDiary
             && current_state != StateDialog && current_state != StatePassword
+            && current_state != StateHospital
             && teleporting == 0){
             switch(s_mother->type){
                 case SpriteMotherow:
@@ -252,6 +263,18 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherow_pos_y = (UINT16) 21u << 3;
                             }
                         break;
+                        case StateSky:
+                            if(new_state == StateMountain){//falling from the skyss
+                                motherpl_pos_x = (UINT16)47u << 3;
+                                motherpl_pos_y = (UINT16)5u << 3;
+                            }
+                        break;
+                        case StateMountain:
+                            if(new_state == StateOutwalkers){
+                                motherpl_pos_x = (UINT16)93u << 3;
+                                motherpl_pos_y = (UINT16)9u << 3;
+                            }
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -272,10 +295,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             check_sgb_palette(new_state);
         }
     previous_state = current_state;
-    if(motherpl_state == MOTHERPL_DEAD){
-        motherpl_hp = 5;
+    /*if(motherpl_state == MOTHERPL_DEAD){
         ChangeStateThroughBetween(new_state, previous_state);
-    }else if(new_state != StateDialog && current_state != StateDialog){
+    }else 
+    */
+   if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
         SetState(new_state);
@@ -295,6 +319,10 @@ void check_sgb_palette(UINT8 new_state) BANKED{
         break;
         case StateExzoo:
             set_sgb_palette01_ZOO();
+            set_sgb_palette_statusbar();
+        break;
+        case StateSky:
+            set_sgb_SKY();
             set_sgb_palette_statusbar();
         break;
         case StateSmith:
@@ -470,6 +498,9 @@ void update_camera_position() BANKED{
                         next_ = 0u;                
                         ChangeState(StateOverworld, s_motherpl, next_);
                     break;
+                    case StateSky:
+                        ChangeState(StateMountain, s_motherpl, -1);
+                    break;
                     case StateMountain:
                         ChangeState(StateOutwalkers, s_motherpl, -1);
                     break;
@@ -491,7 +522,7 @@ void update_camera_position() BANKED{
                         }
                     break;
                     case StateMountain:
-                        //andare al ibex
+                        ChangeState(StateSky, s_motherpl, -1);
                     break;
                     case StateOutwalkers:
                         ChangeState(StateMountain, s_motherpl, -1);
@@ -500,7 +531,7 @@ void update_camera_position() BANKED{
                         ChangeState(StateOverworld, s_motherpl, 0);
                     break;
                 }
-            }  
+            }
         //VERTICAL
             if(s_motherpl->y > (((UINT16) mapheight) << 3)){
                 s_motherpl->y = ((UINT16) mapheight) - 32u;

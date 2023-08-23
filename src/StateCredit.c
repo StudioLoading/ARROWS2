@@ -121,7 +121,7 @@ void missions_init() BANKED{
 			outwalker_glass.current_step = 4u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			outwalker_smith.current_step = 0b00000111;//0u
-			get_to_the_mountain.mission_state = MISSION_STATE_STARTED;//DISABLED
+			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;//DISABLED
 			get_to_the_mountain.current_step = 0u;
 		break;
 	}
@@ -163,7 +163,7 @@ void inventory_init() BANKED{
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
 			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
 			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
-			unequip03.itemtype = INVITEM_BOX; unequip03.quantity = 1; unequip03.equippable = 0u;//UNASSIGNED
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;//UNASSIGNED
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
@@ -191,7 +191,7 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 24u << 3;
 		break;
 		case 1u:
-			current_map = 1u;//1u
+			current_map = 1u;
 			motherow_pos_x = (UINT16) 14u << 3;//22 MAP0
 			motherow_pos_y = (UINT16) 42u << 3;//21 MAP0
 			motherpl_pos_x = (UINT16) 8u << 3;

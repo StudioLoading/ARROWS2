@@ -15,10 +15,10 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(border);
+IMPORT_MAP(bordersky);
 IMPORT_TILES(fontbw);
-IMPORT_TILES(mountaintiles);
-IMPORT_MAP(mountainmap);
+IMPORT_TILES(skytiles);
+IMPORT_MAP(skymap);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -46,9 +46,8 @@ extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
 extern UINT8 current_map;
 
-const UINT8 coll_tiles_mountain[] = { 14u, 17u, 18u, 19u, 20u, 24u, 25u, 26u, 38u, 
-41u, 64u, 0};
-const UINT8 coll_surface_mountain[] = {10u, 29u, 37u, 40u, 57u, 60u, 63u, 0};
+const UINT8 coll_tiles_sky[] = { 7u, 20u, 24u, 28u, 32u, 36u, 40u, 44u, 0};
+const UINT8 coll_surface_sky[] = {0};
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -60,7 +59,7 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern UINT16 test_counter;
 
 void START(){
-    LOAD_SGB_BORDER(border);
+    LOAD_SGB_BORDER(bordersky);
     //SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -69,16 +68,15 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 49u << 3);
-        if(previous_state == StateInventory || previous_state == StateDialog
-            || previous_state == StateSky) {
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 11u << 3);
+        if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(mountainmap), &mountainmap, coll_tiles_mountain, coll_surface_mountain);    
+        InitScroll(BANK(skymap), &skymap, coll_tiles_sky, coll_surface_sky);    
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -89,7 +87,7 @@ void START(){
         timeout_enemy = 0;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(mountainmap), &mountainmap, &mapwidth, &mapheight);
+        GetMapSize(BANK(skymap), &skymap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
     test_counter = 0u;
 }
@@ -103,28 +101,35 @@ void UPDATE(){
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
-    //MASSI
+        if(s_motherpl->y > ((UINT16) 19u << 3)){
+            //back to StateMountain
+            ChangeState(StateMountain, s_motherpl, -1);
+        }
+    //BOLTS
         if(enemy_counter < 2 && s_motherpl->y > 40){
             timeout_enemy++;
-            if(timeout_enemy == 160u){
+            if(timeout_enemy == 40u){
                 test_counter++;                
                 timeout_enemy = 0;
                 switch(test_counter){
-                    case 3:
-                        {
+                    case 6:
                         test_counter = 0;
-                        Sprite* s_bigstone_1 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x), (UINT16)(s_motherpl->y - 80u));
-                        struct EnemyData* bigstone1_data = (struct EnemyData*) s_bigstone_1->custom_data;
-                        bigstone1_data->configured = 0;                        
-                        }
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) + 80u, (UINT16)(s_motherpl->y));
+                    break;
+                    case 5:
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) - 4u, (UINT16)(s_motherpl->y));
+                    break;
+                    case 4:
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) + 40u, (UINT16)(s_motherpl->y));
+                    break;
+                    case 3:
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) - 30u, (UINT16)(s_motherpl->y));
+                    break;
+                    case 2:
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) + 30u, (UINT16)(s_motherpl->y));
                     break;
                     case 1:
-                        {
-                        Sprite* s_bigstone_2 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x + 50u), (UINT16)(s_motherpl->y - 80u));
-                        s_bigstone_2->mirror = V_MIRROR;
-                        struct EnemyData* bigstone2_data = (struct EnemyData*) s_bigstone_2->custom_data;
-                        bigstone2_data->configured = 1;
-                        }
+                        SpriteManagerAdd(SpriteBoltground, (UINT16)(s_motherpl->x) + 10u, (UINT16)(s_motherpl->y));
                     break;
                 }
             }

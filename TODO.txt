@@ -1,9 +1,5 @@
 POST DEMO:
-- decidere se i massi si spaccano al primo contatto col terreno
-	farli comunqua spaccare se ci sparo contro una freccia perforante!
-	farli comunque spaccare se ci dasho contro!
-	i pezzettini non mi fanno danno
-	mettere la hit_box del bigstone così da farmi danno
+
 - posso saltare la guardia se gli passo sopra con la freccia? 
 	se sì, e arrivo alla via della montagna, triggero il dialogo con
 	la guardia invece di cambiare di stato!

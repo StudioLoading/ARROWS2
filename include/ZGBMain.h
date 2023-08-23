@@ -31,6 +31,7 @@ _STATE(StatePassword)\
 _STATE(StateOutwalkers)\
 _STATE(StateBosscrab)\
 _STATE(StateMountain)\
+_STATE(StateSky)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -87,7 +88,10 @@ _SPRITE_DMG(SpriteGlasses, glasses)\
 _SPRITE_DMG(SpriteGocursor, gocursor)\
 _SPRITE_DMG(SpriteFlower, flower)\
 _SPRITE_DMG(SpriteBigstone, bigstone)\
+_SPRITE_DMG(SpriteStone, stone)\
 _SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
+_SPRITE_DMG(SpriteBoltground, boltground)\
+_SPRITE_DMG(SpriteBolt, bolt)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

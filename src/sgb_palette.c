@@ -533,6 +533,9 @@ void set_sgb_palette01_MOTHER() __banked{
     set_sgb_palette(SGB_PAL2A_LIGHTER, RGB8(255, 194, 209), RGB8(198, 132, 74), SGB_PAL2A_DARKER);
 }
 */
+void set_sgb_SKY() __banked{
+    set_sgb_palette(RGB8(220, 220, 220), RGB8(248, 216, 120), RGB8(120, 120, 120), RGB8(0, 0, 0));
+}
 void set_sgb_palette01_ZOO() __banked {
 	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL4B_LIGHT, SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }

@@ -537,7 +537,8 @@ void UPDATE(){
                     case SpriteEnemyAttackerCobra:
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
-                    case SpriteEnemyThrowerTarantula:
+                    case SpriteBigstone:
+                    case SpriteBolt:
                         {
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
