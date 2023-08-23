@@ -15,7 +15,7 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(border);
+IMPORT_MAP(bordersky);
 IMPORT_TILES(fontbw);
 IMPORT_TILES(mountaintiles);
 IMPORT_MAP(mountainmap);
@@ -59,8 +59,9 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 extern UINT16 test_counter;
 
+
 void START(){
-    LOAD_SGB_BORDER(border);
+    LOAD_SGB_BORDER(bordersky);
     //SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -103,7 +104,7 @@ void UPDATE(){
         if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
-    //MASSI
+    //BIGSTONES & SCORPIONS
         if(enemy_counter < 2 && s_motherpl->y > 40){
             timeout_enemy++;
             if(timeout_enemy == 160u){
@@ -127,6 +128,9 @@ void UPDATE(){
                         }
                     break;
                 }
+            }
+            if(timeout_enemy == 70u || timeout_enemy == 140u){
+                SpriteManagerAdd(SpriteScorpion, (UINT16) 9u << 3, (UINT16) 39u << 3);
             }
         }
     

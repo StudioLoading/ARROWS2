@@ -527,6 +527,9 @@ void update_camera_position() BANKED{
                     case StateOutwalkers:
                         ChangeState(StateMountain, s_motherpl, -1);
                     break;
+                    case StateSky:
+                        trigger_dialog(IBEX_GIVE_MISSION, s_motherpl);
+                    break;
                     default:
                         ChangeState(StateOverworld, s_motherpl, 0);
                     break;

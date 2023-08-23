@@ -151,7 +151,7 @@ void load_chapter() BANKED{
         break;
         case 1:
             //ChangeStateThroughBetween(StateOverworld, StatePassword);
-            ChangeStateThroughBetween(StateSky, StatePassword);
+            ChangeStateThroughBetween(StateMountain, StatePassword);
             //ChangeStateThroughBetween(StateOutwalkers, StatePassword);
         break;
     }

@@ -92,6 +92,7 @@ _SPRITE_DMG(SpriteStone, stone)\
 _SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
 _SPRITE_DMG(SpriteBoltground, boltground)\
 _SPRITE_DMG(SpriteBolt, bolt)\
+_SPRITE_DMG(SpriteScorpion, scorpion)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"
