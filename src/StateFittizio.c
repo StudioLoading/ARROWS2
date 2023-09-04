@@ -308,6 +308,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
 
 void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
+        case StateCart:
+            set_sgb_palette01_worldmap_maze();
+            set_sgb_palette_statusbar();
+        break;
         case StateBosscrab:
             set_sgb_crab();
             set_sgb_palette_statusbar();
@@ -536,14 +540,14 @@ void update_camera_position() BANKED{
                 }
             }
         //VERTICAL
-            if(s_motherpl->y > (((UINT16) mapheight) << 3)){
+            if(s_motherpl->y > (((UINT16) mapheight) << 3) && current_state != StateCart){
                 s_motherpl->y = ((UINT16) mapheight) - 32u;
             }
             if(s_motherpl->y <= 0u){
                 s_motherpl->y = 32u;
             }  
     //SCROLL TARGET Y    
-        if(motherpl_hit_cooldown > 0){//} && motherpl_vx == 0){
+        if(motherpl_hit_cooldown > 0){
             //CAMERA TRAMBLE
             camera_tramble();
         }else{
@@ -551,24 +555,25 @@ void update_camera_position() BANKED{
                 scroll_target->y = s_motherpl->y + 16u;
             }
         }
-    if(motherpl_state == MOTHERPL_BLOCKED ){return;}
-    if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
+    //BLOCK 
+        if(motherpl_state == MOTHERPL_BLOCKED ){return;}
+        if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
     //camera fissa per certi stage
-    UINT8 consider_margins = 0u;
-    switch(current_state){
-        case StateMine:
-        case StateMountain:
-        case StateBlackiecave:
-            scroll_target->x = s_motherpl->x + 8u;
-            if(motherpl_hit_cooldown == 0){
-                scroll_target->y = s_motherpl->y + 8u;
-            }
-            consider_margins = 1u;
-        break;
-    }
-    if(consider_margins){
-        return;
-    }
+        UINT8 consider_margins = 0u;
+        switch(current_state){
+            case StateMine:
+            case StateMountain:
+            case StateBlackiecave:
+                scroll_target->x = s_motherpl->x + 8u;
+                if(motherpl_hit_cooldown == 0){
+                    scroll_target->y = s_motherpl->y + 8u;
+                }
+                consider_margins = 1u;
+            break;
+        }
+        if(consider_margins){
+            return;
+        }
     //in ogni caso non uscire dai margini
     if(s_surf){
         switch(s_motherpl->mirror){
@@ -585,7 +590,8 @@ void update_camera_position() BANKED{
         || motherpl_state == MOTHERPL_PICKUP){
             camera_ok = 0u;
     }
-    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH){
+    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH
+        || current_state == StateCart){
         if(camera_ok == 1u){
             switch(s_motherpl->mirror){
                 case NO_MIRROR:

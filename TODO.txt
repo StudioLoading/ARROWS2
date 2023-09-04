@@ -1,10 +1,8 @@
 POST DEMO:
-
-- posso saltare la guardia se gli passo sopra con la freccia? 
-	se sì, e arrivo alla via della montagna, triggero il dialogo con
-	la guardia invece di cambiare di stato!
+- cart
 - se parlo a jack e non ho ancora sconfitto il grab e non ho più frecce perforanti
 	lui me ne da ancora
+- controllare dialoghi fine SKY
 - grab non colpisce motherpl, devo fare la hit testando così veramente la hitBox del grab
 - uscita dei nemici dallo schermo quando eliminat col balzello 
 	all' indietro senza il translate a parabola fino a fuori lo schermo

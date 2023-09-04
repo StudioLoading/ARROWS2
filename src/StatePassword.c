@@ -151,8 +151,9 @@ void load_chapter() BANKED{
         break;
         case 1:
             //ChangeStateThroughBetween(StateOverworld, StatePassword);
-            ChangeStateThroughBetween(StateMountain, StatePassword);
-            //ChangeStateThroughBetween(StateOutwalkers, StatePassword);
+        break;
+        case 2:
+            ChangeStateThroughBetween(StateCart, StatePassword);
         break;
     }
 }
@@ -245,6 +246,13 @@ INT8 check_password() BANKED{
                 pcode2_info->tetradado_faccia == FACCIA_4 &&
                 pcode3_info->tetradado_faccia == FACCIA_1){
                     result = 1u;
+                }
+            //cpt3
+                if(pcode0_info->tetradado_faccia == FACCIA_4 &&
+                pcode1_info->tetradado_faccia == FACCIA_2 &&
+                pcode2_info->tetradado_faccia == FACCIA_4 &&
+                pcode3_info->tetradado_faccia == FACCIA_3){
+                    result = 2u;
                 }
         }
     return result;

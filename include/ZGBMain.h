@@ -32,6 +32,7 @@ _STATE(StateOutwalkers)\
 _STATE(StateBosscrab)\
 _STATE(StateMountain)\
 _STATE(StateSky)\
+_STATE(StateCart)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -93,6 +94,7 @@ _SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
 _SPRITE_DMG(SpriteBoltground, boltground)\
 _SPRITE_DMG(SpriteBolt, bolt)\
 _SPRITE_DMG(SpriteScorpion, scorpion)\
+_SPRITE_DMG(SpriteCart, cart)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

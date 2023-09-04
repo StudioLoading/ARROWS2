@@ -350,7 +350,7 @@ void move_on() BANKED{
         //restart from hospital
         restartFromHospital();
         //load_chapter();
-    else if(whostalking == IBEX_GIVE_MISSION){
+    }else if(whostalking == IBEX_GIVE_MISSION){
         whostalking = IBEX_GIVE_HERBS;
         SetState(StateDialog);
     }else if(whostalking == IBEX_GIVE_HERBS){

@@ -4,6 +4,7 @@
 #include "string.h"
 
 #include "Dialogs.h"
+#include "Dialogs2.h"
 #include "custom_datas.h"
 
 unsigned char log0[21];
@@ -48,6 +49,8 @@ extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
+
+extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -789,45 +792,8 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, EMPTY_STRING_21, 22);
 			memcpy(d11, "WE'LL SEE...      \0", 22);
 		break;
-		case IBEX_GIVE_MISSION:
-			*n_lines = 17u;
-			memcpy(d1, "*COUGH!* *COUGH!*   \0", 22);
-			memcpy(d2, "SALUTE *COUGH!* HEAL\0", 22);
-			memcpy(d3, "ER. BLACKIE ALREADY \0", 22);
-			memcpy(d4, "EXPLAINED ME WHAT   \0", 22);
-			memcpy(d5, "HAPPENED TO YOUR SON\0", 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, "OUT OF NOWHRE A COLO\0", 22);
-			memcpy(d8, "NY OF SCORPIONS APPE\0", 22);
-			memcpy(d9, "ARED AND IS MARCHING\0", 22);
-			memcpy(d10, "DOWN TO THE *COUGH!*\0", 22);
-			memcpy(d11, "VILLAGE!            \0", 22);
-			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "AS YOU CAN IMAGINE, \0", 22);
-			memcpy(d14, "THOSE BASTARDS HAVE \0", 22);
-			memcpy(d15, "A LETHAL POISON IN  \0", 22);
-			memcpy(d16, "THOSE STINGS. HERE  \0", 22);
-			memcpy(d17, EMPTY_STRING_21, 22);
-		break;
-		case IBEX_GIVE_HERBS:
-			*n_lines = 17u;
-			memcpy(d1, "*COUGH!* *COUGH!*   \0", 22);
-			memcpy(d2, "TAKE THESE HERBS.   \0", 22);
-			memcpy(d3, "I ALREADY ATE A     \0", 22);
-			memcpy(d4, "BUNCH. I AM SLOWLY  \0", 22);
-			memcpy(d5, "REVOVERING.         \0", 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, "TAKE THESE TO THE   \0", 22);
-			memcpy(d8, "HUMANS, YOU KNOW    \0", 22);
-			memcpy(d9, "IT CAN HEAL THEM.   \0", 22);
-			memcpy(d10, EMPTY_STRING_21, 22);
-			memcpy(d11, "NOW LEAVE! THROUGH \0", 22);
-			memcpy(d12, "THAT CAVE YOU'LL   \0", 22);
-			memcpy(d13, "GET DOWN THE MOUNTA\0", 22);
-			memcpy(d14, "IN FASTER!         \0", 22);
-			memcpy(d15, EMPTY_STRING_21, 22);
-			memcpy(d16, "I'LL SEE YOU, AGAIN\0", 22);
-			memcpy(d17, EMPTY_STRING_21, 22);
+		default:
+			GetLocalizedDialog2_EN(n_lines);
 		break;
     }
 }
