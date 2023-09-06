@@ -26,7 +26,7 @@ void UPDATE() {
         SpriteManagerRemoveSprite(THIS);
     }
     
-     //SPRITE COLLISION
+    //SPRITE COLLISION
         UINT8 bolt_a_tile;
         Sprite* bolt_s_spr;
         SPRITEMANAGER_ITERATE(bolt_a_tile, bolt_s_spr) {

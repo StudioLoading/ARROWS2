@@ -95,6 +95,7 @@ _SPRITE_DMG(SpriteBoltground, boltground)\
 _SPRITE_DMG(SpriteBolt, bolt)\
 _SPRITE_DMG(SpriteScorpion, scorpion)\
 _SPRITE_DMG(SpriteCart, cart)\
+_SPRITE_DMG(SpriteCartelevator, cartelevator)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

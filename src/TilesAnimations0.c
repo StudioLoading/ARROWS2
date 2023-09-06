@@ -193,6 +193,31 @@ void Anim_Titlescreen_3() BANKED{
 	set_banked_bkg_data(98u, 2u, &titlescreentilesanim3, BANK(titlescreentilesanim3));//water
 }
 
+void Anim_Cart_0() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetiles, BANK(minetiles));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetiles, BANK(minetiles));//elevator
+}
+void Anim_Cart_1() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim1, BANK(minetilesanim1));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetilesanim1, BANK(minetilesanim1));//elevator
+}
+void Anim_Cart_2() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim2, BANK(minetilesanim2));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetilesanim2, BANK(minetilesanim2));//elevator
+}
+void Anim_Cart_3() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim3, BANK(minetilesanim3));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetilesanim3, BANK(minetilesanim3));//elevator
+}
+void Anim_Cart_4() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim4, BANK(minetilesanim4));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetilesanim4, BANK(minetilesanim4));//elevator
+}
+void Anim_Cart_5() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim5, BANK(minetilesanim5));//fiammella
+	set_banked_bkg_data(8u, 2u, &minetilesanim5, BANK(minetilesanim5));//elevator
+}
+
 void Anim_Cave_0() BANKED{
 	set_banked_bkg_data(23u, 2u, &minetiles, BANK(minetiles));//fiammella
 	set_banked_bkg_data(41u, 7u, &minetiles, BANK(minetiles));//luce lanterna

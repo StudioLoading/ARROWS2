@@ -45,9 +45,12 @@ extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
 extern UINT8 current_map;
 extern Sprite* s_surf;
+extern UINT8 tiles_anim_interval;
 
-const UINT8 coll_tiles_cart[] = { 1u, 7u, 3u, 12u, 14u, 17u, 18u, 19u, 20u, 21u, 22u, 27u, 28u, 32u, 36u, 40u, 44u, 109u, 111u, 0};
-const UINT8 coll_surface_cart[] = {56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 0};
+const UINT8 coll_tiles_cart[] = { 1u, 7u, 3u, 12u, 14u, 17u, 18u, 19u, 21u, 22u, 27u, 28u, 32u, 36u, 40u, 44u, 
+56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 93u, 94u,
+109u, 111u, 0};
+const UINT8 coll_surface_cart[] = {30u, 0};
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -68,7 +71,7 @@ void START(){
         scroll_top_movement_limit = 56u;//56u;
         scroll_bottom_movement_limit = 80u;//80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteCart, (UINT16) 2u << 3, (UINT16) 4u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteCart, (UINT16) 2u << 3, (UINT16) 2u << 3);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y - 16u); 
         InitScroll(BANK(cartmap), &cartmap, coll_tiles_cart, coll_surface_cart);    
@@ -85,6 +88,7 @@ void START(){
         GetMapSize(BANK(cartmap), &cartmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;
     test_counter = 0u;
+    tiles_anim_interval = 0u;
 }
 
 void UPDATE(){
@@ -96,12 +100,35 @@ void UPDATE(){
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
         }
+    //TILES ANIM
+        tiles_anim_interval++;
+        switch(tiles_anim_interval){
+            case 6u:
+                Anim_Cart_1();
+            break;
+            case 12u:
+                Anim_Cart_2();
+            break;
+            case 18u:
+                Anim_Cart_3();
+            break;
+            case 24u:
+                Anim_Cart_4();
+            break;
+            case 30u:
+                Anim_Cart_5();
+            break;
+            case 36u:
+                Anim_Cart_0();
+                tiles_anim_interval = 0u;
+            break;
+        }
     //GO TO INVENTORY
         //if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
-        update_camera_position();
-        //scroll_target->x = s_motherpl->x + 76u;
-        //scroll_target->y = s_motherpl->y - 16u;
+        //update_camera_position();
+        scroll_target->x = s_motherpl->x + 60u;
+        scroll_target->y = s_motherpl->y + 32u;
     //BOLTS
         /*
         if(enemy_counter < 2 && s_motherpl->y > 40){
