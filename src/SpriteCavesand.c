@@ -11,6 +11,7 @@ const UINT8 sand0_anim[] = {8, 1, 2, 3, 2, 3, 2, 3, 2};
 const UINT8 sand1_anim[] = {4, 3, 4, 4, 4};
 
 void START(){
+    THIS->lim_x = 255u;
     SetSpriteAnim(THIS,sand0_anim, 12u);
 }
 

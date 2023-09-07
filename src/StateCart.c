@@ -46,6 +46,7 @@ extern UINT8 enemy_counter;
 extern UINT8 current_map;
 extern Sprite* s_surf;
 extern UINT8 tiles_anim_interval;
+extern UINT8 timeout_cavesand;
 
 const UINT8 coll_tiles_cart[] = { 1u, 7u, 3u, 12u, 14u, 17u, 18u, 19u, 21u, 22u, 27u, 28u, 32u, 36u, 40u, 44u, 
 56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 93u, 94u,
@@ -89,6 +90,7 @@ void START(){
 	SHOW_SPRITES;
     test_counter = 0u;
     tiles_anim_interval = 0u;
+    timeout_cavesand = 0u;
 }
 
 void UPDATE(){
@@ -129,6 +131,31 @@ void UPDATE(){
         //update_camera_position();
         scroll_target->x = s_motherpl->x + 60u;
         scroll_target->y = s_motherpl->y + 32u;
+    //FALLING SAND
+        {
+            timeout_cavesand--;
+            switch(timeout_cavesand){
+                case 20u:
+                case 40u:
+                case 60u:
+                    SpriteManagerAdd(SpriteCavesand, s_motherpl->x+200u, s_motherpl->y - 40u);
+                break;
+                case 100u:
+                case 120u:
+                case 160u:
+                    SpriteManagerAdd(SpriteCavesand, s_motherpl->x+180, s_motherpl->y - 40u);
+                break;
+                case 180u:
+                case 200u:
+                case 220u:
+                    SpriteManagerAdd(SpriteCavesand, s_motherpl->x+140, s_motherpl->y - 40u);
+                break;
+                case 0:
+                    SpriteManagerAdd(SpriteCavesand, s_motherpl->x+120u, s_motherpl->y - 40u);
+                    timeout_cavesand = 240u;
+                break;
+            }
+        }
     //BOLTS
         /*
         if(enemy_counter < 2 && s_motherpl->y > 40){

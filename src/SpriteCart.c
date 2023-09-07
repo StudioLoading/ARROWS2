@@ -41,7 +41,6 @@ UINT8 cart_frmskip_x = 0;
 UINT8 a_cart_freq = 20u;
 UINT8 cart_can_jump;
 UINT8 cart_frmskip_x_max = 0;
-UINT8 cart_jumping = 0;
 UINT8 cooldown_augment_gravity = 40u;
 UINT8 cart_h_collision = 0u;
 Sprite* elevator;
@@ -83,7 +82,7 @@ void START() {
 void cart_turn_left() BANKED{
     if(cart_vx != -2){
         camera_ok = 0;
-        cart_vx = -2;
+        cart_vx = -4;
         THIS->mirror = V_MIRROR;
         change_cart_state(MOTHERPL_WALK);
     }
@@ -100,9 +99,6 @@ void cart_turn_right() BANKED{
 void cart_behave() BANKED{
     if(motherpl_hit_cooldown > 0){
         motherpl_hit_cooldown--;
-    }
-    if(THIS->x > ((UINT16) 122u << 3) && cart_vx != 3){
-        cart_gravity+=1;
     }
     switch(motherpl_state){
         case MOTHERPL_JUMP:
@@ -125,9 +121,15 @@ void cart_behave() BANKED{
         break;
         case MOTHERPL_WALK:
             cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
+            if(cart_data->et_collision == 0){
+                cart_can_jump = 0;
+            }else{
+                cart_can_jump = 1;
+            }
         break;
         case MOTHERPL_IDLE:
             {
+                cart_can_jump = 0;
                 UINT8 idle_v_coll = TranslateSprite(THIS, 0, (1+cart_gravity) << delta_time);
                 switch(idle_v_coll){
                     case 0u:
@@ -170,9 +172,6 @@ void cart_behave() BANKED{
             case 7u:
                 change_cart_state(MOTHERPL_IDLE);
             break;
-            case 21u:
-                cart_turn_left();
-            break;
             case 22u:
                 cart_turn_right();
             break;
@@ -185,6 +184,9 @@ void cart_behave() BANKED{
             case 68u:
             case 84u:
                 change_cart_state(ENEMY_SLIDE_DOWN);
+            break;
+            case 93u:
+                cart_turn_left();
             break;
             case 94u:
                 change_cart_state(MOTHERPL_ASCENDING);
@@ -207,15 +209,11 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
                 cart_can_jump = 0;
                 cart_delta_y = 0;
                 cart_frmskip_x = 0;
-                cart_jumping = 1;
                 SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
             break;
             case MOTHERPL_WALK:     
                 cart_delta_y = 0;
                 cart_can_jump = 1;
-                if(cart_jumping == 1){
-                    cart_jumping = 0;
-                }
                 if(motherpl_state == ENEMY_SLIDE_DOWN){
                     THIS->x += 4;
                     THIS->y -= 8;
