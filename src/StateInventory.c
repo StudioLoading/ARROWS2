@@ -373,6 +373,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(METAL_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(METAL_DETAIL4, ddinv5);
             break;
+            case INVITEM_METAL_SPECIAL:
+                GetLocalizedINVLabel_EN(STEEL_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(STEEL_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(STEEL_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(STEEL_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(STEEL_DETAIL4, ddinv5);
+            break;
             case INVITEM_WOOD:
                 GetLocalizedINVLabel_EN(WOOD_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(WOOD_DETAIL1, ddinv2);

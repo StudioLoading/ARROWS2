@@ -18,7 +18,7 @@
 #include "DiaryDialogs.h"
 
 IMPORT_MAP(borderdiary);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_MAP(diarym);
 
 extern UINT8 J_JUMP;
@@ -87,7 +87,7 @@ void START(){
         diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
         InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         SHOW_BKG;
     //INIT VARS
         cursor_old_posi = cursor_posi;
@@ -286,7 +286,7 @@ void change_page(INT8 inc){
 }
 
 void UPDATE(){
-    if(KEY_RELEASED(J_START)){
+    if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
         border_set_diary = 0u;
         ChangeStateThroughBetween(StateOverworld, StateDiary);
     }

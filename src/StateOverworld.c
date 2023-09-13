@@ -16,7 +16,7 @@
 
 IMPORT_MAP(border2);
 
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(tilesowsouthwest);
 
 IMPORT_MAP(owsouthwest);
@@ -133,7 +133,7 @@ void START(){
 		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
 			help_cemetery_woman.current_step = 0u;
 		}
-	INIT_FONT(fontbw, PRINT_WIN);
+	INIT_FONT(font, PRINT_WIN);
 	INIT_HUD(hudow); 
 	HIDE_WIN;
 	SHOW_SPRITES;
@@ -459,12 +459,6 @@ void UPDATE(){
 		if(show_tip == 1u){
 			ShowTipOW();
 			return;
-		}
-	//SGB palette switch?
-		if(current_map == 1 && s_motherow->y < (UINT16) 20u << 3){
-    		//set_sgb_crab();
-		}else{
-			
 		}
 }
 

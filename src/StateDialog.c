@@ -45,6 +45,10 @@ extern unsigned char d15[];
 extern unsigned char d16[];
 extern unsigned char d17[];
 extern unsigned char d18[];
+extern unsigned char d19[];
+extern unsigned char d20[];
+extern unsigned char d21[];
+extern unsigned char d22[];
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT8 choice_left;
@@ -66,6 +70,7 @@ UINT8 next_page = 0u;
 
 void move_on() BANKED;
 void shift_text_one_line_up() BANKED;
+void show_next_character() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -103,7 +108,8 @@ void START() {
 
 void UPDATE() {
     if(KEY_RELEASED(J_UP)){
-       dialog_ready = 0u; 
+        counter_char = 0u;
+        dialog_ready = 0u; 
     }
     if(dialog_ready == 0u){
         PRINT(0, 7, EMPTY_STRING_21);
@@ -113,6 +119,7 @@ void UPDATE() {
         PRINT(0, 11, EMPTY_STRING_21);
         PRINT(0, 12, EMPTY_STRING_21);
         PRINT(0, 13, EMPTY_STRING_21);
+        PRINT(0, 14, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
         GetLocalizedDialog_EN(&n_lines);
@@ -126,42 +133,7 @@ void UPDATE() {
         }
         wait_char--;
         if(wait_char == 0u){//mostra lettera successiva
-            unsigned char to_print[2] = " \0";
-            switch(writing_line){
-                case 1u:to_print[0] = d1[counter_char];break;
-                case 2u:to_print[0] = d2[counter_char];break;
-                case 3u:to_print[0] = d3[counter_char];break;
-                case 4u:to_print[0] = d4[counter_char];break;
-                case 5u:to_print[0] = d5[counter_char];break;
-                case 6u:to_print[0] = d6[counter_char];break;
-                case 7u:to_print[0] = d7[counter_char];break;
-                case 8u:to_print[0] = d8[counter_char];break;
-                case 9u:to_print[0] = d9[counter_char];break;
-                case 10u:to_print[0] = d10[counter_char];break;
-                case 11u:to_print[0] = d11[counter_char];break;
-                case 12u:to_print[0] = d12[counter_char];break;
-                case 13u:to_print[0] = d13[counter_char];break;
-                case 14u:to_print[0] = d14[counter_char];break;
-                case 15u:to_print[0] = d15[counter_char];break;
-                case 16u:to_print[0] = d16[counter_char];break;
-                case 17u:to_print[0] = d17[counter_char];break;
-                case 18u:to_print[0] = d18[counter_char];break;
-            }
-            UINT8 writing_line_on_video = writing_line;
-            if(writing_line > 7){writing_line_on_video = 7;}
-            PRINT(counter_char, 7+writing_line_on_video, to_print);
-            wait_char = MAX_WAIT_CHAR;
-            counter_char++;
-            if(counter_char == 21u){
-                counter_char = 0u;
-                writing_line++;
-                if(writing_line > 7 && writing_line <= n_lines){
-                    shift_text_one_line_up();
-                }
-                if(writing_line > n_lines){
-                    dialog_ready = 2u;
-                }
-            }
+            show_next_character();
         }
     }
     if(dialog_ready == 2u){
@@ -198,10 +170,56 @@ void UPDATE() {
     }
 }
 
+void show_next_character() BANKED{
+    unsigned char to_print[2] = " \0";
+    switch(writing_line){
+        case 1u:to_print[0] = d1[counter_char];break;
+        case 2u:to_print[0] = d2[counter_char];break;
+        case 3u:to_print[0] = d3[counter_char];break;
+        case 4u:to_print[0] = d4[counter_char];break;
+        case 5u:to_print[0] = d5[counter_char];break;
+        case 6u:to_print[0] = d6[counter_char];break;
+        case 7u:to_print[0] = d7[counter_char];break;
+        case 8u:to_print[0] = d8[counter_char];break;
+        case 9u:to_print[0] = d9[counter_char];break;
+        case 10u:to_print[0] = d10[counter_char];break;
+        case 11u:to_print[0] = d11[counter_char];break;
+        case 12u:to_print[0] = d12[counter_char];break;
+        case 13u:to_print[0] = d13[counter_char];break;
+        case 14u:to_print[0] = d14[counter_char];break;
+        case 15u:to_print[0] = d15[counter_char];break;
+        case 16u:to_print[0] = d16[counter_char];break;
+        case 17u:to_print[0] = d17[counter_char];break;
+        case 18u:to_print[0] = d18[counter_char];break;
+        case 19u:to_print[0] = d19[counter_char];break;
+        case 20u:to_print[0] = d20[counter_char];break;
+        case 21u:to_print[0] = d21[counter_char];break;
+        case 22u:to_print[0] = d22[counter_char];break;
+    }
+    UINT8 writing_line_on_video = writing_line;
+    if(writing_line > 7){writing_line_on_video = 7;}
+    PRINT(counter_char, 7+writing_line_on_video, to_print);
+    wait_char = MAX_WAIT_CHAR;
+    counter_char++;
+    if(counter_char == 21u){
+        counter_char = 0u;
+        writing_line++;
+        if(writing_line > 7 && writing_line <= n_lines){
+            shift_text_one_line_up();
+        }
+        if(writing_line > n_lines){
+            dialog_ready = 2u;
+        }
+    }
+}
 void shift_text_one_line_up() BANKED{
     PRINT(0, 14, EMPTY_STRING_21);
     switch(writing_line){
         case 8u:
+            {
+                Sprite* up_cursor = SpriteManagerAdd(SpriteInvcursor, 18u << 3, 7u << 3);
+                up_cursor->mirror = H_MIRROR;
+            }
             PRINT(0, 7, d1);
             PRINT(0, 8, d2);
             PRINT(0, 9, d3);
@@ -299,6 +317,42 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 11, d15);
             PRINT(0, 12, d16);
             PRINT(0, 13, d17);
+        break;
+        case 19u:
+            PRINT(0, 7, d12);
+            PRINT(0, 8, d13);
+            PRINT(0, 9, d14);
+            PRINT(0, 10, d15);
+            PRINT(0, 11, d16);
+            PRINT(0, 12, d17);
+            PRINT(0, 13, d18);
+        break;
+        case 20u:
+            PRINT(0, 7, d13);
+            PRINT(0, 8, d14);
+            PRINT(0, 9, d15);
+            PRINT(0, 10, d16);
+            PRINT(0, 11, d17);
+            PRINT(0, 12, d18);
+            PRINT(0, 13, d19);
+        break;
+        case 21u:
+            PRINT(0, 7, d14);
+            PRINT(0, 8, d15);
+            PRINT(0, 9, d16);
+            PRINT(0, 10, d17);
+            PRINT(0, 11, d18);
+            PRINT(0, 12, d19);
+            PRINT(0, 13, d20);
+        break;
+        case 22u:
+            PRINT(0, 7, d15);
+            PRINT(0, 8, d16);
+            PRINT(0, 9, d17);
+            PRINT(0, 10, d18);
+            PRINT(0, 11, d19);
+            PRINT(0, 12, d20);
+            PRINT(0, 13, d21);
         break;
     }
 }

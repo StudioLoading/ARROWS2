@@ -548,6 +548,9 @@ void set_sgb_palette01_CEMATERYCRYPT() __banked {
 void set_sgb_palette01_MAZE() __banked{
     set_sgb_palette(RGB8(220, 220, 220), RGB8(160, 160, 160), RGB8(0, 128, 128), RGB8(86, 56, 32));
 }
+void set_sgb_palette01_cart()__banked{
+    set_sgb_palette(RGB8(255, 134, 0), RGB8(255, 189, 0), RGB8(255, 57, 0), RGB8(0, 0, 0));
+}
 /*
 void set_sgb_palette01_AMULET_THUNDER() __banked{
 	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(198, 132, 74), SGB_PAL1B_DARKER);

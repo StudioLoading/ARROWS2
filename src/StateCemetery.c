@@ -16,7 +16,7 @@
 #include "Dialogs.h"
 
 IMPORT_MAP(border);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(cemeterytiles);
 IMPORT_TILES(hudpltiles);
 IMPORT_MAP(cemeterymap);
@@ -83,7 +83,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(cemeterymap), &cemeterymap, coll_tiles_cemetery, coll_surface_cemetery);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();

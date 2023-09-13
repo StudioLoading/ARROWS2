@@ -102,6 +102,10 @@ void cart_behave() BANKED{
     }
     switch(motherpl_state){
         case MOTHERPL_JUMP:
+            cart_data->wait--;
+            if(cart_data->wait == 0){
+                SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
+            }
             cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
             if(cart_vy < 0){//ascending
                 cart_vy+=2;
@@ -209,7 +213,8 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
                 cart_can_jump = 0;
                 cart_delta_y = 0;
                 cart_frmskip_x = 0;
-                SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
+                cart_data->wait = 8u;
+                //SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
             break;
             case MOTHERPL_WALK:     
                 cart_delta_y = 0;

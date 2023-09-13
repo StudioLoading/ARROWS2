@@ -55,6 +55,11 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case METAL_DETAIL2:memcpy(d, "METAL.     ", 12);break;
 		case METAL_DETAIL3:memcpy(d, "           ", 12);break;
 		case METAL_DETAIL4:memcpy(d, "           ", 12);break;
+		case STEEL_NAME:memcpy(d, "   STEEL:  ", 12);break;
+		case STEEL_DETAIL1:memcpy(d, "PIECE OF   ", 12);break;
+		case STEEL_DETAIL2:memcpy(d, "STEEL.     ", 12);break;
+		case STEEL_DETAIL3:memcpy(d, "           ", 12);break;
+		case STEEL_DETAIL4:memcpy(d, "           ", 12);break;
 		case WOOD_NAME:memcpy(d, "    WOOD:  ", 12);break;
 		case WOOD_DETAIL1:memcpy(d, "PIECE OF   ", 12);break;
 		case WOOD_DETAIL2:memcpy(d, "WOOD.      ", 12);break;
@@ -65,7 +70,7 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case POWDER_DETAIL2:memcpy(d, "DER.THE SMI", 12);break;
 		case POWDER_DETAIL3:memcpy(d, "TH MAY USE ", 12);break;
 		case POWDER_DETAIL4:memcpy(d, "IT         ", 12);break;
-		case LETTER_NAME:memcpy(d, "HANDWRITTEN", 12);break;
+		case LETTER_NAME:memcpy(d, "LETTER:    ", 12);break;
 		case LETTER_DETAIL1:memcpy(d, "THIS IS THE", 12);break;
 		case LETTER_DETAIL2:memcpy(d, "REASON WHY ", 12);break;
 		case LETTER_DETAIL3:memcpy(d, "I HAVE TO G", 12);break;

@@ -289,7 +289,7 @@ void UPDATE(){
                 {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
                     if(dash_floor == 48u){
-                            spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
+                        spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
                     }
                 }
             break;
@@ -447,6 +447,21 @@ void UPDATE(){
             }
         }
     //REACTION DI TILE COLLISION
+        switch(motherpl_coll_x){
+            case 14u:
+            case 17u:
+            case 18u:
+            case 19u:
+                if(motherpl_state == MOTHERPL_DASH){
+                    if(THIS->mirror == NO_MIRROR){
+                        THIS->x++;
+                    }else{
+                        THIS->x--;
+                    }
+                    motherpl_dash_cooldown++;
+                }
+            break;
+        }
         switch(current_state){
             case StateExzoo:
                 switch(motherpl_coll_x){

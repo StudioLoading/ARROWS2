@@ -23,7 +23,7 @@
 #define HORDE_COOLDOWN_MAX 140
 
 IMPORT_MAP(bordercave);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_TILES(hudpltiles);
 IMPORT_MAP(blackieroommap);
@@ -93,7 +93,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 56u); 
         InitScroll(BANK(blackieroommap), &blackieroommap, coll_tiles_blackieroom, coll_surface_blackieroom);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
@@ -173,7 +173,7 @@ void UPDATE(){
                         find_blackie.current_step = 2u;
                     break;
                 }            
-                if(horde_counter < horde_counter_max){
+                if(horde_counter <= horde_counter_max){
                     Sprite* s_snake2 = SpriteManagerAdd(enemy_type, (UINT16) 9u << 3, (UINT16) 52u);
                     if(horde_counter % 2 == 0){
                         struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
@@ -199,6 +199,9 @@ void UPDATE(){
             }
         }else{
             horde_cooldown--;
+            if(horde_cooldown > (HORDE_COOLDOWN_MAX/2)){
+                horde_cooldown = (HORDE_COOLDOWN_MAX/2);
+            }
         }
 
     

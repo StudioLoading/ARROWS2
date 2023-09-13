@@ -32,6 +32,21 @@ extern unsigned char d4[];
 extern unsigned char d5[];
 extern unsigned char d6[];
 extern unsigned char d7[];
+extern unsigned char d8[];
+extern unsigned char d9[];
+extern unsigned char d10[];
+extern unsigned char d11[];
+extern unsigned char d12[];
+extern unsigned char d13[];
+extern unsigned char d14[];
+extern unsigned char d15[];
+extern unsigned char d16[];
+extern unsigned char d17[];
+extern unsigned char d18[];
+extern unsigned char d19[];
+extern unsigned char d20[];
+extern unsigned char d21[];
+extern unsigned char d22[];
 extern WHOSTALKING whostalking;
 extern struct MISSION enable_hospital;
 extern struct MISSION engage_smith;
@@ -44,14 +59,15 @@ extern UINT8 writing_line;
 extern UINT8 n_lines;
 extern Sprite* dialog_cursor;
 extern UINT8 next_page;
+extern UINT8 previous_state;
 
 extern void move_on() BANKED;
-
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void dialog_map() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-
+extern void shift_text_one_line_up() BANKED;
+extern void show_next_character() BANKED;
 
 void START() {
 	//SOUND
@@ -78,11 +94,9 @@ void START() {
 }
 
 void UPDATE() {
-    if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
-        wait_char = 1u;
-    }    
-    if(dialog_ready > 1 && next_page == 0 && KEY_RELEASED(J_JUMP)){
-        move_on();
+    if(KEY_RELEASED(J_UP)){
+        counter_char = 0u;
+        dialog_ready = 0u; 
     }
     if(dialog_ready == 0u){
         PRINT(0, 7, EMPTY_STRING_21);
@@ -92,6 +106,7 @@ void UPDATE() {
         PRINT(0, 11, EMPTY_STRING_21);
         PRINT(0, 12, EMPTY_STRING_21);
         PRINT(0, 13, EMPTY_STRING_21);
+        PRINT(0, 14, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
 		switch(engage_smith.mission_state){
@@ -156,35 +171,19 @@ void UPDATE() {
         dialog_ready = 1u;
     }
     if(dialog_ready == 1u){
+        if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
+            wait_char = 1u;
+        }
         wait_char--;
         if(wait_char == 0u){//mostra lettera successiva
-            unsigned char to_print[2] = " \0";
-            switch(writing_line){
-                case 1u:to_print[0] = d1[counter_char];break;
-                case 2u:to_print[0] = d2[counter_char];break;
-                case 3u:to_print[0] = d3[counter_char];break;
-                case 4u:to_print[0] = d4[counter_char];break;
-                case 5u:to_print[0] = d5[counter_char];break;
-                case 6u:to_print[0] = d6[counter_char];break;
-                case 7u:to_print[0] = d7[counter_char];break;
-            }
-            PRINT(counter_char, 7+writing_line, to_print);
-            wait_char = MAX_WAIT_CHAR;
-            counter_char++;
-            if(counter_char == 21u){
-                counter_char = 0u;
-                writing_line++;
-                if(writing_line > n_lines){
-                    dialog_ready = 2u;
-                }
-            }
+            show_next_character();
         }
     }
     if(dialog_ready == 2u){
         dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
         dialog_ready = 3u;
     }
-    if(dialog_ready == 3u){
+    if(dialog_ready == 3u && (KEY_RELEASED(J_A) || KEY_RELEASED(J_B))){
         if(next_page){
             next_page = 0u;
             dialog_ready = 0u;
@@ -197,6 +196,7 @@ void UPDATE() {
                 }
             break;
         }
+        dialog_ready = 0;
         move_on();
     }
 }

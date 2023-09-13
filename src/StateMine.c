@@ -18,7 +18,7 @@
 #define HORDE 5
 
 IMPORT_MAP(bordermine);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(minetiles);
 IMPORT_MAP(minemap);
 IMPORT_MAP(hudpl);
@@ -89,7 +89,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(minemap), &minemap, coll_tiles_cave, coll_surface_cave);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();

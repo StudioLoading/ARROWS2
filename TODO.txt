@@ -1,5 +1,25 @@
 POST DEMO:
+- tutorial dopo primo ingresso exZoo
+	faccio un counter
+	a seconda del conto mostro un messaggio sul BKG
+	il messaggio mi dice cosa deve esser fatto
+	monitoro il fatto dallo state della motherpl
+	- vai a sinistra
+	- vai a destra
+	- abbassati
+	- salta
+	- spara
+	- spara basso
+	- dasha
+	- surfa!
+	fatto il surf:
+		- messaggio di conclusione
+		- triggero un countdown
+	ripristino l' inventario col suo init
+	ChangeState(Exzoo)
+- inizio del dialogo col nome di whostalking: poi a capo e due spazi vuoti, poi normale
 - cart
+- nella lettera iniziare dovrei dire che Liam è mio figlio
 - se parlo a jack e non ho ancora sconfitto il grab e non ho più frecce perforanti
 	lui me ne da ancora
 - controllare dialoghi fine SKY

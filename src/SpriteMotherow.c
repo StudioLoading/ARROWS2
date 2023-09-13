@@ -132,7 +132,7 @@ void update_position_motherow() BANKED{
 }
 
 void UPDATE(){
-    if(just_started == 0u){
+    if(just_started == 1u){
         new_state = WALK_UP;
         update_position_motherow();
         owChangeState(new_state);
@@ -255,10 +255,13 @@ void ow_check_place() BANKED{//tile collision
             break;
             case 62u:
             case 64u:
-                just_started = 1u;
                 switch(current_map){
                     case 0u:
-                        ChangeState(StateExzoo, THIS, -1);
+                        if(just_started == 1u){
+                            ChangeState(StateTutorial, THIS, 0);
+                        }else{
+                            ChangeState(StateExzoo, THIS, -1);
+                        }
                     break;
                 }
             break;

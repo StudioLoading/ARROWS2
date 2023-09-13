@@ -124,6 +124,25 @@ void missions_init() BANKED{
 			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;//DISABLED
 			get_to_the_mountain.current_step = 0u;
 		break;
+		case 2u:
+			current_map = 1u;
+			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+			find_blackie.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
+			engage_smith.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
+			help_cemetery_woman.current_step = 4u;//0u
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//disabled
+			outwalker_chief.current_step = 5u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_REWARDED;//DISABLED
+			outwalker_glass.current_step = 4u;//0u
+			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
+			outwalker_smith.current_step = 0b00000111;//0u
+			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;//DISABLED
+			get_to_the_mountain.current_step = 0u;
+		break;
 	}
 	missions[0] = &find_blackie;
 	missions[1] = &engage_smith;
@@ -188,7 +207,7 @@ void position_init() BANKED{
 		case 0u:
 			current_map = 0u;
 			motherow_pos_x = (UINT16) 14u << 3;
-			motherow_pos_y = (UINT16) 24u << 3;
+			motherow_pos_y = (UINT16) 26u << 3;
 		break;
 		case 1u:
 			current_map = 1u;
@@ -201,6 +220,13 @@ void position_init() BANKED{
 			motherow_pos_x = (UINT16) 3u << 3;
 			motherow_pos_y = (UINT16) 2u << 3;
 			*/
+		break;
+		case 2u:		
+			current_map = 1u;
+			motherow_pos_x = (UINT16) 6u << 3;//22 MAP0
+			motherow_pos_y = (UINT16) 28u << 3;//21 MAP0
+			motherpl_pos_x = (UINT16) 8u << 3;
+			motherpl_pos_y = (UINT16) 8u << 3;
 		break;
 	}
 }

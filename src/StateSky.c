@@ -16,7 +16,7 @@
 #include "Dialogs.h"
 
 IMPORT_MAP(bordersky);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(skytiles);
 IMPORT_MAP(skymap);
 IMPORT_MAP(hudpl);
@@ -78,7 +78,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(skymap), &skymap, coll_tiles_sky, coll_surface_sky);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();

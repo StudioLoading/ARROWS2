@@ -14,7 +14,7 @@
 #include "sgb_palette.h"
 
 
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_MAP(password);
 IMPORT_MAP(borderdiary);
 
@@ -84,7 +84,7 @@ void START(){
 
     //MAP
         InitScroll(BANK(password), &password, coll_tiles_password, 0);
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
     //VAR INIT
         cur_posi = 0u;
         cur_posx[0] = 24u;
@@ -140,17 +140,17 @@ void load_chapter() BANKED{
     missions_init();
     inventory_init();
     position_init();
-    just_started = 1u;
+    just_started = 0u;
     switch(chapter){
         case 0:
-            just_started = 0;
+            just_started = 1;
             previous_state = StateOverworld;
             whostalking = INTRO;
             //LOAD_SGB_BORDER(borderdiary);
             ChangeStateThroughBetween(StateDialog, StateTitlescreen);
         break;
         case 1:
-            //ChangeStateThroughBetween(StateOverworld, StatePassword);
+            ChangeStateThroughBetween(StateOverworld, StatePassword);
         break;
         case 2:
             ChangeStateThroughBetween(StateCart, StatePassword);

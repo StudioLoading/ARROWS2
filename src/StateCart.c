@@ -16,9 +16,10 @@
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercart);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(minetiles);
 IMPORT_MAP(cartmap);
+IMPORT_MAP(cartmap2);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -47,6 +48,7 @@ extern UINT8 current_map;
 extern Sprite* s_surf;
 extern UINT8 tiles_anim_interval;
 extern UINT8 timeout_cavesand;
+extern struct MISSION get_to_the_mountain;
 
 const UINT8 coll_tiles_cart[] = { 1u, 7u, 3u, 12u, 14u, 17u, 18u, 19u, 21u, 22u, 27u, 28u, 32u, 36u, 40u, 44u, 
 56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 93u, 94u,
@@ -62,6 +64,8 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 extern UINT16 test_counter;
 
+UINT8 current_cart_map = 0;
+
 void START(){
     LOAD_SGB_BORDER(bordercart);
     //SOUND
@@ -75,9 +79,13 @@ void START(){
         s_motherpl = SpriteManagerAdd(SpriteCart, (UINT16) 2u << 3, (UINT16) 2u << 3);
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y - 16u); 
-        InitScroll(BANK(cartmap), &cartmap, coll_tiles_cart, coll_surface_cart);    
+        if(current_cart_map == 0){
+            InitScroll(BANK(cartmap), &cartmap, coll_tiles_cart, coll_surface_cart);    
+        }else{
+            InitScroll(BANK(cartmap2), &cartmap2, coll_tiles_cart, coll_surface_cart);    
+        }        
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
@@ -91,6 +99,7 @@ void START(){
     test_counter = 0u;
     tiles_anim_interval = 0u;
     timeout_cavesand = 0u;
+    current_cart_map++;
 }
 
 void UPDATE(){
@@ -131,6 +140,14 @@ void UPDATE(){
         //update_camera_position();
         scroll_target->x = s_motherpl->x + 60u;
         scroll_target->y = s_motherpl->y + 32u;
+        if(s_motherpl->x > ((mapwidth-2) << 3)){
+            if(current_cart_map == 1){//go to second cart map
+                ChangeState(StateCart, s_motherpl, 1);
+            }else{
+                get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
+                ChangeState(StateOverworld, s_motherpl, 1);
+            }
+        }
     //FALLING SAND
         {
             timeout_cavesand--;

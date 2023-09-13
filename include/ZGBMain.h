@@ -11,6 +11,7 @@
 #define STATES \
 _STATE(StateFittizio)\
 _STATE(StateTitlescreen)\
+_STATE(StateTutorial)\
 _STATE(StateInbetween)\
 _STATE(StateCredit)\
 _STATE(StateBonus)\

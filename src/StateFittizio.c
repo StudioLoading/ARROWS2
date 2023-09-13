@@ -78,7 +78,7 @@ UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
-UINT8 just_started = 0u;
+UINT8 just_started = 1u;
 UINT8 logtimeout = 10u;
 UINT8 ow_pusha_hp = 0u;
 
@@ -144,7 +144,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         break;
         case StateOverworld:
         	StopMusic;
-            if(just_started > 0){
+            if(just_started == 0){
                 switch(current_map){
                     case 0u:PlayMusic(_03_ow2_noch2, 1);break;
                     case 1u:PlayMusic(bgm_ow, 1);break;
@@ -282,7 +282,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             HIDE_WIN;
             SetWindowY(160);
         }
-        if(just_started == 0){
+        if(just_started == 1){
             motherow_pos_x = ((UINT16) 14u << 3) + 4u;
             motherow_pos_y = (UINT16) 23u << 3;
         }
@@ -309,7 +309,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
 void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
         case StateCart:
-            set_sgb_palette01_worldmap_maze();
+            set_sgb_palette01_cart();
             set_sgb_palette_statusbar();
         break;
         case StateBosscrab:

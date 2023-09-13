@@ -17,7 +17,7 @@
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercave);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_TILES(hudpltiles);
 IMPORT_MAP(blackiecavemap);
@@ -90,7 +90,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(blackiecavemap), &blackiecavemap, coll_tiles_blackiecave, coll_surface_blackiecave);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();

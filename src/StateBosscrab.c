@@ -17,7 +17,7 @@
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercrab);
-IMPORT_TILES(fontbw);
+IMPORT_TILES(font);
 IMPORT_TILES(bosscrabtiles);
 IMPORT_TILES(hudpltiles);
 IMPORT_MAP(bosscrabmap);
@@ -85,7 +85,7 @@ void START(){
         InitScroll(BANK(bosscrabmap), &bosscrabmap, coll_tiles_crab, coll_surface_crab); 
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 88u, (UINT16) 120u);    
     //HUD
-        INIT_FONT(fontbw, PRINT_BKG);
+        INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
