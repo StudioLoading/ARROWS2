@@ -143,7 +143,7 @@ void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED{
 void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 	switch(whostalking){
 		case INTRO:
-			*n_lines = 17u;
+			*n_lines = 18u;
 			memcpy(d1, "'DESSA YOU WITCH!   \0", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "DO YOU THINK HELPING\0", 22);
@@ -156,11 +156,12 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, "UPON HUMANS UNLESS  \0", 22);
 			memcpy(d11, "WE JOIN OUR FORCES! \0", 22);
 			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "LIAM IS HERE WITH ME\0", 22);
-			memcpy(d14, "I'M TRAINING HIM!   \0", 22);
-			memcpy(d15, EMPTY_STRING_21, 22);
-			memcpy(d16, "GET YOUR ASS TO THE \0", 22);
-			memcpy(d17, "NORTHERN ISLE!      \0", 22);
+			memcpy(d13, "YOUR SON LIAM IS    \0", 22 );
+			memcpy(d14, "WITH ME, TRAINING   \0", 22);
+			memcpy(d15, "FOR THE BATTLE.     \0", 22);
+			memcpy(d16, EMPTY_STRING_21, 22);
+			memcpy(d17, "GET YOUR ASS TO THE \0", 22);
+			memcpy(d18, "NORTHERN ISLE!      \0", 22);
 		break;
 		case EXZOO_WOMAN1:
 			*n_lines = 3u;

@@ -140,10 +140,10 @@ void load_chapter() BANKED{
     missions_init();
     inventory_init();
     position_init();
-    just_started = 0u;
+    //just_started = 0u;
     switch(chapter){
         case 0:
-            just_started = 1;
+            //just_started = 1;
             previous_state = StateOverworld;
             whostalking = INTRO;
             //LOAD_SGB_BORDER(borderdiary);

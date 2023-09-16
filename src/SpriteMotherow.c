@@ -259,6 +259,7 @@ void ow_check_place() BANKED{//tile collision
                     case 0u:
                         if(just_started == 1u){
                             ChangeState(StateTutorial, THIS, 0);
+                            just_started = 0;
                         }else{
                             ChangeState(StateExzoo, THIS, -1);
                         }

@@ -196,7 +196,7 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
     }
 }
 
-void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{            
+void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     manage_bgm(new_state, previous_state, next_map);
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
@@ -294,7 +294,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(sgb_check()){
             check_sgb_palette(new_state);
         }
-    previous_state = current_state;
+    if(previous_state != current_state){
+        previous_state = current_state;
+    }
     /*if(motherpl_state == MOTHERPL_DEAD){
         ChangeStateThroughBetween(new_state, previous_state);
     }else 
