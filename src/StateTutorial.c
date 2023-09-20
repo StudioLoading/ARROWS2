@@ -128,7 +128,7 @@ void UPDATE(){
                 show_current_step_instructions();
             }
             if(tutorial_counter == 1u){
-                inv_cursor = SpriteManagerAdd(SpriteInvcursor, 142u, (UINT16)104u);
+                inv_cursor = SpriteManagerAdd(SpriteStartbtn, 136u, (UINT16)100u);
             }
         }else{//tutorial_counter == 0
             if(KEY_PRESSED(J_START)){

@@ -99,7 +99,7 @@ extern void invselectitem(INT8 max_idx) BANKED;
 extern void fixInvcursor(INT8 max_idx) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
+extern void spawnItem(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -289,7 +289,7 @@ void UPDATE(){
                 {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
                     if(dash_floor == 48u){
-                        spawn_item(INVITEM_POWDER, THIS->x, THIS->y);
+                        spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
                     }
                 }
             break;
@@ -554,6 +554,7 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteBigstone:
                     case SpriteBolt:
+                    case SpriteBosscrab:
                         {
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
@@ -748,8 +749,10 @@ void shoot(){
         case INVITEM_ARROW_NORMAL:
         case INVITEM_ARROW_PERFO:
         case INVITEM_ARROW_BASTARD:
-            itemEquipped.quantity--;
-            UpdateHUD();
+            if(current_state != StateTutorial){
+                itemEquipped.quantity--;
+                UpdateHUD();
+            }
             UINT16 arrowix = THIS->x - 2u;
             if(THIS->mirror == NO_MIRROR){
                 arrowix += 8u;
@@ -781,7 +784,9 @@ void shoot(){
                 arrow_data->vx = -arrow_vx;
             }
             arrow_data->configured = 1u;
-            change_quantity(itemEquipped.itemtype, -1);
+            if(current_state != StateTutorial){
+                change_quantity(itemEquipped.itemtype, -1);
+            }
         break;
     }
     refreshAnimation();

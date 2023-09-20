@@ -1,9 +1,13 @@
 #include "Banks/SetAutoBank.h"
 
-#include "ZGBMain.h"
+#include "main.h"
+
 #include "Keys.h"
-#include "SpriteManager.h"
+#include "Palette.h"
+#include "ZGBMain.h"
 #include "Scroll.h"
+#include "Sprite.h"
+#include "SpriteManager.h"
 #include "Sound.h"
 
 #include "custom_datas.h"
@@ -44,6 +48,8 @@ UINT8 cart_frmskip_x_max = 0;
 UINT8 cooldown_augment_gravity = 40u;
 UINT8 cart_h_collision = 0u;
 Sprite* elevator;
+extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
+
 /*
 struct EnemyData{
 	INT8 hp;
@@ -77,13 +83,18 @@ void START() {
     //last_v_coll_tile = 0u;
     cooldown_augment_gravity = 40u;
     cart_h_collision = 0u;
+    if(_cpu != CGB_TYPE){
+        //jump_max_power = GRAVITY*9;
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void cart_turn_left() BANKED{
     if(cart_vx != -2){
         camera_ok = 0;
         cart_vx = -4;
-        THIS->mirror = V_MIRROR;
+        //THIS->mirror = V_MIRROR;
         change_cart_state(MOTHERPL_WALK);
     }
 }
@@ -284,6 +295,13 @@ void UPDATE() {
                                 THIS->x = cart_s_spr->x + 2;
                                 THIS->y = cart_s_spr->y - 4;
                             }
+                        }
+                    break;
+                    case SpriteItemspawned:
+                        {   
+                            struct ItemSpawned* picking_up_data = (struct ItemSpawned*) cart_s_spr->custom_data;
+                            pickup(picking_up_data);
+                            SpriteManagerRemoveSprite(cart_s_spr);
                         }
                     break;
                 }

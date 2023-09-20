@@ -79,7 +79,7 @@ void dialog_map() BANKED{
 			case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
 			case StateOverworld:
 				if(whostalking == INTRO){
-					set_banked_bkg_data(0, 101u, &dialogmapintro, BANK(dialogmapintro));
+					set_banked_bkg_data(1, 100u, &dialogmapintro, BANK(dialogmapintro));
 				}
 			break;
 		}

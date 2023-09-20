@@ -61,10 +61,14 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 
 extern UINT16 test_counter;
 
 UINT8 current_cart_map = 0;
+UINT8 items_map0 = 10;
+UINT8 items_counter = 0u;
+UINT8 items_map1 = 10;
 
 void START(){
     LOAD_SGB_BORDER(bordercart);
@@ -100,13 +104,10 @@ void START(){
     tiles_anim_interval = 0u;
     timeout_cavesand = 0u;
     current_cart_map++;
+    items_counter = 0u;
 }
 
 void UPDATE(){
-    //TEST PURPOSE REMOVEME
-        if(KEY_PRESSED(J_START) && KEY_PRESSED(J_DOWN)){
-            SetState(StateCart);
-        }
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
@@ -173,6 +174,51 @@ void UPDATE(){
                 break;
             }
         }
+    //SPAWNING ITEMS
+        switch(current_cart_map){
+            case 1u:
+                if(s_motherpl->x > ((UINT16) 6u << 3) && s_motherpl->x < ((UINT16) 10u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_METAL, ((UINT16) 18u << 3), ((UINT16) 8u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 23u << 3) && s_motherpl->x < ((UINT16) 26u << 3) && items_counter == 1){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 31u << 3), ((UINT16) 8u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 34u << 3) && s_motherpl->x < ((UINT16) 41u << 3) && items_counter == 2){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 49u << 3), ((UINT16) 13u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 50u << 3) && s_motherpl->x < ((UINT16) 54u << 3) && items_counter == 3){
+                    spawnItem(INVITEM_METAL, ((UINT16) 62u << 3), ((UINT16) 13u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 66u << 3) && s_motherpl->x < ((UINT16) 70u << 3) && items_counter == 3){
+                    spawnItem(INVITEM_METAL, ((UINT16) 78u << 3), ((UINT16) 14u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 66u << 3) && s_motherpl->x < ((UINT16) 70u << 3) && items_counter == 3){
+                    spawnItem(INVITEM_METAL, ((UINT16) 78u << 3), ((UINT16) 14u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 160u << 3) && s_motherpl->x < ((UINT16) 164u << 3) && items_counter == 3){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 172u << 3), ((UINT16) 14u << 3));
+                    items_counter++;
+                }
+            break;
+            case 2u:
+                if(s_motherpl->x > ((UINT16) 122u << 3) && s_motherpl->x < ((UINT16) 126u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_METAL, ((UINT16) 132u << 3), ((UINT16) 16u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 130u << 3) && s_motherpl->x < ((UINT16) 132u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 140u << 3), ((UINT16) 14u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 145u << 3) && s_motherpl->x < ((UINT16) 152u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_METAL, ((UINT16) 160u << 3), ((UINT16) 20u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 155u << 3) && s_motherpl->x < ((UINT16) 162u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 170u << 3), ((UINT16) 20u << 3));
+                    items_counter++;
+                }else if(s_motherpl->x > ((UINT16) 165u << 3) && s_motherpl->x < ((UINT16) 172u << 3) && items_counter == 0){
+                    spawnItem(INVITEM_WOOD, ((UINT16) 180u << 3), ((UINT16) 20u << 3));
+                    items_counter++;
+                }
+            break;
+        }
     //BOLTS
         /*
         if(enemy_counter < 2 && s_motherpl->y > 40){
@@ -212,4 +258,3 @@ void UPDATE(){
     
     Log(NONAME);
 }
-

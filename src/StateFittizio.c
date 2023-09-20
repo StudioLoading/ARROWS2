@@ -89,7 +89,6 @@ void update_camera_position_ow() BANKED;
 void camera_tramble() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
-void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
@@ -294,9 +293,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(sgb_check()){
             check_sgb_palette(new_state);
         }
-    if(previous_state != current_state){
-        previous_state = current_state;
+    //if(previous_state != current_state && previous_state != StateTutorial){
+    previous_state = current_state;
+    if(previous_state == StateTutorial){
+        previous_state = StateExzoo;
     }
+    //}
     /*if(motherpl_state == MOTHERPL_DEAD){
         ChangeStateThroughBetween(new_state, previous_state);
     }else 
@@ -652,21 +654,6 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     head_data->configured = 1u;
     body_data->configured = 1u;
 }
-
-void spawn_item(INVITEMTYPE itemtype, UINT16 x, UINT16 y) BANKED{
-    //SPAWN ITEM
-    if(item_spawned_cooldown == 0u && mine_powderspawned){
-        mine_powderspawned--;
-        Sprite* reward = SpriteManagerAdd(SpriteItemspawned, x, y);
-        struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
-        reward_data->itemtype = itemtype;
-        reward_data->quantity = 1;
-        reward_data->equippable = 0u;
-        reward_data->configured = 1u;
-        item_spawned_cooldown = 255u;
-    }
-}
-
 
 void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED{
 /*	if(on_off == 0u){//spegni

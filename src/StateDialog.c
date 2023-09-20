@@ -27,6 +27,7 @@ extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
+extern unsigned char d0[];
 extern unsigned char d1[];
 extern unsigned char d2[];
 extern unsigned char d3[];
@@ -126,6 +127,7 @@ void UPDATE() {
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
         dialog_ready = 1u;
+        PRINT(0, 7, d0);
     }
     if(dialog_ready == 1u){
         if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
@@ -220,7 +222,7 @@ void shift_text_one_line_up() BANKED{
                 Sprite* up_cursor = SpriteManagerAdd(SpriteInvcursor, 18u << 3, 7u << 3);
                 up_cursor->mirror = H_MIRROR;
             }
-            PRINT(0, 7, d1);
+            //PRINT(0, 7, d1);
             PRINT(0, 8, d2);
             PRINT(0, 9, d3);
             PRINT(0, 10, d4);
@@ -229,7 +231,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d7);
         break;
         case 9u:
-            PRINT(0, 7, d2);
+            //PRINT(0, 7, d2);
             PRINT(0, 8, d3);
             PRINT(0, 9, d4);
             PRINT(0, 10, d5);
@@ -238,7 +240,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d8);
         break;
         case 10u:
-            PRINT(0, 7, d3);
+            //PRINT(0, 7, d3);
             PRINT(0, 8, d4);
             PRINT(0, 9, d5);
             PRINT(0, 10, d6);
@@ -247,7 +249,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d9);
         break;
         case 11u:
-            PRINT(0, 7, d4);
+            //PRINT(0, 7, d4);
             PRINT(0, 8, d5);
             PRINT(0, 9, d6);
             PRINT(0, 10, d7);
@@ -256,7 +258,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d10);
         break;
         case 12u:
-            PRINT(0, 7, d5);
+            //PRINT(0, 7, d5);
             PRINT(0, 8, d6);
             PRINT(0, 9, d7);
             PRINT(0, 10, d8);
@@ -265,7 +267,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d11);
         break;
         case 13u:
-            PRINT(0, 7, d6);
+            //PRINT(0, 7, d6);
             PRINT(0, 8, d7);
             PRINT(0, 9, d8);
             PRINT(0, 10, d9);
@@ -274,7 +276,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d12);
         break;
         case 14u:
-            PRINT(0, 7, d7);
+            //PRINT(0, 7, d7);
             PRINT(0, 8, d8);
             PRINT(0, 9, d9);
             PRINT(0, 10, d10);
@@ -283,7 +285,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d13);
         break;
         case 15u:
-            PRINT(0, 7, d8);
+            //PRINT(0, 7, d8);
             PRINT(0, 8, d9);
             PRINT(0, 9, d10);
             PRINT(0, 10, d11);
@@ -292,7 +294,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d14);
         break;
         case 16u:
-            PRINT(0, 7, d9);
+            //PRINT(0, 7, d9);
             PRINT(0, 8, d10);
             PRINT(0, 9, d11);
             PRINT(0, 10, d12);
@@ -301,7 +303,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d15);
         break;
         case 17u:
-            PRINT(0, 7, d10);
+            //PRINT(0, 7, d10);
             PRINT(0, 8, d11);
             PRINT(0, 9, d12);
             PRINT(0, 10, d13);
@@ -310,7 +312,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d16);
         break;
         case 18u:
-            PRINT(0, 7, d11);
+            //PRINT(0, 7, d11);
             PRINT(0, 8, d12);
             PRINT(0, 9, d13);
             PRINT(0, 10, d14);
@@ -319,7 +321,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d17);
         break;
         case 19u:
-            PRINT(0, 7, d12);
+            //PRINT(0, 7, d12);
             PRINT(0, 8, d13);
             PRINT(0, 9, d14);
             PRINT(0, 10, d15);
@@ -328,7 +330,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d18);
         break;
         case 20u:
-            PRINT(0, 7, d13);
+            //PRINT(0, 7, d13);
             PRINT(0, 8, d14);
             PRINT(0, 9, d15);
             PRINT(0, 10, d16);
@@ -337,7 +339,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d19);
         break;
         case 21u:
-            PRINT(0, 7, d14);
+            //PRINT(0, 7, d14);
             PRINT(0, 8, d15);
             PRINT(0, 9, d16);
             PRINT(0, 10, d17);
@@ -346,7 +348,7 @@ void shift_text_one_line_up() BANKED{
             PRINT(0, 13, d20);
         break;
         case 22u:
-            PRINT(0, 7, d15);
+            //PRINT(0, 7, d15);
             PRINT(0, 8, d16);
             PRINT(0, 9, d17);
             PRINT(0, 10, d18);

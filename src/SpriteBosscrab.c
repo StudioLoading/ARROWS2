@@ -39,7 +39,7 @@ void START(){
         crab_data = (struct EnemyData*)THIS->custom_data;
         crab_data->configured = 2;
         crab_data->vx = 1;
-        crab_data->hp = 1;//6;
+        crab_data->hp = 6;//6;
         crab_data->x_frameskip = 2;
         crab_jump_power = 0u;
         crab_change_state(ENEMY_IDLE);

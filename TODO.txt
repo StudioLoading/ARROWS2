@@ -1,29 +1,7 @@
 POST DEMO:
-- tutorial dopo primo ingresso exZoo
-	faccio un counter
-	a seconda del conto mostro un messaggio sul BKG
-	il messaggio mi dice cosa deve esser fatto
-	monitoro il fatto dallo state della motherpl
-	- vai a sinistra
-	- vai a destra
-	- abbassati
-	- salta
-	- spara
-	- spara basso
-	- dasha
-	- surfa!
-	fatto il surf:
-		- messaggio di conclusione
-		- triggero un countdown
-	ripristino l' inventario col suo init
-	ChangeState(Exzoo)
-- inizio del dialogo col nome di whostalking: poi a capo e due spazi vuoti, poi normale
-- cart
-- nella lettera iniziare dovrei dire che Liam è mio figlio
-- se parlo a jack e non ho ancora sconfitto il grab e non ho più frecce perforanti
-	lui me ne da ancora
-- controllare dialoghi fine SKY
-- grab non colpisce motherpl, devo fare la hit testando così veramente la hitBox del grab
+- crab 
+	- crab non subisce arrows bastarde?
+	- se dasho dovrei rimbalzare (nuovo codice) o va bene che lo sorpasso senza conseguenze?
 - uscita dei nemici dallo schermo quando eliminat col balzello 
 	all' indietro senza il translate a parabola fino a fuori lo schermo
 - che il riccio si fermi e tremi quando è chiuso e riceve freccia

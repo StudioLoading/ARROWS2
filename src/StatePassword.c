@@ -143,16 +143,17 @@ void load_chapter() BANKED{
     //just_started = 0u;
     switch(chapter){
         case 0:
-            //just_started = 1;
             previous_state = StateOverworld;
             whostalking = INTRO;
             //LOAD_SGB_BORDER(borderdiary);
             ChangeStateThroughBetween(StateDialog, StateTitlescreen);
         break;
         case 1:
+            just_started = 0;
             ChangeStateThroughBetween(StateOverworld, StatePassword);
         break;
         case 2:
+            just_started = 0;
             ChangeStateThroughBetween(StateCart, StatePassword);
         break;
     }
