@@ -81,6 +81,9 @@ unsigned char dbg1[50];
 UINT8 just_started = 1u;
 UINT8 logtimeout = 10u;
 UINT8 ow_pusha_hp = 0u;
+UINT8 itemspawned_powder_max = 0;
+UINT8 itemspawned_powder_counter = 0;
+UINT8 enemy_wave = 0;
 
 void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
@@ -91,7 +94,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
-void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 void check_sgb_palette(UINT8 new_state) BANKED;
@@ -653,47 +655,6 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     body_data->npcname = npcname;
     head_data->configured = 1u;
     body_data->configured = 1u;
-}
-
-void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED{
-/*	if(on_off == 0u){//spegni
-        UINT8 i = 0u;
-        for(i = 0u; i<nchar; i++){
-            PRINT(x-i, y, " ");
-        }
-        dialog_bg_charcounter = 0u;
-        dialog_bg_cooldown = 32u;
-        dialog_bg_activated = 0u;
-        return;
-    }else if(on_off == 1 && dialog_bg_activated == 0u){
-        dialog_bg_activated = 1u;
-    }
-    if(dialog_bg_activated == 1u){
-        if(dialog_bg_cooldown > 0){
-            dialog_bg_cooldown--;
-        }else{
-            memcpy(dbg1, "HORDE!A12\0", 10);
-            print_target = PRINT_BKG;
-            if(dialog_bg_charcounter == 0u){
-                UINT8 i = 0u;
-                for(i = 0u; i<nchar; i++){
-                    PRINT(x-i, y, dbg1[dialog_bg_charcounter+(nchar-i)]);
-                }
-            }else if(dialog_bg_charcounter >= nchar){//SHIFTING
-                dialog_bg_cooldown = 32u;
-                UINT8 i = 0u;
-                for(i = 0u; i<nchar; i++){
-                    UINT8 yx = 0u;
-                        for(yx = 0u; i<nchar; i++){
-                    
-                    PRINT(x-i, y, " ");
-                }
-                PRINT(x, y, dbg1[dialog_bg_charcounter]);
-            }
-            dialog_bg_charcounter++;
-        }
-
-    }*/
 }
 
 void START(){}

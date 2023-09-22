@@ -39,6 +39,7 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
+extern UINT8 powder_cooldown;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -288,7 +289,8 @@ void UPDATE(){
                 }
                 {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
-                    if(dash_floor == 48u){
+                    if(dash_floor == 48u && current_state == StateMine && powder_cooldown == 0){
+                        powder_cooldown = 60u;
                         spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
                     }
                 }
@@ -670,17 +672,17 @@ void UPDATE(){
 void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
     if(npcname == OUTWALKER_SIMON){
         if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
-            THIS->x -= 6u;
+            THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, THIS);
         }else if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
-            THIS->x -= 6u;
+            THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_NOGLASS, THIS);
         }else if(outwalker_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
-            THIS->x -= 6u;
+            THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_NOSMITH, THIS);
         }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
             get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
-            THIS->x -= 6u;
+            THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_OK, THIS);
             change_quantity(INVITEM_BOX, -1);
         }
@@ -847,8 +849,13 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);//SFX_HIT
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
-                if(THIS->mirror == NO_MIRROR){THIS->x-=6;}
-                else{THIS->x+=6;}
+                if(THIS->mirror == NO_MIRROR){    
+                    SpriteManagerAdd(SpriteMotherplhit, THIS->x + 2, THIS->y + 4);
+                    THIS->x-=6;
+                }else{
+                    SpriteManagerAdd(SpriteMotherplhit, THIS->x - 4, THIS->y + 4);
+                    THIS->x+=6;
+                }
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
                 if(motherpl_hp > 0){
                     SetSpriteAnim(THIS, motherpl_anim_hit, 32u);

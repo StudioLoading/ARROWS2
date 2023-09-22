@@ -34,7 +34,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case EMPTY_STRING:memcpy(d, "                  ", 18);break;
 		case MISSIONI_IN_CORSO:memcpy(d, "IN PROGRESS", 18);break;
 		case MISSIONI_COMPLETATE:memcpy(d, "COMPLETED  ", 18);break;
-		case FIND_BLACKIE_TITLE:memcpy(d, "FIND BLACKIE   ", 16);break;
+		case FIND_BLACKIE_TITLE:memcpy(d, "FIND BLACKIE    ", 16);break;
 		case FIND_BLACKIE_D0:memcpy(d, "I NEED THE HELP OF ", 20);break;
 		case FIND_BLACKIE_D1:memcpy(d, "THE BLACK WOLF.    ", 20);break;
 		case FIND_BLACKIE_D2:memcpy(d, "SHOULD START GOING ", 20);break;
@@ -62,5 +62,29 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case WIDOW_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
 		case WIDOW_D4:memcpy(d, "GOTTA BRING THE KID", 20);break;
 		case WIDOW_D5:memcpy(d, "BACK TO THE VILLAGE", 20);break;
+		case OUTWALKER_CHIEF_TITLE:memcpy(d, "WHO'S IN CHARGE?     ", 16);break;
+		case CHIEF_D0:memcpy(d, "THE ANSWER'S AT THE", 20);break;
+		case CHIEF_D1:memcpy(d, "EXIT OF THE MAZE   ", 20);break;
+		case CHIEF_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
+		case CHIEF_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
+		case CHIEF_D4:memcpy(d, "LEGO IS THE CHIEF! ", 20);break;
+		case CHIEF_D5:memcpy(d, "                   ", 20);break;
+		case OUTWALKER_GLASS_TITLE:memcpy(d, "GLASSES FOR JACK     ", 16);break;
+		case GLASS_D0:memcpy(d, "FIGHT THE CRAB AT  ", 20);break;
+		case GLASS_D1:memcpy(d, "THE NORTHERN BEACH ", 20);break;
+		case GLASS_D2:memcpy(d, "BRING THE GLASS TO ", 20);break;
+		case GLASS_D3:memcpy(d, "JACK THE OUTWALKER ", 20);break;
+		case GLASS_D4:memcpy(d, "JACK IS NOW ABLE TO", 20);break;
+		case GLASS_D5:memcpy(d, "SEE WELL AGAIN     ", 20);break;
+		case OUTWALKER_SMITH_TITLE:memcpy(d, "FLOWERS FOR JOHN     ", 16);break;
+		case SMITH_D0:memcpy(d, "SEARCH FLOWERS FOR ", 20);break;
+		case SMITH_D1:memcpy(d, "JOHN               ", 20);break;
+		case SMITH_D2:memcpy(d, "BRING THE FLOWERS  ", 20);break;
+		case SMITH_D3:memcpy(d, "TO JOHN            ", 20);break;
+		case GET_TO_THE_MOUNTAIN_TITLE:memcpy(d, "LORD OF THUNDERS ", 16);break;
+		case MOUNTAIN_D0:memcpy(d, "TALK TO THE WIDOW  ", 20);break;
+		case MOUNTAIN_D1:memcpy(d, "AT THE CEMETERY    ", 20);break;
+		case MOUNTAIN_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
+		case MOUNTAIN_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
 	}	
 }

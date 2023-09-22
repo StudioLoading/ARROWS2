@@ -74,6 +74,8 @@ void START(){
     //SPRITES SPAWNING 
         HIDE_WIN;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);
+        struct ItemSpawned* invcursor_data = (struct ItemSpawned*)inv_cursor->custom_data;
+        invcursor_data->configured = 1;
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);    
         invcursor_old_posi = invcursor_posi;
         inv_cursor->x = invcursor_posx[invcursor_old_posi];

@@ -18,7 +18,7 @@
 #include "DiaryDialogs.h"
 
 IMPORT_MAP(borderdiary);
-IMPORT_TILES(font);
+IMPORT_TILES(fontbw);
 IMPORT_MAP(diarym);
 
 extern UINT8 J_JUMP;
@@ -51,6 +51,10 @@ extern struct MISSION find_blackie;
 extern struct MISSION enable_hospital;
 extern struct MISSION engage_smith;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION outwalker_chief;
+extern struct MISSION outwalker_glass;
+extern struct MISSION outwalker_smith;
+extern struct MISSION get_to_the_mountain;
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
@@ -87,7 +91,7 @@ void START(){
         diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
         InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 9u << 3);
-        INIT_FONT(font, PRINT_BKG);
+        INIT_FONT(fontbw, PRINT_BKG);
         SHOW_BKG;
     //INIT VARS
         cursor_old_posi = cursor_posi;
@@ -234,6 +238,44 @@ void show_detail(){
                         }
                     }
                 break;
+                case 1u:
+                    if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(CHIEF_D0, dd2);
+                        GetLocalizedDDLabel_EN(CHIEF_D1, dd3);
+                        if(outwalker_chief.current_step >= 2u){
+                            GetLocalizedDDLabel_EN(CHIEF_D2, dd4);
+                            GetLocalizedDDLabel_EN(CHIEF_D3, dd5);
+                            if(outwalker_chief.current_step >= 3u){
+                                GetLocalizedDDLabel_EN(CHIEF_D4, dd6);
+                                GetLocalizedDDLabel_EN(CHIEF_D5, dd7);
+                            }   
+                        }
+                    }
+                break;
+                case 2u:
+                    if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(GLASS_D0, dd2);
+                        GetLocalizedDDLabel_EN(GLASS_D1, dd3);
+                        if(outwalker_glass.current_step >= 2u){
+                            GetLocalizedDDLabel_EN(GLASS_D2, dd4);
+                            GetLocalizedDDLabel_EN(GLASS_D3, dd5);
+                            if(outwalker_glass.current_step == 4u){
+                                GetLocalizedDDLabel_EN(GLASS_D4, dd6);
+                                GetLocalizedDDLabel_EN(GLASS_D5, dd7);
+                            }   
+                        }
+                    }
+                break;
+                case 3u:
+                    if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(SMITH_D0, dd2);
+                        GetLocalizedDDLabel_EN(SMITH_D1, dd3);
+                        if(outwalker_smith.current_step == 0b00001111){
+                            GetLocalizedDDLabel_EN(SMITH_D2, dd4);
+                            GetLocalizedDDLabel_EN(SMITH_D3, dd5);
+                        }
+                    }
+                break;
             }
         break;
     }
@@ -263,8 +305,21 @@ void show_missions(){
             }
         break;
         case 1u:
-            if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, m0);
+            if(get_to_the_mountain.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(GET_TO_THE_MOUNTAIN_TITLE, m0);
+            }else{
+                if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
+                    GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, m0);
+                }
+                if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
+                    GetLocalizedDDLabel_EN(OUTWALKER_CHIEF_TITLE, m1);
+                }
+                if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
+                    GetLocalizedDDLabel_EN(OUTWALKER_GLASS_TITLE, m2);
+                }
+                if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
+                    GetLocalizedDDLabel_EN(OUTWALKER_SMITH_TITLE, m3);
+                }
             }
         break;
     }

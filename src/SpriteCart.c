@@ -127,13 +127,6 @@ void cart_behave() BANKED{
         case ENEMY_SLIDE_DOWN:
             THIS->y += cart_delta_y;
         break;
-        case MOTHERPL_HIT:
-            cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
-            cart_data->wait--;
-            if(cart_data->wait == 0){
-                change_cart_state(MOTHERPL_WALK);
-            }
-        break;
         case MOTHERPL_WALK:
             cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
             if(cart_data->et_collision == 0){

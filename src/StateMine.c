@@ -43,6 +43,8 @@ extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
 extern struct MISSION outwalker_smith;
+extern UINT8 powder_cooldown;
+extern UINT8 itemspawned_powder_max;
 
 const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 35u, 52u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
@@ -50,7 +52,7 @@ const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
 UINT8 tiles_anim_interval = 0u;
 UINT16 timeout_enemy = 10u;
 UINT8 timeout_cavesand = 0u;
-UINT8 enemy_wave = 0u;
+extern UINT8 enemy_wave;
 Sprite* s_superstone = 0;
 UINT8 superstone_spawned = 0u;
 
@@ -102,10 +104,14 @@ void START(){
         superstone_spawned = 0u;
     }
     tiles_anim_interval = 0u;
-	SHOW_SPRITES;
+    powder_cooldown = 60u;
+    itemspawned_powder_max = 4;
+    SHOW_SPRITES;
 }
 
 void UPDATE(){
+    //COOLDOWNS
+        if(powder_cooldown > 0){powder_cooldown--;}
     //SPAWNING ITEM COOLDOWN
         if(item_spawned_cooldown > 0u){
             item_spawned_cooldown--;

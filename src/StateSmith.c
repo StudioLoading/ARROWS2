@@ -181,6 +181,8 @@ void UPDATE() {
     }
     if(dialog_ready == 2u){
         dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
+        struct ItemSpawned* dialogcursor_data = (struct ItemSpawned*)dialog_cursor->custom_data;
+        dialogcursor_data->configured = 2;
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u && (KEY_RELEASED(J_A) || KEY_RELEASED(J_B))){

@@ -34,7 +34,6 @@ void START(){
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	NR50_REG = 0x77; //Max volume 0x77
-    SpriteManagerLoad(SpriteInvcursor);
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
     InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);

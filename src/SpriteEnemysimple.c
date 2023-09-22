@@ -10,7 +10,7 @@
 
 #include "custom_datas.h"
 
-#define E_GRAVITY 4
+#define E_GRAVITY 1
 #define E_VX 1
 #define E_FRAMSKIP_SNAKE 3
 #define E_FRAMSKIP_RAT 1
@@ -89,6 +89,16 @@ void Emanagement() BANKED{
         UINT8 e_v_coll = TranslateSprite(THIS, 0, E_GRAVITY << delta_time);
     //EhorizontalTileCollision(eu_info);
         if(eu_info->x_frameskip == 0 && 
+            (eu_info->e_state == ENEMY_HIT_1 ||
+            eu_info->e_state == ENEMY_HIT_2 ||
+            eu_info->e_state == ENEMY_DEAD)){
+                INT8 hit_vx = -1;
+                if(THIS->mirror != NO_MIRROR){
+                    hit_vx = 1;
+                }
+                eu_info->et_collision = TranslateSprite(THIS, hit_vx << delta_time, 0);
+        }
+        if(eu_info->x_frameskip == 0 && 
             (eu_info->e_state == ENEMY_WALK ||
                 (eu_info->e_state == ENEMY_ATTACK 
                 && THIS->type != SpriteEnemyThrowerSpider 
@@ -151,6 +161,9 @@ void Emanagement() BANKED{
                         {                            
                             struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
                             arrow_data->hit = 1u;
+                            if(eu_info->e_state == ENEMY_PREATTACK){
+                                changeEstate(ENEMY_TREMBLING);
+                            }
                             switch(arrow_data->arrow_type){
                                 case ARROW_NORMAL:
                                     changeEstate(ENEMY_HIT_1);
@@ -174,7 +187,12 @@ void Emanagement() BANKED{
         switch(eu_info->e_state){
             case ENEMY_DEAD:
                 eu_info->wait--;
-                THIS->y--;
+                //THIS->y--;
+                if(e_v_coll != 0){
+                    if(eu_info->wait % 8 == 0){
+                        THIS->y+=2;
+                    }
+                }
                 if(eu_info->wait == 0u){
                     Edestroy();
                 }
@@ -211,6 +229,16 @@ void Emanagement() BANKED{
                     }
                 }
             break;
+            case ENEMY_TREMBLING:
+                {
+                    INT8 tremble = 0;
+                    if(eu_info->wait % 4 == 0){
+                        tremble = -2;
+                    }else if(eu_info->wait % 4 == 0){
+                        tremble = 2;
+                    }
+                    THIS->y += tremble;
+                }
             case ENEMY_PREATTACK:
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
@@ -393,6 +421,8 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 if(e_info->hp <= 0u){
                     changeEstate(ENEMY_DEAD);
                     return;
+                }else{
+                    TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
             case ENEMY_HIT_1:
@@ -402,14 +432,24 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 if(e_info->hp <= 0u){
                     changeEstate(ENEMY_DEAD);
                     return;
+                }else{
+                    TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
             case ENEMY_DEAD:
+                if(e_info->vx < 0){
+                    THIS->mirror = HV_MIRROR;
+                }else{
+                    THIS->mirror = H_MIRROR;
+                }
+                TranslateSprite(THIS, 0, -10 << delta_time);
                 if(e_info->configured == 2u){
                     EspawnItem();
-                    e_info->configured = 3u;
                 }
-                e_info->wait = 24u;
+                e_info->wait = 60u;
+            break;
+            case ENEMY_TREMBLING:
+                e_info->wait = 80u;
             break;
             case ENEMY_PREATTACK:
                 e_info->wait = 40u;
@@ -435,7 +475,6 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 }
                 if(e_info->configured == 2u){
                     EspawnItem();
-                    e_info->configured = 3u;
                 }
                 TranslateSprite(THIS, 0, -10 << delta_time);
             break;
@@ -454,6 +493,8 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
 }
 
 void EspawnItem() BANKED{
+    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+    e_info->configured = 3u;
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
     if(current_state == StateMine){

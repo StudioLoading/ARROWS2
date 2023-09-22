@@ -67,7 +67,6 @@ extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void trigger_dialog_bg(UINT8 on_off, UINT8 x, UINT8 y, UINT8 nchar) BANKED;
 
 void START(){
     LOAD_SGB_BORDER(bordercave);
@@ -150,7 +149,6 @@ void UPDATE(){
                 switch(horde_step){
                     case 0u://SNAKE HORDE
                     case 2u:
-                        //trigger_dialog_bg(1, 13u, 0u, 9);
                         horde_counter_max = HORDE_SNAKE;
                         enemy_type = SpriteEnemysimplesnake; 
                     break;

@@ -140,6 +140,8 @@ void UPDATE() {
     }
     if(dialog_ready == 2u){
         dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
+       	struct ItemSpawned* dialog_cursor_data = (struct ItemSpawned*)dialog_cursor->custom_data;
+        dialog_cursor_data->configured = 2;
         if(choice == 1u){
             dialog_cursor->x = 8u;
             dialog_cursor->y = 96u;
@@ -220,6 +222,8 @@ void shift_text_one_line_up() BANKED{
         case 8u:
             {
                 Sprite* up_cursor = SpriteManagerAdd(SpriteInvcursor, 18u << 3, 7u << 3);
+               	struct ItemSpawned* up_cursor_data = (struct ItemSpawned*)up_cursor->custom_data;
+                up_cursor_data->configured = 1;
                 up_cursor->mirror = H_MIRROR;
             }
             //PRINT(0, 7, d1);

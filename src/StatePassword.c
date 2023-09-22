@@ -78,6 +78,8 @@ void START(){
         pcode3_info = (struct TetradadoInfo*) pcode_3->custom_data;
         pcode3_info->tetradado_state = DADO_WAITING;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, pcode_0->x, pcode_0->y-16u);
+        struct ItemSpawned* invcursor_data = (struct ItemSpawned*)inv_cursor->custom_data;
+        invcursor_data->configured = 1;
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
         //NR50_REG = 0x44; //Max volume 0x77
@@ -150,7 +152,8 @@ void load_chapter() BANKED{
         break;
         case 1:
             just_started = 0;
-            ChangeStateThroughBetween(StateOverworld, StatePassword);
+            //ChangeStateThroughBetween(StateOverworld, StatePassword);
+            ChangeStateThroughBetween(StateOutwalkers, StatePassword);
         break;
         case 2:
             just_started = 0;

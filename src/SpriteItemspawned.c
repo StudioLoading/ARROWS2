@@ -10,7 +10,7 @@
 
 #include "custom_datas.h"
 
-#define ITEMSPAWNED_FRAMESKIP_MAX 6
+#define ITEMSPAWNED_FRAMESKIP_MAX 4
 
 const UINT8 is_metal_s[] = {1, 9};
 const UINT8 is_metal_dis_s[] = {2, 9, 3};
@@ -27,6 +27,10 @@ const UINT8 is_crossb_dis[] = {2, 7, 3};
 const UINT8 is_powd[] = {1, 8};
 const UINT8 is_powd_dis[] = {2, 8, 3};
 const UINT8 is_hidden[] = {1, 3};
+
+UINT8 powder_cooldown = 60;
+extern UINT8 itemspawned_powder_max;
+extern UINT8 itemspawned_powder_counter;
 
 void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
@@ -45,7 +49,7 @@ void UPDATE(){
         case 0u: return; break;
         case 1u:
             spawned_data->hp = 160u;
-            spawned_data->vy = -2;
+            spawned_data->vy = -1;
             spawned_data->vx = 0;
             spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
             switch(spawned_data->itemtype){
@@ -55,7 +59,10 @@ void UPDATE(){
                 case INVITEM_METAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal, 4u); break;
                 case INVITEM_METAL_SPECIAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal_s, 4u); break;
                 case INVITEM_WOOD: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_wood, 4u); break;
-                case INVITEM_POWDER: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_powd, 4u); break;
+                case INVITEM_POWDER: 
+                    spawned_data->equippable = 0u; 
+                    SetSpriteAnim(THIS, is_powd, 4u);
+                break;
             }
             spawned_data->configured = 2u;
         break;
@@ -128,6 +135,12 @@ UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED{
 }
 
 void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED{
+    if(itemtype == INVITEM_POWDER){
+        itemspawned_powder_counter++;
+        if(itemspawned_powder_counter > itemspawned_powder_max){
+            return;
+        }
+    }
     //SPAWN ITEM
     UINT16 quantity = 1u;        
     Sprite* reward = SpriteManagerAdd(SpriteItemspawned, spawn_at_x, spawn_at_y -8u);

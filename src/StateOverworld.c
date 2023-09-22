@@ -128,6 +128,7 @@ void START(){
 		delay_spawning = 80u;
 	//CUTSCENES
 		if(child_hooked == 1u && help_cemetery_woman.current_step == 3u){
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
 			help_cemetery_woman.current_step = 4u;
 			trigger_dialog(CHILDS_SAVED, s_motherow);
 		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){

@@ -1,32 +1,21 @@
 POST DEMO:
-- crab 
-	- crab non subisce arrows bastarde?
-	- se dasho dovrei rimbalzare (nuovo codice) o va bene che lo sorpasso senza conseguenze?
-- uscita dei nemici dallo schermo quando eliminat col balzello 
-	all' indietro senza il translate a parabola fino a fuori lo schermo
-- che il riccio si fermi e tremi quando è chiuso e riceve freccia
-- missioni chp1 sul diario
+- video per Andrew con le sue musiche v0.2
+- icona di fine dialogo che non sia la freccia in giu ma "end"
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
-- nemici in StateHood sennò è troppo facile
-- testare se SPriteManagerRemove() mi rimuove effettivamente una certa sprite dalla VRAM
 - SGB colori stateBandits
-- SGB colori ow nw 
-- DEATH: ripartire dal chapter corrente invocando la load_chapter();
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
-- titlescreen: NEW GAME or PASSWORD selection (after pressing start? so I can move the blinking
-	PUSH START below)
 - il 2 del titlescreen sul SGB è colorato a metà verde e metà nero
 - SGB credit le fiamme non sono rosse e nemmeno BN
 - musichetta di rifocillo all' ospedale quando mi curano!
 - spostare tutti gli sfx sul CH2
+
 - dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
 	potrei fare la stessa cosa su un certo oggetto equipaggiabile
 	che se equippato da overworld in una certa posizione attiva qualcosa.
 	potrei fare sta cosa come side-mission super hidden secret per accesso ad area
 	segreta di oggetto tipo l' Armatura!!
-- proseguire con l'implementazione del design del chapter 1
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 

@@ -111,7 +111,7 @@ void missions_init() BANKED{
 			find_blackie.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
-			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
+			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
 			help_cemetery_woman.current_step = 4u;//0u
@@ -213,11 +213,13 @@ void position_init() BANKED{
 			current_map = 1u;
 			/*motherow_pos_x = (UINT16) 14u << 3;//22 MAP0
 			motherow_pos_y = (UINT16) 42u << 3;//21 MAP0*/
-			motherpl_pos_x = (UINT16) 8u << 3;
-			motherpl_pos_y = (UINT16) 8u << 3;
 			/*CRAB*/
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 11u << 3;
+			/*MINE*/
+			current_map = 0;
+			motherpl_pos_x = (UINT16) 4u << 3;
+			motherpl_pos_y = (UINT16) 7u << 3;
 			/*start chapter 1 into maze for test purpose
 			current_map = 2u;
 			motherow_pos_x = (UINT16) 3u << 3;

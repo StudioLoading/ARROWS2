@@ -20,6 +20,7 @@ const UINT8 a_crab_walk[] = {3, 7,8,6};
 
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
+extern UINT8 motherpl_hit;
 
 UINT8 walk_timeout = 0u;
 struct EnemyData* crab_data = 0;
@@ -99,9 +100,10 @@ void UPDATE(){
                         }
                     break;
                     case SpriteMotherpl:
-                        if(crab_data->e_state == ENEMY_WALK && 
-                            motherpl_state == MOTHERPL_DASH){
-                            //farla rimbalzare indietro
+                        if((crab_data->e_state == ENEMY_WALK || 
+                        crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0)
+                        && motherpl_hit == 0){
+                            motherpl_hit = 1;
                         }
                     break;
                 }

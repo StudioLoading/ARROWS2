@@ -168,8 +168,12 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y);
+    UINT16 puff_x = THIS->x - 12u;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
+    if(arrow_data->vx < 0){
+        puff_x += 16u;
+    }
+    SpriteManagerAdd(SpritePuff, puff_x, THIS->y - 4u);
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;
 }
