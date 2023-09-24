@@ -167,7 +167,8 @@ void UPDATE(){
                         horde_counter_max = HORDE_SPIDER;
                         enemy_type = SpriteEnemyThrowerSpider;
                     break;
-                    case 9u:
+                    default:
+                    //case 9u:
                         find_blackie.current_step = 2u;
                     break;
                 }            

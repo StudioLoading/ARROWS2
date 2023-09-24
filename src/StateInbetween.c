@@ -33,6 +33,7 @@ void START(){
 void UPDATE(){
     countdown--;
     if(countdown == 0u){
+        manage_bgm(new_state_to_go, StateInbetween);
         SetState(new_state_to_go);
     }
 }
@@ -41,7 +42,6 @@ void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED{
     new_state_to_go = new_state;
     countdown = 60u;
     HIDE_WIN;
-    manage_bgm(new_state, previous_state);
     check_sgb_palette(new_state);
     SetState(StateInbetween);
 }

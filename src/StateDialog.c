@@ -76,7 +76,6 @@ void show_next_character() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void dialog_map();
-extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void position_init() BANKED;
 extern void load_chapter() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
@@ -150,7 +149,7 @@ void UPDATE() {
     }
     if(dialog_ready == 3u){
         if(choice == 0u){//NO CHOICE TO DO
-            if(KEY_RELEASED(J_JUMP) || KEY_RELEASED(J_FIRE)){
+            if(KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
                 move_on();
             }
         }else{//CHOICE TO DO
@@ -364,7 +363,6 @@ void shift_text_one_line_up() BANKED{
 }
 
 void move_on() BANKED{
-    manage_bgm(previous_state, StateDialog);
     SpriteManagerRemoveSprite(dialog_cursor);
     if(whostalking == BOSS_CRAB_FIGHT){previous_state = StateBosscrab;}
     if(previous_state == StateBlackiecave && whostalking == WOLF01){

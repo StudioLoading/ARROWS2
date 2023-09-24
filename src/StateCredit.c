@@ -113,15 +113,15 @@ void missions_init() BANKED{
 			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
-			help_cemetery_woman.current_step = 4u;//0u
-			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//disabled
-			outwalker_chief.current_step = 5u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_STARTED;//DISABLED
+			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 0u;
+			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
+			outwalker_chief.current_step = 0u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
 			outwalker_glass.current_step = 0u;//0u
-			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
-			outwalker_smith.current_step = 0b00000111;//0u
-			get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;//DISABLED
+			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
+			outwalker_smith.current_step = 0u;//0b00000111;
+			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 			get_to_the_mountain.current_step = 0u;
 		break;
 		case 2u:
@@ -210,16 +210,15 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 26u << 3;
 		break;
 		case 1u:
-			current_map = 1u;
-			/*motherow_pos_x = (UINT16) 14u << 3;//22 MAP0
-			motherow_pos_y = (UINT16) 42u << 3;//21 MAP0*/
-			/*CRAB*/
-			motherow_pos_x = (UINT16) 14u << 3;
-			motherow_pos_y = (UINT16) 11u << 3;
-			/*MINE*/
 			current_map = 0;
+			motherow_pos_x = (UINT16) 12u << 3;//22 MAP0
+			motherow_pos_y = (UINT16) 36u << 3;//21 MAP0
+			/*CRAB
+			motherow_pos_x = (UINT16) 14u << 3;
+			motherow_pos_y = (UINT16) 11u << 3;*/
+			/*MINE
 			motherpl_pos_x = (UINT16) 4u << 3;
-			motherpl_pos_y = (UINT16) 7u << 3;
+			motherpl_pos_y = (UINT16) 7u << 3;*/
 			/*start chapter 1 into maze for test purpose
 			current_map = 2u;
 			motherow_pos_x = (UINT16) 3u << 3;

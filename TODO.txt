@@ -1,6 +1,28 @@
 POST DEMO:
 - video per Andrew con le sue musiche v0.2
-- icona di fine dialogo che non sia la freccia in giu ma "end"
+- le orde non compaiono!
+- Ale' suggerimenti:
+	- i limiti della mappa ow sono da controllare perché:
+		mentre andava nella blackiecave si bloccava sul "CAN'T GO THERE"
+		e a est non compariva il messaggio ma lo sprite continuava ad arretrare
+	- nella selezione su dialogo:
+		- l' icona deve essere di freccia giù, non end
+		- mi muovo tra le opzioni anche con le frecce orizzontali 
+	- togliere il limite sulla mappa 
+	- quando premo SELECT sul tutorial non si capisce che cambia il 
+	oggetto equipped. potrei far lampeggiare qualcosina che indichi
+	quella parte di statusBar
+	- con SU potrei far rollbackare il tutorial, ricominciando le 
+	scritte da capo
+	- il vuoto negli equip dell' inv è vuoto, il vuoto nei non-equipped
+	è nero. svuotarlo così è omogeneo
+	- exzoo: gli alberi sono pieni, le case sono vuote, svuotare gli alberi!
+	- nome dell' oggetto che pickuppo per due secondi dopo che lo raccolgo
+	- abilitare la missione dello smith da subito
+	- checckare le missioni già completate
+	- riempire le case nell' exzoo?
+- scogliera mappa a sud di southwest
+	la scogliera a sud della owsw é da fare con sassi e muraglione
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
 - SGB colori stateBandits

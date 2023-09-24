@@ -234,7 +234,11 @@ void show_detail(){
                             if(help_cemetery_woman.current_step >= 2u){
                                 GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
                                 GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
-                            }   
+                            }
+                            if(help_cemetery_woman.mission_state >= MISSION_STATE_REWARDED){                            
+                                GetLocalizedDDLabel_EN(WIDOW_D4, dd8);
+                                GetLocalizedDDLabel_EN(WIDOW_D5, dd9);
+                            }
                         }
                     }
                 break;

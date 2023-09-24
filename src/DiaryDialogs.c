@@ -62,6 +62,8 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case WIDOW_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
 		case WIDOW_D4:memcpy(d, "GOTTA BRING THE KID", 20);break;
 		case WIDOW_D5:memcpy(d, "BACK TO THE VILLAGE", 20);break;
+		case WIDOW_D6:memcpy(d, "MARGARET' CHILD IS ", 20);break;
+		case WIDOW_D7:memcpy(d, "SAFE NOW!          ", 20);break;
 		case OUTWALKER_CHIEF_TITLE:memcpy(d, "WHO'S IN CHARGE?     ", 16);break;
 		case CHIEF_D0:memcpy(d, "THE ANSWER'S AT THE", 20);break;
 		case CHIEF_D1:memcpy(d, "EXIT OF THE MAZE   ", 20);break;

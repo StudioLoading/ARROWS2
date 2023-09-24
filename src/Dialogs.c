@@ -340,7 +340,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					*n_lines = 9u;
 					memcpy(d1, "HONORED TO SEE YOU, \0", 22);
 					memcpy(d2, "HEALER. MOTHER BLAC \0", 22);
-					memcpy(d3, "KIE NEEDS SOME HELP \0", 22);
+					memcpy(d3, "BLACKIE NEEDS HELP  \0", 22);
 					memcpy(d4, "IN THE NEXT ROOM.   \0", 22);
 					memcpy(d5, "ARE YOU READY TO    \0", 22);
 					memcpy(d6, "HELP HER?           \0", 22);

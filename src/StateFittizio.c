@@ -32,10 +32,10 @@ DECLARE_MUSIC(bgm_hood);
 DECLARE_MUSIC(bgm_gameover);
 DECLARE_MUSIC(bgm_reward);
 
-DECLARE_MUSIC(_03_ow2_noch2);
+DECLARE_MUSIC(__03_ow2_v2_noch2);
 DECLARE_MUSIC(_03_ow2);
 DECLARE_MUSIC(_04);
-DECLARE_MUSIC(_04_noch2);
+DECLARE_MUSIC(__04_v2_noch2);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -133,6 +133,8 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateDialog:
             if(previous_state == StateTitlescreen){
                 PauseMusic;
+            }else{
+                ResumeMusic;
             }
             switch(whostalking){
                 case INTRO:
@@ -147,7 +149,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         	StopMusic;
             if(just_started == 0){
                 switch(current_map){
-                    case 0u:PlayMusic(_03_ow2_noch2, 1);break;
+                    case 0u:PlayMusic(__03_ow2_v2_noch2, 1);break;
                     case 1u:PlayMusic(bgm_ow, 1);break;
                     case 2u:break;
                 }
@@ -159,20 +161,20 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         break;
         case StateCemetery:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{StopMusic;PlayMusic(bgm_cemetery, 1);}
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(bgm_cemetery, 1);}
         break;
         case StateBlackiecave:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{StopMusic;PlayMusic(bgm_blackiecave, 1);}
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(bgm_blackiecave, 1);}
         break;
         case StateMountain:
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{StopMusic;PlayMusic(_04_noch2, 1);}//bgm_mine
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(__04_v2_noch2, 1);}//bgm_mine
         break;
         case StateHood:
             if(previous_state == StateInventory){ResumeMusic;}
-            else{StopMusic;PlayMusic(bgm_hood, 1);}
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(bgm_hood, 1);}
         break;
     }
 }
@@ -198,7 +200,9 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
 }
 
 void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
-    manage_bgm(new_state, previous_state, next_map);
+    if(current_state != StateDialog && current_state != StateCredit){
+        PauseMusic;
+    }
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -308,6 +312,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
    if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
+        manage_bgm(new_state, previous_state, next_map);
         SetState(new_state);
     }
 }

@@ -142,7 +142,6 @@ void load_chapter() BANKED{
     missions_init();
     inventory_init();
     position_init();
-    //just_started = 0u;
     switch(chapter){
         case 0:
             previous_state = StateOverworld;
@@ -152,8 +151,7 @@ void load_chapter() BANKED{
         break;
         case 1:
             just_started = 0;
-            //ChangeStateThroughBetween(StateOverworld, StatePassword);
-            ChangeStateThroughBetween(StateOutwalkers, StatePassword);
+            ChangeStateThroughBetween(StateOverworld, StatePassword);
         break;
         case 2:
             just_started = 0;
