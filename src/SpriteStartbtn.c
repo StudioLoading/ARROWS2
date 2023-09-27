@@ -1,5 +1,6 @@
 #include "Banks/SetAutoBank.h"
 
+#include "Palette.h"
 #include "ZGBMain.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
@@ -10,6 +11,10 @@ void START(){
 	THIS->lim_x = 255u;
 	THIS->lim_y = 255u;
     SetSpriteAnim(THIS, a_startbtn, 12u);
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){

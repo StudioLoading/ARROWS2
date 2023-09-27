@@ -54,7 +54,7 @@ extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
-
+extern UINT8 horde_step;
 extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
@@ -64,6 +64,12 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d2, " GROUND:             \0", 22);
 			memcpy(d3, "           ARROWS!   \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_PRESS_SELECT:
+			memcpy(d1, " PRESS SELECT TO VIEW\0", 22);
+			memcpy(d2, " MY MISSION'S DIARY  \0", 22);
+			memcpy(d3, " FOR THE CURRENT     \0", 22);
+			memcpy(d4, " CHAPTER.            \0", 22);
 		break;
 		case TIP_SMITH_NO:
 			memcpy(d3, EMPTY_STRING_21 , 22);
@@ -147,8 +153,8 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 		case INTRO:
 			*n_lines = 18u;
 			memcpy(d0, "MASTER:             \0", 22);
-			memcpy(d1, "'DESSA YOU WITCH!   \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "'DESSA YOU WITCH!   \0", 22);
 			memcpy(d3, "DO YOU THINK HELPING\0", 22);
 			memcpy(d4, "WILD ANIMALS WILL   \0", 22);
 			memcpy(d5, "GUARANTEE OUR SURVI \0", 22);
@@ -280,9 +286,9 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "  THERE'S NO ONE    \0", 22);
 			memcpy(d3, "IN HERE...          \0", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "(I SHOULD CHECK THE \0", 22);
+			memcpy(d5, "I SHOULD CHECK THE  \0", 22);
 			memcpy(d6, "INN AND THE         \0", 22);
-			memcpy(d7, "CEMETERY)           \0", 22);
+			memcpy(d7, "CEMETERY            \0", 22);
 		break;
 		case SMITH_CHECKING_WOODANDMETAL:
 			*n_lines = 3u;
@@ -383,7 +389,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				break;
             	case 3u://ow orde sconfitte
 					*n_lines = 17u;
-					memcpy(d1, "BLCKIE:             \0", 22);
+					memcpy(d1, EMPTY_STRING_21, 22);
 					memcpy(d2, "WHY DO I SMELL MY   \0", 22);
 					memcpy(d3, "OLD MASTER'S SCENT? \0", 22);
 					memcpy(d4, EMPTY_STRING_21, 22);		
@@ -393,13 +399,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d8, EMPTY_STRING_21, 22);		
 					memcpy(d9, "BLACKIE:            \0", 22);
 					memcpy(d10, "I AM SORRY HE COUGHT\0", 22);	
-					memcpy(d11, "HIM. LET ME THINK..\0", 22);	
-					memcpy(d12, "AH! LISTEN UP: GIVE\0", 22);						
-					memcpy(d13, "ME THE LETTER AND I\0", 22);	
-					memcpy(d14, "WILL GO FIND SOME  \0", 22);	
-					memcpy(d15, "HELP IN THE        \0", 22);	
-					memcpy(d16, "MOUNTAINS.         \0", 22);
-					memcpy(d17, "BUT FIRST...       \0", 22);
+					memcpy(d11, "HIM. LET ME THINK.. \0", 22);	
+					memcpy(d12, "AH! LISTEN UP: GIVE \0", 22);						
+					memcpy(d13, "ME THE LETTER AND I \0", 22);	
+					memcpy(d14, "WILL GO FIND SOME   \0", 22);	
+					memcpy(d15, "HELP IN THE         \0", 22);	
+					memcpy(d16, "MOUNTAINS.          \0", 22);
+					memcpy(d17, "BUT FIRST...        \0", 22);
 					memcpy(d18, EMPTY_STRING_21, 22);	
 					memcpy(d19, "I'VE HEARD A CRYING\0", 22);
 					memcpy(d20, "LADY, MARGARET, AT \0", 22);
@@ -551,6 +557,42 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
     }
 }
 
+void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
+	switch(invitemtype){
+		case INVITEM_MONEY:
+			memcpy(log0, "PICKED UP: COIN     ", 20);
+		break;
+		case INVITEM_ARROW_BASTARD:
+			memcpy(log0, "PICKED UP: BASTARDS ", 20);
+		break;
+		case INVITEM_ARROW_NORMAL:
+			memcpy(log0, "PICKED UP: ARROWS   ", 20);
+		break;
+		case INVITEM_ARROW_PERFO:
+			memcpy(log0, "PICKED UP: PEARCED  ", 20);
+		break;
+		case INVITEM_FLOWER:
+			memcpy(log0, "PICKED UP: A FLOWER ", 20);
+		break;
+		case INVITEM_GLASSES:
+			memcpy(log0, "PICKED UP: GLASSES  ", 20);
+		break;
+		case INVITEM_HEART:
+		case INVITEM_HEARTS:
+			memcpy(log0, "PICKED UP: HEALTH   ", 20);
+		break;
+		case INVITEM_METAL:
+			memcpy(log0, "PICKED UP: METAL    ", 20);
+		break;
+		case INVITEM_POWDER:
+			memcpy(log0, "PICKED UP: POWDER   ", 20);
+		break;
+		case INVITEM_WOOD:
+			memcpy(log0, "PICKED UP: WOOD     ", 20);
+		break;		
+	}
+}
+
 void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 	switch(npcname){
 		case JOHN:
@@ -612,7 +654,13 @@ void GetLocalizedLog_EN() BANKED{
 			memcpy(log0, "CAVE OF THE WOLVES  ", 20);
 		break;
 		case StateBlackieroom:
-			memcpy(log0, "SLAY THE HORDES!    ", 20);
+			switch(horde_step){
+				case 2u:memcpy(log0, "SLAY THE SNAKES!    ", 20);break;
+				case 3u:memcpy(log0, "SLAY THE RATS!      ", 20);break;
+				case 4u:memcpy(log0, "SLAY THE COBRAS!    ", 20);break;
+				case 5u:memcpy(log0, "SLAY THE SPIDER!    ", 20);break;
+				default:memcpy(log0, "BLACKIE:COME UP HERE", 20);break;
+			}
 		break;
 		case StateCemetery:
 			memcpy(log0, "HUMAN CEMETERY      ", 20);

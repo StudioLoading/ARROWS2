@@ -36,9 +36,6 @@ const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32,
 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
-UINT8 border_set_ow = 0u;
-UINT8 border_set_diary = 0u;
-UINT8 border_set_exzoo = 0u;
 UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 UINT8 hudow_opened = 0;
 UINT8 show_tip = 0u;
@@ -67,6 +64,7 @@ extern unsigned char d2[];
 extern unsigned char d3[];
 extern unsigned char d4[];
 extern struct MISSION find_blackie;
+extern struct MISSION enable_hospital;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
@@ -77,6 +75,7 @@ extern UINT8 child_hooked;
 extern INT8 chapter;
 extern UINT8 previous_state;
 extern FA2OW_SPRITE_STATES new_state;
+extern UINT8 just_started;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -144,15 +143,23 @@ void START(){
 			case 0u://SOUTH WEST
 				lim_up_y = ((UINT16) 9u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
+				lim_down_y = ((UINT16) 200u << 3);
 			break;
 			case 1u://NORTH WEST
+				lim_up_y = ((UINT16) 200u << 3);
 				lim_down_y = ((UINT16) 48u << 3);
 				lim_east_x = ((UINT16) 79u << 3);
 			break;
 			case 2u://MAZE
+				lim_up_y = ((UINT16) 200u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 				lim_down_y = ((UINT16) 37u << 3);
 			break;
+		}
+	//INITIAL TIPS
+		if(just_started == 2){//got to show "PRESS SELECT" tip
+			owTips(TIP_PRESS_SELECT);
+			just_started = 0;
 		}
 }
 
@@ -260,14 +267,15 @@ void initial_sprite_spawning() BANKED{
 	switch(current_map){
 		case 0u:
 			if(chapter == 0){
-				if(find_blackie.current_step == 3u || find_blackie.current_step == 4u){
+				if(find_blackie.current_step > 2 && find_blackie.current_step < 5u){
 					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
 					s_blackieow->mirror = V_MIRROR;
 					if(find_blackie.current_step == 4u){
 						find_blackie.current_step = 5u;
-						find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+						find_blackie.mission_state = MISSION_STATE_REWARDED;
 						blackieow_data->wait = 60u;
 						blackieow_data->vx = -2;
+						enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
 					}
 				}
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u);
@@ -372,7 +380,8 @@ void UPDATE(){
 		//il testo rimane sullo schermo
 			switch(current_map){
 				case 0u://ow south west
-					if(find_blackie.current_step < 5u || help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
+					if(find_blackie.current_step < 5u || 
+						help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
 							s_motherow->y = lim_up_y + 6u;
 						}

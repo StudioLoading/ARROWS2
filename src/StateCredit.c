@@ -88,11 +88,11 @@ void missions_init() BANKED{
 	switch(chapter){
 		case 0u:
 			current_map = 0u;
-			find_blackie.mission_state = MISSION_STATE_ENABLED;
+			find_blackie.mission_state = MISSION_STATE_DISABLED;
 			find_blackie.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_DISABLED;
 			enable_hospital.current_step = 0u;
-			engage_smith.mission_state = MISSION_STATE_DISABLED;
+			engage_smith.mission_state = MISSION_STATE_ENABLED;
 			engage_smith.current_step = 0u;
 			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
 			help_cemetery_woman.current_step = 0u;
@@ -126,11 +126,11 @@ void missions_init() BANKED{
 		break;
 		case 2u:
 			current_map = 1u;
-			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
-			engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
+			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
 			help_cemetery_woman.current_step = 4u;//0u
@@ -144,8 +144,8 @@ void missions_init() BANKED{
 			get_to_the_mountain.current_step = 0u;
 		break;
 	}
-	missions[0] = &find_blackie;
-	missions[1] = &engage_smith;
+	missions[0] = &engage_smith;
+	missions[1] = &find_blackie;
 	missions[2] = &enable_hospital;
 	missions[3] = &help_cemetery_woman;
 	missions[4] = &outwalker_chief;
@@ -159,7 +159,7 @@ void inventory_init() BANKED{
 		case 0:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 10; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;

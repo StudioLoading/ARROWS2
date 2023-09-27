@@ -56,7 +56,7 @@ extern MOTHERPL_STATE motherpl_state;
 
 const UINT8 coll_tiles_blackieroom[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 50u, 0};
-UINT8 horde_step = 0u;
+UINT8 horde_step = 2u;
 UINT8 horde_counter = 0u;
 UINT16 horde_cooldown = 0u;
 UINT8 enemies_alive = 0u;
@@ -103,7 +103,7 @@ void START(){
     horde_cooldown = (HORDE_COOLDOWN_MAX/2);
     timeout_enemy = 200u;
     if(previous_state != StateInventory && previous_state != StateDialog 
-        && horde_step < 8u ){//potrei esser morto durante un orda
+        && horde_step <= 5u ){//potrei esser morto durante un orda
         // azzerare counter
         horde_counter = 0u;
     }
@@ -120,10 +120,6 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         scroll_target->x = (UINT16) 80u;
         scroll_target->y = (UINT16) 56u;
-        /*
-        //CAMERA MANAGEMENT
-        update_camera_position();
-        */
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
@@ -141,68 +137,63 @@ void UPDATE(){
             s_motherpl->x = ((UINT16)19u << 3);
         }
     //INIT ENEMIES
-        if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
-            if(timeout_enemy > 0){timeout_enemy--;}            
-            else{
-                UINT8 enemy_type = SpriteEnemysimplesnake;
-                UINT8 horde_counter_max = 0u;         
-                switch(horde_step){
-                    case 0u://SNAKE HORDE
-                    case 2u:
-                        horde_counter_max = HORDE_SNAKE;
-                        enemy_type = SpriteEnemysimplesnake; 
-                    break;
-                    case 1u://RAT HORDE
-                    case 3u:
-                        horde_counter_max = HORDE_RAT;
-                        enemy_type = SpriteEnemysimplerat;
-                    break;                
-                    case 5u://COBRA HORDE
-                    case 7u:
-                        horde_counter_max = HORDE_COBRA;
-                        enemy_type = SpriteEnemyAttackerCobra;
-                    break;           
-                    case 6u://SPIDER HORDE
-                    case 8u:
-                        horde_counter_max = HORDE_SPIDER;
-                        enemy_type = SpriteEnemyThrowerSpider;
-                    break;
-                    default:
-                    //case 9u:
-                        find_blackie.current_step = 2u;
-                    break;
-                }            
-                if(horde_counter <= horde_counter_max){
-                    Sprite* s_snake2 = SpriteManagerAdd(enemy_type, (UINT16) 9u << 3, (UINT16) 52u);
-                    if(horde_counter % 2 == 0){
-                        struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
-                        s_snake2_data->vx = 4;
-                    }
-                    horde_counter++;
-                    timeout_enemy = 100u;
-                }else{        
-                    UINT8 i = 0u;
-                    enemies_alive = 0u;
-                    for(i = 0u; i < 3u; ++i){
-                        if(e_to_reload[i].alive == 1u){
-                            enemies_alive++;
+        if(horde_step > 5 && find_blackie.current_step < 2){
+            find_blackie.current_step = 2u;
+        }else{
+            if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
+                if(timeout_enemy > 0){timeout_enemy--;}            
+                else if (horde_step <= 5){
+                    UINT8 enemy_type = SpriteEnemysimplesnake;
+                    UINT8 horde_counter_max = 0u;         
+                    switch(horde_step){
+                        case 2u:
+                            horde_counter_max = HORDE_SNAKE;
+                            enemy_type = SpriteEnemysimplesnake; 
+                        break;
+                        case 3u://RAT HORDE
+                            horde_counter_max = HORDE_RAT;
+                            enemy_type = SpriteEnemysimplerat;
+                        break;                
+                        case 4u://COBRA HORDE
+                            horde_counter_max = HORDE_COBRA;
+                            enemy_type = SpriteEnemyAttackerCobra;
+                        break;           
+                        case 5u://SPIDER HORDE
+                            horde_counter_max = HORDE_SPIDER;
+                            enemy_type = SpriteEnemyThrowerSpider;
+                        break;
+                    }            
+                    if(horde_counter <= horde_counter_max){
+                        Sprite* s_snake2 = SpriteManagerAdd(enemy_type, (UINT16) 9u << 3, (UINT16) 52u);
+                        if(horde_counter % 2 == 0){
+                            struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
+                            s_snake2_data->vx = 4;
+                        }
+                        horde_counter++;
+                        timeout_enemy = 100u;
+                    }else{        
+                        UINT8 i = 0u;
+                        enemies_alive = 0u;
+                        for(i = 0u; i < 3u; ++i){
+                            if(e_to_reload[i].alive == 1u){
+                                enemies_alive++;
+                            }
+                        }
+                        if(enemies_alive == 0u){
+                            horde_counter = 0u;
+                            horde_step++;
+                            timeout_enemy = 255u;
+                            horde_cooldown = HORDE_COOLDOWN_MAX;
                         }
                     }
-                    if(enemies_alive == 0u){
-                        horde_counter = 0u;
-                        horde_step++;
-                        timeout_enemy = 255u;
-                        horde_cooldown = HORDE_COOLDOWN_MAX;
-                    }
+                }
+            }else{
+                horde_cooldown--;
+                if(horde_cooldown > HORDE_COOLDOWN_MAX){
+                    horde_cooldown = HORDE_COOLDOWN_MAX;
                 }
             }
-        }else{
-            horde_cooldown--;
-            if(horde_cooldown > (HORDE_COOLDOWN_MAX/2)){
-                horde_cooldown = (HORDE_COOLDOWN_MAX/2);
-            }
         }
-
     
     Log(NONAME);
 }

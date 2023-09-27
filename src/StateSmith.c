@@ -25,31 +25,11 @@ extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
-extern unsigned char d1[];
-extern unsigned char d2[];
-extern unsigned char d3[];
-extern unsigned char d4[];
-extern unsigned char d5[];
-extern unsigned char d6[];
-extern unsigned char d7[];
-extern unsigned char d8[];
-extern unsigned char d9[];
-extern unsigned char d10[];
-extern unsigned char d11[];
-extern unsigned char d12[];
-extern unsigned char d13[];
-extern unsigned char d14[];
-extern unsigned char d15[];
-extern unsigned char d16[];
-extern unsigned char d17[];
-extern unsigned char d18[];
-extern unsigned char d19[];
-extern unsigned char d20[];
-extern unsigned char d21[];
-extern unsigned char d22[];
+extern unsigned char d0[];
 extern WHOSTALKING whostalking;
 extern struct MISSION enable_hospital;
 extern struct MISSION engage_smith;
+extern struct MISSION find_blackie;
 extern struct MISSION outwalker_smith;
 
 extern UINT8 dialog_ready;
@@ -110,20 +90,28 @@ void UPDATE() {
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
 		switch(engage_smith.mission_state){
-			case MISSION_STATE_DISABLED:
-                //engage_smith.mission_state = MISSION_STATE_ENABLED;
-				whostalking = SMITH_DISABLED; 
-			break;
 			case MISSION_STATE_ENABLED:
-				//check for mission completed
-				whostalking = SMITH_CHECKING_WOODANDMETAL; 
-				if(get_quantity(INVITEM_METAL) >= 10u 
-					&& get_quantity(INVITEM_WOOD) >= 10u){//se nell' inventario non ha ancora il materiale
-				    engage_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
-				    next_page = 1u;
-				}else{
-					whostalking = SMITH_CHECKING_NOWOODANDMETAL;
-				}
+                switch(engage_smith.current_step){
+                    case 0: 
+				        whostalking = SMITH_DISABLED;
+                    break;
+                    default:
+                        //check for mission completed
+                        whostalking = SMITH_CHECKING_WOODANDMETAL; 
+                        if(get_quantity(INVITEM_METAL) >= 10u 
+                            && get_quantity(INVITEM_WOOD) >= 10u){//se nell' inventario non ha ancora il materiale
+                            if(engage_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
+                                engage_smith.mission_state = MISSION_STATE_REWARDED;
+                            }
+                            if(find_blackie.mission_state < MISSION_STATE_ENABLED){
+                                find_blackie.mission_state = MISSION_STATE_ENABLED;
+                            }
+                            next_page = 1u;
+                        }else{
+                            whostalking = SMITH_CHECKING_NOWOODANDMETAL;
+                        }
+                    break;
+                }
 			break;
 			case MISSION_STATE_ACCOMPLISHED:
 			case MISSION_STATE_REWARDED:
@@ -169,6 +157,7 @@ void UPDATE() {
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
         dialog_ready = 1u;
+        PRINT(0, 7, d0);
     }
     if(dialog_ready == 1u){
         if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
@@ -190,13 +179,6 @@ void UPDATE() {
             next_page = 0u;
             dialog_ready = 0u;
             return;
-        }
-        switch(previous_state){
-            case StateCemetery:
-                if(whostalking == SMITH){
-                    engage_smith.mission_state = MISSION_STATE_ENABLED;
-                }
-            break;
         }
         dialog_ready = 0;
         move_on();

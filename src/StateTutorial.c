@@ -131,7 +131,7 @@ void UPDATE(){
                 inv_cursor = SpriteManagerAdd(SpriteStartbtn, 136u, (UINT16)100u);
             }
         }else{//tutorial_counter == 0
-            if(KEY_PRESSED(J_START)){
+            if(KEY_TICKED(J_START)){
                 tutorial_current_step++;
                 empty_instructions();
                 tutorial_counter = 120u;
@@ -139,50 +139,14 @@ void UPDATE(){
                     previous_state = StateExzoo;
                     ChangeState(StateInventory, s_motherpl, -1);
                 }
+            }            
+            if(KEY_TICKED(J_SELECT)){
+                tutorial_current_step = 0;
+                empty_instructions();
+                tutorial_counter = 120u;
             }
         }
-    //CAMERA MANAGEMENT
-        //update_camera_position();
-        //if(s_motherpl->y > ((UINT16) 19u << 3)){
-            //back to StateMountain
-            //ChangeState(StateMountain, s_motherpl, -1);
-        //}
-    //BOLTS
-        /*
-        if(enemy_counter < 2 && s_motherpl->y > 40){
-            timeout_enemy++;
-            UINT8 timeout_enemy_max = 90u;
-            if(s_motherpl->x > ((UINT16) 90u << 3)){
-                timeout_enemy_max = 52u;
-            }
-            if(timeout_enemy == timeout_enemy_max){
-                test_counter++;                
-                timeout_enemy = 0;
-                INT8 delta_for_running = 0;
-                if(motherpl_vx != 0){
-                    if(motherpl_vx > 0){delta_for_running = 10;}
-                    else{delta_for_running = -10;}
-                }
-                if(s_surf != NULL){
-                    delta_for_running = +60;
-                }
-                UINT16 bolt_x = delta_for_running;
-                UINT16 bolt_y = s_motherpl->y;
-                switch(test_counter){
-                    case 6:
-                        test_counter = 0;
-                        bolt_x = s_motherpl->x + 80u;
-                    break;
-                    case 5:bolt_x = s_motherpl->x-4u;break;
-                    case 4:bolt_x = s_motherpl->x + 40u;break;
-                    case 3:bolt_x = s_motherpl->x - 30u;break;
-                    case 2:bolt_x = s_motherpl->x + 30u;break;
-                    case 1:bolt_x = s_motherpl->x +10u;break;
-                }
-                SpriteManagerAdd(SpriteBoltground, (UINT16) bolt_x, (UINT16)bolt_y);
-            }
-        }
-        */
+
     Log(NONAME);
 }
 
@@ -230,11 +194,11 @@ void show_current_step_instructions() BANKED{
             PRINT(0, 13, "PRESS FIRE.         \0");
         break;
         case 4u:
-            PRINT(0, 9,  "COOL, IS IT?!       \0");
-            PRINT(0, 10, "LIAM COULD NOT DO IT\0");
-            PRINT(0, 11, "BACK THEN!          \0");
-            PRINT(0, 12, "PRESS SELECT TO CHAN\0");
-            PRINT(0, 13, "GE EQUIPPED ITEM.   \0");
+            PRINT(0, 9,  "PRESS SELECT TO CHAN\0");
+            PRINT(0, 10, "GE THE EQUIPPED ITEM\0");
+            PRINT(0, 11, "LOOK TO THE BOTTOM  \0");
+            PRINT(0, 12, "RIGHT OF THE SCREEN \0");
+            PRINT(0, 13, "TO CHECK ITEM IN USE\0");
         break;
         case 5u:
             PRINT(0, 9,  "PRESS THE FIRE      \0");

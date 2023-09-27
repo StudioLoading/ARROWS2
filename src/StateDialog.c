@@ -138,26 +138,32 @@ void UPDATE() {
         }
     }
     if(dialog_ready == 2u){
-        dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
-       	struct ItemSpawned* dialog_cursor_data = (struct ItemSpawned*)dialog_cursor->custom_data;
-        dialog_cursor_data->configured = 2;
-        if(choice == 1u){
-            dialog_cursor->x = 8u;
-            dialog_cursor->y = 96u;
+        if(whostalking == INTRO){
+            dialog_cursor = SpriteManagerAdd(SpriteStartbtn, (INT16)136u, (UINT16)120u);
+        }else{
+            dialog_cursor = SpriteManagerAdd(SpriteInvcursor,(UINT16)144u, (UINT16)120u);
+            struct ItemSpawned* dialog_cursor_data = (struct ItemSpawned*)dialog_cursor->custom_data;
+            if(choice == 1u){
+                dialog_cursor_data->configured = 1;
+                dialog_cursor->x = 8u;
+                dialog_cursor->y = 96u;
+            }else{
+                dialog_cursor_data->configured = 2;
+            }
         }
         dialog_ready = 3u;
     }
     if(dialog_ready == 3u){
         if(choice == 0u){//NO CHOICE TO DO
-            if(KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
+            if(KEY_RELEASED(J_START) || KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
                 move_on();
             }
         }else{//CHOICE TO DO
-            if(KEY_RELEASED(J_SELECT)){
+            if(KEY_RELEASED(J_SELECT) || KEY_RELEASED(J_LEFT) || KEY_RELEASED(J_RIGHT)){
                 if(dialog_cursor->x == 8u){dialog_cursor->x = 104u;}
                 else{dialog_cursor->x = 8u;}
             }
-            if(KEY_RELEASED(J_START)){
+            if(KEY_RELEASED(J_START) || KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
                 if(dialog_cursor->x == 8u){choice_left = 1u;}
                 else{choice_right = 1u;}
                 move_on();
@@ -166,7 +172,7 @@ void UPDATE() {
         switch(previous_state){
             case StateCemetery:
                 if(whostalking == SMITH){
-                    engage_smith.mission_state = MISSION_STATE_ENABLED;
+                    engage_smith.current_step = 1;
                 }
             break;
         }
@@ -215,6 +221,7 @@ void show_next_character() BANKED{
         }
     }
 }
+
 void shift_text_one_line_up() BANKED{
     PRINT(0, 14, EMPTY_STRING_21);
     switch(writing_line){

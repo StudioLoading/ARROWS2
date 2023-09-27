@@ -16,7 +16,6 @@
 
 IMPORT_TILES(font);
 IMPORT_MAP(password);
-IMPORT_MAP(borderdiary);
 
 extern Sprite* inv_cursor;
 extern UINT8 J_JUMP;
@@ -146,7 +145,6 @@ void load_chapter() BANKED{
         case 0:
             previous_state = StateOverworld;
             whostalking = INTRO;
-            //LOAD_SGB_BORDER(borderdiary);
             ChangeStateThroughBetween(StateDialog, StateTitlescreen);
         break;
         case 1:

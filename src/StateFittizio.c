@@ -78,7 +78,7 @@ UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
 unsigned char dbg1[50];
-UINT8 just_started = 1u;
+UINT8 just_started = 0u;//just_started = 1u ; 0 to dodge tutorial and owTips initial
 UINT8 logtimeout = 10u;
 UINT8 ow_pusha_hp = 0u;
 UINT8 itemspawned_powder_max = 0;
@@ -87,6 +87,7 @@ UINT8 enemy_wave = 0;
 
 void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
+void LogItem(INVITEMTYPE invitemtype) BANKED;
 void update_camera_position() BANKED;
 void update_camera_position_ow() BANKED;
 void camera_tramble() BANKED;
@@ -199,6 +200,71 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
     }
 }
 
+
+void check_sgb_palette(UINT8 new_state) BANKED{
+    switch(new_state){
+        case StateCart:
+            set_sgb_palette01_cart();
+            set_sgb_palette_statusbar();
+        break;
+        case StateBosscrab:
+            set_sgb_crab();
+            set_sgb_palette_statusbar();
+        break;
+        case StateOutwalkers:
+        case StateHood:
+            set_sgb_palette01_HOOD();
+            set_sgb_palette_statusbar();
+        break;
+        case StateExzoo:
+            set_sgb_palette01_ZOO();
+            set_sgb_palette_statusbar();
+        break;
+        case StateSky:
+            set_sgb_SKY();
+            set_sgb_palette_statusbar();
+        break;
+        case StateSmith:
+            set_sgb_palette01_WOLF();
+            set_sgb_palette_statusbar();
+        break;
+        case StateBlackiecave:
+        case StateBlackieroom:
+            set_sgb_palette01_BLACKIECAVE();
+            set_sgb_palette_statusbar();
+        break;
+        case StateCemetery:
+            set_sgb_palette01_CEMATERYCRYPT();
+            set_sgb_palette_statusbar();
+        break;
+        case StateMine:
+        case StateTutorial:
+            set_sgb_palette01_MINE();
+            set_sgb_palette_statusbar();
+        break;
+        case StateMountain:
+            set_sgb_palette01_MINE();
+            set_sgb_palette_statusbar();
+        break;
+        case StateInventory:
+            set_sgb_palette_inventory();
+            reset_sgb_palette_statusbar();
+        break;
+        case StateDiary:
+        case StateDialog:
+        case StateOverworld:
+            if(new_state == StateOverworld){
+                switch(current_map){
+                    case 0:set_sgb_palette01_worldmap();break;//sw
+                    case 1:set_sgb_worldmap_nw();break;//nw
+                    case 2:set_sgb_palette01_worldmap_maze();break;//maze
+                }
+            }
+            reset_sgb_palette_statusbar();
+        break;
+    }
+}
+
 void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(current_state != StateDialog && current_state != StateCredit){
         PauseMusic;
@@ -294,11 +360,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     //CURRENT_MAP vs NEXT_MAP
         if(next_map != -1){
             current_map = next_map;
-        }
-    //SGB PALETTE CHECK
-        if(sgb_check()){
-            check_sgb_palette(new_state);
-        }
+        }    
     //if(previous_state != current_state && previous_state != StateTutorial){
     previous_state = current_state;
     if(previous_state == StateTutorial){
@@ -312,72 +374,15 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
    if(new_state != StateDialog && current_state != StateDialog){
 	    ChangeStateThroughBetween(new_state, previous_state);
     }else{
+        //SGB PALETTE CHECK
+        if(sgb_check()){
+            check_sgb_palette(new_state);
+        }
         manage_bgm(new_state, previous_state, next_map);
         SetState(new_state);
     }
 }
 
-void check_sgb_palette(UINT8 new_state) BANKED{
-    switch(new_state){
-        case StateCart:
-            set_sgb_palette01_cart();
-            set_sgb_palette_statusbar();
-        break;
-        case StateBosscrab:
-            set_sgb_crab();
-            set_sgb_palette_statusbar();
-        break;
-        case StateOutwalkers:
-        case StateHood:
-            set_sgb_palette01_HOOD();
-            set_sgb_palette_statusbar();
-        break;
-        case StateExzoo:
-            set_sgb_palette01_ZOO();
-            set_sgb_palette_statusbar();
-        break;
-        case StateSky:
-            set_sgb_SKY();
-            set_sgb_palette_statusbar();
-        break;
-        case StateSmith:
-            set_sgb_palette01_WOLF();
-            set_sgb_palette_statusbar();
-        break;
-        case StateBlackiecave:
-            set_sgb_palette01_BLACKIECAVE();
-            set_sgb_palette_statusbar();
-        break;
-        case StateCemetery:
-            set_sgb_palette01_CEMATERYCRYPT();
-            set_sgb_palette_statusbar();
-        break;
-        case StateMine:
-            set_sgb_palette01_MINE();
-            set_sgb_palette_statusbar();
-        break;
-        case StateMountain:
-            set_sgb_palette01_MINE();
-            set_sgb_palette_statusbar();
-        break;
-        case StateInventory:
-            set_sgb_palette_inventory();
-            reset_sgb_palette_statusbar();
-        break;
-        case StateDiary:
-        case StateDialog:
-        case StateOverworld:
-            if(new_state == StateOverworld){
-                switch(current_map){
-                    case 0:set_sgb_palette01_worldmap();break;//sw
-                    case 1:set_sgb_worldmap_nw();break;//nw
-                    case 2:set_sgb_palette01_worldmap_maze();break;//maze
-                }
-            }
-            reset_sgb_palette_statusbar();
-        break;
-    }
-}
 
 void UpdateHUD() BANKED{
     UINT8 idx_leftheart = 5;
@@ -437,6 +442,15 @@ void UpdateHUD() BANKED{
 
 }
 
+void LogItem(INVITEMTYPE invitemtype) BANKED{
+    //if(logtimeout > 0){logtimeout--;}
+    //if(logtimeout == 0u){
+        logtimeout = 90u;
+    //}
+    GetLocalizedLogItem_EN(invitemtype);
+    PRINT(0,0,log0);   
+}
+
 void Log(NPCNAME npcname) BANKED{    
     /*switch(motherpl_state){
         case MOTHERPL_IDLE: PRINT(0, 0, "IDLE"); break;
@@ -448,21 +462,21 @@ void Log(NPCNAME npcname) BANKED{
         case MOTHERPL_CRAWL_SURF: PRINT(0, 0, "CRAS"); break;
         case MOTHERPL_DASH: PRINT(0, 0, "DASH"); break;
     }
-    if(s_surf){
-        PRINT(5, 0, "SURF%i",motherpl_surf_dx);
-    }
-    */
-    /*else{
-        if(hurricane_info->step < 10){
-            PRINT(5, 2, "00%u",hurricane_info->step);   
-        }else if(hurricane_info->step < 100){
-            PRINT(5, 2, "0%u",hurricane_info->step);
-        }else{
-            PRINT(5, 2, "%u",hurricane_info->step);
+        if(s_surf){
+            PRINT(5, 0, "SURF%i",motherpl_surf_dx);
         }
-    }*/    
-    //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
-    //PRINT(16, 0, "!LOG");
+        */
+        /*else{
+            if(hurricane_info->step < 10){
+                PRINT(5, 2, "00%u",hurricane_info->step);   
+            }else if(hurricane_info->step < 100){
+                PRINT(5, 2, "0%u",hurricane_info->step);
+            }else{
+                PRINT(5, 2, "%u",hurricane_info->step);
+            }
+        }*/    
+        //PRINT(10, 3, "AR:%u%u", arrows_onscreen, 5u);
+        //PRINT(16, 0, "!LOG");
     if(logtimeout > 0){logtimeout--;}
     else{GetLocalizedLog_EN();}
     if(npcname != NONAME){

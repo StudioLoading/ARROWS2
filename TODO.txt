@@ -1,26 +1,14 @@
 POST DEMO:
 - video per Andrew con le sue musiche v0.2
-- le orde non compaiono!
+- abilitare missione blackie solo quando smith è già mio amico
+quindi il lupo nella cave deve dirmi picche se il fabbro ancora non è 
+>=ACCOMPLISHED
+- i ragni più grossi? o ragni che cadono dal soffitto e uso quelli vecchi mentre
+	sono in caduta ;) ?
 - Ale' suggerimenti:
-	- i limiti della mappa ow sono da controllare perché:
-		mentre andava nella blackiecave si bloccava sul "CAN'T GO THERE"
-		e a est non compariva il messaggio ma lo sprite continuava ad arretrare
-	- nella selezione su dialogo:
-		- l' icona deve essere di freccia giù, non end
-		- mi muovo tra le opzioni anche con le frecce orizzontali 
-	- togliere il limite sulla mappa 
-	- quando premo SELECT sul tutorial non si capisce che cambia il 
-	oggetto equipped. potrei far lampeggiare qualcosina che indichi
-	quella parte di statusBar
-	- con SU potrei far rollbackare il tutorial, ricominciando le 
-	scritte da capo
-	- il vuoto negli equip dell' inv è vuoto, il vuoto nei non-equipped
-	è nero. svuotarlo così è omogeneo
-	- exzoo: gli alberi sono pieni, le case sono vuote, svuotare gli alberi!
-	- nome dell' oggetto che pickuppo per due secondi dopo che lo raccolgo
-	- abilitare la missione dello smith da subito
+	- abilitare la missione dello smith da subito e abilitare quella di blackie
+		alla fine come ultima!
 	- checckare le missioni già completate
-	- riempire le case nell' exzoo?
 - scogliera mappa a sud di southwest
 	la scogliera a sud della owsw é da fare con sassi e muraglione
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
@@ -29,7 +17,6 @@ POST DEMO:
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
 - il 2 del titlescreen sul SGB è colorato a metà verde e metà nero
-- SGB credit le fiamme non sono rosse e nemmeno BN
 - musichetta di rifocillo all' ospedale quando mi curano!
 - spostare tutti gli sfx sul CH2
 
@@ -105,12 +92,10 @@ che parlano fra di loro, voci di ambiente in generale.
 KNOWN ISSUES:
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
-BUGS TO FEATURES:
-- ow flicker - è diventata una feature per segnalare terreno instabile
 
 PRODUCTION:
-- tutorial for the buttons!
-
+- just_started = 1 <<<<< cercarlo e rimetterlo
+- spawn_hidden_item da segnare sulla mappa del manuale
 
 
 

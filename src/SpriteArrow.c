@@ -12,7 +12,7 @@
 
 #define SLOW_FRAMESKIPX 1
 #define FAST_FRAMESKIPX 0
-#define NORMAL_FRAMESKIPX 1
+#define NORMAL_FRAMESKIPX 0//1
 
 #define MAX_ARROWS_ONSCREEN 4
 
@@ -40,6 +40,7 @@ void START(){
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
     arrow_data->hit = 0u;
     arrow_data->configured = 0u;
+    arrow_data->vx = 1;
     arrow_data->arrow_type = ARROW_UNASSIGNED;
 }
 
@@ -57,7 +58,7 @@ void UPDATE(){
             switch(arrow_data->arrow_type){
                 case ARROW_NORMAL:
                     SetSpriteAnim(THIS, arrow_anim_normal, 8u);
-                    arrow_data->arrow_fskipx_max = 1;
+                    arrow_data->arrow_fskipx_max = 0;
                 break;
                 case ARROW_PERF:
                     SetSpriteAnim(THIS, arrow_anim_perfo, 8u);
@@ -137,7 +138,6 @@ void UPDATE(){
                         switch(arrow_data->arrow_type){
                             case ARROW_NORMAL:
                                 if(iarrspr->type != SpriteBosscrab){
-                                    arrow_data->hit = 1u;
                                     changeEstate(iarrspr, ENEMY_HIT_1);
                                 }
                             break;

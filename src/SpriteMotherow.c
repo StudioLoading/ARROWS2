@@ -32,6 +32,7 @@ extern UINT8 just_started;
 extern UINT8 current_map;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
+extern struct MISSION find_blackie;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern UINT8 ow_pusha_hp;
@@ -170,7 +171,7 @@ void UPDATE(){
             if(CheckCollision(THIS, imowspr)) {
                 switch(imowspr->type){
                     case SpriteBlackieow:
-                        if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+                        if(find_blackie.current_step < 5u){//if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
                             trigger_dialog(BLACKIE, THIS);
                         }
                     break;
@@ -259,7 +260,7 @@ void ow_check_place() BANKED{//tile collision
                     case 0u:
                         if(just_started == 1u){
                             ChangeState(StateTutorial, THIS, 0);
-                            just_started = 0;
+                            just_started = 2;
                         }else{
                             ChangeState(StateExzoo, THIS, -1);
                         }

@@ -777,9 +777,6 @@ void shoot(){
                 break;
             }
             INT8 arrow_vx = 2;
-            if(itemEquipped.itemtype == INVITEM_ARROW_NORMAL){
-                arrow_vx = 1;
-            }
             if(THIS->mirror == NO_MIRROR){//looking right
                 arrow_data->vx = arrow_vx;
             }else{

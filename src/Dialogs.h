@@ -7,6 +7,7 @@ typedef enum{
 */
 typedef enum{
 	TIP_NOTHING,
+	TIP_PRESS_SELECT,
 	TIP_SMITH_NO,
 	TIP_HOSPITAL_NO,
 	TIP_BLACKIE_CAVE,
@@ -21,6 +22,7 @@ typedef enum{
 }TIP_TO_BE_LOCALIZED;
 
 void GetLocalizedLogName_EN(NPCNAME npcname) BANKED;
+void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED;
 void GetLocalizedLog_EN() BANKED;
 //void GetLocalizedLabel_EN(TO_BE_LOCALIZED label, char* d) BANKED;
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED label) BANKED;

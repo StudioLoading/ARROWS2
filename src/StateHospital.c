@@ -25,28 +25,7 @@ extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
-extern unsigned char d1[];
-extern unsigned char d2[];
-extern unsigned char d3[];
-extern unsigned char d4[];
-extern unsigned char d5[];
-extern unsigned char d6[];
-extern unsigned char d7[];
-extern unsigned char d8[];
-extern unsigned char d9[];
-extern unsigned char d10[];
-extern unsigned char d11[];
-extern unsigned char d12[];
-extern unsigned char d13[];
-extern unsigned char d14[];
-extern unsigned char d15[];
-extern unsigned char d16[];
-extern unsigned char d17[];
-extern unsigned char d18[];
-extern unsigned char d19[];
-extern unsigned char d20[];
-extern unsigned char d21[];
-extern unsigned char d22[];
+extern unsigned char d0[];
 extern WHOSTALKING whostalking;
 extern struct MISSION enable_hospital;
 
@@ -121,7 +100,7 @@ void UPDATE() {
 				whostalking = HOSPITAL_DISABLED; 
                 enable_hospital.mission_state = MISSION_STATE_ENABLED;
                 if(get_quantity(INVITEM_METAL_SPECIAL) > 0){//se in inventario ho il metallo specialo
-                    enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
+                    enable_hospital.mission_state = MISSION_STATE_REWARDED;
                     whostalking = HOSPITAL_ENABLING;
                     motherpl_hp = 5;
                 }
@@ -131,6 +110,8 @@ void UPDATE() {
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
         dialog_ready = 1u;
+        PRINT(0, 7, d0);
+        
     }
     if(dialog_ready == 1u){
         if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){

@@ -20,8 +20,6 @@ IMPORT_MAP(invwindowmap);
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
-extern UINT8 border_set_diary;
-extern UINT8 border_set_ow;
 extern unsigned char ddinv1[];
 extern unsigned char ddinv2[];
 extern unsigned char ddinv3[];
@@ -65,6 +63,7 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
+extern void LogItem(INVITEMTYPE invitemtype) BANKED;
 
 void START(){
 	//SOUND
@@ -227,6 +226,8 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     if(item_added == 0u){//non ancora aggiunto causa mancanza di posto
 
+    }else{
+        LogItem(pickedup_data->itemtype);
     }
     //SFX
         if(item_added == 1 && sfx_played == 0u){

@@ -25,8 +25,6 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_diary[] = {1, 2, 0};
-extern UINT8 border_set_diary;
-extern UINT8 border_set_ow;
 extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 extern unsigned char m0[17];
 extern unsigned char m1[17];
@@ -183,6 +181,20 @@ void show_detail(){
         case 0u:
             switch(cursor_posi){
                 case 0u:
+                    if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D0, dd2);
+                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D1, dd3);
+                        if(engage_smith.current_step > 0){
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
+                        }
+                        if(engage_smith.mission_state == MISSION_STATE_REWARDED){
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
+                        }
+                    }
+                break;
+                case 1u:
                     GetLocalizedDDLabel_EN(FIND_BLACKIE_D0, dd2);    
                     GetLocalizedDDLabel_EN(FIND_BLACKIE_D1, dd3);
                     GetLocalizedDDLabel_EN(FIND_BLACKIE_D2, dd4); 
@@ -196,27 +208,17 @@ void show_detail(){
                         GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
                     }
                 break;
-                case 1u:
-                    if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
-                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D0, dd2);
-                        GetLocalizedDDLabel_EN(ENGAGE_SMITH_D1, dd3);
-                        if(engage_smith.mission_state >= MISSION_STATE_ACCOMPLISHED){
-                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
-                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
-                        }
-                    }
-                break;
                 case 2u:
                     if(enable_hospital.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D0, dd2);
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D1, dd3);
-                        if(enable_hospital.mission_state >= MISSION_STATE_REWARDED){
+                        if(enable_hospital.mission_state <= MISSION_STATE_ACCOMPLISHED){
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D2, dd4);
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D3, dd5);
                         }
-                        if(enable_hospital.mission_state >= MISSION_STATE_ACCOMPLISHED){
-                            GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D4, dd4);
-                            GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D5, dd5);
+                        if(enable_hospital.mission_state >= MISSION_STATE_REWARDED){
+                            GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D4, dd6);
+                            GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D5, dd7);
                         }
                     }
                 break;
@@ -298,11 +300,11 @@ void show_missions(){
 	PRINT(8, 0, dd1);
     switch(idx_page){
         case 0u:
-            if(find_blackie.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, m0);
-            }
             if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, m1);
+                GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, m0);
+            }
+            if(find_blackie.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, m1);
             }
             if(enable_hospital.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_TITLE, m2);
@@ -346,7 +348,6 @@ void change_page(INT8 inc){
 
 void UPDATE(){
     if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
-        border_set_diary = 0u;
         ChangeStateThroughBetween(StateOverworld, StateDiary);
     }
     if(showing_detail == 0u){

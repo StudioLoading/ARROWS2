@@ -35,7 +35,7 @@ extern UINT8 mapwidth;
 void Estart() BANKED;
 void configure() BANKED;
 void ETurn(UINT8 e_vx);
-void changeEstate(ENEMY_STATE new_e_state) BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 UINT8 getEmaxFrameskip() BANKED;
 void Econfiguration() BANKED;
 void Emanagement() BANKED;
@@ -68,7 +68,7 @@ void UPDATE(){
             return;
         }
     //CHECK DEATH
-        if(eu_info->hp <= 0){changeEstate(ENEMY_DEAD);}
+        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
         Emanagement();
 }
@@ -138,7 +138,7 @@ void Emanagement() BANKED{
                             switch(THIS->type){
                                 case SpriteEnemysimplesnake:
                                 case SpriteEnemysimplerat:
-                                    changeEstate(ENEMY_UPSIDEDOWN);
+                                    changeEstate(THIS, ENEMY_HIT_1);
                                     return;
                                 break;
                             }
@@ -148,7 +148,7 @@ void Emanagement() BANKED{
                             && eu_info->e_state != ENEMY_DEAD
                             && motherpl_hit != 1u){
                             motherpl_hit = 1u;
-                            changeEstate(ENEMY_WAIT);
+                            changeEstate(THIS, ENEMY_WAIT);
                         }
                     break;
                     case SpriteArrow:
@@ -162,22 +162,30 @@ void Emanagement() BANKED{
                             struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
                             arrow_data->hit = 1u;
                             if(eu_info->e_state == ENEMY_PREATTACK){
-                                changeEstate(ENEMY_TREMBLING);
+                                changeEstate(THIS, ENEMY_TREMBLING);
                             }
                             switch(arrow_data->arrow_type){
                                 case ARROW_NORMAL:
-                                    changeEstate(ENEMY_HIT_1);
+                                    if(eu_info->hp > 1){
+                                        changeEstate(THIS, ENEMY_HIT_1);
+                                    }else{
+                                        changeEstate(THIS, ENEMY_DEAD);
+                                    }
                                 break;
                                 case ARROW_PERF:
-                                case ARROW_BASTARD:
-                                    changeEstate(ENEMY_HIT_2);
+                                case ARROW_BASTARD:                                
+                                    if(eu_info->hp > 2){
+                                        changeEstate(THIS, ENEMY_HIT_2);
+                                    }else{
+                                        changeEstate(THIS, ENEMY_DEAD);
+                                    }
                                 break;
                             }
                         }
                     break;
                     case SpriteEnemythrowable:
                         if(THIS->type == SpriteEnemysimplerat || THIS->type == SpriteEnemysimplesnake){
-                            changeEstate(ENEMY_HIT_1);
+                            changeEstate(THIS, ENEMY_HIT_1);
                         }
                     break;
                 }
@@ -202,18 +210,18 @@ void Emanagement() BANKED{
             case ENEMY_HIT_2:
             case ENEMY_WAIT:
                 if(eu_info->wait){eu_info->wait--;}
-                else if(eu_info->hp > 0){changeEstate(ENEMY_WALK);}
-                else{changeEstate(ENEMY_DEAD);}
+                else if(eu_info->hp > 0){changeEstate(THIS, ENEMY_WALK);}
+                else{changeEstate(THIS, ENEMY_DEAD);}
                 return;
             break;
             case ENEMY_WALK:
                 eu_info->wait--;
                 {
                     INT16 distance = THIS->x - s_motherpl->x;
-                    if(THIS->mirror == NO_MIRROR && distance > 80){
+                    if(THIS->mirror == NO_MIRROR && distance > 30){
                         ETurn(eu_info->vx);
                         return;
-                    }else if( THIS->mirror == V_MIRROR && distance < -80){
+                    }else if( THIS->mirror == V_MIRROR && distance < -30){
                         ETurn(eu_info->vx);
                         return;
                     }
@@ -224,7 +232,7 @@ void Emanagement() BANKED{
                         case SpriteEnemyAttackerPine:
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
-                            changeEstate(ENEMY_PREATTACK);
+                            changeEstate(THIS, ENEMY_PREATTACK);
                         break;
                     }
                 }
@@ -245,22 +253,22 @@ void Emanagement() BANKED{
                     switch(THIS->type){
                         case SpriteEnemyAttackerPine:
                         case SpriteEnemyAttackerCobra:
-                            changeEstate(ENEMY_ATTACK);
+                            changeEstate(THIS, ENEMY_ATTACK);
                         break;
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
-                            changeEstate(ENEMY_THROW);
+                            changeEstate(THIS, ENEMY_THROW);
                         break;
                     }
                 }
             break;
             case ENEMY_ATTACK:
                 eu_info->wait--;
-                if(eu_info->wait == 0u){changeEstate(ENEMY_WALK);}
+                if(eu_info->wait == 0u){changeEstate(THIS, ENEMY_WALK);}
             break;
             case ENEMY_THROW:
                 eu_info->wait--;
-                if(eu_info->wait == 0u){changeEstate(ENEMY_WAIT);}
+                if(eu_info->wait == 0u){changeEstate(THIS, ENEMY_WAIT);}
             break;
             case ENEMY_UPSIDEDOWN:
                 eu_info->wait--;
@@ -269,11 +277,6 @@ void Emanagement() BANKED{
                         THIS->mirror = NO_MIRROR;
                     }else{
                         THIS->mirror = V_MIRROR;
-                    }
-                    if(eu_info->hp > 1){
-                        changeEstate(ENEMY_HIT_1);
-                    }else{
-                        changeEstate(ENEMY_DEAD);
                     }
                     //changeEstate(ENEMY_WAIT);
                 }
@@ -346,7 +349,7 @@ void ETurn(UINT8 e_vx){
     }
     e_info->vx = -e_vx;
     e_info->wait = 24u;
-    changeEstate(ENEMY_WAIT);
+    changeEstate(THIS, ENEMY_WAIT);
 }
 
 void configure() BANKED{
@@ -370,14 +373,14 @@ void configure() BANKED{
     e_info->vx = E_VX;
     e_info->configured = 2u;
     e_info->e_state =  ENEMY_IDLE;
-    changeEstate(ENEMY_WALK);
+    changeEstate(THIS, ENEMY_WALK);
     if(s_motherpl->x < THIS->x){
         ETurn(E_VX);
     }
 }
 
-void changeEstate(ENEMY_STATE new_e_state) BANKED{
-    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
+    struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
     if((new_e_state == ENEMY_HIT_1 || new_e_state == ENEMY_HIT_2)
          && e_info->e_state == ENEMY_ATTACK){
         return;//Invulnerabilità durante l' attacco!
@@ -410,29 +413,24 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 40u;
             break;
             case ENEMY_HIT_2:
-                e_info->wait = 56u;
                 my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
-                e_info->hp--;
+                e_info->hp-=2;
                 if(e_info->hp <= 0u){
-                    changeEstate(ENEMY_DEAD);
-                    return;
-                }
-                e_info->hp--;
-                if(e_info->hp <= 0u){
-                    changeEstate(ENEMY_DEAD);
+                    changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
+                    e_info->wait = 56u;
                     TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
             case ENEMY_HIT_1:
                 my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
                 e_info->hp--;
-                e_info->wait = 56u;
                 if(e_info->hp <= 0u){
-                    changeEstate(ENEMY_DEAD);
+                    changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
+                    e_info->wait = 56u;
                     TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
@@ -477,6 +475,10 @@ void changeEstate(ENEMY_STATE new_e_state) BANKED{
                     EspawnItem();
                 }
                 TranslateSprite(THIS, 0, -10 << delta_time);
+                if(e_info->hp <= 1){
+                    e_info->wait = 0u;
+                    changeEstate(THIS, ENEMY_DEAD);
+                }
             break;
         }
         //UPDATE ANIMATION

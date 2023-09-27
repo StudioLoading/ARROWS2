@@ -21,7 +21,7 @@ void EthrowWeb(ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
 extern void configure() BANKED;
-extern void changeEstate(ENEMY_STATE new_e_state) BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void Econfiguration() BANKED;
 extern void Emanagement() BANKED;
 
@@ -40,7 +40,7 @@ void UPDATE(){
             return;
         }
     //CHECK DEATH
-        if(eu_info->hp <= 0){changeEstate(ENEMY_DEAD);}
+        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
         Emanagement();
 }
