@@ -32,10 +32,10 @@ DECLARE_MUSIC(bgm_hood);
 DECLARE_MUSIC(bgm_gameover);
 DECLARE_MUSIC(bgm_reward);
 
-DECLARE_MUSIC(__03_ow2_v2_noch2);
+DECLARE_MUSIC(_03ow2v2noch2);
 DECLARE_MUSIC(_03_ow2);
 DECLARE_MUSIC(_04);
-DECLARE_MUSIC(__04_v2_noch2);
+DECLARE_MUSIC(_04_v2_noch2);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -52,7 +52,7 @@ extern UINT8 motherpl_hit_cooldown;
 extern WHOSTALKING whostalking;
 extern Sprite* s_motherow;
 extern unsigned char log0[];
-extern UINT8 current_map;
+extern INT8 current_map;
 extern UINT8 teleporting;
 
 UINT8 mine_powderspawned = 3u;
@@ -101,7 +101,7 @@ void check_sgb_palette(UINT8 new_state) BANKED;
 void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
 
-extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void restartFromHospital() BANKED{
     current_map = 0;
@@ -109,7 +109,7 @@ void restartFromHospital() BANKED{
     motherow_pos_x = (UINT16) 35u << 3;
     motherow_pos_y = (UINT16) 20u << 3;
     previous_state = StateOverworld;
-    ChangeStateThroughBetween(StateHospital, StateOverworld);
+    ChangeStateThroughBetween(StateHospital);
 }
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
@@ -150,9 +150,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         	StopMusic;
             if(just_started == 0){
                 switch(current_map){
-                    case 0u:PlayMusic(__03_ow2_v2_noch2, 1);break;
-                    case 1u:PlayMusic(bgm_ow, 1);break;
-                    case 2u:break;
+                    case 0:PlayMusic(_03ow2v2noch2, 1);break;
+                    case 1:PlayMusic(bgm_ow, 1);break;
+                    case 2:break;
                 }
             }            
         break;
@@ -171,7 +171,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateMountain:
         case StateMine:
             if(previous_state == StateInventory){ResumeMusic;}
-            else if(previous_state != StateDialog){StopMusic;PlayMusic(__04_v2_noch2, 1);}//bgm_mine
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(_04_v2_noch2, 1);}//bgm_mine
         break;
         case StateHood:
             if(previous_state == StateInventory){ResumeMusic;}
@@ -199,7 +199,6 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
         break;
     }
 }
-
 
 void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
@@ -368,11 +367,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     }
     //}
     /*if(motherpl_state == MOTHERPL_DEAD){
-        ChangeStateThroughBetween(new_state, previous_state);
+        ChangeStateThroughBetween(new_state);
     }else 
     */
-   if(new_state != StateDialog && current_state != StateDialog){
-	    ChangeStateThroughBetween(new_state, previous_state);
+   if(new_state != StateDialog && current_state != StateDialog && new_state != StateTitlescreen){
+	    ChangeStateThroughBetween(new_state);
     }else{
         //SGB PALETTE CHECK
         if(sgb_check()){

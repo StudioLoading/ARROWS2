@@ -14,8 +14,8 @@ void set_sgb_palette_title() __banked {
         UINT8 padding;
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
-        .pal1 = {RGB8(255, 255, 255), RGB8(88, 216, 84), RGB8(0, 168, 0),  RGB8(0, 84, 0)}, //SGB_STATUS_RED},
-        .pal2 = {SGB_STATUS_LIGHT, RGB8(247, 142, 14), RGB8(0, 0, 0)}, //RGB8(228, 92, 16)
+        .pal1 = {myRGB(255, 255, 255), myRGB(88, 216, 84), myRGB(0, 168, 0),  myRGB(0, 84, 0)}, //SGB_STATUS_RED},
+        .pal2 = {SGB_STATUS_LIGHT, myRGB(247, 142, 14), myRGB(0, 0, 0)}, //myRGB(228, 92, 16)
         .padding = 0 
     };
 	/*struct {
@@ -51,8 +51,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
             0b01010101,0b10101010,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010}
+            0b10101010,0b10101010}
     };	
 	struct {
         UINT8 command;
@@ -69,8 +68,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
    		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
             0b01010101,0b01010101,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010}
+            0b10101010,0b10101010}
     };	
 	struct {
         UINT8 command;
@@ -87,9 +85,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
         0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010}
+        0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -106,9 +102,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
         0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010}
+        0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -125,9 +119,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
         0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010}
+        0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -144,9 +136,7 @@ void set_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
         0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010,
-        0b10101010,0b10101010,0b10101010,0b10101010}
+        0b10101010,0b10101010}
     };
     sgb_transfer((void *)&SGB_PALETTE2_PACKET);
     //sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
@@ -173,7 +163,7 @@ void reset_sgb_palette_title() __banked {
         .ycoo = 0u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		.ds = {0,0,0,0,0,0,0,0,0,0}
     };
 	struct {
         UINT8 command;
@@ -188,7 +178,7 @@ void reset_sgb_palette_title() __banked {
         .ycoo = 1u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		.ds = {0,0,0,0,0,0,0,0,0,0}
     };	
 	struct {
         UINT8 command;
@@ -203,7 +193,7 @@ void reset_sgb_palette_title() __banked {
         .ycoo = 2u,
         .ndata = 20u,
 		.style = 0,
-   		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+   		.ds = {0,0,0,0,0,0,0,0,0,0}
     };	
 	struct {
         UINT8 command;
@@ -218,7 +208,7 @@ void reset_sgb_palette_title() __banked {
         .ycoo = 3u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		.ds = {0,0,0,0,0,0,0,0,0,0}
     };
 	struct {
         UINT8 command;
@@ -233,7 +223,7 @@ void reset_sgb_palette_title() __banked {
         .ycoo = 4u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		.ds = {0,0,0,0,0,0,0,0,0,0}
     };
 	struct {
         UINT8 command;
@@ -250,9 +240,7 @@ void reset_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0,0,0,0,
         0,0,0,0,
-        0,0,0,0,
-        0,0,0,0,
-        0,0,0,0}
+        0,0}
     };
 	struct {
         UINT8 command;
@@ -269,9 +257,7 @@ void reset_sgb_palette_title() __banked {
 		.style = 0,
 		.ds = {0,0,0,0,
         0,0,0,0,
-        0,0,0,0,
-        0,0,0,0,
-        0,0,0,0}
+        0,0}
     };
     sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_SECONDLINE_PACKET);
@@ -290,7 +276,7 @@ void set_sgb_palette_statusbar() __banked {
         UINT8 padding;
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
-        .pal1 = {RGB8(255, 255, 255), SGB_STATUS_LIGHT, SGB_STATUS_RED, SGB_STATUS_DARKER},
+        .pal1 = {myRGB(255, 255, 255), SGB_STATUS_LIGHT, SGB_STATUS_RED, SGB_STATUS_DARKER},
         .pal2 = {SGB_PAL2_LIGHT, SGB_STATUS_LIGHT, SGB_STATUS_DARKER},
         .padding = 0 
     };
@@ -307,7 +293,9 @@ void set_sgb_palette_statusbar() __banked {
         .ycoo = 15u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -322,7 +310,9 @@ void set_sgb_palette_statusbar() __banked {
         .ycoo = 16u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010}
     };
 	struct {
         UINT8 command;
@@ -337,7 +327,9 @@ void set_sgb_palette_statusbar() __banked {
         .ycoo = 17u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010,0b10101010}
+		.ds = {0b10101010,0b10010101,0b01010101,0b01010110,
+        0b10101010,0b10101010,0b10101010,0b10101010,
+        0b10101010,0b10101010}
     };
     sgb_transfer((void *)&SGB_PALETTE2_PACKET);
     sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_0);
@@ -374,7 +366,9 @@ void reset_sgb_palette_statusbar() __banked{
         .ycoo = 15u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+                0b00000000,0b00000000,0b00000000,0b00000000,
+                0b00000000,0b00000000}
     };	
 	struct {
         UINT8 command;
@@ -389,7 +383,9 @@ void reset_sgb_palette_statusbar() __banked{
         .ycoo = 16u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000}
     };
 	struct {
         UINT8 command;
@@ -404,7 +400,9 @@ void reset_sgb_palette_statusbar() __banked{
         .ycoo = 17u,
         .ndata = 20u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000}
     };
     sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_0);	
     sgb_transfer((void *)&SGB_PALETTE_STATUS_PACKET_1);	
@@ -441,7 +439,9 @@ void set_sgb_palette01_intro() __banked{
         .ycoo = 0u,
         .ndata = 14u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000}
     };
     sgb_transfer((void *)&SGB_PALETTE_ZEROZEROLINE_PACKET);
 	struct {
@@ -457,7 +457,9 @@ void set_sgb_palette01_intro() __banked{
         .ycoo = 1u,
         .ndata = 14u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000}
     };
     sgb_transfer((void *)&SGB_PALETTE_ZEROLINE_PACKET);
 	struct {
@@ -473,7 +475,9 @@ void set_sgb_palette01_intro() __banked{
         .ycoo = 2u,
         .ndata = 14u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000}
     };
     sgb_transfer((void *)&SGB_PALETTE_FIRSTLINE_PACKET);
 	struct {
@@ -489,26 +493,27 @@ void set_sgb_palette01_intro() __banked{
         .ycoo = 3u,
         .ndata = 14u,
 		.style = 0,
-		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
+		.ds = {0b00000000,0b00000000,0b00000000,0b00000000,
+        0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}
     };
     sgb_transfer((void *)&SGB_PALETTE_SECONDLINE_PACKET);
-	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(0, 0, 0), SGB_PAL1B_DARKER);
+	set_sgb_palette(SGB_PAL1B_LIGHTER, myRGB(255, 187, 17), myRGB(0, 0, 0), SGB_PAL1B_DARKER);
 
 }
 void set_sgb_palette01_secret() __banked{
-	set_sgb_palette( RGB8(0, 64, 88), RGB8(0, 136, 136), SGB_PAL2H_DARK, RGB8(0, 0, 0));
+	set_sgb_palette( myRGB(0, 64, 88), myRGB(0, 136, 136), SGB_PAL2H_DARK, myRGB(0, 0, 0));
 }
 void set_sgb_palette01_worldmap() __banked{
-    set_sgb_palette(RGB8(255, 255, 255), RGB8(252, 160, 68), SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
+    set_sgb_palette(myRGB(255, 255, 255), myRGB(252, 160, 68), SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
 void set_sgb_worldmap_nw() __banked{
-	set_sgb_palette(RGB8(255, 255, 255), RGB8(240, 208, 176), RGB8(0, 120, 0), RGB8(80, 48, 0));
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(240, 208, 176), myRGB(0, 120, 0), myRGB(80, 48, 0));
 }
 void set_sgb_crab() __banked{
-	set_sgb_palette(RGB8(252, 252, 252), RGB8(164, 228, 252), RGB8(60, 188, 252), RGB8(0, 64, 88));
+	set_sgb_palette(myRGB(252, 252, 252), myRGB(164, 228, 252), myRGB(60, 188, 252), myRGB(0, 64, 88));
 }
 void set_sgb_palette01_worldmap_maze() __banked{
-	set_sgb_palette(RGB8(255, 255, 255), RGB8(240, 208, 176), RGB8(148, 0, 132), RGB8(0, 0, 0));
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(240, 208, 176), myRGB(148, 0, 132), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_WOLF() __banked{
 	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PAL2H_DARK, SGB_PAL2H_DARKER);
@@ -517,7 +522,7 @@ void set_sgb_palette01_BLACKIECAVE() __banked{
     set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PALBLUE_DARK, SGB_PAL2H_DARKER);
 }
 void set_sgb_palette01_MISTYHILLS() __banked{
-	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, RGB8(4, 255, 0), SGB_PAL2H_DARKER);
+	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, myRGB(4, 255, 0), SGB_PAL2H_DARKER);
 }
 void set_sgb_palette01_TITLEINVERTED() __banked{
 	set_sgb_palette(SGB_PAL2A_LIGHTER, SGB_PAL2A_DARK, SGB_PAL2A_LIGHT, SGB_PAL2A_DARKER);
@@ -526,77 +531,77 @@ void set_sgb_palette01_COMUNEKO() __banked{
 	set_sgb_palette(SGB_COMUNEKO_LIGHTER, SGB_COMUNEKO_LIGHT, SGB_COMUNEKO_DARK, SGB_COMUNEKO_DARKER);
 }
 void set_sgb_palette01_HOOD() __banked{
-	set_sgb_palette(RGB8(255, 255, 255), RGB8(252, 160, 68), RGB8(0, 120, 0), SGB_PAL4B_DARKER);
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(252, 160, 68), myRGB(0, 120, 0), SGB_PAL4B_DARKER);
 }
 /*
 void set_sgb_palette01_MOTHER() __banked{
-    set_sgb_palette(SGB_PAL2A_LIGHTER, RGB8(255, 194, 209), RGB8(198, 132, 74), SGB_PAL2A_DARKER);
+    set_sgb_palette(SGB_PAL2A_LIGHTER, myRGB(255, 194, 209), myRGB(198, 132, 74), SGB_PAL2A_DARKER);
 }
 */
 void set_sgb_SKY() __banked{
-    set_sgb_palette(RGB8(220, 220, 220), RGB8(248, 216, 120), RGB8(120, 120, 120), RGB8(0, 0, 0));
+    set_sgb_palette(myRGB(220, 220, 220), myRGB(248, 216, 120), myRGB(120, 120, 120), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_ZOO() __banked {
 	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL4B_LIGHT, SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
 void set_sgb_palette01_MINE() __banked {
-	set_sgb_palette(SGB_PAL1E_LIGHTER, RGB8(252, 160, 68), RGB8(172, 124, 0), RGB8(90, 57, 33));
+	set_sgb_palette(SGB_PAL1E_LIGHTER, myRGB(252, 160, 68), myRGB(172, 124, 0), myRGB(90, 57, 33));
 }
 void set_sgb_palette01_CEMATERYCRYPT() __banked {
-	set_sgb_palette(RGB8(255, 255, 255), RGB8(184, 184, 184), RGB8(176, 62, 255), RGB8(40, 0, 136));
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(184, 184, 184), myRGB(176, 62, 255), myRGB(40, 0, 136));
 }
 void set_sgb_palette01_MAZE() __banked{
-    set_sgb_palette(RGB8(220, 220, 220), RGB8(160, 160, 160), RGB8(0, 128, 128), RGB8(86, 56, 32));
+    set_sgb_palette(myRGB(220, 220, 220), myRGB(160, 160, 160), myRGB(0, 128, 128), myRGB(86, 56, 32));
 }
 void set_sgb_palette01_cart()__banked{
-    set_sgb_palette(RGB8(255, 134, 0), RGB8(255, 189, 0), RGB8(255, 57, 0), RGB8(0, 0, 0));
+    set_sgb_palette(myRGB(255, 134, 0), myRGB(255, 189, 0), myRGB(255, 57, 0), myRGB(0, 0, 0));
 }
 /*
 void set_sgb_palette01_AMULET_THUNDER() __banked{
-	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(198, 132, 74), SGB_PAL1B_DARKER);
+	set_sgb_palette(SGB_PAL1B_LIGHTER, myRGB(255, 187, 17), myRGB(198, 132, 74), SGB_PAL1B_DARKER);
 }
 void set_sgb_palette01_AMULET_ICE() __banked{
-	set_sgb_palette(RGB8(255, 255, 173), RGB8(248, 248, 248), RGB8(60, 188, 252), SGB_PAL1B_DARKER);
+	set_sgb_palette(myRGB(255, 255, 173), myRGB(248, 248, 248), myRGB(60, 188, 252), SGB_PAL1B_DARKER);
 }
 void set_sgb_palette01_SEWER() __banked {
-	set_sgb_palette(RGB8(188, 188, 188), RGB8(152, 120, 248), RGB8(0, 64, 88), RGB8(0, 0, 0));
+	set_sgb_palette(myRGB(188, 188, 188), myRGB(152, 120, 248), myRGB(0, 64, 88), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_GATORSWAMP() __banked {
-	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL1E_LIGHT, RGB8(0, 136, 136), SGB_PAL1E_DARKER);
+	set_sgb_palette(SGB_PAL1E_LIGHTER, SGB_PAL1E_LIGHT, myRGB(0, 136, 136), SGB_PAL1E_DARKER);
 }
 void set_sgb_palette01_GATOR() __banked {
 	set_sgb_palette(SGB_PAL2A_LIGHTER, SGB_PAL2A_DARK, SGB_PAL2A_DARK, SGB_PAL2A_DARKER);
 }
 void set_sgb_palette01_FOREST() __banked {
-	set_sgb_palette(SGB_PAL1D_LIGHTER, SGB_PAL1D_LIGHT, RGB8(82, 24, 0), RGB8(0, 0, 0));
+	set_sgb_palette(SGB_PAL1D_LIGHTER, SGB_PAL1D_LIGHT, myRGB(82, 24, 0), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_EAGLE() __banked {
-	set_sgb_palette(SGB_PAL1F_LIGHTER, SGB_PAL1F_LIGHT, RGB8(172, 124, 0), RGB8(0, 0, 0));
+	set_sgb_palette(SGB_PAL1F_LIGHTER, SGB_PAL1F_LIGHT, myRGB(172, 124, 0), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_IBEX() __banked {
-	set_sgb_palette( RGB8(224, 232, 1),  RGB8(168, 168, 88), RGB8(176, 176, 176), RGB8(0, 0, 0));
+	set_sgb_palette( myRGB(224, 232, 1),  myRGB(168, 168, 88), myRGB(176, 176, 176), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_BEAR() __banked {
-	set_sgb_palette(SGB_PAL1E_LIGHTER, RGB8(228, 92, 16), RGB8(80, 48, 0), RGB8(90, 57, 33));
+	set_sgb_palette(SGB_PAL1E_LIGHTER, myRGB(228, 92, 16), myRGB(80, 48, 0), myRGB(90, 57, 33));
 }
 void set_sgb_palette01_ICE() __banked {
-	set_sgb_palette(RGB8(255, 255, 255), RGB8(164, 228, 252), RGB8(29, 176, 249), RGB8(0, 0, 0));
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(164, 228, 252), myRGB(29, 176, 249), myRGB(0, 0, 0));
 }
 void set_sgb_palette01_WALRUS() __banked {
-	set_sgb_palette(RGB8(255, 255, 173), RGB8(164, 228, 252), RGB8(172, 124, 0), RGB8(90, 57, 33));
+	set_sgb_palette(myRGB(255, 255, 173), myRGB(164, 228, 252), myRGB(172, 124, 0), myRGB(90, 57, 33));
 }
 void set_sgb_palette01_CASTLE() __banked{
-    set_sgb_palette(RGB8(220, 220, 220), RGB8(160, 160, 160), RGB8(0, 128, 128), RGB8(86, 56, 32));
+    set_sgb_palette(myRGB(220, 220, 220), myRGB(160, 160, 160), myRGB(0, 128, 128), myRGB(86, 56, 32));
 }
 void set_sgb_palette01_BOSS() __banked{
-    set_sgb_palette(RGB8(255, 255, 255), RGB8(192, 208, 240), RGB8(255, 168, 0), RGB8(80, 8, 88));
+    set_sgb_palette(myRGB(255, 255, 255), myRGB(192, 208, 240), myRGB(255, 168, 0), myRGB(80, 8, 88));
 }
 void set_sgb_palette01_1A() __banked {
 	set_sgb_palette(SGB_PAL1A_LIGHTER, SGB_PAL1A_LIGHT, SGB_PAL1A_DARK, SGB_PAL1A_DARKER);
 }
 
 void set_sgb_palette01_1B() __banked {
-	set_sgb_palette(SGB_PAL1B_LIGHTER, RGB8(255, 187, 17), RGB8(100, 100, 100), SGB_PAL1B_DARKER);
+	set_sgb_palette(SGB_PAL1B_LIGHTER, myRGB(255, 187, 17), myRGB(100, 100, 100), SGB_PAL1B_DARKER);
 }
 
 void set_sgb_palette01_1D() __banked {

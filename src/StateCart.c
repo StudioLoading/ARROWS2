@@ -44,7 +44,6 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
-extern UINT8 current_map;
 extern Sprite* s_surf;
 extern UINT8 tiles_anim_interval;
 extern UINT8 timeout_cavesand;

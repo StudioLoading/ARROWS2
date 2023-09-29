@@ -41,6 +41,7 @@ UINT16 cur_posx[4];
 UINT16 cur_posy[4];
 UINT8 cur_posi = 0u;
 UINT8 generic_counter2 = 0u;
+extern UINT8 give_new_password;
 
 void update_curpos(INT8 move) BANKED;
 void update_pcode(INT8 move) BANKED;
@@ -49,7 +50,7 @@ INT8 check_password() BANKED;
 void password_reset() BANKED;
 void load_chapter() BANKED;
 
-extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern void missions_init() BANKED;
 extern void inventory_init() BANKED;
 extern void position_init() BANKED;
@@ -101,21 +102,61 @@ void START(){
     //SHOW
         SHOW_BKG;
         SHOW_SPRITES;
-    //WRITE TEXT    
-        PRINT(0, 1, "WHAT'S THE LAST CODE");
-        PRINT(0, 2, "YOU REMEMBER TO BE  ");
-        PRINT(0, 3, "TOLD?               ");
-        PRINT(0, 15, "START  TO LOAD     ");
-        PRINT(0, 16, "SELECT TO RESET    ");
+    //WRITE TEXT
+        switch(give_new_password){
+            case 0:
+                PRINT(0, 1, "WHAT'S THE LAST CODE");
+                PRINT(0, 2, "YOU REMEMBER TO BE  ");
+                PRINT(0, 3, "TOLD?               ");
+                PRINT(0, 15, "START  TO LOAD     ");
+                PRINT(0, 16, "SELECT TO RESET    ");
+            break;
+            case 1:
+                PRINT(0, 1, "IF YOU WANT TO START");
+                PRINT(0, 2, "FROM THIS POINT I   ");
+                PRINT(0, 3, "SUGGEST YOU THE CODE");
+                PRINT(0, 15, "WRITE IT DOWN AND  ");
+                PRINT(0, 16, "    PRESS START    ");
+            break;
+        }
+    //READONLY SHOW PASSWORD
+    if(give_new_password == 1){
+        give_new_password = 0;
+        chapter++;
+        pcode0_info->tetradado_state = PASSWORD;
+        pcode1_info->tetradado_state = PASSWORD;
+        pcode2_info->tetradado_state = PASSWORD;
+        pcode3_info->tetradado_state = PASSWORD;
+        switch(chapter){
+            case 1:
+                pcode0_info->tetradado_faccia = FACCIA_4;
+                pcode1_info->tetradado_faccia = FACCIA_1;
+                pcode2_info->tetradado_faccia = FACCIA_4;
+                pcode3_info->tetradado_faccia = FACCIA_1;
+            break;
+            case 2:
+                pcode0_info->tetradado_faccia = FACCIA_4;
+                pcode1_info->tetradado_faccia = FACCIA_2;
+                pcode2_info->tetradado_faccia = FACCIA_4;
+                pcode3_info->tetradado_faccia = FACCIA_3;
+            break;
+        }
+    }
 }
 
 void UPDATE(){
+    if(give_new_password == 1){ 
+        if(KEY_RELEASED(J_START)){
+            load_chapter();
+        }
+        return;
+     }
     if(sfx_cooldown > 0){sfx_cooldown--;}
     generic_counter++;
     if(generic_counter == 0u){
         generic_counter2++;
         if(generic_counter2 == 5u){
-            ChangeStateThroughBetween(StateCredit, StatePassword);
+            ChangeStateThroughBetween(StateCredit);
         }
     }
     if(KEY_TICKED(J_RIGHT)){ update_curpos(1); }
@@ -145,15 +186,15 @@ void load_chapter() BANKED{
         case 0:
             previous_state = StateOverworld;
             whostalking = INTRO;
-            ChangeStateThroughBetween(StateDialog, StateTitlescreen);
+            ChangeStateThroughBetween(StateDialog);
         break;
         case 1:
             just_started = 0;
-            ChangeStateThroughBetween(StateOverworld, StatePassword);
+            ChangeStateThroughBetween(StateOverworld);
         break;
         case 2:
             just_started = 0;
-            ChangeStateThroughBetween(StateCart, StatePassword);
+            ChangeStateThroughBetween(StateCart);
         break;
     }
 }
@@ -219,7 +260,7 @@ void update_pcode_face(struct TetradadoInfo* pcode_data, INT8 move) BANKED{
 }
 
 INT8 check_password() BANKED{
-    INT8 result = -1u;
+    INT8 result = -1;
     //IF ALL PCODE IS STILL WAITING (MEANS WITH ? SHOWN)
         if(pcode0_info->tetradado_state != PASSWORD &&
         pcode1_info->tetradado_state != PASSWORD &&
@@ -232,7 +273,7 @@ INT8 check_password() BANKED{
         pcode1_info->tetradado_state != PASSWORD ||
         pcode2_info->tetradado_state != PASSWORD ||
         pcode3_info->tetradado_state != PASSWORD){
-            result = -1u;
+            result = -1;
         }
     //CHECK IF ALL PCODE HAS PASSWORD STATUS
         else if(pcode0_info->tetradado_state == PASSWORD &&
@@ -245,14 +286,14 @@ INT8 check_password() BANKED{
                 pcode1_info->tetradado_faccia == FACCIA_1 &&
                 pcode2_info->tetradado_faccia == FACCIA_4 &&
                 pcode3_info->tetradado_faccia == FACCIA_1){
-                    result = 1u;
+                    result = 1;
                 }
             //cpt3
                 if(pcode0_info->tetradado_faccia == FACCIA_4 &&
                 pcode1_info->tetradado_faccia == FACCIA_2 &&
                 pcode2_info->tetradado_faccia == FACCIA_4 &&
                 pcode3_info->tetradado_faccia == FACCIA_3){
-                    result = 2u;
+                    result = 2;
                 }
         }
     return result;

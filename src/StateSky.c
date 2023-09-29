@@ -43,7 +43,6 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
-extern UINT8 current_map;
 extern Sprite* s_surf;
 
 const UINT8 coll_tiles_sky[] = { 7u, 14u, 17u, 18u, 19u, 20u, 24u, 28u, 32u, 36u, 40u, 44u, 0};

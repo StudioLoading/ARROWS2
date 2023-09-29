@@ -1,16 +1,6 @@
 POST DEMO:
 - video per Andrew con le sue musiche v0.2
-- abilitare missione blackie solo quando smith è già mio amico
-quindi il lupo nella cave deve dirmi picche se il fabbro ancora non è 
->=ACCOMPLISHED
-- i ragni più grossi? o ragni che cadono dal soffitto e uso quelli vecchi mentre
-	sono in caduta ;) ?
-- Ale' suggerimenti:
-	- abilitare la missione dello smith da subito e abilitare quella di blackie
-		alla fine come ultima!
-	- checckare le missioni già completate
-- scogliera mappa a sud di southwest
-	la scogliera a sud della owsw é da fare con sassi e muraglione
+- dashando potrei rompere le foglie
 - owmaze labirinto dungeon hidden obj, ci stanno adesso?
 - State in cui comunico una nuova password!
 - SGB colori stateBandits
@@ -103,6 +93,20 @@ ZGB HACKS:
 Sprite.h
 #define CUSTOM_DATA_SIZE 8
 #define CUSTOM_DATA_SIZE 10
+C:\Users\checc\GB\ZGB-2023.0\common\src\MakefileCommon
+toxa mi ha detto di fare le modifiche sotto, i #BINFLAGS sono le righe originali
+Dice che è perché la mia rom è più di mezzo mega
+ifeq ($(wildcard savegame.c), )
+	#No savegame, mbc1
+	#BINFLAGS += -yt 1
+	BINFLAGS += -yt 0x19
+else
+	#Savegame
+	#BINFLAGS += -yt 3 -ya 1
+	BINFLAGS += -yt 0x1B -ya 1
+	CFLAGS += -DUSE_SAVEGAME
+endif
+
 
 
 PAD2 sulla SNES, prendere spunto da:

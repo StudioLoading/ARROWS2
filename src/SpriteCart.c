@@ -213,7 +213,7 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
     if(new_cart_state != motherpl_state){
         switch(new_cart_state){
             case MOTHERPL_JUMP:
-                cart_vy = -12u;
+                cart_vy = -12;
                 cart_can_jump = 0;
                 cart_delta_y = 0;
                 cart_frmskip_x = 0;

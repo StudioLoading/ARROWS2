@@ -56,7 +56,7 @@ extern UINT8 choice_left;
 extern UINT8 choice_right;
 extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
-extern UINT8 current_map;
+extern INT8 current_map;
 extern INT8 chapter;
 extern INT8 outwalker_info_step;
 extern INT8 outwalker_info_given;
@@ -68,6 +68,7 @@ UINT8 writing_line = 1u;
 UINT8 n_lines = 0u;
 Sprite* dialog_cursor = 0;
 UINT8 next_page = 0u;
+UINT8 give_new_password = 0;
 
 void move_on() BANKED;
 void shift_text_one_line_up() BANKED;
@@ -411,6 +412,22 @@ void move_on() BANKED{
 		dialog_ready = 0u;
 		return;
 	}
+    //CHECK NEW PASSWORD TO GIVE?
+    switch(whostalking){
+        case BLACKIE:
+            if(find_blackie.current_step == 4u){
+                give_new_password = 1;
+            }
+        break;
+        case IBEX_GIVE_HERBS:
+            give_new_password = 1;
+        break;
+
+    }
+    if(give_new_password == 1){
+        SetState(StatePassword);
+        return;
+    }
     if(whostalking == DEATH){
         //restart from hospital
         restartFromHospital();

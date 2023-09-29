@@ -49,7 +49,7 @@ extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
 
 
-void set_inv_bkg_data(UINT8 item, UINT8 first_tile, UINT8 nb_tiles, 
+void set_inv_bkg_data(UINT8 first_tile, UINT8 nb_tiles, 
 	UINT8 bank, UINT8 isEmpty, struct TilesInfo* t) NONBANKED {
     uint8_t save = _current_bank;
     SWITCH_ROM(bank);
@@ -91,42 +91,42 @@ void dialog_map() BANKED{
 
 void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 	if(isEmpty){
-		set_inv_bkg_data(item, 49u, 25, BANK(inventorytiles), isEmpty, &inventorytiles);
+		set_inv_bkg_data(49u, 25, BANK(inventorytiles), isEmpty, &inventorytiles);
 	}else{
 		switch(item){
 			case INVITEM_MONEY:
-				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmoneytiles), isEmpty, &invdetailmoneytiles);
+				set_inv_bkg_data(49u, 25, BANK(invdetailmoneytiles), isEmpty, &invdetailmoneytiles);
 			break;
 			case INVITEM_POWDER:
-				set_inv_bkg_data(item, 49u, 25, BANK(idpowdertiles), isEmpty, &idpowdertiles);
+				set_inv_bkg_data(49u, 25, BANK(idpowdertiles), isEmpty, &idpowdertiles);
 			break;
 			case INVITEM_LETTER:
 			case INVITEM_PASS:
-				set_inv_bkg_data(item, 49u, 25, BANK(idlettertiles), isEmpty, &idlettertiles);
+				set_inv_bkg_data(49u, 25, BANK(idlettertiles), isEmpty, &idlettertiles);
 			break;
 			case INVITEM_WOOD:
-				set_inv_bkg_data(item, 49u, 25, BANK(invdetailwoodtiles), isEmpty, &invdetailwoodtiles);
+				set_inv_bkg_data(49u, 25, BANK(invdetailwoodtiles), isEmpty, &invdetailwoodtiles);
 			break;
 			case INVITEM_METAL:
-				set_inv_bkg_data(item, 49u, 25, BANK(invdetailmetaltiles), isEmpty, &invdetailmetaltiles);
+				set_inv_bkg_data(49u, 25, BANK(invdetailmetaltiles), isEmpty, &invdetailmetaltiles);
 			break;
 			case INVITEM_ARROW_NORMAL:
-				set_inv_bkg_data(item, 49u, 25, BANK(idnormaltiles), isEmpty, &idnormaltiles);
+				set_inv_bkg_data(49u, 25, BANK(idnormaltiles), isEmpty, &idnormaltiles);
 			break;
 			case INVITEM_ARROW_PERFO:
-				set_inv_bkg_data(item, 49u, 25, BANK(idperfotiles), isEmpty, &idperfotiles);
+				set_inv_bkg_data(49u, 25, BANK(idperfotiles), isEmpty, &idperfotiles);
 			break;
 			case INVITEM_ARROW_BASTARD:
-				set_inv_bkg_data(item, 49u, 25, BANK(idbastardtiles), isEmpty, &idbastardtiles);
+				set_inv_bkg_data(49u, 25, BANK(idbastardtiles), isEmpty, &idbastardtiles);
 			break;
 			case INVITEM_GLASSES:
-				set_inv_bkg_data(item, 49u, 25, BANK(idglasstiles), isEmpty, &idglasstiles);
+				set_inv_bkg_data(49u, 25, BANK(idglasstiles), isEmpty, &idglasstiles);
 			break;
 			case INVITEM_FLOWER:
-				set_inv_bkg_data(item, 49u, 25, BANK(idflowertiles), isEmpty, &idflowertiles);
+				set_inv_bkg_data(49u, 25, BANK(idflowertiles), isEmpty, &idflowertiles);
 			break;
 			case INVITEM_BOX:
-				set_inv_bkg_data(item, 49u, 25, BANK(idboxtiles), isEmpty, &idboxtiles);
+				set_inv_bkg_data(49u, 25, BANK(idboxtiles), isEmpty, &idboxtiles);
 			break;
 		}
 	}

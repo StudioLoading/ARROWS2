@@ -144,7 +144,9 @@ void UPDATE(){
                 if(timeout_enemy > 0){timeout_enemy--;}            
                 else if (horde_step <= 5){
                     UINT8 enemy_type = SpriteEnemysimplesnake;
-                    UINT8 horde_counter_max = 0u;         
+                    UINT8 horde_counter_max = 0u;
+                    UINT16 spawn_enemy_x = (UINT16) 9u << 3;
+                    UINT16 spawn_enemy_y = (UINT16) 52u;
                     switch(horde_step){
                         case 2u:
                             horde_counter_max = HORDE_SNAKE;
@@ -160,17 +162,19 @@ void UPDATE(){
                         break;           
                         case 5u://SPIDER HORDE
                             horde_counter_max = HORDE_SPIDER;
-                            enemy_type = SpriteEnemyThrowerSpider;
+                            spawn_enemy_x = 20u;
+                            spawn_enemy_y = 20u;
+                            enemy_type = SpriteSpider;//SpriteEnemyThrowerSpider;
                         break;
                     }            
-                    if(horde_counter <= horde_counter_max){
-                        Sprite* s_snake2 = SpriteManagerAdd(enemy_type, (UINT16) 9u << 3, (UINT16) 52u);
+                    if(horde_counter < horde_counter_max){
+                        Sprite* s_snake2 = SpriteManagerAdd(enemy_type, spawn_enemy_x, spawn_enemy_y);
                         if(horde_counter % 2 == 0){
                             struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
                             s_snake2_data->vx = 4;
                         }
                         horde_counter++;
-                        timeout_enemy = 100u;
+                        timeout_enemy = 120u;
                     }else{        
                         UINT8 i = 0u;
                         enemies_alive = 0u;

@@ -52,7 +52,6 @@ void START() {
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	NR50_REG = 0x77; //Max volume 0x77
-    SpriteManagerLoad(SpriteInvcursor);
     //SGB PALETTE
         if(sgb_check()){
             set_sgb_palette01_WOLF();
@@ -133,12 +132,6 @@ void UPDATE() {
             next_page = 0u;
             dialog_ready = 0u;
             return;
-        }
-        switch(previous_state){
-            case StateOverworld:
-            break;
-            default:
-            break;
         }
         dialog_ready = 0;
         move_on();

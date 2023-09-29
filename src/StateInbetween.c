@@ -24,7 +24,7 @@ extern WHOSTALKING whostalking;
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
 
-void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START(){
 	InitScroll(BANK(inbetweenmap), &inbetweenmap, 0, 0);
@@ -38,7 +38,7 @@ void UPDATE(){
     }
 }
 
-void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED{
+void ChangeStateThroughBetween(UINT8 new_state) BANKED{
     new_state_to_go = new_state;
     countdown = 60u;
     HIDE_WIN;

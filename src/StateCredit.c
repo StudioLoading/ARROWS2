@@ -27,7 +27,7 @@ extern UINT8 J_FIRE;
 extern struct EtoReload e_to_reload[3];
 extern WHOSTALKING whostalking;
 extern UINT8 stop_music_on_new_state;
-extern UINT8 current_map;//0=south-west, 1=north-east, 2=maze, 3=north-east
+extern INT8 current_map;//0=south-west, 1=north-east, 2=maze, 3=north-east
 extern UINT8 generic_counter;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
@@ -55,7 +55,7 @@ struct MISSION outwalker_smith = {.mission_title = OUTWALKER_SMITH,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
-struct MISSION* missions[8];
+struct MISSION* missions[9];
 /* 
 {find_blackie, engage_smith, help_cemetery_woman, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
@@ -88,12 +88,12 @@ void missions_init() BANKED{
 	switch(chapter){
 		case 0u:
 			current_map = 0u;
+			engage_smith.mission_state = MISSION_STATE_ENABLED;
+			engage_smith.current_step = 0u;
 			find_blackie.mission_state = MISSION_STATE_DISABLED;
 			find_blackie.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_DISABLED;
 			enable_hospital.current_step = 0u;
-			engage_smith.mission_state = MISSION_STATE_ENABLED;
-			engage_smith.current_step = 0u;
 			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
 			help_cemetery_woman.current_step = 0u;
 			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
@@ -106,8 +106,8 @@ void missions_init() BANKED{
 			get_to_the_mountain.current_step = 0u;
 		break;
 		case 1u:
-			current_map = 1u;
-			find_blackie.mission_state = MISSION_STATE_ACCOMPLISHED;
+			current_map = 1;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
@@ -125,7 +125,7 @@ void missions_init() BANKED{
 			get_to_the_mountain.current_step = 0u;
 		break;
 		case 2u:
-			current_map = 1u;
+			current_map = 1;
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -147,11 +147,12 @@ void missions_init() BANKED{
 	missions[0] = &engage_smith;
 	missions[1] = &find_blackie;
 	missions[2] = &enable_hospital;
-	missions[3] = &help_cemetery_woman;
-	missions[4] = &outwalker_chief;
-	missions[5] = &outwalker_glass;
-	missions[6] = &outwalker_smith;
-	missions[7] = &get_to_the_mountain;
+	missions[3] = 0;
+	missions[4] = &help_cemetery_woman;
+	missions[5] = &outwalker_chief;
+	missions[6] = &outwalker_glass;
+	missions[7] = &outwalker_smith;
+	missions[8] = &get_to_the_mountain;
 }
 
 void inventory_init() BANKED{
@@ -205,7 +206,7 @@ void inventory_init() BANKED{
 void position_init() BANKED{
 	switch(chapter){
 		case 0u:
-			current_map = 0u;
+			current_map = 0;
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 26u << 3;
 		break;
@@ -220,13 +221,13 @@ void position_init() BANKED{
 			motherpl_pos_x = (UINT16) 4u << 3;
 			motherpl_pos_y = (UINT16) 7u << 3;*/
 			/*start chapter 1 into maze for test purpose
-			current_map = 2u;
+			current_map = 2;
 			motherow_pos_x = (UINT16) 3u << 3;
 			motherow_pos_y = (UINT16) 2u << 3;
 			*/
 		break;
 		case 2u:
-			current_map = 1u;
+			current_map = 1;
 			motherow_pos_x = (UINT16) 6u << 3;//22 MAP0
 			motherow_pos_y = (UINT16) 28u << 3;//21 MAP0
 			motherpl_pos_x = (UINT16) 8u << 3;

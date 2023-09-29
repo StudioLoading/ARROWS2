@@ -25,7 +25,6 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_diary[] = {1, 2, 0};
-extern UINT8 current_map;//0=south-west, 1=south-east, 2=north-west, 3=north-east
 extern unsigned char m0[17];
 extern unsigned char m1[17];
 extern unsigned char m2[17];
@@ -53,11 +52,12 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
+extern struct MISSION* missions[9];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
 INT8 cursor_posi = 0u;
-UINT8 cursor_old_posi = 0u;
+INT8 cursor_old_posi = 0u;
 const INT8 cursor_posimax = 4;//6
 Sprite* diary_cursor = 0;
 Sprite* dado0 = 0;
@@ -74,8 +74,9 @@ void show_missions();
 void show_detail();
 void change_page(INT8 inc);
 void show_pcodes();
+void update_diary_cursor();
 
-extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START(){
     //HIDE_WIN;
@@ -99,6 +100,7 @@ void START(){
         show_pcodes();
         show_missions();
         showing_detail = 0u;
+        update_diary_cursor();
     
 	SHOW_SPRITES;
 }
@@ -189,8 +191,8 @@ void show_detail(){
                             GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
                         }
                         if(engage_smith.mission_state == MISSION_STATE_REWARDED){
-                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
-                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D4, dd6);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D5, dd7);
                         }
                     }
                 break;
@@ -212,7 +214,7 @@ void show_detail(){
                     if(enable_hospital.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D0, dd2);
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D1, dd3);
-                        if(enable_hospital.mission_state <= MISSION_STATE_ACCOMPLISHED){
+                        if(enable_hospital.mission_state >= MISSION_STATE_ACCOMPLISHED){
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D2, dd4);
                             GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D3, dd5);
                         }
@@ -237,9 +239,9 @@ void show_detail(){
                                 GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
                                 GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
                             }
-                            if(help_cemetery_woman.mission_state >= MISSION_STATE_REWARDED){                            
-                                GetLocalizedDDLabel_EN(WIDOW_D4, dd8);
-                                GetLocalizedDDLabel_EN(WIDOW_D5, dd9);
+                            if(help_cemetery_woman.mission_state == MISSION_STATE_REWARDED){                            
+                                GetLocalizedDDLabel_EN(WIDOW_D6, dd8);
+                                GetLocalizedDDLabel_EN(WIDOW_D7, dd9);
                             }
                         }
                     }
@@ -344,11 +346,13 @@ void change_page(INT8 inc){
         else{idx_page %= (chapter+1);}
     }
     show_pcodes();
+    cursor_posi = 0;
+    update_diary_cursor();
 }
 
 void UPDATE(){
     if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
-        ChangeStateThroughBetween(StateOverworld, StateDiary);
+        ChangeStateThroughBetween(StateOverworld);
     }
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){
@@ -387,6 +391,7 @@ void UPDATE(){
             cursor_old_posi = cursor_posi;
             diary_cursor->x = cursor_posx[cursor_posi];
             diary_cursor->y = cursor_posy[cursor_posi];
+            update_diary_cursor();
         }
     }else{
         if(scroll_target->x < (UINT16) 29u << 3){
@@ -409,4 +414,15 @@ void UPDATE(){
             showing_detail = 0u;
         }
     }
+}
+
+void update_diary_cursor(){
+    struct EnemyData* dcursor_data = (struct EnemyData*) diary_cursor->custom_data;
+    INT8 missions_idx = cursor_posi + (idx_page * 4);
+    if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
+        dcursor_data->configured = 1;
+    }else{                
+        dcursor_data->configured = 0;
+    }
+    dcursor_data->wait = 1;            
 }

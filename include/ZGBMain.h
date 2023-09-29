@@ -62,6 +62,7 @@ _SPRITE_DMG(SpriteEnemysimplerat, enemyrat)\
 _SPRITE_DMG(SpriteEnemyAttackerCobra, enemycobra)\
 _SPRITE_DMG(SpriteEnemyAttackerPine, enemyporcupine)\
 _SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
+_SPRITE_DMG(SpriteSpider, spider)\
 _SPRITE_DMG(SpriteEnemyThrowerSpider, enemyspider)\
 _SPRITE_DMG(SpriteEnemyThrowerTarantula, enemytarantula)\
 _SPRITE_DMG(SpriteArrow, arrow)\

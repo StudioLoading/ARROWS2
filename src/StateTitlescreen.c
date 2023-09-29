@@ -41,11 +41,11 @@ extern void Anim_Titlescreen_0() BANKED;
 extern void Anim_Titlescreen_1() BANKED;
 extern void Anim_Titlescreen_2() BANKED;
 extern void Anim_Titlescreen_3() BANKED;
-extern void ChangeStateThroughBetween(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START() {
-    LOAD_SGB_BORDER(border2);
+    //LOAD_SGB_BORDER(border2);
 	//SOUND
 		NR52_REG = 0x80; //Enables sound, you should always setup this first
 		NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -77,7 +77,7 @@ void UPDATE() {
         if(generic_counter2 == 8u){
 			StopMusic;
 			reset_sgb_palette_title();
-            ChangeStateThroughBetween(StateCredit, StateTitlescreen);
+            ChangeStateThroughBetween(StateCredit);
         }
     }
 	if(titlescreen_step < 3u){
@@ -145,7 +145,7 @@ void UPDATE() {
 			}
 			if(titlescreen_wait_time > 60){
 				reset_sgb_palette_title();
-				ChangeStateThroughBetween(StatePassword, StateTitlescreen);
+				ChangeStateThroughBetween(StatePassword);
 			}
 		break;
 	}

@@ -43,11 +43,11 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
-extern UINT8 current_map;
+extern INT8 current_map;
 extern UINT8 enemy_wave;
 
-const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 0};
-const UINT8 coll_surface_hood[] = {0};
+const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 92u, 94u, 105u, 0};
+const UINT8 coll_surface_hood[] = {83u, 0};
 Sprite* s_child;
 UINT16 spawn_child_cooldown = 100u;
 
@@ -71,10 +71,10 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
         switch(current_map){
-            case 0u://comes from south-west
+            case 0://comes from south-west
                 s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
             break;
-            case 1u://comes from north-west
+            case 1://comes from north-west
                 s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 91u << 3, (UINT16) 9u << 3);
                 s_motherpl->mirror = V_MIRROR;
             break;
@@ -177,7 +177,10 @@ void UPDATE(){
                         }
                     break;
                     case 0u:
-                        if(s_motherpl->x > ((UINT16) 60u << 3) && s_motherpl->x < ((UINT16) 62u << 3)){
+                        if(s_motherpl->x > ((UINT16) 60u << 3)){
+                            if(s_motherpl->x > ((UINT16) 70u << 3)){
+                                s_motherpl->x = (UINT16) 70u << 3;
+                            }
                             spawn_child_cooldown--;
                             if(spawn_child_cooldown == 0){
                                 s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);

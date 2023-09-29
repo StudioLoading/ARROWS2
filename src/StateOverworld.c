@@ -86,6 +86,7 @@ void initial_sprite_spawning() BANKED;
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED;
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
 void maze_teleport() BANKED;
+void showing_tip(); 
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
@@ -105,19 +106,19 @@ void START(){
     //INIT GRAPHICS
 		show_tip = 0u;
 		switch (current_map){
-			case 0u://south-west
+			case 0://south-west
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
 			break;
-			case 1u://north-west
+			case 1://north-west
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_UP;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(ownorthwest), &ownorthwest, collision_tiles_ow_sw, 0);				
 				//SpriteManagerAdd(SpriteArmor, (UINT16) 14u << 3, (UINT16) 40u << 3);
 			break;
-			case 2u://labyrinth
+			case 2://labyrinth
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
@@ -140,17 +141,17 @@ void START(){
 	hudow_opened = 0;
 	//LIMITS
 		switch(current_map){
-			case 0u://SOUTH WEST
+			case 0://SOUTH WEST
 				lim_up_y = ((UINT16) 9u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
 				lim_down_y = ((UINT16) 200u << 3);
 			break;
-			case 1u://NORTH WEST
+			case 1://NORTH WEST
 				lim_up_y = ((UINT16) 200u << 3);
 				lim_down_y = ((UINT16) 48u << 3);
 				lim_east_x = ((UINT16) 79u << 3);
 			break;
-			case 2u://MAZE
+			case 2://MAZE
 				lim_up_y = ((UINT16) 200u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 				lim_down_y = ((UINT16) 37u << 3);
@@ -265,7 +266,7 @@ void maze_teleport() BANKED{
 
 void initial_sprite_spawning() BANKED{
 	switch(current_map){
-		case 0u:
+		case 0:
 			if(chapter == 0){
 				if(find_blackie.current_step > 2 && find_blackie.current_step < 5u){
 					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
@@ -283,11 +284,11 @@ void initial_sprite_spawning() BANKED{
 				spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u);
 			}
 		break;
-		case 1u:
+		case 1:
 			if(chapter == 1){
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u);
 				Sprite* s_crabow = 0;
-				if(current_map == 1u){ 
+				if(current_map == 1){ 
 					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
 					&& outwalker_glass.current_step < 3){
 						s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
@@ -303,7 +304,7 @@ void initial_sprite_spawning() BANKED{
 				}
 			}
 		break;
-		case 2u://maze
+		case 2://maze
 			//configuring teleporting
 			maze_teleport();
 			if(chapter == 1){//memoria a tappo!
@@ -379,7 +380,7 @@ void UPDATE(){
 		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			switch(current_map){
-				case 0u://ow south west
+				case 0://ow south west
 					if(find_blackie.current_step < 5u || 
 						help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
 						if(s_motherow->y < lim_up_y){
@@ -395,7 +396,7 @@ void UPDATE(){
 						}
 					}
 				break;
-				case 1u://ow north west
+				case 1://ow north west
 					if(s_motherow->y > lim_down_y){//go south to StateHood
 						ChangeState(StateHood, s_motherow, -1);
 					}else if(s_motherow->x > lim_east_x){
@@ -405,7 +406,7 @@ void UPDATE(){
 						}
 					}
 				break;
-				case 2u://maze
+				case 2://maze
 					if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
                         ChangeState(StateOverworld, s_motherow, 1);
 					}

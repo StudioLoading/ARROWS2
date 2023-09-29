@@ -430,10 +430,10 @@ void UPDATE(){
         }
         if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
         if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
-        if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
-            //THIS->x = s_surf->x + motherpl_surf_dx;
-            //THIS->y = s_surf->y - 23u;
-        }
+        /*if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
+            THIS->x = s_surf->x + motherpl_surf_dx;
+            THIS->y = s_surf->y - 23u;
+        }*/
     //ACTUAL MOVEMENT
         if(motherpl_state != MOTHERPL_CRAWL_SURF){      
             motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
@@ -469,7 +469,7 @@ void UPDATE(){
                 switch(motherpl_coll_x){
                     case 5u:
                         if(THIS->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                            ChangeState(StateTetra, motherpl_state, -1);
+                            ChangeState(StateTetra, THIS, -1);
                         }else{ //GO TO MAP
                             ChangeState(StateOverworld, THIS, -1);
                         }

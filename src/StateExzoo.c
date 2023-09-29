@@ -41,7 +41,8 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_smith;
 
-const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 88u, 89u, 90u, 0};
+const UINT8 coll_tiles_exzoo[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u,
+88u, 89u, 90u, 92u, 94u, 0};
 const UINT8 coll_surface_exzoo[] = {1u, 27u, 0};
 
 

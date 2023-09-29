@@ -601,6 +601,9 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		case WOMAN:
 			memcpy(log0, "WOMAN               ", 20);
 		break;
+		case MARGARET:
+			memcpy(log0, "MARGARET            ", 20);
+		break;
 		case LUKE:
 			memcpy(log0, "LUKE                ", 20);
 		break;

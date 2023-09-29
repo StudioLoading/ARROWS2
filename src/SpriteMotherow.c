@@ -29,7 +29,7 @@ extern UINT8 showed_tip_goback;
 extern TIP_TO_BE_LOCALIZED tip_to_show;
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
-extern UINT8 current_map;
+extern INT8 current_map;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern struct MISSION find_blackie;
