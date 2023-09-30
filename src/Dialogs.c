@@ -127,7 +127,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_GROTTO:
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "       GROTTO       \0", 22);
+			memcpy(d2, "    OUTWALKER CAMP   \0", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;

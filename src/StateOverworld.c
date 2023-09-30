@@ -76,6 +76,8 @@ extern INT8 chapter;
 extern UINT8 previous_state;
 extern FA2OW_SPRITE_STATES new_state;
 extern UINT8 just_started;
+extern UINT16 motherpl_pos_x;
+extern UINT16 motherpl_pos_y;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -308,9 +310,9 @@ void initial_sprite_spawning() BANKED{
 			//configuring teleporting
 			maze_teleport();
 			if(chapter == 1){//memoria a tappo!
-				//spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 21u, 30u);
+				spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u);
 				//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
-				//spawn_hidden_item(INVITEM_HEART, 1, 47u, 6u);
+				spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u);
 			}
 		break;
 	}
@@ -379,21 +381,32 @@ void UPDATE(){
 		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x || s_motherow->y > lim_down_y){
 		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
+			UINT8 alt = 0u;
 			switch(current_map){
 				case 0://ow south west
-					if(find_blackie.current_step < 5u || 
-						help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
-						if(s_motherow->y < lim_up_y){
-							s_motherow->y = lim_up_y + 6u;
-						}
-						if(s_motherow->x > lim_east_x){
-							s_motherow->x = lim_east_x - 6u;
-						}												
-						owTips(TIP_STILL_SOMETHING);
-					}else{
-						if(s_motherow->y < 10u){//go north to StateHood
-							ChangeState(StateHood, s_motherow, -1);
-						}
+					switch(chapter){
+						case 0u:
+							if(find_blackie.current_step < 5u || 
+								help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
+								if(s_motherow->y < lim_up_y){
+									s_motherow->y = lim_up_y + 6u;
+									alt = 1;
+								}
+							}
+							if(s_motherow->x > lim_east_x){
+								s_motherow->x = lim_east_x - 6u;
+								alt = 1;
+							}
+						break;
+						case 1u:
+							if(s_motherow->y < 10u){//go north to StateHood
+								ChangeState(StateHood, s_motherow, -1);
+							}
+							if(s_motherow->x > lim_east_x){
+								s_motherow->x = lim_east_x - 6u;
+								alt = 1;
+							}
+						break;
 					}
 				break;
 				case 1://ow north west
@@ -402,7 +415,7 @@ void UPDATE(){
 					}else if(s_motherow->x > lim_east_x){
 						if(chapter == 1){
 							s_motherow->x = lim_east_x - 6u;
-							owTips(TIP_STILL_SOMETHING);
+							alt = 1;
 						}
 					}
 				break;
@@ -414,11 +427,13 @@ void UPDATE(){
 						//TODO dove spunta quando esce dal labirinto?
 						outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
 						outwalker_chief.current_step = 2;
+						motherpl_pos_x = (UINT16) 83u << 3;
+						motherpl_pos_y = (UINT16) 10u << 3;
 						ChangeState(StateExzoo, s_motherow, -1);
 					}
 				break;
-
 			}
+			if(alt != 0){owTips(TIP_STILL_SOMETHING);}
 		}
 	//CAMERA FOLLOW
 		if(show_tip == 0u){

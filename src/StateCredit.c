@@ -212,19 +212,17 @@ void position_init() BANKED{
 		break;
 		case 1u:
 			current_map = 0;
-			motherow_pos_x = (UINT16) 12u << 3;//22 MAP0
-			motherow_pos_y = (UINT16) 36u << 3;//21 MAP0
+			motherow_pos_x = (UINT16) 12u << 3;
+			motherow_pos_y = (UINT16) 36u << 3;
 			/*CRAB
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 11u << 3;*/
 			/*MINE
-			motherpl_pos_x = (UINT16) 4u << 3;
-			motherpl_pos_y = (UINT16) 7u << 3;*/
-			/*start chapter 1 into maze for test purpose
 			current_map = 2;
+			motherpl_pos_x = (UINT16) 4u << 3;
+			motherpl_pos_y = (UINT16) 7u << 3;
 			motherow_pos_x = (UINT16) 3u << 3;
-			motherow_pos_y = (UINT16) 2u << 3;
-			*/
+			motherow_pos_y = (UINT16) 2u << 3;*/
 		break;
 		case 2u:
 			current_map = 1;

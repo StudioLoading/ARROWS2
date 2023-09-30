@@ -15,6 +15,7 @@
 
 
 IMPORT_TILES(font);
+IMPORT_MAP(borderdiary);
 IMPORT_MAP(password);
 
 extern Sprite* inv_cursor;
@@ -58,6 +59,7 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 
 
 void START(){
+    LOAD_SGB_BORDER(borderdiary);
     //SGB PALETTE
         if(sgb_check()){
             set_sgb_palette01_WOLF();
@@ -77,9 +79,11 @@ void START(){
         pcode_3 = SpriteManagerAdd(SpriteTetradado, ((UINT16) 15u << 3), ((UINT16) 11u << 3));
         pcode3_info = (struct TetradadoInfo*) pcode_3->custom_data;
         pcode3_info->tetradado_state = DADO_WAITING;
-        inv_cursor = SpriteManagerAdd(SpriteInvcursor, pcode_0->x, pcode_0->y-16u);
-        struct ItemSpawned* invcursor_data = (struct ItemSpawned*)inv_cursor->custom_data;
-        invcursor_data->configured = 1;
+        if(give_new_password == 0){
+            inv_cursor = SpriteManagerAdd(SpriteInvcursor, pcode_0->x, pcode_0->y-16u);
+            struct ItemSpawned* invcursor_data = (struct ItemSpawned*)inv_cursor->custom_data;
+            invcursor_data->configured = 1;
+        }
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
         //NR50_REG = 0x44; //Max volume 0x77
@@ -120,33 +124,33 @@ void START(){
             break;
         }
     //READONLY SHOW PASSWORD
-    if(give_new_password == 1){
-        give_new_password = 0;
-        chapter++;
-        pcode0_info->tetradado_state = PASSWORD;
-        pcode1_info->tetradado_state = PASSWORD;
-        pcode2_info->tetradado_state = PASSWORD;
-        pcode3_info->tetradado_state = PASSWORD;
-        switch(chapter){
-            case 1:
-                pcode0_info->tetradado_faccia = FACCIA_4;
-                pcode1_info->tetradado_faccia = FACCIA_1;
-                pcode2_info->tetradado_faccia = FACCIA_4;
-                pcode3_info->tetradado_faccia = FACCIA_1;
-            break;
-            case 2:
-                pcode0_info->tetradado_faccia = FACCIA_4;
-                pcode1_info->tetradado_faccia = FACCIA_2;
-                pcode2_info->tetradado_faccia = FACCIA_4;
-                pcode3_info->tetradado_faccia = FACCIA_3;
-            break;
+        if(give_new_password == 1){
+            chapter++;
+            pcode0_info->tetradado_state = PASSWORD;
+            pcode1_info->tetradado_state = PASSWORD;
+            pcode2_info->tetradado_state = PASSWORD;
+            pcode3_info->tetradado_state = PASSWORD;
+            switch(chapter){
+                case 1:
+                    pcode0_info->tetradado_faccia = FACCIA_4;
+                    pcode1_info->tetradado_faccia = FACCIA_1;
+                    pcode2_info->tetradado_faccia = FACCIA_4;
+                    pcode3_info->tetradado_faccia = FACCIA_1;
+                break;
+                case 2:
+                    pcode0_info->tetradado_faccia = FACCIA_4;
+                    pcode1_info->tetradado_faccia = FACCIA_2;
+                    pcode2_info->tetradado_faccia = FACCIA_4;
+                    pcode3_info->tetradado_faccia = FACCIA_3;
+                break;
+            }
         }
-    }
 }
 
 void UPDATE(){
     if(give_new_password == 1){ 
         if(KEY_RELEASED(J_START)){
+            give_new_password = 0;
             load_chapter();
         }
         return;

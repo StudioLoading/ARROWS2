@@ -634,6 +634,11 @@ void UPDATE(){
                         SpriteManagerRemoveSprite(implspr);
                         }
                     break;
+                    case SpriteLeaf:
+                        if(motherpl_state == MOTHERPL_DASH){
+                            SpriteManagerRemoveSprite(implspr);
+                        }
+                    break;
                 }            
             }
         }

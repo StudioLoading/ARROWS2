@@ -1,8 +1,5 @@
 POST DEMO:
 - video per Andrew con le sue musiche v0.2
-- dashando potrei rompere le foglie
-- owmaze labirinto dungeon hidden obj, ci stanno adesso?
-- State in cui comunico una nuova password!
 - SGB colori stateBandits
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
