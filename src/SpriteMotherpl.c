@@ -481,7 +481,8 @@ void UPDATE(){
             break;
             case StateMine:
                 switch(motherpl_coll_x){
-                    case 11u:
+                    case 90u:
+                    case 91u:
                         if(motherpl_state == MOTHERPL_DASH){
                             if(THIS->mirror == NO_MIRROR){
                                 THIS->x++;
@@ -636,6 +637,7 @@ void UPDATE(){
                     break;
                     case SpriteLeaf:
                         if(motherpl_state == MOTHERPL_DASH){
+                            SpriteManagerAdd(SpritePuff, implspr->x, implspr->y);
                             SpriteManagerRemoveSprite(implspr);
                         }
                     break;

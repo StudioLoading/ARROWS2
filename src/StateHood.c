@@ -15,7 +15,6 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(border);
 IMPORT_TILES(font);
 IMPORT_TILES(hoodswnwtiles);
 IMPORT_MAP(hoodswnwmap);
@@ -61,7 +60,6 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 UINT16 test_counter = 120u;
 
 void START(){
-    LOAD_SGB_BORDER(border);
     //SOUND
         NR52_REG = 0x80; //Enables sound, you should always setup this first
         NR51_REG = 0xFF; //Enables all channels (left and right)
@@ -107,7 +105,7 @@ void START(){
     generic_counter = 60u;
     spawn_child_cooldown = 100u;
     if(previous_state == StateOverworld){
-        enemy_wave = 6;
+        enemy_wave = 12;
     }
 }
 
@@ -196,6 +194,10 @@ void UPDATE(){
                 if(timeout_enemy == 200u){
                     enemy_wave--;
                     SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 80u), (UINT16) 6u << 3);
+                }
+                if(timeout_enemy == 300u){
+                    enemy_wave--;
+                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x + 32u), (UINT16) 7u << 3);
                 }
                 if(timeout_enemy == 400u){
                     enemy_wave--;

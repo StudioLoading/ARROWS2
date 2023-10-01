@@ -80,10 +80,8 @@ void update_position_motherow() BANKED{
             UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
             if(current_map != 2u){//NOT IN MAZE
                 switch(scroll_tile){
-                    //case 8u:
-                    case 40u: case 92u:
-                    case 93u: case 94u:
-                    case 99u: case 102u: 
+                    case 40u: 
+                    case 99u: case 102u: case 103u: case 104u:
                         //SFX
                             if(THIS->anim_frame == 1){
                                 my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP

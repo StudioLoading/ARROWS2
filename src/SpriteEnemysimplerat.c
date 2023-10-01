@@ -18,6 +18,7 @@ extern UINT8 enemy_random_30_100;
 void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
 
 extern void Estart() BANKED;
+extern void Edestroy() BANKED;
 extern void configure() BANKED;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void Econfiguration() BANKED;
@@ -66,4 +67,5 @@ void EsimpleRatAnim(ENEMY_STATE estate) BANKED{
 }
 
 void DESTROY(){
+    Edestroy();
 }

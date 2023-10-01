@@ -314,14 +314,14 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "WE NEED SOME WEAPONS\0", 22);
 			memcpy(d5, "AND THE SMITH CAN   \0", 22);
 			memcpy(d6, "FORGE EM FOR US. ASK\0", 22);
-			memcpy(d7, "HIM SO, AND YOU     \0", 22);
+			memcpy(d7, "HIM SO AND YOU      \0", 22);
 			memcpy(d8, "FINALLY PASS.       \0", 22);
 			outwalker_smith.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case OUTWALKER_GUARD_OK:
 				*n_lines = 6u;
 				memcpy(d0, "SIMON:              \0", 22);
-				memcpy(d1, "YES, THIS I THE WAY \0", 22);
+				memcpy(d1, "YES  THIS I THE WAY \0", 22);
 				memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
 				memcpy(d3, EMPTY_STRING_21, 22);
 				memcpy(d4, "YOU DID A LOT FOR US\0", 22);

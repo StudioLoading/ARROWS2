@@ -14,28 +14,10 @@ void set_sgb_palette_title() __banked {
         UINT8 padding;
     } SGB_PALETTE2_PACKET = {
         .command = (SGB_PAL_12 << 3) | 1,
-        .pal1 = {myRGB(255, 255, 255), myRGB(88, 216, 84), myRGB(0, 168, 0),  myRGB(0, 84, 0)}, //SGB_STATUS_RED},
+        .pal1 = {myRGB(255, 255, 255), myRGB(88, 216, 84), myRGB(0, 168, 0),  myRGB(0, 0, 0)}, //SGB_STATUS_RED},
         .pal2 = {SGB_STATUS_LIGHT, myRGB(247, 142, 14), myRGB(0, 0, 0)}, //myRGB(228, 92, 16)
         .padding = 0 
     };
-	/*struct {
-        UINT8 command;
-        UINT8 xcoo;
-        UINT8 ycoo;
-		UINT16 ndata;
-		UINT8 style;
-        UINT8 ds[10];
-    } SGB_PALETTE_FIRSTLINE_PACKET = {
-        .command = (SGB_ATTR_CHR << 3) | 1,
-        .xcoo = 0,
-        .ycoo = 0u,
-        .ndata = 20u,
-		.style = 0,
-		.ds = {0b01010101,0b01010101,0b01010101,0b01010101,
-            0b01010101,0b01010101,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010,
-            0b10101010,0b10101010,0b10101010,0b10101010}
-    };*/
 	struct {
         UINT8 command;
         UINT8 xcoo;

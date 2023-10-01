@@ -4,6 +4,7 @@
 #include "custom_datas.h"
 #include "Dialogs.h"
 
+
 IMPORT_TILES(owsouthwesttiles);
 IMPORT_TILES(owswanim1);
 IMPORT_TILES(owswanim2);
@@ -27,12 +28,9 @@ IMPORT_TILES(tacredit0);
 IMPORT_TILES(tacredit1);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
-IMPORT_TILES(dialogtiles00);
-IMPORT_TILES(dialogtiles01);
 IMPORT_TILES(dialogmapmine);
 IMPORT_TILES(dmapblackiecave);
 IMPORT_TILES(dialogmapsmith);
-IMPORT_TILES(dialogmapintro);
 IMPORT_TILES(minetiles);
 IMPORT_TILES(minetilesanim1);
 IMPORT_TILES(minetilesanim2);
@@ -69,23 +67,12 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, struct TilesInfo* t, 
 }
 
 void dialog_map() BANKED{
-	if(whostalking == DEATH){
-		set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));
-	}else{
-		switch(previous_state){
-			case StateExzoo:set_banked_bkg_data(0, 101u, &dialogtiles00, BANK(dialogtiles00));break;
-			case StateCemetery:set_banked_bkg_data(0, 101u, &dialogtiles01, BANK(dialogtiles01));break;
-			case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
-			case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
-			case StateOverworld:
-				if(whostalking == INTRO){
-					set_banked_bkg_data(1, 100u, &dialogmapintro, BANK(dialogmapintro));
-				}
-			break;
-		}
-		switch(current_state){
-			case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
-		}
+	switch(previous_state){
+		case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
+		case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
+	}
+	switch(current_state){
+		case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
 	}
 }
 

@@ -105,7 +105,6 @@ extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void restartFromHospital() BANKED{
     current_map = 0;
-    motherpl_hp = 5;
     motherow_pos_x = (UINT16) 35u << 3;
     motherow_pos_y = (UINT16) 20u << 3;
     previous_state = StateOverworld;
@@ -255,6 +254,7 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             if(new_state == StateOverworld){
                 switch(current_map){
                     case 0:set_sgb_palette01_worldmap();break;//sw
+                    //set_sgb_palette01_worldmap();
                     case 1:set_sgb_worldmap_nw();break;//nw
                     case 2:set_sgb_palette01_worldmap_maze();break;//maze
                 }
@@ -268,6 +268,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(current_state != StateDialog && current_state != StateCredit){
         PauseMusic;
     }
+    enemy_counter = 0;
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -302,6 +303,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherow_pos_x = (UINT16) 6u << 3;
                             motherow_pos_y = (UINT16) 3u << 3;
                         }
+                        if(previous_state == StateHood){
+                            motherow_pos_x = (UINT16) 19u << 3;
+                            motherow_pos_y = (UINT16) 6u << 3;
+
+                        }
                     }
                 break;
                 case SpriteMotherpl:
@@ -316,8 +322,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(new_state == StateOverworld){
                                 switch(next_map){
                                     case 0:
-                                        motherow_pos_x = (UINT16)18u << 3;
-                                        motherow_pos_y = (UINT16)4u << 3;
+                                        motherow_pos_x = (UINT16) 19u << 3;
+                                        motherow_pos_y = (UINT16) 6u << 3;
                                     break;
                                     case 1:
                                         motherow_pos_x = (UINT16) 14u << 3;
@@ -345,32 +351,36 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherpl_pos_y = (UINT16)9u << 3;
                             }
                         break;
+                        case StateBosscrab:
+                            motherpl_pos_x = (UINT16) 6u << 3;
+                            motherpl_pos_y = (UINT16) 8u << 3;        
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
             }
             HIDE_WIN;
             SetWindowY(160);
+        }else if(current_state == StateDialog){
+            if(new_state == StateBosscrab){
+                motherpl_pos_x = (UINT16)6u << 3;
+                motherpl_pos_y = (UINT16)8u << 3;
+            }
         }
         if(just_started == 1){
             motherow_pos_x = ((UINT16) 14u << 3) + 4u;
             motherow_pos_y = (UINT16) 23u << 3;
         }
+
     //CURRENT_MAP vs NEXT_MAP
         if(next_map != -1){
             current_map = next_map;
         }    
-    //if(previous_state != current_state && previous_state != StateTutorial){
     previous_state = current_state;
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
     }
-    //}
-    /*if(motherpl_state == MOTHERPL_DEAD){
-        ChangeStateThroughBetween(new_state);
-    }else 
-    */
-   if(new_state != StateDialog && current_state != StateDialog && new_state != StateTitlescreen){
+    if(new_state != StateDialog && current_state != StateDialog && new_state != StateTitlescreen){
 	    ChangeStateThroughBetween(new_state);
     }else{
         //SGB PALETTE CHECK
@@ -585,8 +595,10 @@ void update_camera_position() BANKED{
     //camera fissa per certi stage
         UINT8 consider_margins = 0u;
         switch(current_state){
+            case StateHood:
             case StateMine:
             case StateMountain:
+            case StateOutwalkers:
             case StateBlackiecave:
                 scroll_target->x = s_motherpl->x + 8u;
                 if(motherpl_hit_cooldown == 0){
@@ -651,10 +663,17 @@ void ReloadEnemiesPL() BANKED{
     init_enemy = 0u;
     enemy_counter = 0u;
     UINT8 i = 0u;
-    for(i = 0u; i < 3u; ++i){
-        if(e_to_reload[i].alive == 1u){
-            SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
-            enemy_counter++;
+    if(previous_state == StateInventory || previous_state == StateDialog){
+        for(i = 0u; i < 3u; ++i){
+            if(e_to_reload[i].alive == 1u){
+                SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
+                enemy_counter++;
+            }
+        }
+    }else{
+        UINT8 i = 0u;
+        for(i = 0u; i < 3u; ++i){
+            e_to_reload[i].alive = 0;
         }
     }
 }

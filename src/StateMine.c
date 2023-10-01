@@ -46,7 +46,7 @@ extern struct MISSION outwalker_smith;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
 
-const UINT8 coll_tiles_cave[] = {1u, 11u, 12u, 35u, 52u, 0};
+const UINT8 coll_tiles_cave[] = {1u, 10u, 11u, 12u, 35u, 52u, 84u, 85u, 86u, 87u, 90u, 91u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 0u;

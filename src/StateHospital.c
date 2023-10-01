@@ -88,9 +88,13 @@ void UPDATE() {
         n_lines = 0u;
 		switch(enable_hospital.mission_state){            
             case MISSION_STATE_ACCOMPLISHED:
+                enable_hospital.mission_state = MISSION_STATE_REWARDED;
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
-				enable_hospital.mission_state = MISSION_STATE_REWARDED;
-                whostalking = HOSPITAL_CURE;
+				if(motherpl_hp < 0){//morta
+                    whostalking = HOSPITAL_CURE_FROM_DEATH;
+                }else{//in cura
+                    whostalking = HOSPITAL_CURE;
+                }
                 motherpl_hp = 5;
             break;
             case MISSION_STATE_DISABLED:

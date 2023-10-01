@@ -320,23 +320,49 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "ARROWS FOR YOU!!    \0", 22);			
 		break;
 		case SMITH_FLOWERS_ASKED:
-			*n_lines = 2u;
+			*n_lines = 13u;
 			memcpy(d0, "JOHN:               \0", 22);
-			memcpy(d1, "I ASK FOR FLOWERS   \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d1, "I MUST FORGE SOME WE\0", 22);
+			memcpy(d2, "APON FOR THE OUTWALK\0", 22);
+			memcpy(d3, "ERS. MEANWHILE... I \0", 22);
+			memcpy(d4, "AM QUITE ASHAMED BY \0", 22);
+			memcpy(d5, "ASKING YOU THIS BUT \0", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "PLEASE, BRING ME 4  \0", 22);
+			memcpy(d9, "FLOWERS. I WANT TO  \0", 22);
+			memcpy(d10, "ASK MARGARET IF SHE\0", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
+			memcpy(d12, "OH WELL YOU KNOW!  \0", 22);
+			memcpy(d13, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_MISSING:
-			*n_lines = 2u;
+			*n_lines = 11u;
 			memcpy(d0, "JOHN:               \0", 22);
-			memcpy(d1, "NOT ENOUGH FLOWERS  \0", 22);
-			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d1, "HI, I AM NOT READY  \0", 22);
+			memcpy(d2, "YET, AND I SEE YOU  \0", 22);
+			memcpy(d3, "HAVE NOT COLLECTED 4\0", 22);
+			memcpy(d4, "FLOWERS YET.        \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "PLEASE, COME WITH   \0", 22);
+			memcpy(d7, "ALL THE FLOWERS I NE\0", 22);
+			memcpy(d8, "ED. HOW CAN I ASK   \0", 22);
+			memcpy(d9, "HER HAND WITH LESS  \0", 22);
+			memcpy(d10, "THAN 4 !?          \0", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_THANKYOU:
-			*n_lines = 3u;
+			*n_lines = 10u;
 			memcpy(d0, "JOHN:               \0", 22);
-			memcpy(d1, "THANK YOU, TAKE THIS\0", 22);
-			memcpy(d2, "BOX TO THE OUTWALKER\0", 22);
-			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d1, "OH! YOU FOUND THEM! \0", 22);
+			memcpy(d2, "THANK YOU HEALER!   \0", 22);
+			memcpy(d3, "ARE THEY GOOD FOR A \0", 22);
+			memcpy(d4, "PROPOSAL, AREN'T    \0", 22);
+			memcpy(d5, "THEY? WISH ME LUCK! \0", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);	
+			memcpy(d7, "AH! SURE, THE BOX!  \0", 22);
+			memcpy(d8, "HERE: THE WEAPONS   \0", 22);
+			memcpy(d9, "THEY ASKED ARE ALL  \0", 22);
+			memcpy(d10, "INTO THIS BOX.     \0", 22);
 		break;
 		case WOLF01:
 			memcpy(d0, "GRAY WOLF:         \0", 22);
@@ -459,6 +485,16 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, EMPTY_STRING_21, 22);
 		break;
 		case HOSPITAL_CURE:
+			*n_lines = 6u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "LET US HEAL YOU     \0", 22);
+			memcpy(d3, "DESSA, SO YOU CAN   \0", 22);
+			memcpy(d4, "CONTINUE YOUR JOUR  \0", 22);
+			memcpy(d5, "NEY WITH ALL  OF    \0", 22);
+			memcpy(d6, "YOUR STRENGTH.      \0", 22);
+		break;
+		case HOSPITAL_CURE_FROM_DEATH:
 			*n_lines = 4u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);

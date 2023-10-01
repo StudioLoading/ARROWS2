@@ -19,7 +19,9 @@
 IMPORT_TILES(font);
 IMPORT_TILES(dialogtilesbase);
 IMPORT_MAP(dialogmapbase);
-
+IMPORT_MAP(dialogmapintro);
+IMPORT_MAP(dialogmapexzoo);
+IMPORT_MAP(dialogmapcemetery);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -73,6 +75,7 @@ UINT8 give_new_password = 0;
 void move_on() BANKED;
 void shift_text_one_line_up() BANKED;
 void show_next_character() BANKED;
+void init_dialog_map() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -91,8 +94,11 @@ void START() {
     SpriteManagerLoad(SpriteInvcursor);
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
+    init_dialog_map();
+    /*
     InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);
     dialog_map();
+    */
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;
     wait_char = MAX_WAIT_CHAR;
@@ -105,6 +111,19 @@ void START() {
     choice = 0u;
     choice_left = 0u;
     choice_right = 0u;
+}
+
+void init_dialog_map() BANKED{
+    switch(whostalking){
+        case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
+        case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+        default:
+            switch(previous_state){
+                case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
+                case StateCemetery:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+            }
+        break;
+    }
 }
 
 void UPDATE() {
@@ -413,21 +432,21 @@ void move_on() BANKED{
 		return;
 	}
     //CHECK NEW PASSWORD TO GIVE?
-    switch(whostalking){
-        case BLACKIE:
-            if(find_blackie.current_step == 4u){
+        switch(whostalking){
+            case BLACKIE:
+                if(find_blackie.current_step == 4u){
+                    give_new_password = 1;
+                }
+            break;
+            case IBEX_GIVE_HERBS:
                 give_new_password = 1;
-            }
-        break;
-        case IBEX_GIVE_HERBS:
-            give_new_password = 1;
-        break;
+            break;
 
-    }
-    if(give_new_password == 1){
-        SetState(StatePassword);
-        return;
-    }
+        }
+        if(give_new_password == 1){
+            SetState(StatePassword);
+            return;
+        }
     if(whostalking == DEATH){
         //restart from hospital
         restartFromHospital();

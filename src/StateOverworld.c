@@ -144,7 +144,7 @@ void START(){
 	//LIMITS
 		switch(current_map){
 			case 0://SOUTH WEST
-				lim_up_y = ((UINT16) 9u << 3);
+				lim_up_y = ((UINT16) 4u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
 				lim_down_y = ((UINT16) 200u << 3);
 			break;
@@ -382,13 +382,28 @@ void UPDATE(){
 		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			UINT8 alt = 0u;
-			switch(current_map){
-				case 0://ow south west
-					switch(chapter){
-						case 0u:
-							if(find_blackie.current_step < 5u || 
-								help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
-								if(s_motherow->y < lim_up_y){
+			switch(chapter){
+				case 0:
+					switch(current_map){
+						case 0:
+							if(s_motherow->y < lim_up_y){
+								s_motherow->y = lim_up_y + 6u;
+								alt = 1;
+							}
+							if(s_motherow->x > lim_east_x){
+								s_motherow->x = lim_east_x - 6u;
+								alt = 1;
+							}
+						break;
+					}
+				break;
+				case 1:
+					switch(current_map){
+						case 0:
+							if(s_motherow->y < lim_up_y){//go north to StateHood
+								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+									ChangeState(StateHood, s_motherow, -1);
+								}else{
 									s_motherow->y = lim_up_y + 6u;
 									alt = 1;
 								}
@@ -398,38 +413,29 @@ void UPDATE(){
 								alt = 1;
 							}
 						break;
-						case 1u:
-							if(s_motherow->y < 10u){//go north to StateHood
+						case 1:						
+							if(s_motherow->y > lim_down_y){//go south to StateHood
 								ChangeState(StateHood, s_motherow, -1);
-							}
-							if(s_motherow->x > lim_east_x){
+							}else if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;
 								alt = 1;
 							}
 						break;
-					}
-				break;
-				case 1://ow north west
-					if(s_motherow->y > lim_down_y){//go south to StateHood
-						ChangeState(StateHood, s_motherow, -1);
-					}else if(s_motherow->x > lim_east_x){
-						if(chapter == 1){
-							s_motherow->x = lim_east_x - 6u;
-							alt = 1;
-						}
-					}
-				break;
-				case 2://maze
-					if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
-                        ChangeState(StateOverworld, s_motherow, 1);
-					}
-					if(s_motherow->y > lim_down_y){
-						//TODO dove spunta quando esce dal labirinto?
-						outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
-						outwalker_chief.current_step = 2;
-						motherpl_pos_x = (UINT16) 83u << 3;
-						motherpl_pos_y = (UINT16) 10u << 3;
-						ChangeState(StateExzoo, s_motherow, -1);
+						case 2:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 1);
+							}
+							if(s_motherow->y > lim_down_y){
+								//TODO dove spunta quando esce dal labirinto?
+								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
+									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
+									outwalker_chief.current_step = 2;
+								}
+								motherpl_pos_x = (UINT16) 83u << 3;
+								motherpl_pos_y = (UINT16) 10u << 3;
+								ChangeState(StateExzoo, s_motherow, -1);
+							}
+						break;
 					}
 				break;
 			}

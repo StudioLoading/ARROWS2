@@ -1,9 +1,7 @@
 POST DEMO:
 - video per Andrew con le sue musiche v0.2
-- SGB colori stateBandits
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
-- il 2 del titlescreen sul SGB è colorato a metà verde e metà nero
 - musichetta di rifocillo all' ospedale quando mi curano!
 - spostare tutti gli sfx sul CH2
 
