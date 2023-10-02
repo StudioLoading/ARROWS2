@@ -113,14 +113,14 @@ void missions_init() BANKED{
 			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 6u;//0u;
-			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED;
-			outwalker_chief.current_step = 6u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_STARTED;//MISSION_STATE_DISABLED;
-			outwalker_glass.current_step = 1u;//0u
+			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 0u;//0u;
+			outwalker_chief.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
+			outwalker_chief.current_step = 0u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
+			outwalker_glass.current_step = 0u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
-			outwalker_smith.current_step = 0u;//0b00000111;
+			outwalker_smith.current_step = 0u;//test 0b00000111;
 			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 			get_to_the_mountain.current_step = 0u;
 		break;
@@ -139,7 +139,7 @@ void missions_init() BANKED{
 			outwalker_glass.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			outwalker_glass.current_step = 4u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
-			outwalker_smith.current_step = 0b00000111;//0u
+			outwalker_smith.current_step = 0b00000111;
 			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			get_to_the_mountain.current_step = 0u;
 		break;

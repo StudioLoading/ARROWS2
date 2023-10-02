@@ -22,6 +22,9 @@ IMPORT_MAP(dialogmapbase);
 IMPORT_MAP(dialogmapintro);
 IMPORT_MAP(dialogmapexzoo);
 IMPORT_MAP(dialogmapcemetery);
+IMPORT_MAP(dialogmapmine);
+IMPORT_MAP(dmapblackiecave);
+IMPORT_MAP(dialogmapsmith);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -79,7 +82,6 @@ void init_dialog_map() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
-extern void dialog_map();
 extern void position_init() BANKED;
 extern void load_chapter() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
@@ -95,10 +97,6 @@ void START() {
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
     init_dialog_map();
-    /*
-    InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);
-    dialog_map();
-    */
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;
     wait_char = MAX_WAIT_CHAR;
@@ -117,10 +115,19 @@ void init_dialog_map() BANKED{
     switch(whostalking){
         case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+        case SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
+        case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
+        case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
+            InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
+        break;
         default:
             switch(previous_state){
                 case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
+                case StateMine:InitScroll(BANK(dialogmapmine), &dialogmapmine, 0, 0);break; 
                 case StateCemetery:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+                case StateSmith:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+                case StateBlackieroom:
+                case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
             }
         break;
     }

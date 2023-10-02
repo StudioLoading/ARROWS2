@@ -16,8 +16,7 @@
 #define MAX_WAIT_CHAR 4
 
 IMPORT_TILES(font);
-IMPORT_TILES(dialogtilesbase);
-IMPORT_MAP(dialogmapbase);
+IMPORT_MAP(dialogmapsmith);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -43,7 +42,6 @@ extern UINT8 previous_state;
 
 extern void move_on() BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
-extern void dialog_map() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
@@ -61,8 +59,7 @@ void START() {
         }
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
-    InitScroll(BANK(dialogmapbase), &dialogmapbase, 0, 0);
-    dialog_map();
+    InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;
     wait_char = MAX_WAIT_CHAR;

@@ -28,9 +28,6 @@ IMPORT_TILES(tacredit0);
 IMPORT_TILES(tacredit1);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
-IMPORT_TILES(dialogmapmine);
-IMPORT_TILES(dmapblackiecave);
-IMPORT_TILES(dialogmapsmith);
 IMPORT_TILES(minetiles);
 IMPORT_TILES(minetilesanim1);
 IMPORT_TILES(minetilesanim2);
@@ -64,16 +61,6 @@ void set_banked_bkg_data(UINT8 first_tile, UINT8 nb_tiles, struct TilesInfo* t, 
     SWITCH_ROM(bank);
     set_bkg_data(first_tile, nb_tiles, t->data+((16u) * first_tile));
 	SWITCH_ROM(save);
-}
-
-void dialog_map() BANKED{
-	switch(previous_state){
-		case StateMine:set_banked_bkg_data(0, 101u, &dialogmapmine, BANK(dialogmapmine));break;
-		case StateBlackiecave:set_banked_bkg_data(0, 101u, &dmapblackiecave, BANK(dmapblackiecave));break;
-	}
-	switch(current_state){
-		case StateSmith:set_banked_bkg_data(0, 101u, &dialogmapsmith, BANK(dialogmapsmith));break;
-	}
 }
 
 void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{

@@ -77,8 +77,7 @@ UINT8 dialog_bg_cooldown = 32u;
 UINT8 dialog_bg_activated = 0u;
 UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
-unsigned char dbg1[50];
-UINT8 just_started = 0u;//just_started = 1u ; 0 to dodge tutorial and owTips initial
+UINT8 just_started = 1u;//just_started = 1u ; 0 to dodge tutorial and owTips initial
 UINT8 logtimeout = 10u;
 UINT8 ow_pusha_hp = 0u;
 UINT8 itemspawned_powder_max = 0;

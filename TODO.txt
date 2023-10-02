@@ -109,8 +109,9 @@ PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
 
 PNG2MAP
-C:\Users\checc\GB\ZGB-2022.0\tools\png2map\
-png2gbtiles.exe dialogmapintro.png -gbm -g -pal=mypal.pal
+C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
+png2gbtiles.exe dmaphospital.png -gbm -g -pal=mypal.pal
+
 maypal.pal file di testo contenente solo le seguenti
 #C6D783
 #8DCD53
