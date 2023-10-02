@@ -3,7 +3,6 @@ POST DEMO:
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
 - musichetta di rifocillo all' ospedale quando mi curano!
-- spostare tutti gli sfx sul CH2
 
 - dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
 	potrei fare la stessa cosa su un certo oggetto equipaggiabile

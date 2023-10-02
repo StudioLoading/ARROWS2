@@ -172,7 +172,7 @@ void UPDATE(){
     if(KEY_TICKED(J_START)){
         chapter = check_password();
         if(chapter == -1){//invalid code inserted, reset
-            my_play_fx(CHANNEL_1, 50, 0x29, 0x81, 0x43, 0x01, 0x85);//SFX WRONG PWD
+            my_play_fx(CHANNEL_2, 50, 0xab, 0xf2, 0xbf, 0x81, 0x00);//SFX WRONG PWD
             password_reset();
             return;
         }

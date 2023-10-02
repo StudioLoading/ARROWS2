@@ -241,7 +241,7 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
                 SetSpriteAnim(THIS, a_cart_v_d, a_cart_freq);
             break;
             case MOTHERPL_HIT:
-                my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);//SFX_HIT
+                my_play_fx(CHANNEL_2, 60, 0xce, 0x53, 0xb2, 0x83, 0x00);//SFX_HIT
                 motherpl_hit_cooldown = 64;
                 motherpl_hp--;
                 cart_data->wait = 120u;

@@ -824,7 +824,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             case MOTHERPL_JUMP:
                 motherpl_vy = -1;
                 fly_counter = 0;
-                my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);//SFX_JUMP
+                //my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);//SFX_JUMP
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
                     SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
@@ -850,7 +850,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 jump_max_toched = 0u;
             break;
             case MOTHERPL_HIT:
-                my_play_fx(CHANNEL_1, 60, 0x7d, 0x5c, 0xf1, 0x82, 0x86);//SFX_HIT
+                my_play_fx(CHANNEL_2, 60, 0xce, 0x53, 0xb2, 0x83, 0x00);//SFX_HIT
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
                 if(THIS->mirror == NO_MIRROR){    

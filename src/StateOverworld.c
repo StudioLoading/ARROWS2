@@ -455,19 +455,6 @@ void UPDATE(){
 		}
 	//START & SELECT
 		if(KEY_RELEASED(J_SELECT)){
-			/*
-			switch(hudow_opened){
-				case 0u://vado in 
-					my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
-					PauseGameOW();
-					hudow_opened = 1u;
-				break;
-				case 1u:
-					UnpauseGameOW();
-					hudow_opened = 0u;
-				break;
-			}
-			*/
 			HIDE_WIN;
 			ChangeState(StateDiary, s_motherow, -1);
 		}
@@ -475,12 +462,6 @@ void UPDATE(){
 			HIDE_WIN;
 			ChangeState(StateInventory, s_motherow, -1);
 		}
-	/*
-	if(hudow_opened == 1u){
-		UpdateHUDOW();
-		return;
-	}
-	*/
 	//DISMISS TIP
 		if(showed_tip == 1u && showed_tip_goback == 0u){
 			if(KEY_RELEASED(J_FIRE) || KEY_RELEASED(J_JUMP)){

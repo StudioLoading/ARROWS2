@@ -175,7 +175,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     UINT8 item_added = 0u;
     UINT8 sfx_played = 0u;
     if(pickedup_data->itemtype == INVITEM_HEART){
-        my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe9, 0x5a, 0x86);//SFX_HEART
+        my_play_fx(CHANNEL_2, 60, 0xab, 0xf2, 0x37, 0x87, 0x00);//SFX_HEART
         sfx_played = 1u;
         if(motherpl_hp < 5){
             motherpl_hp++;
@@ -185,7 +185,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     if(pickedup_data->itemtype == INVITEM_HEARTS){
         motherpl_hp = 5;
         item_added = 1u;
-        my_play_fx(CHANNEL_1, 60, 0x26, 0xba, 0xe9, 0x06, 0x87);//SFX_CROSSBOW
+        my_play_fx(CHANNEL_2, 60, 0xab, 0xf2, 0x37, 0x87, 0x00);//SFX_HEART
         sfx_played = 1u;
     }
     if(item_added == 0){
@@ -231,7 +231,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     //SFX
         if(item_added == 1 && sfx_played == 0u){
-			my_play_fx(CHANNEL_1, 60, 0x74, 0x94, 0x8f, 0x73, 0x86);//SFX_ITEM
+            my_play_fx(CHANNEL_2, 60, 0xab, 0xf2, 0x37, 0x87, 0x00);//SFX_HEART
         }
 }
 

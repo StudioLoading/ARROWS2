@@ -84,7 +84,7 @@ void update_position_motherow() BANKED{
                     case 99u: case 102u: case 103u: case 104u:
                         //SFX
                             if(THIS->anim_frame == 1){
-                                my_play_fx(CHANNEL_1, 60, 0x13, 0x21, 0xf8, 0xb9, 0x82);//SFX_OW_STEP
+                                my_play_fx(CHANNEL_2, 60, 0x43, 0x32, 0x29, 0x85, 0x00);//SFX_OW_STEP
                                 //STEP
                                     if(motherow_info->ow_state == WALK_DOWN ||
                                         motherow_info->ow_state == WALK_UP ||

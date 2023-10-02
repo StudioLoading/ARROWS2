@@ -413,7 +413,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 40u;
             break;
             case ENEMY_HIT_2:
-                my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
+                my_play_fx(CHANNEL_2, 60, 0x09, 0x52, 0x36, 0x87, 0x00);//SFX_ENEMY_HIT
                 e_info->hp-=2;
                 if(e_info->hp <= 0u){
                     changeEstate(THIS, ENEMY_DEAD);
@@ -424,7 +424,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 }
             break;
             case ENEMY_HIT_1:
-                my_play_fx(CHANNEL_1, 60, 0x76, 0x85, 0x90, 0x9b, 0x87);//SFX_ENEMY_HIT
+                my_play_fx(CHANNEL_2, 60, 0x09, 0x52, 0x36, 0x87, 0x00);//SFX_ENEMY_HIT
                 e_info->hp--;
                 if(e_info->hp <= 0u){
                     changeEstate(THIS, ENEMY_DEAD);

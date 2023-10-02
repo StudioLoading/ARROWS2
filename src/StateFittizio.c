@@ -126,8 +126,8 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
     }
     switch(new_state){
         case StateInventory:
-            PauseMusic;
-            my_play_fx(CHANNEL_1, 60, 0x36, 0x9f, 0xf6, 0x91, 0x86);//SFX_START
+            //PauseMusic;
+            my_play_fx(CHANNEL_2, 60, 0xab, 0xe3, 0x37, 0x87, 0x00);//SFX_START
         break;
         case StateDialog:
             if(previous_state == StateTitlescreen){
