@@ -78,7 +78,6 @@ UINT8 give_new_password = 0;
 void move_on() BANKED;
 void shift_text_one_line_up() BANKED;
 void show_next_character() BANKED;
-void init_dialog_map() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -93,25 +92,8 @@ void START() {
 	NR52_REG = 0x80; //Enables sound, you should always setup this first
 	NR51_REG = 0xFF; //Enables all channels (left and right)
 	NR50_REG = 0x77; //Max volume 0x77
-    SpriteManagerLoad(SpriteInvcursor);
-	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
-    init_dialog_map();
-    INIT_FONT(font, PRINT_BKG);
-    SHOW_BKG;
-    wait_char = MAX_WAIT_CHAR;
-    writing_line = 1u;
-    counter_char = 0u;
-    n_lines = 0u;
-    dialog_ready = 0u;
-	next_page = 0u;
-	SHOW_SPRITES;
-    choice = 0u;
-    choice_left = 0u;
-    choice_right = 0u;
-}
-
-void init_dialog_map() BANKED{
+    
     switch(whostalking){
         case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
@@ -131,6 +113,18 @@ void init_dialog_map() BANKED{
             }
         break;
     }
+    INIT_FONT(font, PRINT_BKG);
+    SHOW_BKG;
+    wait_char = MAX_WAIT_CHAR;
+    writing_line = 1u;
+    counter_char = 0u;
+    n_lines = 0u;
+    dialog_ready = 0u;
+	next_page = 0u;
+	SHOW_SPRITES;
+    choice = 0u;
+    choice_left = 0u;
+    choice_right = 0u;
 }
 
 void UPDATE() {

@@ -1,5 +1,23 @@
 POST DEMO:
-- video per Andrew con le sue musiche v0.2
+- musica di tutorial (mettere intro.uge)
+- il tutorial di dash è PRESS JUMPO e non press fire
+- togliere che col select si resetti il tutorial perché serve al cambio freccia!
+- togliere il tetto sul tutorial oppure ,ettere blocchi neri ma che non collidano
+- la sfx della freccia che viene distrutta è da mettere diversa da quella di rimbalzo
+
+- il dialogo ferma la musica e non va bene, all'ingresso la interrompe e la 
+riprende (brutto) e alla fine restarta la bgm!!
+- fruscio sfx al dash!
+- cimitero crasha!
+- statesmith interrompe la bgm
+- statehospital deve fare musichetta solo quando cura invece la fa sempre
+- bgm di ow crasha alla fine del loop
+- azione sui cartelli non fa partire il tip
+- limit west owsw non fa partire tip
+- 
+
+
+
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
 - musichetta di rifocillo all' ospedale quando mi curano!

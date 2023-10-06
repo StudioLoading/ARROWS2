@@ -18,9 +18,7 @@
 IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
-DECLARE_MUSIC(bgm_credits);
-DECLARE_MUSIC(creditstitlescreen);
-DECLARE_MUSIC(creditstitlescreen_noch2);
+DECLARE_MUSIC(titlescreen);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -270,8 +268,7 @@ void START() {
 	SHOW_BKG;
 	SHOW_SPRITES;
 	
-	//PlayMusic(bgm_credits, 0);
-	PlayMusic(creditstitlescreen_noch2, 0);
+	PlayMusic(titlescreen, 1);
 	credit_wait_time = 0u;
 	generic_counter = 0u;
 

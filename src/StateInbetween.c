@@ -21,7 +21,7 @@ UINT8 new_state_to_go = 0u;
 UINT8 countdown = 0u;
 
 extern WHOSTALKING whostalking;
-extern void manage_bgm(UINT8 new_state, UINT8 previous_state) BANKED;
+extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
 
 void ChangeStateThroughBetween(UINT8 new_state) BANKED;
@@ -33,7 +33,7 @@ void START(){
 void UPDATE(){
     countdown--;
     if(countdown == 0u){
-        manage_bgm(new_state_to_go, StateInbetween);
+        manage_bgm(new_state_to_go, StateInbetween, -1);
         SetState(new_state_to_go);
     }
 }

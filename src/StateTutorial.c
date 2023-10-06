@@ -62,7 +62,8 @@ extern unsigned char d9[];
 extern unsigned char d10[];
 extern unsigned char d11[];
 
-const UINT8 coll_tiles_tutorial[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u, 48u, 88u, 89u, 90u, 0};
+const UINT8 coll_tiles_tutorial[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u,
+48u, 88u, 90u, 0};
 const UINT8 coll_surface_tutorial[] = {1u, 27u, 0};
 
 extern void UpdateHUD() BANKED;
@@ -139,7 +140,7 @@ void UPDATE(){
                     ChangeState(StateInventory, s_motherpl, -1);
                 }
             }            
-            if(KEY_TICKED(J_SELECT)){
+            if(KEY_PRESSED(J_FIRE) && KEY_PRESSED(J_JUMP)){
                 tutorial_current_step = 0;
                 empty_instructions();
                 tutorial_counter = 120u;
@@ -190,7 +191,7 @@ void show_current_step_instructions() BANKED{
             PRINT(0, 10, "DASH UNDER THE LOW  \0");
             PRINT(0, 11, "EST BLOCKS. DO IT BY\0");
             PRINT(0, 12, "HOLDING DOWN AND    \0");
-            PRINT(0, 13, "PRESS FIRE.         \0");
+            PRINT(0, 13, "PRESS JUMP.         \0");
         break;
         case 4u:
             PRINT(0, 9,  "PRESS SELECT TO CHAN\0");

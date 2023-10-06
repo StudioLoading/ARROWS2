@@ -144,7 +144,7 @@ void START(){
 	//LIMITS
 		switch(current_map){
 			case 0://SOUTH WEST
-				lim_up_y = ((UINT16) 4u << 3);
+				lim_up_y = ((UINT16) 9u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
 				lim_down_y = ((UINT16) 200u << 3);
 			break;
@@ -439,7 +439,10 @@ void UPDATE(){
 					}
 				break;
 			}
-			if(alt != 0){owTips(TIP_STILL_SOMETHING);}
+			if(alt != 0){
+				show_tip = 1;
+				tip_to_show = TIP_STILL_SOMETHING;
+			}
 		}
 	//CAMERA FOLLOW
 		if(show_tip == 0u){
@@ -456,10 +459,14 @@ void UPDATE(){
 	//START & SELECT
 		if(KEY_RELEASED(J_SELECT)){
 			HIDE_WIN;
+			show_tip = 0u;
+			showed_tip = 0;
 			ChangeState(StateDiary, s_motherow, -1);
 		}
 		if(KEY_TICKED(J_START)){	
 			HIDE_WIN;
+			show_tip = 0u;
+			showed_tip = 0;
 			ChangeState(StateInventory, s_motherow, -1);
 		}
 	//DISMISS TIP

@@ -115,7 +115,7 @@ void UPDATE(){
                 THIS->x += 8u;
                 THIS->y -= 4u;
             }else if(arrow_t_coll != 0){
-                my_play_fx(CHANNEL_2, 50, 0x83, 0x92, 0xBE, 0x83, 0x00);//SFX_ARROW_BOUNCE
+                //my_play_fx(CHANNEL_2, 50, 0x83, 0x92, 0xBE, 0x83, 0x00);//SFX_ARROW_BOUNCE
                 SpriteManagerRemoveSprite(THIS);
             }
         }
