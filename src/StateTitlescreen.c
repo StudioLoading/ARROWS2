@@ -1,22 +1,19 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
-#include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
 #include "Scroll.h"
+#include "Music.h"
+#include "SGB.h"
 #include "SpriteManager.h"
 #include "string.h"
-#include "Print.h"
-#include "Fade.h"
-#include "Music.h"
 #include "Sound.h"
+#include "Print.h"
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
 #include "sgb_palette.h"
 
-IMPORT_MAP(border2);
 IMPORT_TILES(titlescreentiles);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(titlescreenmap);
@@ -45,11 +42,6 @@ extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START() {
-    //LOAD_SGB_BORDER(border2);
-	//SOUND
-		NR52_REG = 0x80; //Enables sound, you should always setup this first
-		NR51_REG = 0xFF; //Enables all channels (left and right)
-		//NR50_REG = 0x44; //Max volume 0x77
 	//SGB
 		if(sgb_check()){
 			set_sgb_palette01_TITLESCREEN();

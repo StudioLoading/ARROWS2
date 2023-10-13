@@ -32,6 +32,7 @@ extern struct EnemyData* crab_data;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
+extern void crab_hit() BANKED;
 
 void START(){
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
@@ -147,7 +148,7 @@ void UPDATE(){
                                     arrow_data->hit = 1u;
                                     changeEstate(iarrspr, ENEMY_HIT_2);
                                 }else if(crab_data->e_state == ENEMY_IDLE){
-                                    changeEstate(iarrspr, ENEMY_HIT_1);
+                                    crab_hit();
                                 }
                             break;
                         }
@@ -168,12 +169,12 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    UINT16 puff_x = THIS->x - 12u;
+    //UINT16 puff_x = THIS->x +8u;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    if(arrow_data->vx < 0){
-        puff_x += 16u;
-    }
-    SpriteManagerAdd(SpritePuff, puff_x, THIS->y - 4u);
+    //if(arrow_data->vx < 0){
+        //puff_x = THIS->x;
+    //}
+    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 4u);
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;
 }

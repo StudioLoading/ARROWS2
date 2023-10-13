@@ -1,9 +1,13 @@
 POST DEMO:
-- musica di tutorial (mettere intro.uge)
-- il tutorial di dash è PRESS JUMPO e non press fire
-- togliere che col select si resetti il tutorial perché serve al cambio freccia!
-- togliere il tetto sul tutorial oppure ,ettere blocchi neri ma che non collidano
-- la sfx della freccia che viene distrutta è da mettere diversa da quella di rimbalzo
+
+- verifica morte crab coerente con indicatore
+- index degli npc deve essere minore del mio sennò ci sporchiamo quando ci passo sopra
+- dato che per entrare nei posti "ci cammina dentro", non ha senso che compaia in salto
+- avanti e indietro sul exzoo dopo un po' si rompe
+- fissare telecamera in mezzo, ha rotto il cazzo perché glitcha
+- se ho selezionato i coin non tiro
+- se just_started == 1 e sono su Overworld non devo reagire alla pressione dello start
+o del select
 
 - il dialogo ferma la musica e non va bene, all'ingresso la interrompe e la 
 riprende (brutto) e alla fine restarta la bgm!!
@@ -14,7 +18,13 @@ riprende (brutto) e alla fine restarta la bgm!!
 - bgm di ow crasha alla fine del loop
 - azione sui cartelli non fa partire il tip
 - limit west owsw non fa partire tip
-- 
+- silenziare una canzone mettendola in loop
+The hUGETracker paste format is compatible with...
+ModPlug Tracker  XM - che il path inizi così
+|...00...E00|...00...E00|...00...E00|...00...E00
+|...00...B03|...00...000|...00...000|...00...000
+dove B03 quel 03 è il numero di path corrente 01-09-0a-...
+
 
 
 
@@ -70,10 +80,6 @@ di StateOverworld. Forse ce n'è pochi, aggiungerne
 
 
 
-SGB BORDER LIMITATIONS:
-The border cannot utilize more than 16 colors.
-The border cannot contain more than 256 unique 8×8 pixel tiles.
-
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
 - dialogs:
@@ -82,15 +88,6 @@ PIXELART:
 	- figlio di blackie dentro cave
 
 
-LOG:
-- al posto del log di sviluppo ci va un testo di suggerimento: il nome
-delle persone su cui sono sopra, il nome della stanza in cui mi trovo, gli npc
-che parlano fra di loro, voci di ambiente in generale.
-	- blackieroom: se arrivo a Blackie prima di aver sconfitto l' ultima orda,
-	il suggerimento mi dice "ripulisci la stanza!"
-	- enable_hospital.current_step == 0 in StateHood e s_motherpl->x > 60 && < 62
-	per il countdown del far spuntare il child
-
 KNOWN ISSUES:
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
@@ -98,7 +95,7 @@ KNOWN ISSUES:
 PRODUCTION:
 - just_started = 1 <<<<< cercarlo e rimetterlo
 - spawn_hidden_item da segnare sulla mappa del manuale
-
+- i crediti dedicati a me, BN, sloopygood, comuneko, tetra
 
 
 ZGB HACKS:
@@ -107,7 +104,7 @@ Sprite.h
 #define CUSTOM_DATA_SIZE 10
 C:\Users\checc\GB\ZGB-2023.0\common\src\MakefileCommon
 toxa mi ha detto di fare le modifiche sotto, i #BINFLAGS sono le righe originali
-Dice che è perché la mia rom è più di mezzo mega
+Dice che è perché la mia rom è più di mezzo mega. La mia rom è un MBC5 non più un MBC1 come era FA1
 ifeq ($(wildcard savegame.c), )
 	#No savegame, mbc1
 	#BINFLAGS += -yt 1
@@ -138,27 +135,11 @@ ovviamente palette del Paint.NET con cui ho fatto il png contiene gli stessi cod
 png 160x144
 
 
-
-MODIFICA FONT
-il font si può modificare andando in aggiunta di simboli. Considerando che con ala 2022.0 è
-facile sostituire tiles su window, ha poco senso. Se comunque decicessi di farlo,
-anzitutto bisogna pistolare le tile count del .gbr di font
-Poi bisogna andare sul Print.c e modificare lo switch, aggiungendoci i case 
-con gli index delle nuove tile che ho messo sul font.gbr
-
-
+ROMUSAGE
 C:\GB\ZGBNEW\tools\romusage-main\bin\romusage.exe C:\GB\ZGBNEW\ZGB-template-master\Debug\ARROWS_Debug.noi -g
 
 DISCORD MARKDOWN: ```c ```
 
-png2asset produces the human readable C files for the sprites/actors. 
-nobody forbids you to look into those and make your own or tweak 
-the results of the image conversion.
-[11:47 PM]
-When the sprite is loaded, there is a “base tile” variable 
-somewhere in the structures that sprite manager operates. 
-That is the tile id where your tile data for that sprite was loaded. 
-Just load some other data over, starting from that tile id
 
 FLYING ARROWS 3
 posso superare il limite della VRAM sui frame se stacco la testa.
@@ -170,4 +151,3 @@ Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto b
 Se ce ne fosse uno con un po' di profondità...
 come TMNT 3 sulla NES
 Lone Ranger NES
-Joe & Mac sulla grafica dei place.

@@ -36,6 +36,7 @@ extern struct MISSION find_blackie;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern UINT8 ow_pusha_hp;
+extern INT8 show_tip_movingscroll;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -370,6 +371,11 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     }
     if(trigger_tip){
         if(show_tip == 0u && showed_tip == 0u){
+            UINT8 rest = scroll_target->x % 8;
+            if(rest > 0){
+                scroll_target->x+=(8-rest); 
+            }
+	        show_tip_movingscroll = 0u;
             ShowTipOW();
         }
     }

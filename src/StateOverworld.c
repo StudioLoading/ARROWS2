@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "ZGBMain.h"
 #include "Keys.h"
@@ -13,8 +12,6 @@
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
-
-IMPORT_MAP(border2);
 
 IMPORT_TILES(font);
 IMPORT_TILES(tilesowsouthwest);
@@ -97,11 +94,6 @@ extern void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 void START(){
-    LOAD_SGB_BORDER(border2);
-	//SOUND
-		NR52_REG = 0x80; //Enables sound, you should always setup this first
-		NR51_REG = 0xFF; //Enables all channels (left and right)
-		NR50_REG = 0x77; //Max volume
 	//SCROLL LIMITS
 		scroll_top_movement_limit = 56u;
 		scroll_bottom_movement_limit = 80u;
@@ -162,7 +154,6 @@ void START(){
 	//INITIAL TIPS
 		if(just_started == 2){//got to show "PRESS SELECT" tip
 			owTips(TIP_PRESS_SELECT);
-			just_started = 0;
 		}
 }
 
@@ -174,6 +165,8 @@ void ShowTipOW() BANKED{
 			scroll_target->y+=2;
 		}else{
 			if(print_target != PRINT_BKG){
+			//SFX
+				my_play_fx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);//SFX_OW_TIP
 				print_target = PRINT_BKG;
 			}
 			showing_tip();
@@ -432,7 +425,7 @@ void UPDATE(){
 									outwalker_chief.current_step = 2;
 								}
 								motherpl_pos_x = (UINT16) 83u << 3;
-								motherpl_pos_y = (UINT16) 10u << 3;
+								motherpl_pos_y = (UINT16) 11u << 3;
 								ChangeState(StateExzoo, s_motherow, -1);
 							}
 						break;
@@ -458,12 +451,15 @@ void UPDATE(){
 		}
 	//START & SELECT
 		if(KEY_RELEASED(J_SELECT)){
+			if(just_started == 2){
+				just_started = 0;
+			}
 			HIDE_WIN;
 			show_tip = 0u;
 			showed_tip = 0;
 			ChangeState(StateDiary, s_motherow, -1);
 		}
-		if(KEY_TICKED(J_START)){	
+		if(KEY_TICKED(J_START) && just_started == 0){	
 			HIDE_WIN;
 			show_tip = 0u;
 			showed_tip = 0;
@@ -487,8 +483,6 @@ void showing_tip(){
 		UINT8 r = scroll_target->x % 8u;
 		UINT8 xpos = (scroll_target->x >> 3) - 10u;
 		if(showing_tip_line == 0){
-			//SFX
-				my_play_fx(CHANNEL_2, 60, 0x8b, 0x67, 0xa5, 0x84, 0x00);//SFX_OW_TIP	
 			GetLocalizedTip_EN(tip_to_show);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 3u, D0);
 			PRINT(xpos, (scroll_target->y >> 3) + showing_tip_line + 4u, EMPTY_STRING_21);

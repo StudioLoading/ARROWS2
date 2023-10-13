@@ -100,6 +100,7 @@ _SPRITE_DMG(SpriteCart, cart)\
 _SPRITE_DMG(SpriteCartelevator, cartelevator)\
 _SPRITE_DMG(SpriteStartbtn, startbtn)\
 _SPRITE_DMG(SpriteMotherplhit, motherplhit)\
+_SPRITE_DMG(SpriteBirdsky, birdsky)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

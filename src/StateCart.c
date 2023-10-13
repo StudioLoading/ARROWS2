@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "ZGBMain.h"
 #include "Keys.h"
@@ -12,10 +11,8 @@
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(bordercart);
 IMPORT_TILES(font);
 IMPORT_TILES(minetiles);
 IMPORT_MAP(cartmap);
@@ -69,11 +66,6 @@ UINT8 items_counter = 0u;
 UINT8 items_map1 = 10;
 
 void START(){
-    LOAD_SGB_BORDER(bordercart);
-    //SOUND
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
 	//SCROLL LIMITS
         scroll_top_movement_limit = 56u;//56u;
         scroll_bottom_movement_limit = 80u;//80u;

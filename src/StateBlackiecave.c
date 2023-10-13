@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "Palette.h"
 #include "ZGBMain.h"
@@ -9,14 +8,11 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(bordercave);
 IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_TILES(hudpltiles);
@@ -44,6 +40,7 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION find_blackie;
 extern struct MISSION outwalker_smith;
 extern WHOSTALKING whostalking;
+extern CURRENT_BORDER current_border;
 
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
@@ -57,13 +54,7 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void ReloadEnemiesPL() BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
-
 void START(){
-    LOAD_SGB_BORDER(bordercave);
-    //SOUND
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
 	//SCROLL LIMITS
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
@@ -85,10 +76,11 @@ void START(){
                 struct ItemSpawned* flower2_data = (struct ItemSpawned*) s_flower2->custom_data;
                 flower2_data->hp = 0b00000010;
             }
-        }
+        }    
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(blackiecavemap), &blackiecavemap, coll_tiles_blackiecave, coll_surface_blackiecave);    
+        SHOW_BKG;
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -107,7 +99,9 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
+        if(KEY_PRESSED(J_START)){
+            ChangeState(StateInventory, s_motherpl,-1);
+        }
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC 

@@ -2,12 +2,11 @@
 
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 #include "string.h"
 #include "Print.h"
-#include "Sound.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
@@ -66,10 +65,6 @@ extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 extern void LogItem(INVITEMTYPE invitemtype) BANKED;
 
 void START(){
-	//SOUND
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
     //SPRITES SPAWNING 
         HIDE_WIN;
         inv_cursor = SpriteManagerAdd(SpriteInvcursor, 8u, 24u);

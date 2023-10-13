@@ -529,6 +529,9 @@ void set_sgb_palette01_ZOO() __banked {
 void set_sgb_palette01_MINE() __banked {
 	set_sgb_palette(SGB_PAL1E_LIGHTER, myRGB(252, 160, 68), myRGB(172, 124, 0), myRGB(90, 57, 33));
 }
+void set_sgb_palette01_TUTORIAL() __banked {
+	set_sgb_palette(SGB_PAL1E_LIGHTER, myRGB(252, 160, 68), myRGB(172, 124, 0), myRGB(0, 0, 0));
+}
 void set_sgb_palette01_CEMATERYCRYPT() __banked {
 	set_sgb_palette(myRGB(255, 255, 255), myRGB(184, 184, 184), myRGB(176, 62, 255), myRGB(40, 0, 136));
 }

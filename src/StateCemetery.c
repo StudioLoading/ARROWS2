@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "ZGBMain.h"
 #include "Keys.h"
@@ -12,7 +11,6 @@
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(border);
@@ -53,14 +51,10 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
+extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
 
 
 void START(){
-    LOAD_SGB_BORDER(border);
-    //SOUND
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
 	//SCROLL LIMITS
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
@@ -110,6 +104,9 @@ void UPDATE(){
                 }else{
                     spawn_npc(SpritePgceme, (UINT16) 28u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1, WOMAN);
                 }
+                spawn_npa(SpriteBirdsky, (UINT16) 8 << 3, (UINT16) 6u << 3, 1); 
+                spawn_npa(SpriteBirdsky, ((UINT16) 8 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);  
+                spawn_npa(SpriteBirdsky, (UINT16) 7u << 3, (UINT16) 7u << 3, 2); 
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3)){
@@ -117,6 +114,9 @@ void UPDATE(){
                 if(engage_smith.current_step == 0){
                     spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH, JOHN);
                 }
+                spawn_npa(SpriteBirdsky, (UINT16) 40 << 3, (UINT16) 5u << 3, 1); 
+                spawn_npa(SpriteBirdsky, ((UINT16) 41 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);  
+                spawn_npa(SpriteBirdsky, (UINT16) 44u << 3, (UINT16) 5u << 3, 2); 
                 spawn_npc(SpritePgceme, (UINT16) 52u << 3, 68u, WOMAN_HEAD1, WOMAN_BODY2, NO_MIRROR, CEMETERY_WOMAN2, WOMAN);
                 npc_spawned_zone = 2u;
             }

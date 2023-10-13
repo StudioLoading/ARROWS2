@@ -124,6 +124,7 @@ void set_sgb_palette01_WOLF() __banked;
 void set_sgb_palette01_BLACKIECAVE() __banked;
 void set_sgb_palette01_TITLEINVERTED() __banked;
 void set_sgb_palette01_COMUNEKO() __banked;
+void set_sgb_palette01_TUTORIAL() __banked;
 void set_sgb_palette01_MINE() __banked;
 void set_sgb_palette01_ZOO() __banked;
 void set_sgb_palette01_CEMATERYCRYPT() __banked;

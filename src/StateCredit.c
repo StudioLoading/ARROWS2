@@ -1,21 +1,16 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 #include "Music.h"
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
-#include "sgb_palette.h"
 
-IMPORT_MAP(border2);
 IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
 DECLARE_MUSIC(titlescreen);
@@ -36,6 +31,7 @@ const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 INT8 chapter = 0;
+CURRENT_BORDER current_border = BORDER_NONE;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
 .mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u};
@@ -79,6 +75,8 @@ void inventory_init() BANKED;
 void position_init() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
+extern void manage_border(UINT8 next_state) BANKED;
+
 extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 
@@ -233,23 +231,22 @@ void position_init() BANKED{
 }
 
 void START() {
-    LOAD_SGB_BORDER(border2);
+	if(sgb_check()){
+		BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
+		manage_border(StateCredit);
+	}
 	missions_init();
 	inventory_init();
 	//SOUND
-	stop_music_on_new_state = 0;
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	//NR50_REG = 0x44; //Max volume 0x77
+		stop_music_on_new_state = 0;
+        NR52_REG = 0x80; //Enables sound, you should always setup this first
+        NR51_REG = 0xFF; //Enables all channels (left and right)
+        NR50_REG = 0x77; //Max volume
 	switch (credit_step){
 		case 0u:
-			if(sgb_check()){
-				set_sbg_credit0();
-			}
 			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
 		break;
 	}
-	
     e_to_reload[0].type = 0u;
     e_to_reload[0].x = 0u;
     e_to_reload[0].y = 0u;

@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
@@ -12,7 +11,6 @@
 
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
-#include "sgb_palette.h"
 
 #define MAX_WAIT_CHAR 4
 
@@ -25,6 +23,7 @@ IMPORT_MAP(dialogmapcemetery);
 IMPORT_MAP(dialogmapmine);
 IMPORT_MAP(dmapblackiecave);
 IMPORT_MAP(dialogmapsmith);
+IMPORT_MAP(dmapblackie);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -86,14 +85,10 @@ extern void load_chapter() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
+extern void check_sgb_palette(UINT8 new_state) BANKED;
 
 void START() {
-	//SOUND
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0x77; //Max volume 0x77
     HIDE_WIN;
-    
     switch(whostalking){
         case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
@@ -101,6 +96,9 @@ void START() {
         case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
         case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
             InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
+        break;
+        case BLACKIE:
+            InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
         break;
         default:
             switch(previous_state){
@@ -124,7 +122,11 @@ void START() {
 	SHOW_SPRITES;
     choice = 0u;
     choice_left = 0u;
-    choice_right = 0u;
+    choice_right = 0u;    
+    //SGB PALETTE CHECK
+        if(sgb_check()){
+            check_sgb_palette(StateDialog);
+        }    
 }
 
 void UPDATE() {
@@ -434,11 +436,7 @@ void move_on() BANKED{
 	}
     //CHECK NEW PASSWORD TO GIVE?
         switch(whostalking){
-            case BLACKIE:
-                if(find_blackie.current_step == 4u){
-                    give_new_password = 1;
-                }
-            break;
+            case HOSPITAL_ENABLING:
             case IBEX_GIVE_HERBS:
                 give_new_password = 1;
             break;

@@ -1,9 +1,7 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
@@ -11,8 +9,6 @@
 #include "Sound.h"
 
 #include "custom_datas.h"
-#include "sgb_palette.h"
-
 
 IMPORT_TILES(font);
 IMPORT_MAP(borderdiary);
@@ -59,11 +55,6 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 
 
 void START(){
-    LOAD_SGB_BORDER(borderdiary);
-    //SGB PALETTE
-        if(sgb_check()){
-            set_sgb_palette01_WOLF();
-        }  
     //SPRITES SPAWNING & SETTINGS
         HIDE_WIN;
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 10u << 3, (UINT16) 8u << 3);
@@ -179,7 +170,6 @@ void UPDATE(){
         load_chapter();
     }
 }
-
 
 void load_chapter() BANKED{
     my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD

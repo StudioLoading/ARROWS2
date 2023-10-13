@@ -78,24 +78,9 @@ void UPDATE(){
                     case SpriteArrow:
                         {
                             struct ArrowData* arrow_data = (struct ArrowData*) icrabspr->custom_data;
-                            if(crab_data->e_state == ENEMY_IDLE){
+                            if(crab_data->e_state == ENEMY_IDLE || arrow_data->arrow_type == ARROW_NORMAL){
                                 arrow_data->vx = -arrow_data->vx;
                                 return;
-                            }
-                            switch(arrow_data->arrow_type){
-                                case ARROW_NORMAL:
-                                    arrow_data->vx = -arrow_data->vx;
-                                break;
-                                case ARROW_PERF:
-                                case ARROW_BASTARD:
-                                    if(arrow_data->hit == 0){
-                                        arrow_data->hit = 1u;
-                                        if(crab_data->e_state != ENEMY_HIT_1 && 
-                                            crab_data->e_state != ENEMY_DEAD){
-                                            crab_hit();
-                                        }
-                                    }
-                                break;
                             }
                         }
                     break;
@@ -160,14 +145,10 @@ void crab_behave() BANKED{
         break;
         case ENEMY_HIT_1:
             if(crab_data->wait == 0){
-                if(crab_data->hp > 0){
                 crab_update_wait();
                 if(s_motherpl->x < THIS->x){crab_data->vx = -2;}
                 else{crab_data->vx = 2;}
                 crab_change_state(ENEMY_JUMP);
-                }else{//DEAD
-                    crab_change_state(ENEMY_DEAD);
-                }
             }
         break;
     }
@@ -185,6 +166,9 @@ void crab_change_state(ENEMY_STATE crab_new_state) BANKED{
             SetSpriteAnim(THIS,a_crab_hit, 24u);
             crab_data->vx = 0;
             crab_data->wait = 80u;
+            if(crab_data->hp <= 0){
+                crab_change_state(ENEMY_DEAD);
+            }
         break;
         case ENEMY_IDLE:
             SetSpriteAnim(THIS,a_crab_idle, 16u);

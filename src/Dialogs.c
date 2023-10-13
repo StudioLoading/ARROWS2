@@ -66,10 +66,10 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_PRESS_SELECT:
-			memcpy(d1, " PRESS SELECT TO VIEW\0", 22);
-			memcpy(d2, " MY MISSION'S DIARY  \0", 22);
-			memcpy(d3, " FOR THE CURRENT     \0", 22);
-			memcpy(d4, " CHAPTER.            \0", 22);
+			memcpy(d1, " PRESS SELECT TO     \0", 22);
+			memcpy(d2, " VIEW MY MISSION'S   \0", 22);
+			memcpy(d3, " DIARY FOR THE       \0", 22);
+			memcpy(d4, " CURRENT CHAPTER.    \0", 22);
 		break;
 		case TIP_SMITH_NO:
 			memcpy(d3, EMPTY_STRING_21 , 22);

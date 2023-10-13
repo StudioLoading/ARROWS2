@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
@@ -9,10 +8,8 @@
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "custom_datas.h"
 
 #define MAX_CROSSBOW_ANIM_COOLDOWN 12
@@ -23,7 +20,6 @@ IMPORT_TILES(tiles00);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(font);
 
-IMPORT_MAP(border2);
 IMPORT_MAP(mapdiagcrossbow);
 IMPORT_MAP(mapdiagcrossbowempty);
 IMPORT_MAP(mapbonus);
@@ -51,22 +47,9 @@ UINT8 target_counter = 0u;
 UINT8 counter_ground_animation = 0u;
 
 void START() {
-    LOAD_SGB_BORDER(border2);
-	//INIT SOUND
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0xFF; //Max volume 0x77
-
-    //SGB COLORS
-    if(sgb_check()){
-		set_sgb_palette01_worldmap();		
-    }
 	InitScroll(bank_mapbonus, &mapbonus, collision_bonus_tiles, 0);
-	
-    SHOW_BKG;
-	
+    SHOW_BKG;	
     SHOW_SPRITES;
-
 	//WINDOW
 	INIT_FONT(font, PRINT_WIN);
 	WX_REG = 7;

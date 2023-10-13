@@ -1,23 +1,18 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
 #include "Print.h"
-#include "Fade.h"
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
-#include "sgb_palette.h"
 #include "DiaryDialogs.h"
 
-IMPORT_MAP(borderdiary);
 IMPORT_TILES(fontbw);
 IMPORT_MAP(diarym);
 
@@ -79,13 +74,6 @@ void update_diary_cursor();
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START(){
-    //HIDE_WIN;
-        LOAD_SGB_BORDER(borderdiary);
-	//SOUND
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
-        //PlayMusic(bgm_credits, 0);    
     //INIT GRAPHICS
         diary_cursor = SpriteManagerAdd(SpriteDiarycursor, 24u, 24u);
         InitScroll(BANK(diarym), &diarym, collision_tiles_diary, 0);
@@ -189,10 +177,12 @@ void show_detail(){
                         if(engage_smith.current_step > 0){
                             GetLocalizedDDLabel_EN(ENGAGE_SMITH_D2, dd4);
                             GetLocalizedDDLabel_EN(ENGAGE_SMITH_D3, dd5);
-                        }
-                        if(engage_smith.mission_state == MISSION_STATE_REWARDED){
                             GetLocalizedDDLabel_EN(ENGAGE_SMITH_D4, dd6);
                             GetLocalizedDDLabel_EN(ENGAGE_SMITH_D5, dd7);
+                        }
+                        if(engage_smith.mission_state == MISSION_STATE_REWARDED){
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D6, dd6);
+                            GetLocalizedDDLabel_EN(ENGAGE_SMITH_D7, dd7);
                         }
                     }
                 break;

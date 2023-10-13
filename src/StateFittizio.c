@@ -24,6 +24,7 @@
 
 DECLARE_MUSIC(intro);
 DECLARE_MUSIC(death);
+DECLARE_MUSIC(tutorial);
 DECLARE_MUSIC(owsw);
 DECLARE_MUSIC(cemetery);
 DECLARE_MUSIC(exzoo);
@@ -32,6 +33,14 @@ DECLARE_MUSIC(bosscrab);
 DECLARE_MUSIC(mountain);
 DECLARE_MUSIC(mine);
 DECLARE_MUSIC(cure);
+
+IMPORT_MAP(border);
+IMPORT_MAP(border2);
+IMPORT_MAP(borderdiary);
+IMPORT_MAP(bordercave);
+IMPORT_MAP(bordercrab);
+IMPORT_MAP(bordersky);
+IMPORT_MAP(bordercart);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -50,9 +59,11 @@ extern Sprite* s_motherow;
 extern unsigned char log0[];
 extern INT8 current_map;
 extern UINT8 teleporting;
+extern CURRENT_BORDER current_border; 
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
+UINT8 np_counter = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
@@ -88,6 +99,7 @@ void update_camera_position_ow() BANKED;
 void camera_tramble() BANKED;
 void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
+void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
 void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
@@ -95,6 +107,7 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 void check_sgb_palette(UINT8 new_state) BANKED;
 void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
+void manage_border(UINT8 next_state) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
@@ -117,14 +130,12 @@ void play_music_reward() BANKED{
 }
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
-    if(previous_state == new_state && next_map == current_map){
+    if((previous_state == new_state && next_map == current_map) 
+        || previous_state == StateInventory 
+        || new_state == StateInventory){
         return;
     }
     switch(new_state){
-        case StateInventory:
-            //PauseMusic;
-            my_play_fx(CHANNEL_2, 60, 0xab, 0xe3, 0x37, 0x87, 0x00);//SFX_START
-        break;
         case StateDialog:
             if(previous_state == StateTitlescreen){
                 PauseMusic;
@@ -159,6 +170,8 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             else if(previous_state != StateDialog){StopMusic;PlayMusic(cemetery, 1);}
         break;
         case StateTutorial:
+            PlayMusic(tutorial, 1);
+        break;
         case StateBlackiecave:
             if(previous_state == StateInventory){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
@@ -181,7 +194,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         break;
         case StateHospital:
             if(previous_state == StateInventory){ResumeMusic;}
-            else if(previous_state != StateDialog){StopMusic;PlayMusic(cure, 0);}
+            else if(previous_state != StateDialog && motherpl_hp < 5){
+                StopMusic;PlayMusic(cure, 0);
+            }
         break;
     }
 }
@@ -206,8 +221,66 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
     }
 }
 
+void manage_border(UINT8 next_state) BANKED{
+    if(!sgb_check()){
+        return;
+    }
+    check_sgb_palette(next_state);
+    switch(next_state){
+        case StateCredit:
+        case StateOverworld:
+        case StateTutorial:
+        case StateOutwalkers:
+            if(current_border != BORDER_CLASSIC){
+                current_border = BORDER_CLASSIC;
+                LOAD_SGB_BORDER(border2);
+            }
+        break;
+        case StateBlackiecave:
+            if(current_border != BORDER_CAVE){
+                current_border = BORDER_CAVE;
+                LOAD_SGB_BORDER(bordercave);
+            }
+        break;
+        case StatePassword:
+            if(current_border != BORDER_DIARY){
+                current_border = BORDER_DIARY;
+                LOAD_SGB_BORDER(borderdiary);
+            }
+        break;
+        case StateBlackieroom:
+            if(current_border != BORDER_BLACKIE){
+                current_border = BORDER_BLACKIE;
+                LOAD_SGB_BORDER(bordercave);
+            }
+        break;
+        case StateMountain:
+        case StateSky:
+            if(current_border != BORDER_THUNDER){
+                current_border = BORDER_THUNDER;
+                LOAD_SGB_BORDER(bordersky);
+            }
+        break;
+        case StateBosscrab:
+            if(current_border != BORDER_BOSSCRAB){
+                current_border = BORDER_BOSSCRAB;
+                LOAD_SGB_BORDER(bordercrab);
+            }
+        break;
+        case StateCart:
+            if(current_border != BORDER_CART){
+                current_border = BORDER_CART;
+                LOAD_SGB_BORDER(bordercart);
+            }
+        break;
+    }
+}
+
 void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
+        case StateCredit:
+    		set_sbg_credit0();
+        break;
         case StateCart:
             set_sgb_palette01_cart();
             set_sgb_palette_statusbar();
@@ -242,8 +315,11 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette01_CEMATERYCRYPT();
             set_sgb_palette_statusbar();
         break;
-        case StateMine:
         case StateTutorial:
+            set_sgb_palette01_TUTORIAL();
+            set_sgb_palette_statusbar();
+        break;
+        case StateMine:
             set_sgb_palette01_MINE();
             set_sgb_palette_statusbar();
         break;
@@ -255,6 +331,8 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette_inventory();
             reset_sgb_palette_statusbar();
         break;
+        case StatePassword:
+            set_sgb_palette01_WOLF();
         case StateDiary:
         case StateDialog:
         case StateOverworld:
@@ -268,6 +346,9 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             }
             reset_sgb_palette_statusbar();
         break;
+        case StateHospital:
+            set_sgb_palette01_WOLF();
+        break;
     }
 }
 
@@ -275,7 +356,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     /*if(current_state != StateDialog && current_state != StateCredit){
         PauseMusic;
     }*/
+    if(new_state == StateInventory){
+        my_play_fx(CHANNEL_2, 60, 0xab, 0xe3, 0x37, 0x87, 0x00);//SFX_START
+    }
     enemy_counter = 0;
+    np_counter = 0;
     UINT8 mfit_a_tile;
     Sprite* mfitspr;
     SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
@@ -355,12 +440,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         case StateMountain:
                             if(new_state == StateOutwalkers){
                                 motherpl_pos_x = (UINT16)93u << 3;
-                                motherpl_pos_y = (UINT16)9u << 3;
+                                motherpl_pos_y = (UINT16)11u << 3;
                             }
                         break;
                         case StateBosscrab:
                             motherpl_pos_x = (UINT16) 6u << 3;
-                            motherpl_pos_y = (UINT16) 8u << 3;        
+                            motherpl_pos_y = (UINT16) 10u << 3;        
                         break;
                     }
                     motherpl_mirror = s_mother->mirror;
@@ -371,7 +456,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         }else if(current_state == StateDialog){
             if(new_state == StateBosscrab){
                 motherpl_pos_x = (UINT16)6u << 3;
-                motherpl_pos_y = (UINT16)8u << 3;
+                motherpl_pos_y = (UINT16)10u << 3;
             }
         }
         if(just_started == 1){
@@ -390,10 +475,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(new_state != StateDialog && current_state != StateDialog && new_state != StateTitlescreen){
 	    ChangeStateThroughBetween(new_state);
     }else{
-        //SGB PALETTE CHECK
-        if(sgb_check()){
-            check_sgb_palette(new_state);
-        }
         manage_bgm(new_state, previous_state, next_map);
         SetState(new_state);
     }
@@ -685,6 +766,10 @@ void ReloadEnemiesPL() BANKED{
 }
 
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED{
+    if(np_counter > 6){
+        return;
+    }
+    np_counter++;
     Sprite* s_head = SpriteManagerAdd(type, posx, posy);
     s_head->mirror = mirror;
     struct NpcInfo* head_data = (struct NpcInfo*) s_head->custom_data;
@@ -698,6 +783,16 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     body_data->npcname = npcname;
     head_data->configured = 1u;
     body_data->configured = 1u;
+}
+
+void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED{
+    if(np_counter > 6){
+        return;
+    }
+    np_counter++;
+    Sprite* s_birdsky = SpriteManagerAdd(type, posx, posy);    
+    struct EnemyData* birdsky_info = (struct EnemyData*) s_birdsky->custom_data;
+    birdsky_info->configured = configured;
 }
 
 void START(){}

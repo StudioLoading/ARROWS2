@@ -48,8 +48,10 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ENGAGE_SMITH_D1:memcpy(d, "THE CEMETERY       ", 20);break;
 		case ENGAGE_SMITH_D2:memcpy(d, "BRING METAL AND    ", 20);break;
 		case ENGAGE_SMITH_D3:memcpy(d, "WOOD TO THE FORGE  ", 20);break;
-		case ENGAGE_SMITH_D4:memcpy(d, "THIS SMITH FORGES  ", 20);break;
-		case ENGAGE_SMITH_D5:memcpy(d, "NORMAL ARROWS      ", 20);break;
+		case ENGAGE_SMITH_D4:memcpy(d, "SEARCH THE IN THE  ", 20);break;
+		case ENGAGE_SMITH_D5:memcpy(d, "OLD MINE           ", 20);break;
+		case ENGAGE_SMITH_D6:memcpy(d, "THIS SMITH FORGES  ", 20);break;
+		case ENGAGE_SMITH_D7:memcpy(d, "NORMAL ARROWS      ", 20);break;
 		case ENABLE_HOSPITAL_TITLE:memcpy(d, "ENABLE HOSPITAL ", 16);break;
 		case ENABLE_HOSPITAL_D0:memcpy(d, "THE HOSPITAL NEEDS ", 20);break;
 		case ENABLE_HOSPITAL_D1:memcpy(d, "SOME SPECIAL METAL ", 20);break;
