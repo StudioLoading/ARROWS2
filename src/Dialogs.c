@@ -494,6 +494,14 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "NEY WITH ALL  OF    \0", 22);
 			memcpy(d6, "YOUR STRENGTH.      \0", 22);
 		break;
+		case HOSPITAL_FINE:
+			*n_lines = 5u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "HEY DESSA, YOU LOOK \0", 22);
+			memcpy(d3, "PERFECTLY FINE, HOW \0", 22);
+			memcpy(d4, "ARE YOU DOING?      \0", 22);
+		break;
 		case HOSPITAL_CURE_FROM_DEATH:
 			*n_lines = 4u;
 			memcpy(d0, "DOCTOR:             \0", 22);

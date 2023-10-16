@@ -1,42 +1,9 @@
 POST DEMO:
-
 - verifica morte crab coerente con indicatore
-- index degli npc deve essere minore del mio sennò ci sporchiamo quando ci passo sopra
-- dato che per entrare nei posti "ci cammina dentro", non ha senso che compaia in salto
-- avanti e indietro sul exzoo dopo un po' si rompe
-- fissare telecamera in mezzo, ha rotto il cazzo perché glitcha
-- se ho selezionato i coin non tiro
-- se just_started == 1 e sono su Overworld non devo reagire alla pressione dello start
-o del select
-
-- il dialogo ferma la musica e non va bene, all'ingresso la interrompe e la 
-riprende (brutto) e alla fine restarta la bgm!!
-- fruscio sfx al dash!
-- cimitero crasha!
-- statesmith interrompe la bgm
-- statehospital deve fare musichetta solo quando cura invece la fa sempre
-- bgm di ow crasha alla fine del loop
-- azione sui cartelli non fa partire il tip
-- limit west owsw non fa partire tip
-- silenziare una canzone mettendola in loop
-The hUGETracker paste format is compatible with...
-ModPlug Tracker  XM - che il path inizi così
-|...00...E00|...00...E00|...00...E00|...00...E00
-|...00...B03|...00...000|...00...000|...00...000
-dove B03 quel 03 è il numero di path corrente 01-09-0a-...
-
-
-
-
+- frames del wolf ow che corre
 - bandits:
 	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
-- musichetta di rifocillo all' ospedale quando mi curano!
 
-- dall' inventario io avevo fatto un bottone che quando cliccato equippa un item
-	potrei fare la stessa cosa su un certo oggetto equipaggiabile
-	che se equippato da overworld in una certa posizione attiva qualcosa.
-	potrei fare sta cosa come side-mission super hidden secret per accesso ad area
-	segreta di oggetto tipo l' Armatura!!
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
@@ -44,21 +11,14 @@ dove B03 quel 03 è il numero di path corrente 01-09-0a-...
 - overworld improvements: see
 	C:\Users\checc\ARROWS2\overworld e C:\Users\checc\ARROWS2\places
 	distribuzione della tile di erba-vuoto a scacchiera
-- qualche istante di pausa tra una bgm e l' altra da dentro al manage
 - un negozio diverso per ogni consumabile!
 	- smith fa frecce normali
 	- carpentiere fa frecce perforanti
 	- qualcuno fa le esplosive
 	- qualcuno fa le bastarde
-- schermata dei capitoli
-- Overworld: sprite animate in e animazione acque 
 - Dialogs: pixelArt
 - il perk "Save the Nerd" sono in 3 e gli ho girato il credito in-game.
-- TitleScreen: 
-	- la nave (Sprite!) arriva dopo un po', avanza e rimpicciolisce verso largo
-	- acque che per ora è ogni 2 px, farla ogni 1 perchè ha effetto miglioramento
-	- thunder animation (Sprite!)
-	- cheatCode: la mia faccia col dito medio dopo il Konami
+- TitleScreen: il cielo è un po' bruttino
  - scrigni?
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
 	tipo SuperGB o Color o DMG.
@@ -117,14 +77,22 @@ else
 endif
 
 
+HUGETRACKER
+Silenziare una canzone mettendola in loop cieco
+The hUGETracker paste format is compatible with...
+ModPlug Tracker  XM - che il path inizi così
+|...00...E00|...00...E00|...00...E00|...00...E00
+|...00...B03|...00...000|...00...000|...00...000
+dove B03 quel 03 è il numero di path corrente 01-09-0a-...
+
 
 PAD2 sulla SNES, prendere spunto da:
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
 			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
 
 PNG2MAP
-C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dmaphospital.png -gbm -g -pal=mypal.pal
+cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
+png2gbtiles.exe dmaphood.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

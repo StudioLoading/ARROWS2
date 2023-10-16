@@ -78,6 +78,8 @@ void UPDATE() {
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
 				if(motherpl_hp < 0){//morta
                     whostalking = HOSPITAL_CURE_FROM_DEATH;
+                }if(motherpl_hp == 5){
+                    whostalking = HOSPITAL_FINE;
                 }else{//in cura
                     whostalking = HOSPITAL_CURE;
                 }

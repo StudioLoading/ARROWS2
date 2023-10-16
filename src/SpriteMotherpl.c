@@ -387,7 +387,7 @@ void UPDATE(){
                 refreshAnimation();
             }
         }
-        if(motherpl_state != MOTHERPL_BLOCKED){
+        if(motherpl_state != MOTHERPL_BLOCKED && itemEquipped.itemtype != INVITEM_MONEY){
             if(KEY_TICKED(J_FIRE) || KEY_PRESSED(J_FIRE)){
                 if(motherpl_attack_cooldown == 0){
                     SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);

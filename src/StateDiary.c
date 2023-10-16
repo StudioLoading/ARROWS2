@@ -62,6 +62,7 @@ extern Sprite* dado3;
 UINT8 idx_mission = 0u;
 INT8 idx_page = 0;
 UINT8 showing_detail = 0u;
+extern Sprite* s_motherow;
 
 void empty_ms();
 void empty_dds();
@@ -72,6 +73,7 @@ void show_pcodes();
 void update_diary_cursor();
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 
 void START(){
     //INIT GRAPHICS
@@ -342,7 +344,8 @@ void change_page(INT8 inc){
 
 void UPDATE(){
     if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
-        ChangeStateThroughBetween(StateOverworld);
+        //ChangeStateThroughBetween(StateOverworld);
+        ChangeState(StateOverworld, s_motherow, -1);
     }
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){

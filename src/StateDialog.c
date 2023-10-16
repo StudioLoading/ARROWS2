@@ -24,6 +24,7 @@ IMPORT_MAP(dialogmapmine);
 IMPORT_MAP(dmapblackiecave);
 IMPORT_MAP(dialogmapsmith);
 IMPORT_MAP(dmapblackie);
+IMPORT_MAP(dmaphood);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -100,6 +101,9 @@ void START() {
         case BLACKIE:
             InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
         break;
+        case CHILD: case CHILDS_SAVED:
+            InitScroll(BANK(dmaphood), &dmaphood, 0, 0);
+        break;
         default:
             switch(previous_state){
                 case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
@@ -108,6 +112,8 @@ void START() {
                 case StateSmith:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
                 case StateBlackieroom:
                 case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
+                case StateOutwalkers:
+                case StateHood:InitScroll(BANK(dmaphood), &dmaphood, 0, 0);break;
             }
         break;
     }

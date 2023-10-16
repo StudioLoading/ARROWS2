@@ -44,6 +44,7 @@ IMPORT_MAP(bordercart);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION enable_hospital;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
@@ -131,8 +132,13 @@ void play_music_reward() BANKED{
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
     if((previous_state == new_state && next_map == current_map) 
-        || previous_state == StateInventory 
-        || new_state == StateInventory){
+        || previous_state == StateInventory || new_state == StateInventory
+        || current_state == StateSmith
+        || current_state == StateHospital 
+        || previous_state == StateDiary || current_state == StateDiary
+        || previous_state == StateDialog || current_state == StateDialog
+        || previous_state == StateInventory || current_state == StateInventory
+    ){
         return;
     }
     switch(new_state){
@@ -193,8 +199,8 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             else if(previous_state != StateDialog){StopMusic;PlayMusic(mountain, 1);}
         break;
         case StateHospital:
-            if(previous_state == StateInventory){ResumeMusic;}
-            else if(previous_state != StateDialog && motherpl_hp < 5){
+            if(enable_hospital.mission_state == MISSION_STATE_REWARDED
+                && motherpl_hp < 5){
                 StopMusic;PlayMusic(cure, 0);
             }
         break;
@@ -472,7 +478,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
     }
-    if(new_state != StateDialog && current_state != StateDialog && new_state != StateTitlescreen){
+    if(new_state != StateDialog && previous_state != StateDialog
+        && current_state != StateDialog && new_state != StateTitlescreen
+        && current_state != StateSmith && current_state != StateDiary
+        && current_state != StateInventory
+        ){
 	    ChangeStateThroughBetween(new_state);
     }else{
         manage_bgm(new_state, previous_state, next_map);
@@ -679,43 +689,32 @@ void update_camera_position() BANKED{
     //BLOCK 
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-    //camera fissa per certi stage
-        UINT8 consider_margins = 0u;
-        switch(current_state){
-            case StateHood:
-            case StateMine:
-            case StateMountain:
-            case StateOutwalkers:
-            case StateBlackiecave:
-                scroll_target->x = s_motherpl->x + 8u;
-                if(motherpl_hit_cooldown == 0){
-                    scroll_target->y = s_motherpl->y + 8u;
-                }
-                consider_margins = 1u;
-            break;
+    //camera fissa
+        scroll_target->x = s_motherpl->x + 16u;
+        if(motherpl_hit_cooldown == 0){
+            scroll_target->y = s_motherpl->y + 16u;
         }
-        if(consider_margins){
-            return;
-        }
-    //in ogni caso non uscire dai margini
-    if(s_surf){
-        switch(s_motherpl->mirror){
-            case NO_MIRROR:
-                scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
-            break;
-            case V_MIRROR:
-                scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
-            break;
-        }
-        return;
-    }
-    if((KEY_PRESSED(J_DOWN) && motherpl_state != MOTHERPL_JUMP) 
-        || motherpl_state == MOTHERPL_PICKUP){
-            camera_ok = 0u;
-    }
-    if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH
-        || current_state == StateCart){
-        if(camera_ok == 1u){
+    /* OLD CAMERA MANAGEMENT WITH DELTA
+        //camera fissa per certi stage
+            UINT8 consider_margins = 0u;
+            switch(current_state){
+                case StateHood:
+                case StateMine:
+                case StateMountain:
+                case StateOutwalkers:
+                case StateBlackiecave:
+                    scroll_target->x = s_motherpl->x + 8u;
+                    if(motherpl_hit_cooldown == 0){
+                        scroll_target->y = s_motherpl->y + 8u;
+                    }
+                    consider_margins = 1u;
+                break;
+            }
+            if(consider_margins){
+                return;
+            }
+        //in ogni caso non uscire dai margini
+        if(s_surf){
             switch(s_motherpl->mirror){
                 case NO_MIRROR:
                     scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
@@ -724,26 +723,44 @@ void update_camera_position() BANKED{
                     scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
                 break;
             }
-        }else{
-            switch(s_motherpl->mirror){
-                case NO_MIRROR://going right
-                    if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
-                        scroll_target->x+=2;
-                    }else if (!KEY_PRESSED(J_LEFT) 
-                        && !KEY_PRESSED(J_DOWN)){
-                        camera_ok = 1u;
-                    }
-                break;
-                case V_MIRROR:
-                    if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
-                        scroll_target->x-=2;
-                    }else if (!KEY_PRESSED(J_RIGHT) && !KEY_PRESSED(J_DOWN)){
-                        camera_ok = 1u;
-                    }
-                break;
+            return;
+        }
+        if((KEY_PRESSED(J_DOWN) && motherpl_state != MOTHERPL_JUMP) 
+            || motherpl_state == MOTHERPL_PICKUP){
+                camera_ok = 0u;
+        }
+        if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT) || motherpl_state == MOTHERPL_DASH
+            || current_state == StateCart){
+            if(camera_ok == 1u){
+                switch(s_motherpl->mirror){
+                    case NO_MIRROR:
+                        scroll_target->x = s_motherpl->x + CAMERA_DELTA_RIGHT;
+                    break;
+                    case V_MIRROR:
+                        scroll_target->x = s_motherpl->x - CAMERA_DELTA_LEFT;
+                    break;
+                }
+            }else{
+                switch(s_motherpl->mirror){
+                    case NO_MIRROR://going right
+                        if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
+                            scroll_target->x+=2;
+                        }else if (!KEY_PRESSED(J_LEFT) 
+                            && !KEY_PRESSED(J_DOWN)){
+                            camera_ok = 1u;
+                        }
+                    break;
+                    case V_MIRROR:
+                        if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
+                            scroll_target->x-=2;
+                        }else if (!KEY_PRESSED(J_RIGHT) && !KEY_PRESSED(J_DOWN)){
+                            camera_ok = 1u;
+                        }
+                    break;
+                }
             }
         }
-    }
+    */
 }
 
 void ReloadEnemiesPL() BANKED{    
