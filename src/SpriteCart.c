@@ -21,6 +21,8 @@ extern MOTHERPL_STATE motherpl_state;
 extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_hp;
 extern UINT8 camera_ok;
+extern INT8 sfx_cooldown;
+
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 const UINT8 a_cart_idle[] = {1, 1};
@@ -157,6 +159,7 @@ void cart_behave() BANKED{
             }
         break;
         case MOTHERPL_ASCENDING:
+            my_play_fx(CHANNEL_2, 40, 0x4a, 0xf1, 0x73, 0x82, 0x00);
             if(THIS->y < 54u){
                 cart_vx = 2;
                 struct EnemyData* elevator_data = (struct EnemyData*) elevator->custom_data;
@@ -226,13 +229,16 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
                 if(motherpl_state == ENEMY_SLIDE_DOWN){
                     THIS->x += 4;
                     THIS->y -= 8;
+                }else if(motherpl_state != MOTHERPL_ASCENDING){
+                    my_play_fx(CHANNEL_2, 40, 0x54, 0xd2, 0xeb, 0x87, 0x00);
+                    SpriteManagerAdd(SpritePuff, THIS->x + 24u, THIS->y + 6u);
                 }
                 if(THIS->mirror == NO_MIRROR){
                     cart_vx = 2;
                 }else{
                     cart_vx = -2;
                 }
-              	SetSpriteAnim(THIS, a_cart_h, a_cart_freq);
+                SetSpriteAnim(THIS, a_cart_h, a_cart_freq);
             break;
             case ENEMY_SLIDE_DOWN:
                 cart_can_jump = 1;
@@ -273,6 +279,7 @@ void UPDATE() {
         }
         cart_frmskip_x = 0;
     }
+    if(sfx_cooldown > 0){sfx_cooldown--;}
     //BEHAVE
         cart_behave();
     //SPRITE COLLISION

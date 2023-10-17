@@ -9,10 +9,10 @@
 
 #include "custom_datas.h"
 
-const UINT8 a_cartelevator[] = {2, 0, 1};
+const UINT8 a_cartelevator[] = {4, 0, 1, 0, 2};
 
 void START(){
-    SetSpriteAnim(THIS,a_cartelevator, 16u);
+    SetSpriteAnim(THIS,a_cartelevator, 32u);
     struct EnemyData* elev_data = (struct EnemyData*) THIS->custom_data; 
     elev_data->e_state = ENEMY_SLIDE_UP;
     elev_data->wait = 0u;

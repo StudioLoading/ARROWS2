@@ -1,9 +1,6 @@
 POST DEMO:
 - verifica morte crab coerente con indicatore
 - frames del wolf ow che corre
-- bandits:
-	"un bandito che canta michael jackson "all I wanna say is that they don't really care about us!""
-
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
@@ -17,7 +14,8 @@ POST DEMO:
 	- qualcuno fa le esplosive
 	- qualcuno fa le bastarde
 - Dialogs: pixelArt
-- il perk "Save the Nerd" sono in 3 e gli ho girato il credito in-game.
+- il perk "Save the Nerd" sono in 3 e gli ho giurato il credito in-game.
+- un qualcuno che canta michael jackson "all I wanna say is that they don't really care about us!""
 - TitleScreen: il cielo è un po' bruttino
  - scrigni?
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
@@ -119,3 +117,5 @@ Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto b
 Se ce ne fosse uno con un po' di profondità...
 come TMNT 3 sulla NES
 Lone Ranger NES
+flying arrows radio: un piccolo player delle bgm di tutti e tre i giochi! 
+perché é giusto così

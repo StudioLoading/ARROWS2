@@ -204,6 +204,10 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
                 StopMusic;PlayMusic(cure, 0);
             }
         break;
+        case StateCart:
+            if(previous_state == StateInventory){ResumeMusic;}
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
+        break;
     }
 }
 
