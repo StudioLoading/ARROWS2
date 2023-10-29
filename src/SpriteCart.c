@@ -128,6 +128,14 @@ void cart_behave() BANKED{
         break;
         case ENEMY_SLIDE_DOWN:
             THIS->y += cart_delta_y;
+            if(_cpu != CGB_TYPE){
+                if(cart_data->wait == 0){
+                    THIS->y++;
+                    cart_data->wait = 12;
+                }else{
+                    cart_data->wait--;
+                }
+            }
         break;
         case MOTHERPL_WALK:
             cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
@@ -166,6 +174,7 @@ void cart_behave() BANKED{
                 cart_vx = 2;
                 struct EnemyData* elevator_data = (struct EnemyData*) elevator->custom_data;
                 elevator_data->e_state = ENEMY_SLIDE_DOWN;
+                cart_data->wait = 8;
                 TranslateSprite(THIS, 0, 8 << delta_time);
                 change_cart_state(MOTHERPL_WALK);
             }
@@ -218,7 +227,10 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
     if(new_cart_state != motherpl_state){
         switch(new_cart_state){
             case MOTHERPL_JUMP:
-                cart_vy = -12;
+                cart_vy = -10;
+                if(_cpu != CGB_TYPE){
+                    cart_vy = -12;
+                }
                 cart_can_jump = 0;
                 cart_delta_y = 0;
                 cart_frmskip_x = 0;
@@ -247,6 +259,7 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
                 cart_delta_y = +1;
                 THIS->y += 8;
                 SetSpriteAnim(THIS, a_cart_v_d, a_cart_freq);
+                cart_data->wait = 8;
             break;
             case MOTHERPL_HIT:
                 my_play_fx(CHANNEL_2, 60, 0xce, 0x53, 0xb2, 0x83, 0x00);//SFX_HIT

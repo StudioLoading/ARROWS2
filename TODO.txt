@@ -1,8 +1,4 @@
 POST DEMO:
-- abilitare subito ospedale, poi lo smith, poi blackie
-- dialog di quando entro outwalker senza pass è rotto
-- anche police
-- limite sx del maze non mi fa tornare indietro!
 - cart su SGB non è aderente in discesa
 - steel detail
 

@@ -417,7 +417,8 @@ void update_diary_cursor(){
     struct EnemyData* dcursor_data = (struct EnemyData*) diary_cursor->custom_data;
     INT8 missions_idx = cursor_posi + (idx_page * 4);
     if(missions_idx == -1){missions_idx = 3;}
-    if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
+    if(missions[missions_idx] == NULL){dcursor_data->configured = 2;
+    }else if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
         dcursor_data->configured = 1;
     }else if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){                
         dcursor_data->configured = 0;

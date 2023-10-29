@@ -20,7 +20,7 @@ const UINT8 motherow_anim_up[] = {2, 2, 3}; //The first number indicates the num
 const UINT8 motherow_anim_h[] = {4, 4, 7, 6, 7}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_h[] = {1, 5}; //The first number indicates the number of frames
 const UINT8 motherow_anim_idle_up[] = {1, 2}; //The first number indicates the number of frames
-const UINT8 motherow_anim_idle_down[] = {1, 1}; //The first number indicates the number of frames
+const UINT8 motherow_anim_idle_down[] = {1, 8}; //The first number indicates the number of frames
 
 extern UINT8 hudow_opened;
 extern UINT8 show_tip;

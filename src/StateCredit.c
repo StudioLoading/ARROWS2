@@ -109,11 +109,11 @@ void missions_init() BANKED{
 			enable_hospital.current_step = 6u;
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 6u;//0u;
-			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED;
+			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 0u;//0u;
+			outwalker_chief.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
 			outwalker_chief.current_step = 6u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_DISABLED;
+			outwalker_glass.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
 			outwalker_glass.current_step = 0u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
 			outwalker_smith.current_step = 0u;//test 0b00000111;
