@@ -11,6 +11,7 @@
 
 const UINT8 a_dcursor_todo[] = {5, 0,0,0,1,1}; //The first number indicates the number of frames
 const UINT8 a_dcursor_done[] = {1, 2}; //The first number indicates the number of frames
+const UINT8 a_dcursor_ex[] = {2, 3,4}; //The first number indicates the number of frames
 
 void START(){
 	THIS->lim_x = 255u;
@@ -31,16 +32,12 @@ void UPDATE(){
 			case 1u:
     			SetSpriteAnim(THIS, a_dcursor_done, 1);
 			break;
+			case 2u:
+    			SetSpriteAnim(THIS, a_dcursor_ex, 32u);
+			break;
 		}
 		dcursor_data->wait = 0;
 	}
-    /*
-struct EnemyData{
-	INT8 hp;
-	INT8 vx;
-	UINT8 wait;
-	UINT8 configured;*/
-
 }
 
 void DESTROY(){

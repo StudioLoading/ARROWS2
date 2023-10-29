@@ -10,7 +10,7 @@
 const UINT8 a_birdsky[] = {4, 0, 1, 2, 1};
 const UINT8 a_birdsky2[] = {4, 3, 4, 5, 4};
 
-extern UINT8 np_counter;
+extern INT8 np_counter;
 
 void START(){
     THIS->lim_x = 30u;
@@ -57,5 +57,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    np_counter--;
+    if(np_counter > 0){np_counter--;}
 }

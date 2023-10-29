@@ -126,6 +126,8 @@ void START(){
 			help_cemetery_woman.current_step = 4u;
 			trigger_dialog(CHILDS_SAVED, s_motherow);
 		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
+				//non capisco perché questo ==ENABLED è falso a debug
+				//ma runtime è vero
 			help_cemetery_woman.current_step = 0u;
 		}
 	INIT_FONT(font, PRINT_WIN);
@@ -453,17 +455,32 @@ void UPDATE(){
 		if(KEY_RELEASED(J_SELECT)){
 			if(just_started == 2){
 				just_started = 0;
+				HIDE_WIN;
+				show_tip = 0u;
+				showed_tip = 0;
+				show_tip_movingscroll = 0u;
+				showed_tip_goback = 0u;
+				ChangeState(StateDiary, s_motherow, -1);
 			}
-			HIDE_WIN;
-			show_tip = 0u;
-			showed_tip = 0;
-			ChangeState(StateDiary, s_motherow, -1);
+			if(showed_tip == 1u && showed_tip_goback == 0u){
+			}else{	
+				HIDE_WIN;
+				show_tip = 0u;
+				showed_tip = 0;
+				show_tip_movingscroll = 0u;
+				showed_tip_goback = 0u;
+				ChangeState(StateDiary, s_motherow, -1);
+			}
 		}
-		if(KEY_TICKED(J_START) && just_started == 0){	
-			HIDE_WIN;
-			show_tip = 0u;
-			showed_tip = 0;
-			ChangeState(StateInventory, s_motherow, -1);
+		if(KEY_TICKED(J_START)){
+			if(just_started == 0 && show_tip == 0){	
+				HIDE_WIN;
+				show_tip = 0u;
+				showed_tip = 0;
+				show_tip_movingscroll = 0u;
+				showed_tip_goback = 0u;
+				ChangeState(StateInventory, s_motherow, -1);
+			}
 		}
 	//DISMISS TIP
 		if(showed_tip == 1u && showed_tip_goback == 0u){

@@ -12,6 +12,8 @@
 extern Sprite* s_motherpl;
 extern struct MISSION help_cemetery_woman;
 
+extern void Log(NPCNAME npcname) BANKED;
+
 struct EnemyData* child_info;
 const UINT8 child_anim_idle[] = {8,1,2,1,2,0,2,0,2};
 const UINT8 child_anim_walk[] = {4,3,4,3,2};
@@ -55,6 +57,7 @@ void child_behavior() BANKED{
         help_cemetery_woman.current_step = 0u;
     }else if(distx > 40u){
         child_hooked = 0u;
+        Log(CHILD_TOOFAR);
         change_child_state(ENEMY_IDLE);
     }else{
         child_hooked = 1u;

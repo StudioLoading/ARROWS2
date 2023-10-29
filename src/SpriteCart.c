@@ -145,6 +145,8 @@ void cart_behave() BANKED{
                     case 0u:
                     case 3u:
                     case 7u:
+                    case 99u:
+                    case 100u:
                         THIS->y++;
                     break;
                     case 22u:

@@ -196,7 +196,6 @@ void load_chapter() BANKED{
 void update_curpos(INT8 move) BANKED{
     generic_counter = 0;
     generic_counter2 = 0;
-    my_play_fx(CHANNEL_2, 50, 0xBF, 0xF1, 0x27, 0x87, 0x00);
     cur_posi += move;
     cur_posi = cur_posi % 4;
     inv_cursor->x = cur_posx[cur_posi];
@@ -207,6 +206,7 @@ void update_pcode(INT8 move) BANKED{
     generic_counter = 0;
     generic_counter2 = 0;
     Sprite* current_pcode = 0;
+    my_play_fx(CHANNEL_2, 50, 0xBF, 0xF1, 0x27, 0x87, 0x00);
     switch(cur_posi){
         case 0u:
             update_pcode_face(pcode0_info, move);

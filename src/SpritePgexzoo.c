@@ -19,7 +19,7 @@ const UINT8 mhead3_anim_idle[] = {1, 11}; //The first number indicates the numbe
 const UINT8 mbody1_anim_idle[] = {1, 8}; //The first number indicates the number of frames
 const UINT8 mbody2_anim_idle[] = {1, 10}; //The first number indicates the number of frames
 
-extern UINT8 np_counter;
+extern INT8 np_counter;
 
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
@@ -73,5 +73,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    np_counter--;
+    if(np_counter > 0){np_counter--;}
 }

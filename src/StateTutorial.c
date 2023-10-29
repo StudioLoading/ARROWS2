@@ -32,7 +32,6 @@ extern UINT8 previous_state;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
-extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 generic_counter;
 extern struct MISSION help_cemetery_woman;

@@ -19,8 +19,8 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-#define CAMERA_DELTA_RIGHT 40
-#define CAMERA_DELTA_LEFT 32
+#define CAMERA_DELTA_RIGHT 32
+#define CAMERA_DELTA_LEFT 24
 
 DECLARE_MUSIC(intro);
 DECLARE_MUSIC(death);
@@ -38,6 +38,7 @@ IMPORT_MAP(border);
 IMPORT_MAP(border2);
 IMPORT_MAP(borderdiary);
 IMPORT_MAP(bordercave);
+IMPORT_MAP(bordermine);
 IMPORT_MAP(bordercrab);
 IMPORT_MAP(bordersky);
 IMPORT_MAP(bordercart);
@@ -61,10 +62,11 @@ extern unsigned char log0[];
 extern INT8 current_map;
 extern UINT8 teleporting;
 extern CURRENT_BORDER current_border; 
+extern INT8 motherpl_vx;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
-UINT8 np_counter = 0u;
+INT8 np_counter = 0u;
 Sprite* s_motherpl = 0;
 UINT8 init_enemy = 0u;
 INT8 hud_motherpl_hp = 0;
@@ -246,6 +248,12 @@ void manage_border(UINT8 next_state) BANKED{
                 LOAD_SGB_BORDER(border2);
             }
         break;
+        case StateMine:
+            if(current_border != BORDER_MINE){
+                current_border = BORDER_MINE;
+                LOAD_SGB_BORDER(bordermine);
+            }
+        break;
         case StateBlackiecave:
             if(current_border != BORDER_CAVE){
                 current_border = BORDER_CAVE;
@@ -366,7 +374,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     /*if(current_state != StateDialog && current_state != StateCredit){
         PauseMusic;
     }*/
-    if(new_state == StateInventory){
+    if(new_state == StateInventory || new_state == StateDiary){
         my_play_fx(CHANNEL_2, 60, 0xab, 0xe3, 0x37, 0x87, 0x00);//SFX_START
     }
     enemy_counter = 0;
@@ -482,11 +490,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
     }
-    if(new_state != StateDialog && previous_state != StateDialog
-        && current_state != StateDialog && new_state != StateTitlescreen
-        && current_state != StateSmith && current_state != StateDiary
-        && current_state != StateInventory
-        ){
+    if(new_state != StateTitlescreen){
 	    ChangeStateThroughBetween(new_state);
     }else{
         manage_bgm(new_state, previous_state, next_map);
@@ -693,30 +697,33 @@ void update_camera_position() BANKED{
     //BLOCK 
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-    //camera fissa
+    /* FIXED CAMERA
         scroll_target->x = s_motherpl->x + 16u;
         if(motherpl_hit_cooldown == 0){
             scroll_target->y = s_motherpl->y + 16u;
         }
-    /* OLD CAMERA MANAGEMENT WITH DELTA
+    */
+    // COOL CAMERA MANAGEMENT WITH DELTA
         //camera fissa per certi stage
-            UINT8 consider_margins = 0u;
-            switch(current_state){
-                case StateHood:
-                case StateMine:
-                case StateMountain:
-                case StateOutwalkers:
-                case StateBlackiecave:
-                    scroll_target->x = s_motherpl->x + 8u;
-                    if(motherpl_hit_cooldown == 0){
-                        scroll_target->y = s_motherpl->y + 8u;
-                    }
-                    consider_margins = 1u;
-                break;
-            }
-            if(consider_margins){
-                return;
-            }
+            /*
+                UINT8 consider_margins = 0u;
+                switch(current_state){
+                    case StateHood:
+                    case StateMine:
+                    case StateMountain:
+                    case StateOutwalkers:
+                    case StateBlackiecave:
+                        scroll_target->x = s_motherpl->x + 8u;
+                        if(motherpl_hit_cooldown == 0){
+                            scroll_target->y = s_motherpl->y + 8u;
+                        }
+                        consider_margins = 1u;
+                    break;
+                }
+                if(consider_margins){
+                    return;
+                }
+            */
         //in ogni caso non uscire dai margini
         if(s_surf){
             switch(s_motherpl->mirror){
@@ -748,15 +755,19 @@ void update_camera_position() BANKED{
                 switch(s_motherpl->mirror){
                     case NO_MIRROR://going right
                         if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
-                            scroll_target->x+=2;
+                            if(motherpl_vx > 0 || KEY_PRESSED(J_RIGHT)){
+                                scroll_target->x+=2;
+                            }
                         }else if (!KEY_PRESSED(J_LEFT) 
                             && !KEY_PRESSED(J_DOWN)){
                             camera_ok = 1u;
                         }
                     break;
-                    case V_MIRROR:
+                    case V_MIRROR://going left
                         if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
-                            scroll_target->x-=2;
+                            if(motherpl_vx < 0 || KEY_PRESSED(J_LEFT)){
+                                scroll_target->x-=2;
+                            }
                         }else if (!KEY_PRESSED(J_RIGHT) && !KEY_PRESSED(J_DOWN)){
                             camera_ok = 1u;
                         }
@@ -764,7 +775,6 @@ void update_camera_position() BANKED{
                 }
             }
         }
-    */
 }
 
 void ReloadEnemiesPL() BANKED{    

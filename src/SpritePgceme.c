@@ -15,7 +15,7 @@ const UINT8 wbody2_cemetery[] = {1, 7}; //The first number indicates the number 
 const UINT8 mhead1_cemetery[] = {1, 4}; //The first number indicates the number of frames
 const UINT8 mbody1_cemetery[] = {1, 5}; //The first number indicates the number of frames
 
-extern UINT8 np_counter;
+extern INT8 np_counter;
 
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
@@ -57,5 +57,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    np_counter--;
+    if(np_counter > 0){np_counter--;}
 }

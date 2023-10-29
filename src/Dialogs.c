@@ -261,15 +261,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, EMPTY_STRING_21, 22);
 			memcpy(d11, "SEE YOU TO THE FORGE\0", 22);
 		break;
-		case SUPERSTONE:
-			*n_lines = 6u;
-			memcpy(d1, "IT SEEMS TO ME THAT \0", 22);
-			memcpy(d2, "THIS BIG STONE CAN  \0", 22);
-			memcpy(d3, "BE BROKEN SOMEHOW...\0", 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "LET'S BRING SOME GUN\0", 22);
-			memcpy(d6, "POWDER TO THE SMITH.\0", 22);
-		break;
 		case BOUNCINGBLOCK:
 			*n_lines = 6u;
 			memcpy(d1, "I SHOULD TRY TO     \0", 22);
@@ -399,22 +390,16 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d6, "COME BACK HERE.     \0", 22);
 				break;
 				case 2u://ho sconfitto le orde
-					*n_lines = 9u;
-					memcpy(d1, "THANK YOU HEALER.   \0", 22);
-					memcpy(d2, EMPTY_STRING_21, 22);	
-					memcpy(d3, "FIRST TAKE THIS...  \0", 22);	
-					memcpy(d4, "IT'S THE STEEL THE  \0", 22);	
-					memcpy(d5, "HOSPITAL IS LOOKING \0", 22);	
-					memcpy(d6, "FOR.                \0", 22);	
-					memcpy(d7, EMPTY_STRING_21, 22);	
-					memcpy(d8, "NOW LET'S GO OUTSIDE\0", 22);
-					memcpy(d9, "WE NEED TO TALK.    \0", 22);					
-					struct ItemSpawned metal_special_data={.itemtype = INVITEM_METAL_SPECIAL, .quantity = 1, .equippable = 0u};
-					pickup(&metal_special_data);
+					*n_lines = 5u;
+					memcpy(d1, EMPTY_STRING_21, 22);	
+					memcpy(d2, "THANK YOU HEALER.   \0", 22);
+					memcpy(d3, EMPTY_STRING_21, 22);	
+					memcpy(d4, "NOW LET'S GO OUTSIDE\0", 22);
+					memcpy(d5, "WE NEED TO TALK.    \0", 22);
 					find_blackie.current_step = 3u;
 				break;
             	case 3u://ow orde sconfitte
-					*n_lines = 17u;
+					*n_lines = 22u;
 					memcpy(d1, EMPTY_STRING_21, 22);
 					memcpy(d2, "WHY DO I SMELL MY   \0", 22);
 					memcpy(d3, "OLD MASTER'S SCENT? \0", 22);
@@ -435,14 +420,12 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d18, EMPTY_STRING_21, 22);	
 					memcpy(d19, "I'VE HEARD A CRYING\0", 22);
 					memcpy(d20, "LADY, MARGARET, AT \0", 22);
-					memcpy(d21, "THE CEMETERY:      \0", 22);
+					memcpy(d21, "THE GRAVEYARD: NOW \0", 22);
 					memcpy(d22, "PLEASE GO HELP HER.\0", 22);
+					change_quantity(INVITEM_LETTER, -1);
                 	find_blackie.current_step = 4u;
+                	find_blackie.mission_state = MISSION_STATE_REWARDED;
 					help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
-                	find_blackie.mission_state = MISSION_STATE_STARTED;
-					{
-						change_quantity(INVITEM_LETTER, -1);
-					}
 				break;
             }
         break;
@@ -499,8 +482,9 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "HEY DESSA, YOU LOOK \0", 22);
-			memcpy(d3, "PERFECTLY FINE, HOW \0", 22);
-			memcpy(d4, "ARE YOU DOING?      \0", 22);
+			memcpy(d3, "PERFECTLY FINE.     \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "HOW ARE YOU DOING?  \0", 22);
 		break;
 		case HOSPITAL_CURE_FROM_DEATH:
 			*n_lines = 4u;
@@ -653,6 +637,9 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		break;
 		case LEGO:
 			memcpy(log0, "LEGO                ", 20);
+		break;
+		case CHILD_TOOFAR:
+			memcpy(log0, "HEY! I AM SCARED!!  ", 20);
 		break;
 		case WOLF_BLACKIE:
 			memcpy(log0, "BLACKIE             ", 20);

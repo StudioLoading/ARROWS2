@@ -19,7 +19,7 @@ const UINT8 a_mhead3[] = {1, 11}; //The first number indicates the number of fra
 const UINT8 a_mbody1[] = {1, 8}; //The first number indicates the number of frames
 const UINT8 a_mbody2[] = {1, 10}; //The first number indicates the number of frames
 
-extern UINT8 np_counter;
+extern INT8 np_counter;
 
 void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
@@ -74,5 +74,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    np_counter--;
+    if(np_counter > 0){np_counter--;}
 }

@@ -34,7 +34,6 @@ extern UINT8 previous_state;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
-extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_smith;
@@ -94,6 +93,7 @@ void START(){
             }
 
     SHOW_SPRITES;
+    npc_spawned_zone = 0;
 }
 
 void UPDATE(){
@@ -115,7 +115,7 @@ void UPDATE(){
                 spawn_npa(SpriteBirdsky, (UINT16) 7u << 3, (UINT16) 7u << 3, 2); 
                 npc_spawned_zone = 1u;
             }
-        }else if(s_motherpl->x < ((UINT16)70u << 3)){
+        }else if(s_motherpl->x < ((UINT16)60u << 3)){
             if(npc_spawned_zone != 2u){
                 spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
                 spawn_npa(SpriteBirdsky, (UINT16) 45 << 3, (UINT16) 3u << 3, 1); 
@@ -123,7 +123,7 @@ void UPDATE(){
                 spawn_npa(SpriteBirdsky, (UINT16) 52u << 3, (UINT16) 2u << 3, 2);               
                 npc_spawned_zone = 2u;
             }
-        }else if(s_motherpl->x < ((UINT16)80u << 3)){
+        }else if(s_motherpl->x > ((UINT16)75u << 3)){
             if(npc_spawned_zone != 3u){
                 if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
                     spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);

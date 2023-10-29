@@ -1,4 +1,11 @@
 POST DEMO:
+- abilitare subito ospedale, poi lo smith, poi blackie
+- dialog di quando entro outwalker senza pass è rotto
+- anche police
+- limite sx del maze non mi fa tornare indietro!
+- cart su SGB non è aderente in discesa
+- steel detail
+
 - verifica morte crab coerente con indicatore
 - frames del wolf ow che corre
 - schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
@@ -90,7 +97,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dmaphood.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe dmapbackup.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

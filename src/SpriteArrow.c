@@ -32,7 +32,8 @@ extern struct EnemyData* crab_data;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
-extern void crab_hit() BANKED;
+extern void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
+
 
 void START(){
     if(arrows_onscreen >= MAX_ARROWS_ONSCREEN){SpriteManagerRemoveSprite(THIS);return;}
@@ -144,11 +145,13 @@ void UPDATE(){
                             break;
                             case ARROW_PERF:
                             case ARROW_BASTARD:
-                                if(iarrspr->type != SpriteBosscrab){
-                                    arrow_data->hit = 1u;
+                                arrow_data->hit = 1u;
+                                if(iarrspr->type == SpriteBosscrab){
+                                    if(crab_data->e_state == ENEMY_WALK){    
+                                        crab_change_state(ENEMY_HIT_1);
+                                    }
+                                }else{
                                     changeEstate(iarrspr, ENEMY_HIT_2);
-                                }else if(crab_data->e_state == ENEMY_IDLE){
-                                    crab_hit();
                                 }
                             break;
                         }

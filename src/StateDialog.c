@@ -15,6 +15,7 @@
 #define MAX_WAIT_CHAR 4
 
 IMPORT_TILES(font);
+IMPORT_MAP(dmapbackup);
 IMPORT_TILES(dialogtilesbase);
 IMPORT_MAP(dialogmapbase);
 IMPORT_MAP(dialogmapintro);
@@ -25,6 +26,7 @@ IMPORT_MAP(dmapblackiecave);
 IMPORT_MAP(dialogmapsmith);
 IMPORT_MAP(dmapblackie);
 IMPORT_MAP(dmaphood);
+IMPORT_MAP(dmappolice);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -82,7 +84,6 @@ void show_next_character() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void position_init() BANKED;
-extern void load_chapter() BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
@@ -104,6 +105,10 @@ void START() {
         case CHILD: case CHILDS_SAVED:
             InitScroll(BANK(dmaphood), &dmaphood, 0, 0);
         break;
+        case POLICE_0_GET_PASS: case POLICE_0_STILL_NOT_FOUND:
+	    case POLICE_0_WONT_TALK:
+            InitScroll(BANK(dmappolice), &dmappolice, 0, 0);
+        break;
         default:
             switch(previous_state){
                 case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
@@ -114,6 +119,7 @@ void START() {
                 case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
                 case StateOutwalkers:
                 case StateHood:InitScroll(BANK(dmaphood), &dmaphood, 0, 0);break;
+                default:InitScroll(BANK(dmapbackup), &dmapbackup, 0, 0);break;
             }
         break;
     }
@@ -442,7 +448,11 @@ void move_on() BANKED{
 	}
     //CHECK NEW PASSWORD TO GIVE?
         switch(whostalking){
-            case HOSPITAL_ENABLING:
+            case BLACKIE:
+                if(find_blackie.current_step == 4u){
+                    give_new_password = 1;
+                }
+            break;
             case IBEX_GIVE_HERBS:
                 give_new_password = 1;
             break;
@@ -453,9 +463,7 @@ void move_on() BANKED{
             return;
         }
     if(whostalking == DEATH){
-        //restart from hospital
         restartFromHospital();
-        //load_chapter();
     }else if(whostalking == IBEX_GIVE_MISSION){
         whostalking = IBEX_GIVE_HERBS;
         SetState(StateDialog);

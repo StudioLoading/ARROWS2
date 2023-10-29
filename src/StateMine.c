@@ -37,14 +37,14 @@ extern UINT8 previous_state;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
-extern INT8 motherpl_vx;
 extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
 extern struct MISSION outwalker_smith;
+extern struct MISSION enable_hospital;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
 
-const UINT8 coll_tiles_cave[] = {1u, 10u, 11u, 12u, 35u, 52u, 84u, 85u, 86u, 87u, 90u, 91u, 0};
+const UINT8 coll_tiles_cave[] = {1u, 7u, 10u, 11u, 12u, 35u, 52u, 84u, 85u, 86u, 87u, 90u, 91u, 99u, 100u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
 
 UINT8 tiles_anim_interval = 0u;
@@ -59,6 +59,7 @@ extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
+extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -78,6 +79,9 @@ void START(){
                 struct ItemSpawned* flower1_data = (struct ItemSpawned*) s_flower1->custom_data;
                 flower1_data->hp = 0b00000001;
             }
+        }
+        if(enable_hospital.current_step == 1){//means special spawned but something happened before pickedup
+            enable_hospital.current_step = 0;
         }
       	//SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 5u << 3);
     //INIT CHAR & MAP
@@ -206,6 +210,13 @@ void UPDATE(){
             timeout_enemy = 10u;
         }
     
+    //METAL SPECIAL
+        if(s_motherpl->x > ((UINT16) 190u << 3)){
+            if(enable_hospital.mission_state == MISSION_STATE_ENABLED && enable_hospital.current_step == 0){
+                spawnItem(INVITEM_METAL_SPECIAL, ((UINT16) 195u << 3), ((UINT16) 7u << 3));
+                enable_hospital.current_step = 1;
+            }
+        }
     Log(NONAME);
 }
 

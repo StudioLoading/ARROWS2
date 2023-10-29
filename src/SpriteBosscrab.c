@@ -29,7 +29,6 @@ UINT8 crab_v_coll = 0u;
 
 
 void crab_behave() BANKED;
-void crab_hit() BANKED;
 void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
 void crab_turn() BANKED;
 void crab_update_wait() BANKED;
@@ -75,15 +74,16 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(scroll_crab_tile, icrabspr) {
             if(CheckCollision(THIS, icrabspr)) {
                 switch(icrabspr->type){
-                    case SpriteArrow:
+                    /*case SpriteArrow:
                         {
                             struct ArrowData* arrow_data = (struct ArrowData*) icrabspr->custom_data;
-                            if(crab_data->e_state == ENEMY_IDLE || arrow_data->arrow_type == ARROW_NORMAL){
+                            if(crab_data->e_state == ENEMY_IDLE 
+                                || arrow_data->arrow_type != ARROW_PERF){
                                 arrow_data->vx = -arrow_data->vx;
                                 return;
                             }
                         }
-                    break;
+                    break;*/
                     case SpriteMotherpl:
                         if((crab_data->e_state == ENEMY_WALK || 
                         crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0)
@@ -114,6 +114,9 @@ void crab_behave() BANKED{
     if(THIS->x < (UINT16)8u){THIS->x = 10u; crab_turn();}
     if(THIS->x > (UINT16)130u){THIS->x = 126u; crab_turn();}
     crab_data->wait--;
+    if(crab_data->wait > 200u){
+        crab_data->wait = 0u;
+    }
     if((THIS->x < 8u && crab_data->vx < 0) 
         || (THIS->x > (UINT16) 136u && crab_data->vx > 0)){
         crab_turn();
@@ -144,6 +147,7 @@ void crab_behave() BANKED{
             }
         break;
         case ENEMY_HIT_1:
+        case ENEMY_HIT_2:
             if(crab_data->wait == 0){
                 crab_update_wait();
                 if(s_motherpl->x < THIS->x){crab_data->vx = -2;}
@@ -154,21 +158,18 @@ void crab_behave() BANKED{
     }
 }
 
-void crab_hit() BANKED{
-    crab_data->hp--;
-    crab_change_state(ENEMY_HIT_1);
-}
-
 void crab_change_state(ENEMY_STATE crab_new_state) BANKED{
+    if(crab_data->e_state == crab_new_state){
+        return;
+    }
     switch(crab_new_state){
         case ENEMY_HIT_1:
+        case ENEMY_HIT_2:
+            crab_data->hp--;
             crab_jump_power = 8;
             SetSpriteAnim(THIS,a_crab_hit, 24u);
             crab_data->vx = 0;
             crab_data->wait = 80u;
-            if(crab_data->hp <= 0){
-                crab_change_state(ENEMY_DEAD);
-            }
         break;
         case ENEMY_IDLE:
             SetSpriteAnim(THIS,a_crab_idle, 16u);
@@ -177,11 +178,12 @@ void crab_change_state(ENEMY_STATE crab_new_state) BANKED{
             crab_data->wait = 30u;
         break;
         case ENEMY_DEAD:
+            crab_data->e_state = crab_new_state;
             THIS->mirror = H_MIRROR;
             THIS->y += 4u;
             SetSpriteAnim(THIS, a_crab_idle, 10u);
             crab_data->vx = 0;
-            crab_data->wait = 255u;
+            crab_data->wait = 199u;
             SpriteManagerAdd(SpriteGlasses, 9u << 3, 6u << 3);
         break;
         case ENEMY_JUMP:
@@ -193,7 +195,11 @@ void crab_change_state(ENEMY_STATE crab_new_state) BANKED{
             crab_update_wait();
         break;
     }
-    crab_data->e_state = crab_new_state;
+    if(crab_data->hp <= 0 && crab_data->e_state != ENEMY_DEAD){
+        crab_change_state(ENEMY_DEAD);
+    }else{
+        crab_data->e_state = crab_new_state;
+    }
 }
 
 void crab_update_wait() BANKED{

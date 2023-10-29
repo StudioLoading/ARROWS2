@@ -38,6 +38,7 @@ extern INT8 sfx_cooldown;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
+extern struct MISSION enable_hospital;
 extern struct MISSION get_to_the_mountain;
 extern UINT8 powder_cooldown;
 
@@ -563,6 +564,7 @@ void UPDATE(){
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
                             if(e_data->hp > 0 && 
                                 (e_data->e_state == ENEMY_WAIT || 
+                                e_data->e_state == ENEMY_IDLE || 
                                 e_data->e_state == ENEMY_WALK || 
                                 e_data->e_state == ENEMY_ATTACK)){
                                 if(motherpl_state == MOTHERPL_DASH){
@@ -601,6 +603,9 @@ void UPDATE(){
                                 struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
                                 pickup(pickedup_data);
                                 SpriteManagerRemoveSprite(implspr);
+                                if(pickedup_data->itemtype == INVITEM_METAL_SPECIAL){
+                                    enable_hospital.current_step = 2;
+                                }
                                 if(motherpl_state != MOTHERPL_HIT 
                                     && motherpl_state != MOTHERPL_JUMP){
                                     changeMotherplState(MOTHERPL_PICKUP);

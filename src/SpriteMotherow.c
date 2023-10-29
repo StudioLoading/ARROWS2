@@ -33,6 +33,8 @@ extern INT8 current_map;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern struct MISSION find_blackie;
+extern struct MISSION engage_smith;
+extern struct MISSION enable_hospital;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern UINT8 ow_pusha_hp;
@@ -286,7 +288,13 @@ void ow_check_place() BANKED{//tile collision
             case 96u:
                 switch(current_map){
                     case 0u:
-                        ChangeState(StateBlackiecave, THIS, -1);
+                        if(engage_smith.mission_state != MISSION_STATE_REWARDED
+                        && enable_hospital.mission_state != MISSION_STATE_REWARDED){
+                            THIS->x += 3u;
+                            owTips(TIP_STILL_SOMETHING);
+                        }else{
+                            ChangeState(StateBlackiecave, THIS, -1);
+                        }
                     break;
                     case 1u:
                         if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){

@@ -93,7 +93,9 @@ void UPDATE(){
                 }
             }
             }
-            spawned_data->hp--;
+            if(spawned_data->itemtype != INVITEM_METAL_SPECIAL){
+                spawned_data->hp--;
+            }
             if(spawned_data->hp == 0){
                 switch(spawned_data->itemtype){
                     case INVITEM_HEARTS: SetSpriteAnim(THIS, is_crossb_dis, 20u); break;

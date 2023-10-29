@@ -51,7 +51,7 @@ struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION* missions[9];
 /* 
-{find_blackie, engage_smith, help_cemetery_woman, outwalker_chief,
+{ engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
 */
 struct InvItem itemMoney = {.itemtype = INVITEM_MONEY, .quantity = 0, .equippable = 1u};
@@ -62,7 +62,7 @@ struct InvItem item03 = {.itemtype = INVITEM_BOMB, .quantity = 0, .equippable = 
 struct InvItem item04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 1u};
 struct InvItem unequip00 = {.itemtype = INVITEM_WOOD, .quantity = 14, .equippable = 0u};//2
 struct InvItem unequip01 = {.itemtype = INVITEM_METAL, .quantity = 15, .equippable = 0u};//3
-struct InvItem unequip02 = {.itemtype = INVITEM_LETTER, .quantity = 1, .equippable = 0u};
+struct InvItem unequip02 = {.itemtype = INVITEM_LETTER, .quantity = 0, .equippable = 0u};
 struct InvItem unequip03 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip04 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
 struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equippable = 0u};
@@ -84,12 +84,12 @@ void missions_init() BANKED{
 	switch(chapter){
 		case 0u:
 			current_map = 0u;
-			engage_smith.mission_state = MISSION_STATE_ENABLED;
+			engage_smith.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			engage_smith.current_step = 0u;
-			find_blackie.mission_state = MISSION_STATE_DISABLED;
-			find_blackie.current_step = 0u;
-			enable_hospital.mission_state = MISSION_STATE_DISABLED;
+			enable_hospital.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			enable_hospital.current_step = 0u;
+			find_blackie.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
+			find_blackie.current_step = 0u;
 			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
 			help_cemetery_woman.current_step = 0u;
 			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
@@ -103,17 +103,17 @@ void missions_init() BANKED{
 		break;
 		case 1u:
 			current_map = 1;
-			find_blackie.mission_state = MISSION_STATE_REWARDED;
-			find_blackie.current_step = 6u;
-			enable_hospital.mission_state = MISSION_STATE_REWARDED;
-			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 0u;//0u;
-			outwalker_chief.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
-			outwalker_chief.current_step = 0u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 6u;//0u;
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED;
+			outwalker_chief.current_step = 6u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_DISABLED;
 			outwalker_glass.current_step = 0u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
 			outwalker_smith.current_step = 0u;//test 0b00000111;
@@ -122,12 +122,12 @@ void missions_init() BANKED{
 		break;
 		case 2u:
 			current_map = 1;
-			find_blackie.mission_state = MISSION_STATE_REWARDED;
-			find_blackie.current_step = 6u;
-			enable_hospital.mission_state = MISSION_STATE_REWARDED;
-			enable_hospital.current_step = 6u;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;//ENABLED
 			help_cemetery_woman.current_step = 4u;//0u
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;//disabled
@@ -141,8 +141,8 @@ void missions_init() BANKED{
 		break;
 	}
 	missions[0] = &engage_smith;
-	missions[1] = &find_blackie;
-	missions[2] = &enable_hospital;
+	missions[1] = &enable_hospital;
+	missions[2] = &find_blackie;
 	missions[3] = 0;
 	missions[4] = &help_cemetery_woman;
 	missions[5] = &outwalker_chief;
@@ -235,8 +235,8 @@ void START() {
 		BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
 		manage_border(StateCredit);
 	}
-	missions_init();
-	inventory_init();
+	//missions_init();
+	//inventory_init();
 	//SOUND
 		stop_music_on_new_state = 0;
         NR52_REG = 0x80; //Enables sound, you should always setup this first

@@ -189,20 +189,6 @@ void show_detail(){
                     }
                 break;
                 case 1u:
-                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D0, dd2);    
-                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D1, dd3);
-                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D2, dd4); 
-                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D3, dd5);
-                    if(find_blackie.current_step >= 1){
-                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D4, dd6); 
-                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D5, dd7);
-                    }
-                    if(find_blackie.current_step >= 5){
-                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D6, dd8); 
-                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
-                    }
-                break;
-                case 2u:
                     if(enable_hospital.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D0, dd2);
                         GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_D1, dd3);
@@ -216,6 +202,21 @@ void show_detail(){
                         }
                     }
                 break;
+                case 2u:
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D0, dd2);    
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D1, dd3);
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D2, dd4); 
+                    GetLocalizedDDLabel_EN(FIND_BLACKIE_D3, dd5);
+                    if(find_blackie.current_step >= 1){
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D4, dd6); 
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D5, dd7);
+                    }
+                    if(find_blackie.current_step >= 5){
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D6, dd8); 
+                        GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
+                    }
+                break;
+                
             }
         break;
         case 1u:
@@ -297,11 +298,11 @@ void show_missions(){
             if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, m0);
             }
-            if(find_blackie.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, m1);
-            }
             if(enable_hospital.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_TITLE, m2);
+                GetLocalizedDDLabel_EN(ENABLE_HOSPITAL_TITLE, m1);
+            }
+            if(find_blackie.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, m2);
             }
         break;
         case 1u:
@@ -355,7 +356,10 @@ void UPDATE(){
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             if(cursor_posi < 4){
-                show_detail();
+                INT8 missions_idx = cursor_posi + (idx_page * 4);
+                    if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){
+                        show_detail();
+                    }
             }else if (cursor_posi == 4){//Left cursor selected
                 change_page(-1);
             }else if (cursor_posi == 5){//Left cursor selected
@@ -412,10 +416,13 @@ void UPDATE(){
 void update_diary_cursor(){
     struct EnemyData* dcursor_data = (struct EnemyData*) diary_cursor->custom_data;
     INT8 missions_idx = cursor_posi + (idx_page * 4);
+    if(missions_idx == -1){missions_idx = 3;}
     if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
         dcursor_data->configured = 1;
-    }else{                
+    }else if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){                
         dcursor_data->configured = 0;
+    }else{
+        dcursor_data->configured = 2;
     }
     dcursor_data->wait = 1;            
 }
