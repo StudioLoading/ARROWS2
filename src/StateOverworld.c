@@ -65,6 +65,7 @@ extern struct MISSION enable_hospital;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
+extern struct MISSION defeat_scorpions;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -124,6 +125,7 @@ void START(){
 		if(child_hooked == 1u && help_cemetery_woman.current_step == 3u){
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
 			help_cemetery_woman.current_step = 4u;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			trigger_dialog(CHILDS_SAVED, s_motherow);
 		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
 				//non capisco perché questo ==ENABLED è falso a debug
@@ -140,17 +142,19 @@ void START(){
 			case 0://SOUTH WEST
 				lim_up_y = ((UINT16) 9u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
+				lim_west_x = ((UINT16) 2u << 3);
 				lim_down_y = ((UINT16) 200u << 3);
 			break;
 			case 1://NORTH WEST
 				lim_up_y = ((UINT16) 200u << 3);
 				lim_down_y = ((UINT16) 48u << 3);
+				lim_west_x = ((UINT16) 2u << 3);
 				lim_east_x = ((UINT16) 79u << 3);
 			break;
 			case 2://MAZE
 				lim_up_y = ((UINT16) 200u << 3);
-				lim_west_x = ((UINT16) 2u << 3);
 				lim_down_y = ((UINT16) 37u << 3);
+				lim_west_x = ((UINT16) 2u << 3);
 			break;
 		}
 	//INITIAL TIPS
@@ -270,6 +274,7 @@ void initial_sprite_spawning() BANKED{
 					s_blackieow->mirror = V_MIRROR;
 					if(find_blackie.current_step == 4u){
 						find_blackie.current_step = 5u;
+						SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 						find_blackie.mission_state = MISSION_STATE_REWARDED;
 						blackieow_data->wait = 60u;
 						blackieow_data->vx = -2;
@@ -279,6 +284,29 @@ void initial_sprite_spawning() BANKED{
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u);
 				spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u);
 				spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u);
+			}
+			if(chapter == 2){
+				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED){
+					if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 26u << 3), ((UINT16) 26u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00000001;
+					}
+					if((defeat_scorpions.current_step & 0b0000010) == 0b0000000){
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 23u << 3), ((UINT16) 32u << 3));
+    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+						s_scor1_data->hp = -1;
+						s_scor1_data->configured = 0b0000010;						
+					}
+					if((defeat_scorpions.current_step & 0b0000100) == 0b0000000){
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
+    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+						s_scor1_data->hp = 1;
+						s_scor1_data->configured = 0b0000100;						
+					}
+				}
 			}
 		break;
 		case 1:
@@ -292,11 +320,41 @@ void initial_sprite_spawning() BANKED{
 					}
 					if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
 						&& outwalker_glass.current_step == 2){
+						SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 						outwalker_glass.current_step = 3;
 						struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
 						crabow_data->vx = 1;
 						crabow_data->configured = 2;
 						
+					}
+				}
+			}
+			if(chapter == 2){
+				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED){
+					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00010000;
+					}
+					if((defeat_scorpions.current_step & 0b0010000) == 0b0000000){
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
+    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+						s_scor1_data->hp = -1;
+						s_scor1_data->configured = 0b0010000;
+					}
+					if((defeat_scorpions.current_step & 0b0100000) == 0b0000000){
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
+						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+						s_scor1_data->hp = 1;
+						s_scor1_data->configured = 0b0100000;						
+					}
+					if((defeat_scorpions.current_step & 0b1000000) == 0b0000000){
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
+						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+						s_scor1_data->hp = -1;
+						s_scor1_data->configured = 0b1000000;						
 					}
 				}
 			}
@@ -425,6 +483,53 @@ void UPDATE(){
 								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
 									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
 									outwalker_chief.current_step = 2;
+									SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+								}
+								motherpl_pos_x = (UINT16) 83u << 3;
+								motherpl_pos_y = (UINT16) 11u << 3;
+								ChangeState(StateExzoo, s_motherow, -1);
+							}
+						break;
+					}
+				break;
+				case 2:
+					switch(current_map){
+						case 0:
+							if(s_motherow->y < lim_up_y){//go north to StateHood
+								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+									ChangeState(StateHood, s_motherow, -1);
+								}else{
+									s_motherow->y = lim_up_y + 6u;
+									alt = 1;
+								}
+							}
+							if(s_motherow->x > lim_east_x){
+								if((defeat_scorpions.current_step & 0b11111111) == 0b11111111){
+									ChangeState(StateOverworld, s_motherow, 3);
+								}else{
+									s_motherow->x = lim_east_x - 6u;
+									alt = 1;
+								}
+							}
+						break;
+						case 1:						
+							if(s_motherow->y > lim_down_y){//go south to StateHood
+								ChangeState(StateHood, s_motherow, -1);
+							}else if(s_motherow->x > lim_east_x){
+								s_motherow->x = lim_east_x - 6u;
+								alt = 1;
+							}
+						break;
+						case 2:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 1);
+							}
+							if(s_motherow->y > lim_down_y){
+								//TODO dove spunta quando esce dal labirinto?
+								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
+									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
+									outwalker_chief.current_step = 2;
+									SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 								}
 								motherpl_pos_x = (UINT16) 83u << 3;
 								motherpl_pos_y = (UINT16) 11u << 3;

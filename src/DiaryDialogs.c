@@ -92,5 +92,10 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case MOUNTAIN_D1:memcpy(d, "AT THE CEMETERY    ", 20);break;
 		case MOUNTAIN_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
 		case MOUNTAIN_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
+		case DEFEAT_SCORPIONS_TITLE:memcpy(d, "SCORPION'S HORDE ", 16);break;
+		case SCORPIONS_D0:memcpy(d, "DEFEAT ALL THE     ", 20);break;
+		case SCORPIONS_D1:memcpy(d, "SCORPIONS AROUND   ", 20);break;
+		case SCORPIONS_D2:memcpy(d, "I SHOULD ALSO CHECK", 20);break;
+		case SCORPIONS_D3:memcpy(d, "THE EASTERN SIDE   ", 20);break;
 	}	
 }

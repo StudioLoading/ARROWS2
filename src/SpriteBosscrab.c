@@ -74,16 +74,6 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(scroll_crab_tile, icrabspr) {
             if(CheckCollision(THIS, icrabspr)) {
                 switch(icrabspr->type){
-                    /*case SpriteArrow:
-                        {
-                            struct ArrowData* arrow_data = (struct ArrowData*) icrabspr->custom_data;
-                            if(crab_data->e_state == ENEMY_IDLE 
-                                || arrow_data->arrow_type != ARROW_PERF){
-                                arrow_data->vx = -arrow_data->vx;
-                                return;
-                            }
-                        }
-                    break;*/
                     case SpriteMotherpl:
                         if((crab_data->e_state == ENEMY_WALK || 
                         crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0)

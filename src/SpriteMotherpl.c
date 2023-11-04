@@ -591,7 +591,8 @@ void UPDATE(){
                                     }
                                 }
                             }
-                            if(throwable_data->type == ACID){
+                            if(throwable_data->type == ACID || 
+                                throwable_data->type == PROJECTILE){
                                 motherpl_blocked = 0u;
                                 if(motherpl_hit != 1u){motherpl_hit = 1u;}
                             }
@@ -629,6 +630,7 @@ void UPDATE(){
                         SpriteManagerRemoveSprite(implspr);
                         outwalker_glass.mission_state = MISSION_STATE_ACCOMPLISHED;
                         outwalker_glass.current_step = 2;
+					    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                         }
                     break;
                     case SpriteFlower:
@@ -694,6 +696,7 @@ void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
             trigger_dialog(OUTWALKER_GUARD_NOSMITH, THIS);
         }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
             get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
             THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_OK, THIS);
             change_quantity(INVITEM_BOX, -1);

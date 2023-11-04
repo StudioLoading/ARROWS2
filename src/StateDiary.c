@@ -47,7 +47,8 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
-extern struct MISSION* missions[9];
+extern struct MISSION defeat_scorpions;
+extern struct MISSION* missions[10];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
@@ -216,7 +217,6 @@ void show_detail(){
                         GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
                     }
                 break;
-                
             }
         break;
         case 1u:
@@ -279,6 +279,20 @@ void show_detail(){
                 break;
             }
         break;
+        case 2u:
+            switch(cursor_posi){
+                case 0u:
+                    if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(SCORPIONS_D0, dd2);
+                        GetLocalizedDDLabel_EN(SCORPIONS_D1, dd3);
+                        if((defeat_scorpions.current_step & 0b11111111) == 0b00001111){
+                            GetLocalizedDDLabel_EN(SCORPIONS_D2, dd4);
+                            GetLocalizedDDLabel_EN(SCORPIONS_D3, dd5);
+                        }
+                    }
+                break;
+            }
+        break;
     }
 }
 
@@ -321,6 +335,11 @@ void show_missions(){
                 if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
                     GetLocalizedDDLabel_EN(OUTWALKER_SMITH_TITLE, m3);
                 }
+            }
+        break;
+        case 2u:
+            if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(DEFEAT_SCORPIONS_TITLE, m0);
             }
         break;
     }
@@ -416,6 +435,7 @@ void UPDATE(){
 void update_diary_cursor(){
     struct EnemyData* dcursor_data = (struct EnemyData*) diary_cursor->custom_data;
     INT8 missions_idx = cursor_posi + (idx_page * 4);
+    if(idx_page == 2){missions_idx++;}
     if(missions_idx == -1){missions_idx = 3;}
     if(missions[missions_idx] == NULL){dcursor_data->configured = 2;
     }else if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){

@@ -88,6 +88,7 @@ extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
+extern void load_chapter() BANKED;
 
 void START() {
     HIDE_WIN;
@@ -123,6 +124,8 @@ void START() {
             }
         break;
     }
+    scroll_target->x = 80u;
+    scroll_target->x = 72u;
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;
     wait_char = MAX_WAIT_CHAR;
@@ -208,6 +211,7 @@ void UPDATE() {
             case StateCemetery:
                 if(whostalking == SMITH){
                     engage_smith.current_step = 1;
+					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 }
             break;
         }
@@ -414,6 +418,7 @@ void move_on() BANKED{
             previous_state = StateBlackieroom;
             find_blackie.current_step = 1u;
             find_blackie.mission_state = MISSION_STATE_STARTED;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
         }
         //return;//DEMO ENDS HERE
     }else if(previous_state == StateBlackieroom && whostalking == BLACKIE){

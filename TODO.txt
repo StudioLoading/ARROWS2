@@ -1,10 +1,14 @@
 POST DEMO:
-- cart su SGB non è aderente in discesa
-- steel detail
+- hp=1 non ho cuori visibili diocane
+- i nuovi audio di andrew!
+- audio dei projectile?
+- check limiti maze
 
-- verifica morte crab coerente con indicatore
-- frames del wolf ow che corre
-- schermata iniziale per settaggio tasti, dopo l' inserimento password, copy/paste da FA1
+
+
+
+
+
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
 	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
@@ -93,7 +97,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dmapbackup.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe idsteel.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

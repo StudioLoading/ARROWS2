@@ -130,6 +130,7 @@ void UPDATE(){
     //INIT ENEMIES
         if(horde_step > 5 && find_blackie.current_step < 2){
             find_blackie.current_step = 2u;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
         }else{
             if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
                 if(timeout_enemy > 0){timeout_enemy--;}            

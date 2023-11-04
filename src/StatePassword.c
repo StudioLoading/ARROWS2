@@ -188,7 +188,7 @@ void load_chapter() BANKED{
         break;
         case 2:
             just_started = 0;
-            ChangeStateThroughBetween(StateCart);
+            ChangeStateThroughBetween(StateOverworld);//ChangeStateThroughBetween(StateCart);
         break;
     }
 }

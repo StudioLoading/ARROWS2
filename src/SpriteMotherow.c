@@ -3,6 +3,7 @@
 #include "main.h"
 
 #include "Keys.h"
+#include "Palette.h"
 #include "ZGBMain.h"
 #include "Scroll.h"
 #include "Sprite.h"
@@ -39,6 +40,7 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
+extern UINT8 scorpion_mission_goal;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -70,6 +72,10 @@ void START(){
     step_counter = 0u;
     frameskip_max = OW_NORMAL_FRAMESKIP;
     teleporting = 0u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void update_position_motherow() BANKED{
@@ -209,6 +215,17 @@ void UPDATE(){
                             THIS->x = imowspr->x + 24u;
                             THIS->y = imowspr->y;
                             trigger_dialog(BOSS_CRAB_FIGHT, THIS);
+                        }
+                    break;
+                    case SpriteOwscorpion:
+                        {
+                            struct EnemyData* scorp_data = (struct EnemyData*) imowspr->custom_data;
+                            scorpion_mission_goal = scorp_data->configured;
+                            ChangeState(StateScorpions, THIS, -1);
+                        //TODO change state to the countrypath
+                        //if every enemy into the country path is killed
+                        //then set 
+                        //defeat_scorpions->current_step & SpriteOwscorpion->configured
                         }
                     break;
                 }

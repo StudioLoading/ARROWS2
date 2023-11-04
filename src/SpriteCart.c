@@ -121,7 +121,7 @@ void cart_behave() BANKED{
             }
             cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
             if(cart_vy < 0){//ascending
-                cart_vy+=2;
+                cart_vy+=3;
             }else{//descending
                 cart_vy = 1;
             }

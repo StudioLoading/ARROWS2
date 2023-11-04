@@ -78,6 +78,7 @@ void START(){
             && help_cemetery_woman.current_step >= 1){//&& child_hooked == 1 ?
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
             help_cemetery_woman.current_step = 3u;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
@@ -163,6 +164,7 @@ void UPDATE(){
                         case 1u:
                             if(CheckCollision(s_motherpl, s_child)){
                                 help_cemetery_woman.current_step = 2u;
+					            SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                                 trigger_dialog(CHILD, s_motherpl);
                             }
                         break;
@@ -175,6 +177,7 @@ void UPDATE(){
                                 if(spawn_child_cooldown == 0){
                                     s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
                                     help_cemetery_woman.current_step = 1u;
+					                SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                                 }
                             }
                         break;                    

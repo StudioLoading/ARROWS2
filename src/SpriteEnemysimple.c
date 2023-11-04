@@ -3,6 +3,7 @@
 #include "main.h"
 
 #include "ZGBMain.h"
+#include "Palette.h"
 #include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
@@ -49,8 +50,10 @@ extern void EattackerPineAnim(ENEMY_STATE estate) BANKED;
 extern void EattackerCobraAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowerSpiderAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowerTarantulaAnim(ENEMY_STATE estate) BANKED;
+extern void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowWeb(ENEMY_STATE estate) BANKED;
 extern void EthrowAcid(ENEMY_STATE estate) BANKED;
+extern void EthrowProjectile(ENEMY_STATE estate) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
 void START(){
@@ -91,7 +94,8 @@ void Emanagement() BANKED{
         if(eu_info->x_frameskip == 0 && 
             (eu_info->e_state == ENEMY_HIT_1 ||
             eu_info->e_state == ENEMY_HIT_2 ||
-            eu_info->e_state == ENEMY_DEAD)){
+            eu_info->e_state == ENEMY_DEAD)
+            && THIS->type != SpriteEnemyThrowerScorpion){
                 INT8 hit_vx = -1;
                 if(THIS->mirror != NO_MIRROR){
                     hit_vx = 1;
@@ -102,7 +106,8 @@ void Emanagement() BANKED{
             (eu_info->e_state == ENEMY_WALK ||
                 (eu_info->e_state == ENEMY_ATTACK 
                 && THIS->type != SpriteEnemyThrowerSpider 
-                && eu_info->type != SpriteEnemyThrowerTarantula
+                && THIS->type != SpriteEnemyThrowerTarantula
+                && THIS->type != SpriteEnemyThrowerTarantula
                 )
             )
         ){//x_frameskip used            
@@ -151,43 +156,6 @@ void Emanagement() BANKED{
                             changeEstate(THIS, ENEMY_WAIT);
                         }
                     break;
-                    case SpriteArrow:
-                        if((s_motherpl->x < THIS->x && THIS->mirror == NO_MIRROR) || 
-                            (s_motherpl->x > THIS->x && THIS->mirror == V_MIRROR)){
-                                if(eu_info->hp > 1){
-                                    ETurn(eu_info->vx);
-                                }
-                        }
-                        {                            
-                            struct ArrowData* arrow_data = (struct ArrowData*) iespr->custom_data;
-                            arrow_data->hit = 1u;
-                            if(eu_info->e_state == ENEMY_PREATTACK){
-                                changeEstate(THIS, ENEMY_TREMBLING);
-                            }
-                            switch(arrow_data->arrow_type){
-                                case ARROW_NORMAL:
-                                    if(eu_info->hp > 1){
-                                        changeEstate(THIS, ENEMY_HIT_1);
-                                    }else{
-                                        changeEstate(THIS, ENEMY_DEAD);
-                                    }
-                                break;
-                                case ARROW_PERF:
-                                case ARROW_BASTARD:                                
-                                    if(eu_info->hp > 2){
-                                        changeEstate(THIS, ENEMY_HIT_2);
-                                    }else{
-                                        changeEstate(THIS, ENEMY_DEAD);
-                                    }
-                                break;
-                            }
-                        }
-                    break;
-                    case SpriteEnemythrowable:
-                        if(THIS->type == SpriteEnemysimplerat || THIS->type == SpriteEnemysimplesnake){
-                            changeEstate(THIS, ENEMY_HIT_1);
-                        }
-                    break;
                 }
             }
         };
@@ -218,10 +186,10 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 {
                     INT16 distance = THIS->x - s_motherpl->x;
-                    if(THIS->mirror == NO_MIRROR && distance > 30){
+                    if(THIS->mirror == NO_MIRROR && distance > 120 && eu_info->wait < 10u){
                         ETurn(eu_info->vx);
                         return;
-                    }else if( THIS->mirror == V_MIRROR && distance < -30){
+                    }else if( THIS->mirror == V_MIRROR && distance < -120 && eu_info->wait < 10u){
                         ETurn(eu_info->vx);
                         return;
                     }
@@ -232,6 +200,7 @@ void Emanagement() BANKED{
                         case SpriteEnemyAttackerPine:
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
+                        case SpriteEnemyThrowerScorpion:
                             changeEstate(THIS, ENEMY_PREATTACK);
                         break;
                     }
@@ -257,6 +226,7 @@ void Emanagement() BANKED{
                         break;
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
+                        case SpriteEnemyThrowerScorpion:
                             changeEstate(THIS, ENEMY_THROW);
                         break;
                     }
@@ -286,7 +256,7 @@ void Emanagement() BANKED{
 }
 
 void Estart() BANKED{
-    THIS->lim_x = 64u;
+    THIS->lim_x = 88u;
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
@@ -307,6 +277,10 @@ void Estart() BANKED{
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
     eu_info->wait = 40u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void Econfiguration() BANKED{
@@ -332,6 +306,7 @@ UINT8 getEmaxFrameskip() BANKED{
         break;
         case SpriteEnemyThrowerSpider:
         case SpriteEnemyThrowerTarantula:
+        case SpriteEnemyThrowerScorpion:
             result = E_FRAMSKIP_SPIDER;
         break;
     }
@@ -348,8 +323,14 @@ void ETurn(UINT8 e_vx){
         THIS->x++;
     }
     e_info->vx = -e_vx;
-    e_info->wait = 24u;
-    changeEstate(THIS, ENEMY_WAIT);
+    if(THIS->type != SpriteEnemyThrowerScorpion && 
+        THIS->type != SpriteEnemyThrowerTarantula &&
+        THIS->type != SpriteEnemyThrowerScorpion){
+        e_info->wait += 32u;
+    }
+    if(e_info->e_state != ENEMY_PREATTACK || e_info->e_state != ENEMY_THROW){
+        changeEstate(THIS, ENEMY_WAIT);
+    }
 }
 
 void configure() BANKED{
@@ -368,6 +349,9 @@ void configure() BANKED{
         case SpriteEnemyThrowerSpider:
         case SpriteEnemyThrowerTarantula:
             e_info->hp = 3;
+        break;
+        case SpriteEnemyThrowerScorpion:
+            e_info->hp = 5;
         break;
     }
     e_info->vx = E_VX;
@@ -398,12 +382,13 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                         e_info->wait = enemy_random_30_100 + 60u;
                     break;
                     case SpriteEnemyThrowerSpider:
-                        e_info->x_frameskip = E_FRAMSKIP_SPIDER;
-                        e_info->wait = enemy_random_30_100 + 100u;
-                    break;
                     case SpriteEnemyThrowerTarantula:
                         e_info->x_frameskip = E_FRAMSKIP_SPIDER;
-                        e_info->wait = enemy_random_30_100 + 100u;
+                        e_info->wait = enemy_random_30_100 + 60u;
+                    break;
+                    case SpriteEnemyThrowerScorpion:
+                        e_info->x_frameskip = E_FRAMSKIP_SPIDER;
+                        e_info->wait = enemy_random_30_100;
                     break;
                 }
             break;
@@ -419,7 +404,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
-                    e_info->wait = 56u;
+                    e_info->wait = 42u;
                     TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
@@ -430,7 +415,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
-                    e_info->wait = 56u;
+                    e_info->wait = 42u;
                     TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
@@ -450,7 +435,11 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 80u;
             break;
             case ENEMY_PREATTACK:
-                e_info->wait = 40u;
+                if((THIS->x < s_motherpl->x && e_info->vx < 0) ||
+                    (THIS->x > s_motherpl->x && e_info->vx > 0)){
+                    ETurn(e_info->vx);
+                }
+                e_info->wait = 56u;
             break;
             case ENEMY_ATTACK:
                 if(THIS->mirror == NO_MIRROR){e_info->vx = 2*E_VX;}
@@ -459,9 +448,15 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 e_info->x_frameskip = 0u;
             break;
             case ENEMY_THROW:
+                e_info->wait = 40u;
+                if((THIS->x < s_motherpl->x && THIS->mirror == V_MIRROR)
+                     || (THIS->x > s_motherpl->x && THIS->mirror == NO_MIRROR)){
+                    ETurn(e_info->vx);
+                }
                 switch(THIS->type){
                     case SpriteEnemyThrowerSpider: EthrowWeb(e_info->e_state); break;
                     case SpriteEnemyThrowerTarantula: EthrowAcid(e_info->e_state); break;
+                    case SpriteEnemyThrowerScorpion: EthrowProjectile(e_info->e_state); break;
                 }
             break;
             case ENEMY_UPSIDEDOWN:
@@ -489,6 +484,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
             case SpriteEnemyAttackerPine: EattackerPineAnim(new_e_state); break;
             case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(new_e_state); break;
             case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
+            case SpriteEnemyThrowerScorpion: EthrowerScorpionAnim(new_e_state); break;
         }
         e_info->e_state = new_e_state;
     }

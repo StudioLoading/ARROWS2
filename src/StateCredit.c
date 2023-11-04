@@ -49,7 +49,9 @@ struct MISSION outwalker_smith = {.mission_title = OUTWALKER_SMITH,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
 struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
-struct MISSION* missions[9];
+struct MISSION defeat_scorpions = {.mission_title = DEFEAT_SCORPIONS, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+struct MISSION* missions[10];
 /* 
 { engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
@@ -100,6 +102,8 @@ void missions_init() BANKED{
 			outwalker_smith.current_step = 0u;
 			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
+			defeat_scorpions.current_step = 0u;
 		break;
 		case 1u:
 			current_map = 1;
@@ -119,6 +123,8 @@ void missions_init() BANKED{
 			outwalker_smith.current_step = 0u;//test 0b00000111;
 			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
+			defeat_scorpions.current_step = 0u;
 		break;
 		case 2u:
 			current_map = 1;
@@ -135,9 +141,11 @@ void missions_init() BANKED{
 			outwalker_glass.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			outwalker_glass.current_step = 4u;//0u
 			outwalker_smith.mission_state = MISSION_STATE_REWARDED;//DISABLED
-			outwalker_smith.current_step = 0b00000111;
+			outwalker_smith.current_step = 0b00001111;
 			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;//DISABLED
 			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_STARTED;
+			defeat_scorpions.current_step = 0b00000000;
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -149,6 +157,7 @@ void missions_init() BANKED{
 	missions[6] = &outwalker_glass;
 	missions[7] = &outwalker_smith;
 	missions[8] = &get_to_the_mountain;
+	missions[9] = &defeat_scorpions;
 }
 
 void inventory_init() BANKED{
@@ -169,6 +178,21 @@ void inventory_init() BANKED{
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
 		case 1:
+			itemMoney.itemtype = INVITEM_MONEY;
+			itemMoney.quantity = 20;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
+			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
+			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
+			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;//UNASSIGNED
+			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
+			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
+		break;
+		case 2:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
@@ -221,9 +245,9 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 2u << 3;*/
 		break;
 		case 2u:
-			current_map = 1;
-			motherow_pos_x = (UINT16) 6u << 3;//22 MAP0
-			motherow_pos_y = (UINT16) 28u << 3;//21 MAP0
+			current_map = 0;//1;
+			motherow_pos_x = (UINT16) 22u << 3;//22 MAP0  6 MAP1 
+			motherow_pos_y = (UINT16) 21u << 3;//21 MAP0 28 MAP1
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;

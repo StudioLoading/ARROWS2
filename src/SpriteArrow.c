@@ -135,17 +135,25 @@ void UPDATE(){
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
+                    case SpriteEnemyThrowerScorpion:
                     case SpriteBosscrab:
                     //io freccia ho colpito enemy
+                        {
+                            struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
+                            if(e_data->e_state == ENEMY_HIT_1 ||
+                                e_data->e_state == ENEMY_HIT_2){
+                                return;
+                            }
+                        }
                         switch(arrow_data->arrow_type){
                             case ARROW_NORMAL:
+                                arrow_data->hit = 1u;
                                 if(iarrspr->type != SpriteBosscrab){
                                     changeEstate(iarrspr, ENEMY_HIT_1);
+                                    return;
                                 }
-                            break;
-                            case ARROW_PERF:
                             case ARROW_BASTARD:
-                                arrow_data->hit = 1u;
+                            case ARROW_PERF:
                                 if(iarrspr->type == SpriteBosscrab){
                                     if(crab_data->e_state == ENEMY_WALK){    
                                         crab_change_state(ENEMY_HIT_1);
@@ -172,12 +180,8 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    //UINT16 puff_x = THIS->x +8u;
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    //if(arrow_data->vx < 0){
-        //puff_x = THIS->x;
-    //}
-    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 4u);
+    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 3u);
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;
 }

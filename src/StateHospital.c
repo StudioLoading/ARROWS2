@@ -24,6 +24,7 @@ extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
 extern unsigned char d0[];
 extern WHOSTALKING whostalking;
+extern struct MISSION defeat_scorpions;
 extern struct MISSION enable_hospital;
 
 extern UINT8 dialog_ready;
@@ -74,22 +75,34 @@ void UPDATE() {
         n_lines = 0u;
 		switch(enable_hospital.mission_state){
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
-				if(motherpl_hp < 0){//morta
-                    whostalking = HOSPITAL_CURE_FROM_DEATH;
-                }if(motherpl_hp == 5){
-                    whostalking = HOSPITAL_FINE;
-                }else{//in cura
-                    whostalking = HOSPITAL_CURE;
+				if(defeat_scorpions.mission_state == MISSION_STATE_STARTED &&
+                    ((defeat_scorpions.current_step & 0b00001111) != 0b00001111)){
+                        if(motherpl_hp < 0){//morta
+                            motherpl_hp = 1;
+                            whostalking = HOSPITAL_HEAL_1;
+                        }else{
+                            whostalking = HOSPITAL_CURE_FULL;
+                        }
+                }else{
+                    if(motherpl_hp < 0){//morta
+                        whostalking = HOSPITAL_CURE_FROM_DEATH;
+                    }if(motherpl_hp == 5){
+                        whostalking = HOSPITAL_FINE;
+                    }else{//in cura
+                        whostalking = HOSPITAL_CURE;
+                    }
+                    motherpl_hp = 5;
                 }
-                motherpl_hp = 5;
             break;
             case MISSION_STATE_ACCOMPLISHED:
                 enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			case MISSION_STATE_ENABLED://ho bisogno di metallo speciale
                 motherpl_hp = 2;
 				whostalking = HOSPITAL_DISABLED; 
                 if(get_quantity(INVITEM_METAL_SPECIAL) > 0){//se in inventario ho il metallo specialo
                     enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                     whostalking = HOSPITAL_ENABLING;
                     motherpl_hp = 5;
                     change_quantity(INVITEM_METAL_SPECIAL, -1);

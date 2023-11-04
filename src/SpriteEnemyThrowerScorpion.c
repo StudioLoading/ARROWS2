@@ -1,0 +1,90 @@
+#include "Banks/SetAutoBank.h"
+
+#include "main.h"
+
+#include "Palette.h"
+#include "ZGBMain.h"
+#include "Palette.h"
+#include "Scroll.h"
+#include "Sprite.h"
+#include "SpriteManager.h"
+#include "Sound.h"
+
+#include "custom_datas.h"
+
+const UINT8 scorpion_anim_wait[] = {4, 1,1,1,6};
+const UINT8 scorpion_anim_idle[] = {4, 1,1,1,6}; //The first number indicates the number of frames
+const UINT8 scorpion_anim_walk[] = {6, 1,2,3,4,5,6};//The first number indicates the number of frames
+const UINT8 scorpion_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indicates the number of frames
+const UINT8 scorpion_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number indicates the number of frames
+const UINT8 scorpion_anim_attack[] = {1, 7};//{2, 1, 3}; //The first number indicates the number of frames
+
+extern UINT8 enemy_random_30_100;
+
+void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
+void EthrowProjectile(ENEMY_STATE estate) BANKED;
+
+extern void Estart() BANKED;
+extern void Edestroy() BANKED;
+extern void configure() BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
+extern void Econfiguration() BANKED;
+extern void Emanagement() BANKED;
+extern void enemy_death() BANKED;
+extern void ETurn(UINT8 e_vx);
+
+void START(){
+    Estart();
+}
+
+void UPDATE(){
+    //configuration
+        struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+        if(eu_info->configured == 0){
+            return;
+        }
+        if(eu_info->configured == 1){
+            Econfiguration();
+            return;
+        }
+    //CHECK DEATH
+        if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
+    //MANAGEMENT
+        Emanagement();
+    //SCORPION LIMITS
+        INT8 scroll_distance = scroll_target->x - THIS->x;
+        if(scroll_distance > 80){
+            THIS->x = scroll_target->x - 80u;
+        }else if(scroll_distance < -80){
+            THIS->x = scroll_target->x + 80u;
+        }
+
+}
+
+void EthrowerScorpionAnim( ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
+    switch(estate){
+        case ENEMY_HIT_1:
+        case ENEMY_HIT_2: SetSpriteAnim(THIS, scorpion_anim_hit, 16u); break;
+        case ENEMY_WALK: SetSpriteAnim(THIS, scorpion_anim_walk, 24u); break;
+        case ENEMY_WAIT: SetSpriteAnim(THIS, scorpion_anim_wait, 16u); break;
+        case ENEMY_IDLE: SetSpriteAnim(THIS, scorpion_anim_idle, 20u); break;
+        case ENEMY_DEAD: SetSpriteAnim(THIS, scorpion_anim_hit, 32u); break;
+        case ENEMY_PREATTACK: SetSpriteAnim(THIS, scorpion_anim_preattack, 16u); break;
+        case ENEMY_THROW: SetSpriteAnim(THIS, scorpion_anim_attack, 16u); break;
+    }
+}
+
+void EthrowProjectile(ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
+    EthrowerScorpionAnim(estate);
+    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x +8u, THIS->y - 7u);
+    struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
+    throwable_data->type = PROJECTILE;
+    throwable_data->configured = 1u;
+}
+
+void DESTROY(){
+    enemy_death();
+    Edestroy();
+}

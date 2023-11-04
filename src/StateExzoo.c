@@ -89,6 +89,7 @@ void START(){
                 motherpl_pos_x = (UINT16) 82u << 3;
                 motherpl_pos_y = (UINT16) 10u << 3;
                 outwalker_chief.current_step = 3;
+				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 trigger_dialog(OUTWALKER_CHIEF_FOUND, THIS);
             }
 

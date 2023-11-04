@@ -1,9 +1,13 @@
 #include "Banks/SetAutoBank.h"
 
 #include "main.h"
+
+#include "Keys.h"
+#include "Palette.h"
 #include "ZGBMain.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 
@@ -15,6 +19,7 @@ const UINT8 throw_web0[] = {1, 1};
 const UINT8 throw_web1[] = {1, 2};
 const UINT8 throw_acid0[] = {1, 3};
 const UINT8 throw_acid1[] = {6, 4, 5, 6, 7, 7, 7};
+const UINT8 throw_projectile[] = {1, 8};
 
 extern Sprite* s_motherpl;
 extern Sprite* s_blocking;
@@ -22,7 +27,7 @@ extern UINT8 motherpl_blocked;
 extern UINT8 motherpl_hit;
 
 void START(){
-    THIS->lim_x = 255u;
+    THIS->lim_x = 64u;
     SetSpriteAnim(THIS, throw_ball, 2u);
     struct ThrowableData* throwable_data = (struct ThrowableData*) THIS->custom_data;
     throwable_data->hp = 1;
@@ -33,6 +38,10 @@ void START(){
     throwable_data->vx = -THROWABLE_VX;
     throwable_data->vy = 0u;
     if(s_motherpl->x > THIS->x){throwable_data->vx = THROWABLE_VX;}
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){
@@ -55,6 +64,9 @@ void UPDATE(){
                     }
                     SetSpriteAnim(THIS, throw_acid0, 2u);
                 break;
+                case PROJECTILE: 
+                    SetSpriteAnim(THIS, throw_projectile, 1u);
+                break;
             }
             throwable_data->configured = 2u;
         return;
@@ -75,7 +87,7 @@ void UPDATE(){
     }
     throwable_data->wait--;
     //VERTICAL MOVEMENT
-    if(throwable_data->type == ACID){        
+    if(throwable_data->type == ACID){
         if(throwable_data->vy < THROWABLE_GRAVITY){
             throwable_data->vy++;
         }
@@ -87,8 +99,14 @@ void UPDATE(){
             throwable_data->wait = 64u;
             SetSpriteAnim(THIS, throw_acid1, 8u);
         }    
+    }//HORIZONTAL MOVEMENT
+    else if(throwable_data->type == PROJECTILE){
+            UINT8 h_tile_coll = 0u;
+            h_tile_coll = TranslateSprite(THIS, throwable_data->vx << delta_time, 0);
+            if(h_tile_coll){
+                SpriteManagerRemoveSprite(THIS);
+            }
     }else{
-        //HORIZONTAL MOVEMENT
         UINT8 h_tile_coll = 0u;
         if(throwable_data->x_frameskip == 0){
             h_tile_coll = TranslateSprite(THIS, throwable_data->vx << delta_time, 0);
@@ -119,8 +137,12 @@ void UPDATE(){
                     case SpriteMotherpl:
                         if(motherpl_blocked == 0u && throwable_data->type != T_DESTROYED){
                             throwable_data->vx = 0u;
-                            if(throwable_data->type == ACID){motherpl_hit = 1u;}
-                            if(throwable_data->type == WEB){s_blocking = THIS;motherpl_blocked = 1u;}                          
+                            switch(throwable_data->type){
+                                case PROJECTILE:
+                                case ACID:motherpl_hit = 1u;break;
+                                case WEB:s_blocking = THIS;motherpl_blocked = 1u;break;
+                            }
+                            throwable_data->hp=0;
                         }
                     break;
                 }
@@ -129,4 +151,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 4u);
 }

@@ -34,6 +34,7 @@ _STATE(StateBosscrab)\
 _STATE(StateMountain)\
 _STATE(StateSky)\
 _STATE(StateCart)\
+_STATE(StateScorpions)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -54,6 +55,7 @@ _SPRITE_DMG(SpriteTetracursor, tetracursor)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
+_SPRITE_DMG(SpriteCursor, cursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteDust, dust)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
@@ -65,6 +67,7 @@ _SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
 _SPRITE_DMG(SpriteSpider, spider)\
 _SPRITE_DMG(SpriteEnemyThrowerSpider, enemyspider)\
 _SPRITE_DMG(SpriteEnemyThrowerTarantula, enemytarantula)\
+_SPRITE_DMG(SpriteEnemyThrowerScorpion, enemyscorpion)\
 _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
@@ -95,12 +98,14 @@ _SPRITE_DMG(SpriteStone, stone)\
 _SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
 _SPRITE_DMG(SpriteBoltground, boltground)\
 _SPRITE_DMG(SpriteBolt, bolt)\
-_SPRITE_DMG(SpriteScorpion, scorpion)\
 _SPRITE_DMG(SpriteCart, cart)\
 _SPRITE_DMG(SpriteCartelevator, cartelevator)\
 _SPRITE_DMG(SpriteStartbtn, startbtn)\
 _SPRITE_DMG(SpriteMotherplhit, motherplhit)\
 _SPRITE_DMG(SpriteBirdsky, birdsky)\
+_SPRITE_DMG(SpriteScorpion, scorpion)\
+_SPRITE_DMG(SpriteOwscorpion, owscorpion)\
+_SPRITE_DMG(SpriteDiary, diary)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

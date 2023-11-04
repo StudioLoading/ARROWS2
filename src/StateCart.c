@@ -45,9 +45,10 @@ extern Sprite* s_surf;
 extern UINT8 tiles_anim_interval;
 extern UINT8 timeout_cavesand;
 extern struct MISSION get_to_the_mountain;
+extern struct MISSION defeat_scorpions;
 
 const UINT8 coll_tiles_cart[] = { 1u, 7u, 3u, 12u, 14u, 17u, 18u, 19u, 21u, 22u, 27u, 28u, 32u, 36u, 40u, 44u, 
-56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 93u, 94u,
+56u, 64u, 66u, 67u, 68u, 79u, 80u, 81u, 82u, 83u, 88u, 89u, 90u, 91u, 93u, 94u, 99u, 100u,
 109u, 111u, 0};
 const UINT8 coll_surface_cart[] = {30u, 0};
 
@@ -136,6 +137,8 @@ void UPDATE(){
                 ChangeState(StateCart, s_motherpl, 1);
             }else{
                 get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
+                defeat_scorpions.mission_state = MISSION_STATE_STARTED;
+			    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 ChangeState(StateOverworld, s_motherpl, 1);
             }
         }

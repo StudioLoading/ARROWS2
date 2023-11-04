@@ -307,6 +307,7 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_crab();
             set_sgb_palette_statusbar();
         break;
+        case StateScorpions:
         case StateOutwalkers:
         case StateHood:
             set_sgb_palette01_HOOD();

@@ -26,16 +26,6 @@ void START(){
     bigstone_data->wait = 0;
     bigstone_data->e_state = ENEMY_ATTACK;
     enemy_counter++;
-    /*    
-	INT8 hp;
-	INT8 vx;
-	UINT8 wait;
-	UINT8 configured;
-	ENEMY_TYPE type;
-	UINT8 et_collision;
-	ENEMY_STATE e_state;
-	UINT8 x_frameskip;
-    */
 }
 
 void UPDATE(){
@@ -55,16 +45,13 @@ void UPDATE(){
                     bigstone_data->vx = -bigstone_data->vx;
                 }
                 SpriteManagerRemoveSprite(THIS);
-                /*bigstone_data->hp = -7;
-                bigstone_data->wait++;
-                THIS->y++;*/
             }else{
                 bigstone_data->hp++;
             }
             bigstone_data->x_frameskip = 3;
         }
     }
-     //SPRITE COLLISION
+    //SPRITE COLLISION
         UINT8 bigs_a_tile;
         Sprite* bigs_spr;
         SPRITEMANAGER_ITERATE(bigs_a_tile, bigs_spr) {

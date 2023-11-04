@@ -1,6 +1,8 @@
 #include "Banks/SetAutoBank.h"
 
 #include "ZGBMain.h"
+#include "Scroll.h"
+#include "SpriteManager.h"
 #include "string.h"
 
 #include "Dialogs.h"
@@ -218,6 +220,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 							pickup(&pass_data);
 							outwalker_glass.mission_state = MISSION_STATE_STARTED;
 							outwalker_glass.current_step = 1;
+							SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 						}
 					break;
 					case 1u://occhiali non ancora trovati
@@ -238,6 +241,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 								pickup(&pass_data);
 								outwalker_glass.mission_state = MISSION_STATE_STARTED;
 								outwalker_glass.current_step = 1;
+								SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 							}
 						}
 					break;
@@ -257,6 +261,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 							change_quantity(INVITEM_GLASSES, -1);
 							outwalker_glass.mission_state = MISSION_STATE_REWARDED;
 							outwalker_glass.current_step = 4;
+							SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 						}
 					break;
 					case 4u:
@@ -304,6 +309,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, EMPTY_STRING_21, 22);
 			memcpy(d12, "YOU SHALL NOT PASS! \0", 22);
 			outwalker_glass.mission_state = MISSION_STATE_ENABLED;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 		break;
 		case OUTWALKER_GUARD_NOSMITH:
 			*n_lines = 8u;
@@ -350,6 +356,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "100 COINS FOR YOUR  \0", 22);
 			memcpy(d18, "SILENCE.            \0", 22);
             outwalker_chief.current_step = 3;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
 			{
 				struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};

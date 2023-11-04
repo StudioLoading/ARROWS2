@@ -3,9 +3,12 @@
 #include "main.h"
 
 #include "Keys.h"
+#include "Palette.h"
 #include "ZGBMain.h"
+#include "Scroll.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
+#include "Sound.h"
 
 #include "custom_datas.h"
 
@@ -29,6 +32,10 @@ void START(){
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
     child_hooked = 0u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){

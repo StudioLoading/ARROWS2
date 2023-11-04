@@ -1,6 +1,8 @@
 #include "Banks/SetAutoBank.h"
 
 #include "ZGBMain.h"
+#include "Scroll.h"
+#include "SpriteManager.h"
 #include "string.h"
 
 #include "Dialogs.h"
@@ -397,6 +399,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d4, "NOW LET'S GO OUTSIDE\0", 22);
 					memcpy(d5, "WE NEED TO TALK.    \0", 22);
 					find_blackie.current_step = 3u;
+					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 				break;
             	case 3u://ow orde sconfitte
 					*n_lines = 22u;
@@ -424,6 +427,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d22, "PLEASE GO HELP HER.\0", 22);
 					change_quantity(INVITEM_LETTER, -1);
                 	find_blackie.current_step = 4u;
+					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 	find_blackie.mission_state = MISSION_STATE_REWARDED;
 					help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
 				break;
@@ -494,6 +498,17 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "BLACKIE BROUGHT YOU \0", 22);
 			memcpy(d4, "HERE...             \0", 22);
 		break;
+		case HOSPITAL_HEAL_1:
+		case HOSPITAL_CURE_FULL:
+			*n_lines = 6u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "SCORPIONS ARE POISON\0", 22);
+			memcpy(d3, "ING EVERBODY HERE!  \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "WE ARE SORRY!       \0", 22);
+			memcpy(d6, "WE CAN'T HEAL YOU!  \0", 22);
+		break;
 		case CRYING_MOTHER:
 			*n_lines = 13u;
 			memcpy(d0, "MARGARET:           \0", 22);
@@ -511,6 +526,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d12, "HIM. I'LL GO WEST   \0", 22);
 			memcpy(d13, "YOU GO NORTH.      \0", 22);
 			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
+			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 		break;
 		case CHILD:
 			memcpy(d0, "ROBERT:             \0", 22);
@@ -552,6 +568,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				pickup(&pass_data);
 				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
 				outwalker_chief.current_step = 1;
+				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			}
 		break;
 		case POLICE_0_STILL_NOT_FOUND:
@@ -588,35 +605,35 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 	switch(invitemtype){
 		case INVITEM_MONEY:
-			memcpy(log0, "PICKED UP: COIN     ", 20);
+			memcpy(log0, "       COINS!       ", 20);
 		break;
 		case INVITEM_ARROW_BASTARD:
-			memcpy(log0, "PICKED UP: BASTARDS ", 20);
+			memcpy(log0, "     BASTARDS!      ", 20);
 		break;
 		case INVITEM_ARROW_NORMAL:
-			memcpy(log0, "PICKED UP: ARROWS   ", 20);
+			memcpy(log0, "      ARROWS!       ", 20);
 		break;
 		case INVITEM_ARROW_PERFO:
-			memcpy(log0, "PICKED UP: PEARCED  ", 20);
+			memcpy(log0, "      PEARCED!      ", 20);
 		break;
 		case INVITEM_FLOWER:
-			memcpy(log0, "PICKED UP: A FLOWER ", 20);
+			memcpy(log0, "       FLOWER!      ", 20);
 		break;
 		case INVITEM_GLASSES:
-			memcpy(log0, "PICKED UP: GLASSES  ", 20);
+			memcpy(log0, "      GLASSES!      ", 20);
 		break;
 		case INVITEM_HEART:
 		case INVITEM_HEARTS:
-			memcpy(log0, "PICKED UP: HEALTH   ", 20);
+			memcpy(log0, "       HEALTH!      ", 20);
 		break;
 		case INVITEM_METAL:
-			memcpy(log0, "PICKED UP: METAL    ", 20);
+			memcpy(log0, "       METAL!       ", 20);
 		break;
 		case INVITEM_POWDER:
-			memcpy(log0, "PICKED UP: POWDER   ", 20);
+			memcpy(log0, "      POWDER!       ", 20);
 		break;
 		case INVITEM_WOOD:
-			memcpy(log0, "PICKED UP: WOOD     ", 20);
+			memcpy(log0, "       WOOD!        ", 20);
 		break;		
 	}
 }
@@ -717,6 +734,9 @@ void GetLocalizedLog_EN() BANKED{
 		break;
 		case StateSky:
 			memcpy(log0, "THUNDERS!           ", 20);
+		break;
+		case StateScorpions:
+			memcpy(log0, "COUNTRY             ", 20);
 		break;
 	}
 }
