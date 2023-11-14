@@ -95,7 +95,16 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case DEFEAT_SCORPIONS_TITLE:memcpy(d, "SCORPION'S HORDE ", 16);break;
 		case SCORPIONS_D0:memcpy(d, "DEFEAT ALL THE     ", 20);break;
 		case SCORPIONS_D1:memcpy(d, "SCORPIONS AROUND   ", 20);break;
-		case SCORPIONS_D2:memcpy(d, "I SHOULD ALSO CHECK", 20);break;
+		case SCORPIONS_D2:memcpy(d, "I SHOULD ALSO CLEAN", 20);break;
 		case SCORPIONS_D3:memcpy(d, "THE EASTERN SIDE   ", 20);break;
+		case FIND_ANTIDOTE_TITLE:memcpy(d, "FIND THE ANTIDOTE", 16);break;
+		case ANTIDOTE_D0:memcpy(d, "TALK TO THE DOCTORS", 20);break;
+		case ANTIDOTE_D1:memcpy(d, "ABOUT THE ANTIDOTE ", 20);break;
+		case ANTIDOTE_D2:memcpy(d, "FIND THE SCORPION' ", 20);break;
+		case ANTIDOTE_D3:memcpy(d, "MOTHER             ", 20);break;
+		case ANTIDOTE_D4:memcpy(d, "BRING MOTHER'S TAIL", 20);break;
+		case ANTIDOTE_D5:memcpy(d, "TO THE HOSPITAL!   ", 20);break;
+		case ANTIDOTE_D6:memcpy(d, "FIND THE HERBS     ", 20);break;
+		case ANTIDOTE_D7:memcpy(d, "BRING HERBS TO HOSP", 20);break;
 	}	
 }

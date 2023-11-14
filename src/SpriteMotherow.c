@@ -38,9 +38,12 @@ extern struct MISSION engage_smith;
 extern struct MISSION enable_hospital;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
+extern struct MISSION defeat_scorpions;
+extern struct MISSION find_antidote;
 extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
+extern SHOP current_shop;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -162,8 +165,6 @@ void UPDATE(){
     if(motherow_info->ow_state != new_state){ 
         owChangeState(new_state);
     }
-    //CHECK COLLIDED PLACE
-        ow_check_place();
     //INTERACT WITH MAP
         if(motherow_info->tile_collision){//diverso da zero
             show_owpusha_sign();
@@ -171,6 +172,8 @@ void UPDATE(){
                 owTips(TIP_NOTHING);            
             }
         }
+    //CHECK COLLIDED PLACE
+        ow_check_place();
     //INTERACT WITH SPRITES    
         UINT8 mow_a_tile;
         Sprite* imowspr;
@@ -200,15 +203,14 @@ void UPDATE(){
                             }
                         }
                     break;
-                    case SpriteTeleport:
-                        //teleport!
-                            {
-                                struct TeleportInfo* tport_data = (struct TeleportInfo*) imowspr->custom_data;
-                                motherow_pos_x = tport_data->dest_x;
-                                motherow_pos_y = tport_data->dest_y;
-                                teleporting = 1u;
-                                ChangeState(StateOverworld, THIS, -1);
-                            }
+                    case SpriteTeleport://teleport!
+                        {
+                            struct TeleportInfo* tport_data = (struct TeleportInfo*) imowspr->custom_data;
+                            motherow_pos_x = tport_data->dest_x;
+                            motherow_pos_y = tport_data->dest_y;
+                            teleporting = 1u;
+                            ChangeState(StateOverworld, THIS, -1);
+                        }
                     break;
                     case SpriteOwcrab:
                         if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
@@ -222,10 +224,6 @@ void UPDATE(){
                             struct EnemyData* scorp_data = (struct EnemyData*) imowspr->custom_data;
                             scorpion_mission_goal = scorp_data->configured;
                             ChangeState(StateScorpions, THIS, -1);
-                        //TODO change state to the countrypath
-                        //if every enemy into the country path is killed
-                        //then set 
-                        //defeat_scorpions->current_step & SpriteOwscorpion->configured
                         }
                     break;
                 }
@@ -273,7 +271,7 @@ void ow_check_place() BANKED{//tile collision
                 }
             break;
             case 62u:
-            case 64u:
+            case 64u://EXZOO
                 switch(current_map){
                     case 0u:
                         if(just_started == 1u){
@@ -286,17 +284,25 @@ void ow_check_place() BANKED{//tile collision
                 }
             break;
             case 70u:
-            case 72u:
+            case 72u://CEMETERY
                 ChangeState(StateCemetery, THIS, -1);
             break;
             case 90u:
-            case 91u:
+            case 18u:
+            case 91u://CAVE
                 switch(current_map){
                     case 0u:
                         //ChangeState(StateBlackiecave, THIS);
                     break;
                     case 1u:
                         ChangeState(StateOverworld, THIS, 2);
+                    break;
+                    case 3u://to Scorpion Boss fight
+                        if(find_antidote.mission_state < MISSION_STATE_STARTED){
+                            owTips(TIP_STILL_SOMETHING);
+                        }else{
+                            ChangeState(StateBossscorpion, THIS, -1);
+                        }
                     break;
                 }
             break;
@@ -307,7 +313,6 @@ void ow_check_place() BANKED{//tile collision
                     case 0u:
                         if(engage_smith.mission_state != MISSION_STATE_REWARDED
                         && enable_hospital.mission_state != MISSION_STATE_REWARDED){
-                            THIS->x += 3u;
                             owTips(TIP_STILL_SOMETHING);
                         }else{
                             ChangeState(StateBlackiecave, THIS, -1);
@@ -322,13 +327,14 @@ void ow_check_place() BANKED{//tile collision
             break;
         }
     }
+    motherow_info->tile_collision = 0;
 }
 
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     UINT8 trigger_tip = 0u;
     switch(forced_tip){
         case TIP_NOTHING:
-            switch(motherow_info->tile_collision){//sul gioco completo sarà switch su mappa e poi su tile
+            switch(motherow_info->tile_collision){
                 case 66u:
                 case 68u://HOSPITAL
                     ChangeState(StateHospital, THIS, -1);
@@ -338,17 +344,28 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 {
                     switch(current_map){
                         case 0u:
-                            ChangeState(StateSmith, THIS, -1);
+                            current_shop = SMITH;
+                            ChangeState(StateShop, THIS, -1);
                         break;
                         case 1u:
                             if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                                 trigger_dialog(POLICE_0_GET_PASS, THIS);
-                            }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED &&
-                                outwalker_chief.current_step <= 3){
-                                trigger_dialog(POLICE_0_STILL_NOT_FOUND, THIS);
+                            }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED){
+                                if(outwalker_chief.current_step <= 3){
+                                    trigger_dialog(POLICE_0_STILL_NOT_FOUND, THIS);
+                                }else{
+                                    trigger_dialog(POLICE_0_WONT_TALK, THIS);
+                                }
+                            }else if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED &&
+                                defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED){
+                                trigger_dialog(POLICE_0_FIGHTING,THIS);
                             }else{
-                                trigger_dialog(POLICE_0_WONT_TALK, THIS);
+                                trigger_dialog(POLICE_0_NOGUARDS, THIS);
                             }
+                        break;
+                        case 3u://carpenter
+                            current_shop = CARPENTER;
+                            ChangeState(StateShop, THIS, -1);
                         break;
                     }
                 }
@@ -366,7 +383,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                     trigger_tip = 1u;
                 break;
                 case 86u:
-                case 87u:
+                case 87u://CARTELLO
                     switch(current_map){
                         case 0u://sw map = MINE CAVE
                             tip_to_show = TIP_MINE_CAVE;
@@ -375,12 +392,10 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                             if(THIS->x > ((UINT16) 60u << 3)){tip_to_show = TIP_LABIRYNTH;}
                             else{tip_to_show = TIP_GROTTO;}
                         break;
+                        case 3u:
+                            tip_to_show = TIP_FISHERMAN;
+                        break;
                     }
-                    trigger_tip = 1u;
-                break;
-                case 56u:
-                case 57u://EAST LIMIT
-                    tip_to_show = TIP_OWLIMIT_EAST;
                     trigger_tip = 1u;
                 break;
                 case 16u:
@@ -407,6 +422,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
 }
 
 void owChangeState(FA2OW_SPRITE_STATES new_state){
+    if(showed_tip != 0) return;
     if(new_state == GENERIC_IDLE){
         motherow_info->vy = 0;
         motherow_info->vx = 0;

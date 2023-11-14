@@ -33,6 +33,7 @@ extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 extern void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
+extern void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED;
 
 
 void START(){
@@ -48,7 +49,7 @@ void START(){
 
 void UPDATE(){
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    if(arrow_data->hit > 0 && arrow_data->arrow_type != ARROW_PERF){
+    if(arrow_data->hit > 0){
         SpriteManagerRemoveSprite(THIS);
     }
     //CONFIGURATION
@@ -125,10 +126,31 @@ void UPDATE(){
     //SPRITE COLLISION
         UINT8 scroll_arr_tile;
         Sprite* iarrspr;
-        struct EnemyData* enemysimple_info = 0u;
         SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
             if(CheckCollision(THIS, iarrspr)) {
                 switch(iarrspr->type){
+                    case SpriteBossscorpionhead:{
+                        switch(arrow_data->arrow_type){
+                            case ARROW_NORMAL: return; break;
+                            case ARROW_BASTARD:
+                            case ARROW_PERF:
+                                {
+                                INT8 y_delta = THIS->y - iarrspr->y;
+                                if(y_delta < -1 || y_delta > 5){
+                                    return;
+                                }
+                                struct EnemyData* e_scorpion = (struct EnemyData*) iarrspr->custom_data;
+                                if(e_scorpion->e_state == ENEMY_HIT_1 ||
+                                    e_scorpion->e_state == ENEMY_HIT_2){
+                                    return;
+                                }
+                                arrow_data->hit = 1u; 
+                                scorpio_change_state(ENEMY_HIT_1);
+                                }
+                            break;
+                        }
+                    }
+                    break;
                     case SpriteEnemysimplesnake:
                     case SpriteEnemysimplerat:
                     case SpriteEnemyAttackerCobra:
@@ -180,8 +202,8 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 2u);
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
-    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 3u);
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;
 }

@@ -24,7 +24,7 @@ _STATE(StateExzoo)\
 _STATE(StateCemetery)\
 _STATE(StateBlackiecave)\
 _STATE(StateMine)\
-_STATE(StateSmith)\
+_STATE(StateShop)\
 _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
 _STATE(StateHood)\
@@ -35,6 +35,7 @@ _STATE(StateMountain)\
 _STATE(StateSky)\
 _STATE(StateCart)\
 _STATE(StateScorpions)\
+_STATE(StateBossscorpion)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -106,6 +107,11 @@ _SPRITE_DMG(SpriteBirdsky, birdsky)\
 _SPRITE_DMG(SpriteScorpion, scorpion)\
 _SPRITE_DMG(SpriteOwscorpion, owscorpion)\
 _SPRITE_DMG(SpriteDiary, diary)\
+_SPRITE_DMG(SpriteOwfisherman, owfisherman)\
+_SPRITE_DMG(SpriteOwbridgebroken, owbridgebroken)\
+_SPRITE_DMG(SpriteBossscorpion, bossscorpion)\
+_SPRITE_DMG(SpriteBossscorpionhead, bossscorpionhead)\
+_SPRITE_DMG(SpriteScorpiontail, scorpiontail)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

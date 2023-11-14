@@ -19,6 +19,7 @@ IMPORT_TILES(tilesowsouthwest);
 IMPORT_MAP(owsouthwest);
 IMPORT_MAP(ownorthwest);
 IMPORT_MAP(owmaze);
+IMPORT_MAP(owsoutheast);
 IMPORT_MAP(hudow);
 
 
@@ -28,9 +29,9 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
-33, 34, 39, 41, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
+33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 95, 96, 112, 113, 
-114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 0};
+114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
 UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
@@ -119,6 +120,12 @@ void START(){
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owmaze), &owmaze, collision_tiles_maze, 0);				
 			break;
+			case 3://south-east
+				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+				new_state = IDLE_RIGHT;
+				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
+				InitScroll(BANK(owsoutheast), &owsoutheast, collision_tiles_ow_sw, 0);
+			break;
 		}
 		delay_spawning = 80u;
 	//CUTSCENES
@@ -156,6 +163,11 @@ void START(){
 				lim_down_y = ((UINT16) 37u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 			break;
+			case 3://SOUTH EAST
+				lim_up_y = ((UINT16) 4u << 3);
+				lim_down_y = ((UINT16) 50u << 3);
+				lim_west_x = ((UINT16) 3u << 3);
+			break;
 		}
 	//INITIAL TIPS
 		if(just_started == 2){//got to show "PRESS SELECT" tip
@@ -164,6 +176,9 @@ void START(){
 }
 
 void ShowTipOW() BANKED{
+	if(show_tip == 0){
+            THIS->x += 2;
+	}
 	show_tip = 1u;
 	if(showed_tip == 0u){
 		if(show_tip_movingscroll < 64u){
@@ -287,24 +302,25 @@ void initial_sprite_spawning() BANKED{
 			}
 			if(chapter == 2){
 				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
-					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED){
+					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+					&& defeat_scorpions.phase == 0u){
 					if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
 						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 26u << 3), ((UINT16) 26u << 3));
 						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
 						s_scor0_data->hp = 1;
 						s_scor0_data->configured = 0b00000001;
 					}
-					if((defeat_scorpions.current_step & 0b0000010) == 0b0000000){
+					if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
 						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 23u << 3), ((UINT16) 32u << 3));
     					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b0000010;						
+						s_scor1_data->configured = 0b00000010;						
 					}
-					if((defeat_scorpions.current_step & 0b0000100) == 0b0000000){
+					if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
 						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
     					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = 1;
-						s_scor1_data->configured = 0b0000100;						
+						s_scor1_data->configured = 0b00000100;						
 					}
 				}
 			}
@@ -331,30 +347,37 @@ void initial_sprite_spawning() BANKED{
 			}
 			if(chapter == 2){
 				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
-					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED){
+					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+					&& defeat_scorpions.phase == 0u){
+					if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 18u << 3), ((UINT16) 10u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00001000;
+					}
 					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
 						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
 						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
 						s_scor0_data->hp = 1;
 						s_scor0_data->configured = 0b00010000;
 					}
-					if((defeat_scorpions.current_step & 0b0010000) == 0b0000000){
+					if((defeat_scorpions.current_step & 0b00100000) == 0b0000000){
 						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
     					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b0010000;
+						s_scor1_data->configured = 0b00100000;
 					}
-					if((defeat_scorpions.current_step & 0b0100000) == 0b0000000){
+					if((defeat_scorpions.current_step & 0b01000000) == 0b00000000){
 						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
 						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = 1;
-						s_scor1_data->configured = 0b0100000;						
+						s_scor1_data->configured = 0b01000000;						
 					}
-					if((defeat_scorpions.current_step & 0b1000000) == 0b0000000){
+					if((defeat_scorpions.current_step & 0b10000000) == 0b00000000){
 						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
 						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b1000000;						
+						s_scor1_data->configured = 0b10000000;						
 					}
 				}
 			}
@@ -366,6 +389,49 @@ void initial_sprite_spawning() BANKED{
 				spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u);
 				//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u);
+			}
+		break;
+		case 3://south east
+			SpriteManagerAdd(SpriteOwfisherman, ((UINT16) 35u << 3) + 3u, ((UINT16) 7u << 3));
+			if(chapter == 2){
+				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+					&& defeat_scorpions.phase == 1u){
+					if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 16u << 3), ((UINT16) 12u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = -1;
+						s_scor0_data->configured = 0b00000001;
+					}
+					if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 23u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00000010;
+					}
+					if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 24u << 3), ((UINT16) 32u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = -1;
+						s_scor0_data->configured = 0b00000100;
+					}
+					if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 38u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00001000;
+					}
+					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
+						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 10u << 3), ((UINT16) 9u << 3));
+						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+						s_scor0_data->hp = 1;
+						s_scor0_data->configured = 0b00010000;
+					}
+				}
+				//if mission "fix bridge" is not accomplished
+				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
+				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
+				s_owbridge2->mirror = V_MIRROR;
 			}
 		break;
 	}
@@ -431,7 +497,8 @@ void UPDATE(){
 			}
 		}
 	//MAP LIMITS
-		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x || s_motherow->y > lim_down_y){
+		if(s_motherow->y < lim_up_y || s_motherow->x > lim_east_x 
+			|| s_motherow->y > lim_down_y || s_motherow->x < lim_west_x){
 		//non diminuire, ci sono problemi col ritorno camera
 		//il testo rimane sullo schermo
 			UINT8 alt = 0u;
@@ -504,7 +571,7 @@ void UPDATE(){
 								}
 							}
 							if(s_motherow->x > lim_east_x){
-								if((defeat_scorpions.current_step & 0b11111111) == 0b11111111){
+								if(defeat_scorpions.phase > 0){
 									ChangeState(StateOverworld, s_motherow, 3);
 								}else{
 									s_motherow->x = lim_east_x - 6u;
@@ -536,6 +603,10 @@ void UPDATE(){
 								ChangeState(StateExzoo, s_motherow, -1);
 							}
 						break;
+						case 3:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 0);
+							}
 					}
 				break;
 			}

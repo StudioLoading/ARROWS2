@@ -25,6 +25,7 @@ extern Sprite* s_motherpl;
 extern Sprite* s_blocking;
 extern UINT8 motherpl_blocked;
 extern UINT8 motherpl_hit;
+extern MOTHERPL_STATE motherpl_state;
 
 void START(){
     THIS->lim_x = 64u;
@@ -136,13 +137,35 @@ void UPDATE(){
                     break;
                     case SpriteMotherpl:
                         if(motherpl_blocked == 0u && throwable_data->type != T_DESTROYED){
-                            throwable_data->vx = 0u;
                             switch(throwable_data->type){
                                 case PROJECTILE:
-                                case ACID:motherpl_hit = 1u;break;
-                                case WEB:s_blocking = THIS;motherpl_blocked = 1u;break;
+                                    motherpl_blocked = 0u;
+                                    if(motherpl_hit != 1u){
+                                        if(motherpl_state == MOTHERPL_CRAWL || motherpl_state == MOTHERPL_DASH){
+                                            if(THIS->y >= (s_motherpl->y + 4)){
+                                                //cioè se mi prenderebbe, ma 
+                                                //sono in ginocchio o dasho
+                                                //non collidere ma simulo schivata
+                                                motherpl_hit = 1;
+                                            }
+                                        }else{
+                                            motherpl_hit = 1;
+                                        }
+                                    }
+                                break;
+                                case ACID:
+                                    motherpl_blocked = 0u;
+                                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                                break;
+                                case WEB:
+                                    if(motherpl_state != MOTHERPL_BLOCKED){
+                                        s_blocking = THIS;
+                                        motherpl_blocked = 1u;
+                                        throwable_data->vx = 0u;
+                                    }
+                                break;
                             }
-                            throwable_data->hp=0;
+                            if(motherpl_hit == 1){throwable_data->hp=0;}
                         }
                     break;
                 }

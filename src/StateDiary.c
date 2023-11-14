@@ -48,7 +48,8 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION defeat_scorpions;
-extern struct MISSION* missions[10];
+extern struct MISSION find_antidote;
+extern struct MISSION* missions[11];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
@@ -285,9 +286,29 @@ void show_detail(){
                     if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(SCORPIONS_D0, dd2);
                         GetLocalizedDDLabel_EN(SCORPIONS_D1, dd3);
-                        if((defeat_scorpions.current_step & 0b11111111) == 0b00001111){
+                        if(defeat_scorpions.phase >= 1u){
                             GetLocalizedDDLabel_EN(SCORPIONS_D2, dd4);
                             GetLocalizedDDLabel_EN(SCORPIONS_D3, dd5);
+                        }
+                    }
+                break;
+                case 1u:                    
+                    if(find_antidote.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(ANTIDOTE_D0, dd2);
+                        GetLocalizedDDLabel_EN(ANTIDOTE_D1, dd3);
+                        if(find_antidote.phase >= 1){
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D2, dd4);
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D3, dd5);
+                        }
+                        if(find_antidote.phase >= 2){
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D4, dd6);
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D5, dd7);
+                        }
+                        if(find_antidote.phase >= 3){
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D6, dd8);
+                        }
+                        if(find_antidote.phase >= 4){
+                            GetLocalizedDDLabel_EN(ANTIDOTE_D7, dd9);
                         }
                     }
                 break;
@@ -340,6 +361,9 @@ void show_missions(){
         case 2u:
             if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(DEFEAT_SCORPIONS_TITLE, m0);
+            }
+            if(find_antidote.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(FIND_ANTIDOTE_TITLE, m1);
             }
         break;
     }

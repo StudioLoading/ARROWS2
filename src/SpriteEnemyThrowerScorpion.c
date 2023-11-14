@@ -85,6 +85,9 @@ void EthrowProjectile(ENEMY_STATE estate) BANKED{
 }
 
 void DESTROY(){
-    enemy_death();
-    Edestroy();
+    struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
+    if(eu_info->e_state == ENEMY_DEAD){
+        enemy_death();
+        Edestroy();
+    }
 }

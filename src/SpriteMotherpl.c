@@ -40,6 +40,7 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
 extern struct MISSION get_to_the_mountain;
+extern struct MISSION find_antidote;
 extern UINT8 powder_cooldown;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
@@ -559,6 +560,7 @@ void UPDATE(){
                     case SpriteBigstone:
                     case SpriteBolt:
                     case SpriteBosscrab:
+                    case SpriteBossscorpion:
                         {
                             motherpl_blocked = 0u;
                             struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
@@ -579,25 +581,39 @@ void UPDATE(){
                             }
                         }
                     break;
+                    /*
                     case SpriteEnemythrowable:
                         {
-                            struct ThrowableData* throwable_data = (struct ThrowableData*) s_blocking->custom_data;
-                            if(throwable_data->type == WEB && motherpl_blocked == 0u 
-                                && motherpl_state != MOTHERPL_DASH){
-                                if(motherpl_blocked_cooldown == 0u){
-                                    if(throwable_data->type == T_DESTROYED){
-                                        s_blocking = implspr;
-                                        changeMotherplState(MOTHERPL_BLOCKED);
+                            struct ThrowableData* throwable_data = (struct ThrowableData*) implspr->custom_data;
+                            switch(throwable_data->type){
+                                case WEB:
+                                    if(motherpl_blocked == 0u && motherpl_state != MOTHERPL_DASH
+                                        && motherpl_blocked_cooldown == 0u){
+                                        if(throwable_data->type == T_DESTROYED){
+                                            s_blocking = implspr;
+                                            changeMotherplState(MOTHERPL_BLOCKED);
+                                        }
                                     }
-                                }
-                            }
-                            if(throwable_data->type == ACID || 
-                                throwable_data->type == PROJECTILE){
-                                motherpl_blocked = 0u;
-                                if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                                break;
+                                case ACID:
+                                    motherpl_blocked = 0u;
+                                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                                break;
+                                case PROJECTILE:
+                                    motherpl_blocked = 0u;
+                                    if(motherpl_hit != 1u){
+                                        if(motherpl_state == MOTHERPL_CRAWL || motherpl_state == MOTHERPL_DASH){
+                                            if(implspr->y >= THIS->y){//non collidere ma simulo schivata
+                                            }else{
+                                                motherpl_hit = 1;
+                                            }
+                                        }
+                                    }
+                                break;
                             }
                         }
                     break;
+                    */
                     case SpriteItemspawned:
                         {
                             if(motherpl_state != MOTHERPL_DASH){
@@ -646,6 +662,17 @@ void UPDATE(){
                         if(motherpl_state == MOTHERPL_DASH){
                             SpriteManagerAdd(SpritePuff, implspr->x, implspr->y);
                             SpriteManagerRemoveSprite(implspr);
+                        }
+                    break;
+                    case SpriteScorpiontail:
+                        {
+                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
+                        pickup(pickedup_data);
+                        play_music_reward();
+                        SpriteManagerRemoveSprite(implspr);
+                        find_antidote.phase = 2;
+                        find_antidote.current_step = 0;
+					    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                         }
                     break;
                 }            
@@ -877,6 +904,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 }
             break;
             case MOTHERPL_DEAD:
+                motherpl_hp = 0;
                 SetSpriteAnim(THIS, motherpl_anim_dead, 32u);
                 motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;                
             break;

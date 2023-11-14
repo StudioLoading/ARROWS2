@@ -144,6 +144,13 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,30);
                     UPDATE_HUD_TILE(uneq_x,2,31);
                 break;
+                case INVITEM_SCORPIONTAIL:
+                    UPDATE_HUD_TILE(uneq_x,1,36);
+                    UPDATE_HUD_TILE(uneq_x,2,37);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,38);
+                    UPDATE_HUD_TILE(uneq_x,2,39);
+                break;
                 case INVITEM_FLOWER:
                     UPDATE_HUD_TILE(uneq_x,1,6);
                     UPDATE_HUD_TILE(uneq_x,2,7);
@@ -157,6 +164,13 @@ void START(){
                     uneq_x += 1;
                     UPDATE_HUD_TILE(uneq_x,1,34);
                     UPDATE_HUD_TILE(uneq_x,2,35);
+                break;
+                case INVITEM_HERBS:
+                    UPDATE_HUD_TILE(uneq_x,1,40);
+                    UPDATE_HUD_TILE(uneq_x,2,41);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,42);
+                    UPDATE_HUD_TILE(uneq_x,2,43);
                 break;
             }
             uneq_x += 2;
@@ -426,6 +440,20 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(BOX_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(BOX_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(BOX_DETAIL4, ddinv5);
+            break;
+            case INVITEM_SCORPIONTAIL:
+                GetLocalizedINVLabel_EN(SCORPIONTAIL_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL4, ddinv5);
+            break;
+            case INVITEM_HERBS:
+                GetLocalizedINVLabel_EN(HERBS_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(HERBS_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(HERBS_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(HERBS_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(HERBS_DETAIL4, ddinv5);
             break;
         }
     }

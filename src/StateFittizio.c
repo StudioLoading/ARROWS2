@@ -135,7 +135,7 @@ void play_music_reward() BANKED{
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
     if((previous_state == new_state && next_map == current_map) 
         || previous_state == StateInventory || new_state == StateInventory
-        || current_state == StateSmith
+        || current_state == StateShop
         || current_state == StateHospital 
         || previous_state == StateDiary || current_state == StateDiary
         || previous_state == StateDialog || current_state == StateDialog
@@ -321,7 +321,7 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_SKY();
             set_sgb_palette_statusbar();
         break;
-        case StateSmith:
+        case StateShop:
             set_sgb_palette01_WOLF();
             set_sgb_palette_statusbar();
         break;
@@ -407,12 +407,18 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             switch(s_mother->type){
                 case SpriteMotherow:
                     if(new_state == StateOverworld){
-                        if(current_map == 2 && next_map == 1){
+                        if(current_map == 0 && next_map == 3){
+                            motherow_pos_x = (UINT16) 10u << 3;
+                            motherow_pos_y = (UINT16) 23u << 3;
+                        }else if(current_map == 2 && next_map == 1){
                             motherow_pos_x = (UINT16) 56u << 3;
                             motherow_pos_y = (UINT16) 42u << 3;
                         }else if(next_map == 2){
                             motherow_pos_x = (UINT16) 6u << 3;
                             motherow_pos_y = (UINT16) 3u << 3;
+                        }else if(current_map == 3 && next_map == 0){
+                            motherow_pos_x = (UINT16) 43u << 3;
+                            motherow_pos_y = (UINT16) 23u << 3;
                         }
                         if(previous_state == StateHood){
                             motherow_pos_x = (UINT16) 19u << 3;
@@ -466,6 +472,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherpl_pos_x = (UINT16) 6u << 3;
                             motherpl_pos_y = (UINT16) 10u << 3;        
                         break;
+                        case StateBossscorpion:
+                            motherpl_pos_x = (UINT16) 3u << 3;
+                            motherpl_pos_y = (UINT16) 12u << 3;        
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -473,7 +483,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             HIDE_WIN;
             SetWindowY(160);
         }else if(current_state == StateDialog){
-            if(new_state == StateBosscrab){
+            if(new_state == StateBosscrab || new_state == StateBossscorpion){
                 motherpl_pos_x = (UINT16)6u << 3;
                 motherpl_pos_y = (UINT16)10u << 3;
             }

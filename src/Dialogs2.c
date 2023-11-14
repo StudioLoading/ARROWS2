@@ -45,6 +45,7 @@ extern INT8 outwalker_info_given;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
+extern struct MISSION find_antidote;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
@@ -425,6 +426,170 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d15, EMPTY_STRING_21, 22);
 			memcpy(d16, "I'LL SEE YOU, AGAIN\0", 22);
 			memcpy(d17, EMPTY_STRING_21, 22);
+		break;
+		case HOSPITAL_HEAL_1:
+			*n_lines = 6u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "SCORPIONS ARE POISON\0", 22);
+			memcpy(d3, "ING EVERBODY HERE!  \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "WE ARE SORRY! WE CAN\0", 22);
+			memcpy(d6, "NOT FULLY HEAL YOU! \0", 22);
+		break;
+		case HOSPITAL_GET_ANTIDOTE:
+			*n_lines = 10u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, "YOU DEFEAT THE HORDE\0", 22);
+			memcpy(d2, "THANK YOU HEALER!   \0", 22);
+			memcpy(d3, "NOW WE NEED THE ANTI\0", 22);
+			memcpy(d4, "DOTE TO HEAL ALL THE\0", 22);
+			memcpy(d5, "POISONED HUMANS...  \0", 22);
+			memcpy(d6, "AND BEASTS. PROVIDE \0", 22);
+			memcpy(d7, "US THE BIGGEST QUAN \0", 22);
+			memcpy(d8, "TITY OF POISON YOU  \0", 22);
+			memcpy(d9, "CAN GET.            \0", 22);
+			find_antidote.mission_state = MISSION_STATE_STARTED;
+			find_antidote.current_step = 0;
+			find_antidote.phase = 1;
+		break;
+		case HOSPITAL_GO_FOR_HERBS:
+			*n_lines = 15u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "YOU DID IT! THIS IS \0", 22);
+			memcpy(d3, "THE FIRST INGREDIENT\0", 22);
+			memcpy(d4, "WE NEED TO PREPARE  \0", 22);
+			memcpy(d5, "THE ANTIDOTE. THE SE\0", 22);
+			memcpy(d6, "COND INGREDIENT ARE \0", 22);
+			memcpy(d7, "SOME HERBS. PLEASE  \0", 22);
+			memcpy(d8, "GO TALK TO JESSICA  \0", 22);
+			memcpy(d9, "THE OUTWALKER: SHE  \0", 22);
+			memcpy(d10, "KNOWS WHAT AND WHERE\0", 22);
+			memcpy(d11, "TO COLLECT THEM.    \0", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+			memcpy(d13, "BRING US THE HERBS  \0", 22);
+			memcpy(d14, "AND WE WILL HEAL    \0", 22);
+			memcpy(d15, "EVERYONE!           \0", 22);
+		break;
+		case HOSPITAL_ANTIDOTE_BUILT:
+			*n_lines = 11u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "YOU DID IT! NOW WE  \0", 22);
+			memcpy(d3, "CAN CREATE THE      \0", 22);
+			memcpy(d4, "ANTIDOTE! YOU SAVED \0", 22);
+			memcpy(d5, "US! OH, THE MOST OF \0", 22);
+			memcpy(d6, "US. I AM AFRAID     \0", 22);
+			memcpy(d7, "BLACKIE IS IN DANGER\0", 22);
+			memcpy(d8, "...                 \0", 22);
+			memcpy(d9, EMPTY_STRING_21, 22);
+			memcpy(d10, "SHE NEEDS YOU NOW, \0", 22);
+			memcpy(d11, "GO VISIT HER.      \0", 22);
+			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
+			find_antidote.phase = 3;
+		break;
+		case CARPENTER_DISABLED:
+			*n_lines = 7u;
+			memcpy(d0, "DESSA:              \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "  THERE'S NO ONE    \0", 22);
+			memcpy(d3, "IN HERE...          \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "I SHOULD FIRSTLY    \0", 22);
+			memcpy(d6, "CLEAR THE AREA OF   \0", 22);
+			memcpy(d7, "SCORPIONS.          \0", 22);
+		break;
+		case CARPENTER_CHECKING_NOWOODANDMETAL:
+			*n_lines = 9u;
+			memcpy(d0, "PETER:              \0", 22);
+			memcpy(d1, "HI THERE, CAN I HELP\0", 22);
+			memcpy(d2, "YOU? I CAN CRAFT PEA\0", 22);
+			memcpy(d3, "RCING ARROWS, BUT I ", 22);
+			memcpy(d4, "NEED 15 PEACES OF WO", 22);
+			memcpy(d5, "OD AND OF METAL.    ", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "PLEASE COME BACK WI ", 22);
+			memcpy(d8, "TH THOSE AND I CAN  ", 22);
+			memcpy(d9, "GIVE YOU 30 ARROWS! ", 22);
+		break;
+		case CARPENTER_GIVING_ARROWS:
+		case SMITH_GIVING_ARROWS:
+			*n_lines = 7u;
+			memcpy(d0, "PETER:              \0", 22);
+			memcpy(d1, "AAAAALRIIIGHT!      \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "*SHUFFF! SHUFFF!*   \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
+			memcpy(d7, "PEARCED FOR YOU!!   \0", 22);			
+		break;
+		case POLICE_0_GET_PASS:
+			*n_lines = 15u;
+			memcpy(d0, "GUARD:              \0", 22);
+			memcpy(d1, "SALUTE HEALER,      \0", 22);
+			memcpy(d2, "WE KNOW THAT TO THE \0", 22);
+			memcpy(d3, "WEST THERE'S A BUNCH\0", 22);
+			memcpy(d4, "OF PEOPLE LIVING BY \0", 22);
+			memcpy(d5, "THEIR OWN. WE WANT  \0", 22);
+			memcpy(d6, "TO KNOW WHO IS THEIR\0", 22);
+			memcpy(d7, "LEADER. BECAUSE THEY\0", 22);
+			memcpy(d8, "WON'T TELL US, TAKE \0", 22);
+			memcpy(d9, "THIS PASS. SHOW IT  \0", 22);
+			memcpy(d10, "AND THEY WILL LET  \0", 22);
+			memcpy(d11, "YOU IN.            \0", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+			memcpy(d13, "PLEASE COME BACK AS\0", 22);
+			memcpy(d14, "SOON AS YOU FIND   \0", 22);
+			memcpy(d15, "OUT. THANK YOU.    \0", 22);				
+			{
+				struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
+				pickup(&pass_data);
+				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
+				outwalker_chief.current_step = 1;
+				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			}
+		break;
+		case POLICE_0_STILL_NOT_FOUND:
+			*n_lines = 8u;
+			memcpy(d0, "GUARD:              \0", 22);
+			memcpy(d1, "SALUTE HEALER,      \0", 22);
+			memcpy(d2, "WE ARE STILL WAITING\0", 22);
+			memcpy(d3, "FOR YOU TO TELL US  \0", 22);
+			memcpy(d4, "WHO'S THE OUTWALKER \0", 22);
+			memcpy(d4, "CHIEF.              \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "PLEASE COME BACK AS\0", 22);
+			memcpy(d7, "SOON AS YOU FIND   \0", 22);
+			memcpy(d8, "OUT. THANK YOU.    \0", 22);
+		break;
+		case POLICE_0_WONT_TALK:
+			*n_lines = 8u;
+			memcpy(d0, "GUARD:              \0", 22);
+			memcpy(d1, "HOW DARE YOU NOT TO  \0", 22);
+			memcpy(d2, "TELL US THIS PRECIOUS\0", 22);
+			memcpy(d3, "INFORMATION!! THIS IS\0", 22);
+			memcpy(d4, "A BAD DECISION...    \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "...AND WILL HAVE     \0", 22);
+			memcpy(d7, "CONSEQUENCES!        \0", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+		break;
+		case POLICE_0_FIGHTING:
+			*n_lines = 5u;
+			memcpy(d0, "GUARD:              \0", 22);
+			memcpy(d1, "SCORPIONS ARE ALL   \0", 22);
+			memcpy(d2, "AROUND US!          \0", 22);
+			memcpy(d4, "A BAD DECISION...    \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+		break;
+		case POLICE_0_NOGUARDS:
+			*n_lines = 3u;
+			memcpy(d0, "DESSA:               \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "NO GUARDS HERE AT THE\0", 22);
+			memcpy(d3, "MOMENT...            \0", 22);
 		break;
     }
 }

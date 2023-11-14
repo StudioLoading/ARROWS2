@@ -95,7 +95,7 @@ void START() {
     switch(whostalking){
         case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
-        case SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
+        case SHOP_SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
         case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
         case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
             InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
@@ -107,7 +107,7 @@ void START() {
             InitScroll(BANK(dmaphood), &dmaphood, 0, 0);
         break;
         case POLICE_0_GET_PASS: case POLICE_0_STILL_NOT_FOUND:
-	    case POLICE_0_WONT_TALK:
+	    case POLICE_0_WONT_TALK: case POLICE_0_FIGHTING: case POLICE_0_NOGUARDS:
             InitScroll(BANK(dmappolice), &dmappolice, 0, 0);
         break;
         default:
@@ -115,7 +115,7 @@ void START() {
                 case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
                 case StateMine:InitScroll(BANK(dialogmapmine), &dialogmapmine, 0, 0);break; 
                 case StateCemetery:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
-                case StateSmith:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+                case StateShop:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
                 case StateBlackieroom:
                 case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
                 case StateOutwalkers:
@@ -219,7 +219,7 @@ void UPDATE() {
 }
 
 void show_next_character() BANKED{
-    unsigned char to_print[2] = " \0";
+    unsigned char to_print[2] = " ";
     switch(writing_line){
         case 1u:to_print[0] = d1[counter_char];break;
         case 2u:to_print[0] = d2[counter_char];break;

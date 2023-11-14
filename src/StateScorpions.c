@@ -34,6 +34,7 @@ extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
 extern UINT8 npc_spawned_zone;
 extern struct MISSION defeat_scorpions;
+extern struct MISSION find_antidote;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
@@ -116,4 +117,17 @@ void UPDATE(){
 
 void enemy_death() BANKED{
     defeat_scorpions.current_step = defeat_scorpions.current_step | scorpion_mission_goal;
+    if(defeat_scorpions.current_step == 0b11111111 && defeat_scorpions.phase == 0u){
+        defeat_scorpions.current_step = 0;
+        defeat_scorpions.phase = 1u;
+        SpriteManagerAdd(SpriteDiary, s_motherpl->x, s_motherpl->y - 24u);
+    }else if(defeat_scorpions.current_step == 0b00011111 && 
+        defeat_scorpions.phase == 1){
+        defeat_scorpions.phase = 2u;
+        defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
+        find_antidote.mission_state = MISSION_STATE_ENABLED;
+        find_antidote.phase = 0;
+        find_antidote.current_step = 0;
+        SpriteManagerAdd(SpriteDiary, (UINT16)s_motherpl->x, (UINT16)s_motherpl->y);
+    }
 }

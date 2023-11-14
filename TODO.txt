@@ -1,5 +1,20 @@
 POST DEMO:
-- hp=1 non ho cuori visibili diocane
+- c'è qualcosa che non va nella generazione dello scorpione madre
+	perché esco e rientro e si imputtana
+- l' animazione di attacco è strana, o ho sbagliato i frame, 
+	o c'è uno sprite di troppo
+- duplicazione di codice
+	si può pensare di centralizzare il danno su motherpl, facendo una funzione
+	dedicata che pigli madre e enemy. così entrambi la chiamano.
+- scorpione boss mi da la sua coda
+- aggiornamento Diario - phase 2 - portare la cosa all' ospedale
+- ospedale mi dirà di parlare con Jessica degli outwalker che mi dirà
+quali erbe servono per completare l' antidoto
+
+
+
+- il hood continua ad essere poco
+	popolato di nemici, e poi alla fine ne escon troppi
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
@@ -54,6 +69,8 @@ PIXELART:
 
 
 KNOWN ISSUES:
+- le frecce non normali scattano in alto di qualche pixel dopo aver colpito il 
+	enemy. non so proprio perché.
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
 
@@ -97,7 +114,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe idsteel.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe idtail.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

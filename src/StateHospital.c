@@ -24,6 +24,7 @@ extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
 extern unsigned char d0[];
 extern WHOSTALKING whostalking;
+extern struct MISSION find_antidote;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION enable_hospital;
 
@@ -75,18 +76,43 @@ void UPDATE() {
         n_lines = 0u;
 		switch(enable_hospital.mission_state){
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
-				if(defeat_scorpions.mission_state == MISSION_STATE_STARTED &&
-                    ((defeat_scorpions.current_step & 0b00001111) != 0b00001111)){
-                        if(motherpl_hp < 0){//morta
-                            motherpl_hp = 1;
-                            whostalking = HOSPITAL_HEAL_1;
-                        }else{
-                            whostalking = HOSPITAL_CURE_FULL;
+				if(defeat_scorpions.mission_state < MISSION_STATE_REWARDED){
+                    if(motherpl_hp < 1){motherpl_hp = 1;}
+                    whostalking = HOSPITAL_HEAL_1;
+                }else if(find_antidote.mission_state < MISSION_STATE_REWARDED){
+                    if(motherpl_hp <= 0){
+                        whostalking = HOSPITAL_HEAL_1;motherpl_hp = 2;return;
+                    }else if(motherpl_hp < 2){motherpl_hp = 2;}
+                    if(find_antidote.mission_state == MISSION_STATE_DISABLED){
+                        find_antidote.mission_state = MISSION_STATE_STARTED;
+               			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                    }else{
+                        switch(find_antidote.phase){
+                            case 0:
+                            case 1:
+                                whostalking = HOSPITAL_GET_ANTIDOTE;
+                            break;
+                            case 2:
+                                whostalking = HOSPITAL_GET_ANTIDOTE;
+                                if(get_quantity(INVITEM_SCORPIONTAIL) > 0){
+                                    change_quantity(INVITEM_SCORPIONTAIL, -1);
+                                    find_antidote.phase = 3;
+                                    whostalking = HOSPITAL_GO_FOR_HERBS;
+                                }
+                            break;
+                            case 3:
+                                whostalking = HOSPITAL_GO_FOR_HERBS;
+                                if(get_quantity(INVITEM_HERBS) == 3){
+                                    find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
+                                    whostalking = HOSPITAL_ANTIDOTE_BUILT;
+                                }//AND GO TALK TO BLACKIE
+                            break;
                         }
+                    }
                 }else{
-                    if(motherpl_hp < 0){//morta
+                    if(motherpl_hp <= 0){//morta
                         whostalking = HOSPITAL_CURE_FROM_DEATH;
-                    }if(motherpl_hp == 5){
+                    }else if(motherpl_hp == 5){
                         whostalking = HOSPITAL_FINE;
                     }else{//in cura
                         whostalking = HOSPITAL_CURE;

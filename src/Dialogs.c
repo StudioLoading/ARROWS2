@@ -39,8 +39,8 @@ unsigned char d21[22];
 unsigned char d22[22];
 unsigned char d23[22];
 WHOSTALKING whostalking = NOBODY;
-unsigned char EMPTY_STRING_21[22] = "                     \0";
-unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$\0";
+unsigned char EMPTY_STRING_21[22] = "                     ";
+unsigned char D0[22] = "$[$[$[$[$[$[$[$[$[$[$";
 UINT8 choice = 0u;
 UINT8 choice_left = 0u;
 UINT8 choice_right = 0u;
@@ -52,11 +52,14 @@ extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
+extern struct MISSION find_antidote;
 extern UINT16 spawn_child_cooldown;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
+extern struct EnemyData* scorpiohead_data;
 extern UINT8 horde_step;
+extern INT8 scorpio_hp;
 extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
@@ -131,6 +134,12 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "    OUTWALKER CAMP   \0", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_FISHERMAN:
+			memcpy(d3, EMPTY_STRING_21 , 22);
+			memcpy(d1, " THE FISHERMAN       \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 	}
@@ -248,7 +257,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "LET US PRAY...      \0", 22);
 		break;
-		case SMITH:
+		case SHOP_SMITH:
 			*n_lines = 11u;
 			memcpy(d0, "JOHN:               \0", 22);
 			memcpy(d1, "HI, I AM JOHN.      \0", 22);
@@ -498,17 +507,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "BLACKIE BROUGHT YOU \0", 22);
 			memcpy(d4, "HERE...             \0", 22);
 		break;
-		case HOSPITAL_HEAL_1:
-		case HOSPITAL_CURE_FULL:
-			*n_lines = 6u;
-			memcpy(d0, "DOCTOR:             \0", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "SCORPIONS ARE POISON\0", 22);
-			memcpy(d3, "ING EVERBODY HERE!  \0", 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "WE ARE SORRY!       \0", 22);
-			memcpy(d6, "WE CAN'T HEAL YOU!  \0", 22);
-		break;
 		case CRYING_MOTHER:
 			*n_lines = 13u;
 			memcpy(d0, "MARGARET:           \0", 22);
@@ -545,57 +543,6 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "IS SAFE HERE. I CAN \0", 22);
 			memcpy(d4, "NOW FIND MY WAY HOME\0", 22);
 		break;
-		case POLICE_0_GET_PASS:
-			*n_lines = 15u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "SALUTE HEALER,      \0", 22);
-			memcpy(d2, "WE KNOW THAT TO THE \0", 22);
-			memcpy(d3, "WEST THERE'S A BUNCH\0", 22);
-			memcpy(d4, "OF PEOPLE LIVING BY \0", 22);
-			memcpy(d5, "THEIR OWN. WE WANT  \0", 22);
-			memcpy(d6, "TO KNOW WHO IS THEIR\0", 22);
-			memcpy(d7, "LEADER. BECAUSE THEY\0", 22);
-			memcpy(d8, "WON'T TELL US, TAKE \0", 22);
-			memcpy(d9, "THIS PASS. SHOW IT  \0", 22);
-			memcpy(d10, "AND THEY WILL LET  \0", 22);
-			memcpy(d11, "YOU IN.            \0", 22);
-			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "PLEASE COME BACK AS\0", 22);
-			memcpy(d14, "SOON AS YOU FIND   \0", 22);
-			memcpy(d15, "OUT. THANK YOU.    \0", 22);				
-			{
-				struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
-				pickup(&pass_data);
-				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
-				outwalker_chief.current_step = 1;
-				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-			}
-		break;
-		case POLICE_0_STILL_NOT_FOUND:
-			*n_lines = 8u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "SALUTE HEALER,      \0", 22);
-			memcpy(d2, "WE ARE STILL WAITING\0", 22);
-			memcpy(d3, "FOR YOU TO TELL US  \0", 22);
-			memcpy(d4, "WHO'S THE OUTWALKER \0", 22);
-			memcpy(d4, "CHIEF.              \0", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "PLEASE COME BACK AS\0", 22);
-			memcpy(d7, "SOON AS YOU FIND   \0", 22);
-			memcpy(d8, "OUT. THANK YOU.    \0", 22);
-		break;
-		case POLICE_0_WONT_TALK:
-			*n_lines = 8u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "HOW DARE YOU NOT TO  \0", 22);
-			memcpy(d2, "TELL US THIS PRECIOUS\0", 22);
-			memcpy(d3, "INFORMATION!! THIS IS\0", 22);
-			memcpy(d4, "A BAD DECISION...    \0", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "...AND WILL HAVE     \0", 22);
-			memcpy(d7, "CONSEQUENCES!        \0", 22);
-			memcpy(d8, EMPTY_STRING_21, 22);
-		break;
 		default:
 			GetLocalizedDialog2_EN(n_lines);
 		break;
@@ -621,6 +568,12 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		break;
 		case INVITEM_GLASSES:
 			memcpy(log0, "      GLASSES!      ", 20);
+		break;
+		case INVITEM_SCORPIONTAIL:
+			memcpy(log0, "   SCORPION'S TAIL! ", 20);
+		break;
+		case INVITEM_HERBS:
+			memcpy(log0, " HERBS FOR ANTIDOTE ", 20);
 		break;
 		case INVITEM_HEART:
 		case INVITEM_HEARTS:
@@ -690,13 +643,29 @@ void GetLocalizedLog_EN() BANKED{
 		case StateBosscrab:
 			switch(crab_data->hp){
 				case 0:memcpy(log0, "CRAB: BEATED!       ", 20);break;
-				case 1:memcpy(log0, "CRAB: ( ) ) ) ) )   ", 20);break;
-				case 2:memcpy(log0, "CRAB: ( ( ) ) ) )   ", 20);break;
-				case 3:memcpy(log0, "CRAB: ( ( ( ) ) )   ", 20);break;
-				case 4:memcpy(log0, "CRAB: ( ( ( ( ) )   ", 20);break;
-				case 5:memcpy(log0, "CRAB: ( ( ( ( ( )   ", 20);break;
-				case 6:memcpy(log0, "CRAB: ( ( ( ( ( (   ", 20);break;
+				case 1:memcpy(log0, "CRAB  ( ) ) ) ) )   ", 20);break;
+				case 2:memcpy(log0, "CRAB  ( ( ) ) ) )   ", 20);break;
+				case 3:memcpy(log0, "CRAB  ( ( ( ) ) )   ", 20);break;
+				case 4:memcpy(log0, "CRAB  ( ( ( ( ) )   ", 20);break;
+				case 5:memcpy(log0, "CRAB  ( ( ( ( ( )   ", 20);break;
+				case 6:memcpy(log0, "CRAB  ( ( ( ( ( (   ", 20);break;
 			};
+		break;
+		case StateBossscorpion:
+			if(find_antidote.phase < 2){
+				if(scorpio_hp != scorpiohead_data->hp){
+					scorpio_hp = scorpiohead_data->hp;
+					switch(scorpio_hp){
+						case 0:memcpy(log0, "SCORPIO: BEATED!    ", 20);break;
+						case 1:memcpy(log0, "SCORPIO ( ) ) ) ) ) ", 20);break;
+						case 2:memcpy(log0, "SCORPIO ( ( ) ) ) ) ", 20);break;
+						case 3:memcpy(log0, "SCORPIO ( ( ( ) ) ) ", 20);break;
+						case 4:memcpy(log0, "SCORPIO ( ( ( ( ) ) ", 20);break;
+						case 5:memcpy(log0, "SCORPIO ( ( ( ( ( ) ", 20);break;
+						case 6:memcpy(log0, "SCORPIO ( ( ( ( ( ( ", 20);break;
+					};
+				}
+			}else{memcpy(log0, "SOUTH EAST CAVE     ", 20);}
 		break;
 		case StateExzoo:
 			memcpy(log0, "EXZOO VILLAGE       ", 20);
