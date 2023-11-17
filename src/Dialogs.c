@@ -54,7 +54,6 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
 extern UINT16 spawn_child_cooldown;
-extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
 extern struct EnemyData* scorpiohead_data;
@@ -572,7 +571,7 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		case INVITEM_SCORPIONTAIL:
 			memcpy(log0, "   SCORPION'S TAIL! ", 20);
 		break;
-		case INVITEM_HERBS:
+		case INVITEM_HERB:
 			memcpy(log0, " HERBS FOR ANTIDOTE ", 20);
 		break;
 		case INVITEM_HEART:

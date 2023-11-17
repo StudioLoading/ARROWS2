@@ -96,6 +96,7 @@ void refreshAnimation();
 void die();
 void spawnDust();
 void check_automatic_dialog_trigger(NPCNAME npcname) BANKED;
+void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void invselectitem(INT8 max_idx) BANKED;
@@ -561,25 +562,7 @@ void UPDATE(){
                     case SpriteBolt:
                     case SpriteBosscrab:
                     case SpriteBossscorpion:
-                        {
-                            motherpl_blocked = 0u;
-                            struct EnemyData* e_data = (struct EnemyData*) implspr->custom_data;
-                            if(e_data->hp > 0 && 
-                                (e_data->e_state == ENEMY_WAIT || 
-                                e_data->e_state == ENEMY_IDLE || 
-                                e_data->e_state == ENEMY_WALK || 
-                                e_data->e_state == ENEMY_ATTACK)){
-                                if(motherpl_state == MOTHERPL_DASH){
-                                    if(e_data->e_state == ENEMY_ATTACK){
-                                        motherpl_hit = 1u;
-                                    }else if(motherpl_coll_x == 0u){
-                                        motherpl_dash_cooldown++;
-                                    }
-                                }else if(motherpl_hit != 1u){
-                                    motherpl_hit = 1u;
-                                }
-                            }
-                        }
+                        motherpl_hitted(implspr);
                     break;
                     /*
                     case SpriteEnemythrowable:
@@ -707,6 +690,28 @@ void UPDATE(){
         }
     if(s_surf && surf_data->arrow_type == ARROW_DESTROYED && motherpl_surfing_goton == 0u){
         getOff();
+    }
+}
+
+void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag to 1
+    if(motherpl_hit == 1){return;}
+    motherpl_blocked = 0u;
+    struct EnemyData* e_data = (struct EnemyData*) s_enemy->custom_data;
+    if(e_data->hp > 0 && 
+        (e_data->e_state == ENEMY_WAIT || 
+        e_data->e_state == ENEMY_IDLE || 
+        e_data->e_state == ENEMY_WALK || 
+        e_data->e_state == ENEMY_ATTACK)){
+        if(motherpl_state == MOTHERPL_DASH){
+            if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteBosscrab
+                || s_enemy->type == SpriteBossscorpion || s_enemy->type == SpriteBossscorpionhead){
+                motherpl_hit = 1u;
+            }else if(motherpl_coll_x == 0u){
+                motherpl_dash_cooldown++;
+            }
+        }else if(motherpl_hit != 1u){
+            motherpl_hit = 1u;
+        }
     }
 }
 
@@ -889,10 +894,11 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp--;
                 if(THIS->mirror == NO_MIRROR){    
-                    SpriteManagerAdd(SpriteMotherplhit, THIS->x + 2, THIS->y + 4);
+                    SpriteManagerAdd(SpritePuff, THIS->x + 2, THIS->y + 4);
                     THIS->x-=6;
                 }else{
-                    SpriteManagerAdd(SpriteMotherplhit, THIS->x - 4, THIS->y + 4);
+                    Sprite* hit_puff = SpriteManagerAdd(SpritePuff, THIS->x - 4, THIS->y + 4);
+                    hit_puff->mirror = THIS->mirror;
                     THIS->x+=6;
                 }
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}

@@ -165,7 +165,7 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,34);
                     UPDATE_HUD_TILE(uneq_x,2,35);
                 break;
-                case INVITEM_HERBS:
+                case INVITEM_HERB:
                     UPDATE_HUD_TILE(uneq_x,1,40);
                     UPDATE_HUD_TILE(uneq_x,2,41);
                     uneq_x += 1;
@@ -448,7 +448,7 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(SCORPIONTAIL_DETAIL4, ddinv5);
             break;
-            case INVITEM_HERBS:
+            case INVITEM_HERB:
                 GetLocalizedINVLabel_EN(HERBS_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(HERBS_DETAIL1, ddinv2);
                 GetLocalizedINVLabel_EN(HERBS_DETAIL2, ddinv3);

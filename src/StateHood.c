@@ -188,15 +188,27 @@ void UPDATE(){
                     timeout_enemy--;
                     if(timeout_enemy == 200u){
                         enemy_wave--;
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 80u), (UINT16) 6u << 3);
+                        UINT16 e_x = s_motherpl->x + 80u;
+                        if(s_motherpl->mirror == V_MIRROR){
+                            e_x = s_motherpl->x - 80u;
+                        }
+                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
                     }
-                    if(timeout_enemy == 300u){
+                    if(timeout_enemy == 300u || timeout_enemy == 450u){
                         enemy_wave--;
-                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x + 32u), (UINT16) 7u << 3);
+                        UINT16 e_x = s_motherpl->x + 32u;
+                        if(s_motherpl->mirror == V_MIRROR){
+                            e_x = s_motherpl->x - 32u;
+                        }
+                        SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
                     }
                     if(timeout_enemy == 400u){
                         enemy_wave--;
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x + 100u), (UINT16) 6u << 3);
+                        UINT16 e_x = s_motherpl->x + 100u;
+                        if(s_motherpl->mirror == V_MIRROR){
+                            e_x = s_motherpl->x - 100u;
+                        }
+                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
                         timeout_enemy = 500;
                     }
                 }

@@ -36,6 +36,7 @@ extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
 extern UINT8 npc_spawned_zone;
 extern struct MISSION get_to_the_mountain;
+extern struct MISSION find_antidote;
 
 const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
 const UINT8 coll_surface_bandits[] = {105u, 106u, 0};
@@ -95,7 +96,11 @@ void UPDATE(){
             (UINT16)20u << 3) ){
             if(npc_spawned_zone != 1u){
                 spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
-                spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
+                if(find_antidote.phase == 3){
+                    spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, JESSICA_PLANTS, OUTWALKER_JESSICA);
+                }else{
+                    spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
+                }
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3) && s_motherpl->x > ((UINT16)40u << 3)){

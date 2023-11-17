@@ -11,14 +11,13 @@
 
 const UINT8 a_scorpiohead_click[] = {4, 0,0,0,1};
 const UINT8 a_scorpiohead_idle[] = {1, 0};
-const UINT8 a_scorpiohead_hit[] = {2, 0,1};
+const UINT8 a_scorpiohead_hit[] = {2, 0,4};
 const UINT8 a_scorpiohead_walk[] = {4, 0,0,0,1};
 const UINT8 a_scorpiohead_attack[] = {7, 2,3,2,3,2,3,2};
 
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
 extern Sprite* scorpio_body;
-extern UINT8 motherpl_hit;
 extern UINT8 walk_timeout;
 extern struct EnemyData* scorpiobody_data;
 struct EnemyData* scorpiohead_data = 0;

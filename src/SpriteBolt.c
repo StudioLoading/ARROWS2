@@ -7,10 +7,11 @@
 #include "custom_datas.h"
 
 
-extern UINT8 motherpl_hit;
 extern MOTHERPL_STATE motherpl_state;
 
 const UINT8 a_bolt[] = {2, 0, 1}; //The first number indicates the number of frames
+
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START() {
     THIS->lim_x = 255;
@@ -33,8 +34,8 @@ void UPDATE() {
             if(CheckCollision(THIS, bolt_s_spr)) {
                 switch(bolt_s_spr->type){
                     case SpriteMotherpl:
-                        if(motherpl_state != MOTHERPL_HIT && motherpl_hit == 0){
-                            motherpl_hit = 1;
+                        if(motherpl_state != MOTHERPL_HIT){
+                            motherpl_hitted(THIS);
                             SpriteManagerRemoveSprite(THIS);
                         }
                     break;

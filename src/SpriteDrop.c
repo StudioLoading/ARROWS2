@@ -29,8 +29,10 @@ void UPDATE(){
                 case SpriteMotherpl:
                 case SpriteArrow:
                 case SpriteWolf:
+                case SpriteBossscorpion:
+                case SpriteBossscorpionhead:
                     if(CheckCollision(THIS, spr)) {
-                        SetSpriteAnim(THIS, drop1_animdrop, 8u);
+                        SetSpriteAnim(THIS, drop1_animdrop, 6u);
                         if(THIS->anim_frame > 3){
                             SpriteManagerRemoveSprite(THIS);
                         }

@@ -136,7 +136,7 @@ void UPDATE(){
                             case ARROW_PERF:
                                 {
                                 INT8 y_delta = THIS->y - iarrspr->y;
-                                if(y_delta < -1 || y_delta > 5){
+                                if(y_delta < -2 || y_delta > 5){
                                     return;
                                 }
                                 struct EnemyData* e_scorpion = (struct EnemyData*) iarrspr->custom_data;

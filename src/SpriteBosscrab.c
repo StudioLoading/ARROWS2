@@ -20,7 +20,6 @@ const UINT8 a_crab_walk[] = {3, 7,8,6};
 
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
-extern UINT8 motherpl_hit;
 
 UINT8 walk_timeout = 0u;
 struct EnemyData* crab_data = 0;
@@ -32,6 +31,8 @@ void crab_behave() BANKED;
 void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
 void crab_turn() BANKED;
 void crab_update_wait() BANKED;
+
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START(){
     THIS->lim_x = 255u;
@@ -75,10 +76,9 @@ void UPDATE(){
             if(CheckCollision(THIS, icrabspr)) {
                 switch(icrabspr->type){
                     case SpriteMotherpl:
-                        if((crab_data->e_state == ENEMY_WALK || 
-                        crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0)
-                        && motherpl_hit == 0){
-                            motherpl_hit = 1;
+                        if(crab_data->e_state == ENEMY_WALK || 
+                        crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0){
+                            motherpl_hitted(THIS);
                         }
                     break;
                 }

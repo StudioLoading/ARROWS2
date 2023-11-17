@@ -112,6 +112,7 @@ _SPRITE_DMG(SpriteOwbridgebroken, owbridgebroken)\
 _SPRITE_DMG(SpriteBossscorpion, bossscorpion)\
 _SPRITE_DMG(SpriteBossscorpionhead, bossscorpionhead)\
 _SPRITE_DMG(SpriteScorpiontail, scorpiontail)\
+_SPRITE_DMG(SpriteHerb, owherb)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

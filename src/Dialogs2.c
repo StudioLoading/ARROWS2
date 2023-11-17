@@ -183,6 +183,27 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, "RULE THEM!         \0", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
 		break;
+		case JESSICA_PLANTS:
+			*n_lines = 5u;
+			memcpy(d0, "JESSICA:            ", 22);
+			memcpy(d1, "TO COMPLETE THE ANTI", 22);
+			memcpy(d2, "DOTE YOU NEED TO    ", 22);
+			memcpy(d3, "FIND FEW MORE HERBS ", 22);
+			memcpy(d4, "LIKE THIS ONE. IT   ", 22);
+			memcpy(d5, "GROWS SOUTH.        ", 22);
+			if(find_antidote.current_step == 0){
+				memcpy(d6, "HERE, I FOUND ONE OF", 22);
+				memcpy(d7, "THEM, I THINK IT CAN", 22);
+				memcpy(d8, "BE HELPFUL!         ", 22);
+				*n_lines = 8u;				
+				struct ItemSpawned pass_data={.itemtype = INVITEM_HERB, .quantity = 1, .equippable = 0u};
+				pickup(&pass_data);
+				find_antidote.phase = 4;
+				find_antidote.current_step = 1;
+				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			
+			}
+		break;
 		case OUTWALKER_WOMAN2:
 			*n_lines = 8u;
 			memcpy(d0, "JESSICA:            \0", 22);
@@ -407,25 +428,22 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, EMPTY_STRING_21, 22);
 		break;
 		case IBEX_GIVE_HERBS:
-			*n_lines = 17u;
+			*n_lines = 14u;
 			memcpy(d0, "LORD OF THUNDER:    \0", 22);
 			memcpy(d1, "*COUGH!* *COUGH!*   \0", 22);
-			memcpy(d2, "TAKE THESE HERBS.   \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "I ALREADY ATE A     \0", 22);
-			memcpy(d4, "BUNCH. I AM SLOWLY  \0", 22);
-			memcpy(d5, "REVOVERING.         \0", 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, "TAKE THESE TO THE   \0", 22);
-			memcpy(d8, "HUMANS, YOU KNOW    \0", 22);
-			memcpy(d9, "IT CAN HEAL THEM.   \0", 22);
-			memcpy(d10, EMPTY_STRING_21, 22);
-			memcpy(d11, "NOW LEAVE! THROUGH \0", 22);
-			memcpy(d12, "THAT CAVE YOU'LL   \0", 22);
-			memcpy(d13, "GET DOWN THE MOUNTA\0", 22);
-			memcpy(d14, "IN FASTER!         \0", 22);
-			memcpy(d15, EMPTY_STRING_21, 22);
-			memcpy(d16, "I'LL SEE YOU, AGAIN\0", 22);
-			memcpy(d17, EMPTY_STRING_21, 22);
+			memcpy(d4, "BUNCH OF HERBS. I AM\0", 22);
+			memcpy(d5, "SLOWLY REVOVERING   \0", 22);
+			memcpy(d6, "ALREADY...          ", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "NOW LEAVE! THROUGH \0", 22);
+			memcpy(d9, "THAT CAVE YOU'LL   \0", 22);
+			memcpy(d10, "GET DOWN THE MOUNTA\0", 22);
+			memcpy(d11, "IN FASTER!         \0", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+			memcpy(d13, "I'LL SEE YOU, AGAIN\0", 22);
+			memcpy(d14, EMPTY_STRING_21, 22);
 		break;
 		case HOSPITAL_HEAL_1:
 			*n_lines = 6u;
@@ -487,7 +505,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, "SHE NEEDS YOU NOW, \0", 22);
 			memcpy(d11, "GO VISIT HER.      \0", 22);
 			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
-			find_antidote.phase = 3;
+			find_antidote.phase = 4;
 		break;
 		case CARPENTER_DISABLED:
 			*n_lines = 7u;

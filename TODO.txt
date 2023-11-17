@@ -1,20 +1,12 @@
 POST DEMO:
-- c'è qualcosa che non va nella generazione dello scorpione madre
-	perché esco e rientro e si imputtana
-- l' animazione di attacco è strana, o ho sbagliato i frame, 
-	o c'è uno sprite di troppo
-- duplicazione di codice
-	si può pensare di centralizzare il danno su motherpl, facendo una funzione
-	dedicata che pigli madre e enemy. così entrambi la chiamano.
-- scorpione boss mi da la sua coda
-- aggiornamento Diario - phase 2 - portare la cosa all' ospedale
-- ospedale mi dirà di parlare con Jessica degli outwalker che mi dirà
-quali erbe servono per completare l' antidoto
-
-
-
-- il hood continua ad essere poco
-	popolato di nemici, e poi alla fine ne escon troppi
+- posizionare altre 3 erbe, devo inventarmi dove metterle sull' ow
+- vado all' ospedale con poche erbe
+	dialogo di "hai poche erbe ma grazie"
+- vado all' ospedale con tutte le erbe
+	missione rewarded, vai da blackie
+- blackiecave entro coi lupi, collido con loro
+	e parte dialogo di morte del figlio e 
+	via al prossimo capitolo!
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
@@ -75,6 +67,7 @@ KNOWN ISSUES:
 
 
 PRODUCTION:
+- la vita dei boss che per test li mettevo a 1
 - just_started = 1 <<<<< cercarlo e rimetterlo
 - spawn_hidden_item da segnare sulla mappa del manuale
 - i crediti dedicati a me, BN, sloopygood, comuneko, tetra

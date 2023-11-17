@@ -307,7 +307,7 @@ void show_detail(){
                         if(find_antidote.phase >= 3){
                             GetLocalizedDDLabel_EN(ANTIDOTE_D6, dd8);
                         }
-                        if(find_antidote.phase >= 4){
+                        if(find_antidote.phase >= 5){
                             GetLocalizedDDLabel_EN(ANTIDOTE_D7, dd9);
                         }
                     }

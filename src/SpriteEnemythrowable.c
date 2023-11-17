@@ -24,8 +24,10 @@ const UINT8 throw_projectile[] = {1, 8};
 extern Sprite* s_motherpl;
 extern Sprite* s_blocking;
 extern UINT8 motherpl_blocked;
-extern UINT8 motherpl_hit;
 extern MOTHERPL_STATE motherpl_state;
+extern UINT8 motherpl_hit;
+
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START(){
     THIS->lim_x = 64u;
@@ -140,22 +142,20 @@ void UPDATE(){
                             switch(throwable_data->type){
                                 case PROJECTILE:
                                     motherpl_blocked = 0u;
-                                    if(motherpl_hit != 1u){
-                                        if(motherpl_state == MOTHERPL_CRAWL || motherpl_state == MOTHERPL_DASH){
-                                            if(THIS->y >= (s_motherpl->y + 4)){
-                                                //cioè se mi prenderebbe, ma 
-                                                //sono in ginocchio o dasho
-                                                //non collidere ma simulo schivata
-                                                motherpl_hit = 1;
-                                            }
-                                        }else{
-                                            motherpl_hit = 1;
+                                    if(motherpl_state == MOTHERPL_CRAWL || motherpl_state == MOTHERPL_DASH){
+                                        if(THIS->y >= (s_motherpl->y + 4)){
+                                            //cioè se mi prenderebbe, ma 
+                                            //sono in ginocchio o dasho
+                                            //non collidere ma simulo schivata
+                                            motherpl_hitted(THIS);
                                         }
+                                    }else{
+                                        motherpl_hitted(THIS);
                                     }
                                 break;
                                 case ACID:
                                     motherpl_blocked = 0u;
-                                    if(motherpl_hit != 1u){motherpl_hit = 1u;}
+                                    motherpl_hitted(THIS);
                                 break;
                                 case WEB:
                                     if(motherpl_state != MOTHERPL_BLOCKED){

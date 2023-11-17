@@ -80,9 +80,6 @@ void UPDATE() {
                     if(motherpl_hp < 1){motherpl_hp = 1;}
                     whostalking = HOSPITAL_HEAL_1;
                 }else if(find_antidote.mission_state < MISSION_STATE_REWARDED){
-                    if(motherpl_hp <= 0){
-                        whostalking = HOSPITAL_HEAL_1;motherpl_hp = 2;return;
-                    }else if(motherpl_hp < 2){motherpl_hp = 2;}
                     if(find_antidote.mission_state == MISSION_STATE_DISABLED){
                         find_antidote.mission_state = MISSION_STATE_STARTED;
                			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
@@ -102,12 +99,15 @@ void UPDATE() {
                             break;
                             case 3:
                                 whostalking = HOSPITAL_GO_FOR_HERBS;
-                                if(get_quantity(INVITEM_HERBS) == 3){
+                                if(get_quantity(INVITEM_HERB) == 3){
                                     find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
                                     whostalking = HOSPITAL_ANTIDOTE_BUILT;
                                 }//AND GO TALK TO BLACKIE
                             break;
                         }
+                        if(motherpl_hp <= 0){
+                            whostalking = HOSPITAL_HEAL_1;motherpl_hp = 2;
+                        }else if(motherpl_hp < 2){motherpl_hp = 2;}
                     }
                 }else{
                     if(motherpl_hp <= 0){//morta

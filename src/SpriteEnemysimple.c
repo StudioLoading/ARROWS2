@@ -28,7 +28,6 @@ UINT8 enemy_random_30_100 = 30u;
 extern UINT8 enemy_counter;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
-extern UINT8 motherpl_hit;
 extern MOTHERPL_STATE motherpl_state;
 extern struct EtoReload e_to_reload[3];
 extern UINT8 mapwidth;
@@ -55,6 +54,7 @@ extern void EthrowWeb(ENEMY_STATE estate) BANKED;
 extern void EthrowAcid(ENEMY_STATE estate) BANKED;
 extern void EthrowProjectile(ENEMY_STATE estate) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START(){
     Estart();
@@ -150,9 +150,8 @@ void Emanagement() BANKED{
                         } else if(eu_info->hp > 0 && eu_info->e_state != ENEMY_UPSIDEDOWN 
                             && eu_info->e_state != ENEMY_HIT_1 
                             && eu_info->e_state != ENEMY_HIT_2
-                            && eu_info->e_state != ENEMY_DEAD
-                            && motherpl_hit != 1u){
-                            motherpl_hit = 1u;
+                            && eu_info->e_state != ENEMY_DEAD){
+                            motherpl_hitted(THIS);
                             changeEstate(THIS, ENEMY_WAIT);
                         }
                     break;

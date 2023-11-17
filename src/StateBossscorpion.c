@@ -86,7 +86,7 @@ void START(){
             scorpio_head = SpriteManagerAdd(SpriteBossscorpionhead, scorpio_body->x-24u, scorpio_body->y);
             scorpiohead_data = (struct EnemyData*) scorpio_head->custom_data;
             scorpiohead_data->type = SCORPIO_HEAD;
-            scorpiohead_data->hp = 6;//6
+            scorpiohead_data->hp = 1;//6
             scorpiobody_data->hp = scorpiohead_data->hp;
             scorpiohead_data->configured = 1;
         }
@@ -133,6 +133,7 @@ void UPDATE(){
             s_motherpl->x = ((UINT16)19u << 3);
         }
     //DROPS
+        /*
         if(s_motherpl->x<((UINT16)50u)<<3){
             timeout_drop--;
             if(timeout_drop == 80u){
@@ -146,6 +147,7 @@ void UPDATE(){
                 timeout_drop = 240u;
             }
         }
+        */
     
     Log(NONAME);
 }

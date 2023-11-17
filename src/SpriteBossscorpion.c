@@ -15,16 +15,14 @@
 
 
 const UINT8 a_scorpiobody_click[] = {1, 4};
-const UINT8 a_scorpiobody_idle[] = {4, 4,4,4,7};
-const UINT8 a_scorpiobody_hit[] = {2, 9,4};
-const UINT8 a_scorpiobody_dead[] = {2, 9,8};
+const UINT8 a_scorpiobody_idle[] = {4, 4,7,4,7};
+const UINT8 a_scorpiobody_hit[] = {2, 0,4};
+const UINT8 a_scorpiobody_dead[] = {1, 0};
 const UINT8 a_scorpiobody_walk[] = {5, 7,3,2,1,4};
 const UINT8 a_scorpiobody_attack[] = {7, 5,6,5,6,5,6,5};
 
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
-extern UINT8 motherpl_hit;
-
 extern UINT8 walk_timeout;
 Sprite* scorpio_head = 0;
 Sprite* scorpio_body = 0;
@@ -39,6 +37,9 @@ void scorpio_behave() BANKED;
 void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED;
 void scorpio_turn() BANKED;
 void scorpio_update_wait() BANKED;
+
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+
 
 void START(){
     THIS->lim_x = 25u;
@@ -82,10 +83,7 @@ void UPDATE(){
             if(CheckCollision(THIS, iscorpiospr)) {
                 switch(iscorpiospr->type){
                     case SpriteMotherpl:
-                        if(scorpiobody_data->e_state == ENEMY_WALK
-                        && motherpl_hit == 0){
-                            motherpl_hit = 1;
-                        }
+                        motherpl_hitted(THIS);
                     break;
                 }
             }

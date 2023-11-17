@@ -226,6 +226,14 @@ void UPDATE(){
                             ChangeState(StateScorpions, THIS, -1);
                         }
                     break;
+                    case SpriteHerb:
+                        {
+                            struct ItemSpawned* herb_data = (struct ItemSpawned*) imowspr->custom_data;
+                            find_antidote.current_step = find_antidote.current_step | herb_data->hp;
+                            pickup(herb_data);
+                            SpriteManagerRemoveSprite(imowspr);
+                        }
+                    break;
                 }
             }
         };

@@ -10,11 +10,12 @@
 #include "custom_datas.h"
 
 extern UINT8 enemy_counter;
-extern UINT8 motherpl_hit;
 extern MOTHERPL_STATE motherpl_state;
 
 //const UINT8 a_bigstone[] = {4 ,0,1,2,3};
 const UINT8 a_bigstone[] = {1 ,0};
+
+extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START(){
     THIS->lim_x = 60;
@@ -58,10 +59,7 @@ void UPDATE(){
             if(CheckCollision(THIS, bigs_spr)) {
                 switch(bigs_spr->type){
                     case SpriteMotherpl:
-                        if(motherpl_state != MOTHERPL_DASH && motherpl_state != MOTHERPL_HIT
-                            && motherpl_hit == 0){
-                            motherpl_hit = 1;
-                        }
+                        motherpl_hitted(THIS);
                     case SpriteArrow:
                         SpriteManagerRemoveSprite(THIS);
                     break;

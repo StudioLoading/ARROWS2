@@ -111,7 +111,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			case INVITEM_SCORPIONTAIL:
 				set_inv_bkg_data(49u, 25, BANK(idscorpiontailtiles), isEmpty, &idscorpiontailtiles);
 			break;
-			case INVITEM_HERBS:
+			case INVITEM_HERB:
 				set_inv_bkg_data(49u, 25, BANK(idherbstiles), isEmpty, &idherbstiles);
 			break;
 		}

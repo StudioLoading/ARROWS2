@@ -67,6 +67,7 @@ extern struct MISSION help_cemetery_woman;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
+extern struct MISSION find_antidote;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -426,6 +427,36 @@ void initial_sprite_spawning() BANKED{
 						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
 						s_scor0_data->hp = 1;
 						s_scor0_data->configured = 0b00010000;
+					}
+				}
+				if(find_antidote.phase == 4){					
+					UINT8 spawn_herb = find_antidote.current_step & 0b00000010;
+					if(spawn_herb == 0){
+						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)15u << 3, (UINT16)44u << 3);
+						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+						herb1_data->itemtype = INVITEM_HERB;
+						herb1_data->hp = 0b00000010;
+					}
+					spawn_herb = find_antidote.current_step & 0b00000100;
+					if(spawn_herb == 0){
+						Sprite* s_herb2 = SpriteManagerAdd(SpriteHerb, (UINT16)16u << 3, (UINT16)45u << 3);
+						struct ItemSpawned* herb2_data = (struct ItemSpawned*) s_herb2->custom_data;
+						herb2_data->itemtype = INVITEM_HERB;
+						herb2_data->hp = 0b00000100;
+					}
+					spawn_herb = find_antidote.current_step & 0b00001000;
+					if(spawn_herb == 0){
+						Sprite* s_herb3 = SpriteManagerAdd(SpriteHerb, (UINT16)28u << 3, (UINT16)44u << 3);
+						struct ItemSpawned* herb3_data = (struct ItemSpawned*) s_herb3->custom_data;
+						herb3_data->itemtype = INVITEM_HERB;
+						herb3_data->hp = 0b00001000;
+					}
+					spawn_herb = find_antidote.current_step & 0b00010000;
+					if(spawn_herb == 0){
+						Sprite* s_herb4 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)45u << 3);
+						struct ItemSpawned* herb4_data = (struct ItemSpawned*) s_herb4->custom_data;
+						herb4_data->itemtype = INVITEM_HERB;
+						herb4_data->hp = 0b00010000;
 					}
 				}
 				//if mission "fix bridge" is not accomplished
