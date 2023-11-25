@@ -471,8 +471,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			find_antidote.current_step = 0;
 			find_antidote.phase = 1;
 		break;
-		case HOSPITAL_GO_FOR_HERBS:
-			*n_lines = 15u;
+		case HOSPITAL_THANKS_FOR_TAIL:
+			*n_lines = 11u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "YOU DID IT! THIS IS \0", 22);
@@ -485,10 +485,17 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "THE OUTWALKER: SHE  \0", 22);
 			memcpy(d10, "KNOWS WHAT AND WHERE\0", 22);
 			memcpy(d11, "TO COLLECT THEM.    \0", 22);
-			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "BRING US THE HERBS  \0", 22);
-			memcpy(d14, "AND WE WILL HEAL    \0", 22);
-			memcpy(d15, "EVERYONE!           \0", 22);
+		break;
+		case HOSPITAL_GO_FOR_HERBS:
+			*n_lines = 7u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "BRING US THE HERBS  \0", 22);
+			memcpy(d3, "AND WE WILL HEAL    \0", 22);
+			memcpy(d4, "EVERYONE! EIGHT     \0", 22);
+			memcpy(d5, "ROOTS SHOULD BE     \0", 22);
+			memcpy(d6, "ENOUGH TO COVER ALL \0", 22);
+			memcpy(d7, "OF US.              \0", 22);
 		break;
 		case HOSPITAL_ANTIDOTE_BUILT:
 			*n_lines = 11u;
@@ -502,10 +509,10 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "BLACKIE IS IN DANGER\0", 22);
 			memcpy(d8, "...                 \0", 22);
 			memcpy(d9, EMPTY_STRING_21, 22);
-			memcpy(d10, "SHE NEEDS YOU NOW, \0", 22);
+			memcpy(d10, "SHE NEEDS YOU NOW  \0", 22);
 			memcpy(d11, "GO VISIT HER.      \0", 22);
 			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
-			find_antidote.phase = 4;
+			find_antidote.phase = 5;
 		break;
 		case CARPENTER_DISABLED:
 			*n_lines = 7u;
@@ -608,6 +615,25 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "NO GUARDS HERE AT THE\0", 22);
 			memcpy(d3, "MOMENT...            \0", 22);
+		break;
+		case BLACKIE_DEAD_CHILD:
+			*n_lines = 15u;
+			memcpy(d0, "BLACKIE:               \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "OH... MY CHILD! HE'S BE\0", 22);
+			memcpy(d3, "EN ONE OF THE FIRST POI\0", 22);
+			memcpy(d4, "SONED...               \0", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "               ...SIGH!\0", 22);
+			memcpy(d7, "AND IT... IT KILLED HIM\0", 22);
+			memcpy(d8, "... YOU SEE DESSA! I   \0", 22);
+			memcpy(d9, "BET THEY CAME TO KILL  \0", 22);
+			memcpy(d10, "US! AND WE MUST FIGHT \0", 22);
+			memcpy(d11, "BACK SO NO MORE CHILD \0", 22);
+			memcpy(d12, "HAVE TO DIE!          \0", 22);
+			memcpy(d13, "DESSA:                \0", 22);
+			memcpy(d14, "I SWEAR I'LL DEFEAT   \0", 22);
+			memcpy(d15, "WHO CAUSED THIS!      \0", 22);
 		break;
     }
 }

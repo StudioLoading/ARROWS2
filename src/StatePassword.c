@@ -190,6 +190,10 @@ void load_chapter() BANKED{
             just_started = 0;
             ChangeStateThroughBetween(StateOverworld);//ChangeStateThroughBetween(StateCart);
         break;
+        case 3:
+            just_started = 0;
+            ChangeStateThroughBetween(StateOverworld);//ChangeStateThroughBetween(StateCart);
+        break;
     }
 }
 
@@ -287,6 +291,13 @@ INT8 check_password() BANKED{
                 pcode1_info->tetradado_faccia == FACCIA_2 &&
                 pcode2_info->tetradado_faccia == FACCIA_4 &&
                 pcode3_info->tetradado_faccia == FACCIA_3){
+                    result = 2;
+                }
+            //cpt4
+                if(pcode0_info->tetradado_faccia == FACCIA_1 &&
+                pcode1_info->tetradado_faccia == FACCIA_2 &&
+                pcode2_info->tetradado_faccia == FACCIA_4 &&
+                pcode3_info->tetradado_faccia == FACCIA_1){
                     result = 2;
                 }
         }

@@ -101,6 +101,7 @@ void START() {
             InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
         break;
         case BLACKIE:
+        case BLACKIE_DEAD_CHILD:
             InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
         break;
         case CHILD: case CHILDS_SAVED:
@@ -461,7 +462,9 @@ void move_on() BANKED{
             case IBEX_GIVE_HERBS:
                 give_new_password = 1;
             break;
-
+            case BLACKIE_DEAD_CHILD:
+                give_new_password = 1;
+            break;
         }
         if(give_new_password == 1){
             SetState(StatePassword);

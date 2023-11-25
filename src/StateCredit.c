@@ -74,6 +74,8 @@ struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equi
 struct InvItem inventory[12];
 struct InvItem itemEquipped = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 
+UINT8 hidden_items_flags = 0;
+
 void missions_init() BANKED;
 void inventory_init() BANKED;
 void position_init() BANKED;
@@ -126,7 +128,11 @@ void missions_init() BANKED{
 			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 			get_to_the_mountain.current_step = 0u;
 			defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
+			defeat_scorpions.phase = 0;
 			defeat_scorpions.current_step = 0u;
+			find_antidote.mission_state = MISSION_STATE_DISABLED;
+			find_antidote.phase = 0;
+			find_antidote.current_step = 0;
 		break;
 		case 2u:
 			current_map = 1;
@@ -146,12 +152,37 @@ void missions_init() BANKED{
 			outwalker_smith.current_step = 0b00001111;
 			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
 			get_to_the_mountain.current_step = 0u;
-			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;//STARTED
-			defeat_scorpions.current_step = 0b00111111;//0
-			defeat_scorpions.phase = 2u;//0u
-			find_antidote.mission_state = MISSION_STATE_STARTED;
+			defeat_scorpions.mission_state = MISSION_STATE_STARTED;
+			defeat_scorpions.current_step = 0;
+			defeat_scorpions.phase = 0;
+			find_antidote.mission_state = MISSION_STATE_DISABLED;
 			find_antidote.phase = 0;
-			find_antidote.current_step = 0u;
+			find_antidote.current_step = 0;
+		break;
+		case 3u:
+			current_map = 0;
+			engage_smith.mission_state = MISSION_STATE_REWARDED;
+			engage_smith.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
+			help_cemetery_woman.current_step = 4u;//0u
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
+			outwalker_chief.current_step = 5u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
+			outwalker_glass.current_step = 4u;//0u
+			outwalker_smith.mission_state = MISSION_STATE_REWARDED;
+			outwalker_smith.current_step = 0b00001111;
+			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
+			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
+			defeat_scorpions.current_step = 0b11111111;
+			defeat_scorpions.phase = 5;
+			find_antidote.mission_state = MISSION_STATE_REWARDED;
+			find_antidote.phase = 4;//0
+			find_antidote.current_step = 1u;//0
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -210,7 +241,22 @@ void inventory_init() BANKED{
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;//2
 			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;//3
 			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
-			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;//UNASSIGNED
+			unequip03.itemtype = INVITEM_HERB; unequip03.quantity = 1; unequip03.equippable = 0u;//UNASSIGNED
+			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
+			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
+		break;
+		case 3:
+			itemMoney.itemtype = INVITEM_MONEY;
+			itemMoney.quantity = 20;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
+			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
+			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;
+			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
@@ -228,6 +274,7 @@ void inventory_init() BANKED{
 	inventory[10] = unequip04;
 	inventory[11] = unequip05;
 	itemEquipped = inventory[0];
+	hidden_items_flags = 0;
 }
 
 void position_init() BANKED{
@@ -252,9 +299,16 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 2u << 3;*/
 		break;
 		case 2u:
-			current_map = 3;//1;
-			motherow_pos_x = (UINT16) 22u << 3;//22 MAP0  6 MAP1 
-			motherow_pos_y = (UINT16) 21u << 3;//21 MAP0 28 MAP1
+			current_map = 1;
+			motherow_pos_x = (UINT16) 6u << 3;//22 MAP0  6 MAP1 
+			motherow_pos_y = (UINT16) 28u << 3;//21 MAP0 28 MAP1
+			motherpl_pos_x = (UINT16) 8u << 3;
+			motherpl_pos_y = (UINT16) 8u << 3;
+		break;
+		case 3u:
+			current_map = 0;
+			motherow_pos_x = (UINT16) 38u << 3; 
+			motherow_pos_y = (UINT16) 33u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;

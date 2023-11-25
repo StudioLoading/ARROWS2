@@ -1,9 +1,4 @@
 POST DEMO:
-- posizionare altre 3 erbe, devo inventarmi dove metterle sull' ow
-- vado all' ospedale con poche erbe
-	dialogo di "hai poche erbe ma grazie"
-- vado all' ospedale con tutte le erbe
-	missione rewarded, vai da blackie
 - blackiecave entro coi lupi, collido con loro
 	e parte dialogo di morte del figlio e 
 	via al prossimo capitolo!
@@ -107,7 +102,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe idtail.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe mapbridge.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

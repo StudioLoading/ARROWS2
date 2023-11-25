@@ -86,7 +86,7 @@ void START(){
             scorpio_head = SpriteManagerAdd(SpriteBossscorpionhead, scorpio_body->x-24u, scorpio_body->y);
             scorpiohead_data = (struct EnemyData*) scorpio_head->custom_data;
             scorpiohead_data->type = SCORPIO_HEAD;
-            scorpiohead_data->hp = 1;//6
+            scorpiohead_data->hp = 6;
             scorpiobody_data->hp = scorpiohead_data->hp;
             scorpiohead_data->configured = 1;
         }

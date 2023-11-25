@@ -44,6 +44,7 @@ extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
+extern UINT8 hidden_items_flags;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -63,6 +64,7 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
+extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 void START(){
     new_state = IDLE_DOWN;
@@ -191,6 +193,7 @@ void UPDATE(){
                             if(spawned_data->configured == 4u){//means hidden
                                 if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
                                     pickup(spawned_data);
+                                    hidden_items_flags = hidden_items_flags | spawned_data->frmskip;
                                     switch(spawned_data->itemtype){
                                         case INVITEM_ARROW_BASTARD:
                                         case INVITEM_ARROW_NORMAL:
@@ -271,6 +274,7 @@ void ow_check_place() BANKED{//tile collision
                     break;
                     case 1u:
                         if(outwalker_chief.mission_state != MISSION_STATE_DISABLED){
+                            change_quantity(INVITEM_PASS, -1);
                             ChangeState(StateOutwalkers, THIS, -1);
                         }else{
                             trigger_dialog(OUTWALKER_NO_ENTER, THIS);
@@ -303,7 +307,7 @@ void ow_check_place() BANKED{//tile collision
                         //ChangeState(StateBlackiecave, THIS);
                     break;
                     case 1u:
-                        ChangeState(StateOverworld, THIS, 2);
+                        owTips(TIP_STILL_SOMETHING);
                     break;
                     case 3u://to Scorpion Boss fight
                         if(find_antidote.mission_state < MISSION_STATE_STARTED){

@@ -17,7 +17,7 @@ void START(){
     struct ItemSpawned* herb_data = (struct ItemSpawned*) THIS->custom_data;
     herb_data->itemtype = INVITEM_HERB;
     herb_data->quantity = 1;
-    flower_data->equippable = 0;
+    herb_data->equippable = 0;
     SetSpriteAnim(THIS, a_herb, 16u);
 }
 

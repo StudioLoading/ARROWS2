@@ -78,6 +78,7 @@ extern FA2OW_SPRITE_STATES new_state;
 extern UINT8 just_started;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
+extern UINT8 hidden_items_flags;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -85,7 +86,7 @@ void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
 void initial_sprite_spawning() BANKED;
-void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED;
+void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED;
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
 void maze_teleport() BANKED;
 void showing_tip(); 
@@ -297,9 +298,9 @@ void initial_sprite_spawning() BANKED{
 						enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
 					}
 				}
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u);
-				spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u);
-				spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u);
+				spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u, 0b00000001);
+				spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u,0b00000010);
+				spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u, 0b00000100);
 			}
 			if(chapter == 2){
 				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
@@ -323,27 +324,48 @@ void initial_sprite_spawning() BANKED{
 						s_scor1_data->hp = 1;
 						s_scor1_data->configured = 0b00000100;						
 					}
+				}				
+				if(find_antidote.phase == 4){					
+					UINT8 spawn_herb = find_antidote.current_step & 0b00100000;
+					if(spawn_herb == 0){
+						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)12u << 3, (UINT16)46u << 3);
+						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+						herb1_data->itemtype = INVITEM_HERB;
+						herb1_data->hp = 0b00100000;
+					}
+					spawn_herb = find_antidote.current_step & 0b01000000;
+					if(spawn_herb == 0){
+						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)24u << 3, (UINT16)46u << 3);
+						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+						herb1_data->itemtype = INVITEM_HERB;
+						herb1_data->hp = 0b01000000;
+					}
+					spawn_herb = find_antidote.current_step & 0b10000000;
+					if(spawn_herb == 0){
+						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)34u << 3, (UINT16)40u << 3);
+						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+						herb1_data->itemtype = INVITEM_HERB;
+						herb1_data->hp = 0b10000000;
+					}
 				}
 			}
 		break;
 		case 1:
 			if(chapter == 1){
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u);
+				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u, 0b00000001);
 				Sprite* s_crabow = 0;
-				if(current_map == 1){ 
-					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
+				if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
 					&& outwalker_glass.current_step < 3){
-						s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
-					}
-					if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
-						&& outwalker_glass.current_step == 2){
-						SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-						outwalker_glass.current_step = 3;
-						struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
-						crabow_data->vx = 1;
-						crabow_data->configured = 2;
-						
-					}
+					s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
+				}
+				if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
+					&& outwalker_glass.current_step == 2){
+					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+					outwalker_glass.current_step = 3;
+					struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
+					crabow_data->vx = 1;
+					crabow_data->configured = 2;
+					
 				}
 			}
 			if(chapter == 2){
@@ -387,9 +409,9 @@ void initial_sprite_spawning() BANKED{
 			//configuring teleporting
 			maze_teleport();
 			if(chapter == 1){//memoria a tappo!
-				spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u);
+				spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u, 0b00000010);
 				//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u);
+				spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u,0b00000100);
 			}
 		break;
 		case 3://south east
@@ -468,13 +490,16 @@ void initial_sprite_spawning() BANKED{
 	}
 }
 
-void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED{
-	Sprite* hidden_0 = SpriteManagerAdd(SpriteItemspawned, (UINT16) x <<3, (UINT16) y << 3);
-	struct ItemSpawned* hidden_0_data = (struct ItemSpawned*) hidden_0->custom_data;
-	hidden_0_data->quantity = q;
-	hidden_0_data->itemtype = type;
-	hidden_0_data->hp = 5u;
-	hidden_0_data->configured = 4u; 
+void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED{
+	if((hidden_items_flags & flags) != flags){
+		Sprite* hidden_0 = SpriteManagerAdd(SpriteItemspawned, (UINT16) x <<3, (UINT16) y << 3);
+		struct ItemSpawned* hidden_0_data = (struct ItemSpawned*) hidden_0->custom_data;
+		hidden_0_data->quantity = q;
+		hidden_0_data->itemtype = type;
+		hidden_0_data->hp = 5u;
+		hidden_0_data->configured = 4u;
+		hidden_0_data->frmskip = flags;
+	}
 }
 
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED{

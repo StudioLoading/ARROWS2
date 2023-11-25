@@ -613,6 +613,9 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		case WOLF_BLACKIE:
 			memcpy(log0, "BLACKIE             ", 20);
 		break;
+		case WOLF_BLACKIE_CHILD:
+			memcpy(log0, "DEAD WOLF           ", 20);
+		break;
 		case OUTWALKER_JERRY:
 			memcpy(log0, "JERRY               ", 20);
 		break;

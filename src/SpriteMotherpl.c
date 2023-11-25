@@ -537,6 +537,12 @@ void UPDATE(){
                         if(KEY_RELEASED(J_FIRE)){
                             trigger_dialog(whostalking, THIS);
                         }
+                    case SpriteBlackiechild:
+                        if(find_antidote.mission_state == MISSION_STATE_ACCOMPLISHED
+                        && find_antidote.phase == 5){
+                            trigger_dialog(BLACKIE_DEAD_CHILD, THIS);
+                        }
+                    break;
                     break;
                     case SpriteArrow:
                         motherpl_blocked = 0u;
