@@ -2,6 +2,7 @@ POST DEMO:
 - blackiecave entro coi lupi, collido con loro
 	e parte dialogo di morte del figlio e 
 	via al prossimo capitolo!
+- non spawnare npc prima di aver trovato le erbe - tranne Jessica!
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze

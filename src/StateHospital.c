@@ -104,7 +104,9 @@ void UPDATE() {
                                 break;
                                 case 4:
                                     whostalking = HOSPITAL_GO_FOR_HERBS;
-                                    if(get_quantity(INVITEM_HERB) == 8){
+                                    if(get_quantity(INVITEM_HERB) >= 8){
+                                        UINT8 q_herbs = get_quantity(INVITEM_HERB);
+                                        change_quantity(INVITEM_HERB, -q_herbs);
                                         whostalking = HOSPITAL_ANTIDOTE_BUILT;
                                         SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                                         find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;

@@ -65,6 +65,7 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
+extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 
 void START(){
     new_state = IDLE_DOWN;
@@ -273,8 +274,10 @@ void ow_check_place() BANKED{//tile collision
                         ChangeState(StateMine, THIS, -1);
                     break;
                     case 1u:
-                        if(outwalker_chief.mission_state != MISSION_STATE_DISABLED){
+                        if(outwalker_chief.mission_state <= MISSION_STATE_ENABLED
+                            && get_quantity(INVITEM_PASS) == 1){
                             change_quantity(INVITEM_PASS, -1);
+                            outwalker_chief.mission_state = MISSION_STATE_STARTED;
                             ChangeState(StateOutwalkers, THIS, -1);
                         }else{
                             trigger_dialog(OUTWALKER_NO_ENTER, THIS);

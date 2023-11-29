@@ -223,19 +223,30 @@ void show_detail(){
         case 1u:
             switch(cursor_posi){
                 case 0u:
-                    if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
-                        GetLocalizedDDLabel_EN(WIDOW_D0, dd2);
-                        GetLocalizedDDLabel_EN(WIDOW_D1, dd3);
-                        if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
-                            GetLocalizedDDLabel_EN(WIDOW_D2, dd4);
-                            GetLocalizedDDLabel_EN(WIDOW_D3, dd5);
-                            if(help_cemetery_woman.current_step >= 2u){
-                                GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
-                                GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
-                            }
-                            if(help_cemetery_woman.mission_state == MISSION_STATE_REWARDED){                            
-                                GetLocalizedDDLabel_EN(WIDOW_D6, dd8);
-                                GetLocalizedDDLabel_EN(WIDOW_D7, dd9);
+                    if(get_to_the_mountain.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D0, dd2);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D1, dd3);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D2, dd4);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D3, dd5);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd6);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd7);                          
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd8);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd9);
+                    }else{
+                        if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
+                            GetLocalizedDDLabel_EN(WIDOW_D0, dd2);
+                            GetLocalizedDDLabel_EN(WIDOW_D1, dd3);
+                            if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+                                GetLocalizedDDLabel_EN(WIDOW_D2, dd4);
+                                GetLocalizedDDLabel_EN(WIDOW_D3, dd5);
+                                if(help_cemetery_woman.current_step >= 2u){
+                                    GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
+                                    GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
+                                }
+                                if(help_cemetery_woman.mission_state == MISSION_STATE_REWARDED){                            
+                                    GetLocalizedDDLabel_EN(WIDOW_D6, dd8);
+                                    GetLocalizedDDLabel_EN(WIDOW_D7, dd9);
+                                }
                             }
                         }
                     }

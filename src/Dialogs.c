@@ -709,5 +709,8 @@ void GetLocalizedLog_EN() BANKED{
 		case StateScorpions:
 			memcpy(log0, "COUNTRY             ", 20);
 		break;
+		case StateCart:
+			memcpy(log0, "CART IS FUN         ", 20);
+		break;
 	}
 }

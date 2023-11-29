@@ -13,6 +13,7 @@
 #include "custom_datas.h"
 
 #define CART_FRMSKIP_X_MIN 1
+#define CART_VX 1
 //#define CART_FRMSKIP_X_MAX 2
 
 extern UINT8 J_JUMP;
@@ -50,33 +51,18 @@ UINT8 cart_frmskip_x_max = 0;
 UINT8 cooldown_augment_gravity = 40u;
 UINT8 cart_h_collision = 0u;
 Sprite* elevator;
-extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
-
-/*
-struct EnemyData{
-	INT8 hp;
-	INT8 vx;
-	UINT8 wait;
-	UINT8 configured;
-	//0 da configurare
-	//1 in configurazione
-	//2 non ancora spawnato item
-	//3 già spawnato item
-	ENEMY_TYPE type;
-	UINT8 et_collision;
-	ENEMY_STATE e_state;
-	UINT8 x_frameskip;
-};
-*/
 struct EnemyData* cart_data = 0;
+
 void cart_behave() BANKED;
 void change_cart_state(ENEMY_STATE new_cart_state) BANKED;
+
+extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 
 void START() {
 	SetSpriteAnim(THIS, a_cart_h, 8u);
     cart_data = (struct EnemyData*) THIS->custom_data;
-    cart_vx = 2;
-    cart_vy = 2;
+    cart_vx = 1;
+    cart_vy = 1;
     cart_can_jump = 1;
     cart_frmskip_x_max = CART_FRMSKIP_X_MIN;
     cart_data->et_collision = 0u;
@@ -95,15 +81,14 @@ void START() {
 void cart_turn_left() BANKED{
     if(cart_vx != -2){
         camera_ok = 0;
-        cart_vx = -4;
-        //THIS->mirror = V_MIRROR;
+        cart_vx = - (CART_VX << 1);
         change_cart_state(MOTHERPL_WALK);
     }
 }
 
 void cart_turn_right() BANKED{
-    if(cart_vx != 2 || motherpl_state != MOTHERPL_WALK){
-        cart_vx = 2;
+    if(cart_vx != CART_VX || motherpl_state != MOTHERPL_WALK){
+        cart_vx = CART_VX;
         THIS->mirror = NO_MIRROR;
         change_cart_state(MOTHERPL_WALK);
     }
@@ -127,18 +112,30 @@ void cart_behave() BANKED{
             }
         break;
         case ENEMY_SLIDE_DOWN:
-            THIS->y += cart_delta_y;
+            //THIS->y += cart_delta_y;
+            THIS->y++;
             if(_cpu != CGB_TYPE){
                 if(cart_data->wait == 0){
-                    THIS->y++;
-                    cart_data->wait = 12;
+                    THIS->y--;
+                    if(sgb_check()){
+                        cart_data->wait = 90;
+                    }else{
+                        cart_data->wait = 64;
+                    }
+                }else{
+                    cart_data->wait--;
+                }
+            }else{
+                if(cart_data->wait == 0){
+                    THIS->y--;
+                    cart_data->wait = 24 ;
                 }else{
                     cart_data->wait--;
                 }
             }
         break;
         case MOTHERPL_WALK:
-            cart_data->et_collision = TranslateSprite(THIS, 0, (cart_vy + cart_gravity) << delta_time);
+            cart_data->et_collision = TranslateSprite(THIS, 0, cart_gravity << delta_time);
             if(cart_data->et_collision == 0){
                 cart_can_jump = 0;
             }else{
@@ -150,7 +147,7 @@ void cart_behave() BANKED{
                 cart_can_jump = 0;
                 UINT8 idle_v_coll = TranslateSprite(THIS, 0, (1+cart_gravity) << delta_time);
                 switch(idle_v_coll){
-                    case 0u:
+                    //case 0u:
                     case 3u:
                     case 7u:
                     case 99u:
@@ -171,7 +168,7 @@ void cart_behave() BANKED{
         case MOTHERPL_ASCENDING:
             my_play_fx(CHANNEL_2, 40, 0x4a, 0xf1, 0x73, 0x82, 0x00);
             if(THIS->y < 54u){
-                cart_vx = 2;
+                cart_vx = CART_VX + CART_VX;
                 struct EnemyData* elevator_data = (struct EnemyData*) elevator->custom_data;
                 elevator_data->e_state = ENEMY_SLIDE_DOWN;
                 cart_data->wait = 8;
@@ -184,6 +181,10 @@ void cart_behave() BANKED{
         switch(cart_h_collision){
             case 30u:
             case 64u:
+                change_cart_state(MOTHERPL_WALK);
+            break;
+            case 93u:
+                cart_turn_left();
                 change_cart_state(MOTHERPL_WALK);
             break;
         }
@@ -227,39 +228,41 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
     if(new_cart_state != motherpl_state){
         switch(new_cart_state){
             case MOTHERPL_JUMP:
-                cart_vy = -10;
+                cart_vy = -14;
                 if(_cpu != CGB_TYPE){
-                    cart_vy = -12;
+                    cart_vy = -13;
                 }
                 cart_can_jump = 0;
                 cart_delta_y = 0;
                 cart_frmskip_x = 0;
                 cart_data->wait = 8u;
+                cart_vx = CART_VX << 1;
                 //SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
             break;
             case MOTHERPL_WALK:     
                 cart_delta_y = 0;
                 cart_can_jump = 1;
-                if(motherpl_state == ENEMY_SLIDE_DOWN){
-                    THIS->x += 4;
-                    THIS->y -= 8;
-                }else if(motherpl_state != MOTHERPL_ASCENDING){
+                THIS->y -= 8;
+                if(motherpl_state != ENEMY_SLIDE_DOWN &&
+                    motherpl_state != MOTHERPL_ASCENDING){
                     my_play_fx(CHANNEL_2, 40, 0x54, 0xd2, 0xeb, 0x87, 0x00);
                     SpriteManagerAdd(SpritePuff, THIS->x + 24u, THIS->y + 6u);
                 }
                 if(THIS->mirror == NO_MIRROR){
-                    cart_vx = 2;
+                    cart_vx = CART_VX;
                 }else{
-                    cart_vx = -2;
+                    cart_vx = -CART_VX;
                 }
                 SetSpriteAnim(THIS, a_cart_h, a_cart_freq);
             break;
             case ENEMY_SLIDE_DOWN:
                 cart_can_jump = 1;
                 cart_delta_y = +1;
-                THIS->y += 8;
+                cart_vx = CART_VX << 1;
+                THIS->x += 2;
+                THIS->y += 6;
                 SetSpriteAnim(THIS, a_cart_v_d, a_cart_freq);
-                cart_data->wait = 8;
+                cart_data->wait = 1;
             break;
             case MOTHERPL_HIT:
                 my_play_fx(CHANNEL_2, 60, 0xce, 0x53, 0xb2, 0x83, 0x00);//SFX_HIT
@@ -287,12 +290,13 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
 
 void UPDATE() {
     cart_frmskip_x++;
+    UINT8 cart_x_collided = TranslateSprite(THIS, cart_vx << delta_time, 0);
     if(cart_frmskip_x >= cart_frmskip_x_max && motherpl_state != MOTHERPL_IDLE){
-        UINT8 cart_x_collided = TranslateSprite(THIS, cart_vx << delta_time, 0);
-        if(cart_h_collision != cart_x_collided){
-            cart_h_collision = cart_x_collided;
-        }
+        // cart_x_collided = TranslateSprite(THIS, cart_vx << delta_time, 0);
         cart_frmskip_x = 0;
+    }
+    if(cart_h_collision != cart_x_collided){
+        cart_h_collision = cart_x_collided;
     }
     if(sfx_cooldown > 0){sfx_cooldown--;}
     //BEHAVE

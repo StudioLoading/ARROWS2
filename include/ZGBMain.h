@@ -103,7 +103,6 @@ _SPRITE_DMG(SpriteBolt, bolt)\
 _SPRITE_DMG(SpriteCart, cart)\
 _SPRITE_DMG(SpriteCartelevator, cartelevator)\
 _SPRITE_DMG(SpriteStartbtn, startbtn)\
-_SPRITE_DMG(SpriteMotherplhit, motherplhit)\
 _SPRITE_DMG(SpriteBirdsky, birdsky)\
 _SPRITE_DMG(SpriteScorpion, scorpion)\
 _SPRITE_DMG(SpriteOwscorpion, owscorpion)\
