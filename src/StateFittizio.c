@@ -65,6 +65,7 @@ extern UINT8 teleporting;
 extern CURRENT_BORDER current_border; 
 extern INT8 motherpl_vx;
 extern INT8 chapter;
+extern uint8_t sgb_running;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -236,7 +237,7 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
 }
 
 void manage_border(UINT8 next_state) BANKED{
-    if(!sgb_check()){
+    if(!sgb_running){
         return;
     }
     check_sgb_palette(next_state);

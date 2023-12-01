@@ -27,6 +27,7 @@ extern UINT8 previous_state;
 extern INT8 sfx_cooldown;
 extern UINT8 generic_counter;
 extern UINT8 generic_counter2;
+extern uint8_t sgb_running;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;
@@ -49,7 +50,7 @@ void go_to_password(UINT8 next_state) BANKED;
 
 void START() {
 	//SGB
-		if(sgb_check()){
+		if(sgb_running){
 			set_sgb_palette01_TITLESCREEN();
 		}
 	//SPRITES & SCROLL_TARGET
@@ -90,7 +91,7 @@ void UPDATE() {
 				scroll_target->y--;
 			}else{
 				scroll_target->y = (UINT16) 30u;
-				if(sgb_check()){
+				if(sgb_running){
 					set_sgb_palette_title();
 				}
 				titlescreen_step = 1u;

@@ -32,6 +32,7 @@ UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 INT8 chapter = 0;
 CURRENT_BORDER current_border = BORDER_NONE;
+uint8_t sgb_running = NULL;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
 .mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u};
@@ -316,12 +317,11 @@ void position_init() BANKED{
 }
 
 void START() {
-	if(sgb_check()){
+	sgb_running = sgb_check();
+	if(sgb_running){
 		BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
 		manage_border(StateCredit);
 	}
-	//missions_init();
-	//inventory_init();
 	//SOUND
 		stop_music_on_new_state = 0;
         NR52_REG = 0x80; //Enables sound, you should always setup this first

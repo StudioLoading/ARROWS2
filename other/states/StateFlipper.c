@@ -21,11 +21,12 @@ IMPORT_MAP(mapflipper);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
+extern uint8_t sgb_running;
 
 const UINT8 collision_tiles_flipper[] = {1,2,3,4,5,6,7,9,0};//ends with zero
 
 void START() {
-    if(sgb_check()){
+    if(sgb_running){
         set_sgb_palette01_WOLF();
 	}
 

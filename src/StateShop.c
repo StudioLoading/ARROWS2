@@ -38,6 +38,7 @@ extern UINT8 n_lines;
 extern Sprite* dialog_cursor;
 extern UINT8 next_page;
 extern UINT8 previous_state;
+extern uint8_t sgb_running;
 
 SHOP current_shop = SMITH;
 
@@ -51,7 +52,7 @@ extern void show_next_character() BANKED;
 void START() {
     SpriteManagerLoad(SpriteInvcursor);
     //SGB PALETTE
-        if(sgb_check()){
+        if(sgb_running){
             set_sgb_palette01_WOLF();
         }
 	//PlayMusic(bgm_credits, 0);

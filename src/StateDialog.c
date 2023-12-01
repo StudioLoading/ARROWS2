@@ -67,6 +67,7 @@ extern INT8 current_map;
 extern INT8 chapter;
 extern INT8 outwalker_info_step;
 extern INT8 outwalker_info_given;
+extern uint8_t sgb_running;
 
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
@@ -140,7 +141,7 @@ void START() {
     choice_left = 0u;
     choice_right = 0u;    
     //SGB PALETTE CHECK
-        if(sgb_check()){
+        if(sgb_running){
             check_sgb_palette(StateDialog);
         }    
 }

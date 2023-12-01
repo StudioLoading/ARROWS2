@@ -22,7 +22,7 @@ IMPORT_MAP(maptetra);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
-
+extern INT8 sgb_running;
 UINT8 bank_tilestetra = BANK(tilestetra);
 
 const UINT8 const collision_tiles_tetra[] = {0, 0};//numero delle tile con zero finale
@@ -68,7 +68,7 @@ void START() {
 	NR50_REG = 0xFF; //Max volume 0x77
 
   //SGB COLORS
-  if(sgb_check()){
+  if(sgb_running){
     set_sgb_palette01_worldmap();
   }
   InitScroll(BANK(maptetra), &maptetra, collision_tiles_tetra, 0);
