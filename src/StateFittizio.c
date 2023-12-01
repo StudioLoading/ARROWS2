@@ -46,6 +46,7 @@ IMPORT_MAP(bordercart);
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION enable_hospital;
+extern struct MISSION find_antidote; 
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
@@ -63,6 +64,7 @@ extern INT8 current_map;
 extern UINT8 teleporting;
 extern CURRENT_BORDER current_border; 
 extern INT8 motherpl_vx;
+extern INT8 chapter;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -807,9 +809,15 @@ void ReloadEnemiesPL() BANKED{
     }
 }
 
+//spawn non playable character
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED{
     if(np_counter > 6){
         return;
+    }
+    if(chapter == 2 && find_antidote.mission_state < MISSION_STATE_REWARDED){
+        if(npcname != OUTWALKER_JESSICA){
+            return;
+        }
     }
     np_counter++;
     Sprite* s_head = SpriteManagerAdd(type, posx, posy);
@@ -827,6 +835,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     body_data->configured = 1u;
 }
 
+//spanw non playable animal
 void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED{
     if(np_counter > 6){
         return;

@@ -61,7 +61,7 @@ extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y
 
 extern UINT16 test_counter;
 
-UINT8 current_cart_map = 0;
+UINT8 current_cart_map = 1;//TODO move it to zero, 1 is for test purpose!
 UINT8 items_map0 = 10;
 UINT8 items_counter = 0u;
 UINT8 items_map1 = 10;
