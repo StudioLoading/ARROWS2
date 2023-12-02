@@ -816,7 +816,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
         return;
     }
     if(chapter == 2 && find_antidote.mission_state < MISSION_STATE_REWARDED){
-        if(npcname != OUTWALKER_JESSICA){
+        if(npcname != OUTWALKER_JESSICA && whos != JESSICA_PLANTS){
             return;
         }
     }

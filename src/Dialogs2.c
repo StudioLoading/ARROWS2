@@ -617,23 +617,27 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "MOMENT...            \0", 22);
 		break;
 		case BLACKIE_DEAD_CHILD:
-			*n_lines = 15u;
-			memcpy(d0, "BLACKIE:               \0", 22);
+			*n_lines = 19u;
+			memcpy(d0, "BLACKIE:            ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "OH... MY CHILD! HE'S BE\0", 22);
-			memcpy(d3, "EN ONE OF THE FIRST POI\0", 22);
-			memcpy(d4, "SONED...               \0", 22);
+			memcpy(d2, "OH... MY CHILD! HE'S", 22);
+			memcpy(d3, "BEEN ONE OF THE FIR ", 22);
+			memcpy(d4, "ST POISONED...      ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "               ...SIGH!\0", 22);
-			memcpy(d7, "AND IT... IT KILLED HIM\0", 22);
-			memcpy(d8, "... YOU SEE DESSA! I   \0", 22);
-			memcpy(d9, "BET THEY CAME TO KILL  \0", 22);
-			memcpy(d10, "US! AND WE MUST FIGHT \0", 22);
-			memcpy(d11, "BACK SO NO MORE CHILD \0", 22);
-			memcpy(d12, "HAVE TO DIE!          \0", 22);
-			memcpy(d13, "DESSA:                \0", 22);
-			memcpy(d14, "I SWEAR I'LL DEFEAT   \0", 22);
-			memcpy(d15, "WHO CAUSED THIS!      \0", 22);
+			memcpy(d6, "            ...SIGH!", 22);
+			memcpy(d7, ".. AND IT KILLED HIM", 22);
+			memcpy(d8, "... YOU SEE DESSA!? ", 22);
+			memcpy(d9, "BET THEY CAME TO    ", 22);
+			memcpy(d10, "KILL US! AND WE    ", 22);
+			memcpy(d11, "MUST FIGHT BACK!!  ", 22);
+			memcpy(d12, "NO MORE CHILD HAVE ", 22);
+			memcpy(d13, "TO DIE!      DESSA:", 22);
+			memcpy(d14, "I SWEAR I'LL DEFEAT", 22);
+			memcpy(d15, "WHO CAUSED THIS!   ", 22);
+			memcpy(d16, "YOUR SON WILL BE   ", 22);
+			memcpy(d17, "REVENGED WITH THE  ", 22);
+			memcpy(d18, "STRENGTH OF MY     ", 22);
+			memcpy(d19, "ARROWS.            ", 22);
 		break;
     }
 }

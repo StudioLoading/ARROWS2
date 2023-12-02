@@ -104,7 +104,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ANTIDOTE_D3:memcpy(d, "MOTHER             ", 20);break;
 		case ANTIDOTE_D4:memcpy(d, "BRING MOTHER'S TAIL", 20);break;
 		case ANTIDOTE_D5:memcpy(d, "TO THE HOSPITAL!   ", 20);break;
-		case ANTIDOTE_D6:memcpy(d, "FIND THE HERBS     ", 20);break;
+		case ANTIDOTE_D6:memcpy(d, "GO TALK TO JESSICA ", 20);break;
 		case ANTIDOTE_D7:memcpy(d, "BRING HERBS TO HOSP", 20);break;
 	}	
 }

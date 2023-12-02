@@ -274,10 +274,14 @@ void ow_check_place() BANKED{//tile collision
                         ChangeState(StateMine, THIS, -1);
                     break;
                     case 1u:
-                        if(outwalker_chief.mission_state <= MISSION_STATE_ENABLED
-                            && get_quantity(INVITEM_PASS) == 1){
-                            change_quantity(INVITEM_PASS, -1);
-                            outwalker_chief.mission_state = MISSION_STATE_STARTED;
+                        if(outwalker_chief.mission_state == MISSION_STATE_REWARDED
+                            || (outwalker_chief.mission_state <= MISSION_STATE_ENABLED
+                            && get_quantity(INVITEM_PASS) == 1)){
+                            if(outwalker_chief.mission_state <= MISSION_STATE_ENABLED
+                                && get_quantity(INVITEM_PASS) == 1){
+                                change_quantity(INVITEM_PASS, -1);
+                                outwalker_chief.mission_state = MISSION_STATE_STARTED;
+                            }
                             ChangeState(StateOutwalkers, THIS, -1);
                         }else{
                             trigger_dialog(OUTWALKER_NO_ENTER, THIS);

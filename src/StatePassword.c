@@ -38,6 +38,7 @@ UINT16 cur_posx[4];
 UINT16 cur_posy[4];
 UINT8 cur_posi = 0u;
 UINT8 generic_counter2 = 0u;
+UINT8 block_counter = 0u;
 extern UINT8 give_new_password;
 
 void update_curpos(INT8 move) BANKED;
@@ -92,6 +93,7 @@ void START(){
         cur_posy[2] = 40u;
         cur_posx[3] = 120u;
         cur_posy[3] = 72u;
+        block_counter = 0u;
         generic_counter = 0u;
         generic_counter2 = 0u;
     //SHOW
@@ -134,6 +136,12 @@ void START(){
                     pcode2_info->tetradado_faccia = FACCIA_4;
                     pcode3_info->tetradado_faccia = FACCIA_3;
                 break;
+                case 3:
+                    pcode0_info->tetradado_faccia = FACCIA_1;
+                    pcode1_info->tetradado_faccia = FACCIA_2;
+                    pcode2_info->tetradado_faccia = FACCIA_4;
+                    pcode3_info->tetradado_faccia = FACCIA_1;
+                break;
             }
         }
 }
@@ -147,11 +155,13 @@ void UPDATE(){
         return;
      }
     if(sfx_cooldown > 0){sfx_cooldown--;}
-    generic_counter++;
-    if(generic_counter == 0u){
-        generic_counter2++;
-        if(generic_counter2 == 5u){
-            ChangeStateThroughBetween(StateCredit);
+    if(block_counter == 0u){
+        generic_counter++;
+        if(generic_counter == 0u){
+            generic_counter2++;
+            if(generic_counter2 == 5u){
+                ChangeStateThroughBetween(StateCredit);
+            }
         }
     }
     if(KEY_TICKED(J_RIGHT)){ update_curpos(1); }
@@ -207,6 +217,7 @@ void update_curpos(INT8 move) BANKED{
 }
 
 void update_pcode(INT8 move) BANKED{
+    block_counter = 1u;
     generic_counter = 0;
     generic_counter2 = 0;
     Sprite* current_pcode = 0;
@@ -298,7 +309,7 @@ INT8 check_password() BANKED{
                 pcode1_info->tetradado_faccia == FACCIA_2 &&
                 pcode2_info->tetradado_faccia == FACCIA_4 &&
                 pcode3_info->tetradado_faccia == FACCIA_1){
-                    result = 2;
+                    result = 3;
                 }
         }
     return result;

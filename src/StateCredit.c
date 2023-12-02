@@ -35,25 +35,26 @@ CURRENT_BORDER current_border = BORDER_NONE;
 uint8_t sgb_running = NULL;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
-.mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION enable_hospital = {.mission_title = ENABLE_HOSPITAL, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION outwalker_chief = {.mission_title = OUTWALKER_CHIEF, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION outwalker_glass = {.mission_title = OUTWALKER_GLASSES, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION outwalker_smith = {.mission_title = OUTWALKER_SMITH, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
 struct MISSION defeat_scorpions = {.mission_title = DEFEAT_SCORPIONS, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION find_antidote = {.mission_title = FIND_ANTIDOTE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+scrivere qui missioni del capitolo quarto, chapter == 3, Golden Armor
 struct MISSION* missions[11];
 /* 
 { engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
@@ -95,20 +96,6 @@ void missions_init() BANKED{
 			engage_smith.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			enable_hospital.current_step = 0u;
-			find_blackie.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
-			find_blackie.current_step = 0u;
-			help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
-			help_cemetery_woman.current_step = 0u;
-			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
-			outwalker_chief.current_step = 0u;
-			outwalker_glass.mission_state = MISSION_STATE_DISABLED;
-			outwalker_glass.current_step = 0u;
-			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
-			outwalker_smith.current_step = 0u;
-			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
-			get_to_the_mountain.current_step = 0u;
-			defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
-			defeat_scorpions.current_step = 0u;
 		break;
 		case 1u:
 			current_map = 1;
@@ -120,20 +107,6 @@ void missions_init() BANKED{
 			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED;
 			help_cemetery_woman.current_step = 0u;//0u;
-			outwalker_chief.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
-			outwalker_chief.current_step = 6u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED;
-			outwalker_glass.current_step = 0u;//0u
-			outwalker_smith.mission_state = MISSION_STATE_DISABLED;
-			outwalker_smith.current_step = 0u;//test 0b00000111;
-			get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
-			get_to_the_mountain.current_step = 0u;
-			defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
-			defeat_scorpions.phase = 0;
-			defeat_scorpions.current_step = 0u;
-			find_antidote.mission_state = MISSION_STATE_DISABLED;
-			find_antidote.phase = 0;
-			find_antidote.current_step = 0;
 		break;
 		case 2u:
 			current_map = 1;
@@ -156,9 +129,6 @@ void missions_init() BANKED{
 			defeat_scorpions.mission_state = MISSION_STATE_STARTED;
 			defeat_scorpions.current_step = 0;
 			defeat_scorpions.phase = 0;
-			find_antidote.mission_state = MISSION_STATE_DISABLED;
-			find_antidote.phase = 0;
-			find_antidote.current_step = 0;
 		break;
 		case 3u:
 			current_map = 0;

@@ -247,6 +247,9 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
             case MOTHERPL_WALK:     
                 cart_can_jump = 1;
                 THIS->y -= 8;
+                if(motherpl_state == MOTHERPL_JUMP){
+                    THIS->y += 2;
+                }
                 if(motherpl_state != ENEMY_SLIDE_DOWN &&
                     motherpl_state != MOTHERPL_ASCENDING){
                     my_play_fx(CHANNEL_2, 40, 0x54, 0xd2, 0xeb, 0x87, 0x00);
