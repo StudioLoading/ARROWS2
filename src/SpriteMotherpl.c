@@ -478,7 +478,7 @@ void UPDATE(){
                         }
                     break;
                     case 7u:
-                        ChangeState(StateBonus, THIS, -1);
+                        //ChangeState(StateBonus, THIS, -1);
                     break;
                 }
             break;

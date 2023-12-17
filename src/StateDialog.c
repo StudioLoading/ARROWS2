@@ -99,6 +99,7 @@ void START() {
         case SHOP_SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
         case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
         case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
+        case SMITH_FORGE_ARMOUR: case SMITH_NEED_GOLD:
             InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
         break;
         case BLACKIE:
@@ -478,6 +479,10 @@ void move_on() BANKED{
         SetState(StateDialog);
     }else if(whostalking == IBEX_GIVE_HERBS){
         ChangeState(StateCart, s_motherpl, -1);
+    }else if(whostalking == FISHERMAN_LETSGO){
+        ChangeState(StateFps, s_motherpl, -1);
+    }else if(whostalking == FISHERMAN_FPSGATOR_COMPLETED){
+        ChangeState(StateOverworld, s_motherow, 3);
     }else if(previous_state == StateOverworld || previous_state == StatePassword){
         ChangeState(previous_state, s_motherow, current_map);
     }else{

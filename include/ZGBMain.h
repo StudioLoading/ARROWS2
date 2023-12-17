@@ -7,14 +7,13 @@
 #define WALK_FX_COOLDOWN 32
 /*
 */
-
+/* _STATE(StateBonus)\ */
 #define STATES \
 _STATE(StateFittizio)\
 _STATE(StateTitlescreen)\
 _STATE(StateTutorial)\
 _STATE(StateInbetween)\
 _STATE(StateCredit)\
-_STATE(StateBonus)\
 _STATE(StateTetra)\
 _STATE(StateOverworld)\
 _STATE(StateDiary)\
@@ -36,6 +35,7 @@ _STATE(StateSky)\
 _STATE(StateCart)\
 _STATE(StateScorpions)\
 _STATE(StateBossscorpion)\
+_STATE(StateFps)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -113,6 +113,12 @@ _SPRITE_DMG(SpriteBossscorpion, bossscorpion)\
 _SPRITE_DMG(SpriteBossscorpionhead, bossscorpionhead)\
 _SPRITE_DMG(SpriteScorpiontail, scorpiontail)\
 _SPRITE_DMG(SpriteHerb, owherb)\
+_SPRITE_DMG(SpriteOwgator, owgator)\
+_SPRITE_DMG(SpriteGator, gator)\
+_SPRITE_DMG(SpritePuntawater, puntawater)\
+_SPRITE_DMG(SpriteFish, fish)\
+_SPRITE_DMG(SpritePlusone, plusone)\
+_SPRITE_DMG(SpriteBottle, bottle)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

@@ -46,7 +46,8 @@ IMPORT_MAP(bordercart);
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION enable_hospital;
-extern struct MISSION find_antidote; 
+extern struct MISSION find_antidote;
+extern struct MISSION hungry_people;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
@@ -126,6 +127,12 @@ void restartFromHospital() BANKED{
 }
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
+    if(whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO){
+        if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
+            hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
+            whostalking = IMHUNGRY;
+        }
+    }
     whostalking = whost;
     ChangeState(StateDialog, s_mother, -1);
 }
@@ -503,7 +510,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     previous_state = current_state;
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
-    }
+    } 
     if(new_state != StateTitlescreen){
 	    ChangeStateThroughBetween(new_state);
     }else{

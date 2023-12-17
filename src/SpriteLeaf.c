@@ -14,7 +14,7 @@ void START() {
 	THIS->lim_y = 8u;
 	SetSpriteAnim(THIS, animmid_leaf, 8u);
 	struct PlatformInfo* data_platform = (struct PlatformInfo*)THIS->custom_data;
-	data_platform->type = 0;
+	data_platform->configured = 0;
 	data_platform->distance = 200;
 	data_platform->step = 0;
 }

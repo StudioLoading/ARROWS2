@@ -49,7 +49,10 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
-extern struct MISSION* missions[11];
+extern struct MISSION hungry_people;
+extern struct MISSION fix_bridge;
+extern struct MISSION golden_armour;
+extern struct MISSION* missions[13];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
@@ -325,6 +328,36 @@ void show_detail(){
                 break;
             }
         break;
+        case 3u:
+            switch(cursor_posi){
+                case 0u:
+                    if(hungry_people.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(HUNGRY_D0, dd2);
+                        GetLocalizedDDLabel_EN(HUNGRY_D1, dd3);
+                        GetLocalizedDDLabel_EN(HUNGRY_D2, dd4);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd5);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd6);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd7);                          
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd8);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd9);
+                    }
+                break;
+                case 1u:
+                    if(golden_armour.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(GOLDEN_D0, dd2);
+                        GetLocalizedDDLabel_EN(GOLDEN_D1, dd3);
+                        if(golden_armour.current_step >= 1){
+                            GetLocalizedDDLabel_EN(GOLDEN_D2, dd4);
+                            GetLocalizedDDLabel_EN(GOLDEN_D3, dd5);
+                            if(golden_armour.mission_state >= MISSION_STATE_REWARDED){
+                                GetLocalizedDDLabel_EN(GOLDEN_D4, dd6);
+                                GetLocalizedDDLabel_EN(GOLDEN_D5, dd7);
+                            }
+                        }
+                    }
+                break;
+            }
+        break;
     }
 }
 
@@ -376,6 +409,18 @@ void show_missions(){
             if(find_antidote.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(FIND_ANTIDOTE_TITLE, m1);
             }
+        break;
+        case 3u:
+            if(hungry_people.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(HUNGRY_TITLE, m0);
+            }
+            if(fix_bridge.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(FIX_BRIDGE_TITLE, m1);
+            }
+            if(golden_armour.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(GOLDEN_ARMOUR_TITLE, m2);
+            }
+            //fix_bridge
         break;
     }
     PRINT(2, 2, m0);

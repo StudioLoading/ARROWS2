@@ -25,12 +25,14 @@ IMPORT_TILES(idboxtiles);
 IMPORT_TILES(idsteeltiles);
 IMPORT_TILES(idscorpiontailtiles);
 IMPORT_TILES(idherbstiles);
+IMPORT_TILES(idmaptiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
 IMPORT_TILES(tacredit0);
 IMPORT_TILES(tacredit1);
 IMPORT_TILES(tilesdiagcrossbow);
 IMPORT_TILES(tdiagcrossbowempty);
+IMPORT_TILES(tcrossbowanim);
 IMPORT_TILES(minetiles);
 IMPORT_TILES(minetilesanim1);
 IMPORT_TILES(minetilesanim2);
@@ -113,6 +115,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_HERB:
 				set_inv_bkg_data(49u, 25, BANK(idherbstiles), isEmpty, &idherbstiles);
+			break;
+			case INVITEM_MAP:
+				set_inv_bkg_data(49u, 25, BANK(idmaptiles), isEmpty, &idmaptiles);
 			break;
 		}
 	}
@@ -276,4 +281,13 @@ void Anim_Ground_Straight_1() BANKED{
 	set_banked_bkg_data(68u, 1u, &tilesdiagcrossbow, BANK(tilesdiagcrossbow));
 	set_banked_bkg_data(69u, 1u, &tilesdiagcrossbow, BANK(tilesdiagcrossbow));
 	set_banked_bkg_data(75u, 1u, &tilesdiagcrossbow, BANK(tilesdiagcrossbow));
+}
+
+void Anim_FPS_gator_0() BANKED{
+	set_banked_bkg_data(84u, 4u, &tilesdiagcrossbow, BANK(tilesdiagcrossbow));
+}
+
+void Anim_FPS_gator_1() BANKED{
+	set_banked_bkg_data(84u, 4u, &tcrossbowanim, BANK(tcrossbowanim));
+
 }

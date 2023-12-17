@@ -29,6 +29,7 @@ extern struct MISSION engage_smith;
 extern struct MISSION find_blackie;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
+extern struct MISSION golden_armour;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -119,7 +120,18 @@ void UPDATE() {
                         case MISSION_STATE_ACCOMPLISHED:
                         case MISSION_STATE_REWARDED:
                             //normal behave
-                            if(outwalker_smith.mission_state == MISSION_STATE_DISABLED || 
+                            if(golden_armour.mission_state >= MISSION_STATE_STARTED &&
+                                golden_armour.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                                    whostalking = SMITH_NEED_GOLD;
+                                    if(get_quantity(INVITEM_MONEY) >= 200 &&
+                                        get_quantity(INVITEM_METAL_SPECIAL) >= 200){
+                                        change_quantity(INVITEM_MONEY, -200);
+                                        change_quantity(INVITEM_METAL_SPECIAL, -200);
+                                        change_quantity(INVITEM_ARMOUR, 1);
+                                        whostalking = SMITH_FORGE_ARMOUR;
+                                    }
+                                }
+                            }else if(outwalker_smith.mission_state == MISSION_STATE_DISABLED || 
                                 outwalker_smith.mission_state == MISSION_STATE_REWARDED){   
                                 whostalking = SMITH_CHECKING_NOWOODANDMETAL;
                                 if(get_quantity(INVITEM_METAL) >= 10u 

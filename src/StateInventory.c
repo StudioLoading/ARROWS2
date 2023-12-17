@@ -46,6 +46,10 @@ UINT8 invcursor_unequip_posy = 104u;
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
 extern UINT8 previous_state;
+extern Sprite* s_motherow;
+extern Sprite* s_motherpl;
+extern WHOSTALKING whostalking;
+extern INT8 current_map;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
@@ -63,6 +67,8 @@ extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 extern void LogItem(INVITEMTYPE invitemtype) BANKED;
+extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 
 void START(){
     //SPRITES SPAWNING 
@@ -172,6 +178,13 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,42);
                     UPDATE_HUD_TILE(uneq_x,2,43);
                 break;
+                case INVITEM_MAP:
+                    UPDATE_HUD_TILE(uneq_x,1,44);
+                    UPDATE_HUD_TILE(uneq_x,2,45);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,46);
+                    UPDATE_HUD_TILE(uneq_x,2,47);
+                break;
             }
             uneq_x += 2;
         }
@@ -263,9 +276,15 @@ void UPDATE(){
     if(KEY_PRESSED(J_START)){
         ChangeState(previous_state, 0, -1);
     }
-    if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+    if(KEY_TICKED(J_JUMP)){
         if(invcursor_posi < 6 && inventory[invcursor_posi].quantity > 0){
             invselectitem(6);
+        }
+    }else if(KEY_TICKED(J_FIRE)){
+        if(inventory[invcursor_posi].itemtype == INVITEM_MAP){
+            whostalking = ITEMDETAIL_MAP;
+            manage_bgm(StateDialog, StateInventory, current_map);
+            SetState(StateDialog);
         }
     }
     if(KEY_RELEASED(J_UP)){
@@ -454,6 +473,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(HERBS_DETAIL2, ddinv3);
                 GetLocalizedINVLabel_EN(HERBS_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(HERBS_DETAIL4, ddinv5);
+            break;
+            case INVITEM_MAP:
+                GetLocalizedINVLabel_EN(MAP_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(MAP_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(MAP_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(MAP_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(MAP_DETAIL4, ddinv5);
             break;
         }
     }

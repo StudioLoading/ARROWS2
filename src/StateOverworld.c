@@ -68,6 +68,7 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
+extern struct MISSION hungry_people;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -451,7 +452,7 @@ void initial_sprite_spawning() BANKED{
 						s_scor0_data->configured = 0b00010000;
 					}
 				}
-				if(find_antidote.phase == 4){					
+				if(find_antidote.phase == 4){
 					UINT8 spawn_herb = find_antidote.current_step & 0b00000010;
 					if(spawn_herb == 0){
 						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)15u << 3, (UINT16)44u << 3);
@@ -480,6 +481,47 @@ void initial_sprite_spawning() BANKED{
 						herb4_data->itemtype = INVITEM_HERB;
 						herb4_data->hp = 0b00010000;
 					}
+				}
+				//if mission "fix bridge" is not accomplished
+				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
+				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
+				s_owbridge2->mirror = V_MIRROR;
+			}
+			if(chapter == 3){
+				if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
+					//gators
+					Sprite* gator0 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3));
+					struct PlatformInfo* gator0_data = (struct PlatformInfo*)gator0->custom_data;
+					gator0_data->vy = 1;
+					gator0_data->clockwise = 1;
+					gator0_data->distance = 3u;
+					Sprite* gator1 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 38u << 3), ((UINT16) 33u << 3));
+					struct PlatformInfo* gator1_data = (struct PlatformInfo*)gator1->custom_data;
+					gator1_data->vy = 1;
+					gator1_data->clockwise = 1;
+					gator1_data->distance = 80u;
+					Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3) + 4u);
+					struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
+					gator2_data->vy = -1;
+					gator2_data->clockwise = 0;
+					gator2_data->distance = 10u;
+					Sprite* gator3 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3)+3, ((UINT16) 33u << 3)  -1u);
+					struct PlatformInfo* gator3_data = (struct PlatformInfo*)gator3->custom_data;
+					gator3_data->vy = -1;
+					gator3_data->clockwise = 1;
+					gator3_data->distance = 32u;
+					Sprite* gator4 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3), ((UINT16) 33u << 3)  -1u);
+					struct PlatformInfo* gator4_data = (struct PlatformInfo*)gator4->custom_data;
+					gator4_data->vy = -1;
+					gator4_data->clockwise = 0;
+					gator4_data->distance = 32u;
+					Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 33u << 3));
+					struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
+					gator5_data->vy = 1;
+					gator5_data->clockwise = 1;
+					gator5_data->distance = 54u;
+				}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
+					SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
 				}
 				//if mission "fix bridge" is not accomplished
 				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
@@ -654,6 +696,45 @@ void UPDATE(){
 									outwalker_chief.current_step = 2;
 									SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 								}
+								motherpl_pos_x = (UINT16) 83u << 3;
+								motherpl_pos_y = (UINT16) 11u << 3;
+								ChangeState(StateExzoo, s_motherow, -1);
+							}
+						break;
+						case 3:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 0);
+							}
+					}
+				break;
+				case 3:				
+					switch(current_map){
+						case 0:
+							if(s_motherow->y < lim_up_y){//go north to StateHood
+								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+									ChangeState(StateHood, s_motherow, -1);
+								}else{
+									s_motherow->y = lim_up_y + 6u;
+									alt = 1;
+								}
+							}
+							if(s_motherow->x > lim_east_x){
+								ChangeState(StateOverworld, s_motherow, 3);
+							}
+						break;
+						case 1:						
+							if(s_motherow->y > lim_down_y){//go south to StateHood
+								ChangeState(StateHood, s_motherow, -1);
+							}else if(s_motherow->x > lim_east_x){
+								s_motherow->x = lim_east_x - 6u;
+								alt = 1;
+							}
+						break;
+						case 2:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 1);
+							}
+							if(s_motherow->y > lim_down_y){
 								motherpl_pos_x = (UINT16) 83u << 3;
 								motherpl_pos_y = (UINT16) 11u << 3;
 								ChangeState(StateExzoo, s_motherow, -1);

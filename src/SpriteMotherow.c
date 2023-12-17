@@ -40,6 +40,7 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
+extern struct MISSION hungry_people;
 extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
@@ -188,6 +189,14 @@ void UPDATE(){
                             trigger_dialog(BLACKIE, THIS);
                         }
                     break;
+                    case SpriteBottle:
+                        {
+                        struct ItemSpawned pass_data={.itemtype = INVITEM_MAP, .quantity = 1, .equippable = 0u};
+                        pickup(&pass_data);
+                        hungry_people.mission_state = MISSION_STATE_REWARDED;
+                        SpriteManagerRemoveSprite(imowspr);
+                        }
+                    break;
                     case SpriteItemspawned:
                         {
                             struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
@@ -236,6 +245,15 @@ void UPDATE(){
                             find_antidote.current_step = find_antidote.current_step | herb_data->hp;
                             pickup(herb_data);
                             SpriteManagerRemoveSprite(imowspr);
+                        }
+                    break;
+                    case SpriteOwfisherman:
+                        THIS->x -= 4;
+                        if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED &&
+                            hungry_people.mission_state > MISSION_STATE_DISABLED){
+                            trigger_dialog(FISHERMAN_LETSGO, THIS);
+                        }else{
+                            trigger_dialog(FISHERMAN_THERESFISH, THIS);
                         }
                     break;
                 }

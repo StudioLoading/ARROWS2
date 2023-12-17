@@ -365,6 +365,30 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "THEY ASKED ARE ALL  \0", 22);
 			memcpy(d10, "INTO THIS BOX.     \0", 22);
 		break;
+		case SMITH_NEED_GOLD:
+			*n_lines = 10u;
+			memcpy(d0, "JOHN:               \0", 22);
+			memcpy(d1, "I SEE... YES, I AM ", 22);
+			memcpy(d2, "ABLE TO FORGE A    ", 22);
+			memcpy(d3, "GOLDEN ARMOUR FOR  ", 22);
+			memcpy(d4, "YOU. I NEED 200 PIE", 22);
+			memcpy(d5, "CES OF GOLD AND 200", 22);
+			memcpy(d6, "OF SILVER. I KNOW  ", 22);
+			memcpy(d7, "THERE'S A SILVER MI", 22);
+			memcpy(d8, "NE ON THE OTHER    ", 22);
+			memcpy(d9, "SIDE OF THE EASTERN", 22);
+			memcpy(d10, "RIVER.            ", 22);
+		break;
+		case SMITH_FORGE_ARMOUR:
+			*n_lines = 6u;
+			memcpy(d0, "JOHN:               \0", 22);
+			memcpy(d1, "AAAAALRIIIGHT!      \0", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "*SPLINK! SPLINK!*   \0", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5 "HERE IT IS, YOUR NEW ", 22);
+			memcpy(d6, "ARMOUR IS READY!    ", 22);
+		break;
 		case WOLF01:
 			memcpy(d0, "GRAY WOLF:         \0", 22);
 			switch(find_blackie.current_step){
@@ -586,7 +610,10 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		break;
 		case INVITEM_WOOD:
 			memcpy(log0, "       WOOD!        ", 20);
-		break;		
+		break;
+		case INVITEM_MAP:
+			memcpy(log0, "      A MAP!        ", 20);
+		break;
 	}
 }
 

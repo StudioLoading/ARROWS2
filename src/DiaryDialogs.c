@@ -87,7 +87,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case SMITH_D1:memcpy(d, "JOHN               ", 20);break;
 		case SMITH_D2:memcpy(d, "BRING THE FLOWERS  ", 20);break;
 		case SMITH_D3:memcpy(d, "TO JOHN            ", 20);break;
-		case GET_TO_THE_MOUNTAIN_TITLE:memcpy(d, "LORD OF THUNDERS ", 16);break;
+		case GET_TO_THE_MOUNTAIN_TITLE:memcpy(d, "LORD OF THUNDERS", 16);break;
 		case MOUNTAIN_D0:memcpy(d, "GET UP TO THE MOUN ", 20);break;
 		case MOUNTAIN_D1:memcpy(d, "TAINS AND FIND     ", 20);break;
 		case MOUNTAIN_D2:memcpy(d, "BLACKIE            ", 20);break;
@@ -97,7 +97,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case SCORPIONS_D1:memcpy(d, "SCORPIONS AROUND   ", 20);break;
 		case SCORPIONS_D2:memcpy(d, "I SHOULD ALSO CLEAN", 20);break;
 		case SCORPIONS_D3:memcpy(d, "THE EASTERN SIDE   ", 20);break;
-		case FIND_ANTIDOTE_TITLE:memcpy(d, "FIND THE ANTIDOTE", 16);break;
+		case FIND_ANTIDOTE_TITLE:memcpy(d, "FIND ANTIDOTE  ", 16);break;
 		case ANTIDOTE_D0:memcpy(d, "TALK TO THE DOCTORS", 20);break;
 		case ANTIDOTE_D1:memcpy(d, "ABOUT THE ANTIDOTE ", 20);break;
 		case ANTIDOTE_D2:memcpy(d, "FIND THE SCORPION' ", 20);break;
@@ -106,5 +106,22 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ANTIDOTE_D5:memcpy(d, "TO THE HOSPITAL!   ", 20);break;
 		case ANTIDOTE_D6:memcpy(d, "GO TALK TO JESSICA ", 20);break;
 		case ANTIDOTE_D7:memcpy(d, "BRING HERBS TO HOSP", 20);break;
+		case HUNGRY_TITLE:memcpy(d, "HUNGRY PEOPLE  ", 16);break;
+		case HUNGRY_D0:memcpy(d, "KILL ALL THE ALLIGA", 20);break;
+		case HUNGRY_D1:memcpy(d, "TORS FROM THE FISH ", 20);break;
+		case HUNGRY_D2:memcpy(d, "ERMAN BOAT.        ", 20);break;
+		case FIX_BRIDGE_TITLE:memcpy(d, "FIX THE BRIDGE ", 16);break;
+		case FIX_BRIDGE_D0:memcpy(d, "ASK THE CARPENTER  ", 20);break;
+		case FIX_BRIDGE_D1:memcpy(d, "TO FIX THE BRIDGE  ", 20);break;
+		case FIX_BRIDGE_D2:memcpy(d, "THE CARPENTER NEEDS", 20);break;
+		case FIX_BRIDGE_D3:memcpy(d, "50 WOOD, 50 METAL  ", 20);break;
+		case FIX_BRIDGE_D4:memcpy(d, "BRIDGE IS FIXED!   ", 20);break;
+		case GOLDEN_ARMOUR_TITLE:memcpy(d, "A NEW ARMOUR   ", 16);break;
+		case GOLDEN_D0:memcpy(d, "ASK THE SMITH TO   ", 20);break;
+		case GOLDEN_D1:memcpy(d, "FORGE A GOLDEN ARM ", 20);break;
+		case GOLDEN_D2:memcpy(d, "THE SMITH WANTS 200", 20);break;
+		case GOLDEN_D3:memcpy(d, "GOLD AND 200 SILVER", 20);break;
+		case GOLDEN_D4:memcpy(d, "I OBTAINED THE     ", 20);break;
+		case GOLDEN_D5:memcpy(d, "GOLDEN ARMOUR      ", 20);break;
 	}	
 }

@@ -35,27 +35,32 @@ CURRENT_BORDER current_border = BORDER_NONE;
 uint8_t sgb_running = NULL;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
-.mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION enable_hospital = {.mission_title = ENABLE_HOSPITAL, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION engage_smith = {.mission_title = ENGAGE_SMITH, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION help_cemetery_woman = {.mission_title = HELP_CEMATERY_WOMAN, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION outwalker_chief = {.mission_title = OUTWALKER_CHIEF, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION outwalker_glass = {.mission_title = OUTWALKER_GLASSES, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION outwalker_smith = {.mission_title = OUTWALKER_SMITH, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION get_to_the_mountain = {.mission_title = GET_TO_THE_MOUNTAIN, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u .phase = 0u};
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION defeat_scorpions = {.mission_title = DEFEAT_SCORPIONS, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION find_antidote = {.mission_title = FIND_ANTIDOTE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
-scrivere qui missioni del capitolo quarto, chapter == 3, Golden Armor
-struct MISSION* missions[11];
+struct MISSION hungry_people = {.mission_title = HUNGRY_PROPLE, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION golden_armour = {.mission_title = GOLDEN_ARMOUR, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION fix_bridge = {.mission_title = FIX_BRIDGE, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION* missions[13];
 /* 
 { engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
@@ -154,6 +159,16 @@ void missions_init() BANKED{
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
 			find_antidote.phase = 4;//0
 			find_antidote.current_step = 1u;//0
+			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;//MISSION_STATE_ENABLED
+			hungry_people.phase = 0;
+			hungry_people.current_step = 0;
+			fix_bridge.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
+			fix_bridge.phase = 0;
+			fix_bridge.current_step = 0;
+			golden_armour.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
+			golden_armour.phase = 0;
+			golden_armour.current_step = 0;
+
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -167,6 +182,8 @@ void missions_init() BANKED{
 	missions[8] = &get_to_the_mountain;
 	missions[9] = &defeat_scorpions;
 	missions[10] = &find_antidote;
+	missions[11] = &hungry_people;
+	missions[12] = &golden_armour;
 }
 
 void inventory_init() BANKED{

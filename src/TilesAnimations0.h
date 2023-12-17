@@ -34,3 +34,5 @@ void Anim_Cart_2() BANKED;
 void Anim_Cart_3() BANKED;
 void Anim_Cart_4() BANKED;
 void Anim_Cart_5() BANKED;
+void Anim_FPS_gator_0() BANKED;
+void Anim_FPS_gator_1() BANKED;
