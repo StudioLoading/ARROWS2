@@ -56,7 +56,7 @@ struct MISSION find_antidote = {.mission_title = FIND_ANTIDOTE,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION hungry_people = {.mission_title = HUNGRY_PROPLE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
-struct MISSION golden_armour = {.mission_title = GOLDEN_ARMOUR, 
+struct MISSION golden_armor = {.mission_title = GOLDEN_ARMOR, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION fix_bridge = {.mission_title = FIX_BRIDGE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
@@ -165,9 +165,9 @@ void missions_init() BANKED{
 			fix_bridge.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
 			fix_bridge.phase = 0;
 			fix_bridge.current_step = 0;
-			golden_armour.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
-			golden_armour.phase = 0;
-			golden_armour.current_step = 0;
+			golden_armor.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
+			golden_armor.phase = 0;
+			golden_armor.current_step = 0;
 
 		break;
 	}
@@ -183,7 +183,8 @@ void missions_init() BANKED{
 	missions[9] = &defeat_scorpions;
 	missions[10] = &find_antidote;
 	missions[11] = &hungry_people;
-	missions[12] = &golden_armour;
+	missions[12] = &fix_bridge;
+	missions[13] = &golden_armor;
 }
 
 void inventory_init() BANKED{

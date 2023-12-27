@@ -36,6 +36,7 @@ _STATE(StateCart)\
 _STATE(StateScorpions)\
 _STATE(StateBossscorpion)\
 _STATE(StateFps)\
+_STATE(StateBridge)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\

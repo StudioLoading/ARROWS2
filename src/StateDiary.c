@@ -51,7 +51,7 @@ extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
-extern struct MISSION golden_armour;
+extern struct MISSION golden_armor;
 extern struct MISSION* missions[13];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
@@ -343,13 +343,26 @@ void show_detail(){
                     }
                 break;
                 case 1u:
-                    if(golden_armour.mission_state >= MISSION_STATE_ENABLED){
+                    if(fix_bridge.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(FIX_BRIDGE_D0, dd2);
+                        GetLocalizedDDLabel_EN(FIX_BRIDGE_D1, dd3);
+                        if(fix_bridge.mission_state >= MISSION_STATE_STARTED){
+                            GetLocalizedDDLabel_EN(FIX_BRIDGE_D2, dd4);
+                            GetLocalizedDDLabel_EN(FIX_BRIDGE_D3, dd5);
+                            if(fix_bridge.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                                GetLocalizedDDLabel_EN(FIX_BRIDGE_D4, dd6);
+                            }
+                        }
+                    }
+                break;
+                case 2u:
+                    if(golden_armor.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(GOLDEN_D0, dd2);
                         GetLocalizedDDLabel_EN(GOLDEN_D1, dd3);
-                        if(golden_armour.current_step >= 1){
+                        if(golden_armor.current_step >= 1){
                             GetLocalizedDDLabel_EN(GOLDEN_D2, dd4);
                             GetLocalizedDDLabel_EN(GOLDEN_D3, dd5);
-                            if(golden_armour.mission_state >= MISSION_STATE_REWARDED){
+                            if(golden_armor.mission_state >= MISSION_STATE_REWARDED){
                                 GetLocalizedDDLabel_EN(GOLDEN_D4, dd6);
                                 GetLocalizedDDLabel_EN(GOLDEN_D5, dd7);
                             }
@@ -417,8 +430,8 @@ void show_missions(){
             if(fix_bridge.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(FIX_BRIDGE_TITLE, m1);
             }
-            if(golden_armour.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(GOLDEN_ARMOUR_TITLE, m2);
+            if(golden_armor.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(GOLDEN_ARMOR_TITLE, m2);
             }
             //fix_bridge
         break;

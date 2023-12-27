@@ -668,11 +668,12 @@ void update_camera_position() BANKED{
                     case StateMountain:
                         ChangeState(StateOutwalkers, s_motherpl, -1);
                     break;
+                    case StateBridge:
+                        next_ = 3u;
                     default:
                         ChangeState(StateOverworld, s_motherpl, next_);
                     break;
                 }
-                
             }
             if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
                 s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;

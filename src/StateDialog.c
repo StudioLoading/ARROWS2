@@ -27,6 +27,7 @@ IMPORT_MAP(dialogmapsmith);
 IMPORT_MAP(dmapblackie);
 IMPORT_MAP(dmaphood);
 IMPORT_MAP(dmappolice);
+IMPORT_MAP(dmapriverside);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -94,12 +95,13 @@ extern void load_chapter() BANKED;
 void START() {
     HIDE_WIN;
     switch(whostalking){
-        case INTRO:InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
+        case INTRO: case ITEMDETAIL_MAP:
+        InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
         case SHOP_SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
         case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
         case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
-        case SMITH_FORGE_ARMOUR: case SMITH_NEED_GOLD:
+        case SMITH_FORGE_ARMOR: case SMITH_NEED_GOLD:
             InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
         break;
         case BLACKIE:
@@ -112,6 +114,10 @@ void START() {
         case POLICE_0_GET_PASS: case POLICE_0_STILL_NOT_FOUND:
 	    case POLICE_0_WONT_TALK: case POLICE_0_FIGHTING: case POLICE_0_NOGUARDS:
             InitScroll(BANK(dmappolice), &dmappolice, 0, 0);
+        break;
+        case FISHERMAN_LETSGO: case FISHERMAN_THERESFISH:
+        case FISHERMAN_FPSGATOR_COMPLETED:
+            InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
         default:
             switch(previous_state){

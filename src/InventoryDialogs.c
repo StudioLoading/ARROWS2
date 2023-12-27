@@ -105,7 +105,7 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case HERBS_DETAIL2:memcpy(d, "INGREDIENT ", 12);break;
 		case HERBS_DETAIL3:memcpy(d, "FOR THE    ", 12);break;
 		case HERBS_DETAIL4:memcpy(d, "ANTIDOTE   ", 12);break;
-		case MAP_NAME:memcpy(d, "    A MAP  ", 12);break;
+		case MAP_NAME:memcpy(d, " LIAM WRITE ", 12);break;
 		case MAP_DETAIL1:memcpy(d, "PRESS FIRE ", 12);break;
 		case MAP_DETAIL2:memcpy(d, "TO ANALYZE ", 12);break;
 		case MAP_DETAIL3:memcpy(d, "IT.        ", 12);break;

@@ -47,7 +47,7 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
-extern struct MISSION golden_armour;
+extern struct MISSION golden_armor;
 extern struct MISSION fix_bridge;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
@@ -542,6 +542,28 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "GIVE YOU 30 ARROWS! ", 22);
 		break;
 		case CARPENTER_GIVING_ARROWS:
+			*n_lines = 6u;
+			memcpy(d0, "PETER:               ", 22);
+			memcpy(d1, "*TZIN! TZIN!*        ", 22);
+			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, "HERE, 30 PEARCING    ", 22);
+			memcpy(d4, "ARROWS FOR YOU!      ", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "HAVE A NICE DAY!     ", 22);
+		break;
+		case CARPENTER_FIX_BRIDGE:
+			*n_lines = 9u;
+			memcpy(d0, "PETER:               ", 22);
+			memcpy(d1, "ENOUGH! I CAN NOW    ", 22);
+			memcpy(d2, "FIX THE BRIDGE, THANK", 22);
+			memcpy(d3, "YOU VERY MUCH!       ", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "I THINK NOW YOU CAN  ", 22);
+			memcpy(d6, "GO TO THE OTHER SIDE ", 22);
+			memcpy(d7, "OF IT. BUT BE CAREFUL", 22);
+			memcpy(d8, "I'VE HEARD THERE'S A ", 22);
+			memcpy(d9, "MINOTAUR THERE...!   ", 22);
+		break;
 		case SMITH_GIVING_ARROWS:
 			*n_lines = 7u;
 			memcpy(d0, "PETER:              \0", 22);
@@ -552,6 +574,18 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
 			memcpy(d7, "PEARCED FOR YOU!!   \0", 22);			
+		break;
+		case CARPENTER_NEED_MATERIALS:
+			*n_lines = 8u;
+			memcpy(d0, "PETER:              ", 22);
+			memcpy(d1, "YES, I WOULD BE ABLE", 22);
+			memcpy(d2, "TO FIX THAT BRIDGE. ", 22);
+			memcpy(d3, "OF COURSE I NEED MAT", 22);
+			memcpy(d4, "ERIALS. 20 PIECES OF", 22);
+			memcpy(d5, "WOOD AND 20 OF METAL", 22);
+			memcpy(d6, "TO FIX THAT BRIDGE. ", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "JUST BRING IT. OK?  ", 22);
 		break;
 		case POLICE_0_GET_PASS:
 			*n_lines = 15u;
@@ -700,12 +734,12 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "LET'S GO BACK TO THE", 22);
 			memcpy(d8, "BEACH.              ", 22);
 			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
-			golden_armour.mission_state = MISSION_STATE_ENABLED;
+			golden_armor.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case ITEMDETAIL_MAP:
 			*n_lines = 19u;
-			memcpy(d0, "THE BOTTLE CONTAINED", 22);
-			memcpy(d1, "A MESSAGE:          ", 22);
+			memcpy(d0, "LIAM HANDWRITTEN    ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "HELLO MOTHER! I HOPE", 22);
 			memcpy(d3, "THIS LETTER FINDS   ", 22);
 			memcpy(d4, "YOU WELL. THE MASTER", 22);
@@ -719,12 +753,29 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d12, "HERE WE FOUND AN OLD", 22);
 			memcpy(d13, "BOOK ABOUT LEGENDARY", 22);
 			memcpy(d14, "BEASTS AND WE DISCO ", 22);
-			memcpy(d15, "VERED GOLDEN ARMOUR ", 22);
+			memcpy(d15, "VERED GOLDEN ARMOR  ", 22);
 			memcpy(d16, "WILL PROTECT US FROM", 22);
 			memcpy(d17, "DRAGON BREATHS. THE ", 22);
 			memcpy(d18, "SMITH SHOULD BE ABLE", 22);
 			memcpy(d19, "FORGE IT. LOVE, LIAM", 22);
-			golden_armour.mission_state = MISSION_STATE_STARTED;
+			golden_armor.mission_state = MISSION_STATE_STARTED;
+		break;
+		case BRIDGE_BROKEN:
+			*n_lines = 5u;
+			memcpy(d0, "DESSA:              ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "THE BRIDGE IS BROKEN", 22);
+			if(fix_bridge.mission_state < MISSION_STATE_STARTED){
+				memcpy(d3, "I WONDER IF THE     ", 22);
+				memcpy(d4, "CARPENTER WOULD BE  ", 22);
+				memcpy(d5, "ABLE TO FIX IT...   ", 22);
+			}else{
+				memcpy(d3, "I MUST HELP THE     ", 22);
+				memcpy(d4, "CARPENTER AND BRING ", 22);
+				memcpy(d5, "HIM THE NEEDED      ", 22);
+				memcpy(d6, "MATERIALS.          ", 22);
+				*n_lines = 6u;
+			}
 		break;
     }
 }

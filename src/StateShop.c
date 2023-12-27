@@ -29,7 +29,8 @@ extern struct MISSION engage_smith;
 extern struct MISSION find_blackie;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
-extern struct MISSION golden_armour;
+extern struct MISSION golden_armor;
+extern struct MISSION fix_bridge;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -73,10 +74,10 @@ void START() {
 }
 
 void UPDATE() {
-    if(KEY_RELEASED(J_UP)){
+    /*if(KEY_RELEASED(J_UP)){
         counter_char = 0u;
         dialog_ready = 0u; 
-    }
+    }*/
     switch(dialog_ready){
         case 0u:
             PRINT(0, 7, EMPTY_STRING_21);
@@ -120,15 +121,21 @@ void UPDATE() {
                         case MISSION_STATE_ACCOMPLISHED:
                         case MISSION_STATE_REWARDED:
                             //normal behave
-                            if(golden_armour.mission_state >= MISSION_STATE_STARTED &&
-                                golden_armour.mission_state >= MISSION_STATE_ACCOMPLISHED){
-                                    whostalking = SMITH_NEED_GOLD;
+                            if(golden_armor.mission_state >= MISSION_STATE_STARTED &&
+                                golden_armor.mission_state <= MISSION_STATE_ACCOMPLISHED){
+                                whostalking = SMITH_NEED_GOLD;
+                                if(golden_armor.current_step == 0){
+                                    golden_armor.current_step = 1;
+                                }
+                                if(fix_bridge.mission_state == MISSION_STATE_DISABLED){
+                                    fix_bridge.mission_state = MISSION_STATE_ENABLED;
+                                }else if(fix_bridge.mission_state == MISSION_STATE_REWARDED){
                                     if(get_quantity(INVITEM_MONEY) >= 200 &&
                                         get_quantity(INVITEM_METAL_SPECIAL) >= 200){
                                         change_quantity(INVITEM_MONEY, -200);
                                         change_quantity(INVITEM_METAL_SPECIAL, -200);
-                                        change_quantity(INVITEM_ARMOUR, 1);
-                                        whostalking = SMITH_FORGE_ARMOUR;
+                                        change_quantity(INVITEM_ARMOR, 1);
+                                        whostalking = SMITH_FORGE_ARMOR;
                                     }
                                 }
                             }else if(outwalker_smith.mission_state == MISSION_STATE_DISABLED || 
@@ -178,7 +185,22 @@ void UPDATE() {
                         break;
                         default:
                             whostalking = CARPENTER_CHECKING_NOWOODANDMETAL;
-                            if(get_quantity(INVITEM_METAL) >= 15 && get_quantity(INVITEM_WOOD) >= 15){
+                            if(golden_armor.mission_state < MISSION_STATE_ACCOMPLISHED &&
+                                fix_bridge.mission_state >= MISSION_STATE_ENABLED &&
+                                fix_bridge.mission_state < MISSION_STATE_ACCOMPLISHED){
+                                whostalking = CARPENTER_NEED_MATERIALS;
+                                if(fix_bridge.mission_state == MISSION_STATE_ENABLED){
+                                    fix_bridge.mission_state = MISSION_STATE_STARTED;
+                                }
+                                if(fix_bridge.mission_state == MISSION_STATE_STARTED){                                    
+                                    if(get_quantity(INVITEM_METAL) >= 20 && get_quantity(INVITEM_WOOD) >= 20){
+                                        change_quantity(INVITEM_METAL, -20);
+                                        change_quantity(INVITEM_WOOD, -20);
+                                        fix_bridge.mission_state = MISSION_STATE_REWARDED;
+                                        whostalking = CARPENTER_FIX_BRIDGE;
+                                    }
+                                }
+                            }else if(get_quantity(INVITEM_METAL) >= 15 && get_quantity(INVITEM_WOOD) >= 15){
                                 change_quantity(INVITEM_METAL, -15);
                                 change_quantity(INVITEM_WOOD, -15);
                                 change_quantity(INVITEM_ARROW_PERFO, 30);

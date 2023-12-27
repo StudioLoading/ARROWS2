@@ -523,7 +523,6 @@ void initial_sprite_spawning() BANKED{
 				}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
 					SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
 				}
-				//if mission "fix bridge" is not accomplished
 				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
 				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
 				s_owbridge2->mirror = V_MIRROR;

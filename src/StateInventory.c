@@ -137,6 +137,7 @@ void START(){
                 break;
                 case INVITEM_LETTER:
                 case INVITEM_PASS:
+                case INVITEM_MAP:
                     UPDATE_HUD_TILE(uneq_x,1,24);
                     UPDATE_HUD_TILE(uneq_x,2,25);
                     uneq_x += 1;
@@ -177,13 +178,6 @@ void START(){
                     uneq_x += 1;
                     UPDATE_HUD_TILE(uneq_x,1,42);
                     UPDATE_HUD_TILE(uneq_x,2,43);
-                break;
-                case INVITEM_MAP:
-                    UPDATE_HUD_TILE(uneq_x,1,44);
-                    UPDATE_HUD_TILE(uneq_x,2,45);
-                    uneq_x += 1;
-                    UPDATE_HUD_TILE(uneq_x,1,46);
-                    UPDATE_HUD_TILE(uneq_x,2,47);
                 break;
             }
             uneq_x += 2;

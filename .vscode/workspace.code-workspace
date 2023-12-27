@@ -30,7 +30,8 @@
 			"bankmanager.h": "c",
 			"fade.h": "c",
 			"diarydialogs.h": "c",
-			"inventorydialogs.h": "c"
+			"inventorydialogs.h": "c",
+			"math.h": "c"
 		}
 	}
 }

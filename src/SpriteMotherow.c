@@ -41,6 +41,7 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
+extern struct MISSION fix_bridge;
 extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
@@ -254,6 +255,14 @@ void UPDATE(){
                             trigger_dialog(FISHERMAN_LETSGO, THIS);
                         }else{
                             trigger_dialog(FISHERMAN_THERESFISH, THIS);
+                        }
+                    break;
+                    case SpriteOwbridgebroken:
+                        THIS->x -= 4;
+                        if(fix_bridge.mission_state < MISSION_STATE_REWARDED){
+                            trigger_dialog(BRIDGE_BROKEN, THIS);
+                        }else{
+                            ChangeState(StateBridge, THIS, -1);
                         }
                     break;
                 }
