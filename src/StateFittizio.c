@@ -371,6 +371,8 @@ void check_sgb_palette(UINT8 new_state) BANKED{
                     //set_sgb_palette01_worldmap();
                     case 1:set_sgb_worldmap_nw();break;//nw
                     case 2:set_sgb_palette01_worldmap_maze();break;//maze
+                    case 3:set_sg3_palette01_worldmap();break;//se
+                    case 4:set_sg3_palette01_worldmap();break;//e
                 }
             }
             reset_sgb_palette_statusbar();
@@ -429,6 +431,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         }else if(current_map == 3 && next_map == 0){
                             motherow_pos_x = (UINT16) 43u << 3;
                             motherow_pos_y = (UINT16) 23u << 3;
+                        }else if(next_map == 4){
+                            motherow_pos_x = (UINT16) 29u << 3;
+                            motherow_pos_y = (UINT16) 37u << 3;
                         }
                         if(previous_state == StateHood){
                             motherow_pos_x = (UINT16) 19u << 3;
@@ -443,6 +448,20 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(new_state == StateBlackiecave){
                                 motherpl_pos_x = (UINT16)60u << 3;
                                 motherpl_pos_y = (UINT16)8u << 3;
+                            }
+                        break;
+                        case StateBridge:
+                            if(new_state == StateOverworld){
+                                switch(next_map){
+                                    case 4: 
+                                        motherow_pos_x = (UINT16) 29u << 3;
+                                        motherow_pos_y = (UINT16) 37u << 3;
+                                    break;
+                                    case 2:
+                                        motherow_pos_x = (UINT16) 30u << 3;
+                                        motherow_pos_y = (UINT16) 36u << 3;
+                                    break;
+                                }
                             }
                         break;
                         case StateHood:
@@ -689,6 +708,9 @@ void update_camera_position() BANKED{
                     case StateMountain:
                         ChangeState(StateSky, s_motherpl, -1);
                     break;
+                    case StateBridge:
+                        ChangeState(StateOverworld, s_motherpl, 4);
+                    break;
                     case StateOutwalkers:
                         ChangeState(StateMountain, s_motherpl, -1);
                     break;
@@ -704,7 +726,7 @@ void update_camera_position() BANKED{
             if(s_motherpl->y > (((UINT16) mapheight) << 3) && current_state != StateCart){
                 s_motherpl->y = ((UINT16) mapheight) - 32u;
             }
-            if(s_motherpl->y <= 0u){
+            if(s_motherpl->y > 60000u){
                 s_motherpl->y = 32u;
             }  
     //SCROLL TARGET Y    

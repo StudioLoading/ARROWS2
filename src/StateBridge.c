@@ -43,14 +43,21 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
+extern UINT16 counter_birdsky;
+extern UINT8 counter_fish;
 
-const UINT8 coll_tiles_bridge[] = {1u, 75u, 86u, 0};
-const UINT8 coll_surface_bridge[] = {0};
+const UINT8 coll_tiles_bridge[] = {1u, 63u, 82u, 83u,
+                                91u, 92u, 93u, 95u, 96u, 98u, 100u, 0};
+const UINT8 coll_surface_bridge[] = {75u, 86u, 89u, 90u, 0};
 
 extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
 extern UINT8 timeout_cavesand;
 extern UINT8 enemy_wave;
+
+UINT16 perc_10;
+UINT16 perc_40; 
+UINT16 perc_90;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -58,6 +65,9 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
+extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
+
+void spawn_seagull(UINT16 gull_x, UINT16 gull_y) BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -89,64 +99,32 @@ void START(){
     tiles_anim_interval = 0u;
     timeout_enemy = 10u;
     timeout_cavesand = 0u;
+    counter_birdsky = 0u;
+    counter_fish = 0u;
+    perc_10 = (mapwidth/10) << 3;
+    perc_40 = perc_10 << 2; 
+    perc_90 = (mapwidth << 3) - perc_10;
+    enemy_wave = 0u;
     SHOW_SPRITES;
 }
 
 void UPDATE(){
-    //COOLDOWNS
-        if(powder_cooldown > 0){powder_cooldown--;}
-    //SPAWNING ITEM COOLDOWN
-        if(item_spawned_cooldown > 0u){
-            item_spawned_cooldown--;
+    //SPAWNING NPA    
+        counter_birdsky++;
+        if(counter_birdsky >= 1000){
+            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 1 << 3), 2);
+            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 0 << 3), 2);
+            counter_birdsky = 0u;
         }
-    //CAVE TILES ANIM
-        /*
-        tiles_anim_interval++;
-        switch(tiles_anim_interval){
-            case 6u:
-                Anim_Cave_1();
-            break;
-            case 12u:
-                Anim_Cave_2();
-            break;
-            case 18u:
-                Anim_Cave_3();
-            break;
-            case 24u:
-                Anim_Cave_4();
-            break;
-            case 30u:
-                Anim_Cave_5();
-            break;
-            case 36u:
-                Anim_Cave_0();
-                tiles_anim_interval = 0u;
+        counter_fish++;
+        switch(counter_fish){
+            case 90:
+            case 120:
+                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 14 << 3), 2);
+                spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 16 << 3) -2, 4);
+                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 14 << 3) + 2, 1);
             break;
         }
-        */
-    //CAVESAND ANIM
-        /*
-        if(
-            (s_motherpl->x>((UINT16)43u)<<3 && s_motherpl->x<((UINT16)63u)<<3)
-            ||
-            (s_motherpl->x>((UINT16)83u)<<3 && s_motherpl->x<((UINT16)103u)<<3)
-            || 
-            (s_motherpl->x>((UINT16)132u)<<3)
-        )        
-        {
-            timeout_cavesand--;
-            if(timeout_cavesand == 80u){
-                SpriteManagerAdd(SpriteCavesand, s_motherpl->x+24u, (UINT16) 24u);
-            }
-            if(timeout_cavesand == 160u){
-                SpriteManagerAdd(SpriteCavesand, s_motherpl->x-12u, (UINT16) 24u);
-            }
-            if(timeout_cavesand == 0u){
-                SpriteManagerAdd(SpriteCavesand, s_motherpl->x+64u, (UINT16) 24u);
-                timeout_cavesand = 240u;
-            }
-        }
-        */
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
@@ -158,50 +136,41 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //INIT ENEMIES
-        UINT16 spawn_posx = 0u;
-        if(s_motherpl->x > ((UINT16)50u)<<3 && 
-            s_motherpl->x < ((UINT16)93u)<<3){
-            spawn_posx = 73u;
-        }
-        if(s_motherpl->x > ((UINT16)154u)<<3 && 
-            s_motherpl->x < ((UINT16)184u)<<3){
-            spawn_posx = 169u;
-        }
-        if(spawn_posx == 0u && enemy_wave > 0){
-            enemy_wave = 0u;
-        }
-        if(s_motherpl && spawn_posx && enemy_wave < HORDE){
+        if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))){
             timeout_enemy--;
-            if(timeout_enemy == 0u){
-                timeout_enemy = 200u;
-                switch(init_enemy){
-                    case 1u:
-                    case 2u:
-                    case 3u:
-                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
-                        enemy_wave++;
-                    break;
-                    case 4u:
-                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
-                        enemy_wave++;
-                    break;
-                    case 5u:
-                        init_enemy = 0;
-                    break;
-                }
-                init_enemy++;
+            if(timeout_enemy > 150u){
+                timeout_enemy = 0u;
             }
-        }else if (timeout_enemy != 10u){
-            timeout_enemy = 10u;
-        }
-    
-    //METAL SPECIAL
-        if(s_motherpl->x > ((UINT16) 190u << 3)){
-            if(enable_hospital.mission_state == MISSION_STATE_ENABLED && enable_hospital.current_step == 0){
-                spawnItem(INVITEM_METAL_SPECIAL, ((UINT16) 195u << 3), ((UINT16) 7u << 3));
-                enable_hospital.current_step = 1;
+            if(timeout_enemy == 0u){
+                if(s_motherpl->x < perc_40){
+                    timeout_enemy = 80u;
+                }else if(s_motherpl->x > perc_40 && s_motherpl->x < perc_90){
+                    timeout_enemy = 40u;
+                }
+                enemy_wave++;
+                if(enemy_wave == 5u){
+                    enemy_wave = 0u;
+                }
+                UINT16 gullx = s_motherpl->x + 140u;
+                UINT16 gully = 16u;
+                switch(enemy_wave){
+                    case 1u:gully = 52u;break;
+                    case 2u:gully = 44u;break;
+                    case 3u:gully = 56u;break;
+                    case 4u:gully = 60u;break;
+                }
+                spawn_seagull(gullx, gully);
             }
         }
     Log(NONAME);
 }
 
+void spawn_seagull(UINT16 gullx, UINT16 gully) BANKED{
+    Sprite* s_gull = SpriteManagerAdd(SpriteSeagull, gullx, gully);
+    struct EnemyData* data_gull = (struct EnemyData*) s_gull->custom_data;
+    data_gull->configured = 1;
+    data_gull->vx = -1;
+    if(gully == 56u && timeout_enemy == 40){
+        data_gull->vx = -2;
+    }
+}

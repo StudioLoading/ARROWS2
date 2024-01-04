@@ -50,7 +50,10 @@ void UPDATE(){
             {
                 fish_info->wait--;
                 if((fish_info->wait & 1) == 1){
-                    THIS->x += fish_info->vx;
+                    fish_info->et_collision = TranslateSprite(THIS, fish_info->vx << delta_time, 0);
+                    if(fish_info->et_collision){
+                        SpriteManagerRemoveSprite(THIS);
+                    }
                 }
                 switch(fish_info->wait){
                     case 0u:

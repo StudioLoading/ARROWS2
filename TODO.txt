@@ -1,6 +1,7 @@
 POST DEMO:
-- dialog del fisherman e del bridge, col fiume e l' altra riva a vista
+
 - StateBridge
+
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
@@ -106,7 +107,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dialogriverside.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe orpheusmaptest.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

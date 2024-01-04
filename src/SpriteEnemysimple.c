@@ -35,7 +35,7 @@ extern UINT8 mapwidth;
 void Estart() BANKED;
 void configure() BANKED;
 void ETurn(UINT8 e_vx);
-extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
+void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 UINT8 getEmaxFrameskip() BANKED;
 void Econfiguration() BANKED;
 void Emanagement() BANKED;

@@ -120,6 +120,7 @@ _SPRITE_DMG(SpritePuntawater, puntawater)\
 _SPRITE_DMG(SpriteFish, fish)\
 _SPRITE_DMG(SpritePlusone, plusone)\
 _SPRITE_DMG(SpriteBottle, bottle)\
+_SPRITE_DMG(SpriteSeagull, seagull)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

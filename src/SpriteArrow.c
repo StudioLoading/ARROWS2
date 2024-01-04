@@ -158,6 +158,7 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
                     case SpriteEnemyThrowerScorpion:
+                    case SpriteSeagull:
                     case SpriteBosscrab:
                     //io freccia ho colpito enemy
                         {

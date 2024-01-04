@@ -566,6 +566,7 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteBigstone:
                     case SpriteBolt:
+                    case SpriteSeagull:
                     case SpriteBosscrab:
                     case SpriteBossscorpion:
                         motherpl_hitted(implspr);

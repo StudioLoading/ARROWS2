@@ -20,6 +20,7 @@ IMPORT_MAP(owsouthwest);
 IMPORT_MAP(ownorthwest);
 IMPORT_MAP(owmaze);
 IMPORT_MAP(owsoutheast);
+IMPORT_MAP(oweast);
 IMPORT_MAP(hudow);
 
 
@@ -129,6 +130,12 @@ void START(){
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsoutheast), &owsoutheast, collision_tiles_ow_sw, 0);
 			break;
+			case 4://east
+				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+				new_state = IDLE_RIGHT;
+				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
+				InitScroll(BANK(oweast), &oweast, collision_tiles_ow_sw, 0);
+			break;
 		}
 		delay_spawning = 80u;
 	//CUTSCENES
@@ -170,6 +177,11 @@ void START(){
 				lim_up_y = ((UINT16) 4u << 3);
 				lim_down_y = ((UINT16) 50u << 3);
 				lim_west_x = ((UINT16) 3u << 3);
+			break;
+			case 3://EAST
+				lim_up_y = ((UINT16) 6u << 3);
+				lim_down_y = ((UINT16) 56u << 3);
+				lim_west_x = ((UINT16) 6u << 3);
 			break;
 		}
 	//INITIAL TIPS
@@ -527,6 +539,9 @@ void initial_sprite_spawning() BANKED{
 				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
 				s_owbridge2->mirror = V_MIRROR;
 			}
+		break;
+		case 4://east
+			TODO
 		break;
 	}
 }

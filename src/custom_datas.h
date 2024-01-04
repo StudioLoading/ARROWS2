@@ -214,7 +214,8 @@ typedef enum{
 	SPIDER,
 	TARANTULA,
 	SCORPIO_HEAD,
-	SCORPIO_BODY
+	SCORPIO_BODY,
+	GULL
 }ENEMY_TYPE;
 
 typedef enum{
