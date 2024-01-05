@@ -1,7 +1,5 @@
 POST DEMO:
 
-- StateBridge
-
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze

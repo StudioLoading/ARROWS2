@@ -138,8 +138,14 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_FISHERMAN:
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " THE FISHERMAN       \0", 22);
+			memcpy(d1, " THE FISHERMAN       ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_SILVER_MINE:
+			memcpy(d3, EMPTY_STRING_21 , 22);
+			memcpy(d1, " SILVER MINE -       ", 22);
+			memcpy(d2, "BEWARE THE MINOTAUR! ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 	}

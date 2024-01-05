@@ -257,14 +257,6 @@ void UPDATE(){
                             trigger_dialog(FISHERMAN_THERESFISH, THIS);
                         }
                     break;
-                    case SpriteOwbridgebroken:
-                        THIS->x -= 4;
-                        if(fix_bridge.mission_state < MISSION_STATE_REWARDED){
-                            trigger_dialog(BRIDGE_BROKEN, THIS);
-                        }else{
-                            ChangeState(StateBridge, THIS, -1);
-                        }
-                    break;
                 }
             }
         };
@@ -278,9 +270,9 @@ void show_owpusha_sign() BANKED{
         case 83u:
         case 85u://SMITH, POLICE
         case 46u:
-        case 47u://CARTEL
+        case 47u://GREEN CARTEL
         case 86u:
-        case 87u://CARTEL
+        case 87u://YELLOW CARTEL
             show = 1u;
         break;
     }
@@ -371,6 +363,11 @@ void ow_check_place() BANKED{//tile collision
                     break;
                 }
             break;
+            case 149u://BRIDGE
+                if(fix_bridge.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                    ChangeState(StateBridge, THIS, -1);
+                }else{trigger_dialog(BRIDGE_BROKEN, THIS);}
+            break;
         }
     }
     motherow_info->tile_collision = 0;
@@ -417,7 +414,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 }
                 break;
                 case 46u:
-                case 47u:
+                case 47u://GREEN CARTEL
                     switch(current_map){
                         case 0u://sw map = BLACKIE CAVE
                             tip_to_show = TIP_BLACKIE_CAVE;
@@ -429,7 +426,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                     trigger_tip = 1u;
                 break;
                 case 86u:
-                case 87u://CARTELLO
+                case 87u:// YELLOW CARTEL
                     switch(current_map){
                         case 0u://sw map = MINE CAVE
                             tip_to_show = TIP_MINE_CAVE;
@@ -440,6 +437,9 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                         break;
                         case 3u:
                             tip_to_show = TIP_FISHERMAN;
+                        break;
+                        case 4u://EAST
+                            tip_to_show = TIP_SILVER_MINE;
                         break;
                     }
                     trigger_tip = 1u;

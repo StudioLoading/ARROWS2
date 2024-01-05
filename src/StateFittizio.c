@@ -48,6 +48,7 @@ extern struct MISSION help_cemetery_woman;
 extern struct MISSION enable_hospital;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
+extern struct MISSION golden_armor;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
 extern MOTHERPL_STATE motherpl_state;
@@ -368,11 +369,10 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             if(new_state == StateOverworld){
                 switch(current_map){
                     case 0:set_sgb_palette01_worldmap();break;//sw
-                    //set_sgb_palette01_worldmap();
                     case 1:set_sgb_worldmap_nw();break;//nw
                     case 2:set_sgb_palette01_worldmap_maze();break;//maze
-                    case 3:set_sg3_palette01_worldmap();break;//se
-                    case 4:set_sg3_palette01_worldmap();break;//e
+                    case 3:set_sgb_palette01_worldmap();break;//se
+                    case 4:set_sgb_palette01_worldmap();break;//e
                 }
             }
             reset_sgb_palette_statusbar();
@@ -432,8 +432,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherow_pos_x = (UINT16) 43u << 3;
                             motherow_pos_y = (UINT16) 23u << 3;
                         }else if(next_map == 4){
-                            motherow_pos_x = (UINT16) 29u << 3;
-                            motherow_pos_y = (UINT16) 37u << 3;
+                            motherow_pos_x = (UINT16) 26u << 3;
+                            motherow_pos_y = ((UINT16) 37u << 3) + 3;
                         }
                         if(previous_state == StateHood){
                             motherow_pos_x = (UINT16) 19u << 3;
@@ -457,9 +457,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                         motherow_pos_x = (UINT16) 29u << 3;
                                         motherow_pos_y = (UINT16) 37u << 3;
                                     break;
-                                    case 2:
-                                        motherow_pos_x = (UINT16) 30u << 3;
-                                        motherow_pos_y = (UINT16) 36u << 3;
+                                    case 3:
+                                        motherow_pos_x = (UINT16) 32u << 3;
+                                        motherow_pos_y = ((UINT16) 36u << 3) + 4u;
                                     break;
                                 }
                             }
@@ -672,6 +672,7 @@ void update_camera_position() BANKED{
     }
     //LIMITS
         //HORIZONTAL
+            //LEFT
             if(s_motherpl->x < (UINT16)8u){
                 s_motherpl->x = 8u;
                 UINT8 next_ = -1;
@@ -694,6 +695,7 @@ void update_camera_position() BANKED{
                     break;
                 }
             }
+            //RIGHT
             if(s_motherpl->x > (((UINT16)mapwidth) << 3) - 16u){
                 s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
                 switch(current_state){
@@ -709,6 +711,7 @@ void update_camera_position() BANKED{
                         ChangeState(StateSky, s_motherpl, -1);
                     break;
                     case StateBridge:
+                        golden_armor.current_step = 2;
                         ChangeState(StateOverworld, s_motherpl, 4);
                     break;
                     case StateOutwalkers:

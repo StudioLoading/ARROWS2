@@ -12,11 +12,13 @@ extern MOTHERPL_STATE motherpl_state;
 const UINT8 a_gull[] = {6, 4, 1, 1, 1, 2, 3}; //The first number indicates the number of frames
 const UINT8 a_gull_dead[] = {6, 0, 1, 0, 2,0 , 3}; //The first number indicates the number of frames
 
+extern UINT8 enemy_counter;
+
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START() {
-    THIS->lim_x = 200u;
+    THIS->lim_x = 100u;
     THIS->lim_y = 20u;
 	SetSpriteAnim(THIS, a_gull, 8u);
     struct EnemyData* gull_data = (struct EnemyData*) THIS->custom_data;
@@ -25,6 +27,7 @@ void START() {
     gull_data->hp = 1;
     gull_data->type = GULL;
     gull_data->e_state = ENEMY_WALK;
+    enemy_counter++;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
@@ -72,7 +75,8 @@ void UPDATE() {
             }
         break;
         case 3u:
-            THIS->y--;
+            THIS->mirror = V_MIRROR;
+            THIS->y-=2;
         break;
     }
     //EspriteCollision(eu_info); 
@@ -82,20 +86,15 @@ void UPDATE() {
             if(CheckCollision(THIS, isgspr)) {
                 switch(isgspr->type){
                     case SpriteMotherpl://io enemy ho colpito motherpl
-                        if(motherpl_state == MOTHERPL_DASH){
-                            switch(THIS->type){
-                                case SpriteEnemysimplesnake:
-                                case SpriteEnemysimplerat:
-                                    changeEstate(THIS, ENEMY_HIT_1);
-                                    return;
-                                break;
-                            }
-                        } else if(gull_data->hp > 0 && gull_data->e_state != ENEMY_UPSIDEDOWN 
+                        if(gull_data->hp > 0 && gull_data->e_state != ENEMY_UPSIDEDOWN 
                             && gull_data->e_state != ENEMY_HIT_1 
                             && gull_data->e_state != ENEMY_HIT_2
                             && gull_data->e_state != ENEMY_DEAD){
                             motherpl_hitted(THIS);
                         }
+                    break;
+                    case SpriteArrow:
+                        changeEstate(THIS, ENEMY_HIT_1);
                     break;
                 }
             }
@@ -103,5 +102,5 @@ void UPDATE() {
 }
 
 void DESTROY(){
-	
+	enemy_counter--;
 }

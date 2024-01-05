@@ -31,8 +31,9 @@ extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
-68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 95, 96, 112, 113, 
-114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 0};
+68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 90, 91, 95, 96, 112, 113, 
+114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142,
+140, 148, 149, 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
 UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
@@ -70,6 +71,7 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
+extern struct MISSION fix_bridge;
 extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
@@ -178,7 +180,7 @@ void START(){
 				lim_down_y = ((UINT16) 50u << 3);
 				lim_west_x = ((UINT16) 3u << 3);
 			break;
-			case 3://EAST
+			case 4://EAST
 				lim_up_y = ((UINT16) 6u << 3);
 				lim_down_y = ((UINT16) 56u << 3);
 				lim_west_x = ((UINT16) 6u << 3);
@@ -494,10 +496,6 @@ void initial_sprite_spawning() BANKED{
 						herb4_data->hp = 0b00010000;
 					}
 				}
-				//if mission "fix bridge" is not accomplished
-				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
-				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
-				s_owbridge2->mirror = V_MIRROR;
 			}
 			if(chapter == 3){
 				if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
@@ -535,13 +533,10 @@ void initial_sprite_spawning() BANKED{
 				}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
 					SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
 				}
-				SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 36u << 3), ((UINT16) 36u << 3)+2);
-				Sprite* s_owbridge2 = SpriteManagerAdd(SpriteOwbridgebroken, ((UINT16) 42u << 3), ((UINT16) 36u << 3));
-				s_owbridge2->mirror = V_MIRROR;
 			}
 		break;
 		case 4://east
-			TODO
+		
 		break;
 	}
 }

@@ -39,15 +39,14 @@ extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
 extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
-extern struct MISSION outwalker_smith;
-extern struct MISSION enable_hospital;
+extern struct MISSION golden_armor;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
 extern UINT16 counter_birdsky;
 extern UINT8 counter_fish;
 
 const UINT8 coll_tiles_bridge[] = {1u, 63u, 82u, 83u,
-                                91u, 92u, 93u, 95u, 96u, 98u, 100u, 0};
+                                91u, 92u, 93u, 95u, 96u, 98u, 100u, 140u, 0};
 const UINT8 coll_surface_bridge[] = {75u, 86u, 89u, 90u, 0};
 
 extern UINT8 tiles_anim_interval;
@@ -136,16 +135,17 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //INIT ENEMIES
-        if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))){
+        if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
+            && enemy_counter < 3 && golden_armor.current_step < 2){
             timeout_enemy--;
             if(timeout_enemy > 150u){
                 timeout_enemy = 0u;
             }
             if(timeout_enemy == 0u){
                 if(s_motherpl->x < perc_40){
-                    timeout_enemy = 80u;
+                    timeout_enemy = 110u;
                 }else if(s_motherpl->x > perc_40 && s_motherpl->x < perc_90){
-                    timeout_enemy = 40u;
+                    timeout_enemy = 55u;
                 }
                 enemy_wave++;
                 if(enemy_wave == 5u){

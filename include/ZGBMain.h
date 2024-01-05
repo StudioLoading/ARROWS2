@@ -109,7 +109,6 @@ _SPRITE_DMG(SpriteScorpion, scorpion)\
 _SPRITE_DMG(SpriteOwscorpion, owscorpion)\
 _SPRITE_DMG(SpriteDiary, diary)\
 _SPRITE_DMG(SpriteOwfisherman, owfisherman)\
-_SPRITE_DMG(SpriteOwbridgebroken, owbridgebroken)\
 _SPRITE_DMG(SpriteBossscorpion, bossscorpion)\
 _SPRITE_DMG(SpriteBossscorpionhead, bossscorpionhead)\
 _SPRITE_DMG(SpriteScorpiontail, scorpiontail)\
