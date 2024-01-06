@@ -53,6 +53,7 @@ extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
 extern UINT8 timeout_cavesand;
 extern UINT8 enemy_wave;
+extern INT8 current_map;
 
 UINT16 perc_10;
 UINT16 perc_40; 
@@ -73,7 +74,10 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 6u << 3);
+        UINT16 spawnmotherplx = (UINT16) 10u << 3;
+        UINT16 spawnmotherply = (UINT16) 6u << 3;
+        if(current_map == 4){spawnmotherplx = (UINT16) 130u << 3;}
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, spawnmotherplx, spawnmotherply);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -119,9 +123,9 @@ void UPDATE(){
         switch(counter_fish){
             case 90:
             case 120:
-                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 14 << 3), 2);
-                spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 16 << 3) -2, 4);
-                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 14 << 3) + 2, 1);
+                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 13 << 3), 2);
+                spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 14 << 3) +2, 4);
+                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 13 << 3) + 2, 1);
             break;
         }
     //UPDATE HUD for HP changings

@@ -711,7 +711,9 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
         e_data->e_state == ENEMY_ATTACK)){
         if(motherpl_state == MOTHERPL_DASH){
             if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteBosscrab
-                || s_enemy->type == SpriteBossscorpion || s_enemy->type == SpriteBossscorpionhead){
+                || s_enemy->type == SpriteBossscorpion 
+                || s_enemy->type == SpriteBossscorpionhead
+                || s_enemy->type == SpriteSeagull){
                 motherpl_hit = 1u;
             }else if(motherpl_coll_x == 0u){
                 motherpl_dash_cooldown++;

@@ -23,7 +23,7 @@ IMPORT_MAP(dialogmapexzoo);
 IMPORT_MAP(dialogmapcemetery);
 IMPORT_MAP(dialogmapmine);
 IMPORT_MAP(dmapblackiecave);
-IMPORT_MAP(dialogmapsmith);
+IMPORT_MAP(dmapshop);
 IMPORT_MAP(dmapblackie);
 IMPORT_MAP(dmaphood);
 IMPORT_MAP(dmappolice);
@@ -98,12 +98,6 @@ void START() {
         case INTRO: case ITEMDETAIL_MAP:
         InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
-        case SHOP_SMITH: case SMITH_CHECKING_NOWOODANDMETAL: case SMITH_DISABLED:
-        case SMITH_GIVING_ARROWS: case SMITH_FLOWERS_ASKED: case SMITH_FLOWERS_MISSING:
-        case SMITH_FLOWERS_THANKYOU: case SMITH_CHECKING_WOODANDMETAL:
-        case SMITH_FORGE_ARMOR: case SMITH_NEED_GOLD:
-            InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);
-        break;
         case BLACKIE:
         case BLACKIE_DEAD_CHILD:
             InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
@@ -116,7 +110,7 @@ void START() {
             InitScroll(BANK(dmappolice), &dmappolice, 0, 0);
         break;
         case FISHERMAN_LETSGO: case FISHERMAN_THERESFISH:
-        case FISHERMAN_FPSGATOR_COMPLETED:
+        case FISHERMAN_FPSGATOR_COMPLETED: case BRIDGE_BROKEN:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
         default:
@@ -124,7 +118,7 @@ void START() {
                 case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
                 case StateMine:InitScroll(BANK(dialogmapmine), &dialogmapmine, 0, 0);break; 
                 case StateCemetery:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
-                case StateShop:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+                case StateShop:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
                 case StateBlackieroom:
                 case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
                 case StateOutwalkers:

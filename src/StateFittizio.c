@@ -454,8 +454,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(new_state == StateOverworld){
                                 switch(next_map){
                                     case 4: 
-                                        motherow_pos_x = (UINT16) 29u << 3;
-                                        motherow_pos_y = (UINT16) 37u << 3;
+                                        motherow_pos_x = (UINT16) 192u;
+                                        motherow_pos_y = (UINT16) 281u;
                                     break;
                                     case 3:
                                         motherow_pos_x = (UINT16) 32u << 3;

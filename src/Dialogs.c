@@ -372,16 +372,16 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "OF SILVER.         ", 22);
 			if(fix_bridge.mission_state == MISSION_STATE_ENABLED){
 				*n_lines = 16u;
-				memcpy(d7, "THERE'S A SILVER MI", 22);
-				memcpy(d8, "NE ON THE OTHER    ", 22);
-				memcpy(d9, "SIDE OF THE EASTERN", 22);
-				memcpy(d10, "RIVER. THE BRIDGE ", 22);
-				memcpy(d11, "SHOULD BRING YOU  ", 22);
-				memcpy(d12, "THERE, BUT IT'S DA", 22);
-				memcpy(d13, "MAGED AS FAR AS I ", 22);
-				memcpy(d14, "KNOW. PETER SHOULD", 22);
-				memcpy(d15, "BE ABLE TO HELP!  ", 22);
-				memcpy(d16, "HE'S A CARPENTER. ", 22);
+				memcpy(d7, "THERE'S A SILVER MINE", 22);
+				memcpy(d8, "NE ON THE OTHER SIDE ", 22);
+				memcpy(d9, "SIDE OF THE EASTERN  ", 22);
+				memcpy(d10, "RIVER. THE BRIDGE   ", 22);
+				memcpy(d11, "SHOULD BRING YOU    ", 22);
+				memcpy(d12, "THERE, BUT IT'S DA  ", 22);
+				memcpy(d13, "MAGED AS FAR AS I   ", 22);
+				memcpy(d14, "KNOW. PETER SHOULD  ", 22);
+				memcpy(d15, "BE ABLE TO HELP!    ", 22);
+				memcpy(d16, "HE'S A CARPENTER.   ", 22);
 			}
 		break;
 		case SMITH_FORGE_ARMOR:
@@ -743,6 +743,9 @@ void GetLocalizedLog_EN() BANKED{
 		break;
 		case StateCart:
 			memcpy(log0, "CART IS FUN         ", 20);
+		break;
+		case StateBridge:
+			memcpy(log0, "FIXED BRIDGE        ", 20);
 		break;
 	}
 }

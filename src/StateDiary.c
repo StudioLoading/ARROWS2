@@ -143,6 +143,18 @@ void show_pcodes(){
                 dado2_info->tetradado_faccia = FACCIA_4;
                 dado3_info->tetradado_faccia = FACCIA_1;
             break;
+            case 1u:
+                dado0_info->tetradado_faccia = FACCIA_4;
+                dado1_info->tetradado_faccia = FACCIA_2;
+                dado2_info->tetradado_faccia = FACCIA_4;
+                dado3_info->tetradado_faccia = FACCIA_3;
+            break;
+            case 2u:
+                dado0_info->tetradado_faccia = FACCIA_1;
+                dado1_info->tetradado_faccia = FACCIA_2;
+                dado2_info->tetradado_faccia = FACCIA_4;
+                dado3_info->tetradado_faccia = FACCIA_1;
+            break;
         }
     }
 }

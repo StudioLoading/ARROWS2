@@ -242,9 +242,9 @@ void inventory_init() BANKED{
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
 			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
-			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 17; unequip00.equippable = 0u;
-			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 15; unequip01.equippable = 0u;
-			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 0u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 30; unequip00.equippable = 0u;
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 30; unequip01.equippable = 0u;
+			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 0; unequip02.equippable = 0u;
 			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;

@@ -1,5 +1,7 @@
 POST DEMO:
-
+- caverna dello scorpione, che ci facciamo nel capitolo 4?
+	- potrebbe diventare un' altra cave di loottaggio
+	
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
@@ -7,7 +9,7 @@ POST DEMO:
 	- massima energia
 	- 100 frecce
 	- 30 frecce pearced
-	- 20 frecce bastard  
+	- 20 frecce bastard
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- ragni

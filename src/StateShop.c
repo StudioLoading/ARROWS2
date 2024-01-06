@@ -14,7 +14,7 @@
 #define MAX_WAIT_CHAR 4
 
 IMPORT_TILES(font);
-IMPORT_MAP(dialogmapsmith);
+IMPORT_MAP(dmapshop);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -60,8 +60,8 @@ void START() {
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
     switch(current_shop){
-        case SMITH:InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);break;
-        case CARPENTER:InitScroll(BANK(dialogmapsmith), &dialogmapsmith, 0, 0);break;
+        case SMITH:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
+        case CARPENTER:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
     }
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;

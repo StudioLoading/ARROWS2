@@ -266,7 +266,7 @@ void show_owpusha_sign() BANKED{
     UINT8 show = 0u;
     switch(motherow_info->tile_collision){
         case 66u:
-        case 68u://HOSPITAL
+        case 65u://HOSPITAL
         case 83u:
         case 85u://SMITH, POLICE
         case 46u:

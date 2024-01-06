@@ -158,13 +158,11 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
                     case SpriteEnemyThrowerScorpion:
-                    case SpriteSeagull:
                     case SpriteBosscrab:
                     //io freccia ho colpito enemy
                         {
                             struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
-                            if(e_data->e_state == ENEMY_HIT_1 ||
-                                e_data->e_state == ENEMY_HIT_2){
+                            if(e_data->e_state == ENEMY_HIT_1 || e_data->e_state == ENEMY_HIT_2){
                                 return;
                             }
                         }
@@ -185,6 +183,13 @@ void UPDATE(){
                                     changeEstate(iarrspr, ENEMY_HIT_2);
                                 }
                             break;
+                        }
+                    break;
+                    case SpriteSeagull:
+                        {
+                            struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
+                            e_data->hp = 0;
+                            SpriteManagerRemoveSprite(THIS);
                         }
                     break;
                     case SpriteSuperstone:

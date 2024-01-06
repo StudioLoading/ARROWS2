@@ -16,6 +16,7 @@ extern UINT8 enemy_counter;
 
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+extern void EspawnItem() BANKED;
 
 void START() {
     THIS->lim_x = 100u;
@@ -42,6 +43,32 @@ void UPDATE() {
             gull_data->configured = 2;
         break;
         case 2:
+            if(gull_data->hp <= 0 && gull_data->e_state != ENEMY_DEAD){
+                gull_data->e_state = ENEMY_DEAD;
+                EspawnItem();
+                return;
+            }
+            //EspriteCollision(eu_info); 
+                UINT8 scroll_sg_tile;
+                Sprite* isgspr;
+                SPRITEMANAGER_ITERATE(scroll_sg_tile, isgspr) {
+                    if(CheckCollision(THIS, isgspr)) {
+                        switch(isgspr->type){
+                            case SpriteMotherpl://io enemy ho colpito motherpl
+                                if(gull_data->hp > 0 && gull_data->e_state != ENEMY_UPSIDEDOWN 
+                                    && gull_data->e_state != ENEMY_HIT_1 
+                                    && gull_data->e_state != ENEMY_HIT_2
+                                    && gull_data->e_state != ENEMY_DEAD){
+                                    motherpl_hitted(THIS);
+                                }
+                            break;
+                            case SpriteArrow:
+                                gull_data->hp = 0;
+                                gull_data->e_state = ENEMY_DEAD;
+                            break;
+                        }
+                    }
+                };
             if(gull_data->wait > 4){
                 if(THIS->y > 64u){
                     THIS->x--;
@@ -64,41 +91,16 @@ void UPDATE() {
                 }
             }else{
                 gull_data->wait = 64;
-                //gull_data->et_collision = TranslateSprite(THIS, gull_data->vx << delta_time, 0);
             }
-            /*if(gull_data->et_collision != 0){
-                THIS->y--;
-            }*/
+        break;
+        case 3:
             if(gull_data->e_state == ENEMY_DEAD){
                 SetSpriteAnim(THIS, a_gull_dead, 24u);
-                gull_data->configured = 3;
+                THIS->mirror = V_MIRROR;
+                THIS->y-=2;
             }
         break;
-        case 3u:
-            THIS->mirror = V_MIRROR;
-            THIS->y-=2;
-        break;
-    }
-    //EspriteCollision(eu_info); 
-        UINT8 scroll_sg_tile;
-        Sprite* isgspr;
-        SPRITEMANAGER_ITERATE(scroll_sg_tile, isgspr) {
-            if(CheckCollision(THIS, isgspr)) {
-                switch(isgspr->type){
-                    case SpriteMotherpl://io enemy ho colpito motherpl
-                        if(gull_data->hp > 0 && gull_data->e_state != ENEMY_UPSIDEDOWN 
-                            && gull_data->e_state != ENEMY_HIT_1 
-                            && gull_data->e_state != ENEMY_HIT_2
-                            && gull_data->e_state != ENEMY_DEAD){
-                            motherpl_hitted(THIS);
-                        }
-                    break;
-                    case SpriteArrow:
-                        changeEstate(THIS, ENEMY_HIT_1);
-                    break;
-                }
-            }
-        };
+    }    
 }
 
 void DESTROY(){
