@@ -44,6 +44,7 @@ IMPORT_TILES(titlescreentilesanim);
 IMPORT_TILES(titlescreentilesanim2);
 IMPORT_TILES(titlescreentilesanim3);
 IMPORT_TILES(diaryt);
+IMPORT_TILES(mapsilvert);
 
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
@@ -289,5 +290,27 @@ void Anim_FPS_gator_0() BANKED{
 
 void Anim_FPS_gator_1() BANKED{
 	set_banked_bkg_data(84u, 4u, &tcrossbowanim, BANK(tcrossbowanim));
+}
 
+void Anim_Silver_0() BANKED{
+	set_banked_bkg_data(23u, 2u, &mapsilvert, BANK(mapsilvert));//fiammella
+	set_banked_bkg_data(37u, 6u, &mapsilvert, BANK(mapsilvert));//lava
+}
+void Anim_Silver_1() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim1, BANK(minetilesanim1));//fiammella
+}
+void Anim_Silver_2() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim2, BANK(minetilesanim2));//fiammella
+	set_banked_bkg_data(37u, 6u, &minetilesanim1, BANK(minetilesanim1));//lava
+}
+void Anim_Silver_3() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim3, BANK(minetilesanim3));//fiammella
+	set_banked_bkg_data(37u, 6u, &minetilesanim2, BANK(minetilesanim2));//lava
+}
+void Anim_Silver_4() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim4, BANK(minetilesanim4));//fiammella
+}
+void Anim_Silver_5() BANKED{
+	set_banked_bkg_data(23u, 2u, &minetilesanim5, BANK(minetilesanim5));//fiammella
+	set_banked_bkg_data(37u, 6u, &minetilesanim3, BANK(minetilesanim3));//lava
 }
