@@ -41,17 +41,17 @@ extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
 extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
-extern UINT8 powder_cooldown;
-extern UINT8 itemspawned_powder_max;
 
-const UINT8 coll_tiles_silvercave[] = {2u, 6u, 7u, 8u, 10u, 11u, 12u,
+const UINT8 coll_tiles_silvercave[] = {2u, 6u, 10u, 21u, 22u,
 27u, 29u, 35u, 0};
-const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 0};
+const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 57u, 68u, 81u, 85u, 89u, 0};
 
 extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_wave;
 extern UINT8 timeout_drop;
+
+UINT8 bastards_spawned = 0u;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -65,7 +65,7 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 9u << 3, (UINT16) 9u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 7u << 3, (UINT16) 9u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -86,14 +86,11 @@ void START(){
         GetMapSize(BANK(mapsilver), &mapsilver, &mapwidth, &mapheight);
     tiles_anim_interval = 0u;
     timeout_drop = 0;
-    powder_cooldown = 60u;
-    itemspawned_powder_max = 4;
+    timeout_enemy = 120u;
     SHOW_SPRITES;
 }
 
 void UPDATE(){
-    //COOLDOWNS
-        if(powder_cooldown > 0){powder_cooldown--;}
     //SPAWNING ITEM COOLDOWN
         if(item_spawned_cooldown > 0u){
             item_spawned_cooldown--;
@@ -143,50 +140,37 @@ void UPDATE(){
         }
     //CAMERA MANAGEMENT
         update_camera_position();
-    //INIT ENEMIES
-    /*
-        UINT16 spawn_posx = 0u;
-        if(s_motherpl->x > ((UINT16)50u)<<3 && 
-            s_motherpl->x < ((UINT16)93u)<<3){
-            spawn_posx = 73u;
-        }
-        if(s_motherpl->x > ((UINT16)154u)<<3 && 
-            s_motherpl->x < ((UINT16)184u)<<3){
-            spawn_posx = 169u;
-        }
-        if(spawn_posx == 0u && enemy_wave > 0){
-            enemy_wave = 0u;
-        }
-        if(s_motherpl && spawn_posx && enemy_wave < HORDE){
+    //SPAWN ENEMIES
+        if(s_motherpl->x > ((UINT16) 22u << 3) && 
+            s_motherpl->x < ((mapwidth << 3) - 64) && enemy_counter < 2 &&
+            !(s_motherpl->x > ((UINT16) 82u << 3) && s_motherpl->y < ((UINT16) 20u << 3))
+        ){
             timeout_enemy--;
             if(timeout_enemy == 0u){
-                timeout_enemy = 200u;
-                switch(init_enemy){
-                    case 1u:
-                    case 2u:
-                    case 3u:
-                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
-                        enemy_wave++;
-                    break;
-                    case 4u:
-                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
-                        enemy_wave++;
-                    break;
-                    case 5u:
-                        init_enemy = 0;
-                    break;
+                timeout_enemy = 200u;                       
+                UINT16 spawn_posx = spawn_posx = s_motherpl->x - 32u;
+                if((s_motherpl->x | 0x0001 ) == 0){spawn_posx = s_motherpl->x + 42u;}
+                UINT16 spawn_posy = (UINT16) 25u << 3;
+                if(s_motherpl->y < ((UINT16) 20u << 3)){
+                    spawn_posy = (UINT16) 9u << 3;
                 }
-                init_enemy++;
+                //up left => spiderwall    
+                if(s_motherpl->y < ((UINT16) 24u << 3) && 
+                    s_motherpl->x < ((UINT16) 83u << 3)){
+                    timeout_enemy = 200u;
+                    spawn_posy = s_motherpl->y - 24u;
+                    SpriteManagerAdd(SpriteSpider, spawn_posx, spawn_posy);
+                }else{
+                    timeout_enemy = 120u;
+                    SpriteManagerAdd(SpriteEnemyThrowerSpider, spawn_posx, spawn_posy);                    
+                }
             }
-        }else if (timeout_enemy != 10u){
-            timeout_enemy = 10u;
         }
-    */
     //METAL SPECIAL
-        if(s_motherpl->x > ((UINT16) 190u << 3)){
-            if(enable_hospital.mission_state == MISSION_STATE_ENABLED && enable_hospital.current_step == 0){
-                spawnItem(INVITEM_METAL_SPECIAL, ((UINT16) 195u << 3), ((UINT16) 7u << 3));
-                enable_hospital.current_step = 1;
+        if(s_motherpl->x > ((UINT16) 110u << 3) && s_motherpl->y < ((UINT16) 8u << 3)){
+            if(bastards_spawned == 0u){
+                spawnItem(INVITEM_ARROW_BASTARD, ((UINT16) 113u << 3), ((UINT16) 1u << 3));
+                bastards_spawned = 1u;
             }
         }
     Log(NONAME);

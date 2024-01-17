@@ -7,6 +7,7 @@
 
 #include "Dialogs.h"
 #include "Dialogs2.h"
+#include "Dialogs3.h"
 #include "custom_datas.h"
 
 extern unsigned char log0[21];
@@ -776,6 +777,9 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 				memcpy(d6, "MATERIALS.          ", 22);
 				*n_lines = 6u;
 			}
+		break;
+		default:
+			GetLocalizedDialog3_EN(n_lines);
 		break;
     }
 }

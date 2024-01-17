@@ -448,6 +448,13 @@ void move_on() BANKED{
             SetState(StateDialog);
             return;
         }*/
+    }else if(whostalking == MINOTAUR_ENTRANCE){
+        if(choice_right == 1u){//proceed to StateBossminotaur
+            ChangeState(StateBossminotaur, s_motherpl, -1);
+        }else{
+            ChangeState(StateSilvercave, s_motherpl, -1);
+        }
+        return;
     }
 	if(next_page){
 		next_page = 0u;

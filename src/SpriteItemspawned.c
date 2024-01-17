@@ -144,7 +144,11 @@ void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANK
         }
     }
     //SPAWN ITEM
-    UINT16 quantity = 1u;        
+    UINT16 quantity = 1u;
+    if(itemtype == INVITEM_ARROW_BASTARD || itemtype == INVITEM_ARROW_PERFO ||
+        itemtype == INVITEM_ARROW_NORMAL){
+            quantity = 40u;
+        }      
     Sprite* reward = SpriteManagerAdd(SpriteItemspawned, spawn_at_x, spawn_at_y -8u);
     struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
     reward_data->itemtype = itemtype;

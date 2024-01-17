@@ -342,6 +342,9 @@ void ow_check_place() BANKED{//tile collision
                             ChangeState(StateBossscorpion, THIS, -1);
                         }
                     break;
+                    case 4u://to Silver Cave
+                        ChangeState(StateSilvercave, THIS, -1);
+                    break;
                 }
             break;
             case 17u:

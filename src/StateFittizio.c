@@ -266,6 +266,7 @@ void manage_border(UINT8 next_state) BANKED{
             }
         break;
         case StateBlackiecave:
+        case StateSilvercave:
             if(current_border != BORDER_CAVE){
                 current_border = BORDER_CAVE;
                 LOAD_SGB_BORDER(bordercave);
@@ -688,6 +689,10 @@ void update_camera_position() BANKED{
                     case StateMountain:
                         ChangeState(StateOutwalkers, s_motherpl, -1);
                     break;
+                    case StateSilvercave:
+                        next_ = 4u;
+                        ChangeState(StateOverworld, s_motherpl, next_);
+                    break;
                     case StateBridge:
                         next_ = 3u;
                     default:
@@ -719,6 +724,10 @@ void update_camera_position() BANKED{
                     break;
                     case StateSky:
                         trigger_dialog(IBEX_GIVE_MISSION, s_motherpl);
+                    break;
+                    case StateSilvercave:
+                        s_motherpl->x -= 8u;
+                        trigger_dialog(MINOTAUR_ENTRANCE, s_motherpl);
                     break;
                     default:
                         ChangeState(StateOverworld, s_motherpl, 0);

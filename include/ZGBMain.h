@@ -38,6 +38,7 @@ _STATE(StateBossscorpion)\
 _STATE(StateFps)\
 _STATE(StateBridge)\
 _STATE(StateSilvercave)\
+_STATE(StateBossminotaur)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -121,6 +122,7 @@ _SPRITE_DMG(SpriteFish, fish)\
 _SPRITE_DMG(SpritePlusone, plusone)\
 _SPRITE_DMG(SpriteBottle, bottle)\
 _SPRITE_DMG(SpriteSeagull, seagull)\
+_SPRITE_DMG(SpriteBossminotaur, minotaur)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

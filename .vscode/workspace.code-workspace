@@ -31,7 +31,8 @@
 			"fade.h": "c",
 			"diarydialogs.h": "c",
 			"inventorydialogs.h": "c",
-			"math.h": "c"
+			"math.h": "c",
+			"dialogs2.h": "c"
 		}
 	}
 }

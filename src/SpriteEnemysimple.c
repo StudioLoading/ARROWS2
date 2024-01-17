@@ -256,6 +256,7 @@ void Emanagement() BANKED{
 
 void Estart() BANKED{
     THIS->lim_x = 88u;
+    THIS->lim_y = 8u;
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
@@ -272,7 +273,6 @@ void Estart() BANKED{
         }
     }
     enemy_counter++;
-    THIS->lim_x = 80u;
     struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
     eu_info->configured = 1u;
     eu_info->wait = 40u;
