@@ -111,7 +111,7 @@ void UPDATE(){
         }else if(s_motherpl->x < ((UINT16)60u << 3)){
             if(npc_spawned_zone != 2u){
                 if(engage_smith.current_step == 0){
-                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, SMITH, JOHN);
+                    spawn_npc(SpritePgceme, (UINT16) 45u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, WHOST_SHOP_SMITH, JOHN);
                 }
                 spawn_npa(SpriteBirdsky, (UINT16) 40 << 3, (UINT16) 5u << 3, 1); 
                 spawn_npa(SpriteBirdsky, ((UINT16) 41 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);  

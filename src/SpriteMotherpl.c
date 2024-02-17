@@ -533,9 +533,9 @@ void UPDATE(){
                             whostalking = npc_data->whotalks;
                             Log(npc_data->npcname);
                             check_automatic_dialog_trigger(npc_data->npcname);
-                        }
-                        if(KEY_RELEASED(J_FIRE)){
-                            trigger_dialog(whostalking, THIS);
+                            if(KEY_RELEASED(J_FIRE)){
+                                trigger_dialog(whostalking, THIS);
+                            }
                         }
                     case SpriteBlackiechild:
                         if(find_antidote.mission_state == MISSION_STATE_ACCOMPLISHED

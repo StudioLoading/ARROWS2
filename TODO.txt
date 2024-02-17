@@ -76,6 +76,8 @@ PRODUCTION:
 - spawn_hidden_item da segnare sulla mappa del manuale
 - i crediti dedicati a me, BN, sloopygood, comuneko, tetra
 
+GENERAZIONE QR CODE DA POWERSHELL
+New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
 
 ZGB HACKS:
 Sprite.h

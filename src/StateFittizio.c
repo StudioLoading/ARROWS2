@@ -94,7 +94,6 @@ UINT8 dialog_bg_charcounter = 0u;
 UINT8 generic_counter = 0u;
 UINT8 just_started = 1u;//just_started = 1u ; 0 to dodge tutorial and owTips initial
 UINT8 logtimeout = 10u;
-UINT8 ow_pusha_hp = 0u;
 UINT8 itemspawned_powder_max = 0;
 UINT8 itemspawned_powder_counter = 0;
 UINT8 enemy_wave = 0;
@@ -868,6 +867,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     struct NpcInfo* head_data = (struct NpcInfo*) s_head->custom_data;
     head_data->type = head;
     head_data->whotalks = whos;
+    head_data->npcname = npcname;
     Sprite* s_body = SpriteManagerAdd(type, posx, posy+16u);
     s_body->mirror = mirror;
     struct NpcInfo* body_data = (struct NpcInfo*) s_body->custom_data;

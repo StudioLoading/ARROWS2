@@ -44,7 +44,7 @@ extern MOTHERPL_STATE motherpl_state;
 extern UINT8 timeout_drop;
 
 const UINT8 coll_tiles_mino[] = {2u, 6u, 10u, 21u,
-27u, 29u, 35u, 0};
+27u, 29u, 32u, 35u, 0};
 const UINT8 coll_surface_mino[] = {14u, 17u, 18u, 19u, 57u, 68u, 81u, 85u, 89u, 0};
 
 extern UINT8 mother_exit_cooldown;
@@ -52,6 +52,8 @@ extern UINT8 mother_exit_cooldown;
 Sprite* s_minotaur;
 extern struct EnemyData* minotaur_data;
 extern struct MISSION golden_armor;
+extern UINT8 tiles_anim_interval;
+extern UINT8 timeout_drop;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -84,6 +86,8 @@ void START(){
         GetMapSize(BANK(bossminotaurmap), &bossminotaurmap, &mapwidth, &mapheight);
     timeout_enemy = 200u;
     mother_exit_cooldown = 60u;
+    tiles_anim_interval = 0u;
+    timeout_drop = 1u;
 	SHOW_SPRITES;
 }
 
@@ -92,12 +96,36 @@ void UPDATE(){
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
         }
+    //CAVE TILES ANIM
+        tiles_anim_interval++;
+        switch(tiles_anim_interval){
+            case 6u:
+                Anim_Silver_1();
+            break;
+            case 12u:
+                Anim_Silver_2();
+            break;
+            case 18u:
+                Anim_Silver_3();
+            break;
+            case 24u:
+                Anim_Silver_4();
+            break;
+            case 30u:
+                Anim_Silver_5();
+            break;
+            case 36u:
+                Anim_Silver_0();
+                tiles_anim_interval = 0u;
+            break;
+        }
     //CAMERA MANAGEMENT
         scroll_target->x = (UINT16) 80u;
-        scroll_target->y = (UINT16) 56u;
+        scroll_target->y = (UINT16) 90u;
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
+            /*
             mother_exit_cooldown--;
             if(outwalker_glass.mission_state >= MISSION_STATE_ACCOMPLISHED){
                mother_exit_cooldown = 0; 
@@ -108,28 +136,29 @@ void UPDATE(){
                 ChangeState(StateOverworld, s_motherpl, 3);
                 //go back
             }
-        }else if(mother_exit_cooldown != 60u){
-            mother_exit_cooldown = 60u;
+            */
         }
-        if(s_motherpl->x > ((UINT16)19u << 3)){
-            s_motherpl->x = ((UINT16)19u << 3);
+        /*else if(mother_exit_cooldown != 60u){
+            mother_exit_cooldown = 60u;
+        }*/
+        else if(s_motherpl->x > ((UINT16)19u << 3)){
+            if(minotaur_data->configured == 2
+                && minotaur_data->hp == 0 && minotaur_data->e_state == ENEMY_DEAD){
+                //boss beated
+            }else{s_motherpl->x = ((UINT16)19u << 3);}
         }
     //DROPS
-        /*
-        if(s_motherpl->x<((UINT16)50u)<<3){
-            timeout_drop--;
-            if(timeout_drop == 80u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x+24u, (UINT16) 44u);
-            }
-            if(timeout_drop == 160u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x-12u, (UINT16) 44u);
-            }
-            if(timeout_drop == 0u){
-                SpriteManagerAdd(SpriteDrop, s_motherpl->x+64u, (UINT16) 44u);
-                timeout_drop = 240u;
-            }
+        timeout_drop--;
+        if(timeout_drop == 20u){
+            SpriteManagerAdd(SpriteDrop, ((UINT16)3u << 3), ((UINT16) 5u << 3));
         }
-        */
+        if(timeout_drop == 100u){
+            SpriteManagerAdd(SpriteDrop, ((UINT16) 6u << 3), ((UINT16) 5u << 3));
+        }
+        if(timeout_drop == 0u){
+            SpriteManagerAdd(SpriteDrop, ((UINT16) 16u << 3), ((UINT16) 3u << 3));
+            timeout_drop = 110u;
+        }
     
     Log(NONAME);
 }

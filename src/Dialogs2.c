@@ -566,15 +566,16 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "MINOTAUR THERE...!   ", 22);
 		break;
 		case SMITH_GIVING_ARROWS:
-			*n_lines = 7u;
-			memcpy(d0, "PETER:              \0", 22);
-			memcpy(d1, "AAAAALRIIIGHT!      \0", 22);
+			*n_lines = 8u;
+			memcpy(d0, "JOHN:               ", 22);
+			memcpy(d1, "AAAAALRIIIGHT!      ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "*SHUFFF! SHUFFF!*   \0", 22);
+			memcpy(d3, "*SPLINK! SPLINK!*   ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "HERE THEY ARE: 30   \0", 22);
-			memcpy(d7, "PEARCED FOR YOU!!   \0", 22);			
+			memcpy(d6, "HERE THEY ARE: 30   ", 22);
+			memcpy(d7, "NORMAL ARROWS       ", 22);	
+			memcpy(d8, "FOR YOU.            ", 22);			
 		break;
 		case CARPENTER_NEED_MATERIALS:
 			*n_lines = 8u;

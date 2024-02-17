@@ -244,7 +244,8 @@ typedef enum{
 	ENEMY_SLIDE_DOWN,
 	ENEMY_SLIDE_DOWN2,
 	ENEMY_SLIDE_UP,
-	ENEMY_SLIDE_UP2
+	ENEMY_SLIDE_UP2,
+	ENEMY_RUN
 }ENEMY_STATE;
 
 struct EtoReload{
@@ -334,8 +335,8 @@ typedef enum{
     EXZOO_MAN2,
     CEMETERY_WOMAN1,
     CEMETERY_WOMAN2,
-    SHOP_SMITH,
-    SHOP_CARPENTER,
+    WHOST_SHOP_SMITH,
+    WHOST_SHOP_CARPENTER,
 	SUPERSTONE,
 	SMITH_DISABLED,
 	SMITH_CHECKING_WOODANDMETAL,
@@ -434,14 +435,14 @@ typedef enum{
 }NPCNAME;
 
 struct NpcInfo{
-	UINT8 none1;
-	UINT8 none2;
-	UINT8 none3;
-	UINT8 none4;
 	NPCNAME npcname;
     WHOSTALKING whotalks;
 	NPCTYPE type;
     UINT8 configured;
+	UINT8 none1;
+	UINT8 none2;
+	UINT8 none3;
+	UINT8 none4;
 };
 
 struct InvItem{
@@ -483,8 +484,8 @@ struct TeleportInfo{
 };
 
 typedef enum{
-	SMITH,
-	CARPENTER
+	SHOP_SMITH,
+	SHOP_CARPENTER
 }SHOP;
 #endif
 

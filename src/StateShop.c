@@ -42,7 +42,7 @@ extern UINT8 next_page;
 extern UINT8 previous_state;
 extern uint8_t sgb_running;
 
-SHOP current_shop = SMITH;
+SHOP current_shop = SHOP_SMITH;
 
 extern void move_on() BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
@@ -60,8 +60,8 @@ void START() {
 	//PlayMusic(bgm_credits, 0);
     HIDE_WIN;
     switch(current_shop){
-        case SMITH:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
-        case CARPENTER:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
+        case SHOP_SMITH:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
+        case SHOP_CARPENTER:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
     }
     INIT_FONT(font, PRINT_BKG);
     SHOW_BKG;
@@ -91,7 +91,7 @@ void UPDATE() {
             SpriteManagerRemoveSprite(dialog_cursor);
             n_lines = 0u;
             switch(current_shop){
-                case SMITH:
+                case SHOP_SMITH:
                     switch(engage_smith.mission_state){
                         case MISSION_STATE_ENABLED:
                             switch(engage_smith.current_step){
@@ -178,7 +178,7 @@ void UPDATE() {
                         break;
                     }
                 break;
-                case CARPENTER:
+                case SHOP_CARPENTER:
                     switch(find_antidote.mission_state){
                         case MISSION_STATE_DISABLED:
                             whostalking = CARPENTER_DISABLED;

@@ -12,10 +12,14 @@
 #define WALK_TIMEOUT_HPMAX 120
 #define WALK_TIMEOUT_HPMED 70
 #define WALK_TIMEOUT_HPMIN 60
+#define RUN_VXMAX 6
+#define RUN_VXMIN 3
 
 const UINT8 a_mino_idle[] = {3, 1,2,1};
 const UINT8 a_mino_hit[] = {2, 0,1};
-const UINT8 a_mino_walk[] = {5, 3,1,3,4,2};
+const UINT8 a_mino_walk[] = {4, 3,4,5,6};
+const UINT8 a_mino_run[] = {4, 3,4,5,6};
+const UINT8 a_mino_preattack[] = {4, 2,8,9,2};
 
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
@@ -88,11 +92,11 @@ void UPDATE(){
 void mino_turn() BANKED{
     minotaur_data->vx = -minotaur_data->vx;
     switch(THIS->mirror){
-        case NO_MIRROR:
+        case NO_MIRROR://from right to left
             THIS->x--;
             THIS->mirror = V_MIRROR;
         break;
-        case V_MIRROR:
+        case V_MIRROR://from left to right
             THIS->x++;
             THIS->mirror = NO_MIRROR;
         break;
@@ -132,7 +136,18 @@ void mino_behave() BANKED{
         break;
         case ENEMY_WALK:
             if(minotaur_data->wait == 0){
-                mino_change_state(ENEMY_JUMP);
+                if((THIS->x < s_motherpl->x && THIS->mirror == V_MIRROR) || 
+                    (THIS->x > s_motherpl->x && THIS->mirror == NO_MIRROR)){
+                    mino_turn();
+                }
+                if(minotaur_data->hp < 5){
+                    mino_change_state(ENEMY_PREATTACK);
+                }
+            }
+        break;
+        case ENEMY_RUN:
+            if(minotaur_data->et_collision == 32u || minotaur_data->et_collision == 29u){
+                mino_change_state(ENEMY_TREMBLING);
             }
         break;
         case ENEMY_HIT_1:
@@ -142,6 +157,20 @@ void mino_behave() BANKED{
                 if(s_motherpl->x < THIS->x){minotaur_data->vx = -2;}
                 else{minotaur_data->vx = 2;}
                 mino_change_state(ENEMY_JUMP);
+            }
+        break;
+        case ENEMY_PREATTACK:
+            if(THIS->anim_frame == 2){
+                Sprite* puff = SpriteManagerAdd(SpritePuff, THIS->x, THIS->y + 28u);
+                puff->mirror = THIS->mirror;
+            }
+            if(minotaur_data->wait == 0){
+                mino_change_state(ENEMY_ATTACK);
+            }
+        break;
+        case ENEMY_TREMBLING:
+            if(minotaur_data->wait == 0){
+                mino_change_state(ENEMY_WALK);
             }
         break;
     }
@@ -182,6 +211,23 @@ void mino_change_state(ENEMY_STATE crab_new_state) BANKED{
         case ENEMY_WALK:
             SetSpriteAnim(THIS,a_mino_walk, 16u);
             mino_update_wait();
+        break;
+        case ENEMY_PREATTACK:
+            SetSpriteAnim(THIS, a_mino_preattack, 8u);
+            if((THIS->mirror == V_MIRROR && minotaur_data->vx > 0) 
+                || (THIS->mirror == NO_MIRROR && minotaur_data->vx < 0)){
+                minotaur_data->vx = -minotaur_data->vx;
+            }
+            minotaur_data->wait = WALK_TIMEOUT_HPMAX;
+        break;
+        case ENEMY_RUN:
+            SetSpriteAnim(THIS,a_mino_run, 128u);
+            if(minotaur_data->hp > 3){minotaur_data->vx = RUN_VXMAX;}
+            else{minotaur_data->vx = RUN_VXMIN;}
+        break;
+        case ENEMY_TREMBLING:
+            minotaur_data->wait = 120u;
+            SetSpriteAnim(THIS,a_mino_idle, 128u);
         break;
     }
     if(minotaur_data->hp <= 0 && minotaur_data->e_state != ENEMY_DEAD){

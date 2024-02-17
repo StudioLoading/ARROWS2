@@ -42,7 +42,6 @@ extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
-extern UINT8 ow_pusha_hp;
 extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
@@ -54,6 +53,7 @@ UINT8 frameskip_max = 1u;// same as OW_NORMAL_FRAMESKIP
 FA2OW_SPRITE_STATES new_state = 0;
 UINT8 step_counter = 0u;
 UINT8 teleporting = 0u;
+UINT8 ow_pusha_hp = 0;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
@@ -277,7 +277,7 @@ void show_owpusha_sign() BANKED{
         break;
     }
     if(show == 1u && ow_pusha_hp == 0u){
-        ow_pusha_hp = 60u;
+        ow_pusha_hp = 120u;
         SpriteManagerAdd(SpriteOwpusha, THIS->x - 1u, THIS->y - 26u);
     }
 }
@@ -390,7 +390,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 {
                     switch(current_map){
                         case 0u:
-                            current_shop = SMITH;
+                            current_shop = SHOP_SMITH;
                             ChangeState(StateShop, THIS, -1);
                         break;
                         case 1u:
@@ -410,7 +410,7 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                             }
                         break;
                         case 3u://carpenter
-                            current_shop = CARPENTER;
+                            current_shop = SHOP_CARPENTER;
                             ChangeState(StateShop, THIS, -1);
                         break;
                     }

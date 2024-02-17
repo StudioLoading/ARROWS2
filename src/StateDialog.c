@@ -78,6 +78,7 @@ UINT8 n_lines = 0u;
 Sprite* dialog_cursor = 0;
 UINT8 next_page = 0u;
 UINT8 give_new_password = 0;
+UINT8 diary_spawned = 0;
 
 void move_on() BANKED;
 void shift_text_one_line_up() BANKED;
@@ -140,7 +141,8 @@ void START() {
 	SHOW_SPRITES;
     choice = 0u;
     choice_left = 0u;
-    choice_right = 0u;    
+    choice_right = 0u;
+    diary_spawned = 0;
     //SGB PALETTE CHECK
         if(sgb_running){
             check_sgb_palette(StateDialog);
@@ -168,8 +170,7 @@ void UPDATE() {
         writing_line = 1u;
         dialog_ready = 1u;
         PRINT(0, 7, d0);
-    }
-    if(dialog_ready == 1u){
+    }else if(dialog_ready == 1u){
         if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
             wait_char = 1u;
         }
@@ -177,8 +178,7 @@ void UPDATE() {
         if(wait_char == 0u){//mostra lettera successiva
             show_next_character();
         }
-    }
-    if(dialog_ready == 2u){
+    }else if(dialog_ready == 2u){
         if(whostalking == INTRO){
             dialog_cursor = SpriteManagerAdd(SpriteStartbtn, (INT16)136u, (UINT16)120u);
         }else{
@@ -193,8 +193,7 @@ void UPDATE() {
             }
         }
         dialog_ready = 3u;
-    }
-    if(dialog_ready == 3u){
+    } else if(dialog_ready == 3u){
         if(choice == 0u){//NO CHOICE TO DO
             if(KEY_RELEASED(J_START) || KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
                 move_on();
@@ -212,8 +211,10 @@ void UPDATE() {
         }
         switch(previous_state){
             case StateCemetery:
-                if(whostalking == SMITH){
+                if(whostalking == WHOST_SHOP_SMITH && diary_spawned == 0
+                    && engage_smith.current_step < 1){
                     engage_smith.current_step = 1;
+                    diary_spawned = 1;
 					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 }
             break;

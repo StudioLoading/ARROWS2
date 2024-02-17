@@ -263,7 +263,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "LET US PRAY...      \0", 22);
 		break;
-		case SHOP_SMITH:
+		case WHOST_SHOP_SMITH:
 			*n_lines = 11u;
 			memcpy(d0, "JOHN:               \0", 22);
 			memcpy(d1, "HI, I AM JOHN.      \0", 22);
@@ -276,7 +276,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d8, "OF METAL.           \0", 22);
 			memcpy(d9, "CHECK THE OLD MINE. \0", 22);
 			memcpy(d10, EMPTY_STRING_21, 22);
-			memcpy(d11, "SEE YOU TO THE FORGE\0", 22);
+			memcpy(d11, "SEE YOU AT THE FORGE\0", 22);
 		break;
 		case BOUNCINGBLOCK:
 			*n_lines = 6u;
@@ -458,10 +458,10 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d16, "MOUNTAINS.          \0", 22);
 					memcpy(d17, "BUT FIRST...        \0", 22);
 					memcpy(d18, EMPTY_STRING_21, 22);	
-					memcpy(d19, "I'VE HEARD A CRYING\0", 22);
-					memcpy(d20, "LADY, MARGARET, AT \0", 22);
-					memcpy(d21, "THE GRAVEYARD: NOW \0", 22);
-					memcpy(d22, "PLEASE GO HELP HER.\0", 22);
+					memcpy(d19, "I'VE HEARD MARGARET ", 22);
+					memcpy(d20, "AT THE GRAVEYARD:   ", 22);
+					memcpy(d21, "NOW PLEASE GO HELP  ", 22);
+					memcpy(d22, "HER. SEE YOU!       ", 22);
 					change_quantity(INVITEM_LETTER, -1);
                 	find_blackie.current_step = 4u;
 					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
