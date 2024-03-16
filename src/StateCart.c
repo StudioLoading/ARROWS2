@@ -54,7 +54,6 @@ const UINT8 coll_surface_cart[] = {30u, 0};
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
-extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
@@ -129,7 +128,6 @@ void UPDATE(){
     //GO TO INVENTORY
         //if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
     //CAMERA MANAGEMENT
-        //update_camera_position();
         scroll_target->x = s_motherpl->x + 60u;
         scroll_target->y = s_motherpl->y + 32u;
         if(s_motherpl->x > ((mapwidth-2) << 3)){
@@ -228,7 +226,7 @@ void UPDATE(){
                     if(motherpl_vx > 0){delta_for_running = 10;}
                     else{delta_for_running = -10;}
                 }
-                if(s_surf != NULL){
+                if(s_surf != 0){
                     delta_for_running = +60;
                 }
                 UINT16 bolt_x = delta_for_running;

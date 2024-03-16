@@ -123,6 +123,7 @@ _SPRITE_DMG(SpritePlusone, plusone)\
 _SPRITE_DMG(SpriteBottle, bottle)\
 _SPRITE_DMG(SpriteSeagull, seagull)\
 _SPRITE_DMG(SpriteBossminotaur, minotaur)\
+_SPRITE_DMG(SpriteBossminotaurskull, minotaurskull)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"

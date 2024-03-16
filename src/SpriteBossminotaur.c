@@ -12,8 +12,8 @@
 #define WALK_TIMEOUT_HPMAX 120
 #define WALK_TIMEOUT_HPMED 70
 #define WALK_TIMEOUT_HPMIN 60
-#define RUN_VXMAX 6
-#define RUN_VXMIN 3
+#define RUN_VXMAX 4
+#define RUN_VXMIN 2
 
 const UINT8 a_mino_idle[] = {3, 1,2,1};
 const UINT8 a_mino_hit[] = {2, 0,1};
@@ -26,16 +26,18 @@ extern Sprite* s_motherpl;
 
 extern UINT8 walk_timeout;
 struct EnemyData* minotaur_data = 0;
+struct EnemyData* mino_skull_data = 0;
 UINT8 mino_jump_power = 0u;
 UINT8 mino_v_coll = 0u;
-
+Sprite* mino_skull = 0;
 
 void mino_behave() BANKED;
-void mino_change_state(ENEMY_STATE crab_new_state) BANKED;
+void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED;
 void mino_turn() BANKED;
 void mino_update_wait() BANKED;
 
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+
 
 void START(){
     THIS->lim_x = 255u;
@@ -43,11 +45,14 @@ void START(){
         minotaur_data = (struct EnemyData*)THIS->custom_data;
         minotaur_data->configured = 2;
         minotaur_data->vx = 1;
-        minotaur_data->hp = 6;//6;
+        minotaur_data->hp = 6;
         minotaur_data->x_frameskip = 2;
+        minotaur_data->et_collision = 0;
         mino_jump_power = 0u;
-        mino_change_state(ENEMY_IDLE);
+        mino_change_state(ENEMY_WALK);
     mino_v_coll = 0;
+    mino_skull = SpriteManagerAdd(SpriteBossminotaurskull, THIS->x, THIS->y);
+    mino_skull_data = (struct EnemyData*) mino_skull->custom_data;
     //LOAD OBP1 with 0,0,2,3
     OBP1_REG = PAL_DEF(0, 0, 1, 3);
     SPRITE_SET_PALETTE(THIS,1);
@@ -57,11 +62,12 @@ void UPDATE(){
     mino_behave();
     //horizontal
         if(minotaur_data->x_frameskip > 4){
-            minotaur_data->x_frameskip = 3;
+            minotaur_data->x_frameskip = 2;
         }
         minotaur_data->x_frameskip--;
         if(minotaur_data->x_frameskip == 0 && (
-            minotaur_data->e_state == ENEMY_WALK || minotaur_data->e_state == ENEMY_JUMP)
+            minotaur_data->e_state == ENEMY_WALK || minotaur_data->e_state == ENEMY_JUMP
+            || minotaur_data->e_state == ENEMY_ATTACK)
         ){
             minotaur_data->et_collision = TranslateSprite(THIS, minotaur_data->vx << delta_time, 0);
         }
@@ -101,21 +107,22 @@ void mino_turn() BANKED{
             THIS->mirror = NO_MIRROR;
         break;
     }
+    mino_skull->mirror = THIS->mirror;
 }
 
 void mino_behave() BANKED{
-    if(THIS->x < (UINT16)8u){THIS->x = 10u; mino_turn();}
-    if(THIS->x > (UINT16)130u){THIS->x = 126u; mino_turn();}
     minotaur_data->wait--;
     if(minotaur_data->wait > 200u){
         minotaur_data->wait = 0u;
     }
-    if((THIS->x < 8u && minotaur_data->vx < 0) 
-        || (THIS->x > (UINT16) 136u && minotaur_data->vx > 0)){
-        mino_turn();
-    }
     switch(minotaur_data->e_state){
         case ENEMY_IDLE:
+            mino_skull->x = THIS->x - 1u;
+            mino_skull->y = THIS->y - 13u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 4u;
+                mino_skull->y = THIS->y - 13u;
+            }
             if(minotaur_data->wait == 0){
                 mino_change_state(ENEMY_WALK);
             }
@@ -130,38 +137,59 @@ void mino_behave() BANKED{
             }
         break;
         case ENEMY_JUMP:
+            mino_skull->x = THIS->x + 4u;
+            mino_skull->y = THIS->y-10u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 4u;
+            }
             if(mino_jump_power == 0 && mino_v_coll != 0){
+                mino_turn();
                 mino_change_state(ENEMY_IDLE);
             }
         break;
         case ENEMY_WALK:
+            mino_skull->x = THIS->x + 6u;
+            mino_skull->y = THIS->y - 11u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 9u;
+                mino_skull->y = THIS->y - 12u;
+            }
             if(minotaur_data->wait == 0){
-                if((THIS->x < s_motherpl->x && THIS->mirror == V_MIRROR) || 
-                    (THIS->x > s_motherpl->x && THIS->mirror == NO_MIRROR)){
-                    mino_turn();
+                if(minotaur_data->et_collision){
+                       mino_turn();
                 }
-                if(minotaur_data->hp < 5){
+                if(minotaur_data->wait == 0){
                     mino_change_state(ENEMY_PREATTACK);
                 }
             }
         break;
-        case ENEMY_RUN:
-            if(minotaur_data->et_collision == 32u || minotaur_data->et_collision == 29u){
-                mino_change_state(ENEMY_TREMBLING);
+        case ENEMY_ATTACK:
+            mino_skull->x = THIS->x + 9;
+            mino_skull->y = THIS->y - 10u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 15u;
+                mino_skull->y = THIS->y - 8u;
+            }
+            if(minotaur_data->et_collision){
+                mino_change_state(ENEMY_JUMP);//ENEMY_TREMBLING
             }
         break;
         case ENEMY_HIT_1:
         case ENEMY_HIT_2:
             if(minotaur_data->wait == 0){
                 mino_update_wait();
-                if(s_motherpl->x < THIS->x){minotaur_data->vx = -2;}
-                else{minotaur_data->vx = 2;}
-                mino_change_state(ENEMY_JUMP);
+                mino_change_state(ENEMY_IDLE);
             }
         break;
         case ENEMY_PREATTACK:
+            mino_skull->x = THIS->x;
+            mino_skull->y = THIS->y-12u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 5u;
+                mino_skull->y = THIS->y - 11u;
+            }
             if(THIS->anim_frame == 2){
-                Sprite* puff = SpriteManagerAdd(SpritePuff, THIS->x, THIS->y + 28u);
+                Sprite* puff = SpriteManagerAdd(SpritePuff, THIS->x, THIS->y + 24u);
                 puff->mirror = THIS->mirror;
             }
             if(minotaur_data->wait == 0){
@@ -169,18 +197,25 @@ void mino_behave() BANKED{
             }
         break;
         case ENEMY_TREMBLING:
+            mino_skull->x = THIS->x + 4u;
+            mino_skull->y = THIS->y-12u;
+            if(THIS->mirror == V_MIRROR){
+                mino_skull->x = THIS->x - 10u;
+                mino_skull->y = THIS->y-12u;
+            }
             if(minotaur_data->wait == 0){
-                mino_change_state(ENEMY_WALK);
+                mino_turn();
+                mino_change_state(ENEMY_IDLE);
             }
         break;
     }
 }
 
-void mino_change_state(ENEMY_STATE crab_new_state) BANKED{
-    if(minotaur_data->e_state == crab_new_state){
+void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED{
+    if(minotaur_data->e_state == minotaur_new_state){
         return;
     }
-    switch(crab_new_state){
+    switch(minotaur_new_state){
         case ENEMY_HIT_1:
         case ENEMY_HIT_2:
             minotaur_data->hp--;
@@ -196,7 +231,7 @@ void mino_change_state(ENEMY_STATE crab_new_state) BANKED{
             minotaur_data->wait = 30u;
         break;
         case ENEMY_DEAD:
-            minotaur_data->e_state = crab_new_state;
+            minotaur_data->e_state = minotaur_new_state;
             THIS->mirror = H_MIRROR;
             THIS->y += 4u;
             SetSpriteAnim(THIS, a_mino_idle, 10u);
@@ -206,7 +241,8 @@ void mino_change_state(ENEMY_STATE crab_new_state) BANKED{
         break;
         case ENEMY_JUMP:
             //SetSpriteAnim(THIS,a_crab_click, 16u);
-            mino_jump_power = 12u;
+            mino_jump_power = 6u;
+             minotaur_data->vx = -minotaur_data->vx;
         break;
         case ENEMY_WALK:
             SetSpriteAnim(THIS,a_mino_walk, 16u);
@@ -214,34 +250,33 @@ void mino_change_state(ENEMY_STATE crab_new_state) BANKED{
         break;
         case ENEMY_PREATTACK:
             SetSpriteAnim(THIS, a_mino_preattack, 8u);
-            if((THIS->mirror == V_MIRROR && minotaur_data->vx > 0) 
-                || (THIS->mirror == NO_MIRROR && minotaur_data->vx < 0)){
-                minotaur_data->vx = -minotaur_data->vx;
-            }
             minotaur_data->wait = WALK_TIMEOUT_HPMAX;
         break;
-        case ENEMY_RUN:
+        case ENEMY_ATTACK:
             SetSpriteAnim(THIS,a_mino_run, 128u);
-            if(minotaur_data->hp > 3){minotaur_data->vx = RUN_VXMAX;}
-            else{minotaur_data->vx = RUN_VXMIN;}
+            if(minotaur_data->hp > 3){minotaur_data->vx = RUN_VXMIN ;}
+            else{minotaur_data->vx = RUN_VXMAX;}
+            if(THIS->mirror == V_MIRROR){minotaur_data->vx = -minotaur_data->vx;}
         break;
         case ENEMY_TREMBLING:
-            minotaur_data->wait = 120u;
+            minotaur_data->wait = 60u + (16u << minotaur_data->hp);
             SetSpriteAnim(THIS,a_mino_idle, 128u);
         break;
     }
     if(minotaur_data->hp <= 0 && minotaur_data->e_state != ENEMY_DEAD){
+        minotaur_data->hp = 0;
         mino_change_state(ENEMY_DEAD);
     }else{
-        minotaur_data->e_state = crab_new_state;
+        minotaur_data->e_state = minotaur_new_state;
+        mino_skull_data->e_state = minotaur_new_state;
     }
 }
 
 void mino_update_wait() BANKED{
     switch(minotaur_data->hp){
-        case 8:case 7:minotaur_data->wait = WALK_TIMEOUT_HPMAX;minotaur_data->vx = 1;minotaur_data->x_frameskip = 3;break;
-        case 6:case 5:case 4:minotaur_data->wait = WALK_TIMEOUT_HPMED;minotaur_data->vx = 2;minotaur_data->x_frameskip = 2;break;
-        case 3:case 2:case 1:minotaur_data->wait = WALK_TIMEOUT_HPMIN;minotaur_data->vx = 3;minotaur_data->x_frameskip = 1;break;
+        case 8:case 7:minotaur_data->wait = WALK_TIMEOUT_HPMAX;minotaur_data->vx = RUN_VXMIN - 1;minotaur_data->x_frameskip = 2;break;
+        case 6:case 5:case 4:minotaur_data->wait = WALK_TIMEOUT_HPMED;minotaur_data->vx = RUN_VXMAX-RUN_VXMIN - 1;minotaur_data->x_frameskip = 1;break;
+        case 3:case 2:case 1:minotaur_data->wait = WALK_TIMEOUT_HPMIN;minotaur_data->vx = RUN_VXMAX - 1;minotaur_data->x_frameskip = 1;break;
     }
     if((THIS->mirror == V_MIRROR && minotaur_data->vx > 0) 
         || (THIS->mirror == NO_MIRROR && minotaur_data->vx < 0)){

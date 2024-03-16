@@ -28,12 +28,14 @@ const UINT8 arrow_anim_bastard[] = {1,2};
 UINT8 arrows_onscreen = 0u;
 
 extern struct EnemyData* crab_data;
+extern struct EnemyData* mino_skull_data;
 
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 extern void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
 extern void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED;
+extern void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED;
 
 
 void START(){
@@ -159,6 +161,7 @@ void UPDATE(){
                     case SpriteEnemyThrowerTarantula:
                     case SpriteEnemyThrowerScorpion:
                     case SpriteBosscrab:
+                    case SpriteBossminotaurskull:
                     //io freccia ho colpito enemy
                         {
                             struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
@@ -169,7 +172,10 @@ void UPDATE(){
                         switch(arrow_data->arrow_type){
                             case ARROW_NORMAL:
                                 arrow_data->hit = 1u;
-                                if(iarrspr->type != SpriteBosscrab){
+                                if(iarrspr->type != SpriteBosscrab &&
+                                    iarrspr->type != SpriteBossminotaurskull &&
+                                    iarrspr->type != SpriteBossminotaur
+                                    ){
                                     changeEstate(iarrspr, ENEMY_HIT_1);
                                     return;
                                 }
@@ -178,6 +184,10 @@ void UPDATE(){
                                 if(iarrspr->type == SpriteBosscrab){
                                     if(crab_data->e_state == ENEMY_WALK){    
                                         crab_change_state(ENEMY_HIT_1);
+                                    }
+                                }else if(iarrspr->type == SpriteBossminotaurskull){
+                                    if(mino_skull_data->e_state == ENEMY_PREATTACK){ 
+                                        mino_change_state(ENEMY_HIT_1);
                                     }
                                 }else{
                                     changeEstate(iarrspr, ENEMY_HIT_2);

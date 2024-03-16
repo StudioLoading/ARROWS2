@@ -70,7 +70,7 @@ UINT8 motherpl_hit = 0u;
 UINT8 motherpl_blocked = 0u;
 UINT8 motherpl_canshoot = 0u;
 UINT8 gravity_frame_skip = 0u;
-UINT8 jump_frame_skip = 0u;
+UINT8 dash_horizontal_time = 0u;
 UINT8 jump_ticked_delay = 0u;
 UINT8 jump_max_toched = 0u;
 UINT8 motherpl_attack_cooldown = 0u;
@@ -120,7 +120,7 @@ void START(){
     motherpl_inertia_down = 0u;
     motherpl_rabbit = 0u;
     gravity_frame_skip = 0u;
-    jump_frame_skip = 0u;
+    dash_horizontal_time = 0u;
     jump_ticked_delay = 0u;
     jump_max_toched = 0u;
     motherpl_attack_cooldown = 0u;
@@ -262,7 +262,7 @@ void UPDATE(){
                 }
             break;
             case MOTHERPL_CRAWL_SURF:
-                if(s_surf != NULL){
+                if(s_surf != 0){
                     THIS->x = s_surf->x + motherpl_surf_dx;
                     THIS->y = s_surf->y - 20u;
                     //THIS->x = s_surf->x;
@@ -278,8 +278,9 @@ void UPDATE(){
                 }
             break;
             case MOTHERPL_DASH:
-                if(motherpl_dash_cooldown % 8 == 0){
-                    spawnDust();
+                if(dash_horizontal_time > 0){dash_horizontal_time--;}
+                if(motherpl_vy < GRAVITY){
+                    motherpl_vy++;
                 }
                 motherpl_dash_cooldown--;
                 if(motherpl_dash_cooldown == 0){
@@ -295,6 +296,11 @@ void UPDATE(){
                     if(dash_floor == 48u && current_state == StateMine && powder_cooldown == 0){
                         powder_cooldown = 60u;
                         spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
+                    }
+                    if(dash_floor != 0){
+                        if(motherpl_dash_cooldown % 8 == 0){
+                            spawnDust();
+                        }
                     }
                 }
             break;
@@ -433,20 +439,17 @@ void UPDATE(){
         }
         if(motherpl_surfing_goton > 0u){motherpl_surfing_goton--;}
         if(motherpl_surfing_getoff > 0u){motherpl_surfing_getoff--;}
-        /*if(s_surf && motherpl_vy >= 0 && motherpl_surfing_getoff == 0u){
-            THIS->x = s_surf->x + motherpl_surf_dx;
-            THIS->y = s_surf->y - 23u;
-        }*/
     //ACTUAL MOVEMENT
         if(motherpl_state != MOTHERPL_CRAWL_SURF){      
-            motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-            if(motherpl_coll_y && motherpl_state == MOTHERPL_JUMP){
-                //spawnDust();
-                if(motherpl_vy > 0){
-                    changeMotherplState(MOTHERPL_WALK);
+            if( dash_horizontal_time == 0){
+                motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
+                if(motherpl_coll_y && motherpl_state == MOTHERPL_JUMP){
+                    //spawnDust();
+                    if(motherpl_vy > 0){
+                        changeMotherplState(MOTHERPL_WALK);
+                    }
                 }
-                //motherpl_vy = 0;
-            }        
+            }
             if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
                 motherpl_coll_x = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
             }
@@ -650,7 +653,6 @@ void UPDATE(){
                     break;
                     case SpriteLeaf:
                         if(motherpl_state == MOTHERPL_DASH){
-                            SpriteManagerAdd(SpritePuff, implspr->x, implspr->y);
                             SpriteManagerRemoveSprite(implspr);
                         }
                     break;
@@ -857,6 +859,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 SpriteManagerRemoveSprite(s_blockcmd);
             }
         }
+        if(new_state != MOTHERPL_DASH){dash_horizontal_time = 0u;}
         switch(new_state){
             case MOTHERPL_IDLE:
                 motherpl_vx = 0;
@@ -936,6 +939,8 @@ void changeMotherplState(MOTHERPL_STATE new_state){
                 SetSpriteAnim(THIS, motherpl_anim_crawl, 2u);
             break;            
             case MOTHERPL_DASH:
+                dash_horizontal_time = 12u;
+                if(motherpl_state == MOTHERPL_JUMP){THIS->y -= 4u;}
                 SetSpriteAnim(THIS, motherpl_anim_dash, 12u);
                 if(THIS->mirror == NO_MIRROR){
                     motherpl_vx = 2;

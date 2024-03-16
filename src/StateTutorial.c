@@ -63,7 +63,6 @@ const UINT8 coll_surface_tutorial[] = {1u, 27u, 0};
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
-extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 

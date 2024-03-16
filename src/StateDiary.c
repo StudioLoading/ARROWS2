@@ -542,7 +542,7 @@ void update_diary_cursor(){
     INT8 missions_idx = cursor_posi + (idx_page * 4);
     if(idx_page == 2){missions_idx++;}
     if(missions_idx == -1){missions_idx = 3;}
-    if(missions[missions_idx] == NULL){dcursor_data->configured = 2;
+    if(missions[missions_idx] == 0){dcursor_data->configured = 2;
     }else if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
         dcursor_data->configured = 1;
     }else if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){                

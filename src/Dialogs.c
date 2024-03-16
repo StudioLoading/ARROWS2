@@ -58,6 +58,7 @@ extern UINT16 spawn_child_cooldown;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
 extern struct EnemyData* scorpiohead_data;
+extern struct EnemyData* minotaur_data;
 extern UINT8 horde_step;
 extern INT8 scorpio_hp;
 extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
@@ -318,18 +319,18 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 		break;
 		case SMITH_FLOWERS_ASKED:
 			*n_lines = 13u;
-			memcpy(d0, "JOHN:               \0", 22);
-			memcpy(d1, "I MUST FORGE SOME WE\0", 22);
-			memcpy(d2, "APON FOR THE OUTWALK\0", 22);
-			memcpy(d3, "ERS. MEANWHILE... I \0", 22);
-			memcpy(d4, "AM QUITE ASHAMED BY \0", 22);
-			memcpy(d5, "ASKING YOU THIS BUT \0", 22);
+			memcpy(d0, "JOHN:                ", 22);
+			memcpy(d1, "I MUST FORGE SOME WE ", 22);
+			memcpy(d2, "APON FOR THE OUTWALK ", 22);
+			memcpy(d3, "ERS. MEANWHILE... I  ", 22);
+			memcpy(d4, "AM QUITE ASHAMED BY  ", 22);
+			memcpy(d5, "ASKING YOU THIS BUT  ", 22);
 			memcpy(d7, EMPTY_STRING_21, 22);
-			memcpy(d8, "PLEASE, BRING ME 4  \0", 22);
-			memcpy(d9, "FLOWERS. I WANT TO  \0", 22);
-			memcpy(d10, "ASK MARGARET IF SHE\0", 22);
+			memcpy(d8, "PLEASE, BRING ME 4   ", 22);
+			memcpy(d9, "FLOWERS. I WANT TO   ", 22);
+			memcpy(d10, "ASK MARGARET IF SHE ", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
-			memcpy(d12, "OH WELL YOU KNOW!  \0", 22);
+			memcpy(d12, "OH WELL- YOU KNOW!  ", 22);
 			memcpy(d13, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_MISSING:
@@ -683,6 +684,17 @@ void GetLocalizedLog_EN() BANKED{
 				case 4:memcpy(log0, "CRAB  ( ( ( ( ) )   ", 20);break;
 				case 5:memcpy(log0, "CRAB  ( ( ( ( ( )   ", 20);break;
 				case 6:memcpy(log0, "CRAB  ( ( ( ( ( (   ", 20);break;
+			};
+		break;
+		case StateBossminotaur:
+			switch(minotaur_data->hp){
+				case 0:memcpy(log0, "MINOTAUR:  BEATED!  ", 20);break;
+				case 1:memcpy(log0, "MINOTAUR ( ) ) ) ) )", 20);break;
+				case 2:memcpy(log0, "MINOTAUR ( ( ) ) ) )", 20);break;
+				case 3:memcpy(log0, "MINOTAUR ( ( ( ) ) )", 20);break;
+				case 4:memcpy(log0, "MINOTAUR ( ( ( ( ) )", 20);break;
+				case 5:memcpy(log0, "MINOTAUR ( ( ( ( ( )", 20);break;
+				case 6:memcpy(log0, "MINOTAUR ( ( ( ( ( (", 20);break;
 			};
 		break;
 		case StateBossscorpion:

@@ -111,7 +111,7 @@ void UPDATE(){
                     if(motherpl_vx > 0){delta_for_running = 10;}
                     else{delta_for_running = -10;}
                 }
-                if(s_surf != NULL){
+                if(s_surf != 0){
                     delta_for_running = +60;
                 }
                 UINT16 bolt_x = delta_for_running;

@@ -32,7 +32,7 @@ UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
 INT8 chapter = 0;
 CURRENT_BORDER current_border = BORDER_NONE;
-uint8_t sgb_running = NULL;
+uint8_t sgb_running = 0;
 
 struct MISSION find_blackie = {.mission_title = FIND_BLACKIE, 
 .mission_state = MISSION_STATE_ENABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
@@ -295,7 +295,7 @@ void position_init() BANKED{
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;
 		case 3u:
-			current_map = 0;
+			current_map = 4;//0
 			motherow_pos_x = (UINT16) 38u << 3; 
 			motherow_pos_y = (UINT16) 33u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;

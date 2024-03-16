@@ -43,8 +43,7 @@ extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 timeout_drop;
 
-const UINT8 coll_tiles_mino[] = {2u, 6u, 10u, 21u,
-27u, 29u, 32u, 35u, 0};
+const UINT8 coll_tiles_mino[] = {2u, 6u, 10u, 21u, 27u, 29u, 32u, 35u, 0};
 const UINT8 coll_surface_mino[] = {14u, 17u, 18u, 19u, 57u, 68u, 81u, 85u, 89u, 0};
 
 extern UINT8 mother_exit_cooldown;
@@ -57,7 +56,6 @@ extern UINT8 timeout_drop;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
-extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 
@@ -74,9 +72,9 @@ void START(){
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        s_minotaur = SpriteManagerAdd(SpriteBossminotaur, (UINT16)18u << 3, (UINT16) 88u);
+        s_minotaur = SpriteManagerAdd(SpriteBossminotaur, (UINT16)15u << 3, (UINT16)10u << 3);
         InitScroll(BANK(bossminotaurmap), &bossminotaurmap, coll_tiles_mino, coll_surface_mino); 
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 112u);    
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 160u, (UINT16) 112u);    
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);

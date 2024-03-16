@@ -117,6 +117,8 @@ void restartFromHospital() BANKED;
 void manage_border(UINT8 next_state) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+extern struct EnemyData* minotaur_data;
+
 
 void restartFromHospital() BANKED{
     current_map = 0;
@@ -176,6 +178,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
                     case 0:PlayMusic(owsw, 1);break;
                     case 1:PlayMusic(owsw, 1);break;
                     case 2:PlayMusic(maze, 1);break;
+                    case 4:PlayMusic(owsw, 1);break;
                 }
             }            
         break;
@@ -661,6 +664,7 @@ void camera_tramble() BANKED{
 
 void update_camera_position() BANKED{
     switch(current_state){
+        case StateBossminotaur:
         case StateBlackieroom:
             if(scroll_target->x != (UINT16) 80u || 
                 scroll_target->y != (UINT16) 56u){
