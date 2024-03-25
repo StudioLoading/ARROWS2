@@ -9,7 +9,7 @@
 
 
 const UINT8 a_minoskull_v[] = {1, 1}; //The first number indicates the number of frames
-const UINT8 a_minoskull_h[] = {1, 2}; //The first number indicates the number of frames
+const UINT8 a_minoskull_h[] = {1, 1};// 2}; //The first number indicates the number of frames
 const UINT8 a_minoskull_h_hit[] = {2, 2, 3}; //The first number indicates the number of frames
 const UINT8 a_minoskull_hit[] = {2,0,1}; //The first number indicates the number of frames
 
