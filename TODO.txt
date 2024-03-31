@@ -113,7 +113,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe otemplate.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe dialogminotaur.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

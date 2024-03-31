@@ -15,11 +15,11 @@
 #define RUN_VXMAX 4
 #define RUN_VXMIN 2
 
-const UINT8 a_mino_idle[] = {3, 1,2,1};
-const UINT8 a_mino_hit[] = {2, 0,1};
-const UINT8 a_mino_walk[] = {4, 4,5,6,5};
-const UINT8 a_mino_run[] = {5, 4,5,6,5,3};
-const UINT8 a_mino_preattack[] = {4, 1,7,2,7};
+const UINT8 a_mino_idle[] = {3, 4,8,4};
+const UINT8 a_mino_hit[] = {2, 0,4};
+const UINT8 a_mino_walk[] = {4, 3,4,5,6};
+const UINT8 a_mino_run[] = {8, 3,4,5,6,3,8,5,6};
+const UINT8 a_mino_preattack[] = {4,1,2,7,7};
 
 struct EnemyData* minotaur_data = 0;
 struct EnemyData* mino_skull_data = 0;
@@ -118,11 +118,11 @@ void mino_behave() BANKED{
     }
     switch(minotaur_data->e_state){
         case ENEMY_IDLE:
-            mino_skull->x = THIS->x + 4u;
-            mino_skull->y = THIS->y - 16u;
+            mino_skull->x = THIS->x + 16u;
+            mino_skull->y = THIS->y - 8u;
             if(THIS->mirror == V_MIRROR){
-                mino_skull->x = THIS->x + 4u;
-                mino_skull->y = THIS->y - 16u;
+                mino_skull->x = THIS->x - 2u;
+                mino_skull->y = THIS->y - 8u;
             }
             if(minotaur_data->wait == 0){
                 mino_change_state(ENEMY_WALK);
@@ -150,11 +150,11 @@ void mino_behave() BANKED{
             }
         break;
         case ENEMY_WALK:
-            mino_skull->x = THIS->x + 20u;
-            mino_skull->y = THIS->y - 11u;
+            mino_skull->x = THIS->x + 16u;
+            mino_skull->y = THIS->y - 6u;
             if(THIS->mirror == V_MIRROR){
-                mino_skull->x = THIS->x - 9u;
-                mino_skull->y = THIS->y - 12u;
+                mino_skull->x = THIS->x - 3u;
+                mino_skull->y = THIS->y - 6u;
             }
             if(minotaur_data->wait == 0){
                 if(minotaur_data->et_collision){
@@ -166,11 +166,11 @@ void mino_behave() BANKED{
             }
         break;
         case ENEMY_ATTACK:
-            mino_skull->x = THIS->x + 1;
-            mino_skull->y = THIS->y - 12u;
+            mino_skull->x = THIS->x + 16;
+            mino_skull->y = THIS->y - 8u;
             if(THIS->mirror == V_MIRROR){
-                mino_skull->x = THIS->x - 12u;
-                mino_skull->y = THIS->y - 10u;
+                mino_skull->x = THIS->x - 6u;
+                mino_skull->y = THIS->y - 8u;
             }
             if(minotaur_data->et_collision){
                 mino_change_state(ENEMY_JUMP);
@@ -184,14 +184,18 @@ void mino_behave() BANKED{
             }
         break;
         case ENEMY_PREATTACK:
-            mino_skull->x = THIS->x + 4u;
-            mino_skull->y = THIS->y - 12u;
+            mino_skull->x = THIS->x + 5u;
+            mino_skull->y = THIS->y - 13u;
             if(THIS->mirror == V_MIRROR){
-                mino_skull->x = THIS->x + 3u;
-                mino_skull->y = THIS->y - 16u;
+                mino_skull->x = THIS->x + 5u;
+                mino_skull->y = THIS->y - 13u;
             }
             if(THIS->anim_frame == 2){
-                Sprite* puff = SpriteManagerAdd(SpritePuff, THIS->x, THIS->y + 24u);
+                UINT16 puff_x = THIS->x;
+                Sprite* puff = SpriteManagerAdd(SpritePuff, puff_x, THIS->y + 16u);
+                if(THIS->mirror == V_MIRROR){
+                    puff->x = puff_x + 16u;
+                }
                 puff->mirror = THIS->mirror;
             }
             if(minotaur_data->wait == 0){

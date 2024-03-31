@@ -28,6 +28,7 @@ IMPORT_MAP(dmapblackie);
 IMPORT_MAP(dmaphood);
 IMPORT_MAP(dmappolice);
 IMPORT_MAP(dmapriverside);
+IMPORT_MAP(dmapminotaur);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -113,6 +114,9 @@ void START() {
         case FISHERMAN_LETSGO: case FISHERMAN_THERESFISH:
         case FISHERMAN_FPSGATOR_COMPLETED: case BRIDGE_BROKEN:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
+        break;
+        case MINOTAUR_ENTRANCE:
+            InitScroll(BANK(dmapminotaur), &dmapminotaur, 0, 0);
         break;
         default:
             switch(previous_state){
