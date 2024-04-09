@@ -268,6 +268,7 @@ void manage_border(UINT8 next_state) BANKED{
             }
         break;
         case StateBlackiecave:
+        case StateBossminotaur:
         case StateSilvercave:
             if(current_border != BORDER_CAVE){
                 current_border = BORDER_CAVE;
@@ -312,6 +313,10 @@ void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
         case StateCredit:
     		set_sbg_credit0();
+        break;
+        case StateBossminotaur:
+            set_sgb_palette01_SILVER();
+            set_sgb_palette_statusbar();
         break;
         case StateCart:
             set_sgb_palette01_cart();

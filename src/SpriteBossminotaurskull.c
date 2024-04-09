@@ -28,10 +28,10 @@ void START() {
 void UPDATE() {
     switch(mino_skull_data->e_state){
         case ENEMY_TREMBLING:
-            SetSpriteAnim(THIS, a_minoskull_h_hit, 16u);
+            SetSpriteAnim(THIS, a_minoskull_h_hit, 1u);
         break;
         case ENEMY_PREATTACK:
-            SetSpriteAnim(THIS, a_minoskull_skull, 1u);
+            SetSpriteAnim(THIS, a_minoskull_h_hit, 1u);//a_minoskull_skull
         break;
         case ENEMY_ATTACK:
             SetSpriteAnim(THIS, a_minoskull_h, 4u);

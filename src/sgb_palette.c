@@ -541,6 +541,9 @@ void set_sgb_palette01_MAZE() __banked{
 void set_sgb_palette01_cart()__banked{
     set_sgb_palette(myRGB(255, 134, 0), myRGB(255, 189, 0), myRGB(255, 57, 0), myRGB(0, 0, 0));
 }
+void set_sgb_palette01_SILVER() __banked{
+    set_sgb_palette(myRGB(255, 255, 255), myRGB(210, 249, 253), myRGB(105, 105, 105), myRGB(0, 0, 0));
+}
 /*
 void set_sgb_palette01_AMULET_THUNDER() __banked{
 	set_sgb_palette(SGB_PAL1B_LIGHTER, myRGB(255, 187, 17), myRGB(198, 132, 74), SGB_PAL1B_DARKER);

@@ -133,6 +133,7 @@ void set_sgb_palette01_MAZE() __banked;
 void set_sbg_credit0() __banked;
 void set_sgb_SKY() __banked;
 void set_sgb_palette01_cart()__banked;
+void set_sgb_palette01_SILVER() __banked;
 /*
 void set_sgb_palette01_SEWER() __banked;
 void set_sgb_palette01_GATORSWAMP() __banked;

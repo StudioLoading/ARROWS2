@@ -129,7 +129,7 @@ void UPDATE(){
         UINT8 scroll_arr_tile;
         Sprite* iarrspr;
         SPRITEMANAGER_ITERATE(scroll_arr_tile, iarrspr) {
-            if(CheckCollision(THIS, iarrspr)) {
+            if(CheckCollision(THIS, iarrspr) && arrow_data->hit == 0u) {
                 switch(iarrspr->type){
                     case SpriteBossscorpionhead:{
                         switch(arrow_data->arrow_type){
@@ -179,15 +179,19 @@ void UPDATE(){
                                     changeEstate(iarrspr, ENEMY_HIT_1);
                                     return;
                                 }
+                            break;
                             case ARROW_BASTARD:
                             case ARROW_PERF:
+                                arrow_data->hit = 1u;
                                 if(iarrspr->type == SpriteBosscrab){
                                     if(crab_data->e_state == ENEMY_WALK){    
                                         crab_change_state(ENEMY_HIT_1);
                                     }
                                 }else if(iarrspr->type == SpriteBossminotaurskull){
                                     if(mino_skull_data->e_state == ENEMY_PREATTACK){ 
-                                        mino_change_state(ENEMY_HIT_1);
+                                        if(THIS->mirror != iarrspr->mirror){
+                                            mino_change_state(ENEMY_HIT_1);
+                                        }
                                     }
                                 }else{
                                     changeEstate(iarrspr, ENEMY_HIT_2);

@@ -202,7 +202,7 @@ void load_chapter() BANKED{
         break;
         case 3:
             just_started = 0;
-            ChangeStateThroughBetween(StateOverworld);//ChangeStateThroughBetween(StateCart);
+            ChangeStateThroughBetween(StateBossminotaur);//ChangeStateThroughBetween(StateOverworld);
         break;
     }
 }

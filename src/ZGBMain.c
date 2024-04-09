@@ -1,7 +1,7 @@
 #include "ZGBMain.h"
 #include "Math.h"
 
-UINT8 next_state = StateBossminotaur;//;//TODO StateCredit 
+UINT8 next_state = StateCredit;//;//TODO StateCredit 
 
 UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {
 	/*if(current_state == StateGame) {

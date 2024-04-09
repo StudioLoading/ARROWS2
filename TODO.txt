@@ -1,16 +1,24 @@
 POST DEMO:
+- check scontro minotaur
+- boss con 1hp blinka
 - check delle orde sulla silvercave perché non capisco quando finiscono
+- alla fine del minotaur quando muore
+	il teschio salta via, va tutto a destra e rompe il muro
+	l'orso si mette in posa a testa bassa 
+	dialogo di resa e consegna dell' oro
+	si ricarica la mappa e il muro a dx non c'è più
+	nella nuova mappa c'è una nuova parte a destra con una montagna
+		d'oro, quando la tocco nuova password di fine capitolo (credo)
+- la carica del minotaur fa schifo ma voglio farlo in piedi. potrei prendere due frame
+	da quella human_Walk.gif che ho scaricato il primo aprile e messo in C:\checc\GB
+
 - caverna dello scorpione, che ci facciamo nel capitolo 4?
 	- potrebbe diventare un' altra cave di loottaggio
 
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
-- tutte le volte che torno dal lord of thunder mi da 
-	- massima energia
-	- 100 frecce
-	- 30 frecce pearced
-	- 20 frecce bastard
+- bloccare la strada verso il lord of thunder dicendo che c'è stata una frana
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- ragni

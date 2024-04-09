@@ -23,7 +23,6 @@ extern UINT8 motherpl_hit_cooldown;
 extern INT8 motherpl_hp;
 extern UINT8 camera_ok;
 extern INT8 sfx_cooldown;
-extern uint8_t sgb_running;
 
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
