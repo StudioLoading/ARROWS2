@@ -64,7 +64,7 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 4u, (UINT16) 8u << 3);
         if(previous_state == StateInventory
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
@@ -121,24 +121,21 @@ void UPDATE(){
         scroll_target->x = (UINT16) 80u;
         scroll_target->y = (UINT16) 90u;
     //FORCE MOTHERPL LIMITS
-        if(s_motherpl->x < (UINT16)8u){
-            s_motherpl->x = 8u;
-            /*
+        if(s_motherpl->x < (UINT16)2u){
+            s_motherpl->x = 2u;
             mother_exit_cooldown--;
-            if(outwalker_glass.mission_state >= MISSION_STATE_ACCOMPLISHED){
+            if(golden_armor.mission_state >= MISSION_STATE_ACCOMPLISHED){
                mother_exit_cooldown = 0; 
             }
             if(mother_exit_cooldown == 0u ){
                 mother_exit_cooldown = 60u;
-                previous_state = StateBossscorpion;
-                ChangeState(StateOverworld, s_motherpl, 3);
+                previous_state = StateBossminotaur;
+                ChangeState(StateSilvercave, s_motherpl, -1);
                 //go back
             }
-            */
-        }
-        /*else if(mother_exit_cooldown != 60u){
+        }else if(mother_exit_cooldown != 60u){
             mother_exit_cooldown = 60u;
-        }*/
+        }
         else if(s_motherpl->x > ((UINT16)19u << 3)){
             if(minotaur_data->configured == 2
                 && minotaur_data->hp == 0 && minotaur_data->e_state == ENEMY_DEAD){

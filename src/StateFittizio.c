@@ -513,6 +513,12 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherpl_pos_x = (UINT16) 3u << 3;
                             motherpl_pos_y = (UINT16) 12u << 3;        
                         break;
+                        case StateBossminotaur:
+                            if(new_state == StateSilvercave){
+                                motherpl_pos_x = (UINT16) 115u << 3;
+                                motherpl_pos_y = (UINT16) 12u << 3; 
+                            }
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -553,9 +559,9 @@ void UpdateHUD() BANKED{
     //EQUIPPED ITEM
         switch(itemEquipped.itemtype){
             case INVITEM_MONEY:
-                UPDATE_HUD_TILE(16,1,22);
+                UPDATE_HUD_TILE(16,1,0);
                 UPDATE_HUD_TILE(17,1,21);
-                UPDATE_HUD_TILE(18,1,22);
+                UPDATE_HUD_TILE(18,1,0);
             break;
 	        case INVITEM_ARROW_NORMAL:
                 UPDATE_HUD_TILE(16,1,6);

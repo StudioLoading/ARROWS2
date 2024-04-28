@@ -41,6 +41,7 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
+extern struct MISSION golden_armor;
 extern UINT8 powder_cooldown;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
@@ -665,6 +666,20 @@ void UPDATE(){
                         find_antidote.phase = 2;
                         find_antidote.current_step = 0;
 					    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                        }
+                    break;
+                    case SpriteSkull:
+                        {
+                        struct EnemyData* skull_data = (struct EnemyData*) implspr->custom_data;
+                        if(skull_data->vx == 0){
+                            struct ItemSpawned pickedup_data = {.itemtype = INVITEM_MONEY, .quantity = 600, .equippable = 1u};
+                            pickup(&pickedup_data);
+                            play_music_reward();
+                            SpriteManagerRemoveSprite(implspr);
+                            golden_armor.phase = 1;
+                            golden_armor.current_step = 0;
+                            SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                        }
                         }
                     break;
                 }            

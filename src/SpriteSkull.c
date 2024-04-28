@@ -35,7 +35,7 @@ void UPDATE(){
     if(v_collision == 2u || v_collision == 6u || v_collision == 10u){
         skull_data->vx = 0;
         SpriteManagerAdd(SpritePuff, THIS->x + 4u, THIS->y + 8u);
-        SetSpriteAnim(THIS,a_skull_frozen, 12u);
+        SetSpriteAnim(THIS,a_skull_frozen, 24u);
     }
     if(skull_data->x_frameskip == 0u || skull_data->x_frameskip > skull_data->wait){
         skull_data->x_frameskip = skull_data->wait-1;
