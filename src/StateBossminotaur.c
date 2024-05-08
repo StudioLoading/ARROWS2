@@ -87,6 +87,9 @@ void START(){
     tiles_anim_interval = 0u;
     timeout_drop = 1u;
 	SHOW_SPRITES;
+    if(golden_armor.phase < 2){
+        golden_armor.phase = 2;
+    }
 }
 
 void UPDATE(){

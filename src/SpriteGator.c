@@ -13,9 +13,7 @@
 const UINT8 a_gator_idle[] = {4, 1,1,2,1}; //The first number indicates the number of frames
 const UINT8 a_gator_walk[] = {4, 7,8,7,7}; //The first number indicates the number of frames
 const UINT8 a_gator_attack[] = {7, 6,5,4,3,6,6,6}; //The first number indicates the number of frames
-const UINT8 a_gator_dead[] = {8, 9,10,9,10,9,10,11,12}; //The first number indicates the number of frames
-
-extern UINT8 gator_killed;
+const UINT8 a_gator_dead[] = {8, 9,10,9,10,9,10,11,0}; //The first number indicates the number of frames
 
 void gator_change_state(Sprite* s_gator, ENEMY_STATE new_gator_state) BANKED;
 void gator_turn() BANKED;
@@ -125,7 +123,6 @@ void UPDATE() {
 		break;
 		case ENEMY_DEAD:
 			if(THIS->anim_frame == 7){
-                SpriteManagerAdd(SpritePlusone, THIS->x, THIS->y);
                 SpriteManagerAdd(SpritePuntawater, THIS->x, THIS->y);
 				SpriteManagerRemoveSprite(THIS);
 			}
@@ -166,5 +163,4 @@ void gator_change_state(Sprite* s_gator, ENEMY_STATE new_gator_state) BANKED{
 }
 
 void DESTROY() {
-	gator_killed++;
 }

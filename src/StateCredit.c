@@ -60,7 +60,7 @@ struct MISSION golden_armor = {.mission_title = GOLDEN_ARMOR,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION fix_bridge = {.mission_title = FIX_BRIDGE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
-struct MISSION* missions[13];
+struct MISSION* missions[16];
 /* 
 { engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
@@ -159,7 +159,7 @@ void missions_init() BANKED{
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
 			find_antidote.phase = 4;//0
 			find_antidote.current_step = 1u;//0
-			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;//MISSION_STATE_ENABLED
+			hungry_people.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
 			fix_bridge.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
@@ -182,9 +182,11 @@ void missions_init() BANKED{
 	missions[8] = &get_to_the_mountain;
 	missions[9] = &defeat_scorpions;
 	missions[10] = &find_antidote;
-	missions[11] = &hungry_people;
-	missions[12] = &fix_bridge;
-	missions[13] = &golden_armor;
+	missions[11] = 0;
+	missions[12] = &hungry_people;
+	missions[13] = &fix_bridge;
+	missions[14] = &golden_armor;
+	missions[15] = 0;
 }
 
 void inventory_init() BANKED{
@@ -295,7 +297,7 @@ void position_init() BANKED{
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;
 		case 3u:
-			current_map = 4;//0
+			current_map = 0;//0
 			motherow_pos_x = (UINT16) 38u << 3; 
 			motherow_pos_y = (UINT16) 33u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;

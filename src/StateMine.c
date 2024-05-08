@@ -213,7 +213,7 @@ void UPDATE(){
     //METAL SPECIAL
         if(s_motherpl->x > ((UINT16) 190u << 3)){
             if(enable_hospital.mission_state == MISSION_STATE_ENABLED && enable_hospital.current_step == 0){
-                spawnItem(INVITEM_METAL_SPECIAL, ((UINT16) 195u << 3), ((UINT16) 7u << 3));
+                spawnItem(INVITEM_SILVER, ((UINT16) 195u << 3), ((UINT16) 7u << 3));
                 enable_hospital.current_step = 1;
             }
         }

@@ -110,6 +110,12 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case MAP_DETAIL2:memcpy(d, "TO ANALYZE ", 12);break;
 		case MAP_DETAIL3:memcpy(d, "IT.        ", 12);break;
 		case MAP_DETAIL4:memcpy(d, "           ", 12);break;
+		case SILVERSKULL_NAME:memcpy(d, " SILVERSKULL", 12);break;
+		case SILVERSKULL_DETAIL1:memcpy(d, "THE SKULL ", 12);break;
+		case SILVERSKULL_DETAIL2:memcpy(d, "TO BE USED", 12);break;
+		case SILVERSKULL_DETAIL3:memcpy(d, "TO FORGE  ", 12);break;
+		case SILVERSKULL_DETAIL4:memcpy(d, "THE ARMOR ", 12);break;
+
 		/*
 		,
 		ARROWBASTARD_DETAIL*/

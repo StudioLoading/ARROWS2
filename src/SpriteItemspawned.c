@@ -57,7 +57,7 @@ void UPDATE(){
                 case INVITEM_HEART: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_heart, 4u); break;
                 case INVITEM_MONEY: spawned_data->equippable = 1u; SetSpriteAnim(THIS, is_money, 8u); break;
                 case INVITEM_METAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal, 4u); break;
-                case INVITEM_METAL_SPECIAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal_s, 4u); break;
+                case INVITEM_SILVER: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal_s, 4u); break;
                 case INVITEM_WOOD: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_wood, 4u); break;
                 case INVITEM_POWDER: 
                     spawned_data->equippable = 0u; 
@@ -93,7 +93,7 @@ void UPDATE(){
                 }
             }
             }
-            if(spawned_data->itemtype != INVITEM_METAL_SPECIAL){
+            if(spawned_data->itemtype != INVITEM_SILVER){
                 spawned_data->hp--;
             }
             if(spawned_data->hp == 0){
@@ -102,7 +102,7 @@ void UPDATE(){
                     case INVITEM_HEART: SetSpriteAnim(THIS, is_heart_dis, 20u); break;
                     case INVITEM_MONEY: SetSpriteAnim(THIS, is_money_dis, 20u); break;
                     case INVITEM_METAL:  SetSpriteAnim(THIS, is_metal_dis, 20u); break;
-                    case INVITEM_METAL_SPECIAL: SetSpriteAnim(THIS, is_metal_dis_s, 20u); break;
+                    case INVITEM_SILVER: SetSpriteAnim(THIS, is_metal_dis_s, 20u); break;
                     case INVITEM_WOOD: SetSpriteAnim(THIS, is_wood_dis, 20u); break;
                     case INVITEM_POWDER: SetSpriteAnim(THIS, is_powd_dis, 20u); break;
                 }

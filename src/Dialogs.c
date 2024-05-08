@@ -362,19 +362,19 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "THEY ASKED ARE ALL  \0", 22);
 			memcpy(d10, "INTO THIS BOX.     \0", 22);
 		break;
-		case SMITH_NEED_GOLD:
+		case SMITH_NEED_GOLD_AND_SILVER:
 			*n_lines = 6u;
 			memcpy(d0, "JOHN:               \0", 22);
 			memcpy(d1, "I SEE... YES, I AM ", 22);
 			memcpy(d2, "ABLE TO FORGE A    ", 22);
 			memcpy(d3, "GOLDEN ARMOR FOR   ", 22);
 			memcpy(d4, "YOU. I NEED 200 PIE", 22);
-			memcpy(d5, "CES OF GOLD AND 200", 22);
-			memcpy(d6, "OF SILVER.         ", 22);
+			memcpy(d5, "CES OF GOLD AND A  ", 22);
+			memcpy(d6, "BIG ONE OF SILVER. ", 22);
 			if(fix_bridge.mission_state == MISSION_STATE_ENABLED){
 				*n_lines = 16u;
 				memcpy(d7, "THERE'S A SILVER MINE", 22);
-				memcpy(d8, "NE ON THE OTHER SIDE ", 22);
+				memcpy(d8, "NE ON THE OTHER      ", 22);
 				memcpy(d9, "SIDE OF THE EASTERN  ", 22);
 				memcpy(d10, "RIVER. THE BRIDGE   ", 22);
 				memcpy(d11, "SHOULD BRING YOU    ", 22);
@@ -390,7 +390,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "JOHN:                ", 22);
 			memcpy(d1, "AAAAALRIIIGHT!       ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "*SPLINK! SPLINK!*    ", 22);
+			memcpy(d3, "'SPLINK! SPLINK!'    ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, "HERE IT IS, YOUR NEW ", 22);
 			memcpy(d6, "ARMOR IS READY!      ", 22);
@@ -619,6 +619,9 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		break;
 		case INVITEM_MAP:
 			memcpy(log0, "    LIAM MESSAGE!   ", 20);
+		break;
+		case INVITEM_SILVERSKULL:
+			memcpy(log0, "    SILVER SKULL    ", 20);
 		break;
 	}
 }

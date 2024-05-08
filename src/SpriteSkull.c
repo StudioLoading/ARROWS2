@@ -34,7 +34,7 @@ void UPDATE(){
     UINT8 v_collision = TranslateSprite(THIS, 0, skull_data->hp << delta_time);
     if(v_collision == 2u || v_collision == 6u || v_collision == 10u){
         skull_data->vx = 0;
-        SpriteManagerAdd(SpritePuff, THIS->x + 4u, THIS->y + 8u);
+        SpriteManagerAdd(SpritePuff, THIS->x + 4u, THIS->y + 3u);
         SetSpriteAnim(THIS,a_skull_frozen, 24u);
     }
     if(skull_data->x_frameskip == 0u || skull_data->x_frameskip > skull_data->wait){

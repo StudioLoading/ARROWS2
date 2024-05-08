@@ -13,7 +13,10 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-#define HORDE 5
+#define HORDE_COOLDOWN_MAX 800
+#define HORDE_COUNTER_MAX 2
+#define HORDE_STEP_MAX 4
+ 
 
 IMPORT_MAP(bordermine);
 IMPORT_TILES(font);
@@ -50,6 +53,9 @@ extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_wave;
 extern UINT8 timeout_drop;
+extern UINT8 horde_step;
+extern UINT8 horde_counter;
+extern UINT16 horde_cooldown;
 
 UINT8 bastards_spawned = 0u;
 
@@ -88,6 +94,9 @@ void START(){
     tiles_anim_interval = 0u;
     timeout_drop = 0;
     timeout_enemy = 120u;
+    horde_step = 0;
+    horde_counter = 0;
+    horde_cooldown = HORDE_COOLDOWN_MAX;
     SHOW_SPRITES;
 }
 
@@ -142,28 +151,37 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //SPAWN ENEMIES
-        if(s_motherpl->x > ((UINT16) 22u << 3) && 
-            s_motherpl->x < ((mapwidth << 3) - 64) && enemy_counter < 2 &&
-            !(s_motherpl->x > ((UINT16) 82u << 3) && s_motherpl->y < ((UINT16) 20u << 3))
-        ){
-            timeout_enemy--;
-            if(timeout_enemy == 0u){
-                timeout_enemy = 200u;                       
-                UINT16 spawn_posx = spawn_posx = s_motherpl->x - 32u;
-                if((s_motherpl->x | 0x0001 ) == 0){spawn_posx = s_motherpl->x + 42u;}
-                UINT16 spawn_posy = (UINT16) 25u << 3;
-                if(s_motherpl->y < ((UINT16) 20u << 3)){
-                    spawn_posy = (UINT16) 9u << 3;
-                }
-                //up left => spiderwall    
-                if(s_motherpl->y < ((UINT16) 24u << 3) && 
-                    s_motherpl->x < ((UINT16) 83u << 3)){
-                    timeout_enemy = 200u;
-                    spawn_posy = s_motherpl->y - 24u;
-                    SpriteManagerAdd(SpriteSpider, spawn_posx, spawn_posy);
-                }else{
-                    timeout_enemy = 120u;
-                    SpriteManagerAdd(SpriteEnemyThrowerSpider, spawn_posx, spawn_posy);                    
+        if(horde_counter == HORDE_COUNTER_MAX){
+            horde_cooldown = HORDE_COOLDOWN_MAX;
+            horde_counter = 0;
+            horde_step++;
+        }
+        if(horde_cooldown > 0){horde_cooldown--;}
+        if(horde_cooldown <= 0 && horde_step < HORDE_STEP_MAX){
+            if(s_motherpl->x > ((UINT16) 22u << 3) && 
+                s_motherpl->x < ((mapwidth << 3) - 64) && enemy_counter < 2 &&
+                !(s_motherpl->x > ((UINT16) 82u << 3) && s_motherpl->y < ((UINT16) 20u << 3))
+            ){
+                timeout_enemy--;
+                if(timeout_enemy == 0u){
+                    timeout_enemy = 200u;                       
+                    UINT16 spawn_posx = spawn_posx = s_motherpl->x - 32u;
+                    if((s_motherpl->x | 0x0001 ) == 0){spawn_posx = s_motherpl->x + 42u;}
+                    UINT16 spawn_posy = (UINT16) 25u << 3;
+                    if(s_motherpl->y < ((UINT16) 20u << 3)){
+                        spawn_posy = (UINT16) 9u << 3;
+                    }
+                    //up left => spiderwall    
+                    if(s_motherpl->y < ((UINT16) 24u << 3) && 
+                        s_motherpl->x < ((UINT16) 83u << 3)){
+                        timeout_enemy = 200u;
+                        spawn_posy = s_motherpl->y - 24u;
+                        SpriteManagerAdd(SpriteSpider, spawn_posx, spawn_posy);
+                    }else{
+                        timeout_enemy = 120u;
+                        SpriteManagerAdd(SpriteEnemyThrowerSpider, spawn_posx, spawn_posy);                    
+                    }
+                    horde_counter++;
                 }
             }
         }

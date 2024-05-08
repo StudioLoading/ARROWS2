@@ -108,8 +108,9 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ANTIDOTE_D7:memcpy(d, "BRING HERBS TO HOSP", 20);break;
 		case HUNGRY_TITLE:memcpy(d, "HUNGRY PEOPLE  ", 16);break;
 		case HUNGRY_D0:memcpy(d, "KILL ALL THE ALLIGA", 20);break;
-		case HUNGRY_D1:memcpy(d, "TORS FROM THE FISH ", 20);break;
-		case HUNGRY_D2:memcpy(d, "ERMAN BOAT.        ", 20);break;
+		case HUNGRY_D1:memcpy(d, "TORS FROM THE BOAT ", 20);break;
+		case HUNGRY_D2:memcpy(d, "READ THE MESSAGE IN", 20);break;
+		case HUNGRY_D3:memcpy(d, "THE BOTTLE         ", 20);break;
 		case FIX_BRIDGE_TITLE:memcpy(d, "FIX THE BRIDGE ", 16);break;
 		case FIX_BRIDGE_D0:memcpy(d, "ASK THE CARPENTER ", 20);break;
 		case FIX_BRIDGE_D1:memcpy(d, "TO FIX THE BRIDGE ", 20);break;
@@ -119,9 +120,13 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case GOLDEN_ARMOR_TITLE:memcpy(d, "A NEW ARMOR    ", 16);break;
 		case GOLDEN_D0:memcpy(d, "ASK THE SMITH TO   ", 20);break;
 		case GOLDEN_D1:memcpy(d, "FORGE A GOLDEN ARM ", 20);break;
-		case GOLDEN_D2:memcpy(d, "THE SMITH WANTS 200", 20);break;
-		case GOLDEN_D3:memcpy(d, "GOLD AND 200 SILVER", 20);break;
-		case GOLDEN_D4:memcpy(d, "I OBTAINED THE     ", 20);break;
-		case GOLDEN_D5:memcpy(d, "GOLDEN ARMOR       ", 20);break;
+		case GOLDEN_D2:memcpy(d, "THE SMITH WANTS    ", 20);break;
+		case GOLDEN_D3:memcpy(d, "GOLD AND SILVER:   ", 20);break;
+		case GOLDEN_D4:memcpy(d, "THE MINOTAUR SHOULD", 20);break;
+		case GOLDEN_D5:memcpy(d, "HAVE ALL THAT.     ", 20);break;
+		case GOLDEN_D6:memcpy(d, "LET'S GET TO THE   ", 20);break;
+		case GOLDEN_D7:memcpy(d, "SMITH.             ", 20);break;
+		case GOLDEN_D8:memcpy(d, "I OBTAINED THE     ", 20);break;
+		case GOLDEN_D9:memcpy(d, "GOLDEN ARMOR       ", 20);break;
 	}	
 }

@@ -1,20 +1,8 @@
 POST DEMO:
-- check scontro minotaur
-- boss con 1hp blinka
-- check delle orde sulla silvercave perché non capisco quando finiscono
-- alla fine del minotaur quando muore
-	il teschio salta via, va tutto a destra e rompe il muro
-	l'orso si mette in posa a testa bassa 
-	dialogo di resa e consegna dell' oro
-	si ricarica la mappa e il muro a dx non c'è più
-	nella nuova mappa c'è una nuova parte a destra con una montagna
-		d'oro, quando la tocco nuova password di fine capitolo (credo)
-- la carica del minotaur fa schifo ma voglio farlo in piedi. potrei prendere due frame
-	da quella human_Walk.gif che ho scaricato il primo aprile e messo in C:\checc\GB
-
 - caverna dello scorpione, che ci facciamo nel capitolo 4?
 	- potrebbe diventare un' altra cave di loottaggio
-
+- mettere denaro per curarsi: mettere il gameover quando non ho abbastanza denaro 
+	con ritorno a titlescreen
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
@@ -23,8 +11,11 @@ POST DEMO:
 	- cobra
 	- ragni
 	- api
-
+- c'è una parte di diario in cui non ho scrollato bene, devo sempre shiftare le righe
+in alto, senza fare elenchi nuovi quando avrei più righe da mostrare di quelle mostrabili
+scorrendo verso l' alto quelle più vecchie, facendole scomparire
 - facciamo che nell' ultima parte di gioco piove ovunque?
+- boss con 1hp blinka
 
 - segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
 	Attraversando un cancello ad es. e salendo di 8 pixel. 
@@ -56,7 +47,7 @@ POST DEMO:
 - mettere nel libretto mappa mondo con gli hidden items! descritti sulla
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne
-
+- togliere il salto del tutorial che a codice l'ho fatto saltare
 
 
 PIXELART:
@@ -121,7 +112,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dialogminotaur.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe invsilverskull.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

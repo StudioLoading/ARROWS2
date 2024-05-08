@@ -135,12 +135,12 @@ void UPDATE() {
 			case MISSION_STATE_ENABLED://ho bisogno di metallo speciale
                 motherpl_hp = 2;
 				whostalking = HOSPITAL_DISABLED; 
-                if(get_quantity(INVITEM_METAL_SPECIAL) > 0){//se in inventario ho il metallo specialo
+                if(get_quantity(INVITEM_SILVER) > 0){//se in inventario ho il metallo specialo
                     enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                     whostalking = HOSPITAL_ENABLING;
                     motherpl_hp = 5;
-                    change_quantity(INVITEM_METAL_SPECIAL, -1);
+                    change_quantity(INVITEM_SILVER, -1);
                 }
 			break;
 		}

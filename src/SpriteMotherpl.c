@@ -49,7 +49,7 @@ const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
 const UINT8 motherpl_anim_walk_hit[] = {8, 3, 0, 4, 0, 3, 0, 5, 0};
 const UINT8 motherpl_anim_jump_ascending[] = {1, 6};
 const UINT8 motherpl_anim_jump_descending[] = {1, 5};
-const UINT8 motherpl_anim_shoot[] = {3, 7, 7, 7};//7, 8, 7
+const UINT8 motherpl_anim_shoot[] = {1, 7};//7, 8, 7
 const UINT8 motherpl_anim_crawlshoot[] = {3, 8, 8, 8};//9, 10, 9
 const UINT8 motherpl_anim_hit[] = {2, 0, 1};
 const UINT8 motherpl_anim_dead[] = {2, 0, 1};
@@ -110,6 +110,7 @@ extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_reward() BANKED;
+extern void spawn_dialog_icon(Sprite* npc) BANKED;
 
 
 void START(){
@@ -124,7 +125,7 @@ void START(){
     dash_horizontal_time = 0u;
     jump_ticked_delay = 0u;
     jump_max_toched = 0u;
-    motherpl_attack_cooldown = 0u;
+    motherpl_attack_cooldown = COOLDOWN_ATTACK;
     SetSpriteAnim(THIS, motherpl_anim_idle, 4u + (12 - (motherpl_hp << 1)));
     motherpl_data = (struct MotherplData*) THIS->custom_data;
     changeMotherplState(MOTHERPL_IDLE);
@@ -137,6 +138,7 @@ void START(){
     motherpl_hit = 0u;
     motherpl_blocked = 0u;
     motherpl_blocked_cooldown = 0u;
+    motherpl_canshoot = 1u;
     pickingup_cooldown = PICKINGUP_COOLDOWN;
     jump_max_power = GRAVITY*11;
     if(_cpu != CGB_TYPE){
@@ -394,22 +396,15 @@ void UPDATE(){
         if(motherpl_attack_cooldown > 0){
             motherpl_attack_cooldown--;
             if(motherpl_attack_cooldown == 0){
+                motherpl_canshoot = 1;
                 refreshAnimation();
             }
         }
         if(motherpl_state != MOTHERPL_BLOCKED && itemEquipped.itemtype != INVITEM_MONEY){
             if(KEY_TICKED(J_FIRE) || KEY_PRESSED(J_FIRE)){
-                if(motherpl_attack_cooldown == 0){
-                    SetSpriteAnim(THIS, motherpl_anim_shoot, 16u);
-                    if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
-                    motherpl_attack_cooldown = COOLDOWN_ATTACK;
-                    motherpl_canshoot = 1u;
+                if(motherpl_attack_cooldown == 0 && motherpl_canshoot == 1){
+                    shoot();
                 }
-            }
-            if(motherpl_attack_cooldown <= (COOLDOWN_ATTACK >> 1)
-                && motherpl_canshoot == 1u){
-                shoot();
-                motherpl_canshoot = 0u;
             }
         }
     //GRAVITY FRAME SKIP
@@ -537,6 +532,7 @@ void UPDATE(){
                             whostalking = npc_data->whotalks;
                             Log(npc_data->npcname);
                             check_automatic_dialog_trigger(npc_data->npcname);
+                            spawn_dialog_icon(implspr);
                             if(KEY_RELEASED(J_FIRE)){
                                 trigger_dialog(whostalking, THIS);
                             }
@@ -574,6 +570,15 @@ void UPDATE(){
                     case SpriteBosscrab:
                     case SpriteBossscorpion:
                         motherpl_hitted(implspr);
+                    break;
+                    case SpriteBossminotaur:
+                        if(golden_armor.phase >= 3){
+                            motherpl_canshoot = 0u;
+                            if(KEY_TICKED(J_FIRE)){
+                                trigger_dialog(MINOTAUR_DEFEAT, THIS);
+                                golden_armor.phase = 4;
+                            }
+                        }
                     break;
                     /*
                     case SpriteEnemythrowable:
@@ -614,7 +619,7 @@ void UPDATE(){
                                 struct ItemSpawned* pickedup_data = (struct ItemSpawned*) implspr->custom_data;
                                 pickup(pickedup_data);
                                 SpriteManagerRemoveSprite(implspr);
-                                if(pickedup_data->itemtype == INVITEM_METAL_SPECIAL){
+                                if(pickedup_data->itemtype == INVITEM_SILVER){
                                     enable_hospital.current_step = 2;
                                 }
                                 if(motherpl_state != MOTHERPL_HIT 
@@ -672,11 +677,14 @@ void UPDATE(){
                         {
                         struct EnemyData* skull_data = (struct EnemyData*) implspr->custom_data;
                         if(skull_data->vx == 0){
-                            struct ItemSpawned pickedup_data = {.itemtype = INVITEM_MONEY, .quantity = 600, .equippable = 1u};
-                            pickup(&pickedup_data);
+                            struct ItemSpawned pickedup_gold_data = {.itemtype = INVITEM_MONEY, .quantity = 300, .equippable = 1u};
+                            pickup(&pickedup_gold_data);
+                            struct ItemSpawned pickedup_silver_data = {.itemtype = INVITEM_SILVERSKULL, .quantity = 1, .equippable = 0u};
+                            pickup(&pickedup_silver_data);
                             play_music_reward();
                             SpriteManagerRemoveSprite(implspr);
-                            golden_armor.phase = 1;
+                            golden_armor.mission_state = MISSION_STATE_ACCOMPLISHED;
+                            golden_armor.phase = 3;
                             golden_armor.current_step = 0;
                             SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                         }
@@ -861,7 +869,11 @@ void shoot(){
             }
         break;
     }
-    refreshAnimation();
+    motherpl_attack_cooldown = COOLDOWN_ATTACK;
+    motherpl_canshoot = 0u;
+    SetSpriteAnim(THIS, motherpl_anim_shoot, 4u);
+    if(motherpl_state == MOTHERPL_CRAWL){SetSpriteAnim(THIS, motherpl_anim_crawlshoot, 16u);}
+    //refreshAnimation();
 }
 
 void changeMotherplState(MOTHERPL_STATE new_state){

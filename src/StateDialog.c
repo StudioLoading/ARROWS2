@@ -29,6 +29,7 @@ IMPORT_MAP(dmaphood);
 IMPORT_MAP(dmappolice);
 IMPORT_MAP(dmapriverside);
 IMPORT_MAP(dmapminotaur);
+IMPORT_MAP(dmapminodef);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -65,6 +66,7 @@ extern UINT8 choice_left;
 extern UINT8 choice_right;
 extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
+extern struct MISSION golden_armor;
 extern INT8 current_map;
 extern INT8 chapter;
 extern INT8 outwalker_info_step;
@@ -117,6 +119,9 @@ void START() {
         break;
         case MINOTAUR_ENTRANCE:
             InitScroll(BANK(dmapminotaur), &dmapminotaur, 0, 0);
+        break;
+        case MINOTAUR_DEFEAT:
+            InitScroll(BANK(dmapminodef), &dmapminodef, 0, 0);
         break;
         default:
             switch(previous_state){
@@ -478,6 +483,10 @@ void move_on() BANKED{
             break;
             case BLACKIE_DEAD_CHILD:
                 give_new_password = 1;
+            break;
+            case SMITH_FORGE_ARMOR:
+                give_new_password = 1;
+                golden_armor.current_step = 4;
             break;
         }
         if(give_new_password == 1){

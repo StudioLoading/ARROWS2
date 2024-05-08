@@ -123,19 +123,23 @@ void UPDATE() {
                             //normal behave
                             if(golden_armor.mission_state >= MISSION_STATE_STARTED &&
                                 golden_armor.mission_state <= MISSION_STATE_ACCOMPLISHED){
-                                whostalking = SMITH_NEED_GOLD;
-                                if(golden_armor.current_step == 0){
-                                    golden_armor.current_step = 1;
+                                whostalking = SMITH_NEED_GOLD_AND_SILVER;
+                                if(golden_armor.phase == 0){
+                                    golden_armor.phase = 1;
                                 }
                                 if(fix_bridge.mission_state == MISSION_STATE_DISABLED){
                                     fix_bridge.mission_state = MISSION_STATE_ENABLED;
-                                }else if(fix_bridge.mission_state == MISSION_STATE_REWARDED){
+                                }else if(fix_bridge.mission_state == MISSION_STATE_REWARDED
+                                    && golden_armor.phase >= 3){
                                     if(get_quantity(INVITEM_MONEY) >= 200 &&
-                                        get_quantity(INVITEM_METAL_SPECIAL) >= 200){
+                                        get_quantity(INVITEM_SILVERSKULL) > 0){
                                         change_quantity(INVITEM_MONEY, -200);
-                                        change_quantity(INVITEM_METAL_SPECIAL, -200);
+                                        change_quantity(INVITEM_SILVERSKULL, -1);
                                         change_quantity(INVITEM_ARMOR, 1);
                                         whostalking = SMITH_FORGE_ARMOR;
+                                        golden_armor.current_step = 0;
+                                        golden_armor.phase = 5;
+                                        golden_armor.mission_state = MISSION_STATE_REWARDED;
                                     }
                                 }
                             }else if(outwalker_smith.mission_state == MISSION_STATE_DISABLED || 

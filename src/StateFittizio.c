@@ -97,6 +97,8 @@ UINT8 logtimeout = 10u;
 UINT8 itemspawned_powder_max = 0;
 UINT8 itemspawned_powder_counter = 0;
 UINT8 enemy_wave = 0;
+Sprite* s_dialog = 0;
+struct NpcInfo dialog_icon = {.npcname=NONAME, .whotalks=NOBODY, .type=NOTYPE, .configured=0, .hp=0};
 
 void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;
@@ -115,6 +117,7 @@ void check_sgb_palette(UINT8 new_state) BANKED;
 void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
 void manage_border(UINT8 next_state) BANKED;
+void spawn_dialog_icon(Sprite* npc) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern struct EnemyData* minotaur_data;
@@ -129,13 +132,14 @@ void restartFromHospital() BANKED{
 }
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
-    if(whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO){
+    whostalking = whost;
+    if(whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO
+        && whost != FISHERMAN_FPSGATOR_COMPLETED){
         if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
             hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
             whostalking = IMHUNGRY;
         }
     }
-    whostalking = whost;
     ChangeState(StateDialog, s_mother, -1);
 }
 
@@ -741,7 +745,11 @@ void update_camera_position() BANKED{
                     break;
                     case StateSilvercave:
                         s_motherpl->x -= 8u;
-                        trigger_dialog(MINOTAUR_ENTRANCE, s_motherpl);
+                        if(golden_armor.mission_state < MISSION_STATE_ACCOMPLISHED){
+                            trigger_dialog(MINOTAUR_ENTRANCE, s_motherpl);
+                        }else{
+                            ChangeState(StateBossminotaur, s_motherpl, -1);
+                        }
                     break;
                     default:
                         ChangeState(StateOverworld, s_motherpl, 0);
@@ -902,6 +910,21 @@ void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED{
     Sprite* s_birdsky = SpriteManagerAdd(type, posx, posy);    
     struct EnemyData* birdsky_info = (struct EnemyData*) s_birdsky->custom_data;
     birdsky_info->configured = configured;
+}
+
+void spawn_dialog_icon(Sprite* npc) BANKED{
+    struct NpcInfo* npc_data = (struct NpcInfo*) npc->custom_data;
+    switch(npc_data->type){
+        case WOMAN_BODY1: case WOMAN_BODY2: case WOMAN_BODY3: 
+        case MAN_BODY1: case MAN_BODY2:
+            if(dialog_icon.hp == 0){
+                s_dialog = SpriteManagerAdd(SpriteInvcursor, npc->x - 4, npc->y - 24);
+                struct ItemSpawned* incursor_data = (struct ItemSpawned*)s_dialog->custom_data;
+                incursor_data->configured = 1;
+                dialog_icon.hp = 40;
+            } 
+        break;
+    }
 }
 
 void START(){}

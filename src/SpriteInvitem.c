@@ -11,7 +11,7 @@
 
 const UINT8 itm_unassigned[] = {1 ,0};
 const UINT8 itm_arrowbastard[] = {1, 4}; //The first number indicates the number of frames
-const UINT8 itm_crossbow[] = {1, 6}; //The first number indicates the number of frames
+const UINT8 itm_silver[] = {1, 6}; //The first number indicates the number of frames
 const UINT8 itm_money[] = {1, 1}; //The first number indicates the number of frames
 const UINT8 itm_arrownormal[] = {1, 2}; //The first number indicates the number of frames
 const UINT8 itm_arrowperf[] = {1, 3}; //The first number indicates the number of frames
@@ -24,8 +24,8 @@ void START(){
 void UPDATE(){
     struct InvItem* invitem_data = (struct InvItem*) THIS->custom_data;
     switch(invitem_data->itemtype){
-        case INVITEM_HEARTS:
-            SetSpriteAnim(THIS, itm_crossbow, 4u);
+        case INVITEM_SILVER:
+            SetSpriteAnim(THIS, itm_silver, 4u);
         break;
         case INVITEM_MONEY:
             SetSpriteAnim(THIS, itm_money, 4u);

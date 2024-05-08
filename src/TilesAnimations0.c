@@ -26,6 +26,7 @@ IMPORT_TILES(idsteeltiles);
 IMPORT_TILES(idscorpiontailtiles);
 IMPORT_TILES(idherbstiles);
 IMPORT_TILES(idmaptiles);
+IMPORT_TILES(idsilverskull);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
 IMPORT_TILES(tacredit0);
@@ -108,7 +109,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			case INVITEM_BOX:
 				set_inv_bkg_data(49u, 25, BANK(idboxtiles), isEmpty, &idboxtiles);
 			break;
-			case INVITEM_METAL_SPECIAL:
+			case INVITEM_SILVER:
 				set_inv_bkg_data(49u, 25, BANK(idsteeltiles), isEmpty, &idsteeltiles);
 			break;
 			case INVITEM_SCORPIONTAIL:
@@ -119,6 +120,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_MAP:
 				set_inv_bkg_data(49u, 25, BANK(idmaptiles), isEmpty, &idmaptiles);
+			break;
+			case INVITEM_SILVERSKULL:
+				set_inv_bkg_data(49u, 25, BANK(idsilverskull), isEmpty, &idsilverskull);
 			break;
 		}
 	}

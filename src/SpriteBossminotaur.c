@@ -31,6 +31,7 @@ Sprite* mino_skull = 0;
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
 extern UINT8 walk_timeout;
+extern struct MISSION golden_armor;
 
 void mino_behave() BANKED;
 void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED;
@@ -43,15 +44,20 @@ extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 void START(){
     THIS->lim_x = 255u;
     THIS->lim_y = 255u;
-        minotaur_data = (struct EnemyData*)THIS->custom_data;
-        minotaur_data->configured = 2;
+    minotaur_data = (struct EnemyData*)THIS->custom_data;
+    minotaur_data->configured = 2;
+    if(golden_armor.phase < 2){
         minotaur_data->vx = 1;
         minotaur_data->hp = 1;
         minotaur_data->x_frameskip = 2;
         minotaur_data->et_collision = 0;
-        mino_jump_power = 0u;
         mino_change_state(ENEMY_WALK);
+    }else{
+        SetSpriteAnim(THIS, a_mino_dead, 1u);
+        mino_change_state(ENEMY_DEAD);
+    }
     mino_v_coll = 0;
+    mino_jump_power = 0u;
     mino_skull = SpriteManagerAdd(SpriteBossminotaurskull, THIS->x, THIS->y);
     mino_skull_data = (struct EnemyData*) mino_skull->custom_data;
     //LOAD OBP1 with 0,0,2,3
@@ -269,7 +275,9 @@ void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED{
             minotaur_data->vx = 0;
             minotaur_data->wait = 199u;
             SetSpriteAnim(THIS, a_mino_dead, 1u);
-            SpriteManagerAdd(SpriteSkull, THIS->x, THIS->y);
+            if(golden_armor.mission_state < MISSION_STATE_ACCOMPLISHED){
+                SpriteManagerAdd(SpriteSkull, THIS->x, THIS->y);
+            }
         break;
         case ENEMY_JUMP:
             mino_jump_power = 6u;
@@ -282,6 +290,13 @@ void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED{
         case ENEMY_PREATTACK:
             SetSpriteAnim(THIS, a_mino_preattack, 4u);
             minotaur_data->wait = WALK_TIMEOUT_HPMAX;
+            switch(minotaur_data->hp){
+                case 2:
+                case 1:
+                    SetSpriteAnim(THIS, a_mino_preattack, 16u);
+                    minotaur_data->wait = minotaur_data->wait >> 1;
+                break;
+            }
         break;
         case ENEMY_ATTACK:
             minotaur_data->wait = 190u;

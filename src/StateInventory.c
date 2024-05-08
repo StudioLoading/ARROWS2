@@ -42,6 +42,13 @@ INT8 invcursor_unequip_posi = 0u;
 UINT8 invcursor_unequip_old_posi = 0u;
 UINT8 invcursor_unequip_posx[] = {8u, 32u, 56u, 80u, 104u, 128u};
 UINT8 invcursor_unequip_posy = 104u;
+INT8 blinker_enabled = 1;
+INT8 blinker_timeout = 0;
+INT8 blinker_timeout_max = 100;
+INT8 blinker_idx = 0;
+INT8 blinker_idx_max = 3;
+INT16 blinker_coords_x[] = {24u, 38u, 30u, 32u};
+INT16 blinker_coords_y[] = {80u, 88u, 88u, 96u};
 
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
@@ -114,7 +121,7 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,13);
                     UPDATE_HUD_TILE(uneq_x,2,14);
                 break;
-                case INVITEM_METAL_SPECIAL:
+                case INVITEM_SILVER:
                     UPDATE_HUD_TILE(uneq_x,1,19);
                     UPDATE_HUD_TILE(uneq_x,2,12);
                     uneq_x += 1;
@@ -179,10 +186,18 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,42);
                     UPDATE_HUD_TILE(uneq_x,2,43);
                 break;
+                case INVITEM_SILVERSKULL:
+                    UPDATE_HUD_TILE(uneq_x,1,48);
+                    UPDATE_HUD_TILE(uneq_x,2,49);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,50);
+                    UPDATE_HUD_TILE(uneq_x,2,51);
+                break;
             }
             uneq_x += 2;
         }
     refresh_equipped();
+    blinker_timeout = blinker_timeout_max;
     SHOW_BKG;
 	SHOW_SPRITES;
 }
@@ -267,6 +282,15 @@ void invselectitem(INT8 max_idx) BANKED{
 }
 
 void UPDATE(){
+    if(blinker_enabled == 1){
+        blinker_timeout--;
+        if(blinker_timeout <= 0){
+            blinker_timeout = blinker_timeout_max;
+            blinker_idx++;
+            if(blinker_idx > blinker_idx_max){blinker_idx=0;}
+            SpriteManagerAdd(SpriteInvblinker, blinker_coords_x[blinker_idx], blinker_coords_y[blinker_idx]);
+        }
+    }
     if(KEY_PRESSED(J_START)){
         ChangeState(previous_state, 0, -1);
     }
@@ -398,7 +422,7 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(METAL_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(METAL_DETAIL4, ddinv5);
             break;
-            case INVITEM_METAL_SPECIAL:
+            case INVITEM_SILVER:
                 GetLocalizedINVLabel_EN(STEEL_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(STEEL_DETAIL1, ddinv2);
                 GetLocalizedINVLabel_EN(STEEL_DETAIL2, ddinv3);
@@ -475,7 +499,24 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(MAP_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(MAP_DETAIL4, ddinv5);
             break;
+            case INVITEM_SILVERSKULL:
+                GetLocalizedINVLabel_EN(SILVERSKULL_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL4, ddinv5);
+            break;
         }
+    }
+    switch(inventory[invcursor_posi].itemtype){
+        case INVITEM_ARROW_NORMAL: case INVITEM_ARROW_PERFO:
+	    case INVITEM_ARROW_BASTARD: case INVITEM_SILVERSKULL:
+        case INVITEM_SILVER: case INVITEM_ARMOR: case INVITEM_GLASSES:
+            blinker_enabled = 1;
+        break;
+        default:
+            blinker_enabled = 0;
+        break;
     }
     PRINT(8, 8, "%s", ddinv1);
     PRINT(8, 10, "%s", ddinv2);

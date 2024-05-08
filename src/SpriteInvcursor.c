@@ -6,6 +6,9 @@
 
 #include "custom_datas.h"
 
+extern struct NpcInfo dialog_icon;
+extern Sprite* s_dialog;
+
 const UINT8 invcur_arrow_anim[] = {2,0,1}; //The first number indicates the number of frames
 const UINT8 a_invucrsor_end[] = {2,2,3}; //The first number indicates the number of frames
 
@@ -17,6 +20,14 @@ void START(){
 }
 
 void UPDATE(){
+	if(s_dialog != 0){
+		if(dialog_icon.hp > 0){
+			dialog_icon.hp--;
+			if(dialog_icon.hp <= 0){
+				SpriteManagerRemoveSprite(s_dialog);
+			}
+		}
+	}
 	struct ItemSpawned* incursor_data = (struct ItemSpawned*)THIS->custom_data;
 	switch(incursor_data->configured){
 		case 1u:
@@ -32,5 +43,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-
+	dialog_icon.hp = 0;
 }

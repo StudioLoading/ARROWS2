@@ -397,48 +397,48 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 		break;
 		case BOSS_CRAB_FIGHT:
 			*n_lines = 11u;
-			memcpy(d0, "BIG BOSS CRAB:      \0", 22);
-			memcpy(d1, "*CLICK*! *CLICK*!   \0", 22);
-			memcpy(d2, "WITH THESE GLASSES I\0", 22);
-			memcpy(d3, "SEE A LOT BETTER... \0", 22);
+			memcpy(d0, "BIG BOSS CRAB:       ", 22);
+			memcpy(d1, "'CLICK! CLICK!'      ", 22);
+			memcpy(d2, "WITH THESE GLASSES I ", 22);
+			memcpy(d3, "SEE A LOT BETTER...  ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "WHAT? I FOUND IT!   \0", 22);
-			memcpy(d6, "IT'S MINE NOW! OH   \0", 22);
+			memcpy(d5, "WHAT? I FOUND IT!    ", 22);
+			memcpy(d6, "IT'S MINE NOW! OH    ", 22);
 			memcpy(d7, "THEY AREN'T?...\0", 22);
 			memcpy(d8, EMPTY_STRING_21, 22);
-			memcpy(d9, "*CLICK*! *CLICK*!   \0", 22);
+			memcpy(d9, "'CLICK! CLICK!'      ", 22);
 			memcpy(d10, EMPTY_STRING_21, 22);
-			memcpy(d11, "WE'LL SEE...      \0", 22);
+			memcpy(d11, "WE'LL SEE...         ", 22);
 		break;
 		case IBEX_GIVE_MISSION:
 			*n_lines = 17u;
-			memcpy(d0, "LORD OF THUNDER:    \0", 22);
-			memcpy(d1, "*COUGH!* *COUGH!*   \0", 22);
-			memcpy(d2, "SALUTE *COUGH!* HEAL\0", 22);
-			memcpy(d3, "ER. BLACKIE ALREADY \0", 22);
-			memcpy(d4, "EXPLAINED ME WHAT   \0", 22);
-			memcpy(d5, "HAPPENED TO YOUR SON\0", 22);
+			memcpy(d0, "LORD OF THUNDER:     ", 22);
+			memcpy(d1, "'COUGH! COUGH!'      ", 22);
+			memcpy(d2, "SALUTE *COUGH!* HEAL ", 22);
+			memcpy(d3, "ER. BLACKIE ALREADY  ", 22);
+			memcpy(d4, "EXPLAINED ME WHAT    ", 22);
+			memcpy(d5, "HAPPENED TO YOUR SON ", 22);
 			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, "OUT OF NOWHRE A COLO\0", 22);
-			memcpy(d8, "NY OF SCORPIONS APPE\0", 22);
-			memcpy(d9, "ARED AND IS MARCHING\0", 22);
-			memcpy(d10, "DOWN TO THE *COUGH!*\0", 22);
-			memcpy(d11, "VILLAGE!            \0", 22);
+			memcpy(d7, "OUT OF NOWHRE A COLO ", 22);
+			memcpy(d8, "NY OF SCORPIONS APPE ", 22);
+			memcpy(d9, "ARED AND IS MARCHING ", 22);
+			memcpy(d10, "DOWN TO THE 'COUGH!' ", 22);
+			memcpy(d11, "VILLAGE!             ", 22);
 			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "AS YOU CAN IMAGINE, \0", 22);
-			memcpy(d14, "THOSE BASTARDS HAVE \0", 22);
-			memcpy(d15, "A LETHAL POISON IN  \0", 22);
-			memcpy(d16, "THOSE STINGS. HERE  \0", 22);
+			memcpy(d13, "AS YOU CAN IMAGINE,  ", 22);
+			memcpy(d14, "THOSE BASTARDS HAVE  ", 22);
+			memcpy(d15, "A LETHAL POISON IN   ", 22);
+			memcpy(d16, "THOSE STINGS. HERE   ", 22);
 			memcpy(d17, EMPTY_STRING_21, 22);
 		break;
 		case IBEX_GIVE_HERBS:
 			*n_lines = 14u;
-			memcpy(d0, "LORD OF THUNDER:    \0", 22);
-			memcpy(d1, "*COUGH!* *COUGH!*   \0", 22);
+			memcpy(d0, "LORD OF THUNDER:    ", 22);
+			memcpy(d1, "'COUGH! COUGH!'     ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "I ALREADY ATE A     \0", 22);
-			memcpy(d4, "BUNCH OF HERBS. I AM\0", 22);
-			memcpy(d5, "SLOWLY REVOVERING   \0", 22);
+			memcpy(d3, "I ALREADY ATE A     ", 22);
+			memcpy(d4, "BUNCH OF HERBS. I AM", 22);
+			memcpy(d5, "SLOWLY REVOVERING   ", 22);
 			memcpy(d6, "ALREADY...          ", 22);
 			memcpy(d7, EMPTY_STRING_21, 22);
 			memcpy(d8, "NOW LEAVE! THROUGH \0", 22);
@@ -545,7 +545,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 		case CARPENTER_GIVING_ARROWS:
 			*n_lines = 6u;
 			memcpy(d0, "PETER:               ", 22);
-			memcpy(d1, "*TZIN! TZIN!*        ", 22);
+			memcpy(d1, "'TZIN! TZIN!'        ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d3, "HERE, 30 PEARCING    ", 22);
 			memcpy(d4, "ARROWS FOR YOU!      ", 22);
@@ -570,7 +570,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "JOHN:               ", 22);
 			memcpy(d1, "AAAAALRIIIGHT!      ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "*SPLINK! SPLINK!*   ", 22);
+			memcpy(d3, "'SPLINK! SPLINK!'   ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HERE THEY ARE: 30   ", 22);
@@ -679,13 +679,13 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d19, "ARROWS.            ", 22);
 		break;
 		case IMHUNGRY:
-			*n_lines = 19u;
-			memcpy(d0, "*TOUCHING STOMACH*: ", 22);
+			*n_lines = 5u;
+			memcpy(d0, "'TOUCHING STOMACH': ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "I AM SORRY I CAN'T  ", 22);
 			memcpy(d3, "HELP YOU NOW... I AM", 22);
-			memcpy(d3, "HUNGRY FOR DOING ANY", 22);
-			memcpy(d3, "THING...            ", 22);
+			memcpy(d4, "TOO HUNGRY FOR DOING", 22);
+			memcpy(d5, "ANYTHING...         ", 22);
 		break;
 		case FISHERMAN_THERESFISH:
 			*n_lines = 8u;
@@ -706,17 +706,17 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "HELLO HEALER! PEOPLE", 22);
 			memcpy(d3, "ARE STARVING! THERE ", 22);
 			memcpy(d4, "IS AN AREA WITH A   ", 22);
-			memcpy(d5, "LOT OF FISH TO GET, ", 22);
+			memcpy(d5, "LOT OF FISH TO GET  ", 22);
 			memcpy(d6, "BUT NOW...          ", 22);
 			memcpy(d7, "IT IS TOO DANGEROUS ", 22);
 			memcpy(d8, "TO GO ALONE!        ", 22);
 			memcpy(d9, EMPTY_STRING_21, 22);
 			memcpy(d10, "I COUNTED 12 ALLIGA ", 22);
-			memcpy(d11, "TORS THERE, AND THEY", 22);
+			memcpy(d11, "TORS THERE AND THEY ", 22);
 			memcpy(d12, "ARE GOING TO RIP ME ", 22);
 			memcpy(d13, "UP!                 ", 22);
 			memcpy(d14, EMPTY_STRING_21, 22);
-			memcpy(d15, "I RIDE THE BOAT, YOU", 22);
+			memcpy(d15, "I RIDE THE BOAT  YOU", 22);
 			memcpy(d16, "SLAY THE ALLIGATORS.", 22);
 			memcpy(d17, EMPTY_STRING_21, 22);
 			memcpy(d18, "WHAT ABOUT THAT?    ", 22);
@@ -724,19 +724,18 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			hungry_people.mission_state = MISSION_STATE_STARTED;
 		break;
 		case FISHERMAN_FPSGATOR_COMPLETED:
-			*n_lines = 8u;
+			*n_lines = 9u;
 			memcpy(d0, "FISHERMAN:          ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "GOOD JOB! NOW I CAN ", 22);
 			memcpy(d3, "GO BACK FISHING!    ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, "WE HAVE PUT AN END  ", 22);
-			memcpy(d5, "TO THE STARVATION!  ", 22);
-			memcpy(d6, EMPTY_STRING_21, 22);
-			memcpy(d7, "LET'S GO BACK TO THE", 22);
-			memcpy(d8, "BEACH.              ", 22);
+			memcpy(d6, "TO THE STARVATION!  ", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "LET'S GO BACK TO THE", 22);
+			memcpy(d9, "BEACH.              ", 22);
 			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
-			golden_armor.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case ITEMDETAIL_MAP:
 			*n_lines = 19u;
@@ -760,6 +759,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "DRAGON BREATHS. THE ", 22);
 			memcpy(d18, "SMITH SHOULD BE ABLE", 22);
 			memcpy(d19, "FORGE IT. LOVE, LIAM", 22);
+			golden_armor.phase = 0;
 			golden_armor.mission_state = MISSION_STATE_STARTED;
 		break;
 		case BRIDGE_BROKEN:

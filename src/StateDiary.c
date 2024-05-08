@@ -52,7 +52,7 @@ extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
 extern struct MISSION golden_armor;
-extern struct MISSION* missions[13];
+extern struct MISSION* missions[16];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};
@@ -346,12 +346,10 @@ void show_detail(){
                     if(hungry_people.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(HUNGRY_D0, dd2);
                         GetLocalizedDDLabel_EN(HUNGRY_D1, dd3);
-                        GetLocalizedDDLabel_EN(HUNGRY_D2, dd4);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd5);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd6);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd7);                          
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd8);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd9);
+                        if(hungry_people.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            GetLocalizedDDLabel_EN(HUNGRY_D2, dd4);
+                            GetLocalizedDDLabel_EN(HUNGRY_D3, dd5);
+                        }
                     }
                 break;
                 case 1u:
@@ -371,12 +369,26 @@ void show_detail(){
                     if(golden_armor.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(GOLDEN_D0, dd2);
                         GetLocalizedDDLabel_EN(GOLDEN_D1, dd3);
-                        if(golden_armor.current_step >= 1){
+                        if(golden_armor.phase >= 1){
                             GetLocalizedDDLabel_EN(GOLDEN_D2, dd4);
                             GetLocalizedDDLabel_EN(GOLDEN_D3, dd5);
-                            if(golden_armor.mission_state >= MISSION_STATE_REWARDED){
-                                GetLocalizedDDLabel_EN(GOLDEN_D4, dd6);
-                                GetLocalizedDDLabel_EN(GOLDEN_D5, dd7);
+                            GetLocalizedDDLabel_EN(GOLDEN_D4, dd6);
+                            GetLocalizedDDLabel_EN(GOLDEN_D5, dd7);
+                            if(golden_armor.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                                GetLocalizedDDLabel_EN(GOLDEN_D2, dd2);
+                                GetLocalizedDDLabel_EN(GOLDEN_D3, dd3);
+                                GetLocalizedDDLabel_EN(GOLDEN_D4, dd4);
+                                GetLocalizedDDLabel_EN(GOLDEN_D5, dd5);
+                                GetLocalizedDDLabel_EN(GOLDEN_D6, dd6);
+                                GetLocalizedDDLabel_EN(GOLDEN_D7, dd7);
+                                if(golden_armor.mission_state == MISSION_STATE_REWARDED){
+                                    GetLocalizedDDLabel_EN(GOLDEN_D4, dd2);
+                                    GetLocalizedDDLabel_EN(GOLDEN_D5, dd3);
+                                    GetLocalizedDDLabel_EN(GOLDEN_D6, dd4);
+                                    GetLocalizedDDLabel_EN(GOLDEN_D7, dd5);
+                                    GetLocalizedDDLabel_EN(GOLDEN_D8, dd6);
+                                    GetLocalizedDDLabel_EN(GOLDEN_D9, dd7);
+                                }
                             }
                         }
                     }

@@ -77,5 +77,26 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			choice_left = 0u;
 			choice_right = 0u;
 		break;
+		case MINOTAUR_DEFEAT:
+			*n_lines = 17u;
+			memcpy(d0, EMPTY_STRING_21, 22);
+			memcpy(d1, "MY BROTHER TOLD ME ", 22);
+			memcpy(d2, "YOUR FAMILY WAS    ", 22);
+			memcpy(d3, "STRONG....         ", 22);
+			memcpy(d4, "ONLY ONE HUMAN     ", 22);
+			memcpy(d5, "UNMASKED ME ONCE...", 22);
+			memcpy(d6, "BUT THIS IS ANOTHER", 22);
+			memcpy(d7, "STORY. YOU FOUND A ", 22);
+			memcpy(d8, "NEW FRIEND IN ME.  ", 22);
+			memcpy(d9, "AND NOW MY SKULL   ", 22);
+			memcpy(d10, "IS YOURS. DO WHAT ", 22);
+			memcpy(d11, "EVER YOU WANT.    ", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
+			memcpy(d13, "DESSA: YOUR SKULL ", 22);
+			memcpy(d14, "IS MADE OF SILVER ", 22);
+			memcpy(d15, "AND GOLD: I WILL  ", 22);
+			memcpy(d16, "USE IT TO FORGE A ", 22);
+			memcpy(d17, "GOLDEN ARMOR.     ", 22);
+		break;
     }
 }
