@@ -14,6 +14,7 @@
 
 extern Sprite* s_motherpl;
 extern struct MISSION help_cemetery_woman;
+extern MOTHERPL_STATE motherpl_state;
 
 extern void Log(NPCNAME npcname) BANKED;
 
@@ -31,7 +32,6 @@ void START(){
     child_info->e_state = ENEMY_IDLE;
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
-    child_hooked = 0u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
@@ -39,7 +39,7 @@ void START(){
 }
 
 void UPDATE(){
-    if(help_cemetery_woman.current_step == 3u){
+    if(help_cemetery_woman.current_step == 2u){
         child_info->x_frameskip--;
         if(child_info->x_frameskip == 0u){
             child_behavior();
@@ -58,16 +58,15 @@ void child_behavior() BANKED{
     }else if (THIS->x > s_motherpl->x){
         distx = THIS->x - s_motherpl->x;
     }
-    if (distx > 120u){
+    if(distx > 120u){
         child_hooked = 0u;
+        help_cemetery_woman.current_step = 3u;
         SpriteManagerRemoveSprite(THIS);
-        help_cemetery_woman.current_step = 0u;
     }else if(distx > 40u){
         child_hooked = 0u;
-        Log(CHILD_TOOFAR);
         change_child_state(ENEMY_IDLE);
+        Log(CHILD_TOOFAR);
     }else{
-        child_hooked = 1u;
         switch(child_info->e_state){
             case ENEMY_WALK:
                 switch(s_motherpl->mirror){
@@ -127,4 +126,9 @@ void change_child_state(ENEMY_STATE new_state) BANKED{
 }
 
 void DESTROY(){
+    //se motherpl è morta
+    if(motherpl_state == MOTHERPL_DEAD){
+        child_hooked = 0u;
+        help_cemetery_woman.current_step = 3u;
+    }
 }

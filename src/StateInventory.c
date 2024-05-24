@@ -49,6 +49,9 @@ INT8 blinker_idx = 0;
 INT8 blinker_idx_max = 3;
 INT16 blinker_coords_x[] = {24u, 38u, 30u, 32u};
 INT16 blinker_coords_y[] = {80u, 88u, 88u, 96u};
+UINT8 blinking_dessa_timeout = 240u;
+UINT8 blinking_dessa_counter = 0;
+UINT8 blinking_dessa_counter_max = 20;
 
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
@@ -196,6 +199,7 @@ void START(){
             }
             uneq_x += 2;
         }
+        PRINT(0, 0, "INVENTORY           ");
     refresh_equipped();
     blinker_timeout = blinker_timeout_max;
     SHOW_BKG;
@@ -282,6 +286,19 @@ void invselectitem(INT8 max_idx) BANKED{
 }
 
 void UPDATE(){
+    blinking_dessa_counter++;
+    if(blinking_dessa_counter < blinking_dessa_counter_max ||
+        (blinking_dessa_counter > 40 && 
+        blinking_dessa_counter < (40+blinking_dessa_counter_max))){
+        //occhi chiusi
+        Anim_Inventory_1();
+    }else{
+        Anim_Inventory_0();
+    }
+    if(blinking_dessa_counter >= blinking_dessa_timeout){
+        //azzera
+        blinking_dessa_counter = 0;
+    }
     if(blinker_enabled == 1){
         blinker_timeout--;
         if(blinker_timeout <= 0){
@@ -511,7 +528,8 @@ void change_detail(){
     switch(inventory[invcursor_posi].itemtype){
         case INVITEM_ARROW_NORMAL: case INVITEM_ARROW_PERFO:
 	    case INVITEM_ARROW_BASTARD: case INVITEM_SILVERSKULL:
-        case INVITEM_SILVER: case INVITEM_ARMOR: case INVITEM_GLASSES:
+        case INVITEM_SILVER: case INVITEM_ARMOR: 
+        case INVITEM_GLASSES: case INVITEM_METAL:
             blinker_enabled = 1;
         break;
         default:

@@ -1,12 +1,12 @@
 POST DEMO:
+- quando torno dagli outwalker senza aver sbloccato cose mi hiede il documento
+	che ho dato quando ci sono entrato la prima volta!
+- bloccare la strada verso il lord of thunder dicendo che c'è stata una frana
 - caverna dello scorpione, che ci facciamo nel capitolo 4?
 	- potrebbe diventare un' altra cave di loottaggio
-- mettere denaro per curarsi: mettere il gameover quando non ho abbastanza denaro 
-	con ritorno a titlescreen
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze
-- bloccare la strada verso il lord of thunder dicendo che c'è stata una frana
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- ragni
@@ -76,6 +76,7 @@ GENERAZIONE QR CODE DA POWERSHELL
 New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'
+New-QRCodeURI -URI 'https://www.facebook.com/groups/108429265854805' -Width 8 -OutPath 'C:\Users\checc\M5S\CAMPAGNA ELETTORALE\QR-FB.PNG'
 Link alla videochiamata: https://meet.google.com/bth-sgjr-ohd
 
 ZGB HACKS:

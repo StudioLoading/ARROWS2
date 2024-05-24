@@ -16,6 +16,9 @@
 IMPORT_TILES(font);
 IMPORT_MAP(dmaphospital);
 
+UINT8 get_chapter_cost() BANKED;
+void manage_death() BANKED;
+
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern Sprite* s_motherpl;
@@ -46,6 +49,7 @@ extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
 extern void show_next_character() BANKED;
 
+
 void START() {
     HIDE_WIN;
     InitScroll(BANK(dmaphospital), &dmaphospital, 0, 0);
@@ -57,6 +61,10 @@ void START() {
     n_lines = 0u;
     dialog_ready = 0u;
 	next_page = 0u;
+}
+
+UINT8 get_chapter_cost() BANKED{
+    return (chapter+1) * 10u;
 }
 
 void UPDATE() {
@@ -119,28 +127,24 @@ void UPDATE() {
                         }
                     }
                 }else{
-                    if(motherpl_hp <= 0){//morta
-                        whostalking = HOSPITAL_CURE_FROM_DEATH;
-                    }else if(motherpl_hp == 5){
-                        whostalking = HOSPITAL_FINE;
-                    }else{//in cura
-                        whostalking = HOSPITAL_CURE;
-                    }
-                    motherpl_hp = 5;
+                    manage_death();
                 }
             break;
             case MISSION_STATE_ACCOMPLISHED:
                 enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			case MISSION_STATE_ENABLED://ho bisogno di metallo speciale
-                motherpl_hp = 2;
-				whostalking = HOSPITAL_DISABLED; 
-                if(get_quantity(INVITEM_SILVER) > 0){//se in inventario ho il metallo specialo
-                    enable_hospital.mission_state = MISSION_STATE_REWARDED;
-			        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-                    whostalking = HOSPITAL_ENABLING;
-                    motherpl_hp = 5;
-                    change_quantity(INVITEM_SILVER, -1);
+                if(motherpl_hp <= 0){
+                    manage_death();
+                }else{
+                    whostalking = HOSPITAL_DISABLED; 
+                    if(get_quantity(INVITEM_SILVER) > 0){//se in inventario ho il metallo specialo
+                        enable_hospital.mission_state = MISSION_STATE_REWARDED;
+                        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                        whostalking = HOSPITAL_ENABLING;
+                        motherpl_hp = 5;
+                        change_quantity(INVITEM_SILVER, -1);
+                    }
                 }
 			break;
 		}
@@ -175,5 +179,22 @@ void UPDATE() {
         dialog_ready = 0;
         move_on();
     }
+}
+
+void manage_death() BANKED{
+    if(motherpl_hp <= 0){//morta
+        UINT8 chapter_cost = get_chapter_cost(); 
+        if(get_quantity(INVITEM_MONEY) >= chapter_cost){
+            change_quantity(INVITEM_MONEY, -chapter_cost);
+            whostalking = HOSPITAL_CURE_FROM_DEATH;
+        }else{
+            whostalking = HOSPITAL_GAMEOVER;
+        }
+    }else if(motherpl_hp == 5){
+        whostalking = HOSPITAL_FINE;
+    }else{//in cura
+        whostalking = HOSPITAL_CURE;
+    }
+    motherpl_hp = 5;
 }
 

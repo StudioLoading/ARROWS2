@@ -465,6 +465,9 @@ void move_on() BANKED{
             ChangeState(StateSilvercave, s_motherpl, -1);
         }
         return;
+    }else if(whostalking == HOSPITAL_GAMEOVER){
+        SetState(StateCredit);
+        return;
     }
 	if(next_page){
 		next_page = 0u;

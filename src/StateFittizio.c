@@ -133,7 +133,7 @@ void restartFromHospital() BANKED{
 
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     whostalking = whost;
-    if(whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO
+    if(whost != DEATH && whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO
         && whost != FISHERMAN_FPSGATOR_COMPLETED){
         if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
             hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
@@ -434,6 +434,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         if(current_map == 0 && next_map == 3){
                             motherow_pos_x = (UINT16) 10u << 3;
                             motherow_pos_y = (UINT16) 23u << 3;
+                        }else if(current_map == 1 && next_map == 2){
+                            motherow_pos_x = (UINT16) 2u << 3;
+                            motherow_pos_y = 20u;
                         }else if(current_map == 2 && next_map == 1){
                             motherow_pos_x = (UINT16) 56u << 3;
                             motherow_pos_y = (UINT16) 42u << 3;
@@ -450,7 +453,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         if(previous_state == StateHood){
                             motherow_pos_x = (UINT16) 19u << 3;
                             motherow_pos_y = (UINT16) 10u << 3;
-
                         }
                     }
                 break;

@@ -142,15 +142,11 @@ void START(){
 		}
 		delay_spawning = 80u;
 	//CUTSCENES
-		if(child_hooked == 1u && help_cemetery_woman.current_step == 3u){
+		if(child_hooked == 1u && help_cemetery_woman.current_step == 2u){
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
-			help_cemetery_woman.current_step = 4u;
+			help_cemetery_woman.current_step = 5u;
 			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			trigger_dialog(CHILDS_SAVED, s_motherow);
-		}else if(help_cemetery_woman.current_step > 3u && help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
-				//non capisco perché questo ==ENABLED è falso a debug
-				//ma runtime è vero
-			help_cemetery_woman.current_step = 0u;
 		}
 	INIT_FONT(font, PRINT_WIN);
 	INIT_HUD(hudow); 

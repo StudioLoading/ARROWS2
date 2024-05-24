@@ -13,6 +13,8 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
+#define MAX_CLOUD_TIMEOUT 120
+
 IMPORT_MAP(border);
 IMPORT_TILES(font);
 IMPORT_TILES(cemeterytiles);
@@ -43,6 +45,8 @@ extern struct MISSION outwalker_smith;
 
 const UINT8 coll_tiles_cemetery[] = {0u, 0};
 const UINT8 coll_surface_cemetery[] = {1u, 16u, 0};
+UINT8 cloud_timeout = 0;
+UINT8 configured_loop = 0;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -82,6 +86,8 @@ void START(){
         UpdateHUD();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(cemeterymap), &cemeterymap, &mapwidth, &mapheight);
+        cloud_timeout = MAX_CLOUD_TIMEOUT;
+        configured_loop = 0;
 	SHOW_SPRITES;
 }
 
@@ -120,8 +126,20 @@ void UPDATE(){
                 npc_spawned_zone = 2u;
             }
         }
-    
-    
+        cloud_timeout--;
+        if(cloud_timeout == 0){
+            cloud_timeout = MAX_CLOUD_TIMEOUT;
+            if(s_motherpl->x < ((UINT16) 8u << 3)){
+                spawn_npa(SpriteCloud, s_motherpl->x, 27u, configured_loop);
+                spawn_npa(SpriteCloud, s_motherpl->x - 12u, 34u, configured_loop);
+            }else if(s_motherpl->x > ((UINT16) 18u << 3)){
+            
+            }
+            configured_loop++;
+            if(configured_loop == 5){
+                configured_loop = 0;
+            }
+        } 
     Log(NONAME);
 }
 

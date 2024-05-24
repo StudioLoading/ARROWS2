@@ -40,11 +40,15 @@ extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
 extern INT8 current_map;
 extern UINT8 enemy_wave;
+extern UINT8 child_hooked;
+extern MOTHERPL_STATE motherpl_state;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 92u, 94u, 105u, 0};
 const UINT8 coll_surface_hood[] = {83u, 0};
 Sprite* s_child;
 UINT16 spawn_child_cooldown = 100u;
+
+void spawn_enemy_hood() BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -74,11 +78,11 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-        if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED 
-            && help_cemetery_woman.current_step >= 1){//&& child_hooked == 1 ?
+        if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
-            help_cemetery_woman.current_step = 3u;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+            if(help_cemetery_woman.current_step < 3){
+                SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+            }
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
@@ -146,11 +150,36 @@ void UPDATE(){
                     leaf2_info->step = 160u;}break;
             }
         //ENEMIES
-            if(help_cemetery_woman.mission_state < MISSION_STATE_REWARDED){
-                if(s_motherpl->x > (UINT16)30u && s_motherpl->x < ((mapwidth << 3) - 80u)){
+        if(motherpl_state != DEATH){
+            if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED
+                && help_cemetery_woman.current_step == 2){
+                if(s_motherpl->x > (UINT16)80u && s_motherpl->x < ((mapwidth << 3) - 80u)){
                     switch(help_cemetery_woman.current_step){
                         case 3u:
-                            if(help_cemetery_woman.current_step == 3u && enemy_counter < 2){
+                            if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
+                                if(s_motherpl->x > ((UINT16) 70u << 3)){
+                                    s_motherpl->x = (UINT16) 70u << 3;
+                                }
+                                s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
+                                child_hooked = 1;
+                                help_cemetery_woman.current_step = 2;
+                            }
+                        break;
+                        case 1u:
+                            if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
+                                if(s_motherpl->x > ((UINT16) 70u << 3)){
+                                    s_motherpl->x = (UINT16) 70u << 3;
+                                }
+                                spawn_child_cooldown--;
+                                if(spawn_child_cooldown){
+                                    child_hooked = 1;
+                                    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                                    trigger_dialog(CHILD, s_motherpl);
+                                }
+                            }
+                        break; 
+                        case 4u:
+                            if(enemy_counter < 2){
                                 timeout_enemy--;
                                 if(timeout_enemy == 200u){
                                     SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
@@ -159,61 +188,45 @@ void UPDATE(){
                                     timeout_enemy = 600u;
                                     SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 80u), (UINT16) 6u << 3);
                                 }
-                            }
-                        break;
-                        case 1u:
-                            if(CheckCollision(s_motherpl, s_child)){
-                                help_cemetery_woman.current_step = 2u;
-					            SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-                                trigger_dialog(CHILD, s_motherpl);
-                            }
-                        break;
-                        case 0u:
-                            if(s_motherpl->x > ((UINT16) 60u << 3)){
-                                if(s_motherpl->x > ((UINT16) 70u << 3)){
-                                    s_motherpl->x = (UINT16) 70u << 3;
-                                }
-                                spawn_child_cooldown--;
-                                if(spawn_child_cooldown == 0){
-                                    s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
-                                    help_cemetery_woman.current_step = 1u;
-					                SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-                                }
-                            }
-                        break;                    
+                            }                   
                     }            
                 }
             }else{//help_cemetery_woman rewarded already
-                if(enemy_counter < 2 && enemy_wave > 0){
-                    timeout_enemy--;
-                    if(timeout_enemy == 200u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 80u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 80u;
-                        }
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
-                    }
-                    if(timeout_enemy == 300u || timeout_enemy == 450u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 32u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 32u;
-                        }
-                        SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
-                    }
-                    if(timeout_enemy == 400u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 100u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 100u;
-                        }
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
-                        timeout_enemy = 500;
-                    }
-                }
+                spawn_enemy_hood();
             }
+        }
     
     Log(NONAME);
+}
+
+void spawn_enemy_hood() BANKED{
+    if(enemy_counter < 2 && enemy_wave > 0){
+        timeout_enemy--;
+        if(timeout_enemy == 200u){
+            enemy_wave--;
+            UINT16 e_x = s_motherpl->x + 80u;
+            if(s_motherpl->mirror == V_MIRROR){
+                e_x = s_motherpl->x - 80u;
+            }
+            SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+        }
+        if(timeout_enemy == 300u || timeout_enemy == 450u){
+            enemy_wave--;
+            UINT16 e_x = s_motherpl->x + 32u;
+            if(s_motherpl->mirror == V_MIRROR){
+                e_x = s_motherpl->x - 32u;
+            }
+            SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
+        }
+        if(timeout_enemy == 400u){
+            enemy_wave--;
+            UINT16 e_x = s_motherpl->x + 100u;
+            if(s_motherpl->mirror == V_MIRROR){
+                e_x = s_motherpl->x - 100u;
+            }
+            SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+            timeout_enemy = 500;
+        }
+    }
 }
 

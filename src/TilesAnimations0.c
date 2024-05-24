@@ -19,6 +19,7 @@ IMPORT_TILES(invdetailwoodtiles);
 IMPORT_TILES(invdetailmetaltiles);
 IMPORT_TILES(idnormaltiles);
 IMPORT_TILES(inventorytiles);
+IMPORT_TILES(inventorytilesanim);
 IMPORT_TILES(idglasstiles);
 IMPORT_TILES(idflowertiles);
 IMPORT_TILES(idboxtiles);
@@ -317,4 +318,10 @@ void Anim_Silver_4() BANKED{
 void Anim_Silver_5() BANKED{
 	set_banked_bkg_data(23u, 2u, &minetilesanim5, BANK(minetilesanim5));//fiammella
 	set_banked_bkg_data(37u, 6u, &minetilesanim3, BANK(minetilesanim3));//lava
+}
+void Anim_Inventory_0() BANKED{
+	set_banked_bkg_data(28, 2u, &inventorytiles, BANK(inventorytiles));//occhi Dessa
+}
+void Anim_Inventory_1() BANKED{
+	set_banked_bkg_data(28u, 2u, &inventorytilesanim, BANK(inventorytilesanim));//occhi Dessa
 }

@@ -42,3 +42,5 @@ void Anim_Silver_2() BANKED;
 void Anim_Silver_3() BANKED;
 void Anim_Silver_4() BANKED;
 void Anim_Silver_5() BANKED;
+void Anim_Inventory_0() BANKED;
+void Anim_Inventory_1() BANKED;

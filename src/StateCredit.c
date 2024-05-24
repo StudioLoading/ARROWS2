@@ -122,7 +122,7 @@ void missions_init() BANKED{
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
-			help_cemetery_woman.current_step = 4u;//0u
+			help_cemetery_woman.current_step = 5u;//0u
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
 			outwalker_chief.current_step = 5u;//0u
 			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
@@ -144,7 +144,7 @@ void missions_init() BANKED{
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
-			help_cemetery_woman.current_step = 4u;//0u
+			help_cemetery_woman.current_step = 5u;//0u
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
 			outwalker_chief.current_step = 5u;//0u
 			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
@@ -246,7 +246,7 @@ void inventory_init() BANKED{
 			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
 			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 30; unequip00.equippable = 0u;
 			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 30; unequip01.equippable = 0u;
-			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 0; unequip02.equippable = 0u;
+			unequip02.itemtype = INVITEM_UNASSIGNED; unequip02.quantity = 0; unequip02.equippable = 0u;
 			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;

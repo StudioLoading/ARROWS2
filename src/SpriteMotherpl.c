@@ -26,6 +26,7 @@
 #define FLY_MAX 10
 #define PICKINGUP_COOLDOWN 16
 #define DASH_COOLDOWN_MAX 24
+#define HP_INITIAL 1
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -42,7 +43,9 @@ extern struct MISSION enable_hospital;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
 extern struct MISSION golden_armor;
+extern struct MISSION help_cemetery_woman;
 extern UINT8 powder_cooldown;
+extern UINT8 child_hooked;
 
 const UINT8 motherpl_anim_idle[] = {4, 1, 1, 1, 2}; //The first number indicates the number of frames
 const UINT8 motherpl_anim_walk[] = {4, 3, 4, 3, 5};
@@ -85,7 +88,7 @@ Sprite* s_surf = 0;
 Sprite* s_blocking = 0;
 Sprite* s_blockcmd = 0;
 struct ArrowData* surf_data = 0;
-INT8 motherpl_hp = 4;
+INT8 motherpl_hp = HP_INITIAL;
 UINT8 fly_counter = 0u;
 INT8 pickingup_cooldown = PICKINGUP_COOLDOWN;
 UINT8 jump_max_power = 0u;

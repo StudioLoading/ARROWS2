@@ -61,7 +61,10 @@ extern struct EnemyData* scorpiohead_data;
 extern struct EnemyData* minotaur_data;
 extern UINT8 horde_step;
 extern INT8 scorpio_hp;
+extern UINT8 child_hooked;
+
 extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
+extern UINT8 get_chapter_cost() BANKED;
 
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
@@ -519,22 +522,58 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "NEY WITH ALL  OF    \0", 22);
 			memcpy(d6, "YOUR STRENGTH.      \0", 22);
 		break;
-		case HOSPITAL_FINE:
-			*n_lines = 5u;
-			memcpy(d0, "DOCTOR:             \0", 22);
+		case HOSPITAL_GAMEOVER:
+			*n_lines = 12u;
+			memcpy(d0, "DOCTOR:             ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "HEY DESSA, YOU LOOK \0", 22);
-			memcpy(d3, "PERFECTLY FINE.     \0", 22);
+			memcpy(d2, "DAMN DESSA, YOU HAVE", 22);
+			memcpy(d3, "NOT ENOUGH GOLD     ", 22);
+			memcpy(d4, "WITH YOU... WE NEED ", 22);
+			memcpy(d5, "IT, OTHERWISE WE ARE", 22);
+			memcpy(d6, "NOT ABLE TO RUN THIS", 22);
+			memcpy(d7, "HOSPITAL EFFICIENTLY", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, "... WE ARE SORRY... ", 22);
+			memcpy(d10, "... WE ARE SORRY... ", 22);
+			memcpy(d11, "YOUR JOURNEY MUST   ", 22);
+			memcpy(d12, "RESTART.            ", 22);
+		break;
+		case HOSPITAL_FINE:
+			*n_lines = 7u;
+			memcpy(d0, "DOCTOR:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "HEY DESSA, YOU LOOK ", 22);
+			memcpy(d3, "PERFECTLY FINE.     ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "HOW ARE YOU DOING?  \0", 22);
+			memcpy(d5, "PLEASE REMEMBER WE  ", 22);
+			{
+				UINT8 chapter_cost = get_chapter_cost();
+				switch(chapter_cost){
+					case 10: memcpy(d6, "NEED 10 GOLD COINS TO", 22);break;	
+					case 20: memcpy(d6, "NEED 20 GOLD COINS TO", 22);break;	
+					case 30: memcpy(d6, "NEED 30 GOLD COINS TO", 22);break;	
+					case 40: memcpy(d6, "NEED 40 GOLD COINS TO", 22);break;	
+				}
+			}
+			memcpy(d7, "HEAL YOU.           ", 22);
 		break;
 		case HOSPITAL_CURE_FROM_DEATH:
-			*n_lines = 4u;
+			*n_lines = 6u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "  ... WAKE UP!      \0", 22);
 			memcpy(d3, "BLACKIE BROUGHT YOU \0", 22);
-			memcpy(d4, "HERE...             \0", 22);
+			memcpy(d4, "HERE... WE MUST TAKE\0", 22);
+			{
+				UINT8 chapter_cost = get_chapter_cost();
+				switch(chapter_cost){
+					case 10: memcpy(d5, "  10 GOLD COINS TO  ", 22);break;	
+					case 20: memcpy(d5, "  20 GOLD COINS TO  ", 22);break;	
+					case 30: memcpy(d5, "  30 GOLD COINS TO  ", 22);break;	
+					case 40: memcpy(d5, "  40 GOLD COINS TO  ", 22);break;	
+				}
+			}
+			memcpy(d6, "HEAL YOU.           ", 22);
 		break;
 		case CRYING_MOTHER:
 			*n_lines = 13u;
@@ -552,6 +591,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, "PLEASE HELP ME FIND \0", 22);
 			memcpy(d12, "HIM. I'LL GO WEST   \0", 22);
 			memcpy(d13, "YOU GO NORTH.      \0", 22);
+			help_cemetery_woman.current_step = 1u;
 			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
 			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 		break;
@@ -563,6 +603,8 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "CAN YOU BRING ME TO \0", 22);
 			memcpy(d5, "MOM?                \0", 22);
+			help_cemetery_woman.current_step = 2u;
+			child_hooked = 1;
 		break;
 		case CHILDS_SAVED:
 			*n_lines = 4u;
@@ -738,7 +780,7 @@ void GetLocalizedLog_EN() BANKED{
 			if(spawn_child_cooldown < 100u && spawn_child_cooldown > 0u){
 				memcpy(log0, "HEY! WHO'S THERE?   ", 20);
 			}else{
-				memcpy(log0, "THE HOOD            ", 20);
+				memcpy(log0, "THE HOODS           ", 20);
 			}
 		break;
 		case StateMine:
