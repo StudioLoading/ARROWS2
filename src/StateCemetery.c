@@ -13,7 +13,7 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-#define MAX_CLOUD_TIMEOUT 120
+#define MAX_CLOUD_TIMEOUT 200
 
 IMPORT_MAP(border);
 IMPORT_TILES(font);
@@ -130,14 +130,13 @@ void UPDATE(){
         if(cloud_timeout == 0){
             cloud_timeout = MAX_CLOUD_TIMEOUT;
             if(s_motherpl->x < ((UINT16) 8u << 3)){
+            }else if(s_motherpl->x > ((UINT16) 18u << 3) && configured_loop > 2){
                 spawn_npa(SpriteCloud, s_motherpl->x, 27u, configured_loop);
-                spawn_npa(SpriteCloud, s_motherpl->x - 12u, 34u, configured_loop);
-            }else if(s_motherpl->x > ((UINT16) 18u << 3)){
-            
+                spawn_npa(SpriteCloud, s_motherpl->x - 12u, 34u, configured_loop);            
             }
             configured_loop++;
             if(configured_loop == 5){
-                configured_loop = 0;
+                configured_loop = 1;
             }
         } 
     Log(NONAME);

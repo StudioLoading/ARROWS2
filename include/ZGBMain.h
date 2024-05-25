@@ -63,6 +63,7 @@ _SPRITE_DMG(SpriteInvblinker, invblinker)\
 _SPRITE_DMG(SpriteCursor, cursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteDust, dust)\
+_SPRITE_DMG(SpriteCloud, cloud)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\
 _SPRITE_DMG(SpriteEnemysimplesnake, enemysnake)\
 _SPRITE_DMG(SpriteEnemysimplerat, enemyrat)\

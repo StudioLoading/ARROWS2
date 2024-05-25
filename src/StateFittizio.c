@@ -68,6 +68,7 @@ extern CURRENT_BORDER current_border;
 extern INT8 motherpl_vx;
 extern INT8 chapter;
 extern uint8_t sgb_running;
+extern UINT8 child_hooked;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -699,6 +700,9 @@ void update_camera_position() BANKED{
                 UINT8 next_ = -1;
                 switch(current_state){
                     case StateHood:
+                        if(child_hooked == 1 && help_cemetery_woman.current_step == 2){
+                            help_cemetery_woman.current_step = 4;
+                        }
                     case StateExzoo:
                         next_ = 0u;                
                         ChangeState(StateOverworld, s_motherpl, next_);

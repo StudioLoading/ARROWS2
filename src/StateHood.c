@@ -78,7 +78,7 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-        if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1){
+         if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
             if(help_cemetery_woman.current_step < 3){
                 SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
@@ -151,10 +151,12 @@ void UPDATE(){
             }
         //ENEMIES
         if(motherpl_state != DEATH){
-            if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED
-                && help_cemetery_woman.current_step == 2){
+            if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED){
                 if(s_motherpl->x > (UINT16)80u && s_motherpl->x < ((mapwidth << 3) - 80u)){
                     switch(help_cemetery_woman.current_step){
+                        case 2u:
+                            spawn_enemy_hood();
+                        break;
                         case 3u:
                             if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
                                 if(s_motherpl->x > ((UINT16) 70u << 3)){

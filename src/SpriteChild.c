@@ -32,6 +32,7 @@ void START(){
     child_info->e_state = ENEMY_IDLE;
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
+    help_cemetery_woman.current_step = 2u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
