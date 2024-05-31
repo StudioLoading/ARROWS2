@@ -15,13 +15,13 @@
 extern Sprite* s_motherpl;
 extern struct MISSION help_cemetery_woman;
 extern MOTHERPL_STATE motherpl_state;
+extern UINT8 child_hooked;
 
 extern void Log(NPCNAME npcname) BANKED;
 
 struct EnemyData* child_info;
 const UINT8 child_anim_idle[] = {8,1,2,1,2,0,2,0,2};
 const UINT8 child_anim_walk[] = {4,3,4,3,2};
-UINT8 child_hooked = 0u;
 void child_behavior() BANKED;
 void change_child_state(ENEMY_STATE new_state) BANKED;
 

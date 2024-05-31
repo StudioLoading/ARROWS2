@@ -100,6 +100,7 @@ UINT8 itemspawned_powder_counter = 0;
 UINT8 enemy_wave = 0;
 Sprite* s_dialog = 0;
 struct NpcInfo dialog_icon = {.npcname=NONAME, .whotalks=NOBODY, .type=NOTYPE, .configured=0, .hp=0};
+UINT8 child_hooked = 0u;
 
 void UpdateHUD() BANKED;
 void Log(NPCNAME npcname) BANKED;

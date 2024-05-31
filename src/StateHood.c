@@ -80,7 +80,7 @@ void START(){
         }
          if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
-            if(help_cemetery_woman.current_step < 3){
+            if(help_cemetery_woman.current_step < 2){
                 SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
             }
         }
@@ -188,7 +188,7 @@ void UPDATE(){
                                 }
                                 if(timeout_enemy == 0u){
                                     timeout_enemy = 600u;
-                                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 80u), (UINT16) 6u << 3);
+                                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 100u), (UINT16) 7u << 3);
                                 }
                             }                   
                     }            
