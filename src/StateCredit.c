@@ -94,6 +94,17 @@ extern Sprite* s_motherpl;
 extern Sprite* s_motherow;
 
 void missions_init() BANKED{
+	engage_smith.mission_state = MISSION_STATE_DISABLED;
+	outwalker_chief.mission_state = MISSION_STATE_DISABLED;
+	enable_hospital.mission_state = MISSION_STATE_DISABLED;
+	find_blackie.mission_state = MISSION_STATE_DISABLED;
+	help_cemetery_woman.mission_state = MISSION_STATE_DISABLED;
+	outwalker_chief.mission_state = MISSION_STATE_DISABLED;
+	get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
+	defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
+	find_antidote.mission_state = MISSION_STATE_DISABLED;
+	fix_bridge.mission_state = MISSION_STATE_DISABLED;
+	golden_armor.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
 		case 0u:
 			current_map = 0u;
@@ -110,8 +121,15 @@ void missions_init() BANKED{
 			enable_hospital.current_step = 6u;
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 0u;//0u;
+			//START PROD
+			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
+			help_cemetery_woman.current_step = 0u;
+			//END PROD
+			//START TEST
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
+			help_cemetery_woman.current_step = 5u;
+			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
+			//END TEST
 		break;
 		case 2u:
 			current_map = 1;
@@ -168,7 +186,6 @@ void missions_init() BANKED{
 			golden_armor.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
 			golden_armor.phase = 0;
 			golden_armor.current_step = 0;
-
 		break;
 	}
 	missions[0] = &engage_smith;
