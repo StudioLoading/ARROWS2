@@ -107,32 +107,26 @@ void missions_init() BANKED{
 	golden_armor.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
 		case 0u:
-			current_map = 0u;
 			engage_smith.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			engage_smith.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			enable_hospital.current_step = 0u;
 		break;
 		case 1u:
-			current_map = 1;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
-			//START PROD
-			help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
-			help_cemetery_woman.current_step = 0u;
-			//END PROD
-			//START TEST
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
 			help_cemetery_woman.current_step = 5u;
-			outwalker_chief.mission_state = MISSION_STATE_DISABLED;
+			//START PROD
+			//END PROD
+			//START TEST
 			//END TEST
 		break;
 		case 2u:
-			current_map = 1;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -154,7 +148,6 @@ void missions_init() BANKED{
 			defeat_scorpions.phase = 0;
 		break;
 		case 3u:
-			current_map = 0;
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -185,20 +178,20 @@ void missions_init() BANKED{
 			fix_bridge.current_step = 0;
 			golden_armor.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
 			golden_armor.phase = 0;
-			golden_armor.current_step = 0;
+			golden_armor.current_step = 0; 
 		break;
 	}
 	missions[0] = &engage_smith;
 	missions[1] = &enable_hospital;
 	missions[2] = &find_blackie;
-	missions[3] = 0;
-	missions[4] = &help_cemetery_woman;
-	missions[5] = &outwalker_chief;
-	missions[6] = &outwalker_glass;
-	missions[7] = &outwalker_smith;
-	missions[8] = &get_to_the_mountain;
-	missions[9] = &defeat_scorpions;
-	missions[10] = &find_antidote;
+	missions[3] = &help_cemetery_woman;
+	missions[4] = &outwalker_chief;
+	missions[5] = &outwalker_glass;
+	missions[6] = &outwalker_smith;
+	missions[7] = &get_to_the_mountain;
+	missions[8] = &defeat_scorpions;
+	missions[9] = &find_antidote;
+	missions[10] = 0;
 	missions[11] = 0;
 	missions[12] = &hungry_people;
 	missions[13] = &fix_bridge;
@@ -293,9 +286,9 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 26u << 3;
 		break;
 		case 1u:
-			current_map = 0;
-			motherow_pos_x = (UINT16) 12u << 3;
-			motherow_pos_y = (UINT16) 36u << 3;
+			current_map = 1;
+			motherow_pos_x = (UINT16) 14u << 3;
+			motherow_pos_y = (UINT16) 42u << 3;
 			/*CRAB
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 11u << 3;*/

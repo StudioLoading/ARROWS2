@@ -67,6 +67,7 @@ extern Sprite* dado3;
 UINT8 idx_mission = 0u;
 INT8 idx_page = 0;
 UINT8 showing_detail = 0u;
+UINT8 showing_missions = 0u;
 extern Sprite* s_motherow;
 
 void empty_ms();
@@ -186,6 +187,7 @@ void show_detail(){
     empty_dds();
     empty_ms();
     showing_detail = 1u;
+    showing_missions = 0u;
     switch(idx_page){
         case 0u:
             switch(cursor_posi){
@@ -233,40 +235,29 @@ void show_detail(){
                         GetLocalizedDDLabel_EN(FIND_BLACKIE_D7, dd9);
                     }
                 break;
+                case 3u:
+                    if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(WIDOW_D0, dd2);
+                        GetLocalizedDDLabel_EN(WIDOW_D1, dd3);
+                        if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+                            GetLocalizedDDLabel_EN(WIDOW_D2, dd4);
+                            GetLocalizedDDLabel_EN(WIDOW_D3, dd5);
+                            if(help_cemetery_woman.current_step >= 2u){
+                                GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
+                                GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
+                            }
+                            if(help_cemetery_woman.mission_state == MISSION_STATE_REWARDED){                            
+                                GetLocalizedDDLabel_EN(WIDOW_D6, dd8);
+                                GetLocalizedDDLabel_EN(WIDOW_D7, dd9);
+                            }
+                        }
+                    }
+                break;
             }
         break;
         case 1u:
             switch(cursor_posi){
                 case 0u:
-                    if(get_to_the_mountain.mission_state >= MISSION_STATE_ENABLED){
-                        GetLocalizedDDLabel_EN(MOUNTAIN_D0, dd2);
-                        GetLocalizedDDLabel_EN(MOUNTAIN_D1, dd3);
-                        GetLocalizedDDLabel_EN(MOUNTAIN_D2, dd4);
-                        GetLocalizedDDLabel_EN(MOUNTAIN_D3, dd5);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd6);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd7);                          
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd8);
-                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd9);
-                    }else{
-                        if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
-                            GetLocalizedDDLabel_EN(WIDOW_D0, dd2);
-                            GetLocalizedDDLabel_EN(WIDOW_D1, dd3);
-                            if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
-                                GetLocalizedDDLabel_EN(WIDOW_D2, dd4);
-                                GetLocalizedDDLabel_EN(WIDOW_D3, dd5);
-                                if(help_cemetery_woman.current_step >= 2u){
-                                    GetLocalizedDDLabel_EN(WIDOW_D4, dd6);
-                                    GetLocalizedDDLabel_EN(WIDOW_D5, dd7);
-                                }
-                                if(help_cemetery_woman.mission_state == MISSION_STATE_REWARDED){                            
-                                    GetLocalizedDDLabel_EN(WIDOW_D6, dd8);
-                                    GetLocalizedDDLabel_EN(WIDOW_D7, dd9);
-                                }
-                            }
-                        }
-                    }
-                break;
-                case 1u:
                     if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(CHIEF_D0, dd2);
                         GetLocalizedDDLabel_EN(CHIEF_D1, dd3);
@@ -280,7 +271,7 @@ void show_detail(){
                         }
                     }
                 break;
-                case 2u:
+                case 1u:
                     if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(GLASS_D0, dd2);
                         GetLocalizedDDLabel_EN(GLASS_D1, dd3);
@@ -294,7 +285,7 @@ void show_detail(){
                         }
                     }
                 break;
-                case 3u:
+                case 2u:
                     if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(SMITH_D0, dd2);
                         GetLocalizedDDLabel_EN(SMITH_D1, dd3);
@@ -302,6 +293,18 @@ void show_detail(){
                             GetLocalizedDDLabel_EN(SMITH_D2, dd4);
                             GetLocalizedDDLabel_EN(SMITH_D3, dd5);
                         }
+                    }
+                break;
+                case 3u:                
+                    if(get_to_the_mountain.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D0, dd2);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D1, dd3);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D2, dd4);
+                        GetLocalizedDDLabel_EN(MOUNTAIN_D3, dd5);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd6);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd7);                          
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd8);
+                        GetLocalizedDDLabel_EN(EMPTY_STRING, dd9);
                     }
                 break;
             }
@@ -420,23 +423,22 @@ void show_missions(){
             if(find_blackie.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(FIND_BLACKIE_TITLE, m2);
             }
+            if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, m3);
+            }
         break;
         case 1u:
+            if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(OUTWALKER_CHIEF_TITLE, m0);
+            }
+            if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(OUTWALKER_GLASS_TITLE, m1);
+            }
+            if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(OUTWALKER_SMITH_TITLE, m2);
+            }
             if(get_to_the_mountain.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(GET_TO_THE_MOUNTAIN_TITLE, m0);
-            }else{
-                if(help_cemetery_woman.mission_state >= MISSION_STATE_ENABLED){
-                    GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, m0);
-                }
-                if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
-                    GetLocalizedDDLabel_EN(OUTWALKER_CHIEF_TITLE, m1);
-                }
-                if(outwalker_glass.mission_state >= MISSION_STATE_ENABLED){
-                    GetLocalizedDDLabel_EN(OUTWALKER_GLASS_TITLE, m2);
-                }
-                if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
-                    GetLocalizedDDLabel_EN(OUTWALKER_SMITH_TITLE, m3);
-                }
+                GetLocalizedDDLabel_EN(GET_TO_THE_MOUNTAIN_TITLE, m3);
             }
         break;
         case 2u:
@@ -457,15 +459,14 @@ void show_missions(){
             if(golden_armor.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(GOLDEN_ARMOR_TITLE, m2);
             }
-            //fix_bridge
         break;
     }
     PRINT(2, 2, m0);
     PRINT(2, 5, m1);
     PRINT(2, 8, m2);
     PRINT(2, 11, m3);
-    
-	PRINT(0, 0, "%i:%u", idx_page+1, chapter+1);
+    PRINT(0, 0, "%i:%u", idx_page+1, chapter+1);
+    update_diary_cursor();
 }
 
 void change_page(INT8 inc){
@@ -476,6 +477,7 @@ void change_page(INT8 inc){
     }
     show_pcodes();
     cursor_posi = 0;
+    show_missions();
     update_diary_cursor();
 }
 
@@ -487,15 +489,16 @@ void UPDATE(){
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){
             scroll_target->x-=3;
-        }else{
+        }else if(showing_missions == 0){
             show_missions();
+            showing_missions = 1;
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             if(cursor_posi < 4){
                 INT8 missions_idx = cursor_posi + (idx_page * 4);
-                    if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){
-                        show_detail();
-                    }
+                if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){
+                    show_detail();
+                }
             }else if (cursor_posi == 4){//Left cursor selected
                 change_page(-1);
             }else if (cursor_posi == 5){//Left cursor selected
@@ -545,6 +548,7 @@ void UPDATE(){
         }
         if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
             showing_detail = 0u;
+            show_missions();
         }
     }
 }
@@ -552,7 +556,6 @@ void UPDATE(){
 void update_diary_cursor(){
     struct EnemyData* dcursor_data = (struct EnemyData*) diary_cursor->custom_data;
     INT8 missions_idx = cursor_posi + (idx_page * 4);
-    if(idx_page == 2){missions_idx++;}
     if(missions_idx == -1){missions_idx = 3;}
     if(missions[missions_idx] == 0){dcursor_data->configured = 2;
     }else if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
@@ -562,5 +565,6 @@ void update_diary_cursor(){
     }else{
         dcursor_data->configured = 2;
     }
-    dcursor_data->wait = 1;            
+    dcursor_data->wait = 1;
+    //show_missions();           
 }

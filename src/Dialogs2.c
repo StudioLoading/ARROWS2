@@ -608,8 +608,10 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d14, "SOON AS YOU FIND   \0", 22);
 			memcpy(d15, "OUT. THANK YOU.    \0", 22);				
 			{
-				struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
-				pickup(&pass_data);
+				if(get_quantity(INVITEM_PASS) < 1){
+					struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
+					pickup(&pass_data);
+				}
 				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
 				outwalker_chief.current_step = 1;
 				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);

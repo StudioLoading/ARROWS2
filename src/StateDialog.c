@@ -476,10 +476,8 @@ void move_on() BANKED{
 	}
     //CHECK NEW PASSWORD TO GIVE?
         switch(whostalking){
-            case BLACKIE:
-                if(find_blackie.current_step == 4u){
-                    give_new_password = 1;
-                }
+            case CHILDS_SAVED:
+                give_new_password = 1;
             break;
             case IBEX_GIVE_HERBS:
                 give_new_password = 1;
