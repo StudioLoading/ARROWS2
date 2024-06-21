@@ -1,18 +1,28 @@
 POST DEMO:
-- bloccare la strada verso il lord of thunder dicendo che c'è stata una frana
 - caverna dello scorpione, che ci facciamo nel capitolo 4?
-	- potrebbe diventare un' altra cave di loottaggio
+potrebbe diventare un' altra cave di loottaggio come la oldmine
+
+- mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
+- dialog map per il caprone
 - i nuovi audio di andrew!
-- mappa nw ho messo un certo posto chiamato "The Darkest Forest". usarla!
 - audio dei projectile?
 - check limiti maze
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- ragni
 	- api
-- c'è una parte di diario in cui non ho scrollato bene, devo sempre shiftare le righe
-in alto, senza fare elenchi nuovi quando avrei più righe da mostrare di quelle mostrabili
-scorrendo verso l' alto quelle più vecchie, facendole scomparire
+- col capitolo dell' armatura usare il place che "Darkest Forest"?
+	perché al momento è li a fare niente
+	
+- ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
+	su ow rotea tipo hurricane
+
+- gli stage degli scorpioni singoli sono sempre gli stessi. disegnarne uno diverso
+per mappa ow in cui faccio l'incontro non dovrebbe prendere tante risorse
+e rallegra tutto il gioco
+- forse l'ai degli scorpioncini è debole, chiedere magari a qualche tester
+considerando che in quel frangente l' ospedale non funziona bene perché
+recupera al max 1hp
 - facciamo che nell' ultima parte di gioco piove ovunque?
 - boss con 1hp blinka
 
@@ -32,22 +42,12 @@ scorrendo verso l' alto quelle più vecchie, facendole scomparire
  - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
 	tipo SuperGB o Color o DMG.
 - Legna + metallo + powder = Frecce Esplosive!
-- fare i carrelli alla Donkey Kong Country
-- mountain bike per andare più veloce?
 - creative commons per depositare musica
 - sulle mappe ow c'è da mettere la sprite owsign sopra 
 	ogni cartello leggibile
-- ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
-	su ow rotea tipo hurricane
-- ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
-- diary: le frecce di navigazione dovrei forse gestirle come sprites, così
-	ne faccio animazione quando premo destra o sinistra, le faccio scomparire
-	quando sono ai limiti delle pagine 0-chapter...
 - mettere nel libretto mappa mondo con gli hidden items! descritti sulla
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne
-- togliere il salto del tutorial che a codice l'ho fatto saltare
-
 
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
@@ -62,7 +62,6 @@ KNOWN ISSUES:
 	enemy. non so proprio perché.
 - ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
 
-
 PRODUCTION:
 - finito il gioco posso andare a prendere coccodrilli e il fisherman mi paga
 	e scommettere i soldi a tetra alla INN ?
@@ -70,6 +69,14 @@ PRODUCTION:
 - just_started = 1 <<<<< cercarlo e rimetterlo
 - spawn_hidden_item da segnare sulla mappa del manuale
 - i crediti dedicati a me, BN, sloopygood, comuneko, tetra
+- ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
+- togliere il salto del tutorial che a codice l'ho fatto saltare
+
+
+
+
+
+
 
 GENERAZIONE QR CODE DA POWERSHELL
 New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'

@@ -149,7 +149,6 @@ void START(){
 void UPDATE(){
     if(give_new_password == 1){ 
         if(KEY_RELEASED(J_START)){
-            give_new_password = 0;
             load_chapter();
         }
         return;
@@ -184,7 +183,11 @@ void UPDATE(){
 void load_chapter() BANKED{
     my_play_fx(CHANNEL_1, 50, 0x56, 0x86, 0x76, 0xDE, 0x86);//SFX OK PWD
     missions_init();
-    inventory_init();
+    if(give_new_password == 1){
+        give_new_password = 0;
+    }else{
+        inventory_init();
+    }
     position_init();
     switch(chapter){
         case 0:

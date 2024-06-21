@@ -414,7 +414,11 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
-                    e_info->wait = 42u;
+                    if(THIS->type == SpriteEnemyAttackerCobra){
+                        e_info->wait = 16u;
+                    }else{
+                        e_info->wait = 42u;
+                    }
                     TranslateSprite(THIS, 0, -10 << delta_time);
                 }
             break;
@@ -502,6 +506,8 @@ void EspawnItem() BANKED{
         }else{
             itemtype = INVITEM_HEART;        
         }
+    }else if(current_state == StateScorpions){
+        itemtype = INVITEM_HEART;
     }else{
         if(enemy_random_30_100 < 35){
             itemtype = INVITEM_HEART;
@@ -524,7 +530,7 @@ void EspawnItem() BANKED{
     reward_data->configured = 1u;
 }
 
-void Edestroy(){
+void Edestroy() {
     if(enemy_counter > 0){
         enemy_counter--;
     }

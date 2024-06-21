@@ -769,6 +769,10 @@ void check_automatic_dialog_trigger(NPCNAME npcname) BANKED{
             THIS->x -= 12u;
             trigger_dialog(OUTWALKER_GUARD_OK, THIS);
             change_quantity(INVITEM_BOX, -1);
+        }else if(get_to_the_mountain.mission_state >= MISSION_STATE_ACCOMPLISHED){
+            //landslide!
+            THIS->x -= 12u;
+            trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, THIS);
         }
     }
 }

@@ -48,6 +48,7 @@ extern struct MISSION help_cemetery_woman;
 extern struct MISSION enable_hospital;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
+extern struct MISSION get_to_the_mountain;
 extern struct MISSION golden_armor;
 extern INT8 motherpl_hp;
 extern INT8 motherpl_surf_dx;
@@ -136,7 +137,7 @@ void restartFromHospital() BANKED{
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     whostalking = whost;
     if(whost != DEATH && whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO
-        && whost != FISHERMAN_FPSGATOR_COMPLETED){
+        && whost != FISHERMAN_FPSGATOR_COMPLETED && whost != OUTWALKER_GUARD_LANDSLIDE){
         if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
             hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
             whostalking = IMHUNGRY;
@@ -745,7 +746,7 @@ void update_camera_position() BANKED{
                         ChangeState(StateOverworld, s_motherpl, 4);
                     break;
                     case StateOutwalkers:
-                        ChangeState(StateMountain, s_motherpl, -1);
+                        trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, s_motherpl);
                     break;
                     case StateSky:
                         trigger_dialog(IBEX_GIVE_MISSION, s_motherpl);

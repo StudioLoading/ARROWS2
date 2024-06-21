@@ -39,7 +39,7 @@ extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
 
 const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
-const UINT8 coll_surface_bandits[] = {105u, 106u, 0};
+const UINT8 coll_surface_bandits[] = {57u, 77u, 84u, 88u, 105u, 106u, 0};
 
 
 extern void UpdateHUD() BANKED;

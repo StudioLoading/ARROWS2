@@ -382,12 +382,24 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "100 COINS FOR YOUR  \0", 22);
 			memcpy(d18, "SILENCE.            \0", 22);
             outwalker_chief.current_step = 3;
+			outwalker_info_step = 3;
 			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
 			{
 				struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
 				pickup(&pass_data);
 			}
+		break;
+		case OUTWALKER_GUARD_LANDSLIDE:
+			*n_lines = 7u;
+			memcpy(d0, "SIMON:              \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "SINCE THE LAST TIME \0", 22);
+			memcpy(d3, "WE SAW YOU A LANDSLI\0", 22);
+			memcpy(d4, "DE HAS FALLEN: UNFOR\0", 22);
+			memcpy(d5, "TUNATELY WE CAN NO  \0", 22);
+			memcpy(d6, "LONGER PASS THROUGH \0", 22);
+			memcpy(d7, "HERE!               \0", 22);
 		break;
 		case MAZE_CANT_GO:
 			*n_lines = 2u;
@@ -428,7 +440,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d13, "AS YOU CAN IMAGINE,  ", 22);
 			memcpy(d14, "THOSE BASTARDS HAVE  ", 22);
 			memcpy(d15, "A LETHAL POISON IN   ", 22);
-			memcpy(d16, "THOSE STINGS. HERE   ", 22);
+			memcpy(d16, "THEIR STINGS. HERE   ", 22);
 			memcpy(d17, EMPTY_STRING_21, 22);
 		break;
 		case IBEX_GIVE_HERBS:

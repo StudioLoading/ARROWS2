@@ -32,7 +32,7 @@ extern UINT8 J_FIRE;
 const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61,
 62, 63, 64, 65, 66, 67, 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-84, 85, 86, 87, 90, 91, 95, 96, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+84, 85, 86, 87, 88, 90, 91, 95, 96, 112, 113, 114, 115, 116, 117, 118, 119, 120,
 121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 140, 148, 149,
 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -332,10 +332,10 @@ void initial_sprite_spawning() BANKED{
 						s_scor1_data->configured = 0b00000010;						
 					}
 					if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
-    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
-						s_scor1_data->hp = 1;
-						s_scor1_data->configured = 0b00000100;						
+						Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
+    					struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
+						s_scor2_data->hp = 1;
+						s_scor2_data->configured = 0b00000100;						
 					}
 				}				
 				if(find_antidote.phase == 4){					
@@ -363,7 +363,7 @@ void initial_sprite_spawning() BANKED{
 				}
 			}
 		break;
-		case 1:
+		case 1://north west
 			if(chapter == 1){
 				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u, 0b00000001);
 				Sprite* s_crabow = 0;
@@ -392,28 +392,28 @@ void initial_sprite_spawning() BANKED{
 						s_scor0_data->configured = 0b00001000;
 					}
 					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00010000;
-					}
-					if((defeat_scorpions.current_step & 0b00100000) == 0b0000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
-    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
-						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b00100000;
-					}
-					if((defeat_scorpions.current_step & 0b01000000) == 0b00000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
+						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
 						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
 						s_scor1_data->hp = 1;
-						s_scor1_data->configured = 0b01000000;						
+						s_scor1_data->configured = 0b00010000;
+					}
+					if((defeat_scorpions.current_step & 0b00100000) == 0b0000000){
+						Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
+    					struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
+						s_scor2_data->hp = -1;
+						s_scor2_data->configured = 0b00100000;
+					}
+					if((defeat_scorpions.current_step & 0b01000000) == 0b00000000){
+						Sprite* s_scor3 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
+						struct EnemyData* s_scor3_data = (struct EnemyData*)s_scor3->custom_data;
+						s_scor3_data->hp = 1;
+						s_scor3_data->configured = 0b01000000;						
 					}
 					if((defeat_scorpions.current_step & 0b10000000) == 0b00000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
-						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
-						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b10000000;						
+						Sprite* s_scor4 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
+						struct EnemyData* s_scor4_data = (struct EnemyData*)s_scor4->custom_data;
+						s_scor4_data->hp = -1;
+						s_scor4_data->configured = 0b10000000;						
 					}
 				}
 			}
@@ -428,6 +428,7 @@ void initial_sprite_spawning() BANKED{
 			}
 		break;
 		case 3://south east
+			//TODO sicuri che spawniamo owFisherman?
 			SpriteManagerAdd(SpriteOwfisherman, ((UINT16) 35u << 3) + 3u, ((UINT16) 7u << 3));
 			if(chapter == 2){
 				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED

@@ -41,7 +41,6 @@ extern unsigned char D0[22];
 extern UINT8 choice;
 extern UINT8 choice_left;
 extern UINT8 choice_right;
-extern INT8 outwalker_info_step;
 extern INT8 outwalker_info_given;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
