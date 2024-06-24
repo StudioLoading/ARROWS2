@@ -37,7 +37,7 @@ const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32,
 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
-UINT8 current_map = 0u;//0=south-west, 1=south-east, 2=north-west, 3=north-east
+UINT8 current_map = 0u;//0=south-west, 1=north-west, 2=labyrinth, 3=south-east, 4=east
 UINT8 hudow_opened = 0;
 UINT8 show_tip = 0u;
 INT8 show_tip_movingscroll = 0u;

@@ -26,6 +26,7 @@ extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
+extern UINT8 itemspawned_powder_counter;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
@@ -276,6 +277,7 @@ void inventory_init() BANKED{
 	inventory[11] = unequip05;
 	itemEquipped = inventory[0];
 	hidden_items_flags = 0;
+	itemspawned_powder_counter = 0;
 }
 
 void position_init() BANKED{

@@ -528,6 +528,14 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherpl_pos_y = (UINT16) 12u << 3; 
                             }
                         break;
+                        case StateScorpioncave:
+                            if(new_state == StateOverworld){
+                                if(current_map == 3){
+                                    motherow_pos_x = (UINT16) 10u << 3;
+                                    motherow_pos_y = (UINT16) 8u << 3;
+                                }
+                            }
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -760,7 +768,7 @@ void update_camera_position() BANKED{
                         }
                     break;
                     default:
-                        ChangeState(StateOverworld, s_motherpl, 0);
+                        ChangeState(StateOverworld, s_motherpl, -1);
                     break;
                 }
             }

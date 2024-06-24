@@ -177,8 +177,16 @@ void UPDATE(){
                 if(KEY_TICKED(J_JUMP)){
                     jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 }
-                if(motherpl_coll_y && motherpl_vy > 0){//IF ON SURFACE, NO MORE JUMP
-                    changeMotherplState(MOTHERPL_IDLE);
+                if(motherpl_coll_y){
+                    if(motherpl_jpower == 0){
+                        if(jump_ticked_delay == 0){
+                            changeMotherplState(MOTHERPL_PICKUP);
+                        }else{
+                            changeMotherplState(MOTHERPL_IDLE);
+                        }
+                    }else{
+                        changeMotherplState(MOTHERPL_IDLE);
+                    }
                 }
                 if(KEY_RELEASED(J_JUMP)){
                     motherpl_jpower = JUMP_MIN_POWER;
@@ -210,9 +218,6 @@ void UPDATE(){
                     if(motherpl_vy < GRAVITY){
                         motherpl_vy++;
                     }
-                }
-                if(motherpl_vy > 0){
-                    SetSpriteAnim(THIS, motherpl_anim_jump_descending, 4u);
                 }
             break;
             case MOTHERPL_WALK:
@@ -299,9 +304,11 @@ void UPDATE(){
                 }
                 {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
-                    if(dash_floor == 48u && current_state == StateMine && powder_cooldown == 0){
-                        powder_cooldown = 60u;
-                        spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
+                    if(current_state == StateMine || current_state == StateScorpioncave){
+                        if(dash_floor == 48u && powder_cooldown == 0){
+                            powder_cooldown = 60u;
+                            spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
+                        }
                     }
                     if(dash_floor != 0){
                         if(motherpl_dash_cooldown % 8 == 0){
@@ -442,12 +449,6 @@ void UPDATE(){
         if(motherpl_state != MOTHERPL_CRAWL_SURF){      
             if( dash_horizontal_time == 0){
                 motherpl_coll_y = TranslateSprite(THIS, 0, motherpl_vy << delta_time);
-                if(motherpl_coll_y && motherpl_state == MOTHERPL_JUMP){
-                    //spawnDust();
-                    if(motherpl_vy > 0){
-                        changeMotherplState(MOTHERPL_WALK);
-                    }
-                }
             }
             if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
                 motherpl_coll_x = TranslateSprite(THIS, motherpl_vx << delta_time, 0);
@@ -502,6 +503,7 @@ void UPDATE(){
             case StateCemetery:
             break;
             case StateBlackiecave:
+            case StateScorpioncave:
                 switch(motherpl_coll_x){
                     case 34u://tiles di soffitto che quando dash non voglio incastri
                     case 35u:
@@ -514,6 +516,18 @@ void UPDATE(){
                                 THIS->x--;
                             }
                             motherpl_dash_cooldown++;
+                        }
+                    break;
+                    case 54u:
+                        if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_LEFT)){
+                            THIS->y -= 8;
+                            TranslateSprite(THIS, -3, 0);
+                        }
+                    break;
+                    case 55u:
+                        if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_RIGHT)){
+                            THIS->y -= 8;
+                            TranslateSprite(THIS, 3, 0);
                         }
                     break;
                 }
@@ -796,7 +810,11 @@ void refreshAnimation(){
             SetSpriteAnim(THIS, motherpl_anim_walk, 12u);
         break;
         case MOTHERPL_JUMP:
-            SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
+            if(motherpl_vy > 0){
+                SetSpriteAnim(THIS, motherpl_anim_jump_descending, 4u);
+            }else{
+                SetSpriteAnim(THIS, motherpl_anim_jump_ascending, 4u);
+            }
         break;
         case MOTHERPL_DEAD:
             SetSpriteAnim(THIS, motherpl_anim_dead, 32u);
@@ -984,6 +1002,7 @@ void changeMotherplState(MOTHERPL_STATE new_state){
             break;
         }
         motherpl_state = new_state;
+        refreshAnimation();
     }
 }
 

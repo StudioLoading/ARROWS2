@@ -39,6 +39,7 @@ _STATE(StateFps)\
 _STATE(StateBridge)\
 _STATE(StateSilvercave)\
 _STATE(StateBossminotaur)\
+_STATE(StateScorpioncave)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\

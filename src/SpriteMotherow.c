@@ -339,8 +339,10 @@ void ow_check_place() BANKED{//tile collision
                     case 3u://to Scorpion Boss fight
                         if(find_antidote.mission_state < MISSION_STATE_STARTED){
                             owTips(TIP_STILL_SOMETHING);
-                        }else{
+                        }else if(find_antidote.mission_state < MISSION_STATE_REWARDED){
                             ChangeState(StateBossscorpion, THIS, -1);
+                        }else{
+                            ChangeState(StateScorpioncave, THIS, -1);
                         }
                     break;
                     case 4u://to Silver Cave
