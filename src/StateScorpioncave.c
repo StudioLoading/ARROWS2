@@ -12,6 +12,8 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
+#define HORDE 6
+
 IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_MAP(scorpioncave);
@@ -50,7 +52,9 @@ const UINT8 coll_tiles_scorpioncave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
 const UINT8 coll_surface_scorpioncave[] = { 16u, 29u, 31u, 33u, 0};
 
-void spawn_enemy_scorpioncave() BANKED;
+UINT8 first_time = 0u;
+
+void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -58,6 +62,7 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 
 void START(){
@@ -65,7 +70,7 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, (UINT16) 9u << 3);
+        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, (UINT16) 6u << 3);
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -103,6 +108,18 @@ void UPDATE(){
         if(item_spawned_cooldown > 0u){
             item_spawned_cooldown--;
         }
+    //SPAWNING ITEMS
+        if(s_motherpl->x > 80u && first_time == 0u){
+            first_time = 1u;
+            UINT16 quantity = 1u;
+            INVITEMTYPE itemtype = INVITEM_HEARTS;     
+            Sprite* s_item_heart = SpriteManagerAdd(SpriteItemspawned, ((UINT16) 12u << 3), ((UINT16) 5u << 3));
+            struct ItemSpawned* item_heart_data = (struct ItemSpawned*) s_item_heart->custom_data;
+            item_heart_data->itemtype = itemtype;
+            item_heart_data->quantity = quantity;
+            item_heart_data->equippable = is_item_equippable(itemtype);
+            item_heart_data->configured = 1u;
+        }
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
@@ -112,68 +129,54 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
-        //LEAF
-            /*
+        //DROP
             generic_counter--;
             switch(generic_counter){
-                case 0u:generic_counter = 255u;break;
-                case 80u:SpriteManagerAdd(SpriteLeaf, s_motherpl->x, ((UINT16)6 << 3));break;
-                case 160u: {
-                    UINT16 leafx = s_motherpl->x + 100u;
-                    if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 80u;}
-                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                    leaf2_info->step = 100u;}break;
-                case 200u:{
-                    UINT16 leafx = s_motherpl->x + 80u;
-                    if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 50u;}
-                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                    leaf2_info->step = 130u;}break;
-                case 240u:{
-                    UINT16 leafx = s_motherpl->x + 20u;
-                    //if(s_motherpl->mirror == V_MIRROR){leafx = s_motherpl->x - 20u;}
-                    Sprite* leaf2 = SpriteManagerAdd(SpriteLeaf, leafx, ((UINT16)7 << 3));
-                    struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
-                    leaf2_info->step = 160u;}
-                break;
+                case 0u:generic_counter = 60u;break;
+                case 25u:SpriteManagerAdd(SpriteDrop, ((UINT16) 51u << 3), ((UINT16)14u << 3));break;
+                case 50u:SpriteManagerAdd(SpriteDrop, ((UINT16) 53u << 3), ((UINT16)14u << 3));break;
             }
-            */
         //ENEMIES
-        if(motherpl_state != DEATH && 
-            help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED){
-            if(s_motherpl->x > (UINT16)80u && s_motherpl->x < ((mapwidth << 3) - 40u)){
-                if(enemy_counter < 3 && enemy_wave > 0){
-                    timeout_enemy--;
-                    if(timeout_enemy == 200u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 80u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 80u;
+            if(motherpl_state != DEATH){
+                UINT16 spawn_posx = 0u;
+                UINT16 spawn_posy = 0u;
+                UINT8 sprite_enemy_type = 0u;
+                if(s_motherpl->x > ((UINT16)26u)<<3 && 
+                    s_motherpl->x < ((UINT16)36u)<<3){
+                    spawn_posx = 33u;
+                    spawn_posy = 10u;
+                    sprite_enemy_type = SpriteEnemyAttackerCobra;
+                }else if(s_motherpl->x > ((UINT16)56u)<<3 && 
+                    s_motherpl->x < ((UINT16)81u)<<3){
+                    spawn_posx = 68u;
+                    spawn_posy = 2u;
+                    sprite_enemy_type = SpriteEnemyThrowerSpider;
+                }else if(s_motherpl->x > ((UINT16)86u)<<3){
+                    spawn_posx = 92u;
+                    spawn_posy = 4u;
+                    sprite_enemy_type = SpriteEnemyThrowerTarantula;
+                }
+                if(spawn_posx == 0u && enemy_wave > 0){
+                    enemy_wave = 0u;
+                }
+                if(spawn_posx && spawn_posy && enemy_wave < HORDE && sprite_enemy_type){
+                    if(enemy_counter < 3){
+                        timeout_enemy--;
+                        switch(timeout_enemy){
+                            case 200u:
+                            case 300u:
+                                 spawn_enemy_scorpioncave(sprite_enemy_type,spawn_posx,spawn_posy);
+                            break;
+                            case 100u:timeout_enemy = 400u;break;
                         }
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
-                    }
-                    if(timeout_enemy == 300u || timeout_enemy == 450u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 32u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 32u;
-                        }
-                        SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
-                    }
-                    if(timeout_enemy == 400u){
-                        enemy_wave--;
-                        UINT16 e_x = s_motherpl->x + 100u;
-                        if(s_motherpl->mirror == V_MIRROR){
-                            e_x = s_motherpl->x - 100u;
-                        }
-                        SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
-                        timeout_enemy = 500;
-                    }
-                }       
+                    }       
+                }
             }
-        }
     
     Log(NONAME);
 }
 
+void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED{
+    enemy_wave--;
+    SpriteManagerAdd(sprite_enemy_type, ((UINT16)pos_x)<<3, ((UINT16)pos_y)<<3);
+}

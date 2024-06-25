@@ -205,7 +205,7 @@ void load_chapter() BANKED{
         break;
         case 3:
             just_started = 0;
-            ChangeStateThroughBetween(StateOverworld);//StateBossminotaur
+            ChangeStateThroughBetween(StateOverworld);
         break;
     }
 }

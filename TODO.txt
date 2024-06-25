@@ -1,6 +1,8 @@
 POST DEMO:
-- caverna dello scorpione, che ci facciamo nel capitolo 4?
-potrebbe diventare un' altra cave di loottaggio come la oldmine
+- caverna dello scorpione
+	orda di cobra più frequente
+	orde di ragni dai buchi in alto
+- INVITEM_HEARTS non si anima bene dopo spawn nei place
 
 - mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
 - dialog map per il caprone

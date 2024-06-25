@@ -433,30 +433,36 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             && teleporting == 0){
             switch(s_mother->type){
                 case SpriteMotherow:
-                    if(new_state == StateOverworld){
-                        if(current_map == 0 && next_map == 3){
-                            motherow_pos_x = (UINT16) 10u << 3;
-                            motherow_pos_y = (UINT16) 23u << 3;
-                        }else if(current_map == 1 && next_map == 2){
-                            motherow_pos_x = (UINT16) 2u << 3;
-                            motherow_pos_y = 20u;
-                        }else if(current_map == 2 && next_map == 1){
-                            motherow_pos_x = (UINT16) 56u << 3;
-                            motherow_pos_y = (UINT16) 42u << 3;
-                        }else if(next_map == 2){
-                            motherow_pos_x = (UINT16) 6u << 3;
-                            motherow_pos_y = (UINT16) 3u << 3;
-                        }else if(current_map == 3 && next_map == 0){
-                            motherow_pos_x = (UINT16) 43u << 3;
-                            motherow_pos_y = (UINT16) 23u << 3;
-                        }else if(next_map == 4){
-                            motherow_pos_x = (UINT16) 26u << 3;
-                            motherow_pos_y = ((UINT16) 37u << 3) + 3;
-                        }
-                        if(previous_state == StateHood){
-                            motherow_pos_x = (UINT16) 19u << 3;
-                            motherow_pos_y = (UINT16) 10u << 3;
-                        }
+                    switch(new_state){
+                        case StateOverworld:
+                            if(current_map == 0 && next_map == 3){
+                                motherow_pos_x = (UINT16) 10u << 3;
+                                motherow_pos_y = (UINT16) 23u << 3;
+                            }else if(current_map == 1 && next_map == 2){
+                                motherow_pos_x = (UINT16) 2u << 3;
+                                motherow_pos_y = 20u;
+                            }else if(current_map == 2 && next_map == 1){
+                                motherow_pos_x = (UINT16) 56u << 3;
+                                motherow_pos_y = (UINT16) 42u << 3;
+                            }else if(next_map == 2){
+                                motherow_pos_x = (UINT16) 6u << 3;
+                                motherow_pos_y = (UINT16) 3u << 3;
+                            }else if(current_map == 3 && next_map == 0){
+                                motherow_pos_x = (UINT16) 43u << 3;
+                                motherow_pos_y = (UINT16) 23u << 3;
+                            }else if(next_map == 4){
+                                motherow_pos_x = (UINT16) 26u << 3;
+                                motherow_pos_y = ((UINT16) 37u << 3) + 3;
+                            }
+                            if(previous_state == StateHood){
+                                motherow_pos_x = (UINT16) 19u << 3;
+                                motherow_pos_y = (UINT16) 10u << 3;
+                            }
+                        break;
+                        case StateScorpioncave:
+                            motherpl_pos_x = (UINT16) 1u << 3;
+                            motherpl_pos_y = (UINT16) 6u << 3;
+                        break;
                     }
                 break;
                 case SpriteMotherpl:

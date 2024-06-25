@@ -40,6 +40,27 @@ void UPDATE(){
         if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
         Emanagement();
+    //GRADINI
+        switch(current_state){
+            case StateScorpioncave:
+            {
+                switch(eu_info->et_collision){
+                    case 54u: //GRADINI IN SALITA A SINISTRA
+                        if(eu_info->e_state == ENEMY_WALK && eu_info->vx < 0){
+                            THIS->y -= 8;
+                            TranslateSprite(THIS, -3, 0);
+                        }
+                    break;
+                    case 55u: //GRADINI IN SALITA A DESTRA
+                        if(eu_info->e_state == ENEMY_WALK && eu_info->vx > 0){
+                            THIS->y -= 8;
+                            TranslateSprite(THIS, 3, 0);
+                        }
+                    break;
+                }
+            }
+            break;
+        }
 }
 
 void EattackerCobraAnim(ENEMY_STATE estate) BANKED{

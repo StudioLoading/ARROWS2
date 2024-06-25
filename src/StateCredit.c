@@ -309,9 +309,9 @@ void position_init() BANKED{
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;
 		case 3u:
-			current_map = 0;//0
-			motherow_pos_x = (UINT16) 38u << 3; 
-			motherow_pos_y = (UINT16) 33u << 3;
+			current_map = 3;
+			motherow_pos_x = (UINT16) 15u << 3; 
+			motherow_pos_y = (UINT16) 22u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;

@@ -518,13 +518,13 @@ void UPDATE(){
                             motherpl_dash_cooldown++;
                         }
                     break;
-                    case 54u:
+                    case 54u: //GRADINI IN SALITA A SINISTRA
                         if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_LEFT)){
                             THIS->y -= 8;
                             TranslateSprite(THIS, -3, 0);
                         }
                     break;
-                    case 55u:
+                    case 55u: //GRADINI IN SALITA A DESTRA
                         if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_RIGHT)){
                             THIS->y -= 8;
                             TranslateSprite(THIS, 3, 0);
