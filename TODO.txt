@@ -1,8 +1,5 @@
 POST DEMO:
-- caverna dello scorpione
-	orda di cobra più frequente
-	orde di ragni dai buchi in alto
-- INVITEM_HEARTS non si anima bene dopo spawn nei place
+- test generico del chapter 3 (fishing, bridge, minotaur)
 
 - mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
 - dialog map per il caprone
@@ -11,10 +8,11 @@ POST DEMO:
 - check limiti maze
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
-	- ragni
-	- api
+	- tarantula
+	- bat
 - col capitolo dell' armatura usare il place che "Darkest Forest"?
 	perché al momento è li a fare niente
+- c'è anche una seconda cave utilizzabile in owsoutheast!
 	
 - ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
 	su ow rotea tipo hurricane
@@ -67,6 +65,8 @@ KNOWN ISSUES:
 PRODUCTION:
 - finito il gioco posso andare a prendere coccodrilli e il fisherman mi paga
 	e scommettere i soldi a tetra alla INN ?
+- chapter 3 dovrebbe cominciare con meno risorse
+	sennò posso andare subito a riparare il ponte ed è troppo facile
 - la vita dei boss che per test li mettevo a 1
 - just_started = 1 <<<<< cercarlo e rimetterlo
 - spawn_hidden_item da segnare sulla mappa del manuale

@@ -185,10 +185,10 @@ void Emanagement() BANKED{
                 eu_info->wait--;
                 {
                     INT16 distance = THIS->x - s_motherpl->x;
-                    if(THIS->mirror == NO_MIRROR && distance > 120 && eu_info->wait < 10u){
+                    if(THIS->mirror == NO_MIRROR && distance > 80 && eu_info->wait < 10u){
                         ETurn(eu_info->vx);
                         return;
-                    }else if( THIS->mirror == V_MIRROR && distance < -120 && eu_info->wait < 10u){
+                    }else if( THIS->mirror == V_MIRROR && distance < -80 && eu_info->wait < 10u){
                         ETurn(eu_info->vx);
                         return;
                     }
@@ -403,8 +403,8 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     changeEstate(THIS, ENEMY_DEAD);
                     return;
                 }else{
-                    e_info->wait = 42u;
-                    TranslateSprite(THIS, 0, -10 << delta_time);
+                    e_info->wait = 32u;
+                    TranslateSprite(THIS, 0, -6 << delta_time);
                 }
             break;
             case ENEMY_HIT_1:
@@ -417,9 +417,9 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     if(THIS->type == SpriteEnemyAttackerCobra){
                         e_info->wait = 16u;
                     }else{
-                        e_info->wait = 42u;
+                        e_info->wait = 24u;
                     }
-                    TranslateSprite(THIS, 0, -10 << delta_time);
+                    TranslateSprite(THIS, 0, -6 << delta_time);
                 }
             break;
             case ENEMY_DEAD:

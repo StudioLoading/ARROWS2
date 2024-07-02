@@ -12,7 +12,10 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-#define HORDE 6
+#define HORDE_COBRA 3
+#define HORDE_SPIDER 4
+#define ENEMY_TIMEOUT_MAX 220
+#define ENEMY_TIMEOUT_MIN 20
 
 IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
@@ -47,12 +50,15 @@ extern MOTHERPL_STATE motherpl_state;
 extern UINT8 powder_cooldown;
 extern UINT8 item_spawned_cooldown;
 extern UINT8 itemspawned_powder_max;
+extern struct OwSpriteInfo* motherow_info;
 
 const UINT8 coll_tiles_scorpioncave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
 const UINT8 coll_surface_scorpioncave[] = { 16u, 29u, 31u, 33u, 0};
 
 UINT8 first_time = 0u;
+UINT8 enemy_wave_zone = 0u;
+UINT8 current_horde_max = 0u;
 
 void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
 
@@ -90,17 +96,17 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(scorpioncave), &scorpioncave, &mapwidth, &mapheight);
 	SHOW_SPRITES;
-    timeout_enemy = 400u;
+    timeout_enemy = ENEMY_TIMEOUT_MAX;
     generic_counter = 60u;
     itemspawned_powder_max = 4;
     if(previous_state == StateOverworld){
-        enemy_wave = 12;
+        enemy_wave = 0;
     }
 }
 
 void UPDATE(){
-    if(timeout_enemy > 600){
-        timeout_enemy = 600;
+    if(timeout_enemy > ENEMY_TIMEOUT_MAX){
+        timeout_enemy = ENEMY_TIMEOUT_MAX;
     }    
     //COOLDOWNS
         if(powder_cooldown > 0){powder_cooldown--;}
@@ -142,34 +148,49 @@ void UPDATE(){
                 UINT16 spawn_posy = 0u;
                 UINT8 sprite_enemy_type = 0u;
                 if(s_motherpl->x > ((UINT16)26u)<<3 && 
-                    s_motherpl->x < ((UINT16)36u)<<3){
+                    s_motherpl->x < ((UINT16)50u)<<3){
                     spawn_posx = 33u;
                     spawn_posy = 10u;
                     sprite_enemy_type = SpriteEnemyAttackerCobra;
+                    if(enemy_wave_zone != 1){
+                        enemy_wave = 0;
+                        enemy_wave_zone = 1;
+                        current_horde_max = HORDE_COBRA;
+                    }
                 }else if(s_motherpl->x > ((UINT16)56u)<<3 && 
                     s_motherpl->x < ((UINT16)81u)<<3){
                     spawn_posx = 68u;
                     spawn_posy = 2u;
-                    sprite_enemy_type = SpriteEnemyThrowerSpider;
+                    sprite_enemy_type = SpriteSpider;
+                    if(enemy_wave_zone != 2){
+                        enemy_wave = 0;
+                        enemy_wave_zone = 2;
+                        current_horde_max = HORDE_SPIDER;
+                    }
                 }else if(s_motherpl->x > ((UINT16)86u)<<3){
                     spawn_posx = 92u;
                     spawn_posy = 4u;
                     sprite_enemy_type = SpriteEnemyThrowerTarantula;
+                    if(enemy_wave_zone != 3){
+                        enemy_wave = 0;
+                        enemy_wave_zone = 3;
+                        current_horde_max = HORDE_SPIDER;
+                    }
+                }else{
+                    enemy_wave_zone = 0u;
                 }
-                if(spawn_posx == 0u && enemy_wave > 0){
-                    enemy_wave = 0u;
-                }
-                if(spawn_posx && spawn_posy && enemy_wave < HORDE && sprite_enemy_type){
-                    if(enemy_counter < 3){
+                if(spawn_posx && spawn_posy && sprite_enemy_type && 
+                    enemy_wave_zone && enemy_wave < current_horde_max){
+                    if(enemy_counter < 3){//per questione di flickering
                         timeout_enemy--;
                         switch(timeout_enemy){
+                            case 100u:
                             case 200u:
-                            case 300u:
-                                 spawn_enemy_scorpioncave(sprite_enemy_type,spawn_posx,spawn_posy);
+                                spawn_enemy_scorpioncave(sprite_enemy_type,spawn_posx,spawn_posy);
                             break;
-                            case 100u:timeout_enemy = 400u;break;
+                            case ENEMY_TIMEOUT_MIN:timeout_enemy = ENEMY_TIMEOUT_MAX;break;
                         }
-                    }       
+                    }
                 }
             }
     
@@ -177,6 +198,6 @@ void UPDATE(){
 }
 
 void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED{
-    enemy_wave--;
+    enemy_wave++;
     SpriteManagerAdd(sprite_enemy_type, ((UINT16)pos_x)<<3, ((UINT16)pos_y)<<3);
 }

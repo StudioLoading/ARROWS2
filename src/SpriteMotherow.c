@@ -367,6 +367,13 @@ void ow_check_place() BANKED{//tile collision
                             trigger_dialog(MAZE_CANT_GO, THIS);
                         }else{ChangeState(StateOverworld, THIS, 2);}
                     break;
+                    case 3u://to Scorp Cav
+                        if(find_antidote.mission_state < MISSION_STATE_REWARDED){
+                            owTips(TIP_STILL_SOMETHING);
+                        }else {
+                            //ChangeState(StateScorpioncave, THIS, -1);
+                        }
+                    break;
                 }
             break;
             case 149u://BRIDGE

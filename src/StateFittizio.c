@@ -773,6 +773,11 @@ void update_camera_position() BANKED{
                             ChangeState(StateBossminotaur, s_motherpl, -1);
                         }
                     break;
+                    case StateScorpioncave:
+                            motherow_pos_x = 10u;
+                            motherow_pos_y = 37u;
+                            ChangeState(StateOverworld, s_motherpl, 3);
+                    break;
                     default:
                         ChangeState(StateOverworld, s_motherpl, -1);
                     break;

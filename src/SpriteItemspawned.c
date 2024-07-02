@@ -22,8 +22,8 @@ const UINT8 is_heart[] = {4, 6, 7, 2, 7};
 const UINT8 is_heart_dis[] = {2, 2, 3};
 const UINT8 is_money[] = {4, 6, 5, 4, 5};
 const UINT8 is_money_dis[] = {2, 4, 3};
-const UINT8 is_crossb[] = {1, 7};
-const UINT8 is_crossb_dis[] = {2, 7, 3};
+const UINT8 is_crossb[] = {4, 10, 7, 6, 7};
+const UINT8 is_crossb_dis[] = {2, 10, 3};
 const UINT8 is_powd[] = {1, 8};
 const UINT8 is_powd_dis[] = {2, 8, 3};
 const UINT8 is_hidden[] = {1, 3};
@@ -53,7 +53,7 @@ void UPDATE(){
             spawned_data->vx = 0;
             spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
             switch(spawned_data->itemtype){
-                case INVITEM_HEARTS: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_crossb, 4u); break;
+                case INVITEM_HEARTS: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_crossb, 8u); break;
                 case INVITEM_HEART: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_heart, 4u); break;
                 case INVITEM_MONEY: spawned_data->equippable = 1u; SetSpriteAnim(THIS, is_money, 8u); break;
                 case INVITEM_METAL: spawned_data->equippable = 0u; SetSpriteAnim(THIS, is_metal, 4u); break;

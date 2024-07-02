@@ -581,6 +581,7 @@ void UPDATE(){
                     case SpriteEnemyAttackerCobra:
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
+                    case SpriteEnemyBat:
                     case SpriteBigstone:
                     case SpriteBolt:
                     case SpriteSeagull:

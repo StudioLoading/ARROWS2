@@ -129,6 +129,7 @@ _SPRITE_DMG(SpriteBossminotaur, minotaur)\
 _SPRITE_DMG(SpriteBossminotaurskull, minotaurskull)\
 _SPRITE_DMG(SpriteBossminotaursbuff, minotaursbuff)\
 _SPRITE_DMG(SpriteSkull, skull)\
+_SPRITE_DMG(SpriteEnemyBat, bat)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"
