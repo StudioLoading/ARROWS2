@@ -13,7 +13,7 @@ POST DEMO:
 - col capitolo dell' armatura usare il place che "Darkest Forest"?
 	perché al momento è li a fare niente
 - c'è anche una seconda cave utilizzabile in owsoutheast!
-	
+- farfalline in ow? vorrei arricchire l'overworld con animazioni carine	
 - ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
 	su ow rotea tipo hurricane
 

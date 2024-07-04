@@ -36,6 +36,7 @@ extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y
 extern void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
 extern void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED;
 extern void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED;
+extern void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
 
 
 void START(){
@@ -216,13 +217,32 @@ void UPDATE(){
                             spawnItem(INVITEM_MONEY, THIS->x + 8u, THIS->y);
                         }
                     break;
+                    case SpriteEnemyBat:
+                        struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
+                        switch(arrow_data->arrow_type){
+                            case ARROW_NORMAL:
+                                if(e_data->e_state != ENEMY_IDLE){
+                                    arrow_data->hit = 1;
+                                    bat_change_state(iarrspr, ENEMY_HIT_1);
+                                }
+                            break;
+                            case ARROW_BASTARD:
+                            case ARROW_PERF:
+                                if(e_data->e_state != ENEMY_IDLE){
+                                    arrow_data->hit = 1;
+                                    bat_change_state(iarrspr, ENEMY_HIT_2);
+                                }
+                            break;
+                        }
+                    break;
                 }
             }
         };
 }
 
 void DESTROY(){
-    SpriteManagerAdd(SpritePuff, THIS->x, THIS->y - 2u);
+    UINT8 pos_y_puff = THIS->y-2;
+    SpriteManagerAdd(SpritePuff, THIS->x, pos_y_puff);
     struct ArrowData* arrow_data = (struct ArrowData*) THIS->custom_data;
     arrow_data->arrow_type = ARROW_DESTROYED;
     arrows_onscreen--;

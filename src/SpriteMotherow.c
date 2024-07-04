@@ -46,6 +46,7 @@ extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
 extern UINT8 hidden_items_flags;
+extern INT8 chapter;
 
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 frameskip = 0u;
@@ -339,10 +340,8 @@ void ow_check_place() BANKED{//tile collision
                     case 3u://to Scorpion Boss fight
                         if(find_antidote.mission_state < MISSION_STATE_STARTED){
                             owTips(TIP_STILL_SOMETHING);
-                        }else if(find_antidote.mission_state < MISSION_STATE_REWARDED){
-                            ChangeState(StateBossscorpion, THIS, -1);
                         }else{
-                            ChangeState(StateScorpioncave, THIS, -1);
+                            ChangeState(StateBossscorpion, THIS, -1);
                         }
                     break;
                     case 4u://to Silver Cave
@@ -367,11 +366,11 @@ void ow_check_place() BANKED{//tile collision
                             trigger_dialog(MAZE_CANT_GO, THIS);
                         }else{ChangeState(StateOverworld, THIS, 2);}
                     break;
-                    case 3u://to Scorp Cav
-                        if(find_antidote.mission_state < MISSION_STATE_REWARDED){
+                    case 3u://to scorpioncav
+                        if(chapter < 4){
                             owTips(TIP_STILL_SOMETHING);
-                        }else {
-                            //ChangeState(StateScorpioncave, THIS, -1);
+                        }else{
+                            ChangeState(StateBatcave, THIS, -1);
                         }
                     break;
                 }

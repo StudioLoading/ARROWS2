@@ -756,10 +756,10 @@ void GetLocalizedLog_EN() BANKED{
 						case 6:memcpy(log0, "SCORPIO ( ( ( ( ( ( ", 20);break;
 					};
 				}
-			}else{memcpy(log0, "SOUTH EAST CAVE     ", 20);}
+			}else{memcpy(log0, "THE SOUTH EAST CAVE ", 20);}
 		break;
 		case StateExzoo:
-			memcpy(log0, "EXZOO VILLAGE       ", 20);
+			memcpy(log0, "THE EXZOO VILLAGE   ", 20);
 		break;
 		case StateBlackiecave:
 			memcpy(log0, "CAVE OF THE WOLVES  ", 20);
@@ -774,7 +774,7 @@ void GetLocalizedLog_EN() BANKED{
 			}
 		break;
 		case StateCemetery:
-			memcpy(log0, "HUMAN CEMETERY      ", 20);
+			memcpy(log0, "THE HUMAN CEMETERY  ", 20);
 		break;
 		case StateHood:
 			if(spawn_child_cooldown < 100u && spawn_child_cooldown > 0u){
@@ -787,25 +787,28 @@ void GetLocalizedLog_EN() BANKED{
 			memcpy(log0, "THE OLD MINE        ", 20);
 		break;
 		case StateOutwalkers:
-			memcpy(log0, "OUTWALKER CAMP      ", 20);
+			memcpy(log0, "THE OUTWALKER CAMP  ", 20);
 		break;
 		case StateMountain:
 			memcpy(log0, "ROLLING STONES!     ", 20);
 		break;
 		case StateSky:
-			memcpy(log0, "THUNDERS!           ", 20);
+			memcpy(log0, "THUN-DERS!          ", 20);
 		break;
 		case StateScorpions:
-			memcpy(log0, "COUNTRY             ", 20);
+			memcpy(log0, "THE COUNTRY         ", 20);
 		break;
 		case StateCart:
-			memcpy(log0, "CART IS FUN         ", 20);
+			memcpy(log0, "CART IS FUN!        ", 20);
 		break;
 		case StateBridge:
-			memcpy(log0, "FIXED BRIDGE        ", 20);
+			memcpy(log0, "THE FIXED BRIDGE    ", 20);
 		break;
 		case StateSilvercave:
-			memcpy(log0, "SILVER CAVE         ", 20);
+			memcpy(log0, "THE SILVER CAVE     ", 20);
+		break;
+		case StateBatcave:
+			memcpy(log0, "THE BAT CAVE        ", 20);
 		break;
 	}
 }

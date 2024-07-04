@@ -459,7 +459,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherow_pos_y = (UINT16) 10u << 3;
                             }
                         break;
-                        case StateScorpioncave:
+                        case StateBatcave:
                             motherpl_pos_x = (UINT16) 1u << 3;
                             motherpl_pos_y = (UINT16) 6u << 3;
                         break;
@@ -534,7 +534,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherpl_pos_y = (UINT16) 12u << 3; 
                             }
                         break;
-                        case StateScorpioncave:
+                        case StateBatcave:
                             if(new_state == StateOverworld){
                                 if(current_map == 3){
                                     motherow_pos_x = (UINT16) 10u << 3;
@@ -773,7 +773,7 @@ void update_camera_position() BANKED{
                             ChangeState(StateBossminotaur, s_motherpl, -1);
                         }
                     break;
-                    case StateScorpioncave:
+                    case StateBatcave:
                             motherow_pos_x = 10u;
                             motherow_pos_y = 37u;
                             ChangeState(StateOverworld, s_motherpl, 3);

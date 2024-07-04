@@ -42,7 +42,7 @@ void UPDATE(){
         Emanagement();
     //GRADINI
         switch(current_state){
-            case StateScorpioncave:
+            case StateBatcave:
             {
                 switch(eu_info->et_collision){
                     case 54u: //GRADINI IN SALITA A SINISTRA

@@ -12,14 +12,14 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-#define HORDE_COBRA 3
-#define HORDE_SPIDER 4
+#define HORDE_COBRA 1
+#define HORDE_SPIDER 2
 #define ENEMY_TIMEOUT_MAX 220
 #define ENEMY_TIMEOUT_MIN 20
 
 IMPORT_TILES(font);
-IMPORT_TILES(blackiecavetiles);
-IMPORT_MAP(scorpioncave);
+IMPORT_TILES(batcavetiles);
+IMPORT_MAP(mapbatcave);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -52,15 +52,15 @@ extern UINT8 item_spawned_cooldown;
 extern UINT8 itemspawned_powder_max;
 extern struct OwSpriteInfo* motherow_info;
 
-const UINT8 coll_tiles_scorpioncave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
+const UINT8 coll_tiles_batcave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
-const UINT8 coll_surface_scorpioncave[] = { 16u, 29u, 31u, 33u, 0};
+const UINT8 coll_surface_batcave[] = { 16u, 29u, 31u, 33u, 0};
 
 UINT8 first_time = 0u;
 UINT8 enemy_wave_zone = 0u;
 UINT8 current_horde_max = 0u;
 
-void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
+void spawn_enemy_batcave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -84,7 +84,7 @@ void START(){
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(scorpioncave), &scorpioncave, coll_tiles_scorpioncave, coll_surface_scorpioncave);    
+        InitScroll(BANK(mapbatcave), &mapbatcave, coll_tiles_batcave, coll_surface_batcave);    
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -94,7 +94,7 @@ void START(){
         enemy_counter = 0u;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(scorpioncave), &scorpioncave, &mapwidth, &mapheight);
+        GetMapSize(BANK(mapbatcave), &mapbatcave, &mapwidth, &mapheight);
 	SHOW_SPRITES;
     timeout_enemy = ENEMY_TIMEOUT_MAX;
     generic_counter = 60u;
@@ -136,12 +136,12 @@ void UPDATE(){
         update_camera_position();
     //MANAGE NPC
         //DROP
-            generic_counter--;
+            /*generic_counter--;
             switch(generic_counter){
                 case 0u:generic_counter = 60u;break;
                 case 25u:SpriteManagerAdd(SpriteDrop, ((UINT16) 51u << 3), ((UINT16)14u << 3));break;
                 case 50u:SpriteManagerAdd(SpriteDrop, ((UINT16) 53u << 3), ((UINT16)14u << 3));break;
-            }
+            }*/
         //ENEMIES
             if(motherpl_state != DEATH){
                 UINT16 spawn_posx = 0u;
@@ -149,9 +149,10 @@ void UPDATE(){
                 UINT8 sprite_enemy_type = 0u;
                 if(s_motherpl->x > ((UINT16)26u)<<3 && 
                     s_motherpl->x < ((UINT16)50u)<<3){
-                    spawn_posx = 33u;
-                    spawn_posy = 10u;
-                    sprite_enemy_type = SpriteEnemyAttackerCobra;
+                    spawn_posx = 38u;
+                    spawn_posy = 9u;
+                    //sprite_enemy_type = SpriteEnemyAttackerCobra;
+                    sprite_enemy_type = SpriteEnemyBat;
                     if(enemy_wave_zone != 1){
                         enemy_wave = 0;
                         enemy_wave_zone = 1;
@@ -160,20 +161,33 @@ void UPDATE(){
                 }else if(s_motherpl->x > ((UINT16)56u)<<3 && 
                     s_motherpl->x < ((UINT16)81u)<<3){
                     spawn_posx = 68u;
-                    spawn_posy = 2u;
-                    sprite_enemy_type = SpriteSpider;
+                    spawn_posy = 1u;
+                    //sprite_enemy_type = SpriteSpider;
+                    sprite_enemy_type = SpriteEnemyBat;
                     if(enemy_wave_zone != 2){
                         enemy_wave = 0;
                         enemy_wave_zone = 2;
                         current_horde_max = HORDE_SPIDER;
                     }
-                }else if(s_motherpl->x > ((UINT16)86u)<<3){
+                }else if(s_motherpl->x > ((UINT16)86u)<<3 &&
+                    s_motherpl->x < ((UINT16)100u)<<3){
                     spawn_posx = 92u;
-                    spawn_posy = 4u;
-                    sprite_enemy_type = SpriteEnemyThrowerTarantula;
+                    spawn_posy = 1u;
+                    //sprite_enemy_type = SpriteEnemyThrowerTarantula;
+                    sprite_enemy_type = SpriteEnemyBat;
                     if(enemy_wave_zone != 3){
                         enemy_wave = 0;
                         enemy_wave_zone = 3;
+                        current_horde_max = HORDE_SPIDER;
+                    }
+                }else if(s_motherpl->x > ((UINT16)100u)<<3){
+                    spawn_posx = 108u;
+                    spawn_posy = 4u;
+                    //sprite_enemy_type = SpriteEnemyThrowerTarantula;
+                    sprite_enemy_type = SpriteEnemyBat;
+                    if(enemy_wave_zone != 4){
+                        enemy_wave = 0;
+                        enemy_wave_zone = 4;
                         current_horde_max = HORDE_SPIDER;
                     }
                 }else{
@@ -186,18 +200,19 @@ void UPDATE(){
                         switch(timeout_enemy){
                             case 100u:
                             case 200u:
-                                spawn_enemy_scorpioncave(sprite_enemy_type,spawn_posx,spawn_posy);
+                                spawn_enemy_batcave(sprite_enemy_type,spawn_posx,spawn_posy);
                             break;
                             case ENEMY_TIMEOUT_MIN:timeout_enemy = ENEMY_TIMEOUT_MAX;break;
                         }
                     }
                 }
+                //TODO mostrare cadavere di gemello di spugna
             }
     
     Log(NONAME);
 }
 
-void spawn_enemy_scorpioncave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED{
+void spawn_enemy_batcave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED{
     enemy_wave++;
     SpriteManagerAdd(sprite_enemy_type, ((UINT16)pos_x)<<3, ((UINT16)pos_y)<<3);
 }

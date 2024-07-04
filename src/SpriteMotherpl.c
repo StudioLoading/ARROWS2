@@ -114,7 +114,7 @@ extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_reward() BANKED;
 extern void spawn_dialog_icon(Sprite* npc) BANKED;
-
+extern void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
 
 void START(){
     motherpl_vx = 0u;
@@ -252,8 +252,13 @@ void UPDATE(){
                     motherpl_blocked_cooldown -= 40;
                 }
                 //motherpl_blocked_cooldown--;
-                if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX){
-                    SpriteManagerRemoveSprite(s_blocking);
+                if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX 
+                    || s_blocking == 0){
+                    if(s_blocking->type == SpriteEnemyBat){
+                        bat_change_state(s_blocking, ENEMY_RUN);
+                    }else{
+                        SpriteManagerRemoveSprite(s_blocking);
+                    }
                     motherpl_blocked = 0u;
                     motherpl_blocked_cooldown = 16u;
                     changeMotherplState(MOTHERPL_IDLE);
@@ -304,7 +309,7 @@ void UPDATE(){
                 }
                 {//TODO check, tile 48u in lvl nonMine potrebbe essere altro
                     UINT8 dash_floor = GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 2u);
-                    if(current_state == StateMine || current_state == StateScorpioncave){
+                    if(current_state == StateMine || current_state == StateBatcave){
                         if(dash_floor == 48u && powder_cooldown == 0){
                             powder_cooldown = 60u;
                             spawnItem(INVITEM_POWDER, THIS->x, THIS->y);
@@ -503,7 +508,7 @@ void UPDATE(){
             case StateCemetery:
             break;
             case StateBlackiecave:
-            case StateScorpioncave:
+            case StateBatcave:
                 switch(motherpl_coll_x){
                     case 34u://tiles di soffitto che quando dash non voglio incastri
                     case 35u:
@@ -581,7 +586,6 @@ void UPDATE(){
                     case SpriteEnemyAttackerCobra:
                     case SpriteEnemyAttackerPine:
                     case SpriteEnemyThrowerSpider:
-                    case SpriteEnemyBat:
                     case SpriteBigstone:
                     case SpriteBolt:
                     case SpriteSeagull:
