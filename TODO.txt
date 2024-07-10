@@ -73,7 +73,7 @@ PRODUCTION:
 - i crediti dedicati a me, BN, sloopygood, comuneko, tetra
 - ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
 - togliere il salto del tutorial che a codice l'ho fatto saltare
-
+- togliere invulnerabilità messa in motherpl.c
 
 
 

@@ -271,7 +271,7 @@ void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED{
         break;
         case ENEMY_DEAD:
             minotaur_data->hp = 0;
-            THIS->y += 4u;
+            THIS->y -= 4u;
             minotaur_data->vx = 0;
             minotaur_data->wait = 199u;
             SetSpriteAnim(THIS, a_mino_dead, 1u);

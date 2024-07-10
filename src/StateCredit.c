@@ -180,6 +180,17 @@ void missions_init() BANKED{
 			golden_armor.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
 			golden_armor.phase = 0;
 			golden_armor.current_step = 0; 
+			//TEST START 
+			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
+			hungry_people.phase = 0;
+			hungry_people.current_step = 0;
+			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			fix_bridge.phase = 0;
+			fix_bridge.current_step = 0;
+			golden_armor.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_DISABLED
+			golden_armor.phase = 0;
+			golden_armor.current_step = 0; 
+			//TEST END
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -314,6 +325,14 @@ void position_init() BANKED{
 			motherow_pos_y = (UINT16) 22u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
+			//TEST START
+			current_map = 4;
+			motherow_pos_x = (UINT16) 38u << 3; 
+			motherow_pos_y = (UINT16) 44u << 3;
+			motherpl_pos_x = (UINT16) 8u << 3;
+			motherpl_pos_y = (UINT16) 8u << 3;
+
+			//TEST END
 		break;
 	}
 }

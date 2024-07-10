@@ -48,7 +48,7 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
-extern void check_automatic_dialog_trigger(NPCNAME npcname) BANKED;
+extern void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -89,7 +89,7 @@ void UPDATE(){
         update_camera_position();
         if(s_motherpl->x > ((UINT16)81u << 3) && 
             get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
-            check_automatic_dialog_trigger(OUTWALKER_SIMON);
+            motherpl_ckautodialog(s_motherpl, OUTWALKER_SIMON);
         } 
     //MANAGE NPC
         if(s_motherpl->x < (

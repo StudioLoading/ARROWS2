@@ -46,8 +46,9 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
 
 const UINT8 coll_tiles_silvercave[] = {2u, 6u, 10u, 21u, 22u,
-27u, 29u, 35u, 0};
-const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 57u, 68u, 81u, 85u, 89u, 0};
+27u, 35u, 0};
+const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 29u, 57u, 68u, 81u,
+82u, 85u, 86u, 89u, 0};
 
 extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
