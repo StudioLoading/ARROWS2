@@ -1,8 +1,13 @@
 POST DEMO:
-- test generico del chapter 3 (fishing, bridge, minotaur)
-
+- mappa overworld: 
+	- case
+	- persone che camminano in giro
+	- bandiere
+	- nuvole grandi-grandi che passano nel cielo?
 - mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
 - dialog map per il caprone
+
+
 - i nuovi audio di andrew!
 - audio dei projectile?
 - check limiti maze

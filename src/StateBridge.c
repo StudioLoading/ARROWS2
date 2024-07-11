@@ -58,6 +58,7 @@ extern INT8 current_map;
 UINT16 perc_10;
 UINT16 perc_40; 
 UINT16 perc_90;
+UINT8 activate_seagulls = 0u;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -140,7 +141,7 @@ void UPDATE(){
         update_camera_position();
     //INIT ENEMIES
         if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
-            && enemy_counter < 3 && golden_armor.current_step < 2){
+            && enemy_counter < 3 && activate_seagulls){
             timeout_enemy--;
             if(timeout_enemy > 150u){
                 timeout_enemy = 0u;

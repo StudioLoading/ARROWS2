@@ -70,6 +70,7 @@ extern INT8 motherpl_vx;
 extern INT8 chapter;
 extern uint8_t sgb_running;
 extern UINT8 child_hooked;
+extern UINT8 activate_seagulls;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -463,6 +464,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherpl_pos_x = (UINT16) 1u << 3;
                             motherpl_pos_y = (UINT16) 6u << 3;
                         break;
+                        case StateBridge:
+                            if(current_map == 3){
+                                activate_seagulls = 1u;
+                            }
+                        break;
                     }
                 break;
                 case SpriteMotherpl:
@@ -477,6 +483,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(new_state == StateOverworld){
                                 switch(next_map){
                                     case 4: 
+                                        activate_seagulls = 0u;
                                         motherow_pos_x = (UINT16) 192u;
                                         motherow_pos_y = (UINT16) 281u;
                                     break;

@@ -390,8 +390,8 @@ void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     switch(forced_tip){
         case TIP_NOTHING:
             switch(motherow_info->tile_collision){
-                case 66u:
-                case 68u://HOSPITAL
+                case 65u:
+                case 66u://HOSPITAL
                     ChangeState(StateHospital, THIS, -1);
                 break;
                 case 83u:
