@@ -23,17 +23,18 @@ IMPORT_MAP(owsoutheast);
 IMPORT_MAP(oweast);
 IMPORT_MAP(hudow);
 
-
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
-33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61,
+33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
 62, 63, 64, 65, 66, 67, 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
 84, 85, 86, 87, 88, 90, 91, 95, 96, 112, 113, 114, 115, 116, 117, 118, 119, 120,
-121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 140, 148, 149,
+121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 140, 148, 149, 
+150, 151, 152, 153, 154, 155, 156, 157, 159, 160, 161, 162, 
+164, 165, 166, 167, 168, 169, 170, 171,
 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
@@ -99,7 +100,7 @@ void showing_tip();
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
-extern void owTips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
+extern void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 void START(){
@@ -186,14 +187,14 @@ void START(){
 		}
 	//INITIAL TIPS
 		if(just_started == 2){//got to show "PRESS SELECT" tip
-			owTips(TIP_PRESS_SELECT);
+			ow_tips(TIP_PRESS_SELECT);
 		}
 }
 
 void ShowTipOW() BANKED{
-	if(show_tip == 0){
-            THIS->x += 2;
-	}
+	/*if(show_tip == 0){
+        THIS->x += 2;
+	}*/
 	show_tip = 1u;
 	if(showed_tip == 0u){
 		if(show_tip_movingscroll < 64u){
@@ -296,246 +297,256 @@ void maze_teleport() BANKED{
 }
 
 void initial_sprite_spawning() BANKED{
-	switch(current_map){
+	if(current_map == 2){maze_teleport();}
+	if(current_map == 3){
+		SpriteManagerAdd(SpriteOwfisherman, ((UINT16) 35u << 3) + 3u, ((UINT16) 7u << 3));
+	}
+	switch(chapter){
 		case 0:
-			if(chapter == 0){
-				if(find_blackie.current_step > 2 && find_blackie.current_step < 5u){
-					Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
-					s_blackieow->mirror = V_MIRROR;
-					if(find_blackie.current_step == 4u){
-						find_blackie.current_step = 5u;
+			switch(current_map){
+				case 0:
+					if(find_blackie.current_step > 2 && find_blackie.current_step < 5u){
+						Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
+						s_blackieow->mirror = V_MIRROR;
+						if(find_blackie.current_step == 4u){
+							find_blackie.current_step = 5u;
+							SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+							find_blackie.mission_state = MISSION_STATE_REWARDED;
+							blackieow_data->wait = 60u;
+							blackieow_data->vx = -2;
+							enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
+						}
+					}
+					//di fronte al cimitero
+					spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u, 0b00000001);
+					//a destra dell'ospedale
+					spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u,0b00000010);
+					//a sud
+					spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u, 0b00000100);
+				break;
+			}
+		break;
+		case 1:
+			switch(current_map){
+
+				case 1:
+					SpriteManagerAdd(SpriteOwpeople, ((UINT16) 19u << 3), ((UINT16) 39u << 3));
+					spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 4u, 14u, 0b00000001);
+					Sprite* s_crabow = 0;
+					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
+						&& outwalker_glass.current_step < 3){
+						s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
+					}
+					if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
+						&& outwalker_glass.current_step == 2){
 						SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-						find_blackie.mission_state = MISSION_STATE_REWARDED;
-						blackieow_data->wait = 60u;
-						blackieow_data->vx = -2;
-						enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
+						outwalker_glass.current_step = 3;
+						struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
+						crabow_data->vx = 1;
+						crabow_data->configured = 2;
 					}
-				}
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u, 0b00000001);
-				spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u,0b00000010);
-				spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u, 0b00000100);
-			}
-			if(chapter == 2){
-				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
-					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
-					&& defeat_scorpions.phase == 0u){
-					if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 26u << 3), ((UINT16) 26u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00000001;
-					}
-					if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 23u << 3), ((UINT16) 32u << 3));
-    					struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
-						s_scor1_data->hp = -1;
-						s_scor1_data->configured = 0b00000010;						
-					}
-					if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
-						Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
-    					struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
-						s_scor2_data->hp = 1;
-						s_scor2_data->configured = 0b00000100;						
-					}
-				}				
-				if(find_antidote.phase == 4){					
-					UINT8 spawn_herb = find_antidote.current_step & 0b00100000;
-					if(spawn_herb == 0){
-						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)12u << 3, (UINT16)46u << 3);
-						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
-						herb1_data->itemtype = INVITEM_HERB;
-						herb1_data->hp = 0b00100000;
-					}
-					spawn_herb = find_antidote.current_step & 0b01000000;
-					if(spawn_herb == 0){
-						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)24u << 3, (UINT16)46u << 3);
-						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
-						herb1_data->itemtype = INVITEM_HERB;
-						herb1_data->hp = 0b01000000;
-					}
-					spawn_herb = find_antidote.current_step & 0b10000000;
-					if(spawn_herb == 0){
-						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)34u << 3, (UINT16)40u << 3);
-						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
-						herb1_data->itemtype = INVITEM_HERB;
-						herb1_data->hp = 0b10000000;
-					}
-				}
+				break;
+				case 2://maze
+					//configuring teleporting
+					spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u, 0b00000010);
+					//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
+					spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u,0b00000100);
+				break;
 			}
 		break;
-		case 1://north west
-			if(chapter == 1){
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 20u, 41u, 0b00000001);
-				Sprite* s_crabow = 0;
-				if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
-					&& outwalker_glass.current_step < 3){
-					s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
-				}
-				if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
-					&& outwalker_glass.current_step == 2){
-					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-					outwalker_glass.current_step = 3;
-					struct EnemyData* crabow_data = (struct EnemyData*)s_crabow->custom_data;
-					crabow_data->vx = 1;
-					crabow_data->configured = 2;
-					
-				}
-			}
-			if(chapter == 2){
-				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
-					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
-					&& defeat_scorpions.phase == 0u){
-					if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 18u << 3), ((UINT16) 10u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00001000;
+		case 2:
+			switch(current_map){
+				case 0:
+					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+						&& defeat_scorpions.phase == 0u){
+						if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 26u << 3), ((UINT16) 26u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = 1;
+							s_scor0_data->configured = 0b00000001;
+						}
+						if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
+							Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 23u << 3), ((UINT16) 32u << 3));
+							struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+							s_scor1_data->hp = -1;
+							s_scor1_data->configured = 0b00000010;						
+						}
+						if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
+							Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 22u << 3));
+							struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
+							s_scor2_data->hp = 1;
+							s_scor2_data->configured = 0b00000100;						
+						}
+					}				
+					if(find_antidote.phase == 4){					
+						UINT8 spawn_herb = find_antidote.current_step & 0b00100000;
+						if(spawn_herb == 0){
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)12u << 3, (UINT16)46u << 3);
+							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+							herb1_data->itemtype = INVITEM_HERB;
+							herb1_data->hp = 0b00100000;
+						}
+						spawn_herb = find_antidote.current_step & 0b01000000;
+						if(spawn_herb == 0){
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)24u << 3, (UINT16)46u << 3);
+							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+							herb1_data->itemtype = INVITEM_HERB;
+							herb1_data->hp = 0b01000000;
+						}
+						spawn_herb = find_antidote.current_step & 0b10000000;
+						if(spawn_herb == 0){
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)34u << 3, (UINT16)40u << 3);
+							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+							herb1_data->itemtype = INVITEM_HERB;
+							herb1_data->hp = 0b10000000;
+						}
 					}
-					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
-						Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
-						struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
-						s_scor1_data->hp = 1;
-						s_scor1_data->configured = 0b00010000;
+				break;
+				case 1:
+					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+						&& defeat_scorpions.phase == 0u){
+						if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 18u << 3), ((UINT16) 10u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = 1;
+							s_scor0_data->configured = 0b00001000;
+						}
+						if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
+							Sprite* s_scor1 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 41u << 3));
+							struct EnemyData* s_scor1_data = (struct EnemyData*)s_scor1->custom_data;
+							s_scor1_data->hp = 1;
+							s_scor1_data->configured = 0b00010000;
+						}
+						if((defeat_scorpions.current_step & 0b00100000) == 0b0000000){
+							Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
+							struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
+							s_scor2_data->hp = -1;
+							s_scor2_data->configured = 0b00100000;
+						}
+						if((defeat_scorpions.current_step & 0b01000000) == 0b00000000){
+							Sprite* s_scor3 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
+							struct EnemyData* s_scor3_data = (struct EnemyData*)s_scor3->custom_data;
+							s_scor3_data->hp = 1;
+							s_scor3_data->configured = 0b01000000;						
+						}
+						if((defeat_scorpions.current_step & 0b10000000) == 0b00000000){
+							Sprite* s_scor4 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
+							struct EnemyData* s_scor4_data = (struct EnemyData*)s_scor4->custom_data;
+							s_scor4_data->hp = -1;
+							s_scor4_data->configured = 0b10000000;						
+						}
 					}
-					if((defeat_scorpions.current_step & 0b00100000) == 0b0000000){
-						Sprite* s_scor2 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 43u << 3), ((UINT16) 29u << 3));
-    					struct EnemyData* s_scor2_data = (struct EnemyData*)s_scor2->custom_data;
-						s_scor2_data->hp = -1;
-						s_scor2_data->configured = 0b00100000;
+				break;
+				case 3:
+					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
+						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
+						&& defeat_scorpions.phase == 1u){
+						if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 16u << 3), ((UINT16) 12u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = -1;
+							s_scor0_data->configured = 0b00000001;
+						}
+						if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 23u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = 1;
+							s_scor0_data->configured = 0b00000010;
+						}
+						if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 24u << 3), ((UINT16) 32u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = -1;
+							s_scor0_data->configured = 0b00000100;
+						}
+						if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 38u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = 1;
+							s_scor0_data->configured = 0b00001000;
+						}
+						if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
+							Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 10u << 3), ((UINT16) 9u << 3));
+							struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
+							s_scor0_data->hp = 1;
+							s_scor0_data->configured = 0b00010000;
+						}
 					}
-					if((defeat_scorpions.current_step & 0b01000000) == 0b00000000){
-						Sprite* s_scor3 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 25u << 3));
-						struct EnemyData* s_scor3_data = (struct EnemyData*)s_scor3->custom_data;
-						s_scor3_data->hp = 1;
-						s_scor3_data->configured = 0b01000000;						
+					if(find_antidote.phase == 4){
+						UINT8 spawn_herb = find_antidote.current_step & 0b00000010;
+						if(spawn_herb == 0){
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)15u << 3, (UINT16)44u << 3);
+							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
+							herb1_data->itemtype = INVITEM_HERB;
+							herb1_data->hp = 0b00000010;
+						}
+						spawn_herb = find_antidote.current_step & 0b00000100;
+						if(spawn_herb == 0){
+							Sprite* s_herb2 = SpriteManagerAdd(SpriteHerb, (UINT16)16u << 3, (UINT16)45u << 3);
+							struct ItemSpawned* herb2_data = (struct ItemSpawned*) s_herb2->custom_data;
+							herb2_data->itemtype = INVITEM_HERB;
+							herb2_data->hp = 0b00000100;
+						}
+						spawn_herb = find_antidote.current_step & 0b00001000;
+						if(spawn_herb == 0){
+							Sprite* s_herb3 = SpriteManagerAdd(SpriteHerb, (UINT16)28u << 3, (UINT16)44u << 3);
+							struct ItemSpawned* herb3_data = (struct ItemSpawned*) s_herb3->custom_data;
+							herb3_data->itemtype = INVITEM_HERB;
+							herb3_data->hp = 0b00001000;
+						}
+						spawn_herb = find_antidote.current_step & 0b00010000;
+						if(spawn_herb == 0){
+							Sprite* s_herb4 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)45u << 3);
+							struct ItemSpawned* herb4_data = (struct ItemSpawned*) s_herb4->custom_data;
+							herb4_data->itemtype = INVITEM_HERB;
+							herb4_data->hp = 0b00010000;
+						}
 					}
-					if((defeat_scorpions.current_step & 0b10000000) == 0b00000000){
-						Sprite* s_scor4 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 52u << 3), ((UINT16) 30u << 3));
-						struct EnemyData* s_scor4_data = (struct EnemyData*)s_scor4->custom_data;
-						s_scor4_data->hp = -1;
-						s_scor4_data->configured = 0b10000000;						
-					}
-				}
-			}
-		break;
-		case 2://maze
-			//configuring teleporting
-			maze_teleport();
-			if(chapter == 1){//memoria a tappo!
-				spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u, 0b00000010);
-				//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
-				spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u,0b00000100);
-			}
-		break;
-		case 3://south east
-			//TODO sicuri che spawniamo owFisherman?
-			SpriteManagerAdd(SpriteOwfisherman, ((UINT16) 35u << 3) + 3u, ((UINT16) 7u << 3));
-			if(chapter == 2){
-				if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
-					&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
-					&& defeat_scorpions.phase == 1u){
-					if((defeat_scorpions.current_step & 0b00000001) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 16u << 3), ((UINT16) 12u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = -1;
-						s_scor0_data->configured = 0b00000001;
-					}
-					if((defeat_scorpions.current_step & 0b00000010) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 14u << 3), ((UINT16) 23u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00000010;
-					}
-					if((defeat_scorpions.current_step & 0b00000100) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 24u << 3), ((UINT16) 32u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = -1;
-						s_scor0_data->configured = 0b00000100;
-					}
-					if((defeat_scorpions.current_step & 0b00001000) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 15u << 3), ((UINT16) 38u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00001000;
-					}
-					if((defeat_scorpions.current_step & 0b00010000) == 0b00000000){
-						Sprite* s_scor0 = SpriteManagerAdd(SpriteOwscorpion, ((UINT16) 10u << 3), ((UINT16) 9u << 3));
-						struct EnemyData* s_scor0_data = (struct EnemyData*)s_scor0->custom_data;
-						s_scor0_data->hp = 1;
-						s_scor0_data->configured = 0b00010000;
-					}
-				}
-				if(find_antidote.phase == 4){
-					UINT8 spawn_herb = find_antidote.current_step & 0b00000010;
-					if(spawn_herb == 0){
-						Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)15u << 3, (UINT16)44u << 3);
-						struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
-						herb1_data->itemtype = INVITEM_HERB;
-						herb1_data->hp = 0b00000010;
-					}
-					spawn_herb = find_antidote.current_step & 0b00000100;
-					if(spawn_herb == 0){
-						Sprite* s_herb2 = SpriteManagerAdd(SpriteHerb, (UINT16)16u << 3, (UINT16)45u << 3);
-						struct ItemSpawned* herb2_data = (struct ItemSpawned*) s_herb2->custom_data;
-						herb2_data->itemtype = INVITEM_HERB;
-						herb2_data->hp = 0b00000100;
-					}
-					spawn_herb = find_antidote.current_step & 0b00001000;
-					if(spawn_herb == 0){
-						Sprite* s_herb3 = SpriteManagerAdd(SpriteHerb, (UINT16)28u << 3, (UINT16)44u << 3);
-						struct ItemSpawned* herb3_data = (struct ItemSpawned*) s_herb3->custom_data;
-						herb3_data->itemtype = INVITEM_HERB;
-						herb3_data->hp = 0b00001000;
-					}
-					spawn_herb = find_antidote.current_step & 0b00010000;
-					if(spawn_herb == 0){
-						Sprite* s_herb4 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)45u << 3);
-						struct ItemSpawned* herb4_data = (struct ItemSpawned*) s_herb4->custom_data;
-						herb4_data->itemtype = INVITEM_HERB;
-						herb4_data->hp = 0b00010000;
-					}
-				}
-			}
-			if(chapter == 3){
-				if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
-					//gators
-					Sprite* gator0 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3));
-					struct PlatformInfo* gator0_data = (struct PlatformInfo*)gator0->custom_data;
-					gator0_data->vy = 1;
-					gator0_data->clockwise = 1;
-					gator0_data->distance = 3u;
-					Sprite* gator1 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 38u << 3), ((UINT16) 33u << 3));
-					struct PlatformInfo* gator1_data = (struct PlatformInfo*)gator1->custom_data;
-					gator1_data->vy = 1;
-					gator1_data->clockwise = 1;
-					gator1_data->distance = 80u;
-					Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3) + 4u);
-					struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
-					gator2_data->vy = -1;
-					gator2_data->clockwise = 0;
-					gator2_data->distance = 10u;
-					Sprite* gator3 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3)+3, ((UINT16) 33u << 3)  -1u);
-					struct PlatformInfo* gator3_data = (struct PlatformInfo*)gator3->custom_data;
-					gator3_data->vy = -1;
-					gator3_data->clockwise = 1;
-					gator3_data->distance = 32u;
-					Sprite* gator4 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3), ((UINT16) 33u << 3)  -1u);
-					struct PlatformInfo* gator4_data = (struct PlatformInfo*)gator4->custom_data;
-					gator4_data->vy = -1;
-					gator4_data->clockwise = 0;
-					gator4_data->distance = 32u;
-					Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 33u << 3));
-					struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
-					gator5_data->vy = 1;
-					gator5_data->clockwise = 1;
-					gator5_data->distance = 54u;
-				}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
-					SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
-				}
+				break;
 			}
 		break;
-		case 4://east
-		
+		case 3:
+			switch(current_map){
+				case 3:
+					if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
+						//gators
+						Sprite* gator0 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3));
+						struct PlatformInfo* gator0_data = (struct PlatformInfo*)gator0->custom_data;
+						gator0_data->vy = 1;
+						gator0_data->clockwise = 1;
+						gator0_data->distance = 3u;
+						Sprite* gator1 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 38u << 3), ((UINT16) 33u << 3));
+						struct PlatformInfo* gator1_data = (struct PlatformInfo*)gator1->custom_data;
+						gator1_data->vy = 1;
+						gator1_data->clockwise = 1;
+						gator1_data->distance = 80u;
+						Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3) + 4u);
+						struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
+						gator2_data->vy = -1;
+						gator2_data->clockwise = 0;
+						gator2_data->distance = 10u;
+						Sprite* gator3 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3)+3, ((UINT16) 33u << 3)  -1u);
+						struct PlatformInfo* gator3_data = (struct PlatformInfo*)gator3->custom_data;
+						gator3_data->vy = -1;
+						gator3_data->clockwise = 1;
+						gator3_data->distance = 32u;
+						Sprite* gator4 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3), ((UINT16) 33u << 3)  -1u);
+						struct PlatformInfo* gator4_data = (struct PlatformInfo*)gator4->custom_data;
+						gator4_data->vy = -1;
+						gator4_data->clockwise = 0;
+						gator4_data->distance = 32u;
+						Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 33u << 3));
+						struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
+						gator5_data->vy = 1;
+						gator5_data->clockwise = 1;
+						gator5_data->distance = 54u;
+					}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
+						SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
+					}
+				break;
+			}
 		break;
 	}
 }
@@ -859,7 +870,7 @@ void UpdateHUDOW(){
 		DrawHUD(owhudopt);
 		old_owhudopt = owhudopt;
 	}
-	if(KEY_TICKED(J_A)){
+	if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
 		HIDE_WIN;
 		switch(owhudopt){
 			case OW_DIARY://selezionato Diario Missione

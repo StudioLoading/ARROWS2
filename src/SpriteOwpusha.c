@@ -4,8 +4,11 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 
+#include "custom_datas.h"
+
 const UINT8 a_owpusha[] = {2,0,1}; //The first number indicates the number of frames
 extern UINT8 ow_pusha_hp;
+extern struct PushASignData d_push_sign;
 
 void START(){
 	THIS->lim_x = 10u;
@@ -22,5 +25,6 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    d_push_sign.collided_tile = 0;
     ow_pusha_hp = 0u;
 }

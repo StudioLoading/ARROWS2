@@ -255,6 +255,10 @@ struct EtoReload{
 	UINT8 alive;
 };
 
+struct PushASignData{
+	UINT16 collided_tile;
+};
+
 struct EnemyData{
 	INT8 hp;
 	INT8 vx;

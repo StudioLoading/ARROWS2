@@ -42,13 +42,6 @@ extern UINT8 choice;
 extern UINT8 choice_left;
 extern UINT8 choice_right;
 extern INT8 outwalker_info_given;
-extern struct MISSION outwalker_chief;
-extern struct MISSION outwalker_glass;
-extern struct MISSION outwalker_smith;
-extern struct MISSION find_antidote;
-extern struct MISSION hungry_people;
-extern struct MISSION golden_armor;
-extern struct MISSION fix_bridge;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;

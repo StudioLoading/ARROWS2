@@ -603,22 +603,22 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 		break;
 		case POLICE_0_GET_PASS:
 			*n_lines = 15u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "SALUTE HEALER,      \0", 22);
-			memcpy(d2, "WE KNOW THAT TO THE \0", 22);
-			memcpy(d3, "WEST THERE'S A BUNCH\0", 22);
-			memcpy(d4, "OF PEOPLE LIVING BY \0", 22);
-			memcpy(d5, "THEIR OWN. WE WANT  \0", 22);
-			memcpy(d6, "TO KNOW WHO IS THEIR\0", 22);
-			memcpy(d7, "LEADER. BECAUSE THEY\0", 22);
-			memcpy(d8, "WON'T TELL US, TAKE \0", 22);
-			memcpy(d9, "THIS PASS. SHOW IT  \0", 22);
-			memcpy(d10, "AND THEY WILL LET  \0", 22);
-			memcpy(d11, "YOU IN.            \0", 22);
+			memcpy(d0, "GUARD:              ", 22);
+			memcpy(d1, "SALUTE HEALER,      ", 22);
+			memcpy(d2, "WE KNOW THAT TO THE ", 22);
+			memcpy(d3, "WEST THERE'S A BUNCH", 22);
+			memcpy(d4, "OF PEOPLE LIVING BY ", 22);
+			memcpy(d5, "THEIR OWN. WE WANT  ", 22);
+			memcpy(d6, "TO KNOW WHO IS THEIR", 22);
+			memcpy(d7, "LEADER. BECAUSE THEY", 22);
+			memcpy(d8, "WON'T TELL US. TAKE ", 22);
+			memcpy(d9, "THIS PASS. SHOW IT  ", 22);
+			memcpy(d10, "AND THEY WILL LET  ", 22);
+			memcpy(d11, "YOU IN.            ", 22);
 			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "PLEASE COME BACK AS\0", 22);
-			memcpy(d14, "SOON AS YOU FIND   \0", 22);
-			memcpy(d15, "OUT. THANK YOU.    \0", 22);				
+			memcpy(d13, "PLEASE COME BACK AS", 22);
+			memcpy(d14, "SOON AS YOU FIND   ", 22);
+			memcpy(d15, "OUT. THANK YOU.    ", 22);				
 			{
 				if(get_quantity(INVITEM_PASS) < 1){
 					struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
@@ -631,43 +631,43 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 		break;
 		case POLICE_0_STILL_NOT_FOUND:
 			*n_lines = 8u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "SALUTE HEALER,      \0", 22);
-			memcpy(d2, "WE ARE STILL WAITING\0", 22);
-			memcpy(d3, "FOR YOU TO TELL US  \0", 22);
-			memcpy(d4, "WHO'S THE OUTWALKER \0", 22);
-			memcpy(d4, "CHIEF.              \0", 22);
+			memcpy(d0, "GUARD:              ", 22);
+			memcpy(d1, "SALUTE HEALER,      ", 22);
+			memcpy(d2, "WE ARE STILL WAITING", 22);
+			memcpy(d3, "FOR YOU TO TELL US  ", 22);
+			memcpy(d4, "WHO'S THE OUTWALKER ", 22);
+			memcpy(d4, "CHIEF.              ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "PLEASE COME BACK AS\0", 22);
-			memcpy(d7, "SOON AS YOU FIND   \0", 22);
-			memcpy(d8, "OUT. THANK YOU.    \0", 22);
+			memcpy(d6, "PLEASE COME BACK AS ", 22);
+			memcpy(d7, "SOON AS YOU FIND    ", 22);
+			memcpy(d8, "OUT. THANK YOU.     ", 22);
 		break;
 		case POLICE_0_WONT_TALK:
 			*n_lines = 8u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "HOW DARE YOU NOT TO  \0", 22);
-			memcpy(d2, "TELL US THIS PRECIOUS\0", 22);
-			memcpy(d3, "INFORMATION!! THIS IS\0", 22);
-			memcpy(d4, "A BAD DECISION...    \0", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "...AND WILL HAVE     \0", 22);
-			memcpy(d7, "CONSEQUENCES!        \0", 22);
+			memcpy(d0, "GUARD:              ", 22);
+			memcpy(d1, "HOW DARE YOU NOT TO ", 22);
+			memcpy(d2, "TELL US THIS PRECIO ", 22);
+			memcpy(d3, "US INFORMATION!!    ", 22);
+			memcpy(d4, "THIS IS A BAD DECI  ", 22);
+			memcpy(d5, "SION ...            ", 22);
+			memcpy(d6, "...AND WILL HAVE    ", 22);
+			memcpy(d7, "CONSEQUENCES!       ", 22);
 			memcpy(d8, EMPTY_STRING_21, 22);
 		break;
 		case POLICE_0_FIGHTING:
 			*n_lines = 5u;
-			memcpy(d0, "GUARD:              \0", 22);
-			memcpy(d1, "SCORPIONS ARE ALL   \0", 22);
-			memcpy(d2, "AROUND US!          \0", 22);
-			memcpy(d4, "A BAD DECISION...    \0", 22);
+			memcpy(d0, "GUARD:              ", 22);
+			memcpy(d1, "SCORPIONS ARE ALL   ", 22);
+			memcpy(d2, "AROUND US!          ", 22);
+			memcpy(d4, "A BAD DECISION...   ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
 		break;
 		case POLICE_0_NOGUARDS:
 			*n_lines = 3u;
-			memcpy(d0, "DESSA:               \0", 22);
+			memcpy(d0, "DESSA:              ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "NO GUARDS HERE AT THE\0", 22);
-			memcpy(d3, "MOMENT...            \0", 22);
+			memcpy(d2, "NO GUARDS HERE AT   ", 22);
+			memcpy(d3, "THE MOMENT...       ", 22);
 		break;
 		case BLACKIE_DEAD_CHILD:
 			*n_lines = 19u;

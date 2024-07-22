@@ -1,6 +1,7 @@
 POST DEMO:
+- motherow: chibi
 - mappa overworld: 
-	- case
+	- case e sistema suggerimenti per capitolo
 	- persone che camminano in giro
 	- bandiere
 	- nuvole grandi-grandi che passano nel cielo?
