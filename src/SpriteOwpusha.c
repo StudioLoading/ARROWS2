@@ -5,10 +5,13 @@
 #include "SpriteManager.h"
 
 #include "custom_datas.h"
+#include "Dialogs.h"
 
 const UINT8 a_owpusha[] = {2,0,1}; //The first number indicates the number of frames
 extern UINT8 ow_pusha_hp;
 extern struct PushASignData d_push_sign;
+extern TIP_TO_BE_LOCALIZED tip_to_show;
+extern UINT8 ow_chitchat_counter;
 
 void START(){
 	THIS->lim_x = 10u;
@@ -25,6 +28,12 @@ void UPDATE(){
 }
 
 void DESTROY(){
+    if(tip_to_show == TIP_CHITCHAT){
+        ow_chitchat_counter++;
+        if(ow_chitchat_counter >= 7){
+            ow_chitchat_counter = 0u;
+        }
+    }
     d_push_sign.collided_tile = 0;
     ow_pusha_hp = 0u;
 }

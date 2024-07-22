@@ -292,12 +292,6 @@ TIP_TO_BE_LOCALIZED ow_show_pusha_sign() BANKED{
     if(result != TIP_NOTHING && ow_pusha_hp == 0u){
         ow_pusha_hp = 80u;
         s_push_sign = SpriteManagerAdd(SpriteOwpusha, THIS->x - 1u, THIS->y - 26u);
-        if(result == TIP_CHITCHAT){
-            ow_chitchat_counter++;
-            if(ow_chitchat_counter >= 7){
-                ow_chitchat_counter = 0u;
-            }
-        }
     }
     return result;
 }
