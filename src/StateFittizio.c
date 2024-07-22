@@ -961,6 +961,19 @@ void spawn_dialog_icon(Sprite* npc) BANKED{
     }
 }
 
+void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, WHOSTALKING whostalking, UINT8 wait){
+    Sprite* s_ownpc = SpriteManagerAdd(SpriteOwpeople, posx, posy);
+    struct OwPeopleData* d_ownpc = (struct OwPeopleData*) s_ownpc->custom_data;
+    d_ownpc->vy = 0;
+    d_ownpc->vx = 0;
+    d_ownpc->wait = 0;
+    d_ownpc->movement = movement;
+    d_ownpc->type = type;
+    d_ownpc->et_collision = 0;
+    d_ownpc->e_state = ENEMY_IDLE;
+    d_ownpc->whostalking = whostalking;
+}
+
 void START(){}
 
 void UPDATE(){}

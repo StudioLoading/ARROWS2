@@ -495,5 +495,25 @@ typedef enum{
 	SHOP_SMITH,
 	SHOP_CARPENTER
 }SHOP;
+
+typedef enum{
+	OWTYPE_UNCONFIGURED,
+	OWTYPE_BLUETUNIC_STAND,
+	OWTYPE_BLUETUNIC_HORIZONTAL,
+	OWTYPE_BLUETUNIC_VERTICAL,
+	OWTYPE_BLUETUNIC_SQUARE,
+}OWPEOPLETYPE;
+
+struct OwPeopleData{
+	INT8 vy;
+	INT8 vx;
+	UINT8 wait;
+	WHOSTALKING whostalking;
+	OWPEOPLETYPE type;
+	UINT8 et_collision;
+	ENEMY_STATE e_state;
+	UINT8 x_frameskip;
+};
+
 #endif
 

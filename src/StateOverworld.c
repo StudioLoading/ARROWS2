@@ -56,6 +56,7 @@ TIP_TO_BE_LOCALIZED tip_to_show = TIP_SMITH_NO;
 UINT8 delay_spawning = 0;
 UINT8 anim_counter = 0u;
 
+
 extern struct OwSpriteInfo* motherow_info;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;

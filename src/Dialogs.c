@@ -121,14 +121,14 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_DARK_FOREST:
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "  THE DARKEST FOREST \0", 22);
+			memcpy(d2, "  THE DARKEST FOREST ", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_LABIRYNTH:
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "      NORTHERN       \0", 22);
-			memcpy(d3, "      LABIRYNTH      \0", 22);
+			memcpy(d1, "      NORTHERN      ", 22);
+			memcpy(d2, "        MAZE        ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_GROTTO:
