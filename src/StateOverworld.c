@@ -103,6 +103,8 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 extern void update_position_motherow() BANKED;
 extern void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
+extern void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, WHOSTALKING whostalking, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED;
+
 
 void START(){
 	//SCROLL LIMITS
@@ -329,9 +331,11 @@ void initial_sprite_spawning() BANKED{
 		break;
 		case 1:
 			switch(current_map){
-
 				case 1:
-					SpriteManagerAdd(SpriteOwpeople, ((UINT16) 19u << 3), ((UINT16) 39u << 3));
+					spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 19u << 3), ((UINT16) 39u << 3), BLUETUNIC_0,100u,0,0);
+					spawn_ow_npc(OWTYPE_KNIGHT_HORIZONTAL, ((UINT16) 19u << 3), ((UINT16) 41u << 3), KNIGHT_0,100u,0,0);
+					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 52u << 3) + 4u, ((UINT16) 29u << 3), KNIGHT_0,100u,0,0);
+					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3) - 4u, ((UINT16) 29u << 3), KNIGHT_0,100u,0,0);
 					spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 4u, 14u, 0b00000001);
 					Sprite* s_crabow = 0;
 					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED

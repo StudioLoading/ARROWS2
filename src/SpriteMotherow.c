@@ -174,23 +174,13 @@ void UPDATE(){
     else if(KEY_RELEASED(J_UP)){new_state = IDLE_UP;}
     else if(KEY_RELEASED(J_LEFT)){new_state = IDLE_LEFT;}
     else if(KEY_RELEASED(J_RIGHT)){new_state = IDLE_RIGHT;}  
-    update_position_motherow();  
-    if(motherow_info->ow_state != new_state){ 
-        owChangeState(new_state);
-    }
-    //INTERACT WITH MAP
-        if(motherow_info->tile_collision && motherow_info->tile_collision != d_push_sign.collided_tile){
-           d_push_sign.collided_tile = motherow_info->tile_collision;
-           tip_to_show = ow_show_pusha_sign();
-        }
-        if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
-            ow_tips(tip_to_show);            
-        }
-    //CHECK COLLIDED PLACE
-        ow_check_place();
+    
     //INTERACT WITH SPRITES    
         UINT8 mow_a_tile;
         Sprite* imowspr;
+        UINT16 prev_x = THIS->x;
+        UINT16 prev_y = THIS->y;
+        UINT8 colliding_sprite_ow = 0;
         SPRITEMANAGER_ITERATE(mow_a_tile, imowspr) {
             if(CheckCollision(THIS, imowspr)) {
                 switch(imowspr->type){
@@ -266,9 +256,32 @@ void UPDATE(){
                             trigger_dialog(FISHERMAN_THERESFISH, THIS);
                         }
                     break;
+                    case SpriteOwpeople:
+                        if(frameskip == 0u){
+                            colliding_sprite_ow = 1;
+                            THIS->x -= motherow_info->vx;
+                            THIS->y -= motherow_info->vy;
+                        }                    
+                    break;
                 }
             }
         };
+    if(motherow_info->ow_state != new_state){ 
+        owChangeState(new_state);
+    }
+    if(colliding_sprite_ow == 0){
+        update_position_motherow();
+    }
+    //INTERACT WITH MAP
+        if(motherow_info->tile_collision && motherow_info->tile_collision != d_push_sign.collided_tile){
+           d_push_sign.collided_tile = motherow_info->tile_collision;
+           tip_to_show = ow_show_pusha_sign();
+        }
+        if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
+            ow_tips(tip_to_show);            
+        }
+    //CHECK COLLIDED PLACE
+        ow_check_place();
 }
 
 TIP_TO_BE_LOCALIZED ow_show_pusha_sign() BANKED{

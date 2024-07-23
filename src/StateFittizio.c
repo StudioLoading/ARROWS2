@@ -122,6 +122,7 @@ void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
 void manage_border(UINT8 next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
+void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, WHOSTALKING whostalking, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern struct EnemyData* minotaur_data;
@@ -961,16 +962,14 @@ void spawn_dialog_icon(Sprite* npc) BANKED{
     }
 }
 
-void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, WHOSTALKING whostalking, UINT8 wait){
+void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, WHOSTALKING whostalking, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED{
     Sprite* s_ownpc = SpriteManagerAdd(SpriteOwpeople, posx, posy);
     struct OwPeopleData* d_ownpc = (struct OwPeopleData*) s_ownpc->custom_data;
-    d_ownpc->vy = 0;
-    d_ownpc->vx = 0;
-    d_ownpc->wait = 0;
-    d_ownpc->movement = movement;
+    d_ownpc->vy = init_vy;
+    d_ownpc->vx = init_vx;
+    d_ownpc->wait = wait;
     d_ownpc->type = type;
     d_ownpc->et_collision = 0;
-    d_ownpc->e_state = ENEMY_IDLE;
     d_ownpc->whostalking = whostalking;
 }
 
