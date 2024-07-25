@@ -334,6 +334,7 @@ void initial_sprite_spawning() BANKED{
 				case 1:
 					spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 19u << 3), ((UINT16) 39u << 3), BLUETUNIC_0,100u,0,0);
 					spawn_ow_npc(OWTYPE_KNIGHT_HORIZONTAL, ((UINT16) 19u << 3), ((UINT16) 41u << 3), KNIGHT_0,100u,0,0);
+					spawn_ow_npc(OWTYPE_YELLOW_VERTICAL,((UINT16) 12u << 3), ((UINT16) 42 << 3), KNIGHT_0,100u,0,0);
 					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 52u << 3) + 4u, ((UINT16) 29u << 3), KNIGHT_0,100u,0,0);
 					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3) - 4u, ((UINT16) 29u << 3), KNIGHT_0,100u,0,0);
 					spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 4u, 14u, 0b00000001);

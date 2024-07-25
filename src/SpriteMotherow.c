@@ -95,64 +95,62 @@ void START(){
 }
 
 void update_position_motherow() BANKED{
-    //new_state = motherow_info->ow_state;
-    //WALKING
-        if(show_tip == 0u){        
-            if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
-            if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
-                motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
-            }
-            UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
-            if(current_map != 2u){//NOT IN MAZE
-                switch(scroll_tile){
-                    case 40u: 
-                    case 99u: case 102u: case 103u: case 104u:
-                        //SFX
-                            if(THIS->anim_frame == 1){
-                                my_play_fx(CHANNEL_2, 60, 0x43, 0x32, 0x29, 0x85, 0x00);//SFX_OW_STEP
-                                //STEP
-                                    if(motherow_info->ow_state == WALK_DOWN ||
-                                        motherow_info->ow_state == WALK_UP ||
-                                        motherow_info->ow_state == WALK_LEFT ||
-                                        motherow_info->ow_state == WALK_RIGHT){
-                                        step_counter++;
-                                        if(step_counter == 8u){
-                                            step_counter = 0u;
-                                            UINT16 step_x = THIS->x;
-                                            UINT16 step_y = THIS->y;
-                                            switch(motherow_info->ow_state){
-                                                case WALK_DOWN:
-                                                    step_x += 1u;
-                                                    step_y -= 12u;
-                                                break;
-                                                case WALK_UP:
-                                                    step_x += 1u;
-                                                    step_y -= 6u;
-                                                break;
-                                                case WALK_LEFT:
-                                                    step_x += 2u;
-                                                    step_y -= 8u;
-                                                break;
-                                                case WALK_RIGHT:
-                                                    step_x -= 2u;
-                                                    step_y -= 8u;
-                                                break;
-                                            }
-                                            spawn_step(step_x, step_y);
+    if(show_tip == 0u){        
+        if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
+        if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
+            motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
+        }
+        UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
+        if(current_map != 2u){//NOT IN MAZE
+            switch(scroll_tile){
+                case 40u: 
+                case 99u: case 102u: case 103u: case 104u:
+                    //SFX
+                        if(THIS->anim_frame == 1){
+                            my_play_fx(CHANNEL_2, 60, 0x43, 0x32, 0x29, 0x85, 0x00);//SFX_OW_STEP
+                            //STEP
+                                if(motherow_info->ow_state == WALK_DOWN ||
+                                    motherow_info->ow_state == WALK_UP ||
+                                    motherow_info->ow_state == WALK_LEFT ||
+                                    motherow_info->ow_state == WALK_RIGHT){
+                                    step_counter++;
+                                    if(step_counter == 8u){
+                                        step_counter = 0u;
+                                        UINT16 step_x = THIS->x;
+                                        UINT16 step_y = THIS->y;
+                                        switch(motherow_info->ow_state){
+                                            case WALK_DOWN:
+                                                step_x += 1u;
+                                                step_y -= 12u;
+                                            break;
+                                            case WALK_UP:
+                                                step_x += 1u;
+                                                step_y -= 6u;
+                                            break;
+                                            case WALK_LEFT:
+                                                step_x += 2u;
+                                                step_y -= 8u;
+                                            break;
+                                            case WALK_RIGHT:
+                                                step_x -= 2u;
+                                                step_y -= 8u;
+                                            break;
                                         }
+                                        spawn_step(step_x, step_y);
                                     }
-                            }
-                            if(frameskip_max != OW_PATH_FRAMESKIP){
-                                frameskip_max = OW_PATH_FRAMESKIP;
-                            }
-                    break;
-                    default:
-                        if(frameskip_max != OW_NORMAL_FRAMESKIP){
-                            frameskip_max = OW_NORMAL_FRAMESKIP;
+                                }
                         }
-                }
+                        if(frameskip_max != OW_PATH_FRAMESKIP){
+                            frameskip_max = OW_PATH_FRAMESKIP;
+                        }
+                break;
+                default:
+                    if(frameskip_max != OW_NORMAL_FRAMESKIP){
+                        frameskip_max = OW_NORMAL_FRAMESKIP;
+                    }
             }
         }
+    }
 }
 
 void UPDATE(){
@@ -165,7 +163,6 @@ void UPDATE(){
     }
     if(sfx_cooldown > 0){sfx_cooldown--;}
     if(hudow_opened == 1u){return;}
-    //new_state = motherow_info->ow_state;    
     if(KEY_PRESSED(J_DOWN)){new_state = WALK_DOWN;}
     else if(KEY_PRESSED(J_UP)){new_state = WALK_UP;}
     else if(KEY_PRESSED(J_LEFT)){new_state = WALK_LEFT;}
@@ -175,12 +172,11 @@ void UPDATE(){
     else if(KEY_RELEASED(J_LEFT)){new_state = IDLE_LEFT;}
     else if(KEY_RELEASED(J_RIGHT)){new_state = IDLE_RIGHT;}  
     
-    //INTERACT WITH SPRITES    
+    //INTERACT WITH SPRITES
         UINT8 mow_a_tile;
         Sprite* imowspr;
         UINT16 prev_x = THIS->x;
         UINT16 prev_y = THIS->y;
-        UINT8 colliding_sprite_ow = 0;
         SPRITEMANAGER_ITERATE(mow_a_tile, imowspr) {
             if(CheckCollision(THIS, imowspr)) {
                 switch(imowspr->type){
@@ -257,11 +253,14 @@ void UPDATE(){
                         }
                     break;
                     case SpriteOwpeople:
-                        if(frameskip == 0u){
-                            colliding_sprite_ow = 1;
-                            THIS->x -= motherow_info->vx;
-                            THIS->y -= motherow_info->vy;
-                        }                    
+                            if(imowspr->x < THIS->x && new_state == WALK_LEFT){
+                                motherow_info->vx = 0;}
+                            if(imowspr->x > THIS->x && new_state == WALK_RIGHT){
+                                motherow_info->vx = 0;}
+                            if(imowspr->y > THIS->y && new_state == WALK_DOWN){
+                                motherow_info->vy = 0;}
+                            if(imowspr->y < THIS->y && new_state == WALK_UP){
+                                motherow_info->vy = 0;}
                     break;
                 }
             }
@@ -269,9 +268,7 @@ void UPDATE(){
     if(motherow_info->ow_state != new_state){ 
         owChangeState(new_state);
     }
-    if(colliding_sprite_ow == 0){
-        update_position_motherow();
-    }
+    update_position_motherow();
     //INTERACT WITH MAP
         if(motherow_info->tile_collision && motherow_info->tile_collision != d_push_sign.collided_tile){
            d_push_sign.collided_tile = motherow_info->tile_collision;
