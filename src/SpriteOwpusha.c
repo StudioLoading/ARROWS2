@@ -28,12 +28,6 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    if(tip_to_show == TIP_CHITCHAT){
-        ow_chitchat_counter++;
-        if(ow_chitchat_counter >= 7){
-            ow_chitchat_counter = 0u;
-        }
-    }
     d_push_sign.collided_tile = 0;
     ow_pusha_hp = 0u;
 }

@@ -60,6 +60,7 @@ UINT8 step_counter = 0u;
 UINT8 teleporting = 0u;
 UINT8 ow_pusha_hp = 0;
 UINT8 ow_chitchat_counter = 0u;
+UINT8 colliding_owpeople = 0u;
 
 void owChangeState(FA2OW_SPRITE_STATES new_state);
 void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
@@ -175,8 +176,6 @@ void UPDATE(){
     //INTERACT WITH SPRITES
         UINT8 mow_a_tile;
         Sprite* imowspr;
-        UINT16 prev_x = THIS->x;
-        UINT16 prev_y = THIS->y;
         SPRITEMANAGER_ITERATE(mow_a_tile, imowspr) {
             if(CheckCollision(THIS, imowspr)) {
                 switch(imowspr->type){
@@ -253,6 +252,9 @@ void UPDATE(){
                         }
                     break;
                     case SpriteOwpeople:
+                            if(show_tip == 0u && showed_tip == 0u){
+                                colliding_owpeople = 1u;
+                            }
                             if(imowspr->x < THIS->x && new_state == WALK_LEFT){
                                 motherow_info->vx = 0;}
                             if(imowspr->x > THIS->x && new_state == WALK_RIGHT){
@@ -274,8 +276,12 @@ void UPDATE(){
            d_push_sign.collided_tile = motherow_info->tile_collision;
            tip_to_show = ow_show_pusha_sign();
         }
-        if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
-            ow_tips(tip_to_show);            
+        if(colliding_owpeople && tip_to_show == 0){
+            tip_to_show = TIP_CHITCHAT;
+            colliding_owpeople = 0; 
+        }
+        if((ow_pusha_hp || colliding_owpeople) && (KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP))){
+             ow_tips(tip_to_show);            
         }
     //CHECK COLLIDED PLACE
         ow_check_place();
@@ -543,6 +549,10 @@ UINT8 ow_manage_chitchat() BANKED{
                     case 6u:tip_to_show = TIP_CHITCHAT_HIDDEN_11;trigger_tip = 1u;break;
                 }
             break;
+        }
+        ow_chitchat_counter++;
+        if(ow_chitchat_counter >= 7){
+            ow_chitchat_counter = 0u;
         }
     }
     return trigger_tip;              

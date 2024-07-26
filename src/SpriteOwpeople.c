@@ -22,6 +22,8 @@ const UINT8 a_yellow_d_walk[] = {4,5,4,5,3}; //The first number indicates the nu
 
 INT8 owpeople_checkmotherowcoll() BANKED;
 
+extern UINT8 colliding_owpeople;
+
 void START(){
     SetSpriteAnim(THIS, a_owpeople_hidden, 8u);
 	THIS->lim_x = 6500u;
@@ -31,54 +33,58 @@ void START(){
     owpeople_data->wait = 80u;
     owpeople_data->type = OWTYPE_UNCONFIGURED;
     owpeople_data->x_frameskip = 1;
-    owpeople_data->ow_state = ENEMY_WAIT;
+    owpeople_data->ow_state = ENEMY_IDLE;
+    owpeople_data->max_wait = 80u;
 }
 
 void UPDATE(){
     INT8 collided_with_motherow = owpeople_checkmotherowcoll();
     struct OwPeopleData* owpeople_data = (struct OwPeopleData*)THIS->custom_data;
-    owpeople_data->wait--;
+    if(owpeople_data->x_frameskip == 0){
+        owpeople_data->wait--;
+        owpeople_data->x_frameskip++;
+    }else{owpeople_data->x_frameskip--;}
     switch(owpeople_data->type){
         case OWTYPE_UNCONFIGURED:
             return;
         break;
         case OWTYPE_BLUETUNIC_STAND:
             switch(owpeople_data->ow_state){
-                case ENEMY_WAIT:
-                    SetSpriteAnim(THIS, a_bluetunicstand_idle, 8u);
-                    owpeople_data->ow_state = ENEMY_IDLE;
-                break;
                 case ENEMY_IDLE:
+                    SetSpriteAnim(THIS, a_bluetunicstand_idle, 8u);
+                    owpeople_data->ow_state = ENEMY_WAIT;
+                break;
+                case ENEMY_WAIT:
                     //DO NOTHING
                 break;
             }
         break;
         case OWTYPE_KNIGHT_STAND:
             switch(owpeople_data->ow_state){
-                case ENEMY_WAIT:
-                    SetSpriteAnim(THIS, a_knight_stand_idle, 8u);
-                    owpeople_data->ow_state = ENEMY_IDLE;
-                break;
                 case ENEMY_IDLE:
+                    SetSpriteAnim(THIS, a_knight_stand_idle, 8u);
+                    owpeople_data->ow_state = ENEMY_WAIT;
+                break;
+                case ENEMY_WAIT:
                     //DO NOTHING
                 break;
             }
         break;
 	    case OWTYPE_KNIGHT_HORIZONTAL:
             switch(owpeople_data->ow_state){
-                case ENEMY_WAIT:
+                case ENEMY_IDLE:
                     SetSpriteAnim(THIS, a_knight_stand_idle, 8u);
-                    owpeople_data->ow_state = ENEMY_IDLE;
+                    owpeople_data->ow_state = ENEMY_WAIT;
                     owpeople_data->vx = 1;
                 break;
-                case ENEMY_IDLE:
+                case ENEMY_WAIT:
                     if(owpeople_data->wait == 0u){
                         SetSpriteAnim(THIS, a_knight_h_walk, 8u);
                         owpeople_data->vx = -owpeople_data->vx;
                         THIS->mirror = NO_MIRROR;
                         if(owpeople_data->vx < 0){THIS->mirror = V_MIRROR;}
-                         owpeople_data->wait = 200u;//TODO potrebbe cambiare
-                         owpeople_data->ow_state = ENEMY_WALK;
+                        owpeople_data->wait = owpeople_data->max_wait;
+                        owpeople_data->ow_state = ENEMY_WALK;
                     }
                 break;
                 case ENEMY_WALK:
@@ -87,35 +93,35 @@ void UPDATE(){
                         UINT8 t_coll = TranslateSprite(THIS, owpeople_data->vx << delta_time, 0);
                         if(t_coll){
                             SetSpriteAnim(THIS, a_knight_stand_idle, 8u);   
-                            owpeople_data->ow_state = ENEMY_IDLE;
+                            owpeople_data->ow_state = ENEMY_WAIT;
                             owpeople_data->wait = 8u;
                         }
                         owpeople_data->x_frameskip = 3;//TODO potrebbe cambiare
-                    }else{owpeople_data->x_frameskip--;}
+                    }
                     if(owpeople_data->wait == 0){
                         SetSpriteAnim(THIS, a_knight_stand_idle, 8u);
-                        owpeople_data->ow_state = ENEMY_IDLE;
+                        owpeople_data->ow_state = ENEMY_WAIT;
                         owpeople_data->wait = 255u;
                     }
                 break;
             }
         break;
-        case OWTYPE_YELLOW_VERTICAL:
+        case OWTYPE_RED_VERTICAL:
             switch(owpeople_data->ow_state){
-                case ENEMY_WAIT:
+                case ENEMY_IDLE:
                     SetSpriteAnim(THIS, a_yellow_d_idle, 8u);
-                    owpeople_data->ow_state = ENEMY_IDLE;
+                    owpeople_data->ow_state = ENEMY_WAIT;
                     owpeople_data->vy = 1;
                 break;
-                case ENEMY_IDLE:
+                case ENEMY_WAIT:
                     if(owpeople_data->wait == 0u){
                         SetSpriteAnim(THIS, a_yellow_d_walk, 8u);
                         owpeople_data->vy = -owpeople_data->vy;
                         if(owpeople_data->vy < 0){
                             SetSpriteAnim(THIS, a_yellow_u_walk, 8u);
                         }
-                         owpeople_data->wait = 120u;//TODO potrebbe cambiare
-                         owpeople_data->ow_state = ENEMY_WALK;
+                        owpeople_data->wait = owpeople_data->max_wait;
+                        owpeople_data->ow_state = ENEMY_WALK;
                     }
                 break;
                 case ENEMY_WALK:
@@ -124,14 +130,14 @@ void UPDATE(){
                         UINT8 v_coll = TranslateSprite(THIS, 0, owpeople_data->vy << delta_time);
                         if(v_coll){
                             SetSpriteAnim(THIS, a_yellow_d_idle, 8u);
-                            owpeople_data->ow_state = ENEMY_IDLE;
+                            owpeople_data->ow_state = ENEMY_WAIT;
                             owpeople_data->wait = 8u;
                         }
                         owpeople_data->x_frameskip = 3;//TODO potrebbe cambiare
-                    }else{owpeople_data->x_frameskip--;}
+                    }
                     if(owpeople_data->wait == 0){
                         SetSpriteAnim(THIS, a_yellow_d_idle, 8u);
-                        owpeople_data->ow_state = ENEMY_IDLE;
+                        owpeople_data->ow_state = ENEMY_WAIT;
                         owpeople_data->wait = 255u;
                     }
                 break;
@@ -152,6 +158,7 @@ INT8 owpeople_checkmotherowcoll() BANKED{
                 case SpriteMotherow:
                     owpeople_data->wait++;
                     colliding = 1u;
+                    colliding_owpeople = 1;
                 break;
             }
         }

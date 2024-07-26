@@ -89,8 +89,9 @@ PRODUCTION:
 GENERAZIONE QR CODE DA POWERSHELL
 New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-URL-QR.PNG'
-New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'
-New-QRCodeURI -URI 'https://www.facebook.com/groups/108429265854805' -Width 8 -OutPath 'C:\Users\checc\M5S\CAMPAGNA ELETTORALE\QR-FB.PNG'
+New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'
+New-QRCodeURI -URI 'https://bolognanerd.it/corsi/' -Width 16 -OutPath 'C:\Users\checc\BN\QR-CORSI.PNG'
+New-QRCodeURI -URI 'https://www.youtube.com/@bolognanerd/streams' -Width 16 -OutPath 'C:\Users\checc\BN\QR-YT.PNG'
 Link alla videochiamata: https://meet.google.com/bth-sgjr-ohd
 
 ZGB HACKS:
