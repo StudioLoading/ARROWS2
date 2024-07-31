@@ -12,6 +12,7 @@
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
+#include "DialogTips.h"
 
 IMPORT_TILES(font);
 IMPORT_TILES(tilesowsouthwest);
@@ -30,7 +31,7 @@ extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-62, 63, 64, 65, 66, 67, 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
+62, 63, 64, 65, 66, 67, 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83,
 84, 85, 86, 87, 88, 90, 91, 95, 96, 112, 113, 114, 115, 116, 117, 118, 119, 120,
 121, 122, 123, 124, 125, 126, 127, 193, 140, 141, 142, 140, 148, 149, 
 150, 151, 152, 153, 154, 155, 156, 157, 159, 160, 161, 162, 
@@ -38,7 +39,7 @@ const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32,
 0};
 const UINT8 collision_tiles_maze[] = {1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15,
 18, 19, 20, 0};
-UINT8 current_map = 0u;//0=south-west, 1=north-west, 2=labyrinth, 3=south-east, 4=east
+UINT8 current_map = MAP_SOUTHWEST;//0=south-west, 1=north-west, 2=labyrinth, 3=south-east, 4=east
 UINT8 hudow_opened = 0;
 UINT8 show_tip = 0u;
 INT8 show_tip_movingscroll = 0u;
@@ -79,7 +80,7 @@ extern struct EnemyData* blackieow_data;
 extern MOTHERPL_STATE motherpl_state;
 extern WHOSTALKING whostalking;
 extern UINT8 child_hooked;
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern UINT8 previous_state;
 extern FA2OW_SPRITE_STATES new_state;
 extern UINT8 just_started;
@@ -92,6 +93,8 @@ void UnpauseGameOW();
 void UpdateHUDOW();
 void DrawHUD(HUD_OPTION opt);
 void ShowTipOW() BANKED;
+void initial_ow_npc() BANKED;
+void initial_ow_items() BANKED;
 void initial_sprite_spawning() BANKED;
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED;
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
@@ -113,38 +116,38 @@ void START(){
     //INIT GRAPHICS
 		show_tip = 0u;
 		switch (current_map){
-			case 0://south-west
+			case MAP_SOUTHWEST://south-west
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
 			break;
-			case 1://north-west
+			case MAP_NORTHWEST://north-west
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_UP;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(ownorthwest), &ownorthwest, collision_tiles_ow_sw, 0);				
 				//SpriteManagerAdd(SpriteArmor, (UINT16) 14u << 3, (UINT16) 40u << 3);
 			break;
-			case 2://labyrinth
+			case MAP_MAZE://labyrinth
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owmaze), &owmaze, collision_tiles_maze, 0);				
 			break;
-			case 3://south-east
+			case MAP_SOUTHEAST://south-east
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsoutheast), &owsoutheast, collision_tiles_ow_sw, 0);
 			break;
-			case 4://east
+			case MAP_EAST://east
 				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(oweast), &oweast, collision_tiles_ow_sw, 0);
 			break;
 		}
-		delay_spawning = 80u;
+		delay_spawning = 40u;
 	//CUTSCENES
 		if(help_cemetery_woman.current_step == 4u){
 			//non capisco perché child_hooked è a zero anche quando ho portato bene
@@ -160,29 +163,29 @@ void START(){
 	hudow_opened = 0;
 	//LIMITS
 		switch(current_map){
-			case 0://SOUTH WEST
+			case MAP_SOUTHWEST://SOUTH WEST
 				lim_up_y = ((UINT16) 9u << 3);
 				lim_east_x = ((UINT16) 46u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 				lim_down_y = ((UINT16) 200u << 3);
 			break;
-			case 1://NORTH WEST
+			case MAP_NORTHWEST://NORTH WEST
 				lim_up_y = ((UINT16) 200u << 3);
 				lim_down_y = ((UINT16) 48u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 				lim_east_x = ((UINT16) 79u << 3);
 			break;
-			case 2://MAZE
+			case MAP_MAZE://MAZE
 				lim_up_y = ((UINT16) 200u << 3);
 				lim_down_y = ((UINT16) 37u << 3);
 				lim_west_x = ((UINT16) 2u << 3);
 			break;
-			case 3://SOUTH EAST
+			case MAP_SOUTHEAST://SOUTH EAST
 				lim_up_y = ((UINT16) 4u << 3);
 				lim_down_y = ((UINT16) 50u << 3);
 				lim_west_x = ((UINT16) 3u << 3);
 			break;
-			case 4://EAST
+			case MAP_EAST://EAST
 				lim_up_y = ((UINT16) 6u << 3);
 				lim_down_y = ((UINT16) 56u << 3);
 				lim_west_x = ((UINT16) 6u << 3);
@@ -297,18 +300,92 @@ void maze_teleport() BANKED{
 	struct TeleportInfo* teleport81_data = (struct TeleportInfo*) s_teleport81->custom_data;
 	teleport81_data->dest_x = (UINT16) 18u << 3;
 	teleport81_data->dest_y = (UINT16) 3u << 3;
+}
 
+void initial_ow_npc() BANKED{
+	switch(current_map){
+		case MAP_SOUTHWEST:
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 30u << 3), ((UINT16) 15 << 3), 50u, 16u, 0, 1);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 39u << 3), ((UINT16) 32u << 3), 80u, 30u, -1,0);
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 25u << 3), ((UINT16) 31u << 3), 100u, 20u, 0,0);					
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 22u << 3), ((UINT16) 45u << 3)+1, 100u, 20u, -1,0);
+		break;
+		case MAP_NORTHWEST://northwest
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 19u << 3), ((UINT16) 39u << 3), 100u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 21u << 3)-3, ((UINT16) 39u << 3), 100u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 44u << 3), ((UINT16) 40u << 3)+1, 80u, 30u, 0,0);
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 17u << 3) - 3u, ((UINT16) 33 << 3), 60u, 8u, 0, 1);
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 65u << 3), ((UINT16) 11 << 3), 40u, 8u, 0, 1);
+			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 53u << 3)+1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
+			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3)-1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
+		break;
+		case MAP_SOUTHEAST:
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 27u << 3), ((UINT16) 19 << 3), 80u, 16u, 0, 1);
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 23u << 3), ((UINT16) 21 << 3), 40u, 16u, 0, 1);
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 17u << 3), ((UINT16) 20u << 3), 100u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 25u << 3), ((UINT16) 33u << 3)+1, 80u, 30u, -1,0);
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 30u << 3), ((UINT16) 14u << 3), 100u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL,((UINT16) 15u << 3), ((UINT16) 23 << 3), 80u, 16u, 1, 0);
+		break;
+		case MAP_EAST:
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 49u << 3), ((UINT16) 28u << 3), 100u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 40u << 3), ((UINT16) 34u << 3), 90u, 30u, -1,0);
+			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 53u << 3), ((UINT16) 21 << 3), 100u, 16u, 0, 1);
+			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 31u << 3)+4, ((UINT16) 20u << 3), 60u, 20u, 0,0);
+			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 54u << 3), ((UINT16) 15u << 3), 120u, 30u, -1,0);
+			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 44u << 3), ((UINT16) 22u << 3), 100u, 30u, 0,0);
+
+		break;
+	}
+}
+
+void initial_ow_items() BANKED{
+	UINT8 multiply = chapter+1;
+	switch(current_map){
+		case MAP_SOUTHWEST:
+			//di fronte al cimitero
+			spawn_hidden_item(INVITEM_ARROW_PERFO, 5 * multiply, 38u, 29u, 0b00000001);
+			//a destra dell'ospedale
+			spawn_hidden_item(INVITEM_ARROW_NORMAL, 10 * multiply, 40u, 13u,0b00000010);
+			//a sud
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 24u, 45u, 0b00000100);
+		break;
+		case MAP_NORTHWEST:
+			//spiaggia, in basso a sinistra
+			spawn_hidden_item(INVITEM_ARROW_PERFO, 10 * multiply, 4u, 14u, 0b00000001);
+			//spiaggia, dietro prima casa
+			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 59u, 7u, 0b00000010);
+			//per terra, prima del hood a sinistra
+			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b00000100);
+		break;
+		case MAP_SOUTHEAST:
+			//in basso, fra i due alberi
+			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 23u, 49u, 0b00000001);
+			//dietro al carpentiere
+			spawn_hidden_item(INVITEM_METAL, 10 * multiply, 20u, 14u, 0b00000010);
+			//nei massi a nord
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 19u, 6u, 0b00000100);
+		break;
+		case MAP_EAST:
+			//spiaggia, in basso a destra
+			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 54u, 15u, 0b00000001);
+			//angolo in basso a destra calpestabile
+			spawn_hidden_item(INVITEM_METAL, 3 * multiply, 53u, 42u, 0b00000010);
+			//a sud, nel corridoio verso la caverna
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 47u, 46u, 0b00000100);
+		break;
+	}
 }
 
 void initial_sprite_spawning() BANKED{
-	if(current_map == 2){maze_teleport();}
-	if(current_map == 3){
+	if(current_map == MAP_MAZE){maze_teleport();}
+	if(current_map == MAP_SOUTHEAST){
 		SpriteManagerAdd(SpriteOwfisherman, ((UINT16) 35u << 3) + 3u, ((UINT16) 7u << 3));
 	}
 	switch(chapter){
-		case 0:
+		case CHAPTER_0_BLACKIE:
 			switch(current_map){
-				case 0:
+				case MAP_SOUTHWEST:
 					if(find_blackie.current_step > 2 && find_blackie.current_step < 5u){
 						Sprite* s_blackieow = SpriteManagerAdd(SpriteBlackieow, motherow_pos_x + 12u, motherow_pos_y - 8u);
 						s_blackieow->mirror = V_MIRROR;
@@ -321,24 +398,14 @@ void initial_sprite_spawning() BANKED{
 							enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
 						}
 					}
-					//di fronte al cimitero
-					spawn_hidden_item(INVITEM_ARROW_PERFO, 5, 38u, 29u, 0b00000001);
-					//a destra dell'ospedale
-					spawn_hidden_item(INVITEM_ARROW_NORMAL, 10, 40u, 13u,0b00000010);
-					//a sud
-					spawn_hidden_item(INVITEM_WOOD, 10, 24u, 45u, 0b00000100);
 				break;
 			}
 		break;
-		case 1:
+		case CHAPTER_1_BANDITS:
 			switch(current_map){
-				case 1:
-					spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 19u << 3), ((UINT16) 39u << 3), 100u, 20u, 0,0);
-					spawn_ow_npc(OWTYPE_KNIGHT_HORIZONTAL, ((UINT16) 19u << 3), ((UINT16) 41u << 3), 160u, 30u, 0,0);
-					spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 17u << 3) - 3u, ((UINT16) 33 << 3), 160u, 80u, 0,0);
-					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 52u << 3) + 4u, ((UINT16) 29u << 3), 100u, 30u, 0,0);
-					spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3) - 4u, ((UINT16) 29u << 3), 100u, 30u, 0,0);
-					spawn_hidden_item(INVITEM_ARROW_PERFO, 10, 4u, 14u, 0b00000001);
+				case MAP_SOUTHWEST://southwest
+				break;
+				case MAP_NORTHWEST://northwest
 					Sprite* s_crabow = 0;
 					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
 						&& outwalker_glass.current_step < 3){
@@ -353,7 +420,7 @@ void initial_sprite_spawning() BANKED{
 						crabow_data->configured = 2;
 					}
 				break;
-				case 2://maze
+				case MAP_MAZE://maze
 					//configuring teleporting
 					spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u, 0b00000010);
 					//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
@@ -361,9 +428,9 @@ void initial_sprite_spawning() BANKED{
 				break;
 			}
 		break;
-		case 2:
+		case CHAPTER_2_PLAGUE:
 			switch(current_map){
-				case 0:
+				case MAP_SOUTHWEST:
 					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
 						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
 						&& defeat_scorpions.phase == 0u){
@@ -410,7 +477,7 @@ void initial_sprite_spawning() BANKED{
 						}
 					}
 				break;
-				case 1:
+				case MAP_NORTHWEST:
 					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
 						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
 						&& defeat_scorpions.phase == 0u){
@@ -446,7 +513,7 @@ void initial_sprite_spawning() BANKED{
 						}
 					}
 				break;
-				case 3:
+				case MAP_SOUTHEAST:
 					if(defeat_scorpions.mission_state >= MISSION_STATE_STARTED
 						&& defeat_scorpions.mission_state < MISSION_STATE_ACCOMPLISHED
 						&& defeat_scorpions.phase == 1u){
@@ -514,9 +581,11 @@ void initial_sprite_spawning() BANKED{
 				break;
 			}
 		break;
-		case 3:
+		case CHAPTER_3_ARMOUR:
 			switch(current_map){
-				case 3:
+				case MAP_SOUTHWEST:
+				break;
+				case MAP_SOUTHEAST:
 					if(hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
 						//gators
 						Sprite* gator0 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3));
@@ -576,7 +645,7 @@ void spawn_step(UINT16 stepx, UINT16 stepy) BANKED{
 
 void UPDATE(){
 	//ANIMATION
-		if(current_map != 2){// 2 means labyrinth
+		if(current_map != MAP_MAZE){// 2 means labyrinth
 			anim_counter++;
 			switch(anim_counter){//see animation
 				case 24u:
@@ -616,8 +685,36 @@ void UPDATE(){
 				break;
 				case 180u:
 					Anim_Ow_0();
-					anim_counter = 0u;
 				break;
+			}
+			switch(anim_counter){//flag
+				case 1u:
+				case 45u:
+				case 90u:
+				case 135u:
+					Anim_Ow_flag_1();
+				break;
+				case 10u:
+				case 55u:
+				case 100u:
+				case 145u:
+					Anim_Ow_flag_2();
+				break;
+				case 20:
+				case 65:
+				case 110:
+				case 155u:
+					Anim_Ow_flag_3();
+				break;
+				case 30u:
+				case 75u:
+				case 120u:
+				case 165u:
+					Anim_Ow_flag_0();
+				break;
+			}
+			if(anim_counter >= 180u){
+				anim_counter = 0u;
 			}
 		}
 	//MAP LIMITS
@@ -627,9 +724,9 @@ void UPDATE(){
 		//il testo rimane sullo schermo
 			UINT8 alt = 0u;
 			switch(chapter){
-				case 0:
+				case CHAPTER_0_BLACKIE:
 					switch(current_map){
-						case 0:
+						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){
 								s_motherow->y = lim_up_y + 6u;
 								alt = 1;
@@ -641,9 +738,9 @@ void UPDATE(){
 						break;
 					}
 				break;
-				case 1:
+				case CHAPTER_1_BANDITS:
 					switch(current_map){
-						case 0:
+						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
 								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
 									ChangeState(StateHood, s_motherow, -1);
@@ -657,7 +754,7 @@ void UPDATE(){
 								alt = 1;
 							}
 						break;
-						case 1:						
+						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
@@ -665,7 +762,7 @@ void UPDATE(){
 								alt = 1;
 							}
 						break;
-						case 2:
+						case MAP_MAZE:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 1);
 							}
@@ -683,9 +780,9 @@ void UPDATE(){
 						break;
 					}
 				break;
-				case 2:
+				case CHAPTER_2_PLAGUE:
 					switch(current_map){
-						case 0:
+						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
 								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
 									ChangeState(StateHood, s_motherow, -1);
@@ -703,7 +800,7 @@ void UPDATE(){
 								}
 							}
 						break;
-						case 1:						
+						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
@@ -711,7 +808,7 @@ void UPDATE(){
 								alt = 1;
 							}
 						break;
-						case 2:
+						case MAP_MAZE:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 1);
 							}
@@ -727,15 +824,15 @@ void UPDATE(){
 								ChangeState(StateExzoo, s_motherow, -1);
 							}
 						break;
-						case 3:
+						case MAP_SOUTHEAST:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 0);
 							}
 					}
 				break;
-				case 3:				
+				case CHAPTER_3_ARMOUR:				
 					switch(current_map){
-						case 0:
+						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
 								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
 									ChangeState(StateHood, s_motherow, -1);
@@ -748,7 +845,7 @@ void UPDATE(){
 								ChangeState(StateOverworld, s_motherow, 3);
 							}
 						break;
-						case 1:						
+						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
@@ -756,7 +853,7 @@ void UPDATE(){
 								alt = 1;
 							}
 						break;
-						case 2:
+						case MAP_MAZE:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 1);
 							}
@@ -766,7 +863,7 @@ void UPDATE(){
 								ChangeState(StateExzoo, s_motherow, -1);
 							}
 						break;
-						case 3:
+						case MAP_SOUTHEAST:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 0);
 							}
@@ -787,6 +884,11 @@ void UPDATE(){
 		if(delay_spawning > 0){
 			delay_spawning--;
 			if(delay_spawning == 0){
+				if(chapter != CHAPTER_2_PLAGUE || (chapter == CHAPTER_2_PLAGUE && 
+					defeat_scorpions.mission_state >= MISSION_STATE_ACCOMPLISHED)){
+					initial_ow_npc();
+				}
+				initial_ow_items();
 				initial_sprite_spawning();
 			}
 		}
@@ -915,19 +1017,3 @@ void DrawHUD(HUD_OPTION opt){
 			break;
 		}
 }
-/*
-void PauseGameOW(){
-	//TODO metti scroll_target in idle
-	print_target = PRINT_WIN;
-	SHOW_WIN;
-	DrawHUD(owhudopt);
-	GetLocalizedLabel_EN(DIARIO_MISSIONI, d1);
-	PRINT(2, 1, d1);
-	GetLocalizedLabel_EN(OPZIONI_PARTITA, d2);
-	PRINT(2, 3, d2);
-}
-
-void UnpauseGameOW(){
-	HIDE_WIN;
-}
-*/

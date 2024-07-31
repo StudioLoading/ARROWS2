@@ -1,13 +1,11 @@
 POST DEMO:
-- motherow: chibi
 - mappa overworld: 
-	- case e sistema suggerimenti per capitolo
-	- persone che camminano in giro
 	- bandiere
 	- nuvole grandi-grandi che passano nel cielo?
 - mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
 - dialog map per il caprone
-
+- spostare void initial_sprite_spawning() BANKED{ da StateOverworld a esterno?
+	sono 200 righe
 
 - i nuovi audio di andrew!
 - audio dei projectile?

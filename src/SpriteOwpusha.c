@@ -10,7 +10,6 @@
 const UINT8 a_owpusha[] = {2,0,1}; //The first number indicates the number of frames
 extern UINT8 ow_pusha_hp;
 extern struct PushASignData d_push_sign;
-extern TIP_TO_BE_LOCALIZED tip_to_show;
 extern UINT8 ow_chitchat_counter;
 
 void START(){

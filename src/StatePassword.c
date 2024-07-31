@@ -20,7 +20,7 @@ extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
 extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern UINT8 just_started;
 extern UINT8 generic_counter;
 extern INT8 sfx_cooldown;
@@ -124,23 +124,23 @@ void START(){
             pcode2_info->tetradado_state = PASSWORD;
             pcode3_info->tetradado_state = PASSWORD;
             switch(chapter){
-                case 1:
-                    pcode0_info->tetradado_faccia = FACCIA_4;
-                    pcode1_info->tetradado_faccia = FACCIA_1;
-                    pcode2_info->tetradado_faccia = FACCIA_4;
-                    pcode3_info->tetradado_faccia = FACCIA_1;
+                case CHAPTER_1_BANDITS:
+                    pcode0_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode1_info->tetradado_faccia = FACCIA_UP;
+                    pcode2_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode3_info->tetradado_faccia = FACCIA_UP;
                 break;
-                case 2:
-                    pcode0_info->tetradado_faccia = FACCIA_4;
-                    pcode1_info->tetradado_faccia = FACCIA_2;
-                    pcode2_info->tetradado_faccia = FACCIA_4;
-                    pcode3_info->tetradado_faccia = FACCIA_3;
+                case CHAPTER_2_PLAGUE:
+                    pcode0_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode1_info->tetradado_faccia = FACCIA_BLAIR;
+                    pcode2_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode3_info->tetradado_faccia = FACCIA_ARROWS;
                 break;
-                case 3:
-                    pcode0_info->tetradado_faccia = FACCIA_1;
-                    pcode1_info->tetradado_faccia = FACCIA_2;
-                    pcode2_info->tetradado_faccia = FACCIA_4;
-                    pcode3_info->tetradado_faccia = FACCIA_1;
+                case CHAPTER_3_ARMOUR:
+                    pcode0_info->tetradado_faccia = FACCIA_UP;
+                    pcode1_info->tetradado_faccia = FACCIA_BLAIR;
+                    pcode2_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode3_info->tetradado_faccia = FACCIA_UP;
                 break;
             }
         }
@@ -190,20 +190,20 @@ void load_chapter() BANKED{
     }
     position_init();
     switch(chapter){
-        case 0:
+        case CHAPTER_0_BLACKIE:
             previous_state = StateOverworld;
             whostalking = INTRO;
             ChangeStateThroughBetween(StateDialog);
         break;
-        case 1:
+        case CHAPTER_1_BANDITS:
             just_started = 0;
             ChangeStateThroughBetween(StateOverworld);
         break;
-        case 2:
+        case CHAPTER_2_PLAGUE:
             just_started = 0;
             ChangeStateThroughBetween(StateCart);
         break;
-        case 3:
+        case CHAPTER_3_ARMOUR:
             just_started = 0;
             ChangeStateThroughBetween(StateOverworld);
         break;
@@ -247,25 +247,25 @@ void update_pcode_face(struct TetradadoInfo* pcode_data, INT8 move) BANKED{
         return;
     }else if(pcode_data->tetradado_state != PASSWORD){
         pcode_data->tetradado_state = PASSWORD;
-        if(move == 1){ pcode_data->tetradado_faccia = FACCIA_1; }
-        else if(move == -1){ pcode_data->tetradado_faccia = FACCIA_4; }
+        if(move == 1){ pcode_data->tetradado_faccia = FACCIA_UP; }
+        else if(move == -1){ pcode_data->tetradado_faccia = FACCIA_SHIELD; }
     }else{
         switch(pcode_data->tetradado_faccia){
-            case FACCIA_1:
-                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_2;}
-                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_4;}
+            case FACCIA_UP:
+                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_BLAIR;}
+                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_SHIELD;}
             break; 
-            case FACCIA_2:
-                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_3;}
-                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_1;}
+            case FACCIA_BLAIR:
+                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_ARROWS;}
+                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_UP;}
             break; 
-            case FACCIA_3:
-                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_4;}
-                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_2;}
+            case FACCIA_ARROWS:
+                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_SHIELD;}
+                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_BLAIR;}
             break; 
-            case FACCIA_4:
-                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_1;}
-                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_3;}
+            case FACCIA_SHIELD:
+                    if(move == 1){pcode_data->tetradado_faccia = FACCIA_UP;}
+                    else if(move == -1){pcode_data->tetradado_faccia = FACCIA_ARROWS;}
             break; 
         }
     }
@@ -294,24 +294,24 @@ INT8 check_password() BANKED{
         pcode3_info->tetradado_state == PASSWORD){
             //then check combinations
             //cpt2
-                if(pcode0_info->tetradado_faccia == FACCIA_4 &&
-                pcode1_info->tetradado_faccia == FACCIA_1 &&
-                pcode2_info->tetradado_faccia == FACCIA_4 &&
-                pcode3_info->tetradado_faccia == FACCIA_1){
+                if(pcode0_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode1_info->tetradado_faccia == FACCIA_UP &&
+                pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode3_info->tetradado_faccia == FACCIA_UP){
                     result = 1;
                 }
             //cpt3
-                if(pcode0_info->tetradado_faccia == FACCIA_4 &&
-                pcode1_info->tetradado_faccia == FACCIA_2 &&
-                pcode2_info->tetradado_faccia == FACCIA_4 &&
-                pcode3_info->tetradado_faccia == FACCIA_3){
+                if(pcode0_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode1_info->tetradado_faccia == FACCIA_BLAIR &&
+                pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode3_info->tetradado_faccia == FACCIA_ARROWS){
                     result = 2;
                 }
             //cpt4
-                if(pcode0_info->tetradado_faccia == FACCIA_1 &&
-                pcode1_info->tetradado_faccia == FACCIA_2 &&
-                pcode2_info->tetradado_faccia == FACCIA_4 &&
-                pcode3_info->tetradado_faccia == FACCIA_1){
+                if(pcode0_info->tetradado_faccia == FACCIA_UP &&
+                pcode1_info->tetradado_faccia == FACCIA_BLAIR &&
+                pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode3_info->tetradado_faccia == FACCIA_UP){
                     result = 3;
                 }
         }

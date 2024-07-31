@@ -90,23 +90,23 @@ void UPDATE(){
                     case 1u:
                     case 2u:
                     case 3u:
-                        dado_info->tetradado_faccia = FACCIA_1;
+                        dado_info->tetradado_faccia = FACCIA_UP;
                         SetSpriteAnim(THIS, dado_faccia1, 4u);
                     break;
                     case 4u:
                     case 5u:
-                        dado_info->tetradado_faccia =  FACCIA_2;
+                        dado_info->tetradado_faccia =  FACCIA_BLAIR;
                         SetSpriteAnim(THIS, dado_faccia2, 4u);
                     break;
                     case 6u:
                     case 7u:
                     case 8u:
-                        dado_info->tetradado_faccia =  FACCIA_3;
+                        dado_info->tetradado_faccia =  FACCIA_ARROWS;
                         SetSpriteAnim(THIS, dado_faccia3, 4u);
                     break;
                     case 9u:
                     case 0u:
-                        dado_info->tetradado_faccia =  FACCIA_4;
+                        dado_info->tetradado_faccia =  FACCIA_SHIELD;
                         SetSpriteAnim(THIS, dado_faccia4, 4u);
                     break;
                 }
@@ -121,32 +121,32 @@ void UPDATE(){
         break;
         case DADO_SELECTED_PLAYER:
             switch(dado_info->tetradado_faccia){
-                case FACCIA_1:
+                case FACCIA_UP:
                     SetSpriteAnim(THIS, dado_faccia1_selected, 4u);
                 break;
-                case FACCIA_2:
+                case FACCIA_BLAIR:
                     SetSpriteAnim(THIS, dado_faccia2_selected, 4u);
                 break;
-                case FACCIA_3:
+                case FACCIA_ARROWS:
                     SetSpriteAnim(THIS, dado_faccia3_selected, 4u);
                 break;
-                case FACCIA_4:
+                case FACCIA_SHIELD:
                     SetSpriteAnim(THIS, dado_faccia4_selected, 4u);
                 break;
             }
         break;
         case DADO_SELECTED_ENEMY:
             switch(dado_info->tetradado_faccia){
-                case FACCIA_1:
+                case FACCIA_UP:
                     SetSpriteAnim(THIS, dado_faccia1_selected, 4u);
                 break;
-                case FACCIA_2:
+                case FACCIA_BLAIR:
                     SetSpriteAnim(THIS, dado_faccia2_selected, 4u);
                 break;
-                case FACCIA_3:
+                case FACCIA_ARROWS:
                     SetSpriteAnim(THIS, dado_faccia3_selected, 4u);
                 break;
-                case FACCIA_4:
+                case FACCIA_SHIELD:
                     SetSpriteAnim(THIS, dado_faccia4_selected, 4u);
                 break;
             }
@@ -154,16 +154,16 @@ void UPDATE(){
         case PASSWORD:
             {
             switch(dado_info->tetradado_faccia){
-                case FACCIA_1:
+                case FACCIA_UP:
                     SetSpriteAnim(THIS, dado_faccia1, 4u);
                 break; 
-                case FACCIA_2:
+                case FACCIA_BLAIR:
                     SetSpriteAnim(THIS, dado_faccia2, 4u);
                 break; 
-                case FACCIA_3:
+                case FACCIA_ARROWS:
                     SetSpriteAnim(THIS, dado_faccia3, 4u);
                 break; 
-                case FACCIA_4:
+                case FACCIA_SHIELD:
                     SetSpriteAnim(THIS, dado_faccia4, 4u);
                 break; 
             }

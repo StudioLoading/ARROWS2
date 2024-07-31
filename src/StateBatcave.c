@@ -43,7 +43,6 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
-extern INT8 current_map;
 extern UINT8 enemy_wave;
 extern UINT8 child_hooked;
 extern MOTHERPL_STATE motherpl_state;

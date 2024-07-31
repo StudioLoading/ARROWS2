@@ -135,20 +135,32 @@ void Anim_Ow_0() BANKED{
 	set_banked_bkg_data(103u, 5u, &owsouthwesttiles, BANK(owsouthwesttiles));//water
 	set_banked_bkg_data(105u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//updown arrows
 	set_banked_bkg_data(132u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//leftright arrows
+	set_banked_bkg_data(3u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
+	set_banked_bkg_data(40u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
+	set_banked_bkg_data(82u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
 }
 void Anim_Ow_1() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim1, BANK(owswanim1));//grass
 	set_banked_bkg_data(103u, 2u, &owswanim1, BANK(owswanim1));//water
+	set_banked_bkg_data(3u, 2u, &owswanim1, BANK(owswanim1));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim1, BANK(owswanim1));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim1, BANK(owswanim1));//flag
 }
 void Anim_Ow_2() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim2, BANK(owswanim2));//grass
 	set_banked_bkg_data(103u, 2u, &owswanim2, BANK(owswanim2));//water
+	set_banked_bkg_data(3u, 2u, &owswanim2, BANK(owswanim2));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim2, BANK(owswanim2));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim2, BANK(owswanim2));//flag
 }
 void Anim_Ow_3() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim3, BANK(owswanim3));//grass
 	set_banked_bkg_data(103u, 2u, &owswanim3, BANK(owswanim3));//water
 	set_banked_bkg_data(105u, 2u, &owswanim3, BANK(owswanim3));//updown arrows
 	set_banked_bkg_data(132u, 2u, &owswanim3, BANK(owswanim3));//leftright arrows
+	set_banked_bkg_data(3u, 2u, &owswanim3, BANK(owswanim3));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim3, BANK(owswanim3));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim3, BANK(owswanim3));//flag
 }
 void Anim_Ow_4() BANKED{
 	set_banked_bkg_data(7u, 1u, &owswanim2, BANK(owswanim2));//grass
@@ -170,6 +182,28 @@ void Anim_Ow_see_2() BANKED{
 }
 void Anim_Ow_see_3() BANKED{
 	set_banked_bkg_data(80u, 2u, &owswanim3, BANK(owswanim3));//water-waves
+}
+
+
+void Anim_Ow_flag_0() BANKED{
+	set_banked_bkg_data(3u, 2u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
+	set_banked_bkg_data(40u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
+	set_banked_bkg_data(82u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//flag
+}
+void Anim_Ow_flag_1() BANKED{
+	set_banked_bkg_data(3u, 2u, &owswanim1, BANK(owswanim1));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim1, BANK(owswanim1));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim1, BANK(owswanim1));//flag
+}
+void Anim_Ow_flag_2() BANKED{
+	set_banked_bkg_data(3u, 2u, &owswanim2, BANK(owswanim2));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim2, BANK(owswanim2));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim2, BANK(owswanim2));//flag
+}
+void Anim_Ow_flag_3() BANKED{
+	set_banked_bkg_data(3u, 2u, &owswanim3, BANK(owswanim3));//flag
+	set_banked_bkg_data(40u, 1u, &owswanim3, BANK(owswanim3));//flag
+	set_banked_bkg_data(82u, 1u, &owswanim3, BANK(owswanim3));//flag
 }
 
 void Anim_Titlescreen_0() BANKED{

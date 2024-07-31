@@ -12,6 +12,7 @@
 
 #include "custom_datas.h"
 #include "Dialogs.h"
+#include "DialogTips.h"
 
 #define OW_NORMAL_FRAMESKIP 1
 #define OW_PATH_FRAMESKIP 3
@@ -46,7 +47,7 @@ extern INT8 show_tip_movingscroll;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
 extern UINT8 hidden_items_flags;
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
@@ -102,7 +103,7 @@ void update_position_motherow() BANKED{
             motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
         }
         UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
-        if(current_map != 2u){//NOT IN MAZE
+        if(current_map != MAP_MAZE){//NOT IN MAZE
             switch(scroll_tile){
                 case 40u: 
                 case 99u: case 102u: case 103u: case 104u:
@@ -159,7 +160,10 @@ void UPDATE(){
         new_state = WALK_UP;
         update_position_motherow();
         owChangeState(new_state);
-        ow_check_place();
+        if(motherow_info->tile_collision == 62u || motherow_info->tile_collision == 64u){
+            ChangeState(StateTutorial, THIS, 0);
+            just_started = 2;
+        }
         return; 
     }
     if(sfx_cooldown > 0){sfx_cooldown--;}
@@ -196,7 +200,7 @@ void UPDATE(){
                         {
                             struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
                             if(spawned_data->configured == 4u){//means hidden
-                                if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
+                                //if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
                                     pickup(spawned_data);
                                     hidden_items_flags = hidden_items_flags | spawned_data->frmskip;
                                     switch(spawned_data->itemtype){
@@ -205,9 +209,18 @@ void UPDATE(){
                                         case INVITEM_ARROW_PERFO:
                                             ow_tips(TIP_HIDDEN_ARROWS);            
                                         break;
+                                        case INVITEM_METAL:
+                                            ow_tips(TIP_HIDDEN_METAL);
+                                        break;
+                                        case INVITEM_MONEY:
+                                            ow_tips(TIP_HIDDEN_MONEY);
+                                        break;
+                                        case INVITEM_WOOD:
+                                            ow_tips(TIP_HIDDEN_WOOD);
+                                        break; 
                                     }
                                     SpriteManagerRemoveSprite(imowspr);
-                                }
+                                //}
                             }
                         }
                     break;
@@ -318,10 +331,10 @@ void ow_check_place() BANKED{//tile collision
         case 50u:
         case 51u:
             switch(current_map){
-                case 0u:
+                case MAP_SOUTHWEST:
                     ChangeState(StateMine, THIS, -1);
                 break;
-                case 1u:
+                case MAP_NORTHWEST:
                     if((outwalker_chief.mission_state <= MISSION_STATE_ENABLED
                         && get_quantity(INVITEM_PASS) == 1)
                         || outwalker_chief.mission_state >= MISSION_STATE_STARTED
@@ -341,13 +354,8 @@ void ow_check_place() BANKED{//tile collision
         case 62u:
         case 64u://EXZOO
             switch(current_map){
-                case 0u:
-                    if(just_started == 1u){
-                        ChangeState(StateTutorial, THIS, 0);
-                        just_started = 2;
-                    }else{
-                        ChangeState(StateExzoo, THIS, -1);
-                    }
+                case MAP_SOUTHWEST:
+                    ChangeState(StateExzoo, THIS, -1);
                 break;
             }
         break;
@@ -359,20 +367,20 @@ void ow_check_place() BANKED{//tile collision
         case 18u:
         case 91u://CAVE
             switch(current_map){
-                case 0u:
+                case MAP_SOUTHWEST:
                     //ChangeState(StateBlackiecave, THIS);
                 break;
-                case 1u:
+                case MAP_NORTHWEST:
                     ow_tips(TIP_STILL_SOMETHING);
                 break;
-                case 3u://to Scorpion Boss fight
+                case MAP_SOUTHEAST://to Scorpion Boss fight
                     if(find_antidote.mission_state < MISSION_STATE_STARTED){
                         ow_tips(TIP_STILL_SOMETHING);
                     }else{
                         ChangeState(StateBossscorpion, THIS, -1);
                     }
                 break;
-                case 4u://to Silver Cave
+                case MAP_EAST://to Silver Cave
                     ChangeState(StateSilvercave, THIS, -1);
                 break;
             }
@@ -381,7 +389,7 @@ void ow_check_place() BANKED{//tile collision
         case 95u:
         case 96u:
             switch(current_map){
-                case 0u:
+                case MAP_SOUTHWEST:
                     if(engage_smith.mission_state != MISSION_STATE_REWARDED
                     && enable_hospital.mission_state != MISSION_STATE_REWARDED){
                         ow_tips(TIP_STILL_SOMETHING);
@@ -389,13 +397,13 @@ void ow_check_place() BANKED{//tile collision
                         ChangeState(StateBlackiecave, THIS, -1);
                     }
                 break;
-                case 1u:
+                case MAP_NORTHWEST:
                     if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                         trigger_dialog(MAZE_CANT_GO, THIS);
                     }else{ChangeState(StateOverworld, THIS, 2);}
                 break;
-                case 3u://to scorpioncav
-                    if(chapter < 4){
+                case MAP_SOUTHEAST://to scorpioncav
+                    if(chapter < CHAPTER_4_SHIP){
                         ow_tips(TIP_STILL_SOMETHING);
                     }else{
                         ChangeState(StateBatcave, THIS, -1);
@@ -433,11 +441,11 @@ void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 case 85u://SMITH, POLICE
                 {
                     switch(current_map){
-                        case 0u:
+                        case MAP_SOUTHWEST:
                             current_shop = SHOP_SMITH;
                             ChangeState(StateShop, THIS, -1);
                         break;
-                        case 1u:
+                        case MAP_NORTHWEST:
                             if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                                 trigger_dialog(POLICE_0_GET_PASS, THIS);
                             }else if(outwalker_chief.mission_state == MISSION_STATE_ENABLED){
@@ -453,7 +461,7 @@ void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                                 trigger_dialog(POLICE_0_NOGUARDS, THIS);
                             }
                         break;
-                        case 3u://carpenter
+                        case MAP_SOUTHEAST://carpenter
                             current_shop = SHOP_CARPENTER;
                             ChangeState(StateShop, THIS, -1);
                         break;
@@ -463,10 +471,10 @@ void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 case 46u:
                 case 47u://GREEN CARTEL
                     switch(current_map){
-                        case 0u://sw map = BLACKIE CAVE
+                        case MAP_SOUTHWEST://sw map = BLACKIE CAVE
                             tip_to_show = TIP_BLACKIE_CAVE;
                         break;
-                        case 1u:
+                        case MAP_NORTHWEST:
                             tip_to_show = TIP_DARK_FOREST;
                         break;
                     }
@@ -475,10 +483,10 @@ void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                 case 86u:
                 case 87u:// YELLOW CARTEL
                     switch(current_map){
-                        case 0u://sw map = MINE CAVE
+                        case MAP_SOUTHWEST://sw map = MINE CAVE
                             tip_to_show = TIP_MINE_CAVE;
                         break;
-                        case 1u:
+                        case MAP_NORTHWEST:
                             if(THIS->x > ((UINT16) 60u << 3)){tip_to_show = TIP_LABIRYNTH;}
                             else{tip_to_show = TIP_GROTTO;}
                         break;
@@ -527,7 +535,7 @@ UINT8 ow_manage_chitchat() BANKED{
         trigger_tip = 1u;
     }else{
         switch(chapter){
-            case 0u:
+            case CHAPTER_0_BLACKIE:
                 switch(ow_chitchat_counter){
                     case 0u:tip_to_show = TIP_CHITCHAT_SMITH;trigger_tip = 1u;break;
                     case 1u:tip_to_show = TIP_CHITCHAT_HOSP;trigger_tip = 1u;break;
@@ -538,7 +546,7 @@ UINT8 ow_manage_chitchat() BANKED{
                     case 6u:tip_to_show = TIP_CHITCHAT_HIDDEN_02;trigger_tip = 1u;break;
                 }
             break;
-            case 1u:
+            case CHAPTER_1_BANDITS:
                 switch(ow_chitchat_counter){
                     case 0u:tip_to_show = TIP_CHITCHAT_LABYRINTH;trigger_tip = 1u;break;
                     case 1u:tip_to_show = TIP_CHITCHAT_GLASS;trigger_tip = 1u;break;

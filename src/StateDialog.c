@@ -68,7 +68,7 @@ extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
 extern struct MISSION golden_armor;
 extern INT8 current_map;
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern INT8 outwalker_info_step;
 extern INT8 outwalker_info_given;
 extern uint8_t sgb_running;
@@ -94,7 +94,6 @@ extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
-extern void load_chapter() BANKED;
 
 void START() {
     HIDE_WIN;

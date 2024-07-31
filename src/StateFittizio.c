@@ -71,6 +71,7 @@ extern INT8 chapter;
 extern uint8_t sgb_running;
 extern UINT8 child_hooked;
 extern UINT8 activate_seagulls;
+extern struct PushASignData d_push_sign;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -129,7 +130,7 @@ extern struct EnemyData* minotaur_data;
 
 
 void restartFromHospital() BANKED{
-    current_map = 0;
+    current_map = MAP_SOUTHWEST;
     motherow_pos_x = (UINT16) 35u << 3;
     motherow_pos_y = (UINT16) 20u << 3;
     previous_state = StateOverworld;
@@ -184,10 +185,10 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         	StopMusic;
             if(just_started == 0){
                 switch(current_map){
-                    case 0:PlayMusic(owsw, 1);break;
-                    case 1:PlayMusic(owsw, 1);break;
-                    case 2:PlayMusic(maze, 1);break;
-                    case 4:PlayMusic(owsw, 1);break;
+                    case MAP_SOUTHWEST:PlayMusic(owsw, 1);break;
+                    case MAP_NORTHWEST:PlayMusic(owsw, 1);break;
+                    case MAP_MAZE:PlayMusic(maze, 1);break;
+                    case MAP_EAST:PlayMusic(owsw, 1);break;
                 }
             }            
         break;
@@ -385,11 +386,11 @@ void check_sgb_palette(UINT8 new_state) BANKED{
         case StateOverworld:
             if(new_state == StateOverworld){
                 switch(current_map){
-                    case 0:set_sgb_palette01_worldmap();break;//sw
-                    case 1:set_sgb_worldmap_nw();break;//nw
-                    case 2:set_sgb_palette01_worldmap_maze();break;//maze
-                    case 3:set_sgb_palette01_worldmap();break;//se
-                    case 4:set_sgb_palette01_worldmap();break;//e
+                    case MAP_SOUTHWEST:set_sgb_palette01_worldmap();break;//sw
+                    case MAP_NORTHWEST:set_sgb_worldmap_nw();break;//nw
+                    case MAP_MAZE:set_sgb_palette01_worldmap_maze();break;//maze
+                    case MAP_SOUTHEAST:set_sgb_palette01_worldmap();break;//se
+                    case MAP_EAST:set_sgb_palette01_worldmap();break;//e
                 }
             }
             reset_sgb_palette_statusbar();
@@ -437,22 +438,22 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                 case SpriteMotherow:
                     switch(new_state){
                         case StateOverworld:
-                            if(current_map == 0 && next_map == 3){
+                            if(current_map == MAP_SOUTHWEST && next_map == MAP_SOUTHEAST){
                                 motherow_pos_x = (UINT16) 10u << 3;
                                 motherow_pos_y = (UINT16) 23u << 3;
-                            }else if(current_map == 1 && next_map == 2){
+                            }else if(current_map == MAP_NORTHWEST && next_map == MAP_MAZE){
                                 motherow_pos_x = (UINT16) 2u << 3;
                                 motherow_pos_y = 20u;
-                            }else if(current_map == 2 && next_map == 1){
+                            }else if(current_map == MAP_MAZE && next_map == MAP_NORTHWEST){
                                 motherow_pos_x = (UINT16) 56u << 3;
                                 motherow_pos_y = (UINT16) 42u << 3;
-                            }else if(next_map == 2){
+                            }else if(next_map == MAP_MAZE){
                                 motherow_pos_x = (UINT16) 6u << 3;
                                 motherow_pos_y = (UINT16) 3u << 3;
-                            }else if(current_map == 3 && next_map == 0){
+                            }else if(current_map == MAP_SOUTHEAST && next_map == MAP_SOUTHWEST){
                                 motherow_pos_x = (UINT16) 43u << 3;
                                 motherow_pos_y = (UINT16) 23u << 3;
-                            }else if(next_map == 4){
+                            }else if(next_map == MAP_EAST){
                                 motherow_pos_x = (UINT16) 26u << 3;
                                 motherow_pos_y = ((UINT16) 37u << 3) + 3;
                             }
@@ -466,7 +467,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             motherpl_pos_y = (UINT16) 6u << 3;
                         break;
                         case StateBridge:
-                            if(current_map == 3){
+                            if(current_map == MAP_SOUTHEAST){
                                 activate_seagulls = 1u;
                             }
                         break;
@@ -483,13 +484,13 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         case StateBridge:
                             if(new_state == StateOverworld){
                                 switch(next_map){
-                                    case 4: 
+                                    case MAP_EAST: 
                                         activate_seagulls = 0u;
                                         motherow_pos_x = (UINT16) 192u;
                                         motherow_pos_y = (UINT16) 281u;
                                     break;
-                                    case 3:
-                                        motherow_pos_x = (UINT16) 32u << 3;
+                                    case MAP_SOUTHEAST:
+                                        motherow_pos_x = (UINT16) 30u << 3;
                                         motherow_pos_y = ((UINT16) 36u << 3) + 4u;
                                     break;
                                 }
@@ -498,11 +499,11 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         case StateHood:
                             if(new_state == StateOverworld){
                                 switch(next_map){
-                                    case 0:
+                                    case MAP_SOUTHWEST:
                                         motherow_pos_x = (UINT16) 19u << 3;
                                         motherow_pos_y = (UINT16) 10u << 3;
                                     break;
-                                    case 1:
+                                    case MAP_NORTHWEST:
                                         motherow_pos_x = (UINT16) 14u << 3;
                                         motherow_pos_y = (UINT16) 46u << 3;
                                     break;
@@ -544,7 +545,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         break;
                         case StateBatcave:
                             if(new_state == StateOverworld){
-                                if(current_map == 3){
+                                if(current_map == MAP_SOUTHEAST){
                                     motherow_pos_x = (UINT16) 10u << 3;
                                     motherow_pos_y = (UINT16) 8u << 3;
                                 }
@@ -571,6 +572,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(next_map != -1){
             current_map = next_map;
         }    
+    d_push_sign.collided_tile = 0;
     previous_state = current_state;
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
@@ -914,7 +916,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     if(np_counter > 6){
         return;
     }
-    if(chapter == 2 && find_antidote.mission_state < MISSION_STATE_REWARDED){
+    if(chapter == CHAPTER_2_PLAGUE && find_antidote.mission_state < MISSION_STATE_REWARDED){
         if(npcname != OUTWALKER_JESSICA && whos != JESSICA_PLANTS){
             return;
         }

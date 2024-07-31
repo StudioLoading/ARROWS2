@@ -77,8 +77,9 @@ void START(){
     //INIT GRAPHICS
         UINT16 spawnmotherplx = (UINT16) 10u << 3;
         UINT16 spawnmotherply = (UINT16) 6u << 3;
-        if(current_map == 4){spawnmotherplx = (UINT16) 130u << 3;}
+        if(current_map == MAP_EAST){spawnmotherplx = (UINT16) 130u << 3; }
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, spawnmotherplx, spawnmotherply);
+        if(current_map == MAP_EAST){THIS->mirror = V_MIRROR; }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;

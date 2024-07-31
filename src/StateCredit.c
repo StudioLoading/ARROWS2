@@ -31,7 +31,7 @@ extern UINT8 itemspawned_powder_counter;
 const UINT8 collision_tiles_credits[] = {1,0};
 UINT8 credit_step = 0u;
 UINT16 credit_wait_time;
-INT8 chapter = 0;
+CHAPTERS chapter = CHAPTER_0_BLACKIE;
 CURRENT_BORDER current_border = BORDER_NONE;
 uint8_t sgb_running = 0;
 
@@ -107,13 +107,13 @@ void missions_init() BANKED{
 	fix_bridge.mission_state = MISSION_STATE_DISABLED;
 	golden_armor.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
-		case 0u:
+		case CHAPTER_0_BLACKIE:
 			engage_smith.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			engage_smith.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
 			enable_hospital.current_step = 0u;
 		break;
-		case 1u:
+		case CHAPTER_1_BANDITS:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -127,7 +127,7 @@ void missions_init() BANKED{
 			//START TEST
 			//END TEST
 		break;
-		case 2u:
+		case CHAPTER_2_PLAGUE:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -148,7 +148,7 @@ void missions_init() BANKED{
 			defeat_scorpions.current_step = 0;
 			defeat_scorpions.phase = 0;
 		break;
-		case 3u:
+		case CHAPTER_3_ARMOUR:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
@@ -213,7 +213,7 @@ void missions_init() BANKED{
 
 void inventory_init() BANKED{
 	switch(chapter){
-		case 0:
+		case CHAPTER_0_BLACKIE:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
@@ -228,7 +228,7 @@ void inventory_init() BANKED{
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
-		case 1:
+		case CHAPTER_1_BANDITS:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
@@ -243,7 +243,7 @@ void inventory_init() BANKED{
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
-		case 2:
+		case CHAPTER_2_PLAGUE:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
@@ -258,7 +258,7 @@ void inventory_init() BANKED{
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
-		case 3:
+		case CHAPTER_3_ARMOUR:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
@@ -293,40 +293,40 @@ void inventory_init() BANKED{
 
 void position_init() BANKED{
 	switch(chapter){
-		case 0u:
-			current_map = 0;
+		case CHAPTER_0_BLACKIE:
+			current_map = MAP_SOUTHWEST;
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 26u << 3;
 		break;
-		case 1u:
-			current_map = 1;
+		case CHAPTER_1_BANDITS:
+			current_map = MAP_NORTHWEST;
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 42u << 3;
 			/*CRAB
 			motherow_pos_x = (UINT16) 14u << 3;
 			motherow_pos_y = (UINT16) 11u << 3;*/
 			/*MINE
-			current_map = 2;
+			current_map = MAP_MAZE;
 			motherpl_pos_x = (UINT16) 4u << 3;
 			motherpl_pos_y = (UINT16) 7u << 3;
 			motherow_pos_x = (UINT16) 3u << 3;
 			motherow_pos_y = (UINT16) 2u << 3;*/
 		break;
-		case 2u:
-			current_map = 1;
+		case CHAPTER_2_PLAGUE:
+			current_map = MAP_NORTHWEST;
 			motherow_pos_x = (UINT16) 6u << 3;//22 MAP0  6 MAP1 
 			motherow_pos_y = (UINT16) 28u << 3;//21 MAP0 28 MAP1
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 		break;
-		case 3u:
-			current_map = 3;
+		case CHAPTER_3_ARMOUR:
+			current_map = MAP_SOUTHEAST;
 			motherow_pos_x = (UINT16) 15u << 3; 
 			motherow_pos_y = (UINT16) 22u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 			//TEST START
-			current_map = 4;
+			current_map = MAP_EAST;
 			motherow_pos_x = (UINT16) 38u << 3; 
 			motherow_pos_y = (UINT16) 44u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;

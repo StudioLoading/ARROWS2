@@ -65,7 +65,7 @@ extern Sprite* dado1;
 extern Sprite* dado2;
 extern Sprite* dado3;
 UINT8 idx_mission = 0u;
-INT8 idx_page = 0;
+CHAPTERS idx_page = CHAPTER_0_BLACKIE;
 UINT8 showing_detail = 0u;
 UINT8 showing_missions = 0u;
 extern Sprite* s_motherow;
@@ -137,24 +137,30 @@ void show_pcodes(){
         dado1_info->tetradado_state = PASSWORD;
         dado2_info->tetradado_state = PASSWORD;
         dado3_info->tetradado_state = PASSWORD;
-        switch(idx_page){
-            case 0u:
-                dado0_info->tetradado_faccia = FACCIA_4;
-                dado1_info->tetradado_faccia = FACCIA_1;
-                dado2_info->tetradado_faccia = FACCIA_4;
-                dado3_info->tetradado_faccia = FACCIA_1;
+        switch(idx_page){//evaluated as completed chapter
+            case CHAPTER_0_BLACKIE:
+                dado0_info->tetradado_faccia = FACCIA_SHIELD;
+                dado1_info->tetradado_faccia = FACCIA_UP;
+                dado2_info->tetradado_faccia = FACCIA_SHIELD;
+                dado3_info->tetradado_faccia = FACCIA_UP;
             break;
-            case 1u:
-                dado0_info->tetradado_faccia = FACCIA_4;
-                dado1_info->tetradado_faccia = FACCIA_2;
-                dado2_info->tetradado_faccia = FACCIA_4;
-                dado3_info->tetradado_faccia = FACCIA_3;
+            case CHAPTER_1_BANDITS:
+                dado0_info->tetradado_faccia = FACCIA_SHIELD;
+                dado1_info->tetradado_faccia = FACCIA_BLAIR;
+                dado2_info->tetradado_faccia = FACCIA_SHIELD;
+                dado3_info->tetradado_faccia = FACCIA_ARROWS;
             break;
-            case 2u:
-                dado0_info->tetradado_faccia = FACCIA_1;
-                dado1_info->tetradado_faccia = FACCIA_2;
-                dado2_info->tetradado_faccia = FACCIA_4;
-                dado3_info->tetradado_faccia = FACCIA_1;
+            case CHAPTER_2_PLAGUE:
+                dado0_info->tetradado_faccia = FACCIA_UP;
+                dado1_info->tetradado_faccia = FACCIA_BLAIR;
+                dado2_info->tetradado_faccia = FACCIA_SHIELD;
+                dado3_info->tetradado_faccia = FACCIA_UP;
+            break;
+            case CHAPTER_3_ARMOUR:
+                dado0_info->tetradado_faccia = FACCIA_ARROWS;
+                dado1_info->tetradado_faccia = FACCIA_SHIELD;
+                dado2_info->tetradado_faccia = FACCIA_UP;
+                dado3_info->tetradado_faccia = FACCIA_ARROWS;
             break;
         }
     }

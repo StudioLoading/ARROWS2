@@ -65,10 +65,10 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
         switch(current_map){
-            case 0://comes from south-west
+            case MAP_SOUTHWEST://comes from south-west
                 s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
             break;
-            case 1://comes from north-west
+            case MAP_NORTHWEST://comes from north-west
                 s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 91u << 3, (UINT16) 9u << 3);
                 s_motherpl->mirror = V_MIRROR;
             break;

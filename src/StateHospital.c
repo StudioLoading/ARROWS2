@@ -30,7 +30,7 @@ extern WHOSTALKING whostalking;
 extern struct MISSION find_antidote;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION enable_hospital;
-extern INT8 chapter;
+extern CHAPTERS chapter;
 
 extern UINT8 dialog_ready;
 extern UINT8 counter_char;
@@ -85,7 +85,7 @@ void UPDATE() {
         n_lines = 0u;
 		switch(enable_hospital.mission_state){
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
-				if(chapter == 2){
+				if(chapter == CHAPTER_2_PLAGUE){
                     if(defeat_scorpions.mission_state < MISSION_STATE_REWARDED){
                         if(motherpl_hp < 1){motherpl_hp = 1;}
                         whostalking = HOSPITAL_HEAL_1;
