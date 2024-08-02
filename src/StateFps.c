@@ -79,7 +79,7 @@ void START() {
 		case FPS_GATOR:
 			InitScroll(BANK(fpsgatormap), &fpsgatormap, 0, 0);
 		break;
-		case FPS_DRAGON:
+		case FPS_DRAGON://TODO
 			//InitScroll(bank_mapbonus, &mapbonus, coll_fps_dragon_tiles, 0);
 		break;
 	}

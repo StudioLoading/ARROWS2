@@ -43,7 +43,8 @@ extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
-extern INT8 show_tip_movingscroll;
+extern INT8 show_tip_movingscroll_x;
+extern INT8 show_tip_movingscroll_y;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
 extern UINT8 hidden_items_flags;
@@ -519,7 +520,8 @@ void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED{
             if(rest > 0){
                 scroll_target->x+=(8-rest); 
             }
-	        show_tip_movingscroll = 0u;
+	        show_tip_movingscroll_y = 0u;
+	        show_tip_movingscroll_x = 0u;
             ShowTipOW();
         }
     }

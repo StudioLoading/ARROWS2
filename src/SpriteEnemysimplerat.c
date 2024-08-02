@@ -17,15 +17,15 @@ extern UINT8 enemy_random_30_100;
 
 void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
 
-extern void Estart() BANKED;
-extern void Edestroy() BANKED;
-extern void configure() BANKED;
+extern void Estart(Sprite* s_enemy) BANKED;
+extern void Edestroy(Sprite* s_enemy) BANKED;
+extern void configure(Sprite* s_enemy) BANKED;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
-extern void Econfiguration() BANKED;
-extern void Emanagement() BANKED;
+extern void Econfiguration(Sprite* s_enemy) BANKED;
+extern void Emanagement(Sprite* s_enemy) BANKED;
 
 void START(){
-    Estart();
+    Estart(THIS);
 }
 
 void UPDATE(){
@@ -35,13 +35,13 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration();
+            Econfiguration(THIS);
             return;
         }
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement();
+        Emanagement(THIS);
     //HIDE IN HOLES
         if(eu_info->vx > 0){
             if(GetScrollTile((THIS->x >> 3) + 1u, (THIS->y >> 3) + 1u) == 48u){
@@ -67,5 +67,5 @@ void EsimpleRatAnim(ENEMY_STATE estate) BANKED{
 }
 
 void DESTROY(){
-    Edestroy();
+    Edestroy(THIS);
 }

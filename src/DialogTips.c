@@ -17,27 +17,27 @@ extern unsigned char EMPTY_STRING_21[22];
 void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 	switch(tip){
 		case TIP_HIDDEN_ARROWS:
-			memcpy(d1, "  SOMETHING'S ON THE  ", 22);
-			memcpy(d2, "  GROUND:             ", 22);
-			memcpy(d3, "           ARROWS!    ", 22);
+			memcpy(d1, " SOMETHING'S ON THE  ", 22);
+			memcpy(d2, " GROUND:             ", 22);
+			memcpy(d3, "           ARROWS!   ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_HIDDEN_METAL:
-			memcpy(d1, "  SOMETHING'S ON THE  ", 22);
-			memcpy(d2, "  GROUND:             ", 22);
-			memcpy(d3, "           METAL!     ", 22);
+			memcpy(d1, " SOMETHING'S ON THE  ", 22);
+			memcpy(d2, " GROUND:             ", 22);
+			memcpy(d3, "          METAL!     ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_HIDDEN_WOOD:
-			memcpy(d1, "  SOMETHING'S ON THE  ", 22);
-			memcpy(d2, "  GROUND:             ", 22);
-			memcpy(d3, "           WOOD!      ", 22);
+			memcpy(d1, " SOMETHING'S ON THE  ", 22);
+			memcpy(d2, " GROUND:             ", 22);
+			memcpy(d3, "           WOOD!     ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_HIDDEN_MONEY:
-			memcpy(d1, "  SOMETHING'S ON THE  ", 22);
-			memcpy(d2, "  GROUND:             ", 22);
-			memcpy(d3, "            COINS !   ", 22);
+			memcpy(d1, " SOMETHING'S ON THE  ", 22);
+			memcpy(d2, " GROUND:             ", 22);
+			memcpy(d3, "           COINS !   ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_PRESS_SELECT:
@@ -48,25 +48,25 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_SMITH_NO:
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " THE SMITH IS YET TO \0", 22);
-			memcpy(d2, " COME.               \0", 22);
+			memcpy(d1, " THE SMITH IS YET TO ", 22);
+			memcpy(d2, " COME.               ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_HOSPITAL_NO:
-			memcpy(d1, " THIS IS THE         \0", 22);
-			memcpy(d2, " HOSPITAL.           \0", 22);
+			memcpy(d1, " THIS IS THE         ", 22);
+			memcpy(d2, " HOSPITAL.           ", 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_MINE_CAVE:
-			memcpy(d1, " THIS IS THE OLD     \0", 22);
-			memcpy(d2, " MINE. HERE I FIND   \0", 22);
-			memcpy(d3, " METAL AND WOOD.     \0", 22);
+			memcpy(d1, " THIS IS THE OLD     ", 22);
+			memcpy(d2, " MINE. HERE I FIND   ", 22);
+			memcpy(d3, " METAL AND WOOD.     ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_BLACKIE_CAVE:
-			memcpy(d1, " RED RIDING HOOD   \0", 22);
-			memcpy(d2, " WORST ENEMY CAVE  \0", 22);
+			memcpy(d1, "  RED RIDING HOOD   ", 22);
+			memcpy(d2, "  WORST ENEMY CAVE  ", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;

@@ -201,7 +201,8 @@ void load_chapter() BANKED{
         break;
         case CHAPTER_2_PLAGUE:
             just_started = 0;
-            ChangeStateThroughBetween(StateCart);
+            //ChangeStateThroughBetween(StateCart); TODO remove comment
+            ChangeStateThroughBetween(StateOverworld);
         break;
         case CHAPTER_3_ARMOUR:
             just_started = 0;
@@ -298,21 +299,22 @@ INT8 check_password() BANKED{
                 pcode1_info->tetradado_faccia == FACCIA_UP &&
                 pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
                 pcode3_info->tetradado_faccia == FACCIA_UP){
-                    result = 1;
-                }
-            //cpt3
-                if(pcode0_info->tetradado_faccia == FACCIA_SHIELD &&
+                    result = CHAPTER_1_BANDITS;
+                }else if(pcode0_info->tetradado_faccia == FACCIA_SHIELD &&
                 pcode1_info->tetradado_faccia == FACCIA_BLAIR &&
                 pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
                 pcode3_info->tetradado_faccia == FACCIA_ARROWS){
-                    result = 2;
-                }
-            //cpt4
-                if(pcode0_info->tetradado_faccia == FACCIA_UP &&
+                    result = CHAPTER_2_PLAGUE;
+                }else if(pcode0_info->tetradado_faccia == FACCIA_UP &&
                 pcode1_info->tetradado_faccia == FACCIA_BLAIR &&
                 pcode2_info->tetradado_faccia == FACCIA_SHIELD &&
                 pcode3_info->tetradado_faccia == FACCIA_UP){
-                    result = 3;
+                    result = CHAPTER_3_ARMOUR;
+                }else if(pcode0_info->tetradado_faccia == FACCIA_ARROWS &&
+                pcode1_info->tetradado_faccia == FACCIA_SHIELD &&
+                pcode2_info->tetradado_faccia == FACCIA_UP &&
+                pcode3_info->tetradado_faccia == FACCIA_ARROWS){
+                    result = CHAPTER_4_SHIP;
                 }
         }
     return result;

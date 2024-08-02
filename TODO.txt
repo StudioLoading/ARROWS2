@@ -1,11 +1,13 @@
 POST DEMO:
-- mappa overworld: 
-	- bandiere
-	- nuvole grandi-grandi che passano nel cielo?
-- mappare i loot nascosti su mappa e renderli definitivi da metterli nel manuale
+- tips ow se fatto vicino ai limiti della mappa il testo è spostato
+probabilmente la risolvo spostando il camerafocus verso il centro, mentre scendo
+- forse l'ai degli scorpioncini è debole, chiedere magari a qualche tester
+considerando che in quel frangente l' ospedale non funziona bene perché
+recupera al max 1hp
+- gli stage degli scorpioni singoli sono sempre gli stessi. disegnarne uno diverso
+per mappa ow in cui faccio l'incontro non dovrebbe prendere tante risorse
+e rallegra tutto il gioco
 - dialog map per il caprone
-- spostare void initial_sprite_spawning() BANKED{ da StateOverworld a esterno?
-	sono 200 righe
 
 - i nuovi audio di andrew!
 - audio dei projectile?
@@ -16,17 +18,7 @@ POST DEMO:
 	- bat
 - col capitolo dell' armatura usare il place che "Darkest Forest"?
 	perché al momento è li a fare niente
-- c'è anche una seconda cave utilizzabile in owsoutheast!
-- farfalline in ow? vorrei arricchire l'overworld con animazioni carine	
-- ow armor: c'è già l GBR E IL .C  armor.gbr; SpriteArmor.c 
-	su ow rotea tipo hurricane
 
-- gli stage degli scorpioni singoli sono sempre gli stessi. disegnarne uno diverso
-per mappa ow in cui faccio l'incontro non dovrebbe prendere tante risorse
-e rallegra tutto il gioco
-- forse l'ai degli scorpioncini è debole, chiedere magari a qualche tester
-considerando che in quel frangente l' ospedale non funziona bene perché
-recupera al max 1hp
 - facciamo che nell' ultima parte di gioco piove ovunque?
 - boss con 1hp blinka
 

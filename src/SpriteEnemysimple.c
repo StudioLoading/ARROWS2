@@ -32,15 +32,15 @@ extern MOTHERPL_STATE motherpl_state;
 extern struct EtoReload e_to_reload[3];
 extern UINT8 mapwidth;
 
-void Estart() BANKED;
-void configure() BANKED;
-void ETurn(UINT8 e_vx);
+void Estart(Sprite* s_enemy) BANKED;
+void configure(Sprite* s_enemy) BANKED;
+void ETurn(Sprite* s_enemy, UINT8 e_vx);
 void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
-UINT8 getEmaxFrameskip() BANKED;
-void Econfiguration() BANKED;
-void Emanagement() BANKED;
-void Edestroy() BANKED;
-void EspawnItem() BANKED;
+UINT8 getEmaxFrameskip(Sprite* s_enemy) BANKED;
+void Econfiguration(Sprite* s_enemy) BANKED;
+void Emanagement(Sprite* s_enemy) BANKED;
+void Edestroy(Sprite* s_enemy) BANKED;
+void EspawnItem(Sprite* s_enemy) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
@@ -57,7 +57,7 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
 void START(){
-    Estart();
+    Estart(THIS);
 }
 
 void UPDATE(){
@@ -67,64 +67,64 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration();
+            Econfiguration(THIS);
             return;
         }
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement();
+        Emanagement(THIS);
 }
 
-void Emanagement() BANKED{
+void Emanagement(Sprite* s_enemy) BANKED{
     //map screen limit
-        if(THIS->x < 10u){
-            THIS->x = 10u;
+        if(s_enemy->x < 10u){
+            s_enemy->x = 10u;
         }
-        if(THIS->x > ((mapwidth << 3) - 16u)){
-            THIS->x = (mapwidth << 3) - 16u;
+        if(s_enemy->x > ((mapwidth << 3) - 16u)){
+            s_enemy->x = (mapwidth << 3) - 16u;
         }
-    struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+    struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
     //ErandomManagement();
         enemy_random_30_100++;
         if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
     //Egravity();
-        UINT8 e_v_coll = TranslateSprite(THIS, 0, E_GRAVITY << delta_time);
+        UINT8 e_v_coll = TranslateSprite(s_enemy, 0, E_GRAVITY << delta_time);
     //EhorizontalTileCollision(eu_info);
         if(eu_info->x_frameskip == 0 && 
             (eu_info->e_state == ENEMY_HIT_1 ||
             eu_info->e_state == ENEMY_HIT_2 ||
             eu_info->e_state == ENEMY_DEAD)
-            && THIS->type != SpriteEnemyThrowerScorpion){
+            && s_enemy->type != SpriteEnemyThrowerScorpion){
                 INT8 hit_vx = -1;
-                if(THIS->mirror != NO_MIRROR){
+                if(s_enemy->mirror != NO_MIRROR){
                     hit_vx = 1;
                 }
-                eu_info->et_collision = TranslateSprite(THIS, hit_vx << delta_time, 0);
+                eu_info->et_collision = TranslateSprite(s_enemy, hit_vx << delta_time, 0);
         }
         if(eu_info->x_frameskip == 0 && 
             (eu_info->e_state == ENEMY_WALK ||
                 (eu_info->e_state == ENEMY_ATTACK 
-                && THIS->type != SpriteEnemyThrowerSpider 
-                && THIS->type != SpriteEnemyThrowerTarantula
-                && THIS->type != SpriteEnemyThrowerTarantula
+                && s_enemy->type != SpriteEnemyThrowerSpider 
+                && s_enemy->type != SpriteEnemyThrowerTarantula
+                && s_enemy->type != SpriteEnemyThrowerTarantula
                 )
             )
         ){//x_frameskip used            
-            eu_info->et_collision = TranslateSprite(THIS, eu_info->vx << delta_time, 0);
+            eu_info->et_collision = TranslateSprite(s_enemy, eu_info->vx << delta_time, 0);
             if(eu_info->et_collision){
                 switch(eu_info->et_collision){
                     case 8u:
                     case 9u:
-                        ETurn(E_VX);
+                        ETurn(s_enemy, E_VX);
                     break;
                 }
             }
-            //if(THIS->type != SpriteEnemysimplesnake){
-                eu_info->x_frameskip = getEmaxFrameskip();//1u;
+            //if(s_enemy->type != SpriteEnemysimplesnake){
+                eu_info->x_frameskip = getEmaxFrameskip(s_enemy);//1u;
             //}
         }else{
-            UINT8 max_frameskip = getEmaxFrameskip();
+            UINT8 max_frameskip = getEmaxFrameskip(s_enemy);
             if(eu_info->x_frameskip < max_frameskip){
                 eu_info->x_frameskip++;
             }else{
@@ -136,14 +136,14 @@ void Emanagement() BANKED{
         UINT8 scroll_e_tile;
         Sprite* iespr;
         SPRITEMANAGER_ITERATE(scroll_e_tile, iespr) {
-            if(CheckCollision(THIS, iespr)) {
+            if(CheckCollision(s_enemy, iespr)) {
                 switch(iespr->type){
                     case SpriteMotherpl://io enemy ho colpito motherpl
                         if(motherpl_state == MOTHERPL_DASH){
-                            switch(THIS->type){
+                            switch(s_enemy->type){
                                 case SpriteEnemysimplesnake:
                                 case SpriteEnemysimplerat:
-                                    changeEstate(THIS, ENEMY_HIT_1);
+                                    changeEstate(s_enemy, ENEMY_HIT_1);
                                     return;
                                 break;
                             }
@@ -151,8 +151,8 @@ void Emanagement() BANKED{
                             && eu_info->e_state != ENEMY_HIT_1 
                             && eu_info->e_state != ENEMY_HIT_2
                             && eu_info->e_state != ENEMY_DEAD){
-                            motherpl_hitted(THIS);
-                            changeEstate(THIS, ENEMY_WAIT);
+                            motherpl_hitted(s_enemy);
+                            changeEstate(s_enemy, ENEMY_WAIT);
                         }
                     break;
                 }
@@ -162,14 +162,14 @@ void Emanagement() BANKED{
         switch(eu_info->e_state){
             case ENEMY_DEAD:
                 eu_info->wait--;
-                //THIS->y--;
+                //s_enemy->y--;
                 if(e_v_coll != 0){
                     if(eu_info->wait % 8 == 0){
-                        THIS->y+=2;
+                        s_enemy->y+=2;
                     }
                 }
                 if(eu_info->wait == 0u){
-                    Edestroy();
+                    Edestroy(s_enemy);
                 }
                 return;
             break;
@@ -177,30 +177,31 @@ void Emanagement() BANKED{
             case ENEMY_HIT_2:
             case ENEMY_WAIT:
                 if(eu_info->wait){eu_info->wait--;}
-                else if(eu_info->hp > 0){changeEstate(THIS, ENEMY_WALK);}
-                else{changeEstate(THIS, ENEMY_DEAD);}
+                else if(eu_info->hp > 0){
+                    changeEstate(s_enemy, ENEMY_WALK);
+                }else{changeEstate(s_enemy, ENEMY_DEAD);}
                 return;
             break;
             case ENEMY_WALK:
                 eu_info->wait--;
                 {
-                    INT16 distance = THIS->x - s_motherpl->x;
-                    if(THIS->mirror == NO_MIRROR && distance > 80 && eu_info->wait < 10u){
-                        ETurn(eu_info->vx);
+                    INT16 distance = s_enemy->x - s_motherpl->x;
+                    if(s_enemy->mirror == NO_MIRROR && distance > 80 && eu_info->wait < 10u){
+                        ETurn(s_enemy, eu_info->vx);
                         return;
-                    }else if( THIS->mirror == V_MIRROR && distance < -80 && eu_info->wait < 10u){
-                        ETurn(eu_info->vx);
+                    }else if( s_enemy->mirror == V_MIRROR && distance < -80 && eu_info->wait < 10u){
+                        ETurn(s_enemy, eu_info->vx);
                         return;
                     }
                 }
                 if(eu_info->wait == 0u){
-                    switch(THIS->type){
+                    switch(s_enemy->type){
                         case SpriteEnemyAttackerCobra:
                         case SpriteEnemyAttackerPine:
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
                         case SpriteEnemyThrowerScorpion:
-                            changeEstate(THIS, ENEMY_PREATTACK);
+                            changeEstate(s_enemy, ENEMY_PREATTACK);
                         break;
                     }
                 }
@@ -213,39 +214,39 @@ void Emanagement() BANKED{
                     }else if(eu_info->wait % 4 == 0){
                         tremble = 2;
                     }
-                    THIS->y += tremble;
+                    s_enemy->y += tremble;
                 }
             case ENEMY_PREATTACK:
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
-                    switch(THIS->type){
+                    switch(s_enemy->type){
                         case SpriteEnemyAttackerPine:
                         case SpriteEnemyAttackerCobra:
-                            changeEstate(THIS, ENEMY_ATTACK);
+                            changeEstate(s_enemy, ENEMY_ATTACK);
                         break;
                         case SpriteEnemyThrowerSpider:
                         case SpriteEnemyThrowerTarantula:
                         case SpriteEnemyThrowerScorpion:
-                            changeEstate(THIS, ENEMY_THROW);
+                            changeEstate(s_enemy, ENEMY_THROW);
                         break;
                     }
                 }
             break;
             case ENEMY_ATTACK:
                 eu_info->wait--;
-                if(eu_info->wait == 0u){changeEstate(THIS, ENEMY_WALK);}
+                if(eu_info->wait == 0u){changeEstate(s_enemy, ENEMY_WALK);}
             break;
             case ENEMY_THROW:
                 eu_info->wait--;
-                if(eu_info->wait == 0u){changeEstate(THIS, ENEMY_WAIT);}
+                if(eu_info->wait == 0u){changeEstate(s_enemy, ENEMY_WAIT);}
             break;
             case ENEMY_UPSIDEDOWN:
                 eu_info->wait--;
                 if(eu_info->wait == 0u){
                     if(eu_info->vx >= 0){
-                        THIS->mirror = NO_MIRROR;
+                        s_enemy->mirror = NO_MIRROR;
                     }else{
-                        THIS->mirror = V_MIRROR;
+                        s_enemy->mirror = V_MIRROR;
                     }
                     //changeEstate(ENEMY_WAIT);
                 }
@@ -254,45 +255,45 @@ void Emanagement() BANKED{
         }
 }
 
-void Estart() BANKED{
-    THIS->lim_x = 88u;
-    THIS->lim_y = 8u;
+void Estart(Sprite* s_enemy) BANKED{
+    s_enemy->lim_x = 88u;
+    s_enemy->lim_y = 8u;
     UINT8 i = 0u;    
     for(i = 0u; i < 3u; ++i){
         UINT8 j = 0u;    
         for(j = 0u; j < 3u; ++j){
-            if(e_to_reload[j].type == THIS->type && e_to_reload[j].alive == 1u){
+            if(e_to_reload[j].type == s_enemy->type && e_to_reload[j].alive == 1u){
                 j = 4u;
             }
         }
         if(e_to_reload[i].alive == 0u && j == 3u){
-            e_to_reload[i].x = THIS->x;
-            e_to_reload[i].y = THIS->y;
-            e_to_reload[i].type = THIS->type;
+            e_to_reload[i].x = s_enemy->x;
+            e_to_reload[i].y = s_enemy->y;
+            e_to_reload[i].type = s_enemy->type;
             e_to_reload[i].alive = 1u;
         }
     }
     enemy_counter++;
-    struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+    struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
     eu_info->configured = 1u;
     eu_info->wait = 40u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
-        SPRITE_SET_PALETTE(THIS,1);
+        SPRITE_SET_PALETTE(s_enemy,1);
     }
 }
 
-void Econfiguration() BANKED{
-    struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+void Econfiguration(Sprite* s_enemy) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
     if(eu_info->configured == 1u){
-        configure();
+        configure(s_enemy);
         return;
     }
 }
 
-UINT8 getEmaxFrameskip() BANKED{
+UINT8 getEmaxFrameskip(Sprite* s_enemy) BANKED{
     UINT8 result = 0u;
-    switch(THIS->type){
+    switch(s_enemy->type){
         case SpriteEnemysimplesnake:
         case SpriteEnemysimplerat:
             result = E_FRAMSKIP_SNAKE;
@@ -312,30 +313,30 @@ UINT8 getEmaxFrameskip() BANKED{
     return result;
 }
 
-void ETurn(UINT8 e_vx){
-    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+void ETurn(Sprite* s_enemy, UINT8 e_vx){
+    struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
     if(e_info->vx > 0){
-        THIS->mirror = V_MIRROR;
-        THIS->x--;
+        s_enemy->mirror = V_MIRROR;
+        s_enemy->x--;
     }else{
-        THIS->mirror = NO_MIRROR;
-        THIS->x++;
+        s_enemy->mirror = NO_MIRROR;
+        s_enemy->x++;
     }
     e_info->vx = -e_vx;
-    if(THIS->type != SpriteEnemyThrowerScorpion && 
-        THIS->type != SpriteEnemyThrowerTarantula &&
-        THIS->type != SpriteEnemyThrowerScorpion){
+    if(s_enemy->type != SpriteEnemyThrowerScorpion && 
+        s_enemy->type != SpriteEnemyThrowerTarantula &&
+        s_enemy->type != SpriteEnemyThrowerScorpion){
         e_info->wait += 32u;
     }
     if(e_info->e_state != ENEMY_PREATTACK || e_info->e_state != ENEMY_THROW){
-        changeEstate(THIS, ENEMY_WAIT);
+        changeEstate(s_enemy, ENEMY_WAIT);
     }
 }
 
-void configure() BANKED{
-    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+void configure(Sprite* s_enemy) BANKED{
+    struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
     e_info->x_frameskip = 1u;
-    switch(THIS->type){
+    switch(s_enemy->type){
         case SpriteEnemysimplesnake:
             e_info->x_frameskip = 0u;
             e_info->hp = 1;
@@ -356,22 +357,24 @@ void configure() BANKED{
     e_info->vx = E_VX;
     e_info->configured = 2u;
     e_info->e_state =  ENEMY_IDLE;
-    changeEstate(THIS, ENEMY_WALK);
-    if(s_motherpl->x < THIS->x){
-        ETurn(E_VX);
+    changeEstate(s_enemy, ENEMY_WALK);
+    if(s_motherpl->x < s_enemy->x){
+        ETurn(s_enemy, E_VX);
     }
 }
 
 void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
     struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
-    if((new_e_state == ENEMY_HIT_1 || new_e_state == ENEMY_HIT_2)
-         && e_info->e_state == ENEMY_ATTACK){
-        return;//Invulnerabilità durante l' attacco!
+    //se è stato colpito e (lo è stato già oppure sta attancando)
+    if((new_e_state == ENEMY_HIT_1 || new_e_state == ENEMY_HIT_2) && 
+        (e_info->e_state == ENEMY_HIT_2 || e_info->e_state == ENEMY_HIT_1 || 
+        e_info->e_state == ENEMY_ATTACK)){
+        return;//Invulnerabilità durante hit e attacco!
     }
     if(e_info->e_state != new_e_state && e_info->e_state != ENEMY_DEAD){
         switch(new_e_state){
             case ENEMY_WALK:
-                switch(THIS->type){
+                switch(s_enemy->type){
                     case SpriteEnemyAttackerCobra:
                         e_info->x_frameskip = E_FRAMSKIP_COBRA;
                         e_info->wait = enemy_random_30_100 + 100u;
@@ -400,37 +403,42 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 my_play_fx(CHANNEL_2, 60, 0x09, 0x52, 0x36, 0x87, 0x00);//SFX_ENEMY_HIT
                 e_info->hp-=2;
                 if(e_info->hp <= 0u){
-                    changeEstate(THIS, ENEMY_DEAD);
+                    changeEstate(s_enemy, ENEMY_DEAD);
                     return;
+                }else if(s_enemy->type == SpriteEnemyThrowerScorpion){
+                    e_info->wait = 80u;
+                    TranslateSprite(s_enemy, 0, -6 << delta_time);
                 }else{
                     e_info->wait = 32u;
-                    TranslateSprite(THIS, 0, -6 << delta_time);
+                    TranslateSprite(s_enemy, 0, -6 << delta_time);
                 }
             break;
             case ENEMY_HIT_1:
                 my_play_fx(CHANNEL_2, 60, 0x09, 0x52, 0x36, 0x87, 0x00);//SFX_ENEMY_HIT
                 e_info->hp--;
                 if(e_info->hp <= 0u){
-                    changeEstate(THIS, ENEMY_DEAD);
+                    changeEstate(s_enemy, ENEMY_DEAD);
                     return;
                 }else{
-                    if(THIS->type == SpriteEnemyAttackerCobra){
+                    if(s_enemy->type == SpriteEnemyAttackerCobra){
                         e_info->wait = 16u;
+                    }else if(s_enemy->type == SpriteEnemyThrowerScorpion){
+                        e_info->wait = 80u;
                     }else{
                         e_info->wait = 24u;
                     }
-                    TranslateSprite(THIS, 0, -6 << delta_time);
+                    TranslateSprite(s_enemy, 0, -6 << delta_time);
                 }
             break;
             case ENEMY_DEAD:
                 if(e_info->vx < 0){
-                    THIS->mirror = HV_MIRROR;
+                    s_enemy->mirror = HV_MIRROR;
                 }else{
-                    THIS->mirror = H_MIRROR;
+                    s_enemy->mirror = H_MIRROR;
                 }
-                TranslateSprite(THIS, 0, -10 << delta_time);
+                TranslateSprite(s_enemy, 0, -10 << delta_time);
                 if(e_info->configured == 2u){
-                    EspawnItem();
+                    EspawnItem(s_enemy);
                 }
                 e_info->wait = 60u;
             break;
@@ -438,25 +446,25 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 e_info->wait = 80u;
             break;
             case ENEMY_PREATTACK:
-                if((THIS->x < s_motherpl->x && e_info->vx < 0) ||
-                    (THIS->x > s_motherpl->x && e_info->vx > 0)){
-                    ETurn(e_info->vx);
+                if((s_enemy->x < s_motherpl->x && e_info->vx < 0) ||
+                    (s_enemy->x > s_motherpl->x && e_info->vx > 0)){
+                    ETurn(s_enemy, e_info->vx);
                 }
                 e_info->wait = 56u;
             break;
             case ENEMY_ATTACK:
-                if(THIS->mirror == NO_MIRROR){e_info->vx = 2*E_VX;}
+                if(s_enemy->mirror == NO_MIRROR){e_info->vx = 2*E_VX;}
                 else{e_info->vx = 2* (-E_VX);}
                 e_info->wait = enemy_random_30_100;
                 e_info->x_frameskip = 0u;
             break;
             case ENEMY_THROW:
                 e_info->wait = 40u;
-                if((THIS->x < s_motherpl->x && THIS->mirror == V_MIRROR)
-                     || (THIS->x > s_motherpl->x && THIS->mirror == NO_MIRROR)){
-                    ETurn(e_info->vx);
+                if((s_enemy->x < s_motherpl->x && s_enemy->mirror == V_MIRROR)
+                     || (s_enemy->x > s_motherpl->x && s_enemy->mirror == NO_MIRROR)){
+                    ETurn(s_enemy, e_info->vx);
                 }
-                switch(THIS->type){
+                switch(s_enemy->type){
                     case SpriteEnemyThrowerSpider: EthrowWeb(e_info->e_state); break;
                     case SpriteEnemyThrowerTarantula: EthrowAcid(e_info->e_state); break;
                     case SpriteEnemyThrowerScorpion: EthrowProjectile(e_info->e_state); break;
@@ -465,22 +473,22 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
             case ENEMY_UPSIDEDOWN:
                 e_info->wait = 72u;
                 if(e_info->vx < 0){
-                    THIS->mirror = HV_MIRROR;
+                    s_enemy->mirror = HV_MIRROR;
                 }else{
-                    THIS->mirror = H_MIRROR;
+                    s_enemy->mirror = H_MIRROR;
                 }
                 if(e_info->configured == 2u){
-                    EspawnItem();
+                    EspawnItem(s_enemy);
                 }
-                TranslateSprite(THIS, 0, -10 << delta_time);
+                TranslateSprite(s_enemy, 0, -10 << delta_time);
                 if(e_info->hp <= 1){
                     e_info->wait = 0u;
-                    changeEstate(THIS, ENEMY_DEAD);
+                    changeEstate(s_enemy, ENEMY_DEAD);
                 }
             break;
         }
         //UPDATE ANIMATION
-        switch(THIS->type){
+        switch(s_enemy->type){
             case SpriteEnemysimplesnake: EsimpleSnakeAnim(new_e_state);  break;
             case SpriteEnemysimplerat: EsimpleRatAnim(new_e_state);  break;
             case SpriteEnemyAttackerCobra: EattackerCobraAnim(new_e_state); break;
@@ -493,8 +501,8 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
     }
 }
 
-void EspawnItem() BANKED{
-    struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
+void EspawnItem(Sprite* s_enemy) BANKED{
+    struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
     e_info->configured = 3u;
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
@@ -522,7 +530,7 @@ void EspawnItem() BANKED{
         }
     }
     UINT16 quantity = 1u;        
-    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, THIS->x + 4u, THIS->y - 12u);
+    Sprite* reward = SpriteManagerAdd(SpriteItemspawned, s_enemy->x + 4u, s_enemy->y - 12u);
     struct ItemSpawned* reward_data = (struct ItemSpawned*) reward->custom_data;
     reward_data->itemtype = itemtype;
     reward_data->quantity = quantity;
@@ -530,13 +538,13 @@ void EspawnItem() BANKED{
     reward_data->configured = 1u;
 }
 
-void Edestroy() {
+void Edestroy(Sprite* s_enemy) BANKED{
     if(enemy_counter > 0){
         enemy_counter--;
     }
     UINT8 i = 0u;
     for(i = 0; i < 3; ++i){
-        if(e_to_reload[i].type == THIS->type){
+        if(e_to_reload[i].type == s_enemy->type){
             e_to_reload[i].alive = 0u;
             e_to_reload[i].type = 0u;
             e_to_reload[i].x = 0u;
@@ -544,13 +552,13 @@ void Edestroy() {
             i = 3u;
         }
     }
-    SpriteManagerRemoveSprite(THIS);
+    SpriteManagerRemoveSprite(s_enemy);
 }
 
 void DESTROY(){
     struct EnemyData* e_info = (struct EnemyData*) THIS->custom_data;
     if(e_info->e_state != ENEMY_DEAD){
         e_info->e_state = ENEMY_DEAD;
-        Edestroy();
+        Edestroy(THIS);
     }
 }

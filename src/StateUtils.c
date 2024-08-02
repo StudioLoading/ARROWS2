@@ -123,7 +123,6 @@ void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
 void manage_border(UINT8 next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
-void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, UINT8 max_wait, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern struct EnemyData* minotaur_data;
@@ -723,15 +722,15 @@ void update_camera_position() BANKED{
             //LEFT
             if(s_motherpl->x < (UINT16)8u){
                 s_motherpl->x = 8u;
-                UINT8 next_ = -1;
+                INT8 next_ = -1;
                 switch(current_state){
                     case StateHood:
                         if(child_hooked == 1 && help_cemetery_woman.current_step == 2){
                             help_cemetery_woman.current_step = 4;
                         }
                     case StateExzoo:
-                        next_ = 0u;                
-                        ChangeState(StateOverworld, s_motherpl, next_);
+                        next_ = MAP_SOUTHWEST;
+                        ChangeState(StateOverworld, s_motherpl, MAP_SOUTHWEST);
                     break;
                     case StateSky:
                         ChangeState(StateMountain, s_motherpl, -1);
@@ -740,11 +739,11 @@ void update_camera_position() BANKED{
                         ChangeState(StateOutwalkers, s_motherpl, -1);
                     break;
                     case StateSilvercave:
-                        next_ = 4u;
-                        ChangeState(StateOverworld, s_motherpl, next_);
+                        next_ = MAP_EAST;
+                        ChangeState(StateOverworld, s_motherpl, MAP_EAST);
                     break;
                     case StateBridge:
-                        next_ = 3u;
+                        next_ = MAP_SOUTHEAST;
                     default:
                         ChangeState(StateOverworld, s_motherpl, next_);
                     break;
@@ -962,17 +961,6 @@ void spawn_dialog_icon(Sprite* npc) BANKED{
             } 
         break;
     }
-}
-
-void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, UINT8 max_wait, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED{
-    Sprite* s_ownpc = SpriteManagerAdd(SpriteOwpeople, posx, posy);
-    struct OwPeopleData* d_ownpc = (struct OwPeopleData*) s_ownpc->custom_data;
-    d_ownpc->vy = init_vy;
-    d_ownpc->vx = init_vx;
-    d_ownpc->wait = wait;
-    d_ownpc->type = type;
-    d_ownpc->et_collision = 0;
-    d_ownpc->max_wait = max_wait;
 }
 
 void START(){}

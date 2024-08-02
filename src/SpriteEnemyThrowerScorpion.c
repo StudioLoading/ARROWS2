@@ -22,19 +22,19 @@ const UINT8 scorpion_anim_attack[] = {1, 7};//{2, 1, 3}; //The first number indi
 extern UINT8 enemy_random_30_100;
 
 void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
-void EthrowProjectile(ENEMY_STATE estate) BANKED;
+void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
-extern void Estart() BANKED;
-extern void Edestroy() BANKED;
-extern void configure() BANKED;
+extern void Estart(Sprite* s_enemy) BANKED;
+extern void Edestroy(Sprite* s_enemy) BANKED;
+extern void configure(Sprite* s_enemy) BANKED;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
-extern void Econfiguration() BANKED;
-extern void Emanagement() BANKED;
+extern void Econfiguration(Sprite* s_enemy) BANKED;
+extern void Emanagement(Sprite* s_enemy) BANKED;
 extern void enemy_death() BANKED;
-extern void ETurn(UINT8 e_vx);
+extern void ETurn(Sprite* s_enemy, UINT8 e_vx);
 
 void START(){
-    Estart();
+    Estart(THIS);
 }
 
 void UPDATE(){
@@ -44,13 +44,13 @@ void UPDATE(){
             return;
         }
         if(eu_info->configured == 1){
-            Econfiguration();
+            Econfiguration(THIS);
             return;
         }
     //CHECK DEATH
         if(eu_info->hp <= 0){changeEstate(THIS, ENEMY_DEAD);}
     //MANAGEMENT
-        Emanagement();
+        Emanagement(THIS);
     //SCORPION LIMITS
         INT8 scroll_distance = scroll_target->x - THIS->x;
         if(scroll_distance > 80){
@@ -75,10 +75,10 @@ void EthrowerScorpionAnim( ENEMY_STATE estate) BANKED{
     }
 }
 
-void EthrowProjectile(ENEMY_STATE estate) BANKED{
-    struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
+void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
+    struct EnemyData* eu_info = (struct EnemyData*)s_enemy->custom_data;
     EthrowerScorpionAnim(estate);
-    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, THIS->x +8u, THIS->y - 7u);
+    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, s_enemy->x +8u, s_enemy->y - 7u);
     struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
     throwable_data->type = PROJECTILE;
     throwable_data->configured = 1u;
@@ -88,6 +88,6 @@ void DESTROY(){
     struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
     if(eu_info->e_state == ENEMY_DEAD){
         enemy_death();
-        Edestroy();
+        Edestroy(THIS);
     }
 }

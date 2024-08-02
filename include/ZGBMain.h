@@ -9,7 +9,8 @@
 */
 /* _STATE(StateBonus)\ */
 #define STATES \
-_STATE(StateFittizio)\
+_STATE(StateUtils)\
+_STATE(StateUtilsOw)\
 _STATE(StateTitlescreen)\
 _STATE(StateMotherutils)\
 _STATE(StateTutorial)\
