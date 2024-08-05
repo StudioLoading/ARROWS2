@@ -29,7 +29,7 @@ extern UINT8 scroll_bottom_movement_limit;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 
-const UINT8 collision_tiles_ow_sw[] = {16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
+const UINT8 collision_tiles_ow_sw[] = {3, 4, 16, 17, 18, 23, 24, 25, 26, 28, 29, 32, 
 33, 34, 39, 41, 42, 43, 44, 45, 46, 47, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
 62, 63, 64, 65, 66, 67, 68, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83,
 84, 85, 86, 87, 88, 90, 91, 95, 96, 112, 113, 114, 115, 116, 117, 118, 119, 120,
@@ -55,7 +55,7 @@ UINT16 lim_west_x = ((UINT16) 46u << 3);
 HUD_OPTION owhudopt = OW_DIARY;
 Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_NOTHING;
-UINT8 delay_spawning = 0;
+UINT8 delay_spawning = 8u;
 UINT8 anim_counter = 0u;
 
 
@@ -88,6 +88,7 @@ extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
+extern UINT8 ow_is_beach;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -151,7 +152,7 @@ void START(){
 				GetMapSize(BANK(oweast), &oweast, &mapwidth, &mapheight);
 			break;
 		}
-		delay_spawning = 40u;
+		delay_spawning = 8u;
 	//CUTSCENES
 		if(help_cemetery_woman.current_step == 4u){
 			//non capisco perché child_hooked è a zero anche quando ho portato bene
@@ -239,7 +240,7 @@ void ShowTipOW() BANKED{
 			show_tip_movingscroll_x-=2;
 			scroll_target->x-=2;
 		}
-		if(scroll_target->x > (mapwidth-80)){
+		if(scroll_target->x > ((mapwidth<<3)-80)){
 			scrolling = 1;
 			show_tip_movingscroll_x+=2;
 			scroll_target->x+=2;
@@ -259,7 +260,6 @@ void ShowTipOW() BANKED{
 		}
 	}
 }
-
 
 void spawn_step(UINT16 stepx, UINT16 stepy) BANKED{
 	SpriteManagerAdd(SpriteMotherowstep, stepx, stepy);
@@ -501,6 +501,17 @@ void UPDATE(){
 		if(show_tip == 0u){
 			scroll_target->x = s_motherow->x+4u;
 			scroll_target->y = s_motherow->y+4u;
+		}
+	//IS ON THE BEACH
+		switch(current_map){
+			case MAP_NORTHWEST:
+			case MAP_EAST:
+				if(ow_is_beach==0 && s_motherow->y <  ((UINT16)16u <<3)){
+					ow_is_beach = 1;
+				}else if(ow_is_beach == 1 && s_motherow->y >= ((UINT16)16u <<3)){
+					ow_is_beach = 0;
+				}
+			break;
 		}
 	//INITIAL SPRITE SPAWNING
 		if(delay_spawning > 0){

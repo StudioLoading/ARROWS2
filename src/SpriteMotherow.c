@@ -98,60 +98,58 @@ void START(){
 }
 
 void update_position_motherow() BANKED{
-    if(show_tip == 0u){        
-        if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
-        if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
-            motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
-        }
-        UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
-        if(current_map != MAP_MAZE){//NOT IN MAZE
-            switch(scroll_tile){
-                case 40u: 
-                case 99u: case 102u: case 103u: case 104u:
-                    //SFX
-                        if(THIS->anim_frame == 1){
-                            my_play_fx(CHANNEL_2, 60, 0x43, 0x32, 0x29, 0x85, 0x00);//SFX_OW_STEP
-                            //STEP
-                                if(motherow_info->ow_state == WALK_DOWN ||
-                                    motherow_info->ow_state == WALK_UP ||
-                                    motherow_info->ow_state == WALK_LEFT ||
-                                    motherow_info->ow_state == WALK_RIGHT){
-                                    step_counter++;
-                                    if(step_counter == 8u){
-                                        step_counter = 0u;
-                                        UINT16 step_x = THIS->x;
-                                        UINT16 step_y = THIS->y;
-                                        switch(motherow_info->ow_state){
-                                            case WALK_DOWN:
-                                                step_x += 1u;
-                                                step_y -= 12u;
-                                            break;
-                                            case WALK_UP:
-                                                step_x += 1u;
-                                                step_y -= 6u;
-                                            break;
-                                            case WALK_LEFT:
-                                                step_x += 2u;
-                                                step_y -= 8u;
-                                            break;
-                                            case WALK_RIGHT:
-                                                step_x -= 2u;
-                                                step_y -= 8u;
-                                            break;
-                                        }
-                                        spawn_step(step_x, step_y);
+    if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
+    if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
+        motherow_info->tile_collision = TranslateSprite(THIS, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
+    }
+    UINT8 scroll_tile = GetScrollTile((THIS->x >> 3), (THIS->y >> 3));
+    if(current_map != MAP_MAZE){//NOT IN MAZE
+        switch(scroll_tile){
+            case 40u: 
+            case 99u: case 102u: case 103u: case 104u:
+                //SFX
+                    if(THIS->anim_frame == 1){
+                        my_play_fx(CHANNEL_2, 60, 0x43, 0x32, 0x29, 0x85, 0x00);//SFX_OW_STEP
+                        //STEP
+                            if(motherow_info->ow_state == WALK_DOWN ||
+                                motherow_info->ow_state == WALK_UP ||
+                                motherow_info->ow_state == WALK_LEFT ||
+                                motherow_info->ow_state == WALK_RIGHT){
+                                step_counter++;
+                                if(step_counter == 8u){
+                                    step_counter = 0u;
+                                    UINT16 step_x = THIS->x;
+                                    UINT16 step_y = THIS->y;
+                                    switch(motherow_info->ow_state){
+                                        case WALK_DOWN:
+                                            step_x += 1u;
+                                            step_y -= 12u;
+                                        break;
+                                        case WALK_UP:
+                                            step_x += 1u;
+                                            step_y -= 6u;
+                                        break;
+                                        case WALK_LEFT:
+                                            step_x += 2u;
+                                            step_y -= 8u;
+                                        break;
+                                        case WALK_RIGHT:
+                                            step_x -= 2u;
+                                            step_y -= 8u;
+                                        break;
                                     }
+                                    spawn_step(step_x, step_y);
                                 }
-                        }
-                        if(frameskip_max != OW_PATH_FRAMESKIP){
-                            frameskip_max = OW_PATH_FRAMESKIP;
-                        }
-                break;
-                default:
-                    if(frameskip_max != OW_NORMAL_FRAMESKIP){
-                        frameskip_max = OW_NORMAL_FRAMESKIP;
+                            }
                     }
-            }
+                    if(frameskip_max != OW_PATH_FRAMESKIP){
+                        frameskip_max = OW_PATH_FRAMESKIP;
+                    }
+            break;
+            default:
+                if(frameskip_max != OW_NORMAL_FRAMESKIP){
+                    frameskip_max = OW_NORMAL_FRAMESKIP;
+                }
         }
     }
 }
@@ -284,18 +282,20 @@ void UPDATE(){
     if(motherow_info->ow_state != new_state){ 
         owChangeState(new_state);
     }
-    update_position_motherow();
+    if(show_tip == 0u){
+        update_position_motherow();
+    }
     //INTERACT WITH MAP
         if(motherow_info->tile_collision && motherow_info->tile_collision != d_push_sign.collided_tile){
            d_push_sign.collided_tile = motherow_info->tile_collision;
            tip_to_show = ow_show_pusha_sign();
         }
         if(colliding_owpeople && tip_to_show == 0){
-            tip_to_show = TIP_CHITCHAT;
+            ow_manage_chitchat();
             colliding_owpeople = 0; 
         }
         if((ow_pusha_hp || colliding_owpeople) && (KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP))){
-             ow_tips(tip_to_show);            
+            ow_tips(tip_to_show);            
         }
     //CHECK COLLIDED PLACE
         ow_check_place();

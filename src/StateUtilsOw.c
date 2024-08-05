@@ -36,6 +36,8 @@ extern UINT16 motherow_pos_y;
 extern UINT8 hidden_items_flags;
 extern struct EnemyData* blackieow_data;
 
+UINT8 ow_is_beach = 0u;
+
 void maze_teleport() BANKED;
 void initial_sprite_spawning() BANKED;
 void initial_ow_npc();

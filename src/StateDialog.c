@@ -30,6 +30,7 @@ IMPORT_MAP(dmappolice);
 IMPORT_MAP(dmapriverside);
 IMPORT_MAP(dmapminotaur);
 IMPORT_MAP(dmapminodef);
+IMPORT_MAP(dmapibex);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -121,6 +122,10 @@ void START() {
         break;
         case MINOTAUR_DEFEAT:
             InitScroll(BANK(dmapminodef), &dmapminodef, 0, 0);
+        break;
+        case IBEX_GIVE_MISSION:
+        case IBEX_GIVE_HERBS:
+            InitScroll(BANK(dmapibex), &dmapibex, 0, 0);
         break;
         default:
             switch(previous_state){

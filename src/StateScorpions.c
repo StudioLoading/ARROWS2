@@ -17,6 +17,7 @@ IMPORT_TILES(font);
 IMPORT_TILES(countrytiles);
 IMPORT_TILES(hudpltiles);
 IMPORT_MAP(countrymap);
+IMPORT_MAP(beachmap);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -41,9 +42,12 @@ extern UINT16 timeout_enemy;
 extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 mother_exit_cooldown;
+extern UINT8 ow_is_beach;
 
-const UINT8 coll_tiles_scorps[] = {1,2,3,4,5,39,41,43,44,0};
-const UINT8 coll_surface_scorps[] = {0};
+const UINT8 coll_tiles_country[] = {1,2,3,4,5,39,41,43,44,0};
+const UINT8 coll_surface_country[] = {0};
+const UINT8 coll_tiles_beach[] = {63u, 83u, 84u, 86u, 87u, 89u, 90u, 92u, 93u, 95u, 0};
+const UINT8 coll_surface_beach[] = { 62u, 0};
 
 UINT8 scorpion_mission_goal = 0b00000000;
 struct EnemyData* s_scorpion_data = 0;
@@ -71,7 +75,11 @@ void START(){
         Sprite* s_scorpion = SpriteManagerAdd(SpriteEnemyThrowerScorpion, (UINT16)15u << 3, (UINT16) 64u);
         s_scorpion_data= (struct EnemyData*) s_scorpion->custom_data;
         s_scorpion_data->configured = 1;
-        InitScroll(BANK(countrymap), &countrymap, coll_tiles_scorps, coll_surface_scorps); 
+        if(ow_is_beach == 0){
+            InitScroll(BANK(countrymap), &countrymap, coll_tiles_country, coll_surface_country); 
+        }else{
+            InitScroll(BANK(beachmap), &beachmap, coll_tiles_beach, coll_surface_beach); 
+        }
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 80u, (UINT16) 96u);    
     //HUD
         INIT_FONT(font, PRINT_BKG);

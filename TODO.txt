@@ -1,16 +1,4 @@
 POST DEMO:
-- tips ow se fatto vicino ai limiti della mappa il testo è spostato
-probabilmente la risolvo spostando il camerafocus verso il centro, mentre scendo
-- forse l'ai degli scorpioncini è debole, chiedere magari a qualche tester
-considerando che in quel frangente l' ospedale non funziona bene perché
-recupera al max 1hp
-- gli stage degli scorpioni singoli sono sempre gli stessi. disegnarne uno diverso
-per mappa ow in cui faccio l'incontro non dovrebbe prendere tante risorse
-e rallegra tutto il gioco
-- dialog map per il caprone
-
-- i nuovi audio di andrew!
-- audio dei projectile?
 - check limiti maze
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
@@ -44,6 +32,9 @@ e rallegra tutto il gioco
 - mettere nel libretto mappa mondo con gli hidden items! descritti sulla
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne
+- i nuovi audio di andrew!
+- audio dei projectile?
+
 
 PIXELART:
 - blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
@@ -113,12 +104,12 @@ dove B03 quel 03 è il numero di path corrente 01-09-0a-...
 
 
 PAD2 sulla SNES, prendere spunto da:
-			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
-			- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
+	- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_pong/sgb_pong.c
+	- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe invsilverskull.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe dmaibex.png -gbm -g -pal=mypal.pal
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783
