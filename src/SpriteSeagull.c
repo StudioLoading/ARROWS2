@@ -54,7 +54,8 @@ void UPDATE() {
                 SPRITEMANAGER_ITERATE(scroll_sg_tile, isgspr) {
                     if(CheckCollision(THIS, isgspr)) {
                         switch(isgspr->type){
-                            case SpriteMotherpl://io enemy ho colpito motherpl
+                            case SpriteMotherpl:
+                            case SpriteMotherplarmor://io enemy ho colpito motherpl
                                 if(gull_data->hp > 0 && gull_data->e_state != ENEMY_UPSIDEDOWN 
                                     && gull_data->e_state != ENEMY_HIT_1 
                                     && gull_data->e_state != ENEMY_HIT_2

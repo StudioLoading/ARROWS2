@@ -43,6 +43,7 @@ extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 mother_exit_cooldown;
 extern UINT8 ow_is_beach;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_country[] = {1,2,3,4,5,39,41,43,44,0};
 const UINT8 coll_surface_country[] = {0};
@@ -64,7 +65,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        }
         if(previous_state == StateInventory
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;

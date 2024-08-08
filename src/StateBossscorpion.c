@@ -42,6 +42,7 @@ extern UINT16 timeout_enemy;
 extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 timeout_drop;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_scorpio[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_scorpio[] = { 16u, 29u, 31u, 33u, 50u, 0};
@@ -64,7 +65,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, 46u);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, 10u, 46u);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, 46u);
+        }
         if(previous_state == StateInventory
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;

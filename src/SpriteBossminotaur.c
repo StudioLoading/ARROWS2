@@ -98,6 +98,7 @@ void UPDATE(){
             if(CheckCollision(THIS, iminospr)) {
                 switch(iminospr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         if(minotaur_data->e_state != ENEMY_PREATTACK && 
                         minotaur_data->e_state != ENEMY_JUMP && minotaur_data->e_state != ENEMY_HIT_1 &&
                         minotaur_data->e_state != ENEMY_HIT_2){

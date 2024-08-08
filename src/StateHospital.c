@@ -21,8 +21,6 @@ void manage_death() BANKED;
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
-extern Sprite* s_motherpl;
-extern Sprite* s_motherow;
 extern UINT8 previous_state;
 extern unsigned char EMPTY_STRING_21[];
 extern unsigned char d0[];

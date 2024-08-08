@@ -37,7 +37,7 @@ extern unsigned char dd10[];
 extern unsigned char dd11[];
 extern unsigned char dd12[];
 extern unsigned char dd13[];
-extern INT8 chapter;
+extern CHAPTERS chapter;
 
 extern struct MISSION find_blackie;
 extern struct MISSION enable_hospital;
@@ -52,7 +52,7 @@ extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
 extern struct MISSION golden_armor;
-extern struct MISSION* missions[16];
+extern struct MISSION* missions[21];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
 UINT8 cursor_posy[] = {12u, 36u, 60u, 84u};//, 116u, 116u};

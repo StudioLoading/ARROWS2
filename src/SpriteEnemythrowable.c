@@ -138,6 +138,7 @@ void UPDATE(){
                         }
                     break;
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         if(motherpl_blocked == 0u && throwable_data->type != T_DESTROYED){
                             switch(throwable_data->type){
                                 case PROJECTILE:

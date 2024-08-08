@@ -57,11 +57,20 @@ struct MISSION find_antidote = {.mission_title = FIND_ANTIDOTE,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION hungry_people = {.mission_title = HUNGRY_PROPLE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
-struct MISSION golden_armor = {.mission_title = GOLDEN_ARMOR, 
-.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION fix_bridge = {.mission_title = FIX_BRIDGE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
-struct MISSION* missions[16];
+struct MISSION golden_armor = {.mission_title = GOLDEN_ARMOR, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION mr_smee = {.mission_title = MR_SMEE, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION broken_ship = {.mission_title = BROKEN_SHIP, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION pirate_strike = {.mission_title = PIRATE_STRIKE, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION captain = {.mission_title = CAPTAIN, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+
+struct MISSION* missions[21];
 /* 
 { engage_smith, help_cemetery_woman, find_blackie, outwalker_chief,
 outwalker_glass, outwalker_smith, get_to_the_mountain, 0};
@@ -92,7 +101,6 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void manage_border(UINT8 next_state) BANKED;
 
 extern Sprite* s_motherpl;
-extern Sprite* s_motherow;
 
 void missions_init() BANKED{
 	engage_smith.mission_state = MISSION_STATE_DISABLED;
@@ -106,6 +114,10 @@ void missions_init() BANKED{
 	find_antidote.mission_state = MISSION_STATE_DISABLED;
 	fix_bridge.mission_state = MISSION_STATE_DISABLED;
 	golden_armor.mission_state = MISSION_STATE_DISABLED;
+	mr_smee.mission_state = MISSION_STATE_DISABLED;
+	broken_ship.mission_state = MISSION_STATE_DISABLED;
+	pirate_strike.mission_state = MISSION_STATE_DISABLED;
+	captain.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
 		case CHAPTER_0_BLACKIE:
 			engage_smith.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
@@ -181,7 +193,7 @@ void missions_init() BANKED{
 			golden_armor.phase = 0;
 			golden_armor.current_step = 0; 
 			//TEST START 
-			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
+			/*hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
 			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
@@ -189,8 +201,71 @@ void missions_init() BANKED{
 			fix_bridge.current_step = 0;
 			golden_armor.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_DISABLED
 			golden_armor.phase = 0;
-			golden_armor.current_step = 0; 
+			golden_armor.current_step = 0;*/
 			//TEST END
+		break;
+		case CHAPTER_4_SHIP:
+			engage_smith.mission_state = MISSION_STATE_REWARDED;
+			engage_smith.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
+			help_cemetery_woman.current_step = 5u;//0u
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
+			outwalker_chief.current_step = 5u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
+			outwalker_glass.current_step = 4u;//0u
+			outwalker_smith.mission_state = MISSION_STATE_REWARDED;
+			outwalker_smith.current_step = 0b00001111;
+			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
+			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
+			defeat_scorpions.current_step = 0b11111111;
+			defeat_scorpions.phase = 5;
+			find_antidote.mission_state = 
+			engage_smith.mission_state = MISSION_STATE_REWARDED;
+			engage_smith.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
+			help_cemetery_woman.current_step = 5u;//0u
+			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
+			outwalker_chief.current_step = 5u;//0u
+			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
+			outwalker_glass.current_step = 4u;//0u
+			outwalker_smith.mission_state = MISSION_STATE_REWARDED;
+			outwalker_smith.current_step = 0b00001111;
+			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
+			get_to_the_mountain.current_step = 0u;
+			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
+			defeat_scorpions.current_step = 0b11111111;
+			defeat_scorpions.phase = 5;
+			find_antidote.mission_state = MISSION_STATE_REWARDED;
+			find_antidote.phase = 4;//0
+			find_antidote.current_step = 1u;//0
+			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
+			hungry_people.phase = 0;
+			hungry_people.current_step = 0;
+			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			fix_bridge.phase = 0;
+			fix_bridge.current_step = 0;
+			golden_armor.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			golden_armor.phase = 0;
+			find_antidote.phase = 4;//0
+			find_antidote.current_step = 1u;//0
+			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
+			hungry_people.phase = 0;
+			hungry_people.current_step = 0;
+			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			fix_bridge.phase = 0;
+			fix_bridge.current_step = 0;
+			golden_armor.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			golden_armor.phase = 0;
+			golden_armor.current_step = 0;
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -209,6 +284,11 @@ void missions_init() BANKED{
 	missions[13] = &fix_bridge;
 	missions[14] = &golden_armor;
 	missions[15] = 0;
+	missions[16] = &mr_smee;
+	missions[17] = &broken_ship;
+	missions[18] = &pirate_strike;
+	missions[19] = &captain;
+	missions[20] = 0;
 }
 
 void inventory_init() BANKED{
@@ -259,6 +339,21 @@ void inventory_init() BANKED{
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;
 		case CHAPTER_3_ARMOUR:
+			itemMoney.itemtype = INVITEM_MONEY;
+			itemMoney.quantity = 20;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
+			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
+			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
+			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 30; unequip00.equippable = 0u;
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 30; unequip01.equippable = 0u;
+			unequip02.itemtype = INVITEM_UNASSIGNED; unequip02.quantity = 0; unequip02.equippable = 0u;
+			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
+			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
+			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
+		break;
+		case CHAPTER_4_SHIP:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
@@ -326,13 +421,17 @@ void position_init() BANKED{
 			motherpl_pos_x = (UINT16) 8u << 3;
 			motherpl_pos_y = (UINT16) 8u << 3;
 			//TEST START
-			current_map = MAP_EAST;
+			/*current_map = MAP_EAST;
 			motherow_pos_x = (UINT16) 38u << 3; 
 			motherow_pos_y = (UINT16) 44u << 3;
 			motherpl_pos_x = (UINT16) 8u << 3;
-			motherpl_pos_y = (UINT16) 8u << 3;
-
+			motherpl_pos_y = (UINT16) 8u << 3;*/
 			//TEST END
+		break;
+		case CHAPTER_4_SHIP:
+			current_map = MAP_SOUTHWEST;
+			motherow_pos_x = (UINT16) 24u << 3; 
+			motherow_pos_y = (UINT16) 18u << 3;
 		break;
 	}
 }

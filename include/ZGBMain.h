@@ -12,7 +12,8 @@
 _STATE(StateUtils)\
 _STATE(StateUtilsOw)\
 _STATE(StateTitlescreen)\
-_STATE(StateMotherutils)\
+_STATE(StateMotherplutils)\
+_STATE(StateMotherowutils)\
 _STATE(StateTutorial)\
 _STATE(StateInbetween)\
 _STATE(StateCredit)\
@@ -60,11 +61,13 @@ _SPRITE_DMG(SpriteTetratacche, tetratacche)\
 _SPRITE_DMG(SpriteTetracamera, camerafocus)\
 _SPRITE_DMG(SpriteTetracursor, tetracursor)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
+_SPRITE_DMG(SpriteMotherowarmor, motherowarmor)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteInvblinker, invblinker)\
 _SPRITE_DMG(SpriteCursor, cursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
+_SPRITE_DMG(SpriteMotherplarmor, motherplarmor)\
 _SPRITE_DMG(SpriteDust, dust)\
 _SPRITE_DMG(SpriteCloud, cloud)\
 _SPRITE_DMG(SpriteEnemysimple, enemysimple)\

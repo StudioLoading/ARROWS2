@@ -157,6 +157,7 @@ INT8 owpeople_checkmotherowcoll() BANKED{
         if(CheckCollision(THIS, iowpspr)) {
             switch(iowpspr->type){
                 case SpriteMotherow:
+                case SpriteMotherowarmor:
                     owpeople_data->wait++;
                     colliding = 1u;
                     colliding_owpeople = 1;

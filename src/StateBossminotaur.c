@@ -53,6 +53,7 @@ extern struct EnemyData* minotaur_data;
 extern struct MISSION golden_armor;
 extern UINT8 tiles_anim_interval;
 extern UINT8 timeout_drop;
+extern CHAPTERS chapter;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -64,7 +65,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 4u, (UINT16) 8u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, 4u, (UINT16) 8u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, 4u, (UINT16) 8u << 3);
+        }
         if(previous_state == StateInventory
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;

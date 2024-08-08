@@ -138,6 +138,7 @@ void Emanagement(Sprite* s_enemy) BANKED{
         SPRITEMANAGER_ITERATE(scroll_e_tile, iespr) {
             if(CheckCollision(s_enemy, iespr)) {
                 switch(iespr->type){
+                    case SpriteMotherplarmor:
                     case SpriteMotherpl://io enemy ho colpito motherpl
                         if(motherpl_state == MOTHERPL_DASH){
                             switch(s_enemy->type){

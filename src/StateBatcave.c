@@ -50,6 +50,7 @@ extern UINT8 powder_cooldown;
 extern UINT8 item_spawned_cooldown;
 extern UINT8 itemspawned_powder_max;
 extern struct OwSpriteInfo* motherow_info;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_batcave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
@@ -66,7 +67,6 @@ extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 
@@ -75,7 +75,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, (UINT16) 6u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, 10u, (UINT16) 6u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, (UINT16) 6u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;

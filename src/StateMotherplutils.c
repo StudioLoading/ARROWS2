@@ -112,6 +112,15 @@ extern void motherplnormal_setanim_dead() BANKED;
 extern void motherplnormal_setanim_blocked() BANKED;
 extern void motherplnormal_setanim_dash() BANKED;
 
+extern void motherplarmor_refreshAnimation() BANKED;
+extern void motherplarmor_setanim_shoot() BANKED;
+extern void motherplarmor_setanim_ascending() BANKED;
+extern void motherplarmor_setanim_crawl() BANKED;
+extern void motherplarmor_setanim_hit() BANKED;
+extern void motherplarmor_setanim_dead() BANKED;
+extern void motherplarmor_setanim_blocked() BANKED;
+extern void motherplarmor_setanim_dash() BANKED;
+
 void motherpl_sfx_cooldown() BANKED;
 void motherpl_select_ticked() BANKED;
 void motherpl_refresh_animation(Sprite* s_mother) BANKED;
@@ -132,6 +141,7 @@ void START(){
 void motherpl_start(Sprite* s_mother) BANKED{
     switch(s_mother->type){
         case SpriteMotherpl:
+        case SpriteMotherplarmor:
             motherpl_vx = 0u;
             motherpl_coll_x = 0u;
             motherpl_coll_y = 0u;
@@ -185,12 +195,9 @@ void motherpl_refresh_animation(Sprite* s_mother) BANKED{
         case SpriteMotherpl:
             motherplnormal_refreshAnimation();
         break;
-        //TODO 
-        /*
         case SpriteMotherplarmor:
             motherplarmor_refreshAnimation();
         break;
-        */
     }
 }
 
@@ -259,7 +266,9 @@ void motherpl_shoot(Sprite* s_mother) BANKED{
     }
     motherpl_attack_cooldown = COOLDOWN_ATTACK;
     motherpl_canshoot = 0u;
-    motherplnormal_setanim_shoot();
+    if(s_mother->type == SpriteMotherplarmor){
+        motherplarmor_setanim_shoot();
+    }else{ motherplnormal_setanim_shoot();}
     //refreshAnimation();
 }
 
@@ -614,7 +623,7 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
             {
             struct EnemyData* skull_data = (struct EnemyData*) s_collision->custom_data;
             if(skull_data->vx == 0){
-                struct ItemSpawned pickedup_gold_data = {.itemtype = INVITEM_MONEY, .quantity = 300, .equippable = 1u};
+                struct ItemSpawned pickedup_gold_data = {.itemtype = INVITEM_MONEY, .quantity = 30u, .equippable = 1u};
                 pickup(&pickedup_gold_data);
                 struct ItemSpawned pickedup_silver_data = {.itemtype = INVITEM_SILVERSKULL, .quantity = 1, .equippable = 0u};
                 pickup(&pickedup_silver_data);
@@ -689,13 +698,17 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                 //my_play_fx(CHANNEL_1, 60, 0x76, 0x7a, 0xe1, 0x5a, 0x86);//SFX_JUMP
                 //jump_ticked_delay = JUMP_TICKED_COOLDOWN;
                 if(motherpl_attack_cooldown == 0u){
-                    motherplnormal_setanim_ascending();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_ascending();
+                    }else{ motherplnormal_setanim_ascending();}
                 }
             break;
             case MOTHERPL_CRAWL:
             case MOTHERPL_CRAWL_SURF:
                 if(motherpl_attack_cooldown == 0u){
-                    motherplnormal_setanim_crawl();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_crawl();
+                    }else{ motherplnormal_setanim_crawl(); }
                 }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
@@ -706,7 +719,7 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
             break;
             case MOTHERPL_WALK:
                 if(motherpl_attack_cooldown == 0u){
-                    motherplnormal_refreshAnimation();
+                   motherpl_refresh_animation(s_mother);
                 }
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
@@ -726,7 +739,9 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                 }
                 if(s_blocking){SpriteManagerRemoveSprite(s_blocking);}
                 if(motherpl_hp > 0){
-                    motherplnormal_setanim_hit();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_hit();
+                    }else{motherplnormal_setanim_hit();}
                 }else{
                     motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
                     return;
@@ -734,25 +749,33 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
             break;
             case MOTHERPL_DEAD:
                 motherpl_hp = 0;
-                motherplnormal_setanim_dead();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_dead();
+                    }else{motherplnormal_setanim_dead();}
                 motherpl_hit_cooldown = DEAD_COOLDOWN_MAX;                
             break;
             case MOTHERPL_BLOCKED:
                 motherpl_vx = 0;
                 motherpl_blocked = 2u;
-                motherplnormal_setanim_blocked();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_blocked();
+                    }else{motherplnormal_setanim_blocked();}
                 motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
                 s_blockcmd = SpriteManagerAdd(SpriteRightleft, s_mother->x - 2u, s_mother->y - 20u);
             break;
             case MOTHERPL_PICKUP:
                 motherpl_inertiax = 0u;
                 pickingup_cooldown = PICKINGUP_COOLDOWN;
-                motherplnormal_setanim_crawl();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_crawl();
+                    }else{motherplnormal_setanim_crawl();}
             break;            
             case MOTHERPL_DASH:
                 dash_horizontal_time = 12u;
                 if(motherpl_state == MOTHERPL_JUMP){s_mother->y -= 4u;}
-                motherplnormal_setanim_dash();
+                    if(s_mother->type == SpriteMotherplarmor){
+                        motherplarmor_setanim_dash();
+                    }else{motherplnormal_setanim_dash();}
                 if(s_mother->mirror == NO_MIRROR){
                     motherpl_vx = 2;
                 }else{

@@ -54,6 +54,7 @@ extern UINT16 timeout_enemy;
 extern UINT8 timeout_cavesand;
 extern UINT8 enemy_wave;
 extern INT8 current_map;
+extern CHAPTERS chapter;
 
 UINT16 perc_10;
 UINT16 perc_40; 
@@ -78,7 +79,11 @@ void START(){
         UINT16 spawnmotherplx = (UINT16) 10u << 3;
         UINT16 spawnmotherply = (UINT16) 6u << 3;
         if(current_map == MAP_EAST){spawnmotherplx = (UINT16) 130u << 3; }
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, spawnmotherplx, spawnmotherply);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, spawnmotherplx, spawnmotherply);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, spawnmotherplx, spawnmotherply);
+        }
         if(current_map == MAP_EAST){THIS->mirror = V_MIRROR; }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;

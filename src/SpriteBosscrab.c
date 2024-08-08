@@ -76,6 +76,7 @@ void UPDATE(){
             if(CheckCollision(THIS, icrabspr)) {
                 switch(icrabspr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         if(crab_data->e_state == ENEMY_WALK || 
                         crab_data->e_state == ENEMY_JUMP && crab_jump_power == 0){
                             motherpl_hitted(THIS);

@@ -67,7 +67,7 @@ extern INT8 current_map;
 extern UINT8 teleporting;
 extern CURRENT_BORDER current_border; 
 extern INT8 motherpl_vx;
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern uint8_t sgb_running;
 extern UINT8 child_hooked;
 extern UINT8 activate_seagulls;
@@ -245,10 +245,12 @@ void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2
 void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
     switch(sprite_type){
         case SpriteMotherpl:
+        case SpriteMotherplarmor:
             motherpl_pos_x = x;
             motherpl_pos_y = y;
         break;
         case SpriteMotherow:
+        case SpriteMotherowarmor:
             motherow_pos_x = x;
             motherow_pos_y = y;
         break;
@@ -435,6 +437,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             && teleporting == 0){
             switch(s_mother->type){
                 case SpriteMotherow:
+                case SpriteMotherowarmor:
                     switch(new_state){
                         case StateOverworld:
                             if(current_map == MAP_SOUTHWEST && next_map == MAP_SOUTHEAST){
@@ -473,6 +476,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                     }
                 break;
                 case SpriteMotherpl:
+                case SpriteMotherplarmor:
                     switch(current_state){
                         case StateBlackieroom:
                             if(new_state == StateBlackiecave){
@@ -544,10 +548,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                         break;
                         case StateBatcave:
                             if(new_state == StateOverworld){
-                                if(current_map == MAP_SOUTHEAST){
-                                    motherow_pos_x = (UINT16) 10u << 3;
-                                    motherow_pos_y = (UINT16) 8u << 3;
-                                }
+                                motherow_pos_x = (UINT16) 12u << 3;
+                                motherow_pos_y = (UINT16) 37u << 3;
                             }
                         break;
                     }

@@ -104,7 +104,8 @@ void UPDATE(){
         SPRITEMANAGER_ITERATE(scroll_b_tile, bespr) {
             if(CheckCollision(THIS, bespr)) {
                 switch(bespr->type){
-                    case SpriteMotherpl://io enemy ho colpito motherpl
+                    case SpriteMotherpl:
+                    case SpriteMotherplarmor://io enemy ho colpito motherpl
                         if(motherpl_blocked == 0 && bat_data->e_state != ENEMY_ATTACK
                             && bat_data->e_state != ENEMY_RUN){
                             bat_change_state(THIS, ENEMY_ATTACK);

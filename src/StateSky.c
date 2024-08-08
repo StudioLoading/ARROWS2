@@ -42,6 +42,7 @@ extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
 extern Sprite* s_surf;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_sky[] = { 7u, 14u, 17u, 18u, 19u, 20u, 24u, 28u, 32u, 36u, 40u, 44u, 0};
 const UINT8 coll_surface_sky[] = {56u, 0};
@@ -59,7 +60,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 11u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 4u << 3, (UINT16) 11u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 11u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;

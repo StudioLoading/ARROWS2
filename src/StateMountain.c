@@ -40,6 +40,7 @@ extern struct MISSION help_cemetery_woman;
 extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_mountain[] = { 14u, 17u, 18u, 19u, 20u, 24u, 25u, 26u, 38u, 
 41u, 64u, 0};
@@ -59,7 +60,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 49u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 4u << 3, (UINT16) 49u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 49u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog
             || previous_state == StateSky) {
             s_motherpl->x = motherpl_pos_x;

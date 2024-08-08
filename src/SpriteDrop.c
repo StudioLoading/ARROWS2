@@ -33,6 +33,7 @@ void UPDATE(){
             SPRITEMANAGER_ITERATE(i, spr) {
                 switch(spr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                     case SpriteArrow:
                     case SpriteWolf:
                     case SpriteBossscorpion:

@@ -142,6 +142,12 @@ void START(){
                     pcode2_info->tetradado_faccia = FACCIA_SHIELD;
                     pcode3_info->tetradado_faccia = FACCIA_UP;
                 break;
+                case CHAPTER_4_SHIP:
+                    pcode0_info->tetradado_faccia = FACCIA_ARROWS;
+                    pcode1_info->tetradado_faccia = FACCIA_SHIELD;
+                    pcode2_info->tetradado_faccia = FACCIA_UP;
+                    pcode3_info->tetradado_faccia = FACCIA_ARROWS;
+                break;
             }
         }
 }
@@ -170,11 +176,13 @@ void UPDATE(){
     if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){ update_pcode(0);}
     if(KEY_TICKED(J_SELECT)){ password_reset();}
     if(KEY_TICKED(J_START)){
-        chapter = check_password();
-        if(chapter == -1){//invalid code inserted, reset
+        INT8 ckpwd_result = check_password();
+        if(ckpwd_result == -1){//invalid code inserted, reset
             my_play_fx(CHANNEL_2, 50, 0xab, 0xf2, 0xbf, 0x81, 0x00);//SFX WRONG PWD
             password_reset();
             return;
+        }else{
+            chapter = ckpwd_result;
         }
         load_chapter();
     }
@@ -196,15 +204,9 @@ void load_chapter() BANKED{
             ChangeStateThroughBetween(StateDialog);
         break;
         case CHAPTER_1_BANDITS:
-            just_started = 0;
-            ChangeStateThroughBetween(StateOverworld);
-        break;
         case CHAPTER_2_PLAGUE:
-            just_started = 0;
-            //ChangeStateThroughBetween(StateCart); TODO remove comment
-            ChangeStateThroughBetween(StateOverworld);
-        break;
         case CHAPTER_3_ARMOUR:
+        case CHAPTER_4_SHIP:
             just_started = 0;
             ChangeStateThroughBetween(StateOverworld);
         break;

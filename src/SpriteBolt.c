@@ -34,6 +34,7 @@ void UPDATE() {
             if(CheckCollision(THIS, bolt_s_spr)) {
                 switch(bolt_s_spr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         if(motherpl_state != MOTHERPL_HIT){
                             motherpl_hitted(THIS);
                             SpriteManagerRemoveSprite(THIS);

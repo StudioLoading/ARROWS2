@@ -32,7 +32,8 @@
 			"diarydialogs.h": "c",
 			"inventorydialogs.h": "c",
 			"math.h": "c",
-			"dialogs2.h": "c"
+			"dialogs2.h": "c",
+			"dialogtips.h": "c"
 		}
 	}
 }

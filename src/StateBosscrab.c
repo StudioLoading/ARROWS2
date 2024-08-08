@@ -42,6 +42,7 @@ extern UINT8 choice;
 extern UINT16 timeout_enemy;
 extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_crab[] = {63u, 83u, 84u, 86u, 87u, 89u, 90u, 92u, 93u, 95u, 0};
 const UINT8 coll_surface_crab[] = { 62u, 0};
@@ -58,7 +59,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
+        }
         if(previous_state == StateInventory
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;

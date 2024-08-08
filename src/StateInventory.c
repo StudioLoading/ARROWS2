@@ -33,7 +33,7 @@ const UINT8 collision_tiles_inv[] = {1, 2, 0};
 
 UINT8 invcursor_posx[] = {8u, 32u, 56u, 8u, 32u, 56u,8u, 32u, 56u, 80u, 104u, 128u};
 UINT8 invcursor_posy[] = {0u, 0u, 0u, 24u, 24u, 24u, 104u,104u,104u,104u,104u,104u,};
-UINT8 invcursor_posi = 0u;
+INT8 invcursor_posi = 0;
 UINT8 invcursor_old_posi = 0u;
 const INT8 invcursor_posimax = 12;
 Sprite* inv_cursor = 0;
@@ -56,8 +56,6 @@ UINT8 blinking_dessa_counter_max = 20;
 extern struct InvItem inventory[12];
 extern struct InvItem itemEquipped;
 extern UINT8 previous_state;
-extern Sprite* s_motherow;
-extern Sprite* s_motherpl;
 extern WHOSTALKING whostalking;
 extern INT8 current_map;
 

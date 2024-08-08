@@ -13,12 +13,12 @@
 #include "custom_datas.h"
 #include "Dialogs.h"
 
-const UINT8 motherow_anim_down[] = {4, 9, 0, 9, 1}; //The first number indicates the number of frames
-const UINT8 motherow_anim_up[] = {4, 4,3,4,2}; //The first number indicates the number of frames
-const UINT8 motherow_anim_h[] = {4, 5, 7, 6, 7}; //The first number indicates the number of frames
-const UINT8 motherow_anim_idle_h[] = {1, 7}; //The first number indicates the number of frames
-const UINT8 motherow_anim_idle_up[] = {1, 4}; //The first number indicates the number of frames
-const UINT8 motherow_anim_idle_down[] = {6, 8,8,8,8,9,10}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_down[] = {4, 9, 0, 9, 1}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_up[] = {4, 4,3,4,2}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_h[] = {4, 5, 7, 6, 7}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_idle_h[] = {1, 7}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_idle_up[] = {1, 4}; //The first number indicates the number of frames
+const UINT8 motherowarmor_anim_idle_down[] = {6, 8,8,8,8,9,10}; //The first number indicates the number of frames
 
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
@@ -31,12 +31,12 @@ extern void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state)
 extern void motherow_interact_with_map(Sprite* s_motherow_arg) BANKED;
 extern void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED;
 
-void motherownormal_setanim_walkh() BANKED;
-void motherownormal_setanim_walkup() BANKED;
-void motherownormal_setanim_walkdown() BANKED;
-void motherownormal_setanim_idleh() BANKED;
-void motherownormal_setanim_idledown() BANKED;
-void motherownormal_setanim_idleup() BANKED;
+void motherowarmor_setanim_walkh() BANKED;
+void motherowarmor_setanim_walkup() BANKED;
+void motherowarmor_setanim_walkdown() BANKED;
+void motherowarmor_setanim_idleh() BANKED;
+void motherowarmor_setanim_idledown() BANKED;
+void motherowarmor_setanim_idleup() BANKED;
 
 extern void motherow_start(Sprite* s_motherow_arg) BANKED;
 extern void update_position_motherow(Sprite* s_motherow_arg) BANKED;
@@ -86,23 +86,23 @@ void UPDATE(){
         ow_check_place(THIS);
 }
 
-void motherownormal_setanim_walkh() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_h, 10u);
+void motherowarmor_setanim_walkh() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_h, 10u);
 }
-void motherownormal_setanim_walkup() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_up, 12u);
+void motherowarmor_setanim_walkup() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_up, 12u);
 }
-void motherownormal_setanim_walkdown() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_down, 12u);
+void motherowarmor_setanim_walkdown() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_down, 12u);
 }
-void motherownormal_setanim_idleh() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_idle_h, 4u);
+void motherowarmor_setanim_idleh() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_idle_h, 4u);
 }
-void motherownormal_setanim_idledown() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_idle_down, 4u);
+void motherowarmor_setanim_idledown() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_idle_down, 4u);
 }
-void motherownormal_setanim_idleup() BANKED{
-    SetSpriteAnim(THIS, motherow_anim_idle_up, 4u);
+void motherowarmor_setanim_idleup() BANKED{
+    SetSpriteAnim(THIS, motherowarmor_anim_idle_up, 4u);
 }
 
 void DESTROY(){

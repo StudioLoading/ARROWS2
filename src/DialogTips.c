@@ -208,5 +208,109 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d3, " ARROWS IN THE MAZE ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
+		case TIP_CHITCHAT_SCORPIONS_CAME:
+			memcpy(d1, " WE DON'T KNOW WHERE", 22);
+			memcpy(d2, " THOSE SCORPIONS    ", 22);
+			memcpy(d3, " CAME FROM...       ", 22);
+			memcpy(d4, EMPTY_STRING_21 , 22);
+		break;
+    	case TIP_CHITCHAT_SCORPIONS_ALLAROUND:
+			memcpy(d1, " SCORPIONS WERE     ", 22);
+			memcpy(d2, " ALL AROUND US! IT  ", 22);
+			memcpy(d3, " WAS TERRIBLE!      ", 22);
+			memcpy(d4, EMPTY_STRING_21 , 22);
+		break;
+        case TIP_CHITCHAT_HERBS:
+			memcpy(d1, " DURING SUMMERS A   ", 22);
+			memcpy(d2, " MEDICAL HERB GROWS ", 22);
+			memcpy(d3, " SOUTH.             ", 22);
+			memcpy(d4, EMPTY_STRING_21 , 22);
+		break;
+        case TIP_CHITCHAT_IBEX:
+			memcpy(d1, " SOMETIMES I CAN SEE", 22);
+			memcpy(d2, " THUNDERS FLASHING  ", 22);
+			memcpy(d3, " THE WESTERN SKY.   ", 22);
+			memcpy(d4, EMPTY_STRING_21 , 22);
+		break;
+        case TIP_CHITCHAT_HIDDEN_20:
+		case TIP_CHITCHAT_HIDDEN_21:
+		case TIP_CHITCHAT_HIDDEN_22:
+			memcpy(d1, " FEW DAYS AGO SOME  ", 22);
+			memcpy(d2, " ITEMS WERE ON THE  ", 22);
+			memcpy(d3, " GROUND... DID YOU  ", 22);
+			memcpy(d4, " PICK UP SOME?      ", 22);
+		break;
+		case TIP_CHITCHAT_EASTSIDE:
+			memcpy(d1, " OUR HUMAN COMMUNI  ", 22);
+			memcpy(d2, " TY OCCUPY THE WEST ", 22);
+			memcpy(d3, " AND THE EAST SIDE  ", 22);
+			memcpy(d4, " OF THE CANAL.      ", 22);
+		break;
+		case TIP_CHITCHAT_BRIDGE:
+			memcpy(d1, " THE ONLY WAY TO    ", 22);
+			memcpy(d2, " REACH THE EAST SI  ", 22);
+			memcpy(d3, " DE IS BY CROSSING  ", 22);
+			memcpy(d4, " THE BRIDGE.        ", 22);
+		break;
+		case TIP_CHITCHAT_CARPENTER:
+			memcpy(d1, " THE CARPENTER IS   ", 22);
+			memcpy(d2, " VERY GOOD AT WORK  ", 22);
+			memcpy(d3, " ING WITH WOOD AND  ", 22);
+			memcpy(d4, " STONE.             ", 22);
+		break;
+		case TIP_CHITCHAT_DARKESTFOREST:
+			memcpy(d1, " THE DARKEST FOREST ", 22);
+			memcpy(d2, " IS A VERY OBSCURE  ", 22);
+			memcpy(d3, " AND MISTERIOUS PLA ", 22);
+			memcpy(d4, " CE. ARE YOU GOING? ", 22);
+		break;
+		case TIP_CHITCHAT_HIDDEN_30://in basso, fra i due alberi money
+			memcpy(d1, " I LIKE TO WATCH    ", 22);
+			memcpy(d2, " THE SKY BETWEEN    ", 22);
+			memcpy(d3, " TWO TWIN TREES.    ", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_CHITCHAT_HIDDEN_31://dietro al carpentiere metal
+			memcpy(d1, " SOMEONE SAW THE CA ", 22);
+			memcpy(d2, " RPENTER THROWING   ", 22);
+			memcpy(d3, " AWAY SOME METAL BE ", 22);
+			memcpy(d4, " HIND HIS SHOP.     ", 22);
+		break;
+		case TIP_CHITCHAT_HIDDEN_32://nei massi a nord
+			memcpy(d1, " SOMEONE SAW THE    ", 22);
+			memcpy(d2, " SMITH THROWING     ", 22);
+			memcpy(d3, " AWAY SOME WOOD BY  ", 22);
+			memcpy(d4, " THE BEACH.         ", 22);
+	    break;
+		case TIP_CHITCHAT_NICEARMOR:
+			memcpy(d1, " WOW! YOUR ARMOR IS ", 22);
+			memcpy(d2, " SO COOL!           ", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+		case TIP_CHITCHAT_WEAREGOODHERE:
+			memcpy(d1, " WE ARE ALL GOOD. Y ", 22);
+			memcpy(d2, " OU HELPED US A LOT ", 22);
+			memcpy(d3, " HERE. NOW IT IS TI ", 22);
+			memcpy(d4, " ME FOR YOU TO GO!  ", 22);
+		break;
+        case TIP_CHITCHAT_LEGOTWIN:
+			memcpy(d1, " LEGO HAS A TWIN!   ", 22);
+			memcpy(d2, " HIS BROTHER WORKS  ", 22);
+			memcpy(d3, " FOR CAPTAIN ONE    ", 22);
+			memcpy(d4, " EYED JACK.         ", 22);
+		break;
+        case TIP_CHITCHAT_CAPTAIN:
+			memcpy(d1, " ONE EYED JACK CAN  ", 22);
+			memcpy(d2, " HELP YOU CROSS THE ", 22);
+			memcpy(d3, " SEA.               ", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+		break;
+        case TIP_CHITCHAT_THANKYOU:
+			memcpy(d1, " THANK YOU FOR ALL  ", 22);
+			memcpy(d2, " THE HELP YOU GAVE  ", 22);
+			memcpy(d3, " US. NOW GO SAVE    ", 22);
+			memcpy(d4, " YOUR KID!          ", 22);
+		break;
 	}
 }

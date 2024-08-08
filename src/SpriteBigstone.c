@@ -59,6 +59,7 @@ void UPDATE(){
             if(CheckCollision(THIS, bigs_spr)) {
                 switch(bigs_spr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         motherpl_hitted(THIS);
                     case SpriteArrow:
                         SpriteManagerRemoveSprite(THIS);

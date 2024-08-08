@@ -1,5 +1,4 @@
 POST DEMO:
-- check limiti maze
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- tarantula

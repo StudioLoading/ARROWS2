@@ -41,6 +41,7 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
 extern WHOSTALKING whostalking;
 extern CURRENT_BORDER current_border;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_blackiecave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackiecave[] = { 16u, 29u, 31u, 33u, 0};
@@ -59,7 +60,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 20u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 4u << 3, (UINT16) 20u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 20u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog
             || previous_state == StateBlackieroom) {
             s_motherpl->x = motherpl_pos_x;

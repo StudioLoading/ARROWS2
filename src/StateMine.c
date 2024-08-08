@@ -43,6 +43,7 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION enable_hospital;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_cave[] = {1u, 10u, 11u, 12u, 35u, 52u, 84u, 85u, 86u, 87u, 90u, 91u, 0};
 const UINT8 coll_surface_cave[] = {14u, 17u, 18u, 19u, 53u, 65u, 0};
@@ -66,7 +67,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 7u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 6u << 3, (UINT16) 7u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 7u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;

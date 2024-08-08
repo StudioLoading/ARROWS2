@@ -58,8 +58,6 @@ TIP_TO_BE_LOCALIZED tip_to_show = TIP_NOTHING;
 UINT8 delay_spawning = 8u;
 UINT8 anim_counter = 0u;
 
-
-extern struct OwSpriteInfo* motherow_info;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern unsigned char EMPTY_STRING_21[];
@@ -82,7 +80,7 @@ extern WHOSTALKING whostalking;
 extern UINT8 child_hooked;
 extern CHAPTERS chapter;
 extern UINT8 previous_state;
-extern FA2OW_SPRITE_STATES new_state;
+extern FA2OW_SPRITE_STATES motherow_new_state;
 extern UINT8 just_started;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
@@ -115,38 +113,38 @@ void START(){
 		scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
 		show_tip = 0u;
+		if(chapter == CHAPTER_4_SHIP){
+			s_motherow = SpriteManagerAdd(SpriteMotherowarmor, motherow_pos_x, motherow_pos_y);
+		}else{
+			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+		}
 		switch (current_map){
 			case MAP_SOUTHWEST://south-west
-				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsouthwest), &owsouthwest, collision_tiles_ow_sw, 0);
 				GetMapSize(BANK(owsouthwest), &owsouthwest, &mapwidth, &mapheight);
 			break;
 			case MAP_NORTHWEST://north-west
-				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
-				new_state = IDLE_UP;
+				motherow_new_state = IDLE_UP;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(ownorthwest), &ownorthwest, collision_tiles_ow_sw, 0);				
 				//SpriteManagerAdd(SpriteArmor, (UINT16) 14u << 3, (UINT16) 40u << 3);
 				GetMapSize(BANK(ownorthwest), &ownorthwest, &mapwidth, &mapheight);
 			break;
 			case MAP_MAZE://labyrinth
-				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
-				new_state = IDLE_RIGHT;
+				motherow_new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owmaze), &owmaze, collision_tiles_maze, 0);				
 				GetMapSize(BANK(owmaze), &owmaze, &mapwidth, &mapheight);
 			break;
 			case MAP_SOUTHEAST://south-east
-				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
-				new_state = IDLE_RIGHT;
+				motherow_new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(owsoutheast), &owsoutheast, collision_tiles_ow_sw, 0);
 				GetMapSize(BANK(owsoutheast), &owsoutheast, &mapwidth, &mapheight);
 			break;
 			case MAP_EAST://east
-				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
-				new_state = IDLE_RIGHT;
+				motherow_new_state = IDLE_RIGHT;
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(oweast), &oweast, collision_tiles_ow_sw, 0);
 				GetMapSize(BANK(oweast), &oweast, &mapwidth, &mapheight);
@@ -489,6 +487,41 @@ void UPDATE(){
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
 								ChangeState(StateOverworld, s_motherow, 0);
 							}
+						break;
+					}
+				break;
+				case CHAPTER_4_SHIP:				
+					switch(current_map){
+						case MAP_SOUTHWEST:
+							if(s_motherow->y < lim_up_y){//go north to StateHood
+								ChangeState(StateHood, s_motherow, -1);
+							}
+							if(s_motherow->x > lim_east_x){
+								ChangeState(StateOverworld, s_motherow, 3);
+							}
+						break;
+						case MAP_NORTHWEST:						
+							if(s_motherow->y > lim_down_y){//go south to StateHood
+								ChangeState(StateHood, s_motherow, -1);
+							}else if(s_motherow->x > lim_east_x){
+								//TODO ChangeState(StateHarbor, s_motherow, -1);
+							}
+						break;
+						case MAP_MAZE:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 1);
+							}
+							if(s_motherow->y > lim_down_y){
+								motherpl_pos_x = (UINT16) 83u << 3;
+								motherpl_pos_y = (UINT16) 11u << 3;
+								ChangeState(StateExzoo, s_motherow, -1);
+							}
+						break;
+						case MAP_SOUTHEAST:
+							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
+								ChangeState(StateOverworld, s_motherow, 0);
+							}
+						break;
 					}
 				break;
 			}

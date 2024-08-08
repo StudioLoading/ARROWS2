@@ -19,7 +19,7 @@
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
-extern INT8 chapter;
+extern CHAPTERS chapter;
 extern UINT8 current_map;
 extern struct MISSION find_blackie;
 extern struct MISSION enable_hospital;
@@ -30,7 +30,6 @@ extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
-extern struct OwSpriteInfo* motherow_info;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern UINT8 hidden_items_flags;
@@ -467,3 +466,5 @@ void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) 
 		hidden_0_data->frmskip = flags;
 	}
 }
+
+

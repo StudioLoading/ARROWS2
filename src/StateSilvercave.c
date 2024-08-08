@@ -57,6 +57,7 @@ extern UINT8 timeout_drop;
 extern UINT8 horde_step;
 extern UINT8 horde_counter;
 extern UINT16 horde_cooldown;
+extern CHAPTERS chapter;
 
 UINT8 bastards_spawned = 0u;
 
@@ -72,7 +73,11 @@ void START(){
         scroll_top_movement_limit = 56u;
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
-        s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 7u << 3, (UINT16) 9u << 3);
+        if(chapter == CHAPTER_4_SHIP){
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 7u << 3, (UINT16) 9u << 3);
+        }else{
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 7u << 3, (UINT16) 9u << 3);
+        }
         if(previous_state == StateInventory || previous_state == StateDialog || 
             previous_state == StateBossminotaur) {
             s_motherpl->x = motherpl_pos_x;

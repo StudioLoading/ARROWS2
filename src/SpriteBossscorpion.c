@@ -83,6 +83,7 @@ void UPDATE(){
             if(CheckCollision(THIS, iscorpiospr)) {
                 switch(iscorpiospr->type){
                     case SpriteMotherpl:
+                    case SpriteMotherplarmor:
                         motherpl_hitted(THIS);
                     break;
                 }
