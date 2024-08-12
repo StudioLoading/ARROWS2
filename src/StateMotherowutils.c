@@ -506,6 +506,11 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                 break;
             }
         break;
+        case 134u:
+            if(chapter == CHAPTER_4_SHIP){
+                ChangeState(StateHarbor, s_motherow_arg, -1);
+            }else{s_motherow_arg->y -= 3; trigger_dialog(HARBOR_TOOSOON, s_motherow_arg);}
+        break;
         case 149u://BRIDGE
             if(fix_bridge.mission_state >= MISSION_STATE_ACCOMPLISHED){
                 ChangeState(StateBridge, s_motherow_arg, -1);

@@ -141,7 +141,7 @@ void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     if(whost != DEATH && whost != FISHERMAN_THERESFISH && whost != FISHERMAN_LETSGO
         && whost != FISHERMAN_FPSGATOR_COMPLETED && whost != OUTWALKER_GUARD_LANDSLIDE){
         if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
-            hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
+            hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED && whost != BRIDGE_BROKEN){
             whostalking = IMHUNGRY;
         }
     }

@@ -90,5 +90,13 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d16, "USE IT TO FORGE A ", 22);
 			memcpy(d17, "GOLDEN ARMOR.     ", 22);
 		break;
+		case HARBOR_TOOSOON:
+			*n_lines = 4u;
+			memcpy(d0, "THE HARBOR:        ", 22);
+			memcpy(d1, "IT IS TOO SOON FOR ", 22);
+			memcpy(d2, "ME TO LEAVE. HERE  ", 22);
+			memcpy(d3, "THERE IS STILL A   ", 22);
+			memcpy(d4, "LOT TO DO!         ", 22);
+		break;
     }
 }

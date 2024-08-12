@@ -713,6 +713,9 @@ void GetLocalizedLog_EN() BANKED{
 		case StateBridge:
 			memcpy(log0, "THE FIXED BRIDGE    ", 20);
 		break;
+		case StateHarbor:
+			memcpy(log0, "THE HARBOR          ", 20);
+		break;
 		case StateSilvercave:
 			memcpy(log0, "THE SILVER CAVE     ", 20);
 		break;

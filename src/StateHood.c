@@ -42,6 +42,7 @@ extern INT8 current_map;
 extern UINT8 enemy_wave;
 extern UINT8 child_hooked;
 extern MOTHERPL_STATE motherpl_state;
+extern CHAPTERS chapter;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 92u, 94u, 105u, 0};
 const UINT8 coll_surface_hood[] = {83u, 0};
@@ -66,10 +67,18 @@ void START(){
     //INIT GRAPHICS
         switch(current_map){
             case MAP_SOUTHWEST://comes from south-west
-                s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+                if(chapter == CHAPTER_4_SHIP){
+                    SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 10u << 3, (UINT16) 9u << 3);
+                }else{
+                    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
+                }
             break;
             case MAP_NORTHWEST://comes from north-west
-                s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 91u << 3, (UINT16) 9u << 3);
+                if(chapter == CHAPTER_4_SHIP){
+                    s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 91u << 3, (UINT16) 9u << 3);
+                }else{
+                    s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 91u << 3, (UINT16) 9u << 3);
+                }
                 s_motherpl->mirror = V_MIRROR;
             break;
         }

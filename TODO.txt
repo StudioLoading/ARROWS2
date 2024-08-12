@@ -1,4 +1,7 @@
 POST DEMO:
+- seguire gli appunti cartacei per fare le missioni dell' ultimo capitolo
+
+
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- tarantula
@@ -33,6 +36,9 @@ void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne
 - i nuovi audio di andrew!
 - audio dei projectile?
+- northwest > east è un limite che non valicherò mai. scriverei una cosa tipo "savana"
+o cmq un mezzo spoiler... tipo "to the castle, but i won't go there".
+OPPURE è UNA ZONA BONUS A CUI POSSO ANDARE SOLO A GIOCO FINITO ^^
 
 
 PIXELART:
@@ -108,7 +114,11 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe dmaibex.png -gbm -g -pal=mypal.pal
+png2gbtiles.exe C:\Users\checc\GB\ZGB-2023.0\tools\png2map\ship.png -gbm -g -pal=mypal.pal C:\Users\checc\GB\ZGB-2023.0\tools\png2map\mapship.gbm
+
+GBM TO PNG comando oppure da GBMB c'è Copy as Bitmap e incollare su un paint!
+cd C:\Users\checc\GB\ZGB-2023.0\tools\png2gbtiles
+png2gbtiles C:\Users\checc\GB\ZGB-2023.0\ZGB-FA2\res\oweast.gbm -png -c -pal=mypal.pal C:\Users\checc\GB\ZGB-2023.0\tools\png2gbtiles\oweast.png
 
 maypal.pal file di testo contenente solo le seguenti
 #C6D783

@@ -68,7 +68,7 @@ void START(){
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y);
         InitScroll(BANK(banditsmap), &banditsmap, coll_tiles_bandits, coll_surface_bandits);    
     //HUD
         INIT_FONT(font, PRINT_BKG);

@@ -43,6 +43,7 @@ _STATE(StateBridge)\
 _STATE(StateSilvercave)\
 _STATE(StateBossminotaur)\
 _STATE(StateBatcave)\
+_STATE(StateHarbor)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -136,6 +137,7 @@ _SPRITE_DMG(SpriteBossminotaursbuff, minotaursbuff)\
 _SPRITE_DMG(SpriteSkull, skull)\
 _SPRITE_DMG(SpriteEnemyBat, bat)\
 _SPRITE_DMG(SpriteOwpeople, owpeople)\
+_SPRITE_DMG(SpriteSeagullHarbor, seagullharbor)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"
