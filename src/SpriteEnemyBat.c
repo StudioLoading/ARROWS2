@@ -61,17 +61,17 @@ void UPDATE(){
         case ENEMY_RUN:
         case ENEMY_WALK:
             {
-            UINT8 vy = vy = (-GRAVITY * 2);
+            INT8 vy = -(GRAVITY * 2);
             if(bat_data->configured == 0){//se sto salendo, devo salire indip dal wait fino a collision
-                if(bat_data->wait > (MAX_WAIT - MAX_WAIT/4)){vy = GRAVITY * 3;}
-                else if(bat_data->wait > (MAX_WAIT/2 + MAX_WAIT/8)){vy = GRAVITY;
+                if(bat_data->wait > (MAX_WAIT - (MAX_WAIT >> 2))){vy = GRAVITY * 3;}
+                else if(bat_data->wait > ((MAX_WAIT >> 1) + (MAX_WAIT >> 3))){vy = GRAVITY;
                     SetSpriteAnim(THIS, bat_anim_fly, 32u);}
-                else if(bat_data->wait > (MAX_WAIT/2)){vy = 0;}
-                else if(bat_data->wait > (MAX_WAIT/2 - MAX_WAIT/8)){vy = 0;}
-                else if(bat_data->wait > MAX_WAIT/4){vy = -GRAVITY;
+                else if(bat_data->wait > ((MAX_WAIT >> 2))){vy = 0;}
+                else if(bat_data->wait > ((MAX_WAIT >> 1) - (MAX_WAIT >> 3))){vy = 0;}
+                else if(bat_data->wait > (MAX_WAIT >> 2)){
+                    vy = -GRAVITY;
                     THIS->anim_speed = 90u;}
-                else if(bat_data->wait > 0){
-                    bat_data->configured = 1;}
+                else if(bat_data->wait > 0){bat_data->configured = 1;}
             }
             
             bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, vy);

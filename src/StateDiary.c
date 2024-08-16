@@ -52,6 +52,10 @@ extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
 extern struct MISSION golden_armor;
+extern struct MISSION mr_smee;
+extern struct MISSION broken_ship;
+extern struct MISSION pirate_strike;
+extern struct MISSION captain;
 extern struct MISSION* missions[21];
 
 UINT8 cursor_posx[] = {4u, 4u, 4u, 4u};// , 12u, 132u};
@@ -404,6 +408,38 @@ void show_detail(){
                 break;
             }
         break;
+        case 4u:
+            switch(cursor_posi){
+                case 0u:
+                    if(mr_smee.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(MRSMEE_D0, dd2);
+                        GetLocalizedDDLabel_EN(MRSMEE_D1, dd3);
+                        if(mr_smee.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            GetLocalizedDDLabel_EN(MRSMEE_D2, dd4);
+                            GetLocalizedDDLabel_EN(MRSMEE_D3, dd5);
+                            if(mr_smee.mission_state >= MISSION_STATE_REWARDED){
+                                GetLocalizedDDLabel_EN(MRSMEE_D4, dd4);
+                                GetLocalizedDDLabel_EN(MRSMEE_D5, dd5);
+                            }
+                        }
+                    }
+                break;
+                case 1u:
+                    if(broken_ship.mission_state >= MISSION_STATE_ENABLED){
+                            GetLocalizedDDLabel_EN(BROKENSHIP_D0, dd2);
+                            GetLocalizedDDLabel_EN(BROKENSHIP_D1, dd3);
+                        if(broken_ship.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            GetLocalizedDDLabel_EN(BROKENSHIP_D2, dd4);
+                            GetLocalizedDDLabel_EN(BROKENSHIP_D3, dd5);
+                            if(broken_ship.mission_state >= MISSION_STATE_REWARDED){
+                                GetLocalizedDDLabel_EN(BROKENSHIP_D4, dd6);
+                                GetLocalizedDDLabel_EN(BROKENSHIP_D5, dd7);
+                            }
+                        }
+                    }
+                break;
+            }
+        break;
     }
 }
 
@@ -419,7 +455,7 @@ void show_missions(){
     }
 	PRINT(8, 0, dd1);
     switch(idx_page){
-        case 0u:
+        case CHAPTER_0_BLACKIE:
             if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(ENGAGE_SMITH_TITLE, m0);
             }
@@ -433,7 +469,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(HELP_DESPARATE_WIDOW_TITLE, m3);
             }
         break;
-        case 1u:
+        case CHAPTER_1_BANDITS:
             if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(OUTWALKER_CHIEF_TITLE, m0);
             }
@@ -447,7 +483,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(GET_TO_THE_MOUNTAIN_TITLE, m3);
             }
         break;
-        case 2u:
+        case CHAPTER_2_PLAGUE:
             if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(DEFEAT_SCORPIONS_TITLE, m0);
             }
@@ -455,7 +491,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(FIND_ANTIDOTE_TITLE, m1);
             }
         break;
-        case 3u:
+        case CHAPTER_3_ARMOUR:
             if(hungry_people.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(HUNGRY_TITLE, m0);
             }
@@ -464,6 +500,20 @@ void show_missions(){
             }
             if(golden_armor.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(GOLDEN_ARMOR_TITLE, m2);
+            }
+        break;
+        case CHAPTER_4_SHIP:
+            if(mr_smee.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(MRSMEE_TITLE, m0);
+            }
+            if(broken_ship.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(BROKENSHIP_TITLE, m1);
+            }
+            if(pirate_strike.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(STRIKE_TITLE, m2);
+            }
+            if(captain.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(CAPTAIN_TITLE, m3);
             }
         break;
     }
@@ -478,8 +528,10 @@ void show_missions(){
 void change_page(INT8 inc){
     idx_page+=inc;
     if(showing_detail == 0u){//sto mostrando elenco missioni
-        if(idx_page<0){idx_page = chapter;}
-        else{idx_page %= (chapter+1);}
+        //if(idx_page<0){idx_page = chapter;}
+        //else{
+            idx_page %= (chapter+1);
+        //}
     }
     show_pcodes();
     cursor_posi = 0;

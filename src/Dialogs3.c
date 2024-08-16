@@ -42,10 +42,13 @@ extern UINT8 choice;
 extern UINT8 choice_left;
 extern UINT8 choice_right;
 extern INT8 outwalker_info_given;
+extern struct MISSION mr_smee;
+extern struct MISSION captain;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+
 
 void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
     switch(whostalking){		
@@ -97,6 +100,68 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "ME TO LEAVE. HERE  ", 22);
 			memcpy(d3, "THERE IS STILL A   ", 22);
 			memcpy(d4, "LOT TO DO!         ", 22);
+		break;
+		case PIRATE_SPUGNA_0:
+			*n_lines = 19u;
+			memcpy(d0, "MR SMEE:            ", 22);
+			memcpy(d1, "HELLO DESSA! WE HAVE", 22);
+			memcpy(d2, "HEARD YOU NEED US TO", 22);
+			memcpy(d3, "CROSS THE SEA. WELL ", 22);
+			memcpy(d4, "WE CAN DO THAT, BUT ", 22);
+			memcpy(d5, "... SOME OF US MAY  ", 22);
+			memcpy(d6, "NEED YOUR HELP FOR  ", 22);
+			memcpy(d7, "SOME BUSINESSES...  ", 22);
+			memcpy(d8, EMPTY_STRING_21, 22);
+			memcpy(d9, "THE SHIP IS BROKEN, ", 22);
+			memcpy(d10, "MAURICE HAS LOST A ", 22);
+			memcpy(d11, "FRIEND, WE ARE CUR ", 22);
+			memcpy(d12, "RENTLY ON A STRIKE ", 22);
+			memcpy(d13, "AND THE CAPTAIN IS ", 22);
+			memcpy(d14, "DEPRESSED BECAUSE  ", 22);
+			memcpy(d15, "HE HAS NO ONE TO   ", 22);
+			memcpy(d16, "PLAY TETRA WITH.   ", 22);
+			memcpy(d17, EMPTY_STRING_21, 22);
+			memcpy(d18, "WELCOME TO THE     ", 22);
+			memcpy(d19, "HARBOR!            ", 22);
+            mr_smee.mission_state = MISSION_STATE_ENABLED;
+		break;
+		case PIRATE_SPUGNA_1:
+			*n_lines = 8u;
+			memcpy(d0, "MR SMEE:            ", 22);
+			memcpy(d1, "ABOUT ME... MY FRIE ", 22);
+			memcpy(d2, "ND RICK WAS HUNTED  ", 22);
+			memcpy(d3, "SOME BATS IN A CAVE.", 22);
+			memcpy(d4, "FACT IS: IT'S BEEN  ", 22);
+			memcpy(d5, "THREE DAYS SINCE WE ", 22);
+			memcpy(d6, "'VE SEEN HIM. CAN   ", 22);
+			memcpy(d7, "YOU KINDLY HAVE A   ", 22);
+			memcpy(d8, "CHECK ON THAT CAVE? ", 22);
+            if(mr_smee.mission_state < MISSION_STATE_STARTED){
+				mr_smee.mission_state = MISSION_STATE_STARTED;
+			}
+		break;
+		case PIRATE_SPUGNA_2:
+			*n_lines = 4u;
+			memcpy(d0, "MR SMEE:            ", 22);
+			memcpy(d1, "OH, I SEE... I AM   ", 22);
+			memcpy(d2, "SORRY FOR HIM, BUT  ", 22);
+			memcpy(d3, "THIS IS HOW THE WOR ", 22);
+			memcpy(d4, "LD WORKS NOW.       ", 22);
+            mr_smee.mission_state = MISSION_STATE_REWARDED;
+		break;
+		case PIRATE_SPUGNA_3:
+			*n_lines = 4u;
+			memcpy(d0, "MR SMEE:            ", 22);
+			memcpy(d1, "YOU HAVE MY SUPPORT ", 22);
+			memcpy(d2, "I AM DOING THE BEST ", 22);
+			memcpy(d3, "I CAN TO SET THE    ", 22);
+			memcpy(d4, "SAIL!               ", 22);
+		break;
+		case PIRATE_CAPTAIN_0:
+            captain.mission_state = MISSION_STATE_ENABLED;
+		break;
+		case PIRATE_CAPTAIN_1:
+            captain.mission_state = MISSION_STATE_STARTED;
 		break;
     }
 }

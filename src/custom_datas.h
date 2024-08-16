@@ -28,12 +28,6 @@ typedef enum{
 	CHAPTER_4_SHIP,
 }CHAPTERS;
 
-struct FlipperballInfo{
-	INT8 impulse_y;
-	INT8 impulse_x;
-	INT8 vx;
-	INT8 vy;
-};
 
 typedef enum{
 	IDLE,
@@ -423,7 +417,17 @@ typedef enum{
 	BRIDGE_BROKEN,
 	MINOTAUR_ENTRANCE,
 	MINOTAUR_DEFEAT,
-	HARBOR_TOOSOON
+	HARBOR_TOOSOON,
+	PIRATE_SPUGNA_0,
+	PIRATE_SPUGNA_1,
+	PIRATE_SPUGNA_2,
+	PIRATE_SPUGNA_3,
+	PIRATE_PANZONE_0,
+	PIRATE_PANZONE_1,
+	PIRATE_PANZONE_2,
+	PIRATE_CAPTAIN_0,
+	PIRATE_CAPTAIN_1,
+	CADAVER
 }WHOSTALKING;
 
 typedef enum{
@@ -437,7 +441,12 @@ typedef enum{
     MAN_HEAD2,
     MAN_HEAD3,
     MAN_BODY1,
-    MAN_BODY2
+    MAN_BODY2,
+	PIRATE_CAPTAIN,
+	PIRATE_PANZONE,
+	PIRATE_SPUGNA,
+	PIRATE_MARINAIO,
+	PIRATE_WALKER
 }NPCTYPE;
 
 typedef enum{
@@ -458,7 +467,12 @@ typedef enum{
 	OUTWALKER_JACK,
 	OUTWALKER_SIMON,
 	CRAB,
-	SCORPION
+	SCORPION,
+	SMEE,
+	ONE_EYED_JACK,
+	MARTIN,
+	BOB,
+	MAURICE
 }NPCNAME;
 
 struct NpcInfo{
@@ -467,9 +481,9 @@ struct NpcInfo{
 	NPCTYPE type;
     UINT8 configured;
 	INT8 hp;
-	UINT8 none2;
-	UINT8 none3;
-	UINT8 none4;
+	INT8 vx;
+	UINT8 max_frameskip;
+	UINT8 frameskip;
 };
 
 struct InvItem{

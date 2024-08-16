@@ -338,7 +338,7 @@ void UPDATE(){
     if(KEY_RELEASED(J_LEFT)){
         invcursor_posi--;
     }
-    if(invcursor_old_posi != invcursor_posi){//muovo cursor verso prossima posizione
+    if(((INT8)invcursor_old_posi) != invcursor_posi){//muovo cursor verso prossima posizione
         fixInvcursor(12);
         refresh_equipped();
     }

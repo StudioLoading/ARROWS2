@@ -3,6 +3,7 @@
 #include "main.h"
 
 #include "ZGBMain.h"
+#include "Palette.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
 
@@ -27,6 +28,10 @@ void START(){
     npc_data->whotalks  =NOBODY;
     THIS->lim_x = 160u;
     THIS->lim_y = 100u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){

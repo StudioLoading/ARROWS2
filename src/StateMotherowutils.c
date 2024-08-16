@@ -7,7 +7,6 @@
 #include "Music.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 
@@ -497,7 +496,7 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                         trigger_dialog(MAZE_CANT_GO, s_motherow_arg);
                     }else{ChangeState(StateOverworld, s_motherow_arg, 2);}
                 break;
-                case MAP_SOUTHEAST://to scorpioncav
+                case MAP_SOUTHEAST://to batcave
                     if(chapter < CHAPTER_4_SHIP){
                         ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                     }else{
@@ -646,7 +645,7 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
 }
 
 void update_position_motherow(Sprite* s_motherow_arg) BANKED{
-    if(frameskip < frameskip_max){frameskip++;}else{frameskip = 0u;}
+    if(((INT8)frameskip) < frameskip_max){frameskip++;}else{frameskip = 0u;}
     if(frameskip == 0u && (motherow_info->vx != 0 || motherow_info->vy != 0)){
         motherow_info->tile_collision = TranslateSprite(s_motherow_arg, motherow_info->vx << delta_time, motherow_info->vy << delta_time);
     }

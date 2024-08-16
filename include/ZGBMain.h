@@ -138,7 +138,10 @@ _SPRITE_DMG(SpriteSkull, skull)\
 _SPRITE_DMG(SpriteEnemyBat, bat)\
 _SPRITE_DMG(SpriteOwpeople, owpeople)\
 _SPRITE_DMG(SpriteSeagullHarbor, seagullharbor)\
+_SPRITE_DMG(SpritePgPirate, pgpirate)\
+_SPRITE_DMG(SpritePgCadaver, pgcadaver)\
 SPRITE_DEF_END
+
 
 #include "ZGBMain_Init.h"
 

@@ -15,9 +15,9 @@ const UINT8 a_gullh_dead[] = {6, 0, 1, 0, 2,0 , 3}; //The first number indicates
 extern UINT8 enemy_counter;
 
 void START() {
-    THIS->lim_x = 100u;
+    THIS->lim_x = 40u;
     THIS->lim_y = 100u;
-	SetSpriteAnim(THIS, a_gullh, 8u);
+	SetSpriteAnim(THIS, a_gullh, 12u);
     struct EnemyData* gull_data = (struct EnemyData*) THIS->custom_data;
     gull_data->vx = 0;
     gull_data->wait = 2;

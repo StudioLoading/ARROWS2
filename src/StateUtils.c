@@ -7,7 +7,6 @@
 #include "Music.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
@@ -708,17 +707,18 @@ void camera_tramble() BANKED{
 }
 
 void update_camera_position() BANKED{
-    switch(current_state){
-        case StateBossminotaur:
-        case StateBlackieroom:
-            if(scroll_target->x != (UINT16) 80u || 
-                scroll_target->y != (UINT16) 56u){
-                scroll_target->x = (UINT16) 80u;
-                scroll_target->y = (UINT16) 56u;
-            }
-            return;
-        break;
-    }
+    //FIXED CAMERA
+        switch(current_state){
+            case StateBossminotaur:
+            case StateBlackieroom:
+                if(scroll_target->x != (UINT16) 80u || 
+                    scroll_target->y != (UINT16) 56u){
+                    scroll_target->x = (UINT16) 80u;
+                    scroll_target->y = (UINT16) 56u;
+                }
+                return;
+            break;
+        }
     //LIMITS
         //HORIZONTAL
             //LEFT
@@ -813,12 +813,6 @@ void update_camera_position() BANKED{
     //BLOCK 
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-    /* FIXED CAMERA
-        scroll_target->x = s_motherpl->x + 16u;
-        if(motherpl_hit_cooldown == 0){
-            scroll_target->y = s_motherpl->y + 16u;
-        }
-    */
     // COOL CAMERA MANAGEMENT WITH DELTA
         //camera fissa per certi stage
             /*
@@ -954,7 +948,9 @@ void spawn_dialog_icon(Sprite* npc) BANKED{
     struct NpcInfo* npc_data = (struct NpcInfo*) npc->custom_data;
     switch(npc_data->type){
         case WOMAN_BODY1: case WOMAN_BODY2: case WOMAN_BODY3: 
-        case MAN_BODY1: case MAN_BODY2:
+        case MAN_BODY1: case MAN_BODY2: case PIRATE_CAPTAIN:
+	    case PIRATE_PANZONE: case PIRATE_SPUGNA: case PIRATE_MARINAIO:
+	    case PIRATE_WALKER:
             if(dialog_icon.hp == 0){
                 s_dialog = SpriteManagerAdd(SpriteInvcursor, npc->x - 4, npc->y - 24);
                 struct ItemSpawned* incursor_data = (struct ItemSpawned*)s_dialog->custom_data;

@@ -3,7 +3,6 @@
 #include "Palette.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
 #include "string.h"
@@ -148,7 +147,7 @@ void START() {
     wait_char = MAX_WAIT_CHAR;
     writing_line = 1u;
     counter_char = 0u;
-    n_lines = 0u;
+    //n_lines = 0u;
     dialog_ready = 0u;
 	next_page = 0u;
 	SHOW_SPRITES;

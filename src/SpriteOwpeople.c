@@ -36,6 +36,10 @@ void START(){
     owpeople_data->x_frameskip = 1;
     owpeople_data->ow_state = ENEMY_IDLE;
     //owpeople_data->max_wait = 80u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){
@@ -55,9 +59,6 @@ void UPDATE(){
                     SetSpriteAnim(THIS, a_bluetunicstand_idle, 8u);
                     owpeople_data->ow_state = ENEMY_WAIT;
                 break;
-                case ENEMY_WAIT:
-                    //DO NOTHING
-                break;
             }
         break;
         case OWTYPE_KNIGHT_STAND:
@@ -65,9 +66,6 @@ void UPDATE(){
                 case ENEMY_IDLE:
                     SetSpriteAnim(THIS, a_knight_stand_idle, 8u);
                     owpeople_data->ow_state = ENEMY_WAIT;
-                break;
-                case ENEMY_WAIT:
-                    //DO NOTHING
                 break;
             }
         break;

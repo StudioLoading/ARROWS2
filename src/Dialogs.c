@@ -621,6 +621,9 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		case OUTWALKER_SIMON:
 			memcpy(log0, "SIMON THE GUARD     ", 20);
 		break;
+		default:
+			GetLocalizedLogName2_EN(npcname);
+		break;
 	}
 }
 

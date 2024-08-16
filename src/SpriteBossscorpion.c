@@ -30,7 +30,7 @@ struct EnemyData* scorpiobody_data = 0;
 extern struct EnemyData* scorpiohead_data;
 UINT8 scorpio_jump_power = 0u;
 UINT8 scorpio_v_coll = 0u;
-INT8 old_attacking_frame = 0;
+UINT8 old_attacking_frame = 0u;
 INT8 scorpio_hp;
 
 void scorpio_behave() BANKED;

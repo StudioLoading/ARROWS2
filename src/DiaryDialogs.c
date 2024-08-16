@@ -128,5 +128,33 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case GOLDEN_D7:memcpy(d, "SMITH.             ", 20);break;
 		case GOLDEN_D8:memcpy(d, "I OBTAINED THE     ", 20);break;
 		case GOLDEN_D9:memcpy(d, "GOLDEN ARMOR       ", 20);break;
+		case MRSMEE_TITLE:memcpy(d, "A LOST FRIEND  ", 16);break;
+		case MRSMEE_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
+		case MRSMEE_D1:memcpy(d, "                   ", 20); break;
+		case MRSMEE_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;
+		case MRSMEE_D3:memcpy(d, "TO MR SMEE         ", 20); break;
+		case MRSMEE_D4:memcpy(d, "MR SMEE HAS THANKED", 20); break;
+		case MRSMEE_D5:memcpy(d, "ME", 20); break;
+		case BROKENSHIP_TITLE:memcpy(d, "BROKEN SHIP    ", 16);break;
+		case BROKENSHIP_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
+		case BROKENSHIP_D1:memcpy(d, "                   ", 20); break;
+		case BROKENSHIP_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;
+		case BROKENSHIP_D3:memcpy(d, "TO MR SMEE         ", 20); break;
+		case BROKENSHIP_D4:memcpy(d, "MR SMEE HAS THANKED", 20); break;
+		case BROKENSHIP_D5:memcpy(d, "ME", 20); break;
+		case STRIKE_TITLE:memcpy(d, "THE STRIKE     ", 16);break;
+		case STRIKE_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
+		case STRIKE_D1:memcpy(d, "                   ", 20); break;
+		case STRIKE_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;
+		case STRIKE_D3:memcpy(d, "TO MR SMEE         ", 20); break;
+		case STRIKE_D4:memcpy(d, "MR SMEE HAS THANKED", 20); break;
+		case STRIKE_D5:memcpy(d, "ME", 20); break;
+		case CAPTAIN_TITLE:memcpy(d, "PLAY TETRA     ", 16);break;
+		case CAPTAIN_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
+		case CAPTAIN_D1:memcpy(d, "                   ", 20); break;
+		case CAPTAIN_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;
+		case CAPTAIN_D3:memcpy(d, "TO MR SMEE         ", 20); break;
+		case CAPTAIN_D4:memcpy(d, "MR SMEE HAS THANKED", 20); break;
+		case CAPTAIN_D5:memcpy(d, "ME", 20); break;
 	}	
 }

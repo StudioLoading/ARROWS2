@@ -51,6 +51,7 @@ extern UINT8 item_spawned_cooldown;
 extern UINT8 itemspawned_powder_max;
 extern struct OwSpriteInfo* motherow_info;
 extern CHAPTERS chapter;
+extern struct MISSION mr_smee;
 
 const UINT8 coll_tiles_batcave[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
@@ -87,7 +88,10 @@ void START(){
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(mapbatcave), &mapbatcave, coll_tiles_batcave, coll_surface_batcave);    
+        InitScroll(BANK(mapbatcave), &mapbatcave, coll_tiles_batcave, coll_surface_batcave);
+        if(mr_smee.mission_state != MISSION_STATE_DISABLED){
+            SpriteManagerAdd(SpritePgCadaver, ((UINT16)136u << 3), ((UINT16) 13u << 3));
+        }
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -209,7 +213,6 @@ void UPDATE(){
                         }
                     }
                 }
-                //TODO mostrare cadavere di gemello di spugna
             }
     
     Log(NONAME);

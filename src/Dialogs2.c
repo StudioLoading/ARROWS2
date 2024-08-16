@@ -55,6 +55,27 @@ extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 
+
+void GetLocalizedLogName2_EN(NPCNAME npcname) BANKED{
+	switch(npcname){
+		case SMEE:
+			memcpy(log0, "MR SMEE             ", 20);
+		break;
+		case ONE_EYED_JACK:
+			memcpy(log0, "ONE EYED JACK       ", 20);
+		break;
+		case MARTIN:
+			memcpy(log0, "MARTIN              ", 20);
+		break;
+		case BOB:
+			memcpy(log0, "BOB                 ", 20);
+		break;
+		case MAURICE:
+			memcpy(log0, "MAURICE             ", 20);
+		break;
+	}
+}
+
 void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
     switch(whostalking){		
 		case OUTWALKER_NO_ENTER:

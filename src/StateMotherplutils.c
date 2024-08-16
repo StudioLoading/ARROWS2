@@ -7,19 +7,14 @@
 #include "Music.h"
 #include "ZGBMain.h"
 #include "Keys.h"
-#include "Palette.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
-/*
-#include "string.h"
-#include "Print.h"
-#include "Fade.h"
-*/
 
 #include "custom_datas.h"
 #include "TilesAnimations0.h"
 #include "sgb_palette.h"
 #include "Dialogs.h"
+#include "Dialogs2.h"
 
 #define JUMP_TICKED_COOLDOWN 24
 #define JUMP_MIN_POWER 0
@@ -88,6 +83,7 @@ extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
 extern struct MISSION golden_armor;
 extern struct MISSION help_cemetery_woman;
+extern struct MISSION mr_smee;
 
 extern void invselectitem(INT8 max_idx) BANKED;
 extern void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
@@ -315,27 +311,36 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
 }
 
 void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED{
-    if(npcname == OUTWALKER_SIMON){
-        if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
-            s_mother->x -= 12u;
-            trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, s_mother);
-        }else if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
-            s_mother->x -= 12u;
-            trigger_dialog(OUTWALKER_GUARD_NOGLASS, s_mother);
-        }else if(outwalker_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
-            s_mother->x -= 12u;
-            trigger_dialog(OUTWALKER_GUARD_NOSMITH, s_mother);
-        }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
-            get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-            s_mother->x -= 12u;
-            trigger_dialog(OUTWALKER_GUARD_OK, s_mother);
-            change_quantity(INVITEM_BOX, -1);
-        }else if(get_to_the_mountain.mission_state >= MISSION_STATE_ACCOMPLISHED){
-            //landslide!
-            s_mother->x -= 12u;
-            trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, s_mother);
-        }
+    switch(npcname){
+        case OUTWALKER_SIMON:
+            if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
+                s_mother->x -= 12u;
+                trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, s_mother);
+            }else if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
+                s_mother->x -= 12u;
+                trigger_dialog(OUTWALKER_GUARD_NOGLASS, s_mother);
+            }else if(outwalker_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
+                s_mother->x -= 12u;
+                trigger_dialog(OUTWALKER_GUARD_NOSMITH, s_mother);
+            }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
+                get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
+                SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                s_mother->x -= 12u;
+                trigger_dialog(OUTWALKER_GUARD_OK, s_mother);
+                change_quantity(INVITEM_BOX, -1);
+            }else if(get_to_the_mountain.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                //landslide!
+                s_mother->x -= 12u;
+                trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, s_mother);
+            }
+        break;
+        case SMEE:
+            if(mr_smee.mission_state == MISSION_STATE_DISABLED){
+                trigger_dialog(PIRATE_SPUGNA_0, s_mother);
+            }else if(mr_smee.mission_state == MISSION_STATE_ENABLED){
+                trigger_dialog(PIRATE_SPUGNA_1, s_mother);
+            }
+        break;
     }
 }
 
@@ -504,16 +509,17 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
         case SpritePgoutwalker:
         case SpritePgceme:
         case SpritePgexzoo:
+        case SpritePgPirate:
         case SpriteBlackie:
             motherpl_canshoot = 0u;
             {
                 struct NpcInfo* npc_data = (struct NpcInfo*) s_collision->custom_data;
-                whostalking = npc_data->whotalks;
+                //whostalking = ;
                 Log(npc_data->npcname);
                 motherpl_ckautodialog(s_mother, npc_data->npcname);
                 spawn_dialog_icon(s_collision);
                 if(KEY_RELEASED(J_FIRE)){
-                    trigger_dialog(whostalking, s_mother);
+                    trigger_dialog(npc_data->whotalks, s_mother);
                 }
             }
         case SpriteBlackiechild:

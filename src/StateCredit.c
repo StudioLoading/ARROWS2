@@ -432,6 +432,12 @@ void position_init() BANKED{
 			current_map = MAP_SOUTHWEST;
 			motherow_pos_x = (UINT16) 24u << 3; 
 			motherow_pos_y = (UINT16) 18u << 3;
+			//TEST TODO REMOVE ME
+			current_map = MAP_EAST;
+			motherow_pos_x = (UINT16) 49u << 3; 
+			motherow_pos_y = (UINT16) 11u << 3;
+			motherpl_pos_x = (UINT16) 10u << 3;
+			motherpl_pos_y = (UINT16) 6u << 3;
 		break;
 	}
 }

@@ -43,7 +43,7 @@ extern UINT8 itemspawned_powder_max;
 extern UINT16 counter_birdsky;
 extern UINT8 counter_fish;
 
-const UINT8 coll_tiles_harbor[] = {1u, 63u, 82u, 83u,
+const UINT8 coll_tiles_harbor[] = {1u, 63u, 82u, 83u, 89u, 90u,
                                 91u, 92u, 93u, 95u, 96u, 98u, 100u, 140u, 0};
 const UINT8 coll_surface_harbor[] = {75u, 86u, 89u, 90u, 0};
 
@@ -53,10 +53,15 @@ extern UINT8 timeout_cavesand;
 extern UINT8 enemy_wave;
 extern INT8 current_map;
 extern CHAPTERS chapter;
+extern struct MISSION mr_smee;
+extern struct MISSION broken_ship;
+extern struct MISSION pirate_strike;
+extern struct MISSION captain;
 
 extern UINT16 perc_10;
 extern UINT16 perc_40; 
 extern UINT16 perc_90;
+extern INT8 motherpl_vx;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -66,7 +71,24 @@ extern void ReloadEnemiesPL() BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
 
+Sprite* s_spugna;
+struct NpcInfo* s_spugna_data;
+Sprite* s_panzone;
+struct NpcInfo* s_panzone_data;
+Sprite* s_marine;
+struct NpcInfo* s_marine_data;
+Sprite* s_walker1;
+struct NpcInfo* s_walker1_data;
+Sprite* s_walker2;
+struct NpcInfo* s_walker2_data;
+Sprite* s_captain;
+struct NpcInfo* s_captain_data;
+
+UINT8 pirate_counter_30_100 = 0;
+UINT8 max_seagulls_alive = 3;
+
 void spawn_seagull_h(UINT16 gull_x, UINT16 gull_y) BANKED;
+void harbor_init_pirates() BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -94,6 +116,8 @@ void START(){
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(harbormap), &harbormap, &mapwidth, &mapheight);
+    //INIT PIRATES
+        harbor_init_pirates();
     tiles_anim_interval = 0u;
     powder_cooldown = 60u;
     itemspawned_powder_max = 4;
@@ -107,23 +131,108 @@ void START(){
     perc_90 = (mapwidth << 3) - perc_10;
     enemy_wave = 0u;
     SHOW_SPRITES;
+    if(_cpu != CGB_TYPE){max_seagulls_alive = 1;}
 }
 
+void harbor_init_pirates() BANKED{
+    UINT16 pirate_spawn_y = ((UINT16) 8u << 3) + 2u;
+    //SPUGNA MR SMEE
+        s_spugna = SpriteManagerAdd(SpritePgPirate, ((UINT16) 26u << 3) + 3u, pirate_spawn_y);
+        s_spugna_data = (struct NpcInfo*) s_spugna->custom_data;
+        s_spugna_data->npcname = SMEE;
+        s_spugna_data->type = PIRATE_SPUGNA;
+        switch(mr_smee.mission_state){
+            case MISSION_STATE_DISABLED:
+                s_spugna_data->whotalks = PIRATE_SPUGNA_0;
+            break;
+            case MISSION_STATE_ENABLED:
+            case MISSION_STATE_STARTED:
+                s_spugna_data->whotalks = PIRATE_SPUGNA_1;
+            break;
+            case MISSION_STATE_ACCOMPLISHED:
+                s_spugna_data->whotalks = PIRATE_SPUGNA_2;
+            break;
+            case MISSION_STATE_REWARDED:
+                s_spugna_data->whotalks = PIRATE_SPUGNA_3;
+            break;
+        }
+        s_spugna_data->configured = 1;
+    //SPUGNA PANZONE BOB
+        s_panzone = SpriteManagerAdd(SpritePgPirate, ((UINT16) 28u << 3), pirate_spawn_y);
+        s_panzone->mirror = V_MIRROR;
+        s_panzone_data = (struct NpcInfo*) s_panzone->custom_data;
+        s_panzone_data->npcname = BOB;
+        s_panzone_data->type = PIRATE_PANZONE;
+        s_panzone_data->whotalks = PIRATE_PANZONE_0; 
+        s_panzone_data->configured = 1;
+    //SPUGNA MARINE MARTIN
+        s_marine = SpriteManagerAdd(SpritePgPirate, ((UINT16) 65u << 3), pirate_spawn_y);
+        s_marine_data = (struct NpcInfo*) s_marine->custom_data;
+        s_marine_data->npcname = MARTIN;
+        s_marine_data->type = PIRATE_MARINAIO;
+        //TODO s_marine_data->whotalks = 
+        s_marine_data->configured = 1;
+    //SPUGNA WALKER1 MAURICE
+        s_walker1 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 88u << 3), pirate_spawn_y);
+        s_walker1_data = (struct NpcInfo*) s_walker1->custom_data;
+        s_walker1_data->npcname = MAURICE;
+        s_walker1_data->type = PIRATE_WALKER;
+        s_walker1_data->vx = 1;
+        s_walker1_data->max_frameskip = 1;
+        //TODO s_walker1_data->whotalks = 
+        s_walker1_data->configured = 1;
+    /* SPUGNA WALKER2 MAURICE
+        s_walker2 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 37u << 3), pirate_spawn_y);
+        s_walker2_data = (struct NpcInfo*) s_walker2->custom_data;
+        s_walker2_data->npcname = MAURICE;
+        s_walker2_data->type = PIRATE_WALKER;
+        s_walker2_data->vx = -1;
+        s_walker2_data->max_frameskip = 2;
+        //TODO s_walker2_data->whotalks = 
+        s_walker2_data->configured = 1;
+    */
+    // CAPTAIN ONE EYED JACK
+        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3), pirate_spawn_y);
+        s_captain->mirror = V_MIRROR;
+        s_captain_data = (struct NpcInfo*) s_captain->custom_data;
+        s_captain_data->npcname = ONE_EYED_JACK;
+        s_captain_data->type = PIRATE_CAPTAIN;
+        s_captain_data->vx = 0;
+        s_captain_data->max_frameskip = 0;
+        if(mr_smee.mission_state < MISSION_STATE_REWARDED || broken_ship.mission_state < MISSION_STATE_REWARDED || pirate_strike.mission_state < MISSION_STATE_REWARDED){
+            s_captain_data->whotalks = PIRATE_CAPTAIN_0;
+        }else{
+            s_captain_data->whotalks = PIRATE_CAPTAIN_1;
+        }
+        s_captain_data->configured = 1;
+}
 void UPDATE(){
+    pirate_counter_30_100++;
+    if(pirate_counter_30_100 > 100u){
+        pirate_counter_30_100 = 30u;
+    }else{
+        pirate_counter_30_100 += motherpl_vx;
+    }
+    //MOTHERPL RIGHT LIMIT FORCED   
+        if(s_motherpl->x > ((UINT16) 111u << 3)){
+            s_motherpl->x = (UINT16) 111u << 3;
+        }
     //SPAWNING NPA    
         counter_birdsky++;
         if(counter_birdsky >= 1000){
-            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 1 << 3), 2);
-            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 0 << 3), 2);
+            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 4 << 3), 2);
+            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 3 << 3), 2);
             counter_birdsky = 0u;
         }
         counter_fish++;
         switch(counter_fish){
             case 90:
             case 120:
-                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 13 << 3), 2);
-                spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 14 << 3) +2, 4);
-                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 13 << 3) + 2, 1);
+                if(_cpu == CGB_TYPE){
+                    spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 15 << 3), 2);
+                    spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 16 << 3) +2, 4);
+                }
+                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 15 << 3) + 2, 1);
             break;
         }
     //UPDATE HUD for HP changings
@@ -136,9 +245,9 @@ void UPDATE(){
         }
     //CAMERA MANAGEMENT
         update_camera_position();
-    //INIT ENEMIES
+    //INIT SUAGULLS
         if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
-            && enemy_counter < 3){
+            && enemy_counter < max_seagulls_alive){
             timeout_enemy--;
             if(timeout_enemy > 150u){
                 timeout_enemy = 0u;
@@ -171,9 +280,9 @@ void spawn_seagull_h(UINT16 gullx, UINT16 gully) BANKED{
     Sprite* s_gull = SpriteManagerAdd(SpriteSeagullHarbor, gullx, gully);
     struct EnemyData* data_gull = (struct EnemyData*) s_gull->custom_data;
     data_gull->configured = 1;
-    data_gull->vx = -1;
+    data_gull->vx = -2;
     if(enemy_wave == 2 || enemy_wave == 4){
-        data_gull->vx = 1;
+        data_gull->vx = 2;
     }
     if(gully == 56u && timeout_enemy == 40){
         data_gull->vx = -2;
