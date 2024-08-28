@@ -163,5 +163,32 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 		case PIRATE_CAPTAIN_1:
             captain.mission_state = MISSION_STATE_STARTED;
 		break;
+		case CADAVER://se devo ancora fare bossfight oppure no
+			if(mr_smee.mission_state == MISSION_STATE_STARTED){
+				*n_lines = 12u;
+				memcpy(d0, "DESSA  :            ", 22);
+				memcpy(d1, "IT'S A HEADLESS     ", 22);
+				memcpy(d2, "BODY! WHAT AN END   ", 22);
+				memcpy(d3, "FOR A LIFE...       ", 22);
+				memcpy(d4, EMPTY_STRING_21, 22);
+				memcpy(d5, "WHAT COULD HAVE     ", 22);
+				memcpy(d6, "POSSIBLY CAUSED...  ", 22);
+				memcpy(d7, EMPTY_STRING_21, 22);
+				memcpy(d8, EMPTY_STRING_21, 22);
+				memcpy(d9, EMPTY_STRING_21, 22);
+				memcpy(d10, "*FLAP! FLAP! FLAP!* ", 22);
+				memcpy(d11, EMPTY_STRING_21, 22);
+				memcpy(d12, "YYAAAAAAAAAAAAAAAH! ", 22);
+				mr_smee.current_step = 1;//means start boss fight!
+			}else{
+				*n_lines = 5u;
+				memcpy(d0, "DESSA  :            ", 22);
+				memcpy(d1, "HERE LIES RICK,     ", 22);
+				memcpy(d2, "HRADLESS RICK. NOW  ", 22);
+				memcpy(d3, "HE'S FOOD FOR BEASTS", 22);
+				memcpy(d4, EMPTY_STRING_21, 22);
+				memcpy(d5, "POOR RICK!          ", 22);
+			}
+		break;
     }
 }

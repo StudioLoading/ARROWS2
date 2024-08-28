@@ -98,7 +98,7 @@ void inventory_init() BANKED;
 void position_init() BANKED;
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void manage_border(UINT8 next_state) BANKED;
+extern void manage_border(UINT8 my_next_state) BANKED;
 
 extern Sprite* s_motherpl;
 
@@ -266,6 +266,10 @@ void missions_init() BANKED{
 			golden_armor.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
 			golden_armor.phase = 0;
 			golden_armor.current_step = 0;
+			/* START TEST */
+			mr_smee.mission_state = MISSION_STATE_STARTED;
+
+			/* END TEST */
 		break;
 	}
 	missions[0] = &engage_smith;
@@ -433,9 +437,9 @@ void position_init() BANKED{
 			motherow_pos_x = (UINT16) 24u << 3; 
 			motherow_pos_y = (UINT16) 18u << 3;
 			//TEST TODO REMOVE ME
-			current_map = MAP_EAST;
-			motherow_pos_x = (UINT16) 49u << 3; 
-			motherow_pos_y = (UINT16) 11u << 3;
+			current_map = MAP_SOUTHEAST;
+			motherow_pos_x = (UINT16) 14u << 3; 
+			motherow_pos_y = (UINT16) 37u << 3;
 			motherpl_pos_x = (UINT16) 10u << 3;
 			motherpl_pos_y = (UINT16) 6u << 3;
 		break;

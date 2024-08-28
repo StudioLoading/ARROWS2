@@ -230,6 +230,7 @@ void motherplnormal_refreshAnimation() BANKED{
                 SetSpriteAnim(THIS, motherpl_anim_hit, 24u);
             }
         break;
+        case MOTHERPL_DASH:motherplnormal_setanim_dash();break;
     }
 }
 

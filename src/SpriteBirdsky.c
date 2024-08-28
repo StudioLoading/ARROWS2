@@ -18,6 +18,7 @@ void START(){
     struct EnemyData* birdsky_info = (struct EnemyData*) THIS->custom_data;
     birdsky_info->vx = -1;
     birdsky_info->wait = 8u;
+    birdsky_info->hp = 24;
 }
 
 void UPDATE(){
@@ -45,6 +46,10 @@ void UPDATE(){
                     break;
                     case 12u:
                         THIS->y--;
+                        birdsky_info->hp--;
+                        if(birdsky_info->hp <= 0){
+                            SpriteManagerRemoveSprite(THIS);
+                        }
                     break;
                     case 20:
                         THIS->y++;

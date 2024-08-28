@@ -46,7 +46,7 @@ extern void Anim_Titlescreen_3() BANKED;
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 
-void go_to_password(UINT8 next_state) BANKED;
+void go_to_password(UINT8 my_next_state) BANKED;
 
 void START() {
 	//SGB
@@ -157,8 +157,8 @@ void UPDATE() {
 	}		
 }
 
-void go_to_password(UINT8 next_state) BANKED{
+void go_to_password(UINT8 my_next_state) BANKED{
 	StopMusic;
 	reset_sgb_palette_title();
-	ChangeStateThroughBetween(next_state);
+	ChangeStateThroughBetween(my_next_state);
 }

@@ -1,5 +1,6 @@
 #include "Banks/SetAutoBank.h"
 
+#include "Palette.h"
 #include "ZGBMain.h"
 #include "SpriteManager.h"
 #include "Scroll.h"
@@ -14,6 +15,10 @@ void START() {
 	SetSpriteAnim(THIS, a_scor_walk, 12u);
     struct EnemyData* scorpion_data = (struct EnemyData*) THIS->custom_data;
     scorpion_data->vx = 0;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE() {

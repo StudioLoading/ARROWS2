@@ -67,6 +67,7 @@ extern UINT8 choice_right;
 extern struct MISSION find_blackie;
 extern struct MISSION engage_smith;
 extern struct MISSION golden_armor;
+extern struct MISSION mr_smee;
 extern INT8 current_map;
 extern CHAPTERS chapter;
 extern INT8 outwalker_info_step;
@@ -510,6 +511,8 @@ void move_on() BANKED{
         ChangeState(StateOverworld, s_motherow, 3);
     }else if(previous_state == StateOverworld || previous_state == StatePassword){
         ChangeState(previous_state, s_motherow, current_map);
+    }else if(whostalking == CADAVER && mr_smee.current_step == 1){//to the boss fight!
+        ChangeState(StateBossbat, s_motherpl, -1);
     }else{
         ChangeState(previous_state, s_motherpl, -1);
     }

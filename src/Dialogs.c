@@ -56,6 +56,7 @@ extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern struct EnemyData* crab_data;
 extern struct EnemyData* scorpiohead_data;
 extern struct EnemyData* minotaur_data;
+extern struct EnemyData* bossbat_data;
 extern UINT8 horde_step;
 extern INT8 scorpio_hp;
 extern UINT8 child_hooked;
@@ -724,6 +725,17 @@ void GetLocalizedLog_EN() BANKED{
 		break;
 		case StateBatcave:
 			memcpy(log0, "THE BAT CAVE        ", 20);
+		break;
+		case StateBossbat:
+			switch(bossbat_data->hp){
+				case 0:memcpy(log0, "BAT: BEATED!       ", 20);break;
+				case 1:memcpy(log0, "BAT   ( ) ) ) ) )   ", 20);break;
+				case 2:memcpy(log0, "BAT   ( ( ) ) ) )   ", 20);break;
+				case 3:memcpy(log0, "BAT   ( ( ( ) ) )   ", 20);break;
+				case 4:memcpy(log0, "BAT   ( ( ( ( ) )   ", 20);break;
+				case 5:memcpy(log0, "BAT   ( ( ( ( ( )   ", 20);break;
+				case 6:memcpy(log0, "BAT   ( ( ( ( ( (   ", 20);break;
+			};
 		break;
 	}
 }

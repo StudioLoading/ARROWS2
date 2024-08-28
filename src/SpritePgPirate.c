@@ -38,7 +38,7 @@ void UPDATE(){
         case 1u:
             switch(npc_data->type){
                 case PIRATE_CAPTAIN:
-                    SetSpriteAnim(THIS, a_captain, 8u);
+                    SetSpriteAnim(THIS, a_captain, 4u);
                 break;
                 case PIRATE_MARINAIO:
                     SetSpriteAnim(THIS, a_marinaio, 4u);

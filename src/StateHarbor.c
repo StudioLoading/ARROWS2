@@ -41,7 +41,6 @@ extern struct MISSION golden_armor;
 extern UINT8 powder_cooldown;
 extern UINT8 itemspawned_powder_max;
 extern UINT16 counter_birdsky;
-extern UINT8 counter_fish;
 
 const UINT8 coll_tiles_harbor[] = {1u, 63u, 82u, 83u, 89u, 90u,
                                 91u, 92u, 93u, 95u, 96u, 98u, 100u, 140u, 0};
@@ -125,7 +124,6 @@ void START(){
     timeout_enemy = 10u;
     timeout_cavesand = 0u;
     counter_birdsky = 0u;
-    counter_fish = 0u;
     perc_10 = (mapwidth/10) << 3;
     perc_40 = perc_10 << 2; 
     perc_90 = (mapwidth << 3) - perc_10;
@@ -192,7 +190,7 @@ void harbor_init_pirates() BANKED{
         s_walker2_data->configured = 1;
     */
     // CAPTAIN ONE EYED JACK
-        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3), pirate_spawn_y);
+        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) - 4u, pirate_spawn_y);
         s_captain->mirror = V_MIRROR;
         s_captain_data = (struct NpcInfo*) s_captain->custom_data;
         s_captain_data->npcname = ONE_EYED_JACK;
@@ -205,6 +203,8 @@ void harbor_init_pirates() BANKED{
             s_captain_data->whotalks = PIRATE_CAPTAIN_1;
         }
         s_captain_data->configured = 1;
+    // PARROT
+        SpriteManagerAdd(SpritePgParrot, s_captain->x + 2u, s_captain->y - 6u);
 }
 void UPDATE(){
     pirate_counter_30_100++;
@@ -220,20 +220,13 @@ void UPDATE(){
     //SPAWNING NPA    
         counter_birdsky++;
         if(counter_birdsky >= 1000){
-            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 4 << 3), 2);
-            spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 3 << 3), 2);
+            UINT16 birdsky_x = scroll_target->x + ((UINT16) 5 << 3);
+            if(s_motherpl->mirror == V_MIRROR) {birdsky_x = scroll_target->x - ((UINT16) 5 << 3);}
+            spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 4 << 3), 2);
+            birdsky_x = scroll_target->x + ((UINT16) 10 << 3);
+            if(s_motherpl->mirror == V_MIRROR) {birdsky_x = scroll_target->x - ((UINT16) 10 << 3);}
+            spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 3 << 3), 2);
             counter_birdsky = 0u;
-        }
-        counter_fish++;
-        switch(counter_fish){
-            case 90:
-            case 120:
-                if(_cpu == CGB_TYPE){
-                    spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 15 << 3), 2);
-                    spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 1 << 3)+1, ((UINT16) 16 << 3) +2, 4);
-                }
-                spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 15 << 3) + 2, 1);
-            break;
         }
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp){

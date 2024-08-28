@@ -382,36 +382,43 @@ void initial_sprite_spawning() BANKED{
 void initial_ow_npc() BANKED{
 	switch(current_map){
 		case MAP_SOUTHWEST:
-			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 30u << 3), ((UINT16) 15 << 3), 50u, 16u, 0, 1);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 39u << 3), ((UINT16) 32u << 3), 80u, 30u, -1,0);
 			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 25u << 3), ((UINT16) 31u << 3), 100u, 20u, 0,0);					
-			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 22u << 3), ((UINT16) 45u << 3)+1, 100u, 20u, -1,0);
+			if(_cpu == CGB_TYPE){
+				spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 22u << 3), ((UINT16) 45u << 3)+1, 100u, 20u, -1,0);
+				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 30u << 3), ((UINT16) 15 << 3), 50u, 16u, 0, 1);
+			}
 		break;
 		case MAP_NORTHWEST://northwest
 			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 19u << 3), ((UINT16) 39u << 3), 100u, 20u, 0,0);
-			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 21u << 3)-3, ((UINT16) 39u << 3), 100u, 20u, 0,0);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 44u << 3), ((UINT16) 40u << 3)+1, 80u, 30u, 0,0);
-			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 17u << 3) - 3u, ((UINT16) 33 << 3), 60u, 8u, 0, 1);
-			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 65u << 3), ((UINT16) 11 << 3), 40u, 8u, 0, 1);
 			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 53u << 3)+1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
 			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3)-1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
+			if(_cpu == CGB_TYPE){
+				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 65u << 3), ((UINT16) 11 << 3), 40u, 8u, 0, 1);
+				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 21u << 3)-3, ((UINT16) 39u << 3), 100u, 20u, 0,0);
+				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 17u << 3) - 3u, ((UINT16) 33 << 3), 60u, 8u, 0, 1);
+			}
 		break;
 		case MAP_SOUTHEAST:
-			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 27u << 3), ((UINT16) 19 << 3), 80u, 16u, 0, 1);
 			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 23u << 3), ((UINT16) 21 << 3), 40u, 16u, 0, 1);
 			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 17u << 3), ((UINT16) 20u << 3), 100u, 20u, 0,0);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 25u << 3), ((UINT16) 33u << 3)+1, 80u, 30u, -1,0);
-			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 30u << 3), ((UINT16) 14u << 3), 100u, 20u, 0,0);
-			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL,((UINT16) 15u << 3), ((UINT16) 23 << 3), 80u, 16u, 1, 0);
+			if(_cpu == CGB_TYPE){
+				spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL,((UINT16) 15u << 3), ((UINT16) 23 << 3), 80u, 16u, 1, 0);
+				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 30u << 3), ((UINT16) 14u << 3), 100u, 20u, 0,0);
+				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 27u << 3), ((UINT16) 19 << 3), 80u, 16u, 0, 1);
+			}
 		break;
 		case MAP_EAST:
-			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 49u << 3), ((UINT16) 28u << 3), 100u, 20u, 0,0);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 40u << 3), ((UINT16) 34u << 3), 90u, 30u, -1,0);
 			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 53u << 3), ((UINT16) 21 << 3), 100u, 16u, 0, 1);
 			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 31u << 3)+4, ((UINT16) 20u << 3), 60u, 20u, 0,0);
-			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 54u << 3), ((UINT16) 15u << 3), 120u, 30u, -1,0);
 			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 44u << 3), ((UINT16) 22u << 3), 100u, 30u, 0,0);
-
+			if(_cpu == CGB_TYPE){
+				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 49u << 3), ((UINT16) 28u << 3), 100u, 20u, 0,0);
+				spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 54u << 3), ((UINT16) 15u << 3), 120u, 30u, -1,0);
+			}
 		break;
 	}
 }

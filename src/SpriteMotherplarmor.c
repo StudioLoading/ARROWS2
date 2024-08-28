@@ -196,7 +196,7 @@ void motherplarmor_setanim_blocked() BANKED{
 }
 
 void motherplarmor_setanim_dash() BANKED{
-    SetSpriteAnim(THIS, motherplarmor_anim_dash, 12u);
+    SetSpriteAnim(THIS, motherplarmor_anim_dash, 1u);
 }
 
 void motherplarmor_refreshAnimation() BANKED{
@@ -230,6 +230,9 @@ void motherplarmor_refreshAnimation() BANKED{
                 SetSpriteAnim(THIS, motherplarmor_anim_hit, 24u);
             }
         break;
+        case MOTHERPL_DASH:
+            motherplarmor_setanim_dash();
+        break;  
     }
 }
 

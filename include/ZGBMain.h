@@ -2,12 +2,8 @@
 #define ZGBMAIN_H
 #define PauseMusic hUGE_paused = 1; hUGE_mute(HT_CH_MUTE);
 #define UNMUTE_ALL_CHANNELS hUGE_mute(HT_CH_PLAY)
-#define ResumeMusic hUGE_paused = 0; UNMUTE_ALL_CHANNELS  
+#define ResumeMusic hUGE_paused = 0; UNMUTE_ALL_CHANNELS
 
-#define WALK_FX_COOLDOWN 32
-/*
-*/
-/* _STATE(StateBonus)\ */
 #define STATES \
 _STATE(StateUtils)\
 _STATE(StateUtilsOw)\
@@ -44,6 +40,7 @@ _STATE(StateSilvercave)\
 _STATE(StateBossminotaur)\
 _STATE(StateBatcave)\
 _STATE(StateHarbor)\
+_STATE(StateBossbat)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -140,6 +137,8 @@ _SPRITE_DMG(SpriteOwpeople, owpeople)\
 _SPRITE_DMG(SpriteSeagullHarbor, seagullharbor)\
 _SPRITE_DMG(SpritePgPirate, pgpirate)\
 _SPRITE_DMG(SpritePgCadaver, pgcadaver)\
+_SPRITE_DMG(SpritePgParrot, parrot)\
+_SPRITE_DMG(SpriteBossbat, bossbat)\
 SPRITE_DEF_END
 
 

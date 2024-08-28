@@ -98,6 +98,8 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_reward() BANKED;
+extern void bossbat_change_state(ENEMY_STATE e_state) BANKED;
+
 
 extern void motherplnormal_refreshAnimation() BANKED;
 extern void motherplnormal_setanim_shoot() BANKED;
@@ -294,6 +296,7 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
         (e_data->e_state == ENEMY_WAIT || 
         e_data->e_state == ENEMY_IDLE || 
         e_data->e_state == ENEMY_WALK || 
+        e_data->e_state == ENEMY_RUN || 
         e_data->e_state == ENEMY_ATTACK)){
         if(motherpl_state == MOTHERPL_DASH){
             if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteBosscrab
@@ -339,6 +342,11 @@ void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED{
                 trigger_dialog(PIRATE_SPUGNA_0, s_mother);
             }else if(mr_smee.mission_state == MISSION_STATE_ENABLED){
                 trigger_dialog(PIRATE_SPUGNA_1, s_mother);
+            }
+        break;
+        case RICK:
+            if(mr_smee.mission_state == MISSION_STATE_STARTED){
+                trigger_dialog(CADAVER, s_mother);
             }
         break;
     }
@@ -473,6 +481,7 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
         break;
         case StateBlackiecave:
         case StateBatcave:
+        case StateBossbat:
             switch(motherpl_coll_x){
                 case 34u://tiles di soffitto che quando dash non voglio incastri
                 case 35u:
@@ -506,6 +515,7 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
 
 void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
     switch(s_collision->type){
+        case SpritePgCadaver:
         case SpritePgoutwalker:
         case SpritePgceme:
         case SpritePgexzoo:
@@ -555,6 +565,12 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
         case SpriteBosscrab:
         case SpriteBossscorpion:
             motherpl_hitted(s_collision);
+        break;
+        case SpriteBossbat:
+            if(motherpl_state == MOTHERPL_DASH){    
+                if(motherpl_dash_cooldown == 0){motherpl_dash_cooldown = 1;}
+                bossbat_change_state(ENEMY_HIT_1);
+            }else{motherpl_hitted(s_collision);}
         break;
         case SpriteBossminotaur:
             if(golden_armor.phase >= 3){
@@ -779,9 +795,6 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
             case MOTHERPL_DASH:
                 dash_horizontal_time = 12u;
                 if(motherpl_state == MOTHERPL_JUMP){s_mother->y -= 4u;}
-                    if(s_mother->type == SpriteMotherplarmor){
-                        motherplarmor_setanim_dash();
-                    }else{motherplnormal_setanim_dash();}
                 if(s_mother->mirror == NO_MIRROR){
                     motherpl_vx = 2;
                 }else{
@@ -797,9 +810,11 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
 void motherpl_behave(Sprite* s_mother) BANKED{
     switch(motherpl_state){
         case MOTHERPL_IDLE:
+            /*
             if(motherpl_attack_cooldown == 0u){
                 motherpl_refresh_animation(s_mother);
             }
+            */
             motherpl_jpower = 0;
             jump_max_toched = 0u;
             motherpl_vy = GRAVITY;
@@ -864,7 +879,9 @@ void motherpl_behave(Sprite* s_mother) BANKED{
             motherpl_vy = GRAVITY;
             motherpl_refresh_animation(s_mother);
             if(motherpl_hp <= 0){
-                motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
+                motherpl_hp = 1;//TODO REMOVE ME
+                //TODO togli commento sotto
+                //motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
             }
         break;
         case MOTHERPL_DEAD:

@@ -21,7 +21,7 @@ UINT8 new_state_to_go = 0u;
 UINT8 countdown = 0u;
 
 extern WHOSTALKING whostalking;
-extern void manage_border(UINT8 next_state) BANKED;
+extern void manage_border(UINT8 my_next_state) BANKED;
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 
 void ChangeStateThroughBetween(UINT8 new_state) BANKED;

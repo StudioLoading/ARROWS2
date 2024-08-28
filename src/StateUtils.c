@@ -120,7 +120,7 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 void check_sgb_palette(UINT8 new_state) BANKED;
 void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
-void manage_border(UINT8 next_state) BANKED;
+void manage_border(UINT8 my_next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
@@ -231,6 +231,10 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInventory){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
         break;
+        case StateBossbat:
+            if(previous_state == StateInventory){ResumeMusic;}
+            else {StopMusic;PlayMusic(bosscrab, 1);}
+        break;
     }
 }
 
@@ -256,12 +260,12 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
     }
 }
 
-void manage_border(UINT8 next_state) BANKED{
+void manage_border(UINT8 my_next_state) BANKED{
     if(!sgb_running){
         return;
     }
-    check_sgb_palette(next_state);
-    switch(next_state){
+    check_sgb_palette(my_next_state);
+    switch(my_next_state){
         case StateCredit:
         case StateOverworld:
         case StateTutorial:
@@ -551,6 +555,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                 motherow_pos_y = (UINT16) 37u << 3;
                             }
                         break;
+                        case StateBossbat:
+                            motherpl_pos_x = (UINT16) 16 << 3;
+                            motherpl_pos_y = (UINT16) 12u << 3;        
+                        break;
                     }
                     motherpl_mirror = s_mother->mirror;
                 break;        
@@ -718,6 +726,10 @@ void update_camera_position() BANKED{
                 }
                 return;
             break;
+            case StateBossbat:
+                scroll_target->x = ((UINT16) 12u << 3);
+                scroll_target->y = ((UINT16) 10u << 3);
+            break;
         }
     //LIMITS
         //HORIZONTAL
@@ -813,27 +825,6 @@ void update_camera_position() BANKED{
     //BLOCK 
         if(motherpl_state == MOTHERPL_BLOCKED ){return;}
         if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
-    // COOL CAMERA MANAGEMENT WITH DELTA
-        //camera fissa per certi stage
-            /*
-                UINT8 consider_margins = 0u;
-                switch(current_state){
-                    case StateHood:
-                    case StateMine:
-                    case StateMountain:
-                    case StateOutwalkers:
-                    case StateBlackiecave:
-                        scroll_target->x = s_motherpl->x + 8u;
-                        if(motherpl_hit_cooldown == 0){
-                            scroll_target->y = s_motherpl->y + 8u;
-                        }
-                        consider_margins = 1u;
-                    break;
-                }
-                if(consider_margins){
-                    return;
-                }
-            */
         //in ogni caso non uscire dai margini
         if(s_surf){
             switch(s_motherpl->mirror){
@@ -866,7 +857,7 @@ void update_camera_position() BANKED{
                     case NO_MIRROR://going right
                         if (scroll_target->x < (s_motherpl->x + CAMERA_DELTA_RIGHT)){
                             if(motherpl_vx > 0 || KEY_PRESSED(J_RIGHT)){
-                                scroll_target->x+=2;
+                                scroll_target->x+=3;
                             }
                         }else if (!KEY_PRESSED(J_LEFT) 
                             && !KEY_PRESSED(J_DOWN)){
@@ -876,7 +867,7 @@ void update_camera_position() BANKED{
                     case V_MIRROR://going left
                         if(scroll_target->x > (s_motherpl->x - CAMERA_DELTA_LEFT)){
                             if(motherpl_vx < 0 || KEY_PRESSED(J_LEFT)){
-                                scroll_target->x-=2;
+                                scroll_target->x-=3;
                             }
                         }else if (!KEY_PRESSED(J_RIGHT) && !KEY_PRESSED(J_DOWN)){
                             camera_ok = 1u;
@@ -908,6 +899,15 @@ void ReloadEnemiesPL() BANKED{
 
 //spawn non playable character
 void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED{
+    if(type == SpritePgCadaver){
+        Sprite* s_body = SpriteManagerAdd(type, posx, posy);
+        s_body->mirror = mirror;
+        struct NpcInfo* body_data = (struct NpcInfo*) s_body->custom_data;
+        body_data->type = body;
+        body_data->whotalks = whos;
+        body_data->npcname = npcname;
+        return;
+    }
     if(np_counter > 6){
         return;
     }

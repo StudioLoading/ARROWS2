@@ -60,6 +60,7 @@ const UINT8 coll_surface_batcave[] = { 16u, 29u, 31u, 33u, 0};
 UINT8 first_time = 0u;
 UINT8 enemy_wave_zone = 0u;
 UINT8 current_horde_max = 0u;
+UINT8 cadaver_spawned = 0u;
 
 void spawn_enemy_batcave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
 
@@ -69,6 +70,7 @@ extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
+extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 
 
 void START(){
@@ -77,9 +79,9 @@ void START(){
         scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
         if(chapter == CHAPTER_4_SHIP){
-            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, 10u, (UINT16) 6u << 3);
+            s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, 32u, (UINT16) 6u << 3);
         }else{
-            s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, (UINT16) 6u << 3);
+            s_motherpl = SpriteManagerAdd(SpriteMotherpl, 32u, (UINT16) 6u << 3);
         }
         if(previous_state == StateInventory || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
@@ -89,9 +91,6 @@ void START(){
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
         InitScroll(BANK(mapbatcave), &mapbatcave, coll_tiles_batcave, coll_surface_batcave);
-        if(mr_smee.mission_state != MISSION_STATE_DISABLED){
-            SpriteManagerAdd(SpritePgCadaver, ((UINT16)136u << 3), ((UINT16) 13u << 3));
-        }
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -106,6 +105,7 @@ void START(){
     timeout_enemy = ENEMY_TIMEOUT_MAX;
     generic_counter = 60u;
     itemspawned_powder_max = 4;
+    cadaver_spawned = 0;
     if(previous_state == StateOverworld){
         enemy_wave = 0;
     }
@@ -213,6 +213,11 @@ void UPDATE(){
                         }
                     }
                 }
+            }
+        //CADAVER
+            if(s_motherpl->x > ((UINT16) 125u << 3) && mr_smee.mission_state > MISSION_STATE_ENABLED && cadaver_spawned == 0){
+                spawn_npc(SpritePgCadaver, ((UINT16)137u << 3), ((UINT16) 12u << 3), PIRATE_HEADLESS_RICK, PIRATE_HEADLESS_RICK, NO_MIRROR, CADAVER, RICK);
+                cadaver_spawned = 1;
             }
     
     Log(NONAME);

@@ -13,7 +13,7 @@
 #include "CircleMath.h"
 
 #define GRAVITY 1
-#define MAX_WAIT 160
+#define MAX_WAIT 120
 #define ATTACK_COOLDOWN 160
 
 const UINT8 bat_anim_idle[] = {6, 6,6,6,7,6,7}; //The first number indicates the number of frames
@@ -26,6 +26,8 @@ extern Sprite* s_blocking;
 extern UINT8 motherpl_blocked;
 
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+extern void EspawnItem(Sprite* s_enemy) BANKED;
+
 
 void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
 
@@ -36,7 +38,7 @@ void START(){
     SetSpriteAnim(THIS, bat_anim_idle, 12u);
     struct EnemyData* bat_data = (struct EnemyData*)THIS->custom_data;
     bat_data->configured = 0u;
-    bat_data->wait = MAX_WAIT;
+    bat_data->wait = 20u;
     bat_data->e_state = ENEMY_IDLE;
     bat_data->et_collision = 0u;
     bat_data->hp = 2u;
@@ -68,12 +70,14 @@ void UPDATE(){
                     SetSpriteAnim(THIS, bat_anim_fly, 32u);}
                 else if(bat_data->wait > ((MAX_WAIT >> 2))){vy = 0;}
                 else if(bat_data->wait > ((MAX_WAIT >> 1) - (MAX_WAIT >> 3))){vy = 0;}
-                else if(bat_data->wait > (MAX_WAIT >> 2)){
+                /*else if(bat_data->wait > (MAX_WAIT >> 2)){
                     vy = -GRAVITY;
-                    THIS->anim_speed = 90u;}
+                    THIS->anim_speed = 90u;}*/
                 else if(bat_data->wait > 0){bat_data->configured = 1;}
             }
-            
+            if(vy < 0){
+                THIS->anim_speed = 96u;
+            }
             bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, vy);
             if(bat_data->et_collision == 34u || bat_data->et_collision == 35u ||
                 bat_data->et_collision == 36u || bat_data->et_collision == 37u){
@@ -161,4 +165,5 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
 }
 
 void DESTROY(){
+    EspawnItem(THIS);
 }

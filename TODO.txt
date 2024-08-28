@@ -1,6 +1,14 @@
 POST DEMO:
 - seguire gli appunti cartacei per fare le missioni dell' ultimo capitolo
 	quando trovo il cadavere potrei fare una cosa inaspettata: farmi catturare e portare "in alto" da un pipistrello gigante e bossfight
+	- il megapipistrello non subisce colpi di freccia ma solo dashate!
+- batcave più challenging, copierei le orde della buon vecchia mine
+	forse ci stanno dei ragni
+
+- quando ho armatura faccio dash più lunga?
+- quando ho armatura immunità a topi e serpenti- hidden del chapter ship
+- suggerimenti del chapter ship
+- il tavolo di tetra!
 - il pappagallino verde che vola e si poggia sulla spalla di captain
 - c'è qualcosa che non va nel salto nei place.
 - quando atterro su place la camera scatta al primo passo
@@ -8,6 +16,8 @@ POST DEMO:
 	- cobra
 	- tarantula
 	- bat
+- ci sta un frame in più di motherpl che la metto in prospettiva frontale
+da usare al volo quando si volta?
 - togliree sprite di npc/npa perchè sul DMG potrebbe non reggere, si testa facilmente
 - col capitolo dell' armatura usare il place che "Darkest Forest"?
 	perché al momento è li a fare niente
