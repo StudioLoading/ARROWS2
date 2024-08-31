@@ -13,7 +13,7 @@
 #include "CircleMath.h"
 
 #define GRAVITY 1
-#define MAX_WAIT 120
+#define MAX_WAIT 140
 #define ATTACK_COOLDOWN 160
 
 const UINT8 bat_anim_idle[] = {6, 6,6,6,7,6,7}; //The first number indicates the number of frames
@@ -76,7 +76,7 @@ void UPDATE(){
                 else if(bat_data->wait > 0){bat_data->configured = 1;}
             }
             if(vy < 0){
-                THIS->anim_speed = 96u;
+                THIS->anim_speed = 56u;
             }
             bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, vy);
             if(bat_data->et_collision == 34u || bat_data->et_collision == 35u ||

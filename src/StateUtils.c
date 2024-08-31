@@ -124,7 +124,6 @@ void manage_border(UINT8 my_next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
-extern struct EnemyData* minotaur_data;
 
 
 void restartFromHospital() BANKED{

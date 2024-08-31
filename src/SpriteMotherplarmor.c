@@ -106,7 +106,6 @@ void UPDATE(){
         if(motherpl_hit_cooldown > 0u){
             motherpl_hit_cooldown--;
             if(motherpl_hit_cooldown == 0u){
-                motherpl_hit = 0u;
                 if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){
                     motherpl_changeMotherplState(THIS, MOTHERPL_WALK);
                 }else{
@@ -114,7 +113,7 @@ void UPDATE(){
                 }
             }
         }else{
-            if(motherpl_hit == 1u){
+            if(motherpl_hit > 0u){
                 motherpl_changeMotherplState(THIS, MOTHERPL_HIT);
             }
         }

@@ -74,6 +74,7 @@ extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
 extern UINT8 child_hooked;
+extern struct EnemyData* bossbat_data;
 extern struct InvItem itemEquipped;
 extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
@@ -98,8 +99,6 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_reward() BANKED;
-extern void bossbat_change_state(ENEMY_STATE e_state) BANKED;
-
 
 extern void motherplnormal_refreshAnimation() BANKED;
 extern void motherplnormal_setanim_shoot() BANKED;
@@ -289,25 +288,22 @@ void motherpl_walk(Sprite* s_mother) BANKED{
 }
 
 void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag to 1
-    if(motherpl_hit == 1){return;}
+    if(motherpl_hit > 0 || motherpl_hit_cooldown > 0){return;}
     motherpl_blocked = 0u;
     struct EnemyData* e_data = (struct EnemyData*) s_enemy->custom_data;
-    if(e_data->hp > 0 && 
-        (e_data->e_state == ENEMY_WAIT || 
-        e_data->e_state == ENEMY_IDLE || 
-        e_data->e_state == ENEMY_WALK || 
-        e_data->e_state == ENEMY_RUN || 
-        e_data->e_state == ENEMY_ATTACK)){
-        if(motherpl_state == MOTHERPL_DASH){
-            if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteBosscrab
-                || s_enemy->type == SpriteBossscorpion 
-                || s_enemy->type == SpriteBossscorpionhead
-                || s_enemy->type == SpriteSeagull){
+    if(e_data->hp > 0){
+        if(s_enemy->type == SpriteBossbat
+            || s_enemy->type == SpriteBossscorpion 
+            || s_enemy->type == SpriteBosscrab
+            || s_enemy->type == SpriteBossminotaur){
+            motherpl_hit = 2u;
+        }else if(motherpl_state == MOTHERPL_DASH){
+            if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteSeagull){
                 motherpl_hit = 1u;
             }else if(motherpl_coll_x == 0u){
                 motherpl_dash_cooldown++;
             }
-        }else if(motherpl_hit != 1u){
+        }else{
             motherpl_hit = 1u;
         }
     }
@@ -567,10 +563,17 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
             motherpl_hitted(s_collision);
         break;
         case SpriteBossbat:
-            if(motherpl_state == MOTHERPL_DASH){    
-                if(motherpl_dash_cooldown == 0){motherpl_dash_cooldown = 1;}
-                bossbat_change_state(ENEMY_HIT_1);
+            {
+            if(bossbat_data->e_state == ENEMY_HIT_1){return;}
+            if(motherpl_state == MOTHERPL_DASH){
+                if(bossbat_data->e_state == ENEMY_SLIDE_DOWN){
+                    if(motherpl_dash_cooldown == 0){motherpl_dash_cooldown = 1;}
+                    bossbat_data->configured = 1;
+                }else{
+                    motherpl_hitted(s_collision);
+                }
             }else{motherpl_hitted(s_collision);}
+            }
         break;
         case SpriteBossminotaur:
             if(golden_armor.phase >= 3){
@@ -749,8 +752,11 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
             case MOTHERPL_HIT:
                 my_play_fx(CHANNEL_2, 60, 0xce, 0x53, 0xb2, 0x83, 0x00);//SFX_HIT
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
-                //TODO for test purposes invulnerability!
-                //motherpl_hp--;
+                motherpl_hp -= motherpl_hit;
+                motherpl_hit = 0;
+                //TODO START remove me invulnerability!
+                if(motherpl_hp <= 0){motherpl_hp = 1;}
+                //TODO END remove me
                 if(s_mother->mirror == NO_MIRROR){    
                     SpriteManagerAdd(SpritePuff, s_mother->x + 2, s_mother->y + 4);
                     s_mother->x-=6;
@@ -879,9 +885,7 @@ void motherpl_behave(Sprite* s_mother) BANKED{
             motherpl_vy = GRAVITY;
             motherpl_refresh_animation(s_mother);
             if(motherpl_hp <= 0){
-                motherpl_hp = 1;//TODO REMOVE ME
-                //TODO togli commento sotto
-                //motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
+                motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
             }
         break;
         case MOTHERPL_DEAD:
@@ -966,10 +970,8 @@ void motherpl_behave(Sprite* s_mother) BANKED{
                         spawnItem(INVITEM_POWDER, s_mother->x, s_mother->y);
                     }
                 }
-                if(dash_floor != 0){
-                    if(motherpl_dash_cooldown % 8 == 0){
-                        motherpl_spawnDust(s_mother);
-                    }
+                if(dash_floor != 0 && motherpl_dash_cooldown % 8 == 0 && current_state != StateBossbat){
+                    motherpl_spawnDust(s_mother);
                 }
             }
         break;

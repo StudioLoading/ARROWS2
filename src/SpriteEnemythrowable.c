@@ -166,7 +166,7 @@ void UPDATE(){
                                     }
                                 break;
                             }
-                            if(motherpl_hit == 1){throwable_data->hp=0;}
+                            if(motherpl_hit > 0){throwable_data->hp=0;}
                         }
                     break;
                 }
