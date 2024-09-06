@@ -27,7 +27,7 @@
 #define GOTON_COOLDOWN 32
 #define HIT_COOLDOWN_MAX 64
 #define DEAD_COOLDOWN_MAX 64
-#define BLOCKED_COOLDOWN_MAX 200
+#define BLOCKED_COOLDOWN_MAX 70
 #define PICKINGUP_COOLDOWN 16
 #define DASH_COOLDOWN_MAX 24
 #define HP_INITIAL 1
@@ -295,7 +295,8 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
         if(s_enemy->type == SpriteBossbat
             || s_enemy->type == SpriteBossscorpion 
             || s_enemy->type == SpriteBosscrab
-            || s_enemy->type == SpriteBossminotaur){
+            || s_enemy->type == SpriteBossminotaur
+            || s_enemy->type == SpriteEnemyBat){
             motherpl_hit = 2u;
         }else if(motherpl_state == MOTHERPL_DASH){
             if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteSeagull){
@@ -552,6 +553,9 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
         break;
         case SpriteEnemysimplesnake:
         case SpriteEnemysimplerat:
+            if(s_mother->type == SpriteMotherplarmor){
+                SpriteManagerRemoveSprite(s_collision);
+            }
         case SpriteEnemyAttackerCobra:
         case SpriteEnemyAttackerPine:
         case SpriteEnemyThrowerSpider:
@@ -904,19 +908,23 @@ void motherpl_behave(Sprite* s_mother) BANKED{
         break;
         case MOTHERPL_BLOCKED:
             if(KEY_TICKED(J_LEFT) || KEY_TICKED(J_RIGHT)){
-                motherpl_blocked_cooldown -= 40;
-            }
-            //motherpl_blocked_cooldown--;
-            if(motherpl_blocked_cooldown > BLOCKED_COOLDOWN_MAX 
-                || s_blocking == 0){
-                if(s_blocking->type == SpriteEnemyBat){
-                    bat_change_state(s_blocking, ENEMY_RUN);
-                }else{
-                    SpriteManagerRemoveSprite(s_blocking);
+                motherpl_blocked_cooldown += 10;
+                if(motherpl_blocked_cooldown >= 80){//got away!
+                    if(s_blocking->type == SpriteEnemyBat){
+                        s_blocking->y -= 24u;
+                        bat_change_state(s_blocking, ENEMY_SLIDE_UP);
+                    }
+                    motherpl_blocked = 0u;
+                    motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
+                    motherpl_changeMotherplState(s_mother, MOTHERPL_IDLE);                 
                 }
-                motherpl_blocked = 0u;
-                motherpl_blocked_cooldown = 16u;
-                motherpl_changeMotherplState(s_mother, MOTHERPL_IDLE);
+            }
+            motherpl_blocked_cooldown--;
+            if(motherpl_blocked_cooldown < 12 || s_blocking == 0){
+                if(s_blocking->type == SpriteEnemyBat){
+                    motherpl_hitted(s_blocking);
+                }
+                SpriteManagerRemoveSprite(s_blocking);
             }
         break;
         case MOTHERPL_PICKUP:

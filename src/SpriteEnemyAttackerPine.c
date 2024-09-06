@@ -12,7 +12,6 @@ const UINT8 pine_anim_idle[] = {1, 1}; //The first number indicates the number o
 const UINT8 pine_anim_walk[] = {4, 1, 2, 3, 2}; //The first number indicates the number of frames
 const UINT8 pine_anim_hit[] = {2, 1, 0}; //The first number indicates the number of frames
 const UINT8 pine_anim_attack[] = {2, 4, 5}; //The first number indicates the number of frames
-extern UINT8 enemy_random_30_100;
 
 void EattackerPineAnim(ENEMY_STATE estate) BANKED;
 

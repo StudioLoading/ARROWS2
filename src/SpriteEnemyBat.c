@@ -14,7 +14,8 @@
 
 #define GRAVITY 1
 #define MAX_WAIT 140
-#define ATTACK_COOLDOWN 160
+#define FALLING_WAIT 80
+#define ATTACK_COOLDOWN 200
 
 const UINT8 bat_anim_idle[] = {6, 6,6,6,7,6,7}; //The first number indicates the number of frames
 const UINT8 bat_anim_fly[] = {9, 1, 2, 3, 4, 5, 5, 4, 3, 2}; //The first number indicates the number of frames
@@ -24,8 +25,9 @@ extern Sprite* s_motherpl;
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_blocking;
 extern UINT8 motherpl_blocked;
+extern UINT8 enemy_random_30_100;
+extern UINT8 enemy_counter;
 
-extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 extern void EspawnItem(Sprite* s_enemy) BANKED;
 
 
@@ -33,7 +35,7 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
 
 
 void START(){	
-    THIS->lim_x = 80u;
+    THIS->lim_x = 40u;
     THIS->lim_y = 80u;
     SetSpriteAnim(THIS, bat_anim_idle, 12u);
     struct EnemyData* bat_data = (struct EnemyData*)THIS->custom_data;
@@ -51,6 +53,8 @@ void START(){
 }
 
 void UPDATE(){
+    enemy_random_30_100++;
+    if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
     struct EnemyData* bat_data = (struct EnemyData*)THIS->custom_data;
     if(bat_data->hp <= 0){
         SpriteManagerRemoveSprite(THIS);
@@ -60,44 +64,37 @@ void UPDATE(){
     if(bat_data->x_frameskip == 0){bat_data->x_frameskip=1; return;}
     else{bat_data->x_frameskip = 0;}
     switch(bat_data->e_state){
-        case ENEMY_RUN:
+        case ENEMY_SLIDE_DOWN:
+            bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, GRAVITY << 2);
+            if(bat_data->wait == 0 || bat_data->et_collision){
+                bat_change_state(THIS, ENEMY_WALK);
+            }
+        break;
         case ENEMY_WALK:
-            {
-            INT8 vy = -(GRAVITY * 2);
-            if(bat_data->configured == 0){//se sto salendo, devo salire indip dal wait fino a collision
-                if(bat_data->wait > (MAX_WAIT - (MAX_WAIT >> 2))){vy = GRAVITY * 3;}
-                else if(bat_data->wait > ((MAX_WAIT >> 1) + (MAX_WAIT >> 3))){vy = GRAVITY;
-                    SetSpriteAnim(THIS, bat_anim_fly, 32u);}
-                else if(bat_data->wait > ((MAX_WAIT >> 2))){vy = 0;}
-                else if(bat_data->wait > ((MAX_WAIT >> 1) - (MAX_WAIT >> 3))){vy = 0;}
-                /*else if(bat_data->wait > (MAX_WAIT >> 2)){
-                    vy = -GRAVITY;
-                    THIS->anim_speed = 90u;}*/
-                else if(bat_data->wait > 0){bat_data->configured = 1;}
+            bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, 0);
+            if(bat_data->wait == 0){
+                bat_change_state(THIS, ENEMY_SLIDE_UP);
             }
-            if(vy < 0){
-                THIS->anim_speed = 56u;
-            }
-            bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, vy);
+        break;
+        case ENEMY_SLIDE_UP:
+            bat_data->et_collision = TranslateSprite(THIS,bat_data->vx, -GRAVITY << 1);
             if(bat_data->et_collision == 34u || bat_data->et_collision == 35u ||
                 bat_data->et_collision == 36u || bat_data->et_collision == 37u){
                 bat_change_state(THIS, ENEMY_IDLE);
-            }else if(bat_data->et_collision){
-                SetSpriteAnim(THIS, bat_anim_fly, 32u);
-            }
             }
         break;
         case ENEMY_IDLE:
             if(bat_data->wait < 5 || bat_data->wait > MAX_WAIT){
-                bat_change_state(THIS, ENEMY_WALK);
+                bat_change_state(THIS, ENEMY_SLIDE_DOWN);
             }
         break;
         case ENEMY_ATTACK:
             THIS->x = s_motherpl->x + 2u;
             THIS->y = s_motherpl->y + 4u;
-            if(bat_data->wait < 10u){
+            if(bat_data->wait < 10u || bat_data->wait > ATTACK_COOLDOWN){
                 bat_data->wait = ATTACK_COOLDOWN;
-                motherpl_hitted(THIS);
+                THIS->y -= 24u;
+                bat_change_state(THIS, ENEMY_SLIDE_UP);
             }
         break;
     }
@@ -110,8 +107,7 @@ void UPDATE(){
                 switch(bespr->type){
                     case SpriteMotherpl:
                     case SpriteMotherplarmor://io enemy ho colpito motherpl
-                        if(motherpl_blocked == 0 && bat_data->e_state != ENEMY_ATTACK
-                            && bat_data->e_state != ENEMY_RUN){
+                        if(motherpl_blocked == 0 && bat_data->e_state != ENEMY_ATTACK){
                             bat_change_state(THIS, ENEMY_ATTACK);
                         }
                     break;
@@ -142,17 +138,25 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
             s_bat->anim_speed = 90; 
             SetSpriteAnim(s_bat, bat_anim_fly, 64);
         break;
-        case ENEMY_RUN:
         case ENEMY_WALK:
             s_bat_data->wait = MAX_WAIT;
-            SetSpriteAnim(s_bat, bat_anim_falling, 32u);
+            SetSpriteAnim(s_bat, bat_anim_fly, 16u);
+            s_bat->y -=1 ;
+        break;
+        case ENEMY_SLIDE_DOWN:
+            s_bat_data->wait = FALLING_WAIT;
+            SetSpriteAnim(s_bat, bat_anim_falling, 1u);
             s_bat_data->vx = 1;
             s_bat->mirror = NO_MIRROR;
             if(s_bat->x > s_motherpl->x){
                 s_bat_data->vx = -1;
                 s_bat->mirror = V_MIRROR;
             }
-            s_bat->y += 2;
+        break;
+        case ENEMY_SLIDE_UP:
+            s_bat_data->wait = MAX_WAIT;
+            SetSpriteAnim(s_bat, bat_anim_fly, 64u);
+            s_bat->anim_speed = 56;
         break;
         case ENEMY_IDLE:
             SetSpriteAnim(s_bat, bat_anim_idle, 12u);
@@ -165,5 +169,6 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
 }
 
 void DESTROY(){
+    enemy_counter--;
     EspawnItem(THIS);
 }

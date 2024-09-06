@@ -67,8 +67,8 @@ void START(){
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16)16u << 3, (UINT16) 10u << 3);
     //INIT CHAR & MAP
-        //SpriteManagerAdd(SpriteEnemyBat, (UINT16)1<<3, (UINT16)5<<3);
-        //SpriteManagerAdd(SpriteEnemyBat, (UINT16)4<<3, (UINT16)8<<3);
+        SpriteManagerAdd(SpriteEnemyBat, (UINT16)1<<3, (UINT16)5<<3);
+        SpriteManagerAdd(SpriteEnemyBat, (UINT16)4<<3, (UINT16)8<<3);
         s_bat = SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, ((UINT16) 12u << 3), ((UINT16) 10u << 3));
         InitScroll(BANK(bossbatmap), &bossbatmap, coll_tiles_bat, coll_surface_bat); 

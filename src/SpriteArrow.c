@@ -228,10 +228,8 @@ void UPDATE(){
                             break;
                             case ARROW_BASTARD:
                             case ARROW_PERF:
-                                if(e_data->e_state != ENEMY_IDLE){
-                                    arrow_data->hit = 1;
-                                    bat_change_state(iarrspr, ENEMY_HIT_2);
-                                }
+                                arrow_data->hit = 2;
+                                bat_change_state(iarrspr, ENEMY_HIT_2);
                             break;
                         }
                     break;

@@ -12,8 +12,8 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-#define HORDE_COBRA 1
-#define HORDE_SPIDER 2
+#define HORDE1_BAT 2
+#define HORDE2_BAT 3
 #define ENEMY_TIMEOUT_MAX 220
 #define ENEMY_TIMEOUT_MIN 20
 
@@ -62,7 +62,7 @@ UINT8 enemy_wave_zone = 0u;
 UINT8 current_horde_max = 0u;
 UINT8 cadaver_spawned = 0u;
 
-void spawn_enemy_batcave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED;
+void spawn_enemy_batcave(UINT16 pos_x, UINT16 pos_y) BANKED;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -153,64 +153,49 @@ void UPDATE(){
             if(motherpl_state != DEATH){
                 UINT16 spawn_posx = 0u;
                 UINT16 spawn_posy = 0u;
-                UINT8 sprite_enemy_type = 0u;
                 if(s_motherpl->x > ((UINT16)26u)<<3 && 
                     s_motherpl->x < ((UINT16)50u)<<3){
-                    spawn_posx = 38u;
-                    spawn_posy = 9u;
-                    //sprite_enemy_type = SpriteEnemyAttackerCobra;
-                    sprite_enemy_type = SpriteEnemyBat;
+                    spawn_posx = 37u;
+                    spawn_posy = 8u;
                     if(enemy_wave_zone != 1){
-                        enemy_wave = 0;
                         enemy_wave_zone = 1;
-                        current_horde_max = HORDE_COBRA;
+                        current_horde_max = HORDE1_BAT;
                     }
                 }else if(s_motherpl->x > ((UINT16)56u)<<3 && 
-                    s_motherpl->x < ((UINT16)81u)<<3){
+                    s_motherpl->x < ((UINT16)78u)<<3){
                     spawn_posx = 68u;
-                    spawn_posy = 1u;
-                    //sprite_enemy_type = SpriteSpider;
-                    sprite_enemy_type = SpriteEnemyBat;
+                    spawn_posy = 2u;
                     if(enemy_wave_zone != 2){
-                        enemy_wave = 0;
                         enemy_wave_zone = 2;
-                        current_horde_max = HORDE_SPIDER;
+                        current_horde_max = HORDE2_BAT;
                     }
-                }else if(s_motherpl->x > ((UINT16)86u)<<3 &&
-                    s_motherpl->x < ((UINT16)100u)<<3){
-                    spawn_posx = 92u;
-                    spawn_posy = 1u;
-                    //sprite_enemy_type = SpriteEnemyThrowerTarantula;
-                    sprite_enemy_type = SpriteEnemyBat;
+                }else if(s_motherpl->x > ((UINT16)92u)<<3 &&
+                    s_motherpl->x < ((UINT16)110u)<<3){
+                    spawn_posx = 104;
+                    spawn_posy = 2u;
                     if(enemy_wave_zone != 3){
-                        enemy_wave = 0;
                         enemy_wave_zone = 3;
-                        current_horde_max = HORDE_SPIDER;
+                        current_horde_max = HORDE2_BAT;
                     }
-                }else if(s_motherpl->x > ((UINT16)100u)<<3){
-                    spawn_posx = 108u;
-                    spawn_posy = 4u;
-                    //sprite_enemy_type = SpriteEnemyThrowerTarantula;
-                    sprite_enemy_type = SpriteEnemyBat;
+                }else if(s_motherpl->x > ((UINT16)120u)<<3){
+                    spawn_posx = 131u;
+                    spawn_posy = 8u;
                     if(enemy_wave_zone != 4){
-                        enemy_wave = 0;
                         enemy_wave_zone = 4;
-                        current_horde_max = HORDE_SPIDER;
+                        current_horde_max = HORDE2_BAT;
                     }
                 }else{
                     enemy_wave_zone = 0u;
                 }
-                if(spawn_posx && spawn_posy && sprite_enemy_type && 
-                    enemy_wave_zone && enemy_wave < current_horde_max){
-                    if(enemy_counter < 3){//per questione di flickering
-                        timeout_enemy--;
-                        switch(timeout_enemy){
-                            case 100u:
-                            case 200u:
-                                spawn_enemy_batcave(sprite_enemy_type,spawn_posx,spawn_posy);
-                            break;
-                            case ENEMY_TIMEOUT_MIN:timeout_enemy = ENEMY_TIMEOUT_MAX;break;
-                        }
+                if(spawn_posx && spawn_posy && enemy_wave_zone && enemy_counter < current_horde_max && enemy_wave != enemy_wave_zone){
+                    enemy_wave = enemy_wave_zone;
+                    switch(current_horde_max){
+                        case HORDE2_BAT:
+                            spawn_enemy_batcave(spawn_posx - 8u,spawn_posy);
+                        case HORDE1_BAT:
+                            spawn_enemy_batcave(spawn_posx,spawn_posy);
+                            spawn_enemy_batcave(spawn_posx + 14u,spawn_posy);
+                        break;
                     }
                 }
             }
@@ -223,7 +208,7 @@ void UPDATE(){
     Log(NONAME);
 }
 
-void spawn_enemy_batcave(UINT8 sprite_enemy_type, UINT16 pos_x, UINT16 pos_y) BANKED{
-    enemy_wave++;
-    SpriteManagerAdd(sprite_enemy_type, ((UINT16)pos_x)<<3, ((UINT16)pos_y)<<3);
+void spawn_enemy_batcave(UINT16 pos_x, UINT16 pos_y) BANKED{
+    enemy_counter++;
+    SpriteManagerAdd(SpriteEnemyBat, ((UINT16)pos_x)<<3, ((UINT16)pos_y)<<3);
 }

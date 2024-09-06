@@ -12,8 +12,6 @@ const UINT8 snake_anim_idle[] = {1, 1}; //The first number indicates the number 
 const UINT8 snake_anim_walk[] = {4, 3, 4, 1, 2}; //The first number indicates the number of frames
 const UINT8 snake_anim_hit[] = {2, 1, 3}; //The first number indicates the number of frames
 
-extern UINT8 enemy_random_30_100;
-
 void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 
 extern void Estart(Sprite* s_enemy) BANKED;

@@ -13,8 +13,6 @@ const UINT8 rat_anim_idle[] = {1, 1}; //The first number indicates the number of
 const UINT8 rat_anim_walk[] = {3, 2, 1, 3}; //The first number indicates the number of frames
 const UINT8 rat_anim_hit[] = {2, 1, 0}; //The first number indicates the number of frames
 
-extern UINT8 enemy_random_30_100;
-
 void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
 
 extern void Estart(Sprite* s_enemy) BANKED;

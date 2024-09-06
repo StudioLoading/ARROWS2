@@ -52,7 +52,6 @@ const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 29u, 57u, 68u, 81u,
 
 extern UINT8 tiles_anim_interval;
 extern UINT16 timeout_enemy;
-extern UINT8 enemy_wave;
 extern UINT8 timeout_drop;
 extern UINT8 horde_step;
 extern UINT8 horde_counter;
