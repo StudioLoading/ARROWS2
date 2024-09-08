@@ -43,7 +43,7 @@ extern UINT8 itemspawned_powder_max;
 extern UINT16 counter_birdsky;
 
 const UINT8 coll_tiles_harbor[] = {1u, 63u, 82u, 83u, 89u, 90u,
-                                91u, 92u, 93u, 95u, 96u, 98u, 100u, 140u, 0};
+                                91u, 92u, 93u, 95u, 96u, 140u, 0};
 const UINT8 coll_surface_harbor[] = {75u, 86u, 89u, 90u, 0};
 
 extern UINT8 tiles_anim_interval;
@@ -190,7 +190,7 @@ void harbor_init_pirates() BANKED{
         s_walker2_data->configured = 1;
     */
     // CAPTAIN ONE EYED JACK
-        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) - 4u, pirate_spawn_y);
+        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
         s_captain->mirror = V_MIRROR;
         s_captain_data = (struct NpcInfo*) s_captain->custom_data;
         s_captain_data->npcname = ONE_EYED_JACK;
