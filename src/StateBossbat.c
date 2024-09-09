@@ -39,7 +39,6 @@ extern struct MISSION outwalker_glass;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
-extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 timeout_drop;
 extern UINT8 mother_exit_cooldown;
@@ -48,17 +47,15 @@ extern UINT8 tiles_anim_interval;
 extern UINT8 timeout_drop;
 extern CHAPTERS chapter;
 
-
 const UINT8 coll_tiles_bat[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u,
 17u, 18u, 19u, 34u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 54u, 55u, 0};
 const UINT8 coll_surface_bat[] = { 16u, 29u, 31u, 33u, 0};
 
-Sprite* s_bat = 0;
+INT8 bossbat_exit_cooldown = 0;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void ReloadEnemiesPL() BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -69,7 +66,7 @@ void START(){
     //INIT CHAR & MAP
         SpriteManagerAdd(SpriteEnemyBat, (UINT16)1<<3, (UINT16)5<<3);
         SpriteManagerAdd(SpriteEnemyBat, (UINT16)4<<3, (UINT16)8<<3);
-        s_bat = SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
+        SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, ((UINT16) 12u << 3), ((UINT16) 10u << 3));
         InitScroll(BANK(bossbatmap), &bossbatmap, coll_tiles_bat, coll_surface_bat); 
     //HUD
@@ -87,6 +84,13 @@ void START(){
 }
 
 void UPDATE(){
+    //EXIT COOLDOWN
+        if(bossbat_exit_cooldown > 0){
+            bossbat_exit_cooldown--;
+            if(bossbat_exit_cooldown == 0){
+                ChangeState(StateOverworld, s_motherpl, MAP_SOUTHEAST);
+            }
+        }
     //UPDATE HUD for HP changings
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();

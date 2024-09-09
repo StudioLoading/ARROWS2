@@ -408,17 +408,48 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     }
     enemy_counter = 0;
     np_counter = 0;
-    UINT8 mfit_a_tile;
-    Sprite* mfitspr;
-    SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
-        UINT8 i = 0u;
-        for(i = 0u; i < 3; ++i){
-            if(e_to_reload[i].alive == 1 && mfitspr->type == e_to_reload[i].type){
-                e_to_reload[i].x = mfitspr->x;
-                e_to_reload[i].y = mfitspr->y;
+    //SAVE ENEMY TO BE RELOADED
+    if(new_state == StateInventory){
+        switch (current_state){
+            case StateMine:
+            case StateHood:
+            case StateSilvercave:
+            case StateBatcave:
+            {
+            UINT8 mfit_a_tile;
+            Sprite* mfitspr;
+            UINT8 i = 0u;
+            SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
+                switch(mfitspr->type){
+                    case SpriteEnemysimplerat: case SpriteEnemysimplesnake:
+                    case SpriteEnemyThrowerScorpion: case SpriteEnemyThrowerSpider:
+                    case SpriteEnemyThrowerTarantula: case SpriteEnemyBat:
+                    case SpriteEnemyAttackerCobra: case SpriteEnemyAttackerPine:
+                        {
+                        struct EnemyData* e_data = (struct EnemyData*) mfitspr->custom_data;
+                        if(e_data->type > 0 && e_data->e_state != ENEMY_DEAD && i<3){
+                                e_to_reload[i].type = mfitspr->type;
+                                e_to_reload[i].x = mfitspr->x;
+                                e_to_reload[i].y = mfitspr->y;
+                                e_to_reload[i].mirror = mfitspr->mirror;
+                                e_to_reload[i].e_data_hp = e_data->hp;
+                                e_to_reload[i].e_data_vx = e_data->vx;
+                                e_to_reload[i].e_data_wait = e_data->wait;
+                                e_to_reload[i].e_data_configured = 4;
+                                e_to_reload[i].e_data_type = e_data->type;
+                                e_to_reload[i].e_data_et_collision = e_data->et_collision;
+                                e_to_reload[i].e_data_e_state = e_data->e_state;
+                                e_to_reload[i].e_data_x_frameskip = e_data->x_frameskip;
+                            i++;
+                        }
+                        }
+                    break;
+                }
+            };
             }
+            break;
         }
-    };
+    }
     npc_spawned_zone = 0u;
     if(s_mother == 0){
         if(previous_state == StateOverworld){s_mother = s_motherow;}
@@ -878,15 +909,29 @@ void ReloadEnemiesPL() BANKED{
     UINT8 i = 0u;
     if(previous_state == StateInventory || previous_state == StateDialog){
         for(i = 0u; i < 3u; ++i){
-            if(e_to_reload[i].alive == 1u){
-                SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
-                enemy_counter++;
-            }
-        }
-    }else{
-        UINT8 i = 0u;
-        for(i = 0u; i < 3u; ++i){
-            e_to_reload[i].alive = 0;
+            Sprite* s_enemy = SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
+            struct EnemyData* s_enemy_data = (struct EnemyData*) s_enemy->custom_data;
+            s_enemy_data->hp = e_to_reload[i].e_data_hp;
+            s_enemy_data->vx = e_to_reload[i].e_data_vx;
+            s_enemy_data->wait = e_to_reload[i].e_data_wait;
+            s_enemy_data->configured = e_to_reload[i].e_data_configured;
+            s_enemy_data->type = e_to_reload[i].e_data_type;
+            s_enemy_data->et_collision = e_to_reload[i].e_data_et_collision;
+            s_enemy_data->e_state = e_to_reload[i].e_data_e_state;
+            s_enemy_data->x_frameskip = e_to_reload[i].e_data_x_frameskip;
+            s_enemy->mirror = e_to_reload[i].mirror;
+            enemy_counter++;
+            e_to_reload[i].type = 0;
+            e_to_reload[i].x = 0;
+            e_to_reload[i].y = 0;
+            e_to_reload[i].e_data_hp=0;
+            e_to_reload[i].e_data_vx=0;
+            e_to_reload[i].e_data_wait=0;
+            e_to_reload[i].e_data_configured=0;
+            e_to_reload[i].e_data_type=0;
+            e_to_reload[i].e_data_et_collision=0;
+            e_to_reload[i].e_data_e_state=0;
+            e_to_reload[i].e_data_x_frameskip=0;
         }
     }
 }

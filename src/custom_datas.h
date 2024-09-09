@@ -257,13 +257,6 @@ typedef enum{
 	ENEMY_RUN
 }ENEMY_STATE;
 
-struct EtoReload{
-    UINT8 type;
-	UINT16 x;
-	UINT16 y;
-	UINT8 alive;
-};
-
 struct PushASignData{
 	UINT16 collided_tile;
 };
@@ -277,10 +270,26 @@ struct EnemyData{
 	//1 in configurazione
 	//2 non ancora spawnato item
 	//3 già spawnato item
+	//4 forza animazione da stato corrente
 	ENEMY_TYPE type;
 	UINT8 et_collision;
 	ENEMY_STATE e_state;
 	UINT8 x_frameskip;
+};
+
+struct EtoReload{
+    UINT8 type;
+	UINT16 x;
+	UINT16 y;
+	UINT8 mirror;
+	INT8 e_data_hp;
+	INT8 e_data_vx;
+	UINT8 e_data_wait;
+	INT8 e_data_configured;
+	ENEMY_TYPE e_data_type;
+	UINT8 e_data_et_collision;
+	ENEMY_STATE e_data_e_state;
+	UINT8 e_data_x_frameskip;
 };
 
 struct ThrowableData{

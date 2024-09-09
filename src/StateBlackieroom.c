@@ -47,7 +47,6 @@ extern struct MISSION find_blackie;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
-extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern CHAPTERS chapter;
 
@@ -62,7 +61,6 @@ UINT8 mother_exit_cooldown = 60u;
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void ReloadEnemiesPL() BANKED;
 
 void START(){
 	//SCROLL LIMITS
@@ -172,19 +170,10 @@ void UPDATE(){
                         horde_counter++;
                         timeout_enemy = 120u;
                     }else{        
-                        UINT8 i = 0u;
-                        enemies_alive = 0u;
-                        for(i = 0u; i < 3u; ++i){
-                            if(e_to_reload[i].alive == 1u){
-                                enemies_alive++;
-                            }
-                        }
-                        if(enemies_alive == 0u){
-                            horde_counter = 0u;
-                            horde_step++;
-                            timeout_enemy = 255u;
-                            horde_cooldown = HORDE_COOLDOWN_MAX;
-                        }
+                        horde_counter = 0u;
+                        horde_step++;
+                        timeout_enemy = 255u;
+                        horde_cooldown = HORDE_COOLDOWN_MAX;
                     }
                 }
             }else{

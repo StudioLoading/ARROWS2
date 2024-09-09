@@ -39,7 +39,6 @@ extern struct MISSION outwalker_glass;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
-extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 timeout_drop;
 
@@ -58,7 +57,6 @@ extern CHAPTERS chapter;
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void ReloadEnemiesPL() BANKED;
 
 void START(){
 	//SCROLL LIMITS

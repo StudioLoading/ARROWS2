@@ -23,6 +23,8 @@ const UINT8 a_bossbat_falling[] = {1, 2};
 const UINT8 a_bossbat_idle[] = {1, 1};
 const UINT8 a_bossbat_hit[] = {2, 0,2};
 
+extern INT8 bossbat_exit_cooldown;
+
 UINT16 smotherpl_posx = 0u;
 UINT16 smotherpl_posy = 0u;
 ENEMY_STATE prev_state = ENEMY_WALK;
@@ -42,7 +44,7 @@ void START(){
     SetSpriteAnim(THIS,a_bossbat_idle, 16u);
     THIS->mirror = V_MIRROR;
     bossbat_data  = (struct EnemyData*) THIS->custom_data;
-    bossbat_data->hp = 6;
+    bossbat_data->hp = 1; //TODO METTI A 6!
     bossbat_data->wait = 80;
     bossbat_data->configured = 0;
     bossbat_data->e_state = ENEMY_IDLE;
@@ -214,6 +216,7 @@ void bossbat_change_state(ENEMY_STATE e_state) BANKED{
             }
         break;
         case ENEMY_DEAD:
+            bossbat_exit_cooldown = 80u; 
             bossbat_data->hp = 0;
         break;
     }

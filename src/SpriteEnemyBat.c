@@ -20,6 +20,7 @@
 const UINT8 bat_anim_idle[] = {6, 6,6,6,7,6,7}; //The first number indicates the number of frames
 const UINT8 bat_anim_fly[] = {9, 1, 2, 3, 4, 5, 5, 4, 3, 2}; //The first number indicates the number of frames
 const UINT8 bat_anim_falling[] = {1, 2}; //The first number indicates the number of frames
+const UINT8 bat_anim_hit[] = {2, 0,3}; //The first number indicates the number of frames
 
 extern Sprite* s_motherpl;
 extern MOTHERPL_STATE motherpl_state;
@@ -60,6 +61,11 @@ void UPDATE(){
         SpriteManagerRemoveSprite(THIS);
         return;
     }
+    //UPDATE ANIMATION WHEN RELOADED
+        if(bat_data->configured == 4){
+            bat_change_state(THIS, bat_data->e_state);
+            bat_data->configured = 2;
+        }
     bat_data->wait--;
     if(bat_data->x_frameskip == 0){bat_data->x_frameskip=1; return;}
     else{bat_data->x_frameskip = 0;}
@@ -122,12 +128,14 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
         case ENEMY_HIT_2:
             if(s_bat_data->e_state != ENEMY_IDLE){
                 s_bat_data->hp-=2;
+                SetSpriteAnim(s_bat, bat_anim_hit, 64);
             }
             return;
         break;
         case ENEMY_HIT_1:
             if(s_bat_data->e_state != ENEMY_IDLE){
                 s_bat_data->hp--;
+                SetSpriteAnim(s_bat, bat_anim_hit, 64);
             }
             return;
         break;

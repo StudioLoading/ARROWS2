@@ -47,7 +47,6 @@ extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void ReloadEnemiesPL() BANKED;
 extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
 extern void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED;
 
@@ -75,8 +74,6 @@ void START(){
         INIT_HUD(hudpl);
         hud_motherpl_hp = 0;
         UpdateHUD();
-    //RELOAD ENEMIES
-        ReloadEnemiesPL();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(banditsmap), &banditsmap, &mapwidth, &mapheight);
 	SHOW_SPRITES;

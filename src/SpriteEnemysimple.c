@@ -42,6 +42,7 @@ void Emanagement(Sprite* s_enemy) BANKED;
 void Edestroy(Sprite* s_enemy) BANKED;
 void EspawnItem(Sprite* s_enemy) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
+void EUpdateAnimation(Sprite* s_enemy,  ENEMY_STATE new_e_state) BANKED;
 
 extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
 extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
@@ -85,6 +86,11 @@ void Emanagement(Sprite* s_enemy) BANKED{
             s_enemy->x = (mapwidth << 3) - 16u;
         }
     struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
+    //Force Animation if configured == 4, which means reloaded enemy
+        if(eu_info->configured == 4){
+            EUpdateAnimation(s_enemy, eu_info->e_state);
+            eu_info->configured = 2;
+        }
     //ErandomManagement();
         enemy_random_30_100++;
         if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
@@ -259,21 +265,6 @@ void Emanagement(Sprite* s_enemy) BANKED{
 void Estart(Sprite* s_enemy) BANKED{
     s_enemy->lim_x = 88u;
     s_enemy->lim_y = 8u;
-    UINT8 i = 0u;    
-    for(i = 0u; i < 3u; ++i){
-        UINT8 j = 0u;    
-        for(j = 0u; j < 3u; ++j){
-            if(e_to_reload[j].type == s_enemy->type && e_to_reload[j].alive == 1u){
-                j = 4u;
-            }
-        }
-        if(e_to_reload[i].alive == 0u && j == 3u){
-            e_to_reload[i].x = s_enemy->x;
-            e_to_reload[i].y = s_enemy->y;
-            e_to_reload[i].type = s_enemy->type;
-            e_to_reload[i].alive = 1u;
-        }
-    }
     enemy_counter++;
     struct EnemyData* eu_info = (struct EnemyData*) s_enemy->custom_data;
     eu_info->configured = 1u;
@@ -489,16 +480,20 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
             break;
         }
         //UPDATE ANIMATION
-        switch(s_enemy->type){
-            case SpriteEnemysimplesnake: EsimpleSnakeAnim(new_e_state);  break;
-            case SpriteEnemysimplerat: EsimpleRatAnim(new_e_state);  break;
-            case SpriteEnemyAttackerCobra: EattackerCobraAnim(new_e_state); break;
-            case SpriteEnemyAttackerPine: EattackerPineAnim(new_e_state); break;
-            case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(new_e_state); break;
-            case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
-            case SpriteEnemyThrowerScorpion: EthrowerScorpionAnim(new_e_state); break;
-        }
+            EUpdateAnimation(s_enemy, new_e_state);
         e_info->e_state = new_e_state;
+    }
+}
+
+void EUpdateAnimation(Sprite* s_enemy,  ENEMY_STATE new_e_state) BANKED{
+    switch(s_enemy->type){
+        case SpriteEnemysimplesnake: EsimpleSnakeAnim(new_e_state);  break;
+        case SpriteEnemysimplerat: EsimpleRatAnim(new_e_state);  break;
+        case SpriteEnemyAttackerCobra: EattackerCobraAnim(new_e_state); break;
+        case SpriteEnemyAttackerPine: EattackerPineAnim(new_e_state); break;
+        case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(new_e_state); break;
+        case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
+        case SpriteEnemyThrowerScorpion: EthrowerScorpionAnim(new_e_state); break;
     }
 }
 
@@ -542,16 +537,6 @@ void EspawnItem(Sprite* s_enemy) BANKED{
 void Edestroy(Sprite* s_enemy) BANKED{
     if(enemy_counter > 0){
         enemy_counter--;
-    }
-    UINT8 i = 0u;
-    for(i = 0; i < 3; ++i){
-        if(e_to_reload[i].type == s_enemy->type){
-            e_to_reload[i].alive = 0u;
-            e_to_reload[i].type = 0u;
-            e_to_reload[i].x = 0u;
-            e_to_reload[i].y = 0u;
-            i = 3u;
-        }
     }
     SpriteManagerRemoveSprite(s_enemy);
 }

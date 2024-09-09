@@ -1,5 +1,8 @@
 POST DEMO:
+- motherplarmor deve schiacciare e uccidere topi e serpenti
 - quando bossbat esce di scena perché battuto, faccio respawnare fuori dalla grotta
+- l'accesso all'inventario nei place rompe gli enemy, quando torno in place gli enemy non ricompaiono come dovrebbero!
+
 - col capitolo dell' armatura usare nemici nuovi
 	- cobra
 	- tarantula

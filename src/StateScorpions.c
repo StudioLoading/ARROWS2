@@ -39,7 +39,6 @@ extern struct MISSION find_antidote;
 extern WHOSTALKING whostalking;
 extern UINT8 choice;
 extern UINT16 timeout_enemy;
-extern struct EtoReload e_to_reload[3];
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 mother_exit_cooldown;
 extern UINT8 ow_is_beach;
@@ -58,7 +57,6 @@ void enemy_death() BANKED;
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
-extern void ReloadEnemiesPL() BANKED;
 
 void START(){
 	//SCROLL LIMITS
