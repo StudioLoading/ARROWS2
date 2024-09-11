@@ -347,7 +347,7 @@ void UPDATE(){
 				case CHAPTER_0_BLACKIE:
 					switch(current_map){
 						case MAP_SOUTHWEST:
-							if(s_motherow->y < lim_up_y){
+							if(s_motherow->y < lim_up_y && help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
 								s_motherow->y = lim_up_y + 6u;
 								alt = 1;
 							}
