@@ -410,7 +410,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d12, "FIX THEM.           \0", 22);
 		break;
 		case HOSPITAL_ENABLING:
-			*n_lines = 9u;
+			*n_lines = 13u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "  THANK YOU DESSA!  \0", 22);
@@ -421,6 +421,10 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "YOU'LL FAINT BLACKIE\0", 22);
 			memcpy(d8, "WILL BRING YOU HERE.\0", 22);
 			memcpy(d9, EMPTY_STRING_21, 22);
+			memcpy(d10, "BY THE NEXT TIME ON \0", 22);
+			memcpy(d11, "WE ASK YOU SOME GOLD\0", 22);
+			memcpy(d12, "TO PERFORM THE HEAL \0", 22);
+			memcpy(d13, "ING.                \0", 22);
 		break;
 		case HOSPITAL_CURE:
 			*n_lines = 6u;
@@ -542,7 +546,7 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 			memcpy(log0, "      ARROWS!       ", 20);
 		break;
 		case INVITEM_ARROW_PERFO:
-			memcpy(log0, "      PEARCED!      ", 20);
+			memcpy(log0, "      PIERCED!      ", 20);
 		break;
 		case INVITEM_FLOWER:
 			memcpy(log0, "       FLOWER!      ", 20);

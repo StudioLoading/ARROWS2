@@ -30,7 +30,7 @@
 #define BLOCKED_COOLDOWN_MAX 70
 #define PICKINGUP_COOLDOWN 16
 #define DASH_COOLDOWN_MAX 24
-#define HP_INITIAL 1
+#define HP_INITIAL 3
 
 
 MOTHERPL_STATE motherpl_state = MOTHERPL_IDLE;
@@ -99,6 +99,7 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void Log(NPCNAME npcname) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_reward() BANKED;
+extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 
 extern void motherplnormal_refreshAnimation() BANKED;
 extern void motherplnormal_setanim_shoot() BANKED;
@@ -554,7 +555,7 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
         case SpriteEnemysimplesnake:
         case SpriteEnemysimplerat:
             if(s_mother->type == SpriteMotherplarmor){
-                SpriteManagerRemoveSprite(s_collision);
+                changeEstate(s_collision, ENEMY_HIT_1);
             }
         case SpriteEnemyAttackerCobra:
         case SpriteEnemyAttackerPine:
@@ -759,7 +760,7 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                 motherpl_hp -= motherpl_hit;
                 motherpl_hit = 0;
                 //TODO START remove me invulnerability!
-                if(motherpl_hp <= 0){motherpl_hp = 1;}
+                //if(motherpl_hp <= 0){motherpl_hp = 1;}
                 //TODO END remove me
                 if(s_mother->mirror == NO_MIRROR){    
                     SpriteManagerAdd(SpritePuff, s_mother->x + 2, s_mother->y + 4);

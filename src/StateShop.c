@@ -219,7 +219,7 @@ void UPDATE() {
             PRINT(0, 7, d0);
         break;
         case 1u:
-            if(KEY_PRESSED(J_A) || KEY_PRESSED(J_B) || KEY_PRESSED(J_DOWN)){
+            if(KEY_PRESSED(J_FIRE) || KEY_PRESSED(J_JUMP) || KEY_PRESSED(J_DOWN)){
                 wait_char = 1u;
             }
             wait_char--;
@@ -234,7 +234,7 @@ void UPDATE() {
             dialog_ready = 3u;
         break;
         case 3u:
-            if(KEY_RELEASED(J_A) || KEY_RELEASED(J_B)){
+            if(KEY_RELEASED(J_FIRE) || KEY_RELEASED(J_JUMP)){
                 if(next_page){
                     next_page = 0u;
                     dialog_ready = 0u;

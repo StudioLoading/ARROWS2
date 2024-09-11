@@ -99,7 +99,7 @@ void showing_tip();
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void update_position_motherow() BANKED;
-extern void ow_tips(TIP_TO_BE_LOCALIZED forced_tip) BANKED;
+extern void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 extern void initial_ow_npc() BANKED;
@@ -196,7 +196,7 @@ void START(){
 		}
 	//INITIAL TIPS
 		if(just_started == 2){//got to show "PRESS SELECT" tip
-			ow_tips(TIP_PRESS_SELECT);
+			ow_tips(s_motherow, TIP_PRESS_SELECT);
 		}
 }
 
@@ -594,7 +594,7 @@ void UPDATE(){
 			}
 		}
 	//DISMISS TIP
-		if(showed_tip == 1u && showed_tip_goback == 0u){
+		if(showed_tip == 1u && showed_tip_goback == 0u && just_started != 2){
 			if(KEY_RELEASED(J_FIRE) || KEY_RELEASED(J_JUMP)){
 				showed_tip_goback = 1u;
 			}

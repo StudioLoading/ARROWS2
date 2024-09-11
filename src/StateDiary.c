@@ -418,8 +418,8 @@ void show_detail(){
                             GetLocalizedDDLabel_EN(MRSMEE_D2, dd4);
                             GetLocalizedDDLabel_EN(MRSMEE_D3, dd5);
                             if(mr_smee.mission_state >= MISSION_STATE_REWARDED){
-                                GetLocalizedDDLabel_EN(MRSMEE_D4, dd4);
-                                GetLocalizedDDLabel_EN(MRSMEE_D5, dd5);
+                                GetLocalizedDDLabel_EN(MRSMEE_D4, dd6);
+                                GetLocalizedDDLabel_EN(MRSMEE_D5, dd7);
                             }
                         }
                     }
@@ -551,7 +551,7 @@ void UPDATE(){
             show_missions();
             showing_missions = 1;
         }
-        if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+        if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
             if(cursor_posi < 4){
                 INT8 missions_idx = cursor_posi + (idx_page * 4);
                 if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){
@@ -604,7 +604,7 @@ void UPDATE(){
             //PRINT(20, 17, dd12);
             //PRINT(20, 18, dd13);
         }
-        if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){
+        if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
             showing_detail = 0u;
             show_missions();
         }

@@ -146,7 +146,7 @@ void Emanagement(Sprite* s_enemy) BANKED{
                 switch(iespr->type){
                     case SpriteMotherplarmor:
                     case SpriteMotherpl://io enemy ho colpito motherpl
-                        if(motherpl_state == MOTHERPL_DASH){
+                        if(motherpl_state == MOTHERPL_DASH || iespr->type == SpriteMotherplarmor){
                             switch(s_enemy->type){
                                 case SpriteEnemysimplesnake:
                                 case SpriteEnemysimplerat:

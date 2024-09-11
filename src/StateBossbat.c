@@ -21,8 +21,6 @@ IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
-extern UINT8 J_JUMP;
-extern UINT8 J_FIRE;
 extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
@@ -88,6 +86,7 @@ void UPDATE(){
         if(bossbat_exit_cooldown > 0){
             bossbat_exit_cooldown--;
             if(bossbat_exit_cooldown == 0){
+                mr_smee.mission_state = MISSION_STATE_ACCOMPLISHED;
                 ChangeState(StateOverworld, s_motherpl, MAP_SOUTHEAST);
             }
         }

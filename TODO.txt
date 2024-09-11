@@ -1,18 +1,9 @@
 POST DEMO:
-- motherplarmor deve schiacciare e uccidere topi e serpenti
-- quando bossbat esce di scena perché battuto, faccio respawnare fuori dalla grotta
-- l'accesso all'inventario nei place rompe gli enemy, quando torno in place gli enemy non ricompaiono come dovrebbero!
-
-- col capitolo dell' armatura usare nemici nuovi
-	- cobra
-	- tarantula
-	- bat
-- ci sta un frame in più di motherpl che la metto in prospettiva frontale
-da usare al volo quando si volta?
-- togliere sprite di npc/npa perchè sul DMG potrebbe non reggere, si testa facilmente
-- col capitolo dell' armatura usare il place che "Darkest Forest"?
-	perché al momento è li a fare niente
-
+- darkest forest
+	- piove?
+	- nemici rane e tarantole sputa veleno
+	- boss? appunti dice airone, ma ho già fatto il volatile bossbat...
+- immagine dialogs dei pirati e capitano
 - facciamo che nell' ultima parte di gioco piove ovunque?
 - boss con 1hp blinka
 
@@ -70,13 +61,14 @@ PRODUCTION:
 - ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
 - togliere il salto del tutorial che a codice l'ho fatto saltare
 - togliere invulnerabilità messa in motherpl.c
-
+- testare su DMG per verificare sovraccarico di sprites
 
 
 
 
 
 GENERAZIONE QR CODE DA POWERSHELL
+New-QRCodeURI -URI 'https://www.kickstarter.com/projects/studioloading/flying-arrows-2-gameboy-game-save-bolognanerd' -Width 15 -OutPath 'C:\Users\checc\GB\ARROWS2\BOX\QR-URL.png'
 New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'

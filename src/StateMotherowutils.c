@@ -231,7 +231,6 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                     {
                         struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
                         if(spawned_data->configured == 4u){//means hidden
-                            //if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
                                 pickup(spawned_data);
                                 hidden_items_flags = hidden_items_flags | spawned_data->frmskip;
                                 switch(spawned_data->itemtype){
@@ -317,6 +316,10 @@ void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     UINT8 trigger_tip = 0u;
     switch(forced_tip){
         case TIP_NOTHING://donothing
+        break;
+        case TIP_PRESS_SELECT:
+            trigger_tip = 1u;
+            tip_to_show = forced_tip;
         break;
         case TIP_SOMETHING:
             UINT16 t_coll = 0u;

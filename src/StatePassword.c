@@ -173,7 +173,7 @@ void UPDATE(){
     if(KEY_TICKED(J_LEFT)){ update_curpos(-1); }
     if(KEY_TICKED(J_UP)){ update_pcode(1);}
     if(KEY_TICKED(J_DOWN)){ update_pcode(-1);}
-    if(KEY_TICKED(J_A) || KEY_TICKED(J_B)){ update_pcode(0);}
+    if(KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){ update_pcode(0);}
     if(KEY_TICKED(J_SELECT)){ password_reset();}
     if(KEY_TICKED(J_START)){
         INT8 ckpwd_result = check_password();

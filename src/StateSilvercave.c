@@ -26,24 +26,17 @@ IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
-extern UINT8 J_JUMP;
-extern UINT8 J_FIRE;
 extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
-extern UINT8 init_enemy;
 extern UINT8 enemy_counter;
-extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
 extern UINT8 previous_state;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern MirroMode motherpl_mirror; 
-extern UINT8 npc_spawned_zone;
 extern UINT8 item_spawned_cooldown;
-extern struct MISSION outwalker_smith;
-extern struct MISSION enable_hospital;
 
 const UINT8 coll_tiles_silvercave[] = {2u, 6u, 10u, 21u, 22u,
 27u, 35u, 0};

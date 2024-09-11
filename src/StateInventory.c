@@ -58,6 +58,7 @@ extern struct InvItem itemEquipped;
 extern UINT8 previous_state;
 extern WHOSTALKING whostalking;
 extern INT8 current_map;
+extern struct MISSION enable_hospital;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
@@ -214,12 +215,13 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
             motherpl_hp++;
         }
         item_added = 1u;
-    }
-    if(pickedup_data->itemtype == INVITEM_HEARTS){
+    }else if(pickedup_data->itemtype == INVITEM_HEARTS){
         motherpl_hp = 5;
         item_added = 1u;
         my_play_fx(CHANNEL_2, 60, 0xab, 0xf2, 0x37, 0x87, 0x00);//SFX_HEART
         sfx_played = 1u;
+    }else if(pickedup_data->itemtype == INVITEM_SILVER){
+		enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
     }
     if(item_added == 0){
         for(UINT8 i = 0; item_added == 0u && i<12; ++i){
@@ -259,7 +261,7 @@ void pickup(struct ItemSpawned* pickedup_data) BANKED{
     }
     if(item_added == 0u){//non ancora aggiunto causa mancanza di posto
 
-    }else{
+    }else if(current_state != StateOverworld){
         LogItem(pickedup_data->itemtype);
     }
     //SFX

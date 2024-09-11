@@ -20,10 +20,7 @@ IMPORT_MAP(titlescreenmap);
 //DECLARE_MUSIC(bgm_titlescreen);
 DECLARE_MUSIC(sloopy);
 
-extern UINT8 J_JUMP;
-extern UINT8 J_FIRE;
 extern WHOSTALKING whostalking;
-extern UINT8 previous_state;
 extern INT8 sfx_cooldown;
 extern UINT8 generic_counter;
 extern UINT8 generic_counter2;

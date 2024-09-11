@@ -21,8 +21,6 @@ IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
 extern UINT8 scroll_bottom_movement_limit;
-extern UINT8 J_JUMP;
-extern UINT8 J_FIRE;
 extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
@@ -69,6 +67,8 @@ extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED
 extern void ReloadEnemiesPL() BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
+extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
+extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 
 Sprite* s_spugna;
 struct NpcInfo* s_spugna_data;
@@ -162,13 +162,37 @@ void harbor_init_pirates() BANKED{
         s_panzone_data->npcname = BOB;
         s_panzone_data->type = PIRATE_PANZONE;
         s_panzone_data->whotalks = PIRATE_PANZONE_0; 
+        switch(broken_ship.mission_state){
+            case MISSION_STATE_ENABLED:
+            case MISSION_STATE_STARTED:
+                s_panzone_data->whotalks = PIRATE_PANZONE_0; 
+                if(get_quantity(INVITEM_WOOD) >= 50){
+                    change_quantity(INVITEM_WOOD, -50);
+                    s_panzone_data->whotalks = PIRATE_PANZONE_1;
+                }
+            break;
+            case MISSION_STATE_ACCOMPLISHED:
+            case MISSION_STATE_REWARDED:
+                s_panzone_data->whotalks = PIRATE_PANZONE_2; 
+            break;
+        }
         s_panzone_data->configured = 1;
     //SPUGNA MARINE MARTIN
         s_marine = SpriteManagerAdd(SpritePgPirate, ((UINT16) 65u << 3), pirate_spawn_y);
         s_marine_data = (struct NpcInfo*) s_marine->custom_data;
         s_marine_data->npcname = MARTIN;
         s_marine_data->type = PIRATE_MARINAIO;
-        //TODO s_marine_data->whotalks = 
+        s_marine_data->whotalks = PIRATE_MARTIN_0; 
+        switch(pirate_strike.mission_state){
+            case MISSION_STATE_ENABLED:
+            case MISSION_STATE_STARTED:
+                s_panzone_data->whotalks = PIRATE_MARTIN_1; 
+            break;
+            case MISSION_STATE_ACCOMPLISHED:
+            case MISSION_STATE_REWARDED:
+                s_panzone_data->whotalks = PIRATE_MARTIN_2; 
+            break;
+        }
         s_marine_data->configured = 1;
     //SPUGNA WALKER1 MAURICE
         s_walker1 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 88u << 3), pirate_spawn_y);
@@ -179,16 +203,6 @@ void harbor_init_pirates() BANKED{
         s_walker1_data->max_frameskip = 1;
         //TODO s_walker1_data->whotalks = 
         s_walker1_data->configured = 1;
-    /* SPUGNA WALKER2 MAURICE
-        s_walker2 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 37u << 3), pirate_spawn_y);
-        s_walker2_data = (struct NpcInfo*) s_walker2->custom_data;
-        s_walker2_data->npcname = MAURICE;
-        s_walker2_data->type = PIRATE_WALKER;
-        s_walker2_data->vx = -1;
-        s_walker2_data->max_frameskip = 2;
-        //TODO s_walker2_data->whotalks = 
-        s_walker2_data->configured = 1;
-    */
     // CAPTAIN ONE EYED JACK
         s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
         s_captain->mirror = V_MIRROR;
@@ -203,6 +217,12 @@ void harbor_init_pirates() BANKED{
             s_captain_data->whotalks = PIRATE_CAPTAIN_1;
         }
         s_captain_data->configured = 1;
+    
+    if(pirate_strike.mission_state >= MISSION_STATE_ENABLED && pirate_strike.mission_state < MISSION_STATE_REWARDED){
+            s_spugna_data->whotalks = PIRATE_SPUGNA_STRIKE;
+            s_panzone_data->whotalks = PIRATE_PANZONE_STRIKE;
+            s_walker1_data->whotalks = PIRATE_MARTIN_STRIKE;
+        }
     // PARROT
         SpriteManagerAdd(SpritePgParrot, s_captain->x + 2u, s_captain->y - 6u);
 }
@@ -219,13 +239,15 @@ void UPDATE(){
         }
     //SPAWNING NPA    
         counter_birdsky++;
-        if(counter_birdsky >= 1000){
+        if(counter_birdsky >= 400){
             UINT16 birdsky_x = scroll_target->x + ((UINT16) 5 << 3);
             if(s_motherpl->mirror == V_MIRROR) {birdsky_x = scroll_target->x - ((UINT16) 5 << 3);}
-            spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 4 << 3), 2);
+            spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 4 << 3), 4);
             birdsky_x = scroll_target->x + ((UINT16) 10 << 3);
             if(s_motherpl->mirror == V_MIRROR) {birdsky_x = scroll_target->x - ((UINT16) 10 << 3);}
-            spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 3 << 3), 2);
+            if(_cpu == CGB_TYPE){
+                spawn_npa(SpriteBirdsky, birdsky_x, ((UINT16) 3 << 3), 3);
+            }
             counter_birdsky = 0u;
         }
     //UPDATE HUD for HP changings

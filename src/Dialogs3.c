@@ -43,9 +43,10 @@ extern UINT8 choice_left;
 extern UINT8 choice_right;
 extern INT8 outwalker_info_given;
 extern struct MISSION mr_smee;
+extern struct MISSION broken_ship;
+extern struct MISSION pirate_strike;
 extern struct MISSION captain;
 
-extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 
@@ -148,6 +149,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "THIS IS HOW THE WOR ", 22);
 			memcpy(d4, "LD WORKS NOW.       ", 22);
             mr_smee.mission_state = MISSION_STATE_REWARDED;
+			broken_ship.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case PIRATE_SPUGNA_3:
 			*n_lines = 4u;
@@ -157,11 +159,153 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "I CAN TO SET THE    ", 22);
 			memcpy(d4, "SAIL!               ", 22);
 		break;
+		case PIRATE_SPUGNA_STRIKE:
+			*n_lines = 2u;
+			memcpy(d0, "MR SMEE:            ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
+		break;
+		case PIRATE_PANZONE_0:
+			*n_lines = 5u;
+			memcpy(d0, "BOB:                ", 22);
+			memcpy(d1, "THE SHIP IS DAMAGED!", 22);
+			memcpy(d2, "PLEASE PROVIDE ME OF", 22);
+			memcpy(d3, "50 WOOD PIECES.     ", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "THANK YOU.          ", 22);
+            if(broken_ship.mission_state < MISSION_STATE_STARTED){
+				broken_ship.mission_state = MISSION_STATE_STARTED;
+			}
+		break;
+		case PIRATE_PANZONE_1:
+			*n_lines = 4u;
+			memcpy(d0, "BOB:                ", 22);
+			memcpy(d1, "50 PIECES OF WOOD!  ", 22);
+			memcpy(d2, "THANK YOU HEALER! WE", 22);
+			memcpy(d3, "ARE NOW ABLE TO FIX ", 22);
+			memcpy(d4, "THAT SHIP.          ", 22);
+            if(broken_ship.mission_state == MISSION_STATE_STARTED){
+				broken_ship.mission_state = MISSION_STATE_REWARDED;
+				pirate_strike.mission_state = MISSION_STATE_ENABLED;
+			}
+		break;
+		case PIRATE_PANZONE_2:
+			*n_lines = 4u;
+			memcpy(d0, "BOB:                ", 22);
+			memcpy(d1, "AS SOON AS THE SHIP ", 22);
+			memcpy(d2, "IS FIXED I THINK WE ", 22);
+			memcpy(d3, "WILL BE READY TO    ", 22);
+			memcpy(d4, "SAIL.               ", 22);
+		break;
+		case PIRATE_PANZONE_STRIKE:
+			*n_lines = 2u;
+			memcpy(d0, "BOB:                ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
+		break;
+		case PIRATE_MARTIN_0:
+			*n_lines = 7u;
+			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "BEING HIGH HELPS A  ", 22);
+			memcpy(d3, "LOT! LIVING THIS    ", 22);
+			memcpy(d4, "WORLD IS TOUGH...   ", 22);
+			memcpy(d5, "SOME OF US NEED AN  ", 22);
+			memcpy(d6, "ESCAPE... SOMETIME  ", 22);
+			memcpy(d7, "... YOU KNOW...     ", 22);
+		break;
+		case PIRATE_MARTIN_1:
+			*n_lines = 15u;
+			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
+			memcpy(d3, "WE WANNA GET HIGH!  ", 22);
+			memcpy(d4, "THE DOPE IS FINISHED", 22);
+			memcpy(d5, "AND WE WANT MORE!   ", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "OF COURSE CAPTAIN IS", 22);
+			memcpy(d8, "AGAINST IT, BUT WE  ", 22);
+			memcpy(d9, "WILL NOT SAIL UNTIL ", 22);
+			memcpy(d10, "WE HAVE WHAT WE WANT", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
+			memcpy(d12, "CAN YOU CHECK THE   ", 22);
+			memcpy(d13, "DARKEST FOREST? SOME", 22);
+			memcpy(d14, "SAY INGREDIENTS MAY ", 22);
+			memcpy(d15, "BE FOUND THERE      ", 22);
+		break;
+		case PIRATE_MARTIN_2:
+			*n_lines = 7u;
+			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "THANKS MADAME. WE   ", 22);
+			memcpy(d3, "WILL NOT TALK, BE   ", 22);
+			memcpy(d4, "SURE OF THAT.       ", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "IF CAPTAIN ORDER US ", 22);
+			memcpy(d7, "TO SAIL, WE SAIL.   ", 22);
+		break;
+		case PIRATE_MARTIN_STRIKE:
+			*n_lines = 2u;
+			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
+		break;
 		case PIRATE_CAPTAIN_0:
-            captain.mission_state = MISSION_STATE_ENABLED;
+			*n_lines = 11u;
+			memcpy(d0, "ONE EYED JACK:      ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "ARRRRRR! NAME IS    ", 22);
+			memcpy(d3, "JACK! I AM THE CAP  ", 22);
+			memcpy(d4, "TAIN OF SIREN, MY   ", 22);
+			memcpy(d5, "GALLEON!            ", 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "THINK MY MEN HAVE   ", 22);
+			memcpy(d8, "SOME BUSINESS FOR   ", 22);
+			memcpy(d9, "YA. FIX THEM, THEN  ", 22);
+			memcpy(d10, "WE CAN TALK ABOUT  ", 22);
+			memcpy(d11, "SAILING.           ", 22);
 		break;
 		case PIRATE_CAPTAIN_1:
-            captain.mission_state = MISSION_STATE_STARTED;
+			*n_lines = 11u;
+			memcpy(d0, "ONE EYED JACK:      ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "LOOKS LIKE YOU ARE  ", 22);
+			memcpy(d3, "READY FOR AN ADVENTU", 22);
+			memcpy(d4, "RE. NEED HELP UH?   ", 22);
+			memcpy(d4, "THE ISLAND IS NOT   ", 22);
+			memcpy(d4, "TOO FAR FROM HERE.  ", 22);
+			memcpy(d4, "BUT THE TEMPEST...  ", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "WE SHOULD WAIT FOR  ", 22);
+			memcpy(d7, "IT TO CALM DOWN...  ", 22);
+			memcpy(d8, "MEANWHILE, I DARE   ", 22);
+			memcpy(d9, "YOU BEAT ME ON TETRA", 22);
+			memcpy(d10, ", IT IS MY FAV!     ", 22);
+			memcpy(d11, "ARE YOU READY?      ", 22);
+            captain.mission_state = MISSION_STATE_ENABLED;
+		break;
+		case PIRATE_CAPTAIN_2:
+			*n_lines = 4u;
+			memcpy(d0, "ONE EYED JACK:      ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "COME BACK WHEN YOU  ", 22);
+			memcpy(d3, "FEEL READY TO TRY   ", 22);
+			memcpy(d4, "AGAIN!              ", 22);
+		break;
+		case PIRATE_CAPTAIN_3:
+			*n_lines = 10u;
+			memcpy(d0, "ONE EYED JACK:      ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "AH! YOU FINALLY BEAT", 22);
+			memcpy(d3, "ME! ALRIGHT ALRIGHT.", 22);
+			memcpy(d4, EMPTY_STRING_21, 22);
+			memcpy(d5, "DEFEATED BY A WOMAN!", 22);
+			memcpy(d6, "WHAT I'VE BECOME?!  ", 22);
+			memcpy(d7, EMPTY_STRING_21, 22);
+			memcpy(d8, "THE STORM HAS GONE  ", 22);
+			memcpy(d9, "NOW, WE CAN SAIL.   ", 22);
+			memcpy(d10, "MEN!!!! LET'S GO!   ", 22);
+            captain.mission_state = MISSION_STATE_REWARDED;
 		break;
 		case CADAVER://se devo ancora fare bossfight oppure no
 			if(mr_smee.mission_state == MISSION_STATE_STARTED){
@@ -184,7 +328,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 				*n_lines = 5u;
 				memcpy(d0, "DESSA  :            ", 22);
 				memcpy(d1, "HERE LIES RICK,     ", 22);
-				memcpy(d2, "HRADLESS RICK. NOW  ", 22);
+				memcpy(d2, "HEADLESS RICK. NOW  ", 22);
 				memcpy(d3, "HE'S FOOD FOR BEASTS", 22);
 				memcpy(d4, EMPTY_STRING_21, 22);
 				memcpy(d5, "POOR RICK!          ", 22);

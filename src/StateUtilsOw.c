@@ -147,7 +147,6 @@ void initial_sprite_spawning() BANKED{
 							find_blackie.mission_state = MISSION_STATE_REWARDED;
 							blackieow_data->wait = 60u;
 							blackieow_data->vx = -2;
-							enable_hospital.mission_state = MISSION_STATE_ACCOMPLISHED;
 						}
 					}
 				break;
