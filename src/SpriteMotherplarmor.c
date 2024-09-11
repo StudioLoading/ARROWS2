@@ -103,7 +103,7 @@ void UPDATE(){
             }
         }
     //HIT
-        if(motherpl_hit_cooldown > 0u){
+        if(motherpl_hit_cooldown > 0u && motherpl_state != MOTHERPL_DEAD){
             motherpl_hit_cooldown--;
             if(motherpl_hit_cooldown == 0u){
                 if(KEY_PRESSED(J_RIGHT) || KEY_PRESSED(J_LEFT)){

@@ -44,7 +44,7 @@ void START(){
     SetSpriteAnim(THIS,a_bossbat_idle, 16u);
     THIS->mirror = V_MIRROR;
     bossbat_data  = (struct EnemyData*) THIS->custom_data;
-    bossbat_data->hp = 1; //TODO METTI A 6!
+    bossbat_data->hp = 6;
     bossbat_data->wait = 80;
     bossbat_data->configured = 0;
     bossbat_data->e_state = ENEMY_IDLE;

@@ -9,7 +9,7 @@ const UINT16 BONUS_PUNTA_INIT_Y = 94u;
 const UINT16 BONUS_PUNTA_INIT_X = 81u;
 const UINT8 TOTAL_CHAPTERS = 5;
 
-UINT8 next_state = StateCredit;//;//TODO StateCredit 
+UINT8 next_state = StateCredit;
 UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {
 	return 255u;
 }

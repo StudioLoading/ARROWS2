@@ -12,6 +12,7 @@
 #include "custom_datas.h"
 
 #define MAX_WAIT_CHAR 4
+#define HP_INITIAL 3
 
 IMPORT_TILES(font);
 IMPORT_MAP(dmaphospital);
@@ -81,9 +82,6 @@ void UPDATE() {
         PRINT(0, 14, EMPTY_STRING_21);
         SpriteManagerRemoveSprite(dialog_cursor);
         n_lines = 0u;
-        if(motherpl_hp <= 0){
-            manage_heal_or_death();
-        }else{
 		switch(enable_hospital.mission_state){
             case MISSION_STATE_REWARDED:// la curo e la rispedisco in overworld
 				if(chapter == CHAPTER_2_PLAGUE){
@@ -141,10 +139,12 @@ void UPDATE() {
                     whostalking = HOSPITAL_ENABLING;
                     motherpl_hp = 5;
                     change_quantity(INVITEM_SILVER, -1);
+                }else{
+                    motherpl_hp = HP_INITIAL;
+                    whostalking = HOSPITAL_GAMEOVER;
                 }
 			break;
 		}
-        }
         GetLocalizedDialog_EN(&n_lines);
         wait_char = MAX_WAIT_CHAR;
         writing_line = 1u;
@@ -186,11 +186,11 @@ void manage_heal_or_death() BANKED{
         if(get_quantity(INVITEM_MONEY) >= chapter_cost){
             change_quantity(INVITEM_MONEY, -chapter_cost);
             whostalking = HOSPITAL_CURE_FROM_DEATH;
-        }else{
+            motherpl_hp = 5;
+            //whostalking = HOSPITAL_CURE;
+        }else{    
             whostalking = HOSPITAL_GAMEOVER;
         }
-        motherpl_hp = 5;
-        whostalking = HOSPITAL_CURE;
     }
 }
 
