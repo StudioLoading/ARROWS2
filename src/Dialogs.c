@@ -97,7 +97,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, "WE JOIN OUR FORCES! \0", 22);
 			memcpy(d12, EMPTY_STRING_21, 22);
 			memcpy(d13, "YOUR SON LIAM IS    \0", 22 );
-			memcpy(d14, "WITH ME, TRAINING   \0", 22);
+			memcpy(d14, "WITH ME TRAINING    \0", 22);
 			memcpy(d15, "FOR THE BATTLE.     \0", 22);
 			memcpy(d16, EMPTY_STRING_21, 22);
 			memcpy(d17, "GET YOUR ASS TO THE \0", 22);
@@ -243,7 +243,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "FLOWERS. I WANT TO   ", 22);
 			memcpy(d10, "ASK MARGARET IF SHE ", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
-			memcpy(d12, "OH WELL- YOU KNOW!  ", 22);
+			memcpy(d12, "OH WELL, YOU KNOW!  ", 22);
 			memcpy(d13, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_MISSING:
@@ -512,7 +512,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 		case CHILD:
 			memcpy(d0, "ROBERT:             \0", 22);
 			*n_lines = 5u;
-			memcpy(d1, "HE-HELLO            \0", 22);
+			memcpy(d1, "HE HELLO            \0", 22);
 			memcpy(d2, "I RUN OFF A BEAR... \0", 22);
 			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, "CAN YOU BRING ME TO \0", 22);
@@ -710,7 +710,7 @@ void GetLocalizedLog_EN() BANKED{
 			memcpy(log0, "ROLLING STONES!     ", 20);
 		break;
 		case StateSky:
-			memcpy(log0, "THUN-DERS!          ", 20);
+			memcpy(log0, "THUN DERS!          ", 20);
 		break;
 		case StateScorpions:
 			memcpy(log0, "THE COUNTRY         ", 20);

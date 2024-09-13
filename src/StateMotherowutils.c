@@ -121,7 +121,6 @@ void motherow_start(Sprite* s_motherow_arg) BANKED{
 
 UINT8 ow_manage_chitchat(Sprite* s_motherow_arg) BANKED{
     //o trigger_dialog(POLICE_0_GET_PASS, THIS);
-    //o tip_to_show = TIP_OWLIMIT_SOUTH; trigger_tip = 1u;
     UINT8 trigger_tip = 0u;
     if(hungry_people.mission_state > MISSION_STATE_DISABLED &&
             hungry_people.mission_state < MISSION_STATE_ACCOMPLISHED){
@@ -395,11 +394,6 @@ void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED{
                     }
                     trigger_tip = 1u;
                 break;
-                case 16u:
-                case 18u://SEA SOUTH
-                    tip_to_show = TIP_OWLIMIT_SOUTH;
-                    trigger_tip = 1u;
-                break;
             }
         break;
         case TIP_CHITCHAT:
@@ -423,6 +417,7 @@ void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED{
 }
 
 void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
+    if(motherow_info->tile_collision == 0) return;
     switch(d_push_sign.collided_tile){
         case 16u:
         case 50u:
@@ -465,13 +460,14 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
         case 91u://CAVE
             switch(current_map){
                 case MAP_SOUTHWEST:
-                    //ChangeState(StateBlackiecave, s_motherow_arg);
                 break;
                 case MAP_NORTHWEST:
+                    motherow_info->tile_collision = 0;
                     ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                 break;
                 case MAP_SOUTHEAST://to Scorpion Boss fight
                     if(find_antidote.mission_state < MISSION_STATE_STARTED){
+                        motherow_info->tile_collision = 0;
                         ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                     }else{
                         ChangeState(StateBossscorpion, s_motherow_arg, -1);
@@ -484,11 +480,12 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
         break;
         case 17u:
         case 95u:
-        case 96u:
+        case 96u://CAVE
             switch(current_map){
-                case MAP_SOUTHWEST:
-                    if(engage_smith.mission_state != MISSION_STATE_REWARDED
-                    && enable_hospital.mission_state != MISSION_STATE_REWARDED){
+                case MAP_SOUTHWEST://blackie cave
+                    if(engage_smith.mission_state < MISSION_STATE_REWARDED
+                    && enable_hospital.mission_state < MISSION_STATE_REWARDED){
+                    motherow_info->tile_collision = 0;
                         ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                     }else{
                         ChangeState(StateBlackiecave, s_motherow_arg, -1);
@@ -501,6 +498,7 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                 break;
                 case MAP_SOUTHEAST://to batcave
                     if(chapter < CHAPTER_4_SHIP){
+                        motherow_info->tile_collision = 0;
                         ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                     }else{
                         ChangeState(StateBatcave, s_motherow_arg, -1);
@@ -519,7 +517,6 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
             }else{trigger_dialog(BRIDGE_BROKEN, s_motherow_arg);}
         break;
     }
-    //motherow_info->tile_collision = 0;
 }
 
 TIP_TO_BE_LOCALIZED ow_show_pusha_sign(Sprite* s_motherow_arg) BANKED{

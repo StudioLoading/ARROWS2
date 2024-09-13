@@ -228,7 +228,7 @@ void UPDATE() {
                     && engage_smith.current_step < 1){
                     engage_smith.current_step = 1;
                     diary_spawned = 1;
-					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+					SpriteManagerAdd(SpriteDiary, 72, 8);
                 }
             break;
         }
@@ -435,7 +435,7 @@ void move_on() BANKED{
             previous_state = StateBlackieroom;
             find_blackie.current_step = 1u;
             find_blackie.mission_state = MISSION_STATE_STARTED;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
         }
         //return;//DEMO ENDS HERE
     }else if(previous_state == StateBlackieroom && whostalking == BLACKIE){

@@ -20,11 +20,6 @@ unsigned char ddinv8[12];
 void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 	switch(label){
 		case INV_EMPTY_STRING:memcpy(d, "           ", 12);break;
-		case CROSSBOW_NAME:memcpy(d, "CROSSBOW:  ", 12);break;
-		case CROSSBOW_DETAIL1:memcpy(d, "SHORT-     ", 12);break;
-		case CROSSBOW_DETAIL2:memcpy(d, "LIGHWEIGHT ", 12);break;
-		case CROSSBOW_DETAIL3:memcpy(d, "WOODEN HAND", 12);break;
-		case CROSSBOW_DETAIL4:memcpy(d, "MADE.     ", 12);break;
 		case MONEY_NAME:memcpy(d, " COINS:    ", 12);break;
 		case MONEY_DETAIL1:memcpy(d, "SOME GOLDEN", 12);break;
 		case MONEY_DETAIL2:memcpy(d, "COINS ARE  ", 12);break;

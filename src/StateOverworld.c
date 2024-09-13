@@ -347,11 +347,14 @@ void UPDATE(){
 				case CHAPTER_0_BLACKIE:
 					switch(current_map){
 						case MAP_SOUTHWEST:
-							if(s_motherow->y < lim_up_y && help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
-								s_motherow->y = lim_up_y + 6u;
-								alt = 1;
-							}
-							if(s_motherow->x > lim_east_x){
+							if(s_motherow->y < lim_up_y){
+								if(help_cemetery_woman.mission_state < MISSION_STATE_STARTED){
+									s_motherow->y = lim_up_y + 6u;
+									alt = 1;
+								}else{
+									ChangeState(StateHood, s_motherow, -1);
+								}
+							}else if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;
 								alt = 1;
 							}
@@ -362,12 +365,7 @@ void UPDATE(){
 					switch(current_map){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
-								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
-									ChangeState(StateHood, s_motherow, -1);
-								}else{
-									s_motherow->y = lim_up_y + 6u;
-									alt = 1;
-								}
+								ChangeState(StateHood, s_motherow, -1);
 							}
 							if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;

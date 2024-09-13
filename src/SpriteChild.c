@@ -119,6 +119,7 @@ void change_child_state(ENEMY_STATE new_state) BANKED{
                 THIS->mirror = s_motherpl->mirror;
             break;
             case ENEMY_WALK:
+                child_hooked = 1;
                 SetSpriteAnim(THIS, child_anim_walk, 12u);
             break;
         }

@@ -18,8 +18,6 @@ const UINT8 scorpion_anim_hit[] = {2, 1, 0};//{2, 1, 3}; //The first number indi
 const UINT8 scorpion_anim_preattack[] = {2, 5, 6};//{2, 1, 3}; //The first number indicates the number of frames
 const UINT8 scorpion_anim_attack[] = {1, 7};//{2, 1, 3}; //The first number indicates the number of frames
 
-extern UINT8 enemy_random_30_100;
-
 void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
 void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 

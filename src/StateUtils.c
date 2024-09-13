@@ -764,7 +764,8 @@ void update_camera_position() BANKED{
                 INT8 next_ = -1;
                 switch(current_state){
                     case StateHood:
-                        if(child_hooked == 1 && help_cemetery_woman.current_step == 2){
+                        if(child_hooked == 1){
+                        // && help_cemetery_woman.current_step == 2){
                             help_cemetery_woman.current_step = 4;
                         }
                     case StateExzoo:

@@ -503,7 +503,7 @@ void EspawnItem(Sprite* s_enemy) BANKED{
     //SPAWN ITEM
     INVITEMTYPE itemtype = INVITEM_MONEY;
     if(current_state == StateMine){
-        if (enemy_random_30_100 < 50){
+        if (enemy_random_30_100 < 60){
             itemtype = INVITEM_METAL;
         }else if (enemy_random_30_100 < 90){
             itemtype = INVITEM_WOOD;        

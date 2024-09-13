@@ -103,11 +103,11 @@ void UPDATE() {
                                         && get_quantity(INVITEM_WOOD) >= 10u){//se nell' inventario non ha ancora il materiale
                                         if(engage_smith.mission_state < MISSION_STATE_ACCOMPLISHED){
                                             engage_smith.mission_state = MISSION_STATE_REWARDED;
-                                            SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                                            SpriteManagerAdd(SpriteDiary, 72, 8);
                                         }
                                         if(find_blackie.mission_state < MISSION_STATE_ENABLED){
                                             find_blackie.mission_state = MISSION_STATE_ENABLED;
-                                            SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                                            SpriteManagerAdd(SpriteDiary, 72, 8);
                                         }
                                         next_page = 1u;
                                     }else{
@@ -163,7 +163,7 @@ void UPDATE() {
                                 if(outwalker_smith.mission_state == MISSION_STATE_ENABLED){
                                     whostalking = SMITH_FLOWERS_ASKED;
                                     outwalker_smith.mission_state = MISSION_STATE_STARTED;
-                                    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                                    SpriteManagerAdd(SpriteDiary, 72, 8);
                                 }else if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
                                     UINT8 flowers = get_quantity(INVITEM_FLOWER);
                                     if(flowers < 4){
@@ -171,7 +171,7 @@ void UPDATE() {
                                     }else{
                                         whostalking = SMITH_FLOWERS_THANKYOU;
                                         outwalker_smith.mission_state = MISSION_STATE_REWARDED;
-                                        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                                        SpriteManagerAdd(SpriteDiary,  72, 8);
                                         change_quantity(INVITEM_FLOWER, -4);
                                         change_quantity(INVITEM_BOX, 1);
                                     }

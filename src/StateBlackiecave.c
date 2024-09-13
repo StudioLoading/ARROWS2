@@ -95,7 +95,9 @@ void START(){
         UpdateHUD();
     //GET MAP DIMENSIONS
         GetMapSize(BANK(blackiecavemap), &blackiecavemap, &mapwidth, &mapheight);
-    wolf_spawned = 0u;
+    if(find_blackie.mission_state < MISSION_STATE_ACCOMPLISHED){
+        wolf_spawned = 0u;
+    }
     timeout_drop = 0u;
 	SHOW_SPRITES;
 }
@@ -112,7 +114,7 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC 
-        if(s_motherpl->x > ((UINT16)56u << 3) && find_blackie.current_step < 2){
+        if(s_motherpl->x > ((UINT16)57u << 3) && find_blackie.mission_state < MISSION_STATE_REWARDED){
             if(wolf_spawned == 0u){
                 wolf_spawned = 1u;
                 SpriteManagerAdd(SpriteWolf, (UINT16)70u << 3, (UINT16) 76u);

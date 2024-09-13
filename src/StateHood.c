@@ -156,7 +156,7 @@ void UPDATE(){
                     struct PlatformInfo* leaf2_info = (struct PlatformInfo*)leaf2->custom_data;
                     leaf2_info->step = 160u;}break;
             }
-        //ENEMIES
+        //ENEMIES & CHILD
         if(motherpl_state != DEATH){
             if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED){
                 if(s_motherpl->x > (UINT16)80u && s_motherpl->x < ((mapwidth << 3) - 80u)){

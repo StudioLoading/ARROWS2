@@ -20,7 +20,8 @@
 #define JUMP_MIN_POWER 0
 #define GRAVITY 2
 #define FLY_MAX 10
-#define JUMP_MAX_POWER GRAVITY*11
+#define JUMP_MAX_POWER_DMG GRAVITY*9
+#define JUMP_MAX_POWER_CGB GRAVITY*11
 #define JUMP_TICKED_COOLDOWN 24
 #define INERTIA_MAX 16
 #define COOLDOWN_ATTACK 28
@@ -167,9 +168,9 @@ void motherpl_start(Sprite* s_mother) BANKED{
             motherpl_blocked_cooldown = 0u;
             motherpl_canshoot = 1u;
             pickingup_cooldown = PICKINGUP_COOLDOWN;
-            jump_max_power = GRAVITY*11;
+            jump_max_power = JUMP_MAX_POWER_CGB;
             if(_cpu != CGB_TYPE){
-                jump_max_power = GRAVITY*9;
+                jump_max_power = JUMP_MAX_POWER_DMG;
                 OBP1_REG = PAL_DEF(0, 0, 1, 3);
                 SPRITE_SET_PALETTE(s_mother,1);
             }
@@ -513,12 +514,19 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
 
 void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
     switch(s_collision->type){
+        case SpriteBlackie:
+            motherpl_canshoot = 0u;
+            {
+                struct NpcInfo* npc_data = (struct NpcInfo*) s_collision->custom_data;
+                Log(npc_data->npcname);
+                trigger_dialog(npc_data->whotalks, s_mother);
+            }
+        break;
         case SpritePgCadaver:
         case SpritePgoutwalker:
         case SpritePgceme:
         case SpritePgexzoo:
         case SpritePgPirate:
-        case SpriteBlackie:
             motherpl_canshoot = 0u;
             {
                 struct NpcInfo* npc_data = (struct NpcInfo*) s_collision->custom_data;

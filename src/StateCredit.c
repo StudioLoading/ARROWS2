@@ -120,9 +120,9 @@ void missions_init() BANKED{
 	captain.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
 		case CHAPTER_0_BLACKIE:
-			engage_smith.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
+			engage_smith.mission_state = MISSION_STATE_ENABLED;
 			engage_smith.current_step = 0u;
-			enable_hospital.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
+			enable_hospital.mission_state = MISSION_STATE_ENABLED;
 			enable_hospital.current_step = 0u;
 		break;
 		case CHAPTER_1_BANDITS:
