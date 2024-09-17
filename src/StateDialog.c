@@ -503,8 +503,6 @@ void move_on() BANKED{
     }else if(whostalking == IBEX_GIVE_MISSION){
         whostalking = IBEX_GIVE_HERBS;
         SetState(StateDialog);
-    }else if(whostalking == IBEX_GIVE_HERBS){
-        ChangeState(StateCart, s_motherpl, -1);
     }else if(whostalking == FISHERMAN_LETSGO){
         ChangeState(StateFps, s_motherpl, -1);
     }else if(whostalking == FISHERMAN_FPSGATOR_COMPLETED){

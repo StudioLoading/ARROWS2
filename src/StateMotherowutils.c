@@ -431,9 +431,10 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                         && get_quantity(INVITEM_PASS) == 1)
                         || outwalker_chief.mission_state >= MISSION_STATE_STARTED
                     ){
-                        if(outwalker_chief.mission_state <= MISSION_STATE_ENABLED
-                            && get_quantity(INVITEM_PASS) == 1){
+                        if(get_quantity(INVITEM_PASS) == 1){
                             change_quantity(INVITEM_PASS, -1);
+                        }
+                        if(outwalker_chief.mission_state <= MISSION_STATE_ENABLED){
                             outwalker_chief.mission_state = MISSION_STATE_STARTED;
                         }
                         ChangeState(StateOutwalkers, s_motherow_arg, -1);

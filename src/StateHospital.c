@@ -186,12 +186,12 @@ void manage_heal_or_death() BANKED{
         UINT8 chapter_cost = get_chapter_cost(); 
         if(get_quantity(INVITEM_MONEY) >= chapter_cost){
             change_quantity(INVITEM_MONEY, -chapter_cost);
-            whostalking = HOSPITAL_CURE_FROM_DEATH;
+            if(motherpl_hp > 0){ whostalking = HOSPITAL_CURE;}
+            else{ whostalking = HOSPITAL_CURE_FROM_DEATH; }
             motherpl_hp = 5;
-            //whostalking = HOSPITAL_CURE;
-        }else{    
-            whostalking = HOSPITAL_GAMEOVER;
-        }
+        }else if(motherpl_hp > 0){ whostalking = HOSPITAL_CANT_CURE;
+        }else{whostalking = HOSPITAL_GAMEOVER;}    
+        
     }
 }
 

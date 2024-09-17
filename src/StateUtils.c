@@ -809,7 +809,11 @@ void update_camera_position() BANKED{
                         ChangeState(StateOverworld, s_motherpl, 4);
                     break;
                     case StateOutwalkers:
-                        trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, s_motherpl);
+                        if(get_to_the_mountain.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            trigger_dialog(OUTWALKER_GUARD_LANDSLIDE, s_motherpl);
+                        }else{
+                            ChangeState(StateMountain, s_motherpl, -1);
+                        }
                     break;
                     case StateSky:
                         trigger_dialog(IBEX_GIVE_MISSION, s_motherpl);

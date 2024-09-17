@@ -32,8 +32,8 @@ void GetLocalizedMLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 	switch(label){
 		case EMPTY_STRING:memcpy(d, "                  ", 18);break;
-		case MISSIONI_IN_CORSO:memcpy(d, "IN PROGRESS", 18);break;
-		case MISSIONI_COMPLETATE:memcpy(d, "COMPLETED  ", 18);break;
+		case MISSIONI_IN_CORSO:memcpy(d, "STATUS: IN PROGRESS ", 20);break;
+		case MISSIONI_COMPLETATE:memcpy(d, "STATUS:  COMPLETED  ", 20);break;
 		case FIND_BLACKIE_TITLE:memcpy(d, "FIND BLACKIE    ", 16);break;
 		case FIND_BLACKIE_D0:memcpy(d, "I NEED THE HELP OF ", 20);break;
 		case FIND_BLACKIE_D1:memcpy(d, "THE BLACK WOLF.    ", 20);break;
@@ -83,15 +83,17 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case GLASS_D4:memcpy(d, "JACK IS NOW ABLE TO", 20);break;
 		case GLASS_D5:memcpy(d, "SEE WELL AGAIN     ", 20);break;
 		case OUTWALKER_SMITH_TITLE:memcpy(d, "FLOWERS FOR JOHN     ", 16);break;
-		case SMITH_D0:memcpy(d, "SEARCH FLOWERS FOR ", 20);break;
-		case SMITH_D1:memcpy(d, "JOHN               ", 20);break;
+		case SMITH_D0:memcpy(d, "GO TALK TO JOHN THE", 20);break;
+		case SMITH_D1:memcpy(d, "BLACKSMITH         ", 20);break;
 		case SMITH_D2:memcpy(d, "BRING THE FLOWERS  ", 20);break;
 		case SMITH_D3:memcpy(d, "TO JOHN            ", 20);break;
+		case SMITH_D4:memcpy(d, "BRING THE BOX TO   ", 20);break;
+		case SMITH_D5:memcpy(d, "SIMON THE OUTWALKER", 20);break;
 		case GET_TO_THE_MOUNTAIN_TITLE:memcpy(d, "LORD OF THUNDERS", 16);break;
 		case MOUNTAIN_D0:memcpy(d, "GET UP TO THE MOUN ", 20);break;
 		case MOUNTAIN_D1:memcpy(d, "TAINS              ", 20);break;
-		case MOUNTAIN_D2:memcpy(d, "                   ", 20);break;
-		case MOUNTAIN_D3:memcpy(d, "                   ", 20);break;
+		case MOUNTAIN_D2:memcpy(d, "IBEX GAVE ME SOME  ", 20);break;
+		case MOUNTAIN_D3:memcpy(d, "USEFUL HERBS       ", 20);break;
 		case DEFEAT_SCORPIONS_TITLE:memcpy(d, "SCORPION'S HORDE ", 16);break;
 		case SCORPIONS_D0:memcpy(d, "DEFEAT ALL THE     ", 20);break;
 		case SCORPIONS_D1:memcpy(d, "SCORPIONS AROUND   ", 20);break;

@@ -19,7 +19,7 @@ const UINT8 throw_web0[] = {1, 1};
 const UINT8 throw_web1[] = {1, 2};
 const UINT8 throw_acid0[] = {1, 3};
 const UINT8 throw_acid1[] = {6, 4, 5, 6, 7, 7, 7};
-const UINT8 throw_projectile[] = {1, 8};
+const UINT8 throw_projectile[] = {1, 4};
 
 extern Sprite* s_motherpl;
 extern Sprite* s_blocking;
@@ -51,7 +51,6 @@ void UPDATE(){
     struct ThrowableData* throwable_data = (struct ThrowableData*) THIS->custom_data;
     if(throwable_data->configured == 0u){return;}
     if(throwable_data->configured == 1u){
-        //if(throwable_data->wait == 8u){
             switch(throwable_data->type){
                 case WEB:
                     SetSpriteAnim(THIS, throw_web1, 2u);

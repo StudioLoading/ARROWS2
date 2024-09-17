@@ -231,20 +231,20 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "SOON AS YOU HAVE IT.\0", 22);
 		break;
 		case SMITH_FLOWERS_ASKED:
-			*n_lines = 13u;
+			*n_lines = 12u;
 			memcpy(d0, "JOHN:                ", 22);
 			memcpy(d1, "I MUST FORGE SOME WE ", 22);
 			memcpy(d2, "APON FOR THE OUTWALK ", 22);
 			memcpy(d3, "ERS. MEANWHILE... I  ", 22);
 			memcpy(d4, "AM QUITE ASHAMED BY  ", 22);
 			memcpy(d5, "ASKING YOU THIS BUT  ", 22);
-			memcpy(d7, EMPTY_STRING_21, 22);
-			memcpy(d8, "PLEASE, BRING ME 4   ", 22);
-			memcpy(d9, "FLOWERS. I WANT TO   ", 22);
-			memcpy(d10, "ASK MARGARET IF SHE ", 22);
-			memcpy(d11, EMPTY_STRING_21, 22);
-			memcpy(d12, "OH WELL, YOU KNOW!  ", 22);
-			memcpy(d13, EMPTY_STRING_21, 22);
+			memcpy(d6, EMPTY_STRING_21, 22);
+			memcpy(d7, "PLEASE, BRING ME 4   ", 22);
+			memcpy(d8, "FLOWERS. I WANT TO   ", 22);
+			memcpy(d9, "ASK MARGARET IF SHE ", 22);
+			memcpy(d10, EMPTY_STRING_21, 22);
+			memcpy(d11, "OH WELL, YOU KNOW!  ", 22);
+			memcpy(d12, EMPTY_STRING_21, 22);
 		break;
 		case SMITH_FLOWERS_MISSING:
 			*n_lines = 11u;
@@ -350,7 +350,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d4, "NOW LET'S GO OUTSIDE\0", 22);
 					memcpy(d5, "WE NEED TO TALK.    \0", 22);
 					find_blackie.current_step = 3u;
-					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+					SpriteManagerAdd(SpriteDiary, 72, 8);
 				break;
             	case 3u://ow orde sconfitte
 					*n_lines = 22u;
@@ -378,7 +378,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 					memcpy(d22, "HER. SEE YOU!       ", 22);
 					change_quantity(INVITEM_LETTER, -1);
                 	find_blackie.current_step = 4u;
-					SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+					SpriteManagerAdd(SpriteDiary, 72, 8);
                 	find_blackie.mission_state = MISSION_STATE_REWARDED;
 					help_cemetery_woman.mission_state = MISSION_STATE_ENABLED;
 				break;
@@ -489,6 +489,15 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			}
 			memcpy(d6, "HEAL YOU.           ", 22);
 		break;
+		case HOSPITAL_CANT_CURE:
+			*n_lines = 5u;
+			memcpy(d0, "DOCTOR:             \0", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "SORRY DESSA, WE HAVE\0", 22);
+			memcpy(d3, "NOT ENOUGH GOLD WITH\0", 22);
+			memcpy(d4, "YOU. WE CAN DO      \0", 22);
+			memcpy(d5, "NOTHING FOR YOU.    \0", 22);
+		break;
 		case CRYING_MOTHER:
 			*n_lines = 13u;
 			memcpy(d0, "MARGARET:           \0", 22);
@@ -507,7 +516,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d13, "YOU GO NORTH.      \0", 22);
 			help_cemetery_woman.current_step = 1u;
 			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case CHILD:
 			memcpy(d0, "ROBERT:             \0", 22);

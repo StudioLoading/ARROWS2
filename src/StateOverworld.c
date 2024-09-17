@@ -544,6 +544,7 @@ void UPDATE(){
 					ow_is_beach = 0;
 				}
 			break;
+			default: ow_is_beach = 0; break;
 		}
 	//INITIAL SPRITE SPAWNING
 		if(delay_spawning > 0){

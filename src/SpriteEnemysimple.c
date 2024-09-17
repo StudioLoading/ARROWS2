@@ -53,7 +53,7 @@ extern void EthrowerTarantulaAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
 extern void EthrowWeb(ENEMY_STATE estate) BANKED;
 extern void EthrowAcid(ENEMY_STATE estate) BANKED;
-extern void EthrowProjectile(ENEMY_STATE estate) BANKED;
+extern void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
 
@@ -180,9 +180,15 @@ void Emanagement(Sprite* s_enemy) BANKED{
                 }
                 return;
             break;
+            case ENEMY_WAIT:
+                if(eu_info->wait){eu_info->wait--;}
+                else if(eu_info->hp > 0){
+                    changeEstate(s_enemy, ENEMY_WALK);
+                }else{changeEstate(s_enemy, ENEMY_DEAD);}
+                return;
+            break;
             case ENEMY_HIT_1:
             case ENEMY_HIT_2:
-            case ENEMY_WAIT:
                 if(eu_info->wait){eu_info->wait--;}
                 else if(eu_info->hp > 0){
                     changeEstate(s_enemy, ENEMY_WALK);
@@ -412,12 +418,9 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                     changeEstate(s_enemy, ENEMY_DEAD);
                     return;
                 }else{
-                    if(s_enemy->type == SpriteEnemyAttackerCobra){
-                        e_info->wait = 16u;
-                    }else if(s_enemy->type == SpriteEnemyThrowerScorpion){
-                        e_info->wait = 80u;
-                    }else{
-                        e_info->wait = 24u;
+                    e_info->wait = 24u;
+                    if(s_enemy->type == SpriteEnemyThrowerScorpion){
+                        e_info->wait = 40u;
                     }
                     TranslateSprite(s_enemy, 0, -6 << delta_time);
                 }
@@ -459,7 +462,7 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
                 switch(s_enemy->type){
                     case SpriteEnemyThrowerSpider: EthrowWeb(e_info->e_state); break;
                     case SpriteEnemyThrowerTarantula: EthrowAcid(e_info->e_state); break;
-                    case SpriteEnemyThrowerScorpion: EthrowProjectile(e_info->e_state); break;
+                    case SpriteEnemyThrowerScorpion: EthrowProjectile(s_enemy, e_info->e_state); break;
                 }
             break;
             case ENEMY_UPSIDEDOWN:

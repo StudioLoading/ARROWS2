@@ -224,11 +224,11 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 				memcpy(d7, "THEM, I THINK IT CAN", 22);
 				memcpy(d8, "BE HELPFUL!         ", 22);
 				*n_lines = 8u;				
-				struct ItemSpawned pass_data={.itemtype = INVITEM_HERB, .quantity = 1, .equippable = 0u};
-				pickup(&pass_data);
+				struct ItemSpawned herb_data={.itemtype = INVITEM_HERB, .quantity = 1, .equippable = 0u};
+				pickup(&herb_data);
 				find_antidote.phase = 4;
 				find_antidote.current_step = 1;
-				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			
 			}
 		break;
@@ -266,11 +266,11 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 						memcpy(d14, "GONNA NEED EM FOR  \0", 22);
 						memcpy(d15, "THE FIGHTING...    \0", 22);
 						{
-							struct ItemSpawned pass_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 20, .equippable = 1u};
-							pickup(&pass_data);
+							struct ItemSpawned perfo_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 20, .equippable = 1u};
+							pickup(&perfo_data);
 							outwalker_glass.mission_state = MISSION_STATE_STARTED;
 							outwalker_glass.current_step = 1;
-							SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+							SpriteManagerAdd(SpriteDiary, 72, 8);
 						}
 					break;
 					case 1u://occhiali non ancora trovati
@@ -287,11 +287,11 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 							memcpy(d8, "GONNA NEED EM FOR  \0", 22);
 							memcpy(d9, "THE FIGHTING...    \0", 22);
 							{
-								struct ItemSpawned pass_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 20, .equippable = 1u};
-								pickup(&pass_data);
+								struct ItemSpawned pearc_data={.itemtype = INVITEM_ARROW_PERFO, .quantity = 20, .equippable = 1u};
+								pickup(&pearc_data);
 								outwalker_glass.mission_state = MISSION_STATE_STARTED;
 								outwalker_glass.current_step = 1;
-								SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+								SpriteManagerAdd(SpriteDiary,  72, 8);
 							}
 						}
 					break;
@@ -306,12 +306,12 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 						memcpy(d7, "REWARD!!            \0", 22);
 						memcpy(d8, EMPTY_STRING_21, 22);
 						{
-							struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 40, .equippable = 1u};
-							pickup(&pass_data);
+							struct ItemSpawned money_data={.itemtype = INVITEM_MONEY, .quantity = 40, .equippable = 1u};
+							pickup(&money_data);
 							change_quantity(INVITEM_GLASSES, -1);
 							outwalker_glass.mission_state = MISSION_STATE_REWARDED;
 							outwalker_glass.current_step = 4;
-							SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+							SpriteManagerAdd(SpriteDiary, 72, 8);
 						}
 					break;
 					case 4u:
@@ -359,7 +359,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, EMPTY_STRING_21, 22);
 			memcpy(d12, "YOU SHALL NOT PASS! \0", 22);
 			outwalker_glass.mission_state = MISSION_STATE_ENABLED;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case OUTWALKER_GUARD_NOSMITH:
 			*n_lines = 8u;
@@ -375,14 +375,17 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			outwalker_smith.mission_state = MISSION_STATE_ENABLED;
 		break;
 		case OUTWALKER_GUARD_OK:
-				*n_lines = 6u;
+				*n_lines = 9u;
 				memcpy(d0, "SIMON:              \0", 22);
 				memcpy(d1, "YES  THIS I THE WAY \0", 22);
 				memcpy(d2, "TO THE MOUNTAINS.   \0", 22);
 				memcpy(d3, EMPTY_STRING_21, 22);
-				memcpy(d4, "YOU DID A LOT FOR US\0", 22);
-				memcpy(d5, "AND WE THANK YOU    \0", 22);
-				memcpy(d6, "NOW YOU CAN PASS!   \0", 22);
+				memcpy(d4, "THANK YOU, THIS BOX \0", 22);
+				memcpy(d5, "MEANS A LOT FOR US! \0", 22);
+				memcpy(d6, EMPTY_STRING_21, 22);
+				memcpy(d7, "YOU DID A LOT FOR US\0", 22);
+				memcpy(d8, "AND WE THANK YOU    \0", 22);
+				memcpy(d9, "NOW YOU CAN PASS!   \0", 22);
 		break;
 		case OUTWALKER_CHIEF_FOUND:
 			*n_lines = 18u;
@@ -398,7 +401,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "I LIKE TO KEEP IT A \0", 22);
 			memcpy(d10, "SECRET, SO PEOPLE   \0", 22);
 			memcpy(d11, "ACT NORMALLY WHEN I \0", 22);
-			memcpy(d12, "AM AROUND HERE.     \0", 22);
+			memcpy(d12, "AM AROUND.          \0", 22);
 			memcpy(d13, EMPTY_STRING_21, 22);
 			memcpy(d14, "PLEASE DON'T CHANGE \0", 22);
 			memcpy(d15, "THIS, DON'T REVEAL  \0", 22);
@@ -407,11 +410,11 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d18, "SILENCE.            \0", 22);
             outwalker_chief.current_step = 3;
 			outwalker_info_step = 3;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
 			{
-				struct ItemSpawned pass_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
-				pickup(&pass_data);
+				struct ItemSpawned money_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
+				pickup(&money_data);
 			}
 		break;
 		case OUTWALKER_GUARD_LANDSLIDE:
@@ -650,7 +653,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 				}
 				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
 				outwalker_chief.current_step = 1;
-				SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;
 		case POLICE_0_STILL_NOT_FOUND:

@@ -126,6 +126,9 @@ void UPDATE(){
 }
 
 void enemy_death() BANKED{
+    SpriteManagerAdd(SpriteGocursor, 1u << 3, 6u << 3);
+    Sprite* s_gocursor_right = SpriteManagerAdd(SpriteGocursor, 19u << 3, 6u << 3);
+    s_gocursor_right->mirror = V_MIRROR;
     defeat_scorpions.current_step = defeat_scorpions.current_step | scorpion_mission_goal;
     if(defeat_scorpions.current_step == 0b11111111 && defeat_scorpions.phase == 0u){
         defeat_scorpions.current_step = 0;

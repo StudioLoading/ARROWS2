@@ -38,7 +38,8 @@ UINT8 ow_is_beach = 0u;
 
 void maze_teleport() BANKED;
 void initial_sprite_spawning() BANKED;
-void initial_ow_npc();
+void initial_ow_npc() BANKED;
+void initial_ow_items() BANKED;
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED;
 void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, UINT8 max_wait, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED;
 
@@ -441,6 +442,16 @@ void initial_ow_items() BANKED{
 			//per terra, prima del hood a sinistra
 			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b00000100);
 		break;
+		/*
+		case MAP_MAZE:
+			//appena entri dritto, inevitabile premio
+			spawn_hidden_item(INVITEM_MONEY, 20, 8u, 2u, 0b00000001);
+			//corridoio stretto
+			spawn_hidden_item(INVITEM_ARROW_BASTARD, 15, 47u, 5u, 0b00000010);
+			//per terra, prima del hood a sinistra
+			spawn_hidden_item(INVITEM_HEARTS, 1, 59u, 24u, 0b00000100);
+		break;
+		*/
 		case MAP_SOUTHEAST:
 			//in basso, fra i due alberi
 			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 23u, 49u, 0b00000001);

@@ -224,51 +224,19 @@ void missions_init() BANKED{
 			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
 			defeat_scorpions.current_step = 0b11111111;
 			defeat_scorpions.phase = 5;
-			find_antidote.mission_state = 
-			engage_smith.mission_state = MISSION_STATE_REWARDED;
-			engage_smith.current_step = 6u;
-			enable_hospital.mission_state = MISSION_STATE_REWARDED;
-			enable_hospital.current_step = 6u;
-			find_blackie.mission_state = MISSION_STATE_REWARDED;
-			find_blackie.current_step = 6u;
-			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
-			help_cemetery_woman.current_step = 5u;//0u
-			outwalker_chief.mission_state = MISSION_STATE_REWARDED;
-			outwalker_chief.current_step = 5u;//0u
-			outwalker_glass.mission_state = MISSION_STATE_REWARDED;
-			outwalker_glass.current_step = 4u;//0u
-			outwalker_smith.mission_state = MISSION_STATE_REWARDED;
-			outwalker_smith.current_step = 0b00001111;
-			get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
-			get_to_the_mountain.current_step = 0u;
-			defeat_scorpions.mission_state = MISSION_STATE_REWARDED;
-			defeat_scorpions.current_step = 0b11111111;
-			defeat_scorpions.phase = 5;
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
 			find_antidote.phase = 4;//0
 			find_antidote.current_step = 1u;//0
-			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
+			hungry_people.mission_state = MISSION_STATE_REWARDED;
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
-			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			fix_bridge.mission_state = MISSION_STATE_REWARDED;
 			fix_bridge.phase = 0;
 			fix_bridge.current_step = 0;
-			golden_armor.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
+			golden_armor.mission_state = MISSION_STATE_REWARDED;
 			golden_armor.phase = 0;
-			find_antidote.phase = 4;//0
-			find_antidote.current_step = 1u;//0
-			hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
-			hungry_people.phase = 0;
-			hungry_people.current_step = 0;
-			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
-			fix_bridge.phase = 0;
-			fix_bridge.current_step = 0;
-			golden_armor.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
-			golden_armor.phase = 0;
-			golden_armor.current_step = 0;
 			/* START TEST */
-			mr_smee.mission_state = MISSION_STATE_STARTED;
-
+			//mr_smee.mission_state = MISSION_STATE_STARTED;
 			/* END TEST */
 		break;
 	}
@@ -315,7 +283,7 @@ void inventory_init() BANKED{
 		case CHAPTER_1_BANDITS:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
@@ -330,7 +298,7 @@ void inventory_init() BANKED{
 		case CHAPTER_2_PLAGUE:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 100; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
@@ -345,7 +313,7 @@ void inventory_init() BANKED{
 		case CHAPTER_3_ARMOUR:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
@@ -360,7 +328,7 @@ void inventory_init() BANKED{
 		case CHAPTER_4_SHIP:
 			itemMoney.itemtype = INVITEM_MONEY;
 			itemMoney.quantity = 20;
-			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 300; item00.equippable = 1u;
+			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
@@ -509,8 +477,8 @@ void START() {
 	credit_wait_time = 0u;
 	generic_counter = 0u;
 
-	SpriteManagerAdd(SpriteFlame, (UINT16) 2u << 3, (UINT16) 2u << 3);
-	Sprite* s_flame = SpriteManagerAdd(SpriteFlame, (UINT16) 16u << 3, (UINT16) 2u << 3);
+	SpriteManagerAdd(SpriteFlame, (UINT16) 6u << 3, (UINT16) 15u << 3);
+	Sprite* s_flame = SpriteManagerAdd(SpriteFlame, (UINT16) 14u << 3, (UINT16) 15u << 3);
 	s_flame->anim_frame = 4;
 }
 

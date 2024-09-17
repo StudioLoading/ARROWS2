@@ -106,7 +106,7 @@ void START(){
 }
 
 void show_pcodes(){
-    /*SOSTITUIRE LE FRECCE NAVIGAZIONE CON BARRE ORIZZONTALI A SECONDA
+    /* TODO SOSTITUIRE LE FRECCE NAVIGAZIONE CON BARRE ORIZZONTALI A SECONDA
     SE SONO A PAGINA ZERO (ELIMINO LA FRECCIA A SINISTRA),IN MEZZO (COMPAIONO ENTRAMBE),
     O CHAPTER (ELIMINO LA FRECCIA A DESTRA). E IN PIù DOVREI DISABILITARE IL FATTO CHE 
     ALLA ULTIMA PAGINA PREMENDO DESTRA TORNO ALLA PAGINA 0, E DALLA PAGINA 0 PREMENDO
@@ -299,9 +299,13 @@ void show_detail(){
                     if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(SMITH_D0, dd2);
                         GetLocalizedDDLabel_EN(SMITH_D1, dd3);
-                        if(outwalker_smith.current_step == 0b00001111){
+                        if(outwalker_smith.mission_state == MISSION_STATE_STARTED && outwalker_smith.current_step != 0b00001111){
                             GetLocalizedDDLabel_EN(SMITH_D2, dd4);
                             GetLocalizedDDLabel_EN(SMITH_D3, dd5);
+                        }
+                        if(outwalker_smith.current_step == 0b00001111){
+                            GetLocalizedDDLabel_EN(SMITH_D4, dd6);
+                            GetLocalizedDDLabel_EN(SMITH_D5, dd7);
                         }
                     }
                 break;
@@ -446,14 +450,6 @@ void show_detail(){
 void show_missions(){
     empty_ms();
     empty_dds();
-    if(idx_page == chapter){
-        GetLocalizedDDLabel_EN(MISSIONI_IN_CORSO, dd1);
-    }else if (idx_page < chapter){
-        GetLocalizedDDLabel_EN(MISSIONI_COMPLETATE, dd1);
-    }else{ 
-        GetLocalizedDDLabel_EN(EMPTY_STRING, dd1);
-    }
-	PRINT(8, 0, dd1);
     switch(idx_page){
         case CHAPTER_0_BLACKIE:
             if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
@@ -521,7 +517,7 @@ void show_missions(){
     PRINT(2, 5, m1);
     PRINT(2, 8, m2);
     PRINT(2, 11, m3);
-    PRINT(0, 0, "%i:%u", idx_page+1, chapter+1);
+    //PRINT(0, 0, "%i:%u", idx_page+1, chapter+1);
     update_diary_cursor();
 }
 
@@ -618,11 +614,14 @@ void update_diary_cursor(){
     if(missions[missions_idx] == 0){dcursor_data->configured = 2;
     }else if(missions[missions_idx]->mission_state == MISSION_STATE_REWARDED){
         dcursor_data->configured = 1;
+        GetLocalizedDDLabel_EN(MISSIONI_COMPLETATE, dd1);
     }else if(missions[missions_idx]->mission_state > MISSION_STATE_DISABLED){                
         dcursor_data->configured = 0;
+        GetLocalizedDDLabel_EN(MISSIONI_IN_CORSO, dd1);
     }else{
         dcursor_data->configured = 2;
+        GetLocalizedDDLabel_EN(EMPTY_STRING, dd1);
     }
     dcursor_data->wait = 1;
-    //show_missions();           
+    PRINT(0, 0, dd1);      
 }

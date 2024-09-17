@@ -203,8 +203,14 @@ void load_chapter() BANKED{
             whostalking = INTRO;
             ChangeStateThroughBetween(StateDialog);
         break;
-        case CHAPTER_1_BANDITS:
         case CHAPTER_2_PLAGUE:
+            just_started = 0;
+            //TODO START REMOVE ME, SET StateCart!
+            ChangeStateThroughBetween(StateOverworld);
+            //TODO END remoVE ME
+            //TODO remove this comment ChangeStateThroughBetween(StateCart);
+        break;
+        case CHAPTER_1_BANDITS:
         case CHAPTER_3_ARMOUR:
         case CHAPTER_4_SHIP:
             just_started = 0;

@@ -170,7 +170,7 @@ void UPDATE() {
                                         whostalking = SMITH_FLOWERS_MISSING;
                                     }else{
                                         whostalking = SMITH_FLOWERS_THANKYOU;
-                                        outwalker_smith.mission_state = MISSION_STATE_REWARDED;
+                                        outwalker_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
                                         SpriteManagerAdd(SpriteDiary,  72, 8);
                                         change_quantity(INVITEM_FLOWER, -4);
                                         change_quantity(INVITEM_BOX, 1);

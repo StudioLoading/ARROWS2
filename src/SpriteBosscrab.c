@@ -67,6 +67,12 @@ void UPDATE(){
             crab_v_coll = TranslateSprite(THIS, 0, (CRAB_GRAVITY - crab_jump_power) << delta_time);
             crab_jump_power--;
         }else{//normal gravity
+            if(crab_data->e_state == ENEMY_JUMP){//se sono sopra la testa di Mother non mi muovo più lateralmente in salto!
+                INT16 delta_x = THIS->x - s_motherpl->x;
+                if(delta_x > -20 && delta_x < 20){
+                    crab_data->vx = 0;
+                }
+            }
             crab_v_coll = TranslateSprite(THIS, 0, CRAB_GRAVITY << delta_time);
         }
     //sprite collision
@@ -141,8 +147,9 @@ void crab_behave() BANKED{
         case ENEMY_HIT_2:
             if(crab_data->wait == 0){
                 crab_update_wait();
-                if(s_motherpl->x < THIS->x){crab_data->vx = -2;}
-                else{crab_data->vx = 2;}
+                INT8 jumping_vx = 8;
+                if(s_motherpl->x < THIS->x){ jumping_vx = -jumping_vx;}
+                crab_data->vx = jumping_vx;
                 crab_change_state(ENEMY_JUMP);
             }
         break;

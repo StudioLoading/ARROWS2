@@ -50,19 +50,21 @@ void UPDATE(){
         Emanagement(THIS);
     //SCORPION LIMITS
         INT8 scroll_distance = scroll_target->x - THIS->x;
-        if(scroll_distance > 80){
-            THIS->x = scroll_target->x - 80u;
+        if(scroll_distance > 70){
+            THIS->x = scroll_target->x - 70u;
         }else if(scroll_distance < -80){
             THIS->x = scroll_target->x + 80u;
         }
 
 }
 
-void EthrowerScorpionAnim( ENEMY_STATE estate) BANKED{
+void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED{
     struct EnemyData* eu_info = (struct EnemyData*)THIS->custom_data;
     switch(estate){
         case ENEMY_HIT_1:
-        case ENEMY_HIT_2: SetSpriteAnim(THIS, scorpion_anim_hit, 16u); break;
+        case ENEMY_HIT_2: 
+            SetSpriteAnim(THIS, scorpion_anim_hit, 32u);
+        break;
         case ENEMY_WALK: SetSpriteAnim(THIS, scorpion_anim_walk, 24u); break;
         case ENEMY_WAIT: SetSpriteAnim(THIS, scorpion_anim_wait, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(THIS, scorpion_anim_idle, 20u); break;
@@ -75,9 +77,13 @@ void EthrowerScorpionAnim( ENEMY_STATE estate) BANKED{
 void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     struct EnemyData* eu_info = (struct EnemyData*)s_enemy->custom_data;
     EthrowerScorpionAnim(estate);
-    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, s_enemy->x +8u, s_enemy->y - 7u);
-    struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
+    Sprite* s_projectile = SpriteManagerAdd(SpriteEnemythrowable, s_enemy->x +8u, s_enemy->y - 7u);
+    struct ThrowableData* throwable_data = (struct ThrowableData*) s_projectile->custom_data;
     throwable_data->type = PROJECTILE;
+    throwable_data->vx = 2;
+    if(s_enemy->mirror == V_MIRROR){
+        throwable_data->vx = -2; 
+    }
     throwable_data->configured = 1u;
 }
 

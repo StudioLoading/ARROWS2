@@ -131,7 +131,7 @@ void motherpl_getoff() BANKED;
 void motherpl_hitted(Sprite* s_enemy) BANKED;
 void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED;
 void motherpl_effectivevx(Sprite* s_mother) BANKED;
-
+void motherpl_behave(Sprite* s_mother) BANKED;
 
 void START(){
 
@@ -325,6 +325,7 @@ void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED{
                 s_mother->x -= 12u;
                 trigger_dialog(OUTWALKER_GUARD_NOSMITH, s_mother);
             }else if(get_to_the_mountain.mission_state == MISSION_STATE_DISABLED){
+                outwalker_smith.mission_state = MISSION_STATE_REWARDED;
                 get_to_the_mountain.mission_state = MISSION_STATE_ENABLED;
                 SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
                 s_mother->x -= 12u;
@@ -519,7 +520,9 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
             {
                 struct NpcInfo* npc_data = (struct NpcInfo*) s_collision->custom_data;
                 Log(npc_data->npcname);
-                trigger_dialog(npc_data->whotalks, s_mother);
+                if(KEY_RELEASED(J_FIRE)){
+                    trigger_dialog(npc_data->whotalks, s_mother);
+                }
             }
         break;
         case SpritePgCadaver:
@@ -743,11 +746,11 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
             break;
             case MOTHERPL_CRAWL:
             case MOTHERPL_CRAWL_SURF:
-                if(motherpl_attack_cooldown == 0u){
+                //if(motherpl_attack_cooldown == 0u){
                     if(s_mother->type == SpriteMotherplarmor){
                         motherplarmor_setanim_crawl();
                     }else{ motherplnormal_setanim_crawl(); }
-                }
+                //}
                 motherpl_jpower = 0;
                 jump_max_toched = 0u;
                 motherpl_vy = GRAVITY;
@@ -767,6 +770,10 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                 motherpl_hit_cooldown = HIT_COOLDOWN_MAX;
                 motherpl_hp -= motherpl_hit;
                 motherpl_hit = 0;
+                if(motherpl_hp <= 0 && motherpl_state != MOTHERPL_DEAD){
+                    motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
+                    return;
+                }
                 //TODO START remove me invulnerability!
                 //if(motherpl_hp <= 0){motherpl_hp = 1;}
                 //TODO END remove me
@@ -783,12 +790,11 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                     if(s_mother->type == SpriteMotherplarmor){
                         motherplarmor_setanim_hit();
                     }else{motherplnormal_setanim_hit();}
-                }else{
-                    motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
-                    return;
                 }
             break;
             case MOTHERPL_DEAD:
+                motherpl_vx = 0;
+                motherpl_vy = 0;
                 motherpl_hp = 0;
                     if(s_mother->type == SpriteMotherplarmor){
                         motherplarmor_setanim_dead();
@@ -827,6 +833,22 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
 }
 
 void motherpl_behave(Sprite* s_mother) BANKED{
+    if(motherpl_state == MOTHERPL_DEAD || motherpl_hp <= 0){
+        motherpl_vx = 0;
+        motherpl_vy = 0;
+        if(motherpl_hit_cooldown > 0){
+            motherpl_hit_cooldown--;
+            if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 1)){
+                s_mother->y--;
+                if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 2)){
+                    motherpl_refresh_animation(s_mother);
+                }
+            }
+        }else{//già fatto il giro verso l' alto
+            motherpl_die(s_mother);
+        }
+        return;
+    }
     switch(motherpl_state){
         case MOTHERPL_IDLE:
             /*
@@ -900,20 +922,6 @@ void motherpl_behave(Sprite* s_mother) BANKED{
             if(motherpl_hp <= 0){
                 motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
             }
-        break;
-        case MOTHERPL_DEAD:
-            if(motherpl_hit_cooldown > 0){
-                motherpl_hit_cooldown--;
-                if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 1)){
-                    s_mother->y--;
-                    if(motherpl_hit_cooldown < (DEAD_COOLDOWN_MAX >> 2)){
-                        motherpl_refresh_animation(s_mother);
-                    }
-                }
-            }else{//già fatto il giro verso l' alto
-                motherpl_die(s_mother);
-            }
-            return;
         break;
         case MOTHERPL_BLOCKED:
             if(KEY_TICKED(J_LEFT) || KEY_TICKED(J_RIGHT)){
