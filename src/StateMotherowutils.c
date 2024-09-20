@@ -405,9 +405,13 @@ void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED{
     }
     if(trigger_tip){
         if(show_tip == 0u && showed_tip == 0u){
-            UINT8 rest = scroll_target->x % 8;
-            if(rest > 0){
-                scroll_target->x+=(8-rest); 
+            UINT8 rest_x = scroll_target->x % 8;
+            if(rest_x > 0){
+                scroll_target->x -= rest_x; 
+            }
+            UINT8 rest_y = scroll_target->y % 8;
+            if(rest_y > 0){
+                scroll_target->y -= rest_y; 
             }
 	        show_tip_movingscroll_y = 0u;
 	        show_tip_movingscroll_x = 0u;

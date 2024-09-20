@@ -71,20 +71,20 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_OWLIMIT_EAST:
-			memcpy(d1, " IT IS NOT SAFE TO   \0", 22);
-			memcpy(d2, " GO THROUGH THIS     \0", 22);
-			memcpy(d3, " FOREST YET.         \0", 22);
+			memcpy(d1, " IT IS NOT SAFE TO   ", 22);
+			memcpy(d2, " GO THROUGH THIS     ", 22);
+			memcpy(d3, " FOREST YET.         ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_STILL_SOMETHING:
-			memcpy(d1, " I HAVE TO DO SOMETH \0", 22);
-			memcpy(d2, " ING ELSE HERE       \0", 22);
-			memcpy(d3, " BEFORE LEAVING      \0", 22);
+			memcpy(d1, " I HAVE TO DO SOMETH ", 22);
+			memcpy(d2, " ING ELSE HERE       ", 22);
+			memcpy(d3, " BEFORE LEAVING      ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_DARK_FOREST:
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "  THE DARKEST FOREST ", 22);
+			memcpy(d2, " THE DARKEST FOREST ", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
@@ -96,62 +96,62 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_GROTTO:
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "    OUTWALKER CAMP   \0", 22);
+			memcpy(d2, "   OUTWALKER CAMP   ", 22);
 			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_FISHERMAN:
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " THE FISHERMAN       ", 22);
+			memcpy(d1, " THE FISHERMAN      ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_SILVER_MINE:
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " SILVER MINE         ", 22);
-			memcpy(d2, "BEWARE THE MINOTAUR! ", 22);
+			memcpy(d1, " SILVER MINE        ", 22);
+			memcpy(d2, "BEWARE THE MINOTAUR ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_CHITCHAT_HUNGRY:
 			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " OH PLEASE BRING US  ", 22);
-			memcpy(d2, " SOME FOOD!          ", 22);
+			memcpy(d1, " OH PLEASE BRING US ", 22);
+			memcpy(d2, " SOME FOOD!         ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_CHITCHAT_SMITH:
-			memcpy(d1, " THE FORGE IS THE BU ", 22);
-			memcpy(d2, " ILDING WITH AN ANV  ", 22);
-			memcpy(d3, " IL SIGN POSTED      ", 22);
+			memcpy(d1, " THE FORGE IS THE   ", 22);
+			memcpy(d2, " BUILDING WITH AN   ", 22);
+			memcpy(d3, " ANVIL SIGN POSTED  ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_HOSP:
-			memcpy(d1, " YOU CAN GET HEALED  ", 22);
-			memcpy(d2, " AT THE HOSPITAL BUT ", 22);
-			memcpy(d3, " IT WILL COSTS YOU   ", 22);
+			memcpy(d1, " YOU CAN GET HEALED ", 22);
+			memcpy(d2, " AT THE HOSPITAL.   ", 22);
+			memcpy(d3, " IT WILL COST YOU   ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_ITEMS:
-			memcpy(d1, " GET ITEM LOOTS GET  ", 22);
-			memcpy(d2, " TING WILD ANIMALS   ", 22);
-			memcpy(d3, " DOWN!               ", 22);
+			memcpy(d1, " GET ITEM LOOTS GET ", 22);
+			memcpy(d2, " TING WILD ANIMALS  ", 22);
+			memcpy(d3, " DOWN!              ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_SALUTE:
-			memcpy(d1, " SALUTE HEALER! OUR  ", 22);
-			memcpy(d2, " FAMILY WISHES YOU   ", 22);
-			memcpy(d3, " A VERY GOOD LUCK!   ", 22);
+			memcpy(d1, " SALUTE HEALER! OUR ", 22);
+			memcpy(d2, " FAMILY WISHES YOU  ", 22);
+			memcpy(d3, " A VERY GOOD LUCK!  ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_HIDDEN_00:
-			memcpy(d1, " LOOK IN FRONT AT    ", 22);
-			memcpy(d2, " THE CEMETERY ENTRAN ", 22);
-			memcpy(d3, " CE SOMETHING'S THERE", 22);
+			memcpy(d1, " LOOK IN FRONT AT   ", 22);
+			memcpy(d2, " THE CEMETERY ENTRA ", 22);
+			memcpy(d3, " NCE                ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_HIDDEN_01:
-			memcpy(d1, " LOOK TO THE RIGHT OF", 22);
-			memcpy(d2, " THE HOSPITAL.       ", 22);
-			memcpy(d3, " SOMETHING'S THERE.  ", 22);
+			memcpy(d1, " LOOK TO THE RIGHT  ", 22);
+			memcpy(d2, " OF THE HOSPITAL.   ", 22);
+			memcpy(d3, " SOMETHING'S THERE. ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_HIDDEN_02:
@@ -197,8 +197,8 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
 		case TIP_CHITCHAT_HIDDEN_11:
-			memcpy(d1, " SOME GUY AT THE INN", 22);
-			memcpy(d2, " SAID THERE ARE SOME", 22);
+			memcpy(d1, " A GUY AT THE INN   ", 22);
+			memcpy(d2, " SAID THERE ARE     ", 22);
 			memcpy(d3, " ARROWS IN THE MAZE ", 22);
 			memcpy(d4, EMPTY_STRING_21 , 22);
 		break;
@@ -237,8 +237,8 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		case TIP_CHITCHAT_EASTSIDE:
 			memcpy(d1, " OUR HUMAN COMMUNI  ", 22);
 			memcpy(d2, " TY OCCUPY THE WEST ", 22);
-			memcpy(d3, " AND THE EAST SIDE  ", 22);
-			memcpy(d4, " OF THE CANAL.      ", 22);
+			memcpy(d3, " ERN AND THE EASTERN", 22);
+			memcpy(d4, " SIDE OF THE CANAL  ", 22);
 		break;
 		case TIP_CHITCHAT_BRIDGE:
 			memcpy(d1, " THE ONLY WAY TO    ", 22);
