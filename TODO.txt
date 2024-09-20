@@ -1,34 +1,22 @@
 POST DEMO:
-- scorpioni 
-	la hit fa schifo, farli blinkare
-- fra le mappe ow dovrei sempre fare delle mappe hood per rendere un po' più challenging il gioco?
+- slidare sugli scorpioni deve fare danno!
+- bossscorpion dovrebbe sparare subito dopo aver preso hit!
 - darkest forest
 	- piove?
 	- nemici rane e tarantole sputa veleno
 	- boss? appunti dice airone, ma ho già fatto il volatile bossbat...
-- immagine dialogs dei pirati e capitano
-- facciamo che nell' ultima parte di gioco piove ovunque?
-- boss con 1hp blinka
-
-- segnare sul design un percorso che scimmiotta il 3d, in prospettiva verticale di profondità. 
-	Attraversando un cancello ad es. e salendo di 8 pixel. 
-	Prendere dal vecchio gioco come mettere lo sprite dietro i tiles.
+- immagine dialogs dei pirati e capitano (molo con nave)
+ - boss con 1hp blinka
 
 - un negozio diverso per ogni consumabile!
 	- smith fa frecce normali
 	- carpentiere fa frecce perforanti
-	- qualcuno fa le esplosive
-	- qualcuno fa le bastarde
+	- le bastarde le trovi solo in giro, assicurarsi che spawnino come hidden a sufficienza
 - Dialogs: pixelArt
 - il perk "Save the Nerd" sono in 3 e gli ho giurato il credito in-game.
 - un qualcuno che canta michael jackson "all I wanna say is that they don't really care about us!""
-- TitleScreen: il cielo è un po' bruttino
- - parti di gioco (direi non obbligatorie) sbloccabili solo su certi dispositivi
-	tipo SuperGB o Color o DMG.
+
 - Legna + metallo + powder = Frecce Esplosive!
-- creative commons per depositare musica
-- sulle mappe ow c'è da mettere la sprite owsign sopra 
-	ogni cartello leggibile
 - mettere nel libretto mappa mondo con gli hidden items! descritti sulla
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne

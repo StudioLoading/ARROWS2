@@ -190,8 +190,10 @@ void manage_heal_or_death() BANKED{
             else{ whostalking = HOSPITAL_CURE_FROM_DEATH; }
             motherpl_hp = 5;
         }else if(motherpl_hp > 0){ whostalking = HOSPITAL_CANT_CURE;
-        }else{whostalking = HOSPITAL_GAMEOVER;}    
-        
+        }else{
+            motherpl_hp = 5;//sennò al giro dopo si impappina
+            whostalking = HOSPITAL_GAMEOVER;
+        }
     }
 }
 

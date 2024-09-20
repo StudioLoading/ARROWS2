@@ -57,6 +57,7 @@ Sprite* s_motherow = 0;
 TIP_TO_BE_LOCALIZED tip_to_show = TIP_NOTHING;
 UINT8 delay_spawning = 8u;
 UINT8 anim_counter = 0u;
+HOOD_TYPE hood_type = NORTH_SOUTH;  
 
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
@@ -403,6 +404,7 @@ void UPDATE(){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
 								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+									hood_type = NORTH_SOUTH;
 									ChangeState(StateHood, s_motherow, -1);
 								}else{
 									s_motherow->y = lim_up_y + 6u;
@@ -411,7 +413,8 @@ void UPDATE(){
 							}
 							if(s_motherow->x > lim_east_x){
 								if(defeat_scorpions.phase > 0){
-									ChangeState(StateOverworld, s_motherow, 3);
+									hood_type = EAST_WEST;
+									ChangeState(StateHood, s_motherow, -1);
 								}else{
 									s_motherow->x = lim_east_x - 6u;
 									alt = 1;
@@ -420,6 +423,7 @@ void UPDATE(){
 						break;
 						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
+									hood_type = NORTH_SOUTH;
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;
@@ -444,7 +448,8 @@ void UPDATE(){
 						break;
 						case MAP_SOUTHEAST:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
-								ChangeState(StateOverworld, s_motherow, 0);
+								hood_type = EAST_WEST;
+								ChangeState(StateHood, s_motherow, -1);
 							}
 					}
 				break;
@@ -453,6 +458,7 @@ void UPDATE(){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
 								if(help_cemetery_woman.mission_state >= MISSION_STATE_STARTED){
+									hood_type = NORTH_SOUTH;
 									ChangeState(StateHood, s_motherow, -1);
 								}else{
 									s_motherow->y = lim_up_y + 6u;
@@ -460,11 +466,13 @@ void UPDATE(){
 								}
 							}
 							if(s_motherow->x > lim_east_x){
-								ChangeState(StateOverworld, s_motherow, 3);
+								hood_type = EAST_WEST;
+								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
 						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
+								hood_type = NORTH_SOUTH;
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;
@@ -483,7 +491,8 @@ void UPDATE(){
 						break;
 						case MAP_SOUTHEAST:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
-								ChangeState(StateOverworld, s_motherow, 0);
+								hood_type = EAST_WEST;
+								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
 					}
@@ -492,14 +501,17 @@ void UPDATE(){
 					switch(current_map){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
+								hood_type = NORTH_SOUTH;
 								ChangeState(StateHood, s_motherow, -1);
 							}
 							if(s_motherow->x > lim_east_x){
-								ChangeState(StateOverworld, s_motherow, 3);
+								hood_type = EAST_WEST;
+								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
 						case MAP_NORTHWEST:						
 							if(s_motherow->y > lim_down_y){//go south to StateHood
+								hood_type = NORTH_SOUTH;
 								ChangeState(StateHood, s_motherow, -1);
 							}else if(s_motherow->x > lim_east_x){
 								s_motherow->x = lim_east_x - 6u;
@@ -518,7 +530,8 @@ void UPDATE(){
 						break;
 						case MAP_SOUTHEAST:
 							if(s_motherow->x < lim_west_x){//go back to StateOverworld NW
-								ChangeState(StateOverworld, s_motherow, 0);
+								hood_type = EAST_WEST;
+								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
 					}

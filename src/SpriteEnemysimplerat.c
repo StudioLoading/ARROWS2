@@ -13,7 +13,7 @@ const UINT8 rat_anim_idle[] = {1, 1}; //The first number indicates the number of
 const UINT8 rat_anim_walk[] = {3, 2, 1, 3}; //The first number indicates the number of frames
 const UINT8 rat_anim_hit[] = {2, 1, 0}; //The first number indicates the number of frames
 
-void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
+void EsimpleRatAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
 extern void Estart(Sprite* s_enemy) BANKED;
 extern void Edestroy(Sprite* s_enemy) BANKED;
@@ -53,14 +53,14 @@ void UPDATE(){
         }
 }
 
-void EsimpleRatAnim(ENEMY_STATE estate) BANKED{
+void EsimpleRatAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT_1:
-        case ENEMY_HIT_2: SetSpriteAnim(THIS, rat_anim_hit, 24u); break;
-        case ENEMY_WALK: SetSpriteAnim(THIS, rat_anim_walk, 12u); break;
-        case ENEMY_WAIT: SetSpriteAnim(THIS, rat_anim_idle, 16u); break;
-        case ENEMY_IDLE: SetSpriteAnim(THIS, rat_anim_idle, 12u); break;
-        case ENEMY_DEAD: SetSpriteAnim(THIS, rat_anim_hit, 24u); break;
+        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, rat_anim_hit, 24u); break;
+        case ENEMY_WALK: SetSpriteAnim(s_enemy, rat_anim_walk, 12u); break;
+        case ENEMY_WAIT: SetSpriteAnim(s_enemy, rat_anim_idle, 16u); break;
+        case ENEMY_IDLE: SetSpriteAnim(s_enemy, rat_anim_idle, 12u); break;
+        case ENEMY_DEAD: SetSpriteAnim(s_enemy, rat_anim_hit, 24u); break;
     }
 }
 

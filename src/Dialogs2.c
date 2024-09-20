@@ -47,6 +47,7 @@ extern struct MISSION outwalker_chief;
 extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
+extern struct MISSION visit_blackie;
 extern struct MISSION hungry_people;
 extern struct MISSION golden_armor;
 extern struct MISSION fix_bridge;
@@ -223,7 +224,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 				memcpy(d6, "HERE, I FOUND ONE OF", 22);
 				memcpy(d7, "THEM, I THINK IT CAN", 22);
 				memcpy(d8, "BE HELPFUL!         ", 22);
-				*n_lines = 8u;				
+				*n_lines = 8u;
 				struct ItemSpawned herb_data={.itemtype = INVITEM_HERB, .quantity = 1, .equippable = 0u};
 				pickup(&herb_data);
 				find_antidote.phase = 4;
@@ -469,6 +470,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d15, "A LETHAL POISON IN   ", 22);
 			memcpy(d16, "THEIR STINGS. HERE   ", 22);
 			memcpy(d17, EMPTY_STRING_21, 22);
+			struct ItemSpawned herb_data={.itemtype = INVITEM_HERB, .quantity = 1, .equippable = 0u};
+			pickup(&herb_data);
 		break;
 		case IBEX_GIVE_HERBS:
 			*n_lines = 14u;
@@ -510,6 +513,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "US THE BIGGEST QUAN \0", 22);
 			memcpy(d8, "TITY OF POISON YOU  \0", 22);
 			memcpy(d9, "CAN GET.            \0", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			find_antidote.mission_state = MISSION_STATE_STARTED;
 			find_antidote.current_step = 0;
 			find_antidote.phase = 1;
@@ -528,6 +532,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "THE OUTWALKER: SHE  \0", 22);
 			memcpy(d10, "KNOWS WHAT AND WHERE\0", 22);
 			memcpy(d11, "TO COLLECT THEM.    \0", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case HOSPITAL_GO_FOR_HERBS:
 			*n_lines = 7u;
@@ -554,8 +559,10 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, EMPTY_STRING_21, 22);
 			memcpy(d10, "SHE NEEDS YOU NOW  \0", 22);
 			memcpy(d11, "GO VISIT HER.      \0", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
 			find_antidote.phase = 5;
+			visit_blackie.mission_state = MISSION_STATE_STARTED;
 		break;
 		case CARPENTER_DISABLED:
 			*n_lines = 7u;
@@ -718,6 +725,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "REVENGED WITH THE  ", 22);
 			memcpy(d18, "STRENGTH OF MY     ", 22);
 			memcpy(d19, "ARROWS.            ", 22);
+			visit_blackie.mission_state = MISSION_STATE_REWARDED;
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case IMHUNGRY:
 			*n_lines = 5u;
@@ -762,6 +771,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, EMPTY_STRING_21, 22);
 			memcpy(d18, "WHAT ABOUT THAT?    ", 22);
 			memcpy(d19, "LET US GO TOGETHER! ", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			hungry_people.mission_state = MISSION_STATE_STARTED;
 		break;
 		case FISHERMAN_FPSGATOR_COMPLETED:
@@ -776,6 +786,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, EMPTY_STRING_21, 22);
 			memcpy(d8, "LET'S GO BACK TO THE", 22);
 			memcpy(d9, "BEACH.              ", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
 		break;
 		case ITEMDETAIL_MAP:
@@ -800,6 +811,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "DRAGON BREATHS. THE ", 22);
 			memcpy(d18, "SMITH SHOULD BE ABLE", 22);
 			memcpy(d19, "FORGE IT. LOVE, LIAM", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 			golden_armor.phase = 0;
 			golden_armor.mission_state = MISSION_STATE_STARTED;
 		break;

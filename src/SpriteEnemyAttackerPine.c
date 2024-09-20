@@ -13,7 +13,7 @@ const UINT8 pine_anim_walk[] = {4, 1, 2, 3, 2}; //The first number indicates the
 const UINT8 pine_anim_hit[] = {2, 1, 0}; //The first number indicates the number of frames
 const UINT8 pine_anim_attack[] = {2, 4, 5}; //The first number indicates the number of frames
 
-void EattackerPineAnim(ENEMY_STATE estate) BANKED;
+void EattackerPineAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
 extern void Estart(Sprite* s_enemy) BANKED;
 extern void Edestroy(Sprite* s_enemy) BANKED;
@@ -41,17 +41,16 @@ void UPDATE(){
         Emanagement(THIS);
 }
 
-void EattackerPineAnim(ENEMY_STATE estate) BANKED{
-    struct EnemyData* eu_info = (struct EnemyData*) THIS->custom_data;
+void EattackerPineAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT_1:
-        case ENEMY_HIT_2: SetSpriteAnim(THIS, pine_anim_hit, 24u); break;
-        case ENEMY_WALK: SetSpriteAnim(THIS, pine_anim_walk, 12u); break;
-        case ENEMY_WAIT: SetSpriteAnim(THIS, pine_anim_idle, 16u); break;
-        case ENEMY_IDLE: SetSpriteAnim(THIS, pine_anim_idle, 12u); break;
-        case ENEMY_DEAD: SetSpriteAnim(THIS, pine_anim_hit, 32u); break;
-        case ENEMY_PREATTACK: SetSpriteAnim(THIS, pine_anim_idle, 24u); break;
-        case ENEMY_ATTACK: SetSpriteAnim(THIS, pine_anim_attack, 16u); break;
+        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, pine_anim_hit, 24u); break;
+        case ENEMY_WALK: SetSpriteAnim(s_enemy, pine_anim_walk, 12u); break;
+        case ENEMY_WAIT: SetSpriteAnim(s_enemy, pine_anim_idle, 16u); break;
+        case ENEMY_IDLE: SetSpriteAnim(s_enemy, pine_anim_idle, 12u); break;
+        case ENEMY_DEAD: SetSpriteAnim(s_enemy, pine_anim_hit, 32u); break;
+        case ENEMY_PREATTACK: SetSpriteAnim(s_enemy, pine_anim_idle, 24u); break;
+        case ENEMY_ATTACK: SetSpriteAnim(s_enemy, pine_anim_attack, 16u); break;
     }
 }
 

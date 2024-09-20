@@ -108,6 +108,11 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ANTIDOTE_D5:memcpy(d, "TO THE HOSPITAL!   ", 20);break;
 		case ANTIDOTE_D6:memcpy(d, "GO TALK TO JESSICA ", 20);break;
 		case ANTIDOTE_D7:memcpy(d, "BRING HERBS TO HOSP", 20);break;
+		case VISIT_BLACKIE_TITLE:memcpy(d, "VISIT BLACKIE ", 16);break;
+		case VISIT_BLACKIE_D0:memcpy(d, "GO TO BLACKIE CAVE ", 20);break;
+		case VISIT_BLACKIE_D1:memcpy(d, "NOW!!              ", 20);break;
+		case VISIT_BLACKIE_D2:memcpy(d, "BLACKIE'S CHILD IS ", 20);break;
+		case VISIT_BLACKIE_D3:memcpy(d, "DEAD, POOR WOLF... ", 20);break;
 		case HUNGRY_TITLE:memcpy(d, "HUNGRY PEOPLE  ", 16);break;
 		case HUNGRY_D0:memcpy(d, "KILL ALL THE ALLIGA", 20);break;
 		case HUNGRY_D1:memcpy(d, "TORS FROM THE BOAT ", 20);break;

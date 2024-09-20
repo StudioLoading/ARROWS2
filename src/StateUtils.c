@@ -66,6 +66,7 @@ extern uint8_t sgb_running;
 extern UINT8 child_hooked;
 extern UINT8 activate_seagulls;
 extern struct PushASignData d_push_sign;
+extern HOOD_TYPE hood_type;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -471,6 +472,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(current_map == MAP_SOUTHWEST && next_map == MAP_SOUTHEAST){
                                 motherow_pos_x = (UINT16) 10u << 3;
                                 motherow_pos_y = (UINT16) 23u << 3;
+                            }else if(current_map == MAP_SOUTHEAST && next_map == MAP_SOUTHWEST){
+                                motherow_pos_x = (UINT16) 44u << 3;
+                                motherow_pos_y = (UINT16) 22u << 3;
                             }else if(current_map == MAP_NORTHWEST && next_map == MAP_MAZE){
                                 motherow_pos_x = (UINT16) 2u << 3;
                                 motherow_pos_y = 20u;
@@ -486,10 +490,6 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             }else if(next_map == MAP_EAST){
                                 motherow_pos_x = (UINT16) 26u << 3;
                                 motherow_pos_y = ((UINT16) 37u << 3) + 3;
-                            }
-                            if(previous_state == StateHood){
-                                motherow_pos_x = (UINT16) 19u << 3;
-                                motherow_pos_y = (UINT16) 10u << 3;
                             }
                         break;
                         case StateBatcave:
@@ -531,12 +531,24 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             if(new_state == StateOverworld){
                                 switch(next_map){
                                     case MAP_SOUTHWEST:
-                                        motherow_pos_x = (UINT16) 19u << 3;
-                                        motherow_pos_y = (UINT16) 10u << 3;
+                                        switch(hood_type){
+                                            case NORTH_SOUTH:
+                                            motherow_pos_x = (UINT16) 19u << 3;
+                                            motherow_pos_y = (UINT16) 10u << 3;
+                                            break;
+                                            case EAST_WEST:
+                                            motherow_pos_x = (UINT16) 44u << 3;
+                                            motherow_pos_y = (UINT16) 23u << 3;
+                                            break;
+                                        }
                                     break;
                                     case MAP_NORTHWEST:
                                         motherow_pos_x = (UINT16) 14u << 3;
                                         motherow_pos_y = (UINT16) 46u << 3;
+                                    break;
+                                    case MAP_SOUTHEAST:
+                                        motherow_pos_x = (UINT16) 10u << 3;
+                                        motherow_pos_y = (UINT16) 22u << 3;
                                     break;
                                 }
                             }
@@ -798,7 +810,14 @@ void update_camera_position() BANKED{
                         }else{//exiting hoods to the north
                             motherow_pos_x = 0u;
                             motherow_pos_y = 0u;
-                            ChangeState(StateOverworld, s_motherpl, 1);
+                            switch(hood_type){
+                                case NORTH_SOUTH:
+                                    ChangeState(StateOverworld, s_motherpl, 1);
+                                break;
+                                case EAST_WEST:
+                                    ChangeState(StateOverworld, s_motherpl, 3);
+                                break;
+                            }
                         }
                     break;
                     case StateMountain:

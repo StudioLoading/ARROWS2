@@ -31,14 +31,15 @@ const UINT8 is_hidden[] = {1, 3};
 UINT8 powder_cooldown = 60;
 extern UINT8 itemspawned_powder_max;
 extern UINT8 itemspawned_powder_counter;
+extern Sprite* s_motherpl;
 
 void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 
 
 void START(){
-    THIS->lim_x = 255u;
-    THIS->lim_y = 255u;
+    THIS->lim_x = 1000u;
+    THIS->lim_y = 1000u;
     struct ItemSpawned* spawned_data = (struct ItemSpawned*) THIS->custom_data;
     spawned_data->configured = 0u;
 }
@@ -88,6 +89,9 @@ void UPDATE(){
                     if(spawned_data->itemtype == INVITEM_MONEY 
                         || spawned_data->itemtype == INVITEM_HEART){
                         spawned_data->vx = 1;
+                        if(THIS->x > s_motherpl->x){
+                            spawned_data->vx = -1;
+                        }
                     }
                     spawned_data->frmskip = ITEMSPAWNED_FRAMESKIP_MAX;
                 }

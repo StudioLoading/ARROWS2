@@ -55,6 +55,8 @@ struct MISSION defeat_scorpions = {.mission_title = DEFEAT_SCORPIONS,
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION find_antidote = {.mission_title = FIND_ANTIDOTE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
+struct MISSION visit_blackie = {.mission_title = VISIT_BLACKIE, 
+.mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION hungry_people = {.mission_title = HUNGRY_PROPLE, 
 .mission_state = MISSION_STATE_DISABLED, .current_step = 0, .reward_quantity = 1u, .phase = 0u};
 struct MISSION fix_bridge = {.mission_title = FIX_BRIDGE, 
@@ -112,6 +114,7 @@ void missions_init() BANKED{
 	get_to_the_mountain.mission_state = MISSION_STATE_DISABLED;
 	defeat_scorpions.mission_state = MISSION_STATE_DISABLED;
 	find_antidote.mission_state = MISSION_STATE_DISABLED;
+	visit_blackie.mission_state = MISSION_STATE_DISABLED;
 	fix_bridge.mission_state = MISSION_STATE_DISABLED;
 	golden_armor.mission_state = MISSION_STATE_DISABLED;
 	mr_smee.mission_state = MISSION_STATE_DISABLED;
@@ -183,25 +186,11 @@ void missions_init() BANKED{
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
 			find_antidote.phase = 4;//0
 			find_antidote.current_step = 1u;//0
-			hungry_people.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_ENABLED
+			visit_blackie.mission_state = MISSION_STATE_REWARDED;
+			hungry_people.mission_state = MISSION_STATE_ENABLED;
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
-			fix_bridge.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
-			fix_bridge.phase = 0;
-			fix_bridge.current_step = 0;
-			golden_armor.mission_state = MISSION_STATE_DISABLED;//MISSION_STATE_DISABLED
-			golden_armor.phase = 0;
-			golden_armor.current_step = 0; 
-			//TEST START 
-			/*hungry_people.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_ENABLED
-			hungry_people.phase = 0;
-			hungry_people.current_step = 0;
-			fix_bridge.mission_state = MISSION_STATE_REWARDED;//MISSION_STATE_DISABLED
-			fix_bridge.phase = 0;
-			fix_bridge.current_step = 0;
-			golden_armor.mission_state = MISSION_STATE_ENABLED;//MISSION_STATE_DISABLED
-			golden_armor.phase = 0;
-			golden_armor.current_step = 0;*/
+			//TEST START
 			//TEST END
 		break;
 		case CHAPTER_4_SHIP:
@@ -227,6 +216,7 @@ void missions_init() BANKED{
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
 			find_antidote.phase = 4;//0
 			find_antidote.current_step = 1u;//0
+			visit_blackie.mission_state = MISSION_STATE_REWARDED;
 			hungry_people.mission_state = MISSION_STATE_REWARDED;
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
@@ -250,7 +240,7 @@ void missions_init() BANKED{
 	missions[7] = &get_to_the_mountain;
 	missions[8] = &defeat_scorpions;
 	missions[9] = &find_antidote;
-	missions[10] = 0;
+	missions[10] = &visit_blackie;
 	missions[11] = 0;
 	missions[12] = &hungry_people;
 	missions[13] = &fix_bridge;
@@ -303,10 +293,10 @@ void inventory_init() BANKED{
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
 			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
-			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 0; unequip00.equippable = 0u;//2
-			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 0; unequip01.equippable = 0u;//3
-			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 0; unequip02.equippable = 0u;
-			unequip03.itemtype = INVITEM_HERB; unequip03.quantity = 0; unequip03.equippable = 0u;//UNASSIGNED
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 6; unequip00.equippable = 2;
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 6; unequip01.equippable = 3;
+			unequip02.itemtype = INVITEM_POWDER; unequip02.quantity = 1; unequip02.equippable = 1u;
+			unequip03.itemtype = INVITEM_HERB; unequip03.quantity = 1; unequip03.equippable = 1u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;
 			unequip05.itemtype = INVITEM_UNASSIGNED; unequip05.quantity = 0; unequip05.equippable = 0u;
 		break;

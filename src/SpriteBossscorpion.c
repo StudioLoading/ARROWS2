@@ -151,9 +151,8 @@ void scorpio_behave() BANKED{
                     return;
                 }
                 scorpio_update_wait();
-                if(s_motherpl->x < scorpio_body->x){scorpiobody_data->vx = -2;}
-                else{scorpiobody_data->vx = 2;}
-                scorpio_change_state(ENEMY_JUMP);
+                scorpio_change_state(ENEMY_ATTACK);
+                //scorpio_change_state(ENEMY_JUMP);
             }
         break;
         case ENEMY_ATTACK:
@@ -222,9 +221,9 @@ void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED{
 
 void scorpio_update_wait() BANKED{
     switch(scorpio_hp){
-        case 6:scorpiobody_data->wait = WALK_TIMEOUT_HPMAX;scorpiobody_data->vx = 1;scorpiobody_data->x_frameskip = 3;break;
-        case 5:case 4:case 3:scorpiobody_data->wait = WALK_TIMEOUT_HPMED;scorpiobody_data->vx = 1;scorpiobody_data->x_frameskip = 1;break;
-        case 2:case 1:scorpiobody_data->wait = WALK_TIMEOUT_HPMIN;scorpiobody_data->vx = 3;scorpiobody_data->x_frameskip = 1;break;
+        case 6:scorpiobody_data->wait = WALK_TIMEOUT_HPMAX;scorpiobody_data->vx = 2;scorpiobody_data->x_frameskip = 3;break;
+        case 5:case 4:case 3:scorpiobody_data->wait = WALK_TIMEOUT_HPMED;scorpiobody_data->vx = 2;scorpiobody_data->x_frameskip = 1;break;
+        case 2:case 1:scorpiobody_data->wait = WALK_TIMEOUT_HPMIN;scorpiobody_data->vx = 4;scorpiobody_data->x_frameskip = 1;break;
     }
     if((scorpio_body->mirror == V_MIRROR && scorpiobody_data->vx < 0) 
         || (scorpio_body->mirror == NO_MIRROR && scorpiobody_data->vx > 0)){

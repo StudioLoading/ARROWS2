@@ -159,8 +159,7 @@ void initial_sprite_spawning() BANKED{
 				break;
 				case MAP_NORTHWEST://northwest
 					Sprite* s_crabow = 0;
-					if(outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED
-						&& outwalker_glass.current_step < 3){
+					if(outwalker_glass.mission_state >= MISSION_STATE_STARTED &&  outwalker_glass.mission_state <= MISSION_STATE_ACCOMPLISHED && outwalker_glass.current_step < 3){
 						s_crabow = SpriteManagerAdd(SpriteOwcrab, (UINT16) 11u << 3, (UINT16) 11u << 3);	
 					}
 					if(outwalker_glass.mission_state == MISSION_STATE_ACCOMPLISHED 
@@ -215,14 +214,14 @@ void initial_sprite_spawning() BANKED{
 						}
 						spawn_herb = find_antidote.current_step & 0b01000000;
 						if(spawn_herb == 0){
-							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)24u << 3, (UINT16)46u << 3);
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)23u << 3, (UINT16)45u << 3);
 							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
 							herb1_data->itemtype = INVITEM_HERB;
 							herb1_data->hp = 0b01000000;
 						}
 						spawn_herb = find_antidote.current_step & 0b10000000;
 						if(spawn_herb == 0){
-							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)34u << 3, (UINT16)40u << 3);
+							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)40u << 3, (UINT16)33u << 3);
 							struct ItemSpawned* herb1_data = (struct ItemSpawned*) s_herb1->custom_data;
 							herb1_data->itemtype = INVITEM_HERB;
 							herb1_data->hp = 0b10000000;
@@ -310,7 +309,7 @@ void initial_sprite_spawning() BANKED{
 						}
 						spawn_herb = find_antidote.current_step & 0b00000100;
 						if(spawn_herb == 0){
-							Sprite* s_herb2 = SpriteManagerAdd(SpriteHerb, (UINT16)16u << 3, (UINT16)45u << 3);
+							Sprite* s_herb2 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)41u << 3);
 							struct ItemSpawned* herb2_data = (struct ItemSpawned*) s_herb2->custom_data;
 							herb2_data->itemtype = INVITEM_HERB;
 							herb2_data->hp = 0b00000100;
@@ -324,7 +323,7 @@ void initial_sprite_spawning() BANKED{
 						}
 						spawn_herb = find_antidote.current_step & 0b00010000;
 						if(spawn_herb == 0){
-							Sprite* s_herb4 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)45u << 3);
+							Sprite* s_herb4 = SpriteManagerAdd(SpriteHerb, (UINT16)27u << 3, (UINT16)29u << 3);
 							struct ItemSpawned* herb4_data = (struct ItemSpawned*) s_herb4->custom_data;
 							herb4_data->itemtype = INVITEM_HERB;
 							herb4_data->hp = 0b00010000;
@@ -402,9 +401,9 @@ void initial_ow_npc() BANKED{
 		break;
 		case MAP_SOUTHEAST:
 			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 23u << 3), ((UINT16) 21 << 3), 40u, 16u, 0, 1);
-			spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 17u << 3), ((UINT16) 20u << 3), 100u, 20u, 0,0);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 25u << 3), ((UINT16) 33u << 3)+1, 80u, 30u, -1,0);
 			if(_cpu == CGB_TYPE){
+				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 17u << 3), ((UINT16) 20u << 3), 100u, 20u, 0,0);
 				spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL,((UINT16) 15u << 3), ((UINT16) 23 << 3), 80u, 16u, 1, 0);
 				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 30u << 3), ((UINT16) 14u << 3), 100u, 20u, 0,0);
 				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 27u << 3), ((UINT16) 19 << 3), 80u, 16u, 0, 1);
@@ -438,7 +437,7 @@ void initial_ow_items() BANKED{
 			//spiaggia, in basso a sinistra
 			spawn_hidden_item(INVITEM_ARROW_PERFO, 10 * multiply, 4u, 14u, 0b00000001);
 			//spiaggia, dietro prima casa
-			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 59u, 7u, 0b00000010);
+			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 61u, 7u, 0b00000010);
 			//per terra, prima del hood a sinistra
 			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b00000100);
 		break;

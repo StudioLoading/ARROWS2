@@ -181,6 +181,7 @@ typedef enum{
 	GET_TO_THE_MOUNTAIN,
 	DEFEAT_SCORPIONS,
 	FIND_ANTIDOTE,
+	VISIT_BLACKIE,
 	HUNGRY_PROPLE,
 	FIX_BRIDGE,
 	GOLDEN_ARMOR,
@@ -558,6 +559,11 @@ struct OwPeopleData{
 	ENEMY_STATE ow_state;
 	UINT8 x_frameskip;
 };
+
+typedef enum{
+	NORTH_SOUTH,
+	EAST_WEST
+}HOOD_TYPE;
 
 #endif
 

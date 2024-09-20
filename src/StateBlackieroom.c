@@ -33,7 +33,6 @@ extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
-extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
 extern UINT8 previous_state;

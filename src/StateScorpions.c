@@ -26,7 +26,6 @@ extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
-extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
 extern UINT8 previous_state;
@@ -51,6 +50,7 @@ const UINT8 coll_surface_beach[] = { 62u, 0};
 
 UINT8 scorpion_mission_goal = 0b00000000;
 struct EnemyData* s_scorpion_data = 0;
+UINT8 enemy_beated = 0u;
 
 void enemy_death() BANKED;
 
@@ -92,7 +92,8 @@ void START(){
     //GET MAP DIMENSIONS
         GetMapSize(BANK(countrymap), &countrymap, &mapwidth, &mapheight);
     timeout_enemy = 200u;
-    mother_exit_cooldown = 60u;
+    mother_exit_cooldown = 40u;
+    enemy_beated = 0u;
 	SHOW_SPRITES;
 }
 
@@ -113,21 +114,23 @@ void UPDATE(){
                 s_motherpl->x = ((UINT16)19u << 3);
             }
             mother_exit_cooldown--;
-            if(mother_exit_cooldown == 0u ){
+            if(mother_exit_cooldown == 0u || enemy_beated == 1u){
                 mother_exit_cooldown = 60u;
                 previous_state = StateScorpions;
                 ChangeState(StateOverworld, s_motherpl, -1);
                 //go back
             }
-        }else if(mother_exit_cooldown != 60u){
-            mother_exit_cooldown = 60u;
+        }else if(mother_exit_cooldown != 40u){
+            mother_exit_cooldown = 40u;
         }
     Log(NONAME);
 }
 
 void enemy_death() BANKED{
-    SpriteManagerAdd(SpriteGocursor, 1u << 3, 6u << 3);
-    Sprite* s_gocursor_right = SpriteManagerAdd(SpriteGocursor, 19u << 3, 6u << 3);
+    enemy_beated = 1u;
+    Sprite* s_gocursor_left = SpriteManagerAdd(SpriteGocursor, 4u, 6u << 3);
+    s_gocursor_left->mirror = NO_MIRROR;
+    Sprite* s_gocursor_right = SpriteManagerAdd(SpriteGocursor, (18u << 3) + 4u, 6u << 3);
     s_gocursor_right->mirror = V_MIRROR;
     defeat_scorpions.current_step = defeat_scorpions.current_step | scorpion_mission_goal;
     if(defeat_scorpions.current_step == 0b11111111 && defeat_scorpions.phase == 0u){

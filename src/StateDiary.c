@@ -49,6 +49,7 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
+extern struct MISSION visit_blackie;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
 extern struct MISSION golden_armor;
@@ -355,6 +356,16 @@ void show_detail(){
                         }
                     }
                 break;
+                case 2u:                    
+                    if(visit_blackie.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(VISIT_BLACKIE_D0, dd2);
+                        GetLocalizedDDLabel_EN(VISIT_BLACKIE_D1, dd3);
+                        if(visit_blackie.mission_state == MISSION_STATE_REWARDED){
+                            GetLocalizedDDLabel_EN(VISIT_BLACKIE_D2, dd4);
+                            GetLocalizedDDLabel_EN(VISIT_BLACKIE_D3, dd5);
+                        }
+                    }
+                break;
             }
         break;
         case 3u:
@@ -485,6 +496,9 @@ void show_missions(){
             }
             if(find_antidote.mission_state >= MISSION_STATE_ENABLED){
                 GetLocalizedDDLabel_EN(FIND_ANTIDOTE_TITLE, m1);
+            }
+            if(visit_blackie.mission_state >= MISSION_STATE_ENABLED){
+                GetLocalizedDDLabel_EN(VISIT_BLACKIE_TITLE, m1);
             }
         break;
         case CHAPTER_3_ARMOUR:

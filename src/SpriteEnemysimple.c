@@ -18,8 +18,6 @@
 #define E_FRAMSKIP_PINE 3
 #define E_FRAMSKIP_COBRA 1
 #define E_FRAMSKIP_SPIDER 0
-#define MAX_ENEMY 3
-
 
 const UINT8 e_anim_hidden[] = {1, 0};
 
@@ -44,18 +42,19 @@ void EspawnItem(Sprite* s_enemy) BANKED;
 UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 void EUpdateAnimation(Sprite* s_enemy,  ENEMY_STATE new_e_state) BANKED;
 
-extern void EsimpleSnakeAnim(ENEMY_STATE estate) BANKED;
-extern void EsimpleRatAnim(ENEMY_STATE estate) BANKED;
-extern void EattackerPineAnim(ENEMY_STATE estate) BANKED;
-extern void EattackerCobraAnim(ENEMY_STATE estate) BANKED;
-extern void EthrowerSpiderAnim(ENEMY_STATE estate) BANKED;
-extern void EthrowerTarantulaAnim(ENEMY_STATE estate) BANKED;
-extern void EthrowerScorpionAnim(ENEMY_STATE estate) BANKED;
+extern void EsimpleSnakeAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EsimpleRatAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EattackerPineAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EattackerCobraAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EthrowerSpiderAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EthrowerTarantulaAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
+extern void EthrowerScorpionAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 extern void EthrowWeb(ENEMY_STATE estate) BANKED;
 extern void EthrowAcid(ENEMY_STATE estate) BANKED;
 extern void EthrowProjectile(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+extern void enemy_death() BANKED;
 
 void START(){
     Estart(THIS);
@@ -152,6 +151,10 @@ void Emanagement(Sprite* s_enemy) BANKED{
                                 case SpriteEnemysimplerat:
                                     changeEstate(s_enemy, ENEMY_HIT_1);
                                     return;
+                                break;
+                                case SpriteEnemyThrowerScorpion:
+                                    motherpl_hitted(s_enemy);
+                                    changeEstate(s_enemy, ENEMY_WAIT);
                                 break;
                             }
                         } else if(eu_info->hp > 0 && eu_info->e_state != ENEMY_UPSIDEDOWN 
@@ -490,13 +493,13 @@ void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED{
 
 void EUpdateAnimation(Sprite* s_enemy,  ENEMY_STATE new_e_state) BANKED{
     switch(s_enemy->type){
-        case SpriteEnemysimplesnake: EsimpleSnakeAnim(new_e_state);  break;
-        case SpriteEnemysimplerat: EsimpleRatAnim(new_e_state);  break;
-        case SpriteEnemyAttackerCobra: EattackerCobraAnim(new_e_state); break;
-        case SpriteEnemyAttackerPine: EattackerPineAnim(new_e_state); break;
-        case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(new_e_state); break;
-        case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(new_e_state); break;
-        case SpriteEnemyThrowerScorpion: EthrowerScorpionAnim(new_e_state); break;
+        case SpriteEnemysimplesnake: EsimpleSnakeAnim(s_enemy, new_e_state);  break;
+        case SpriteEnemysimplerat: EsimpleRatAnim(s_enemy, new_e_state);  break;
+        case SpriteEnemyAttackerCobra: EattackerCobraAnim(s_enemy, new_e_state); break;
+        case SpriteEnemyAttackerPine: EattackerPineAnim(s_enemy, new_e_state); break;
+        case SpriteEnemyThrowerSpider: EthrowerSpiderAnim(s_enemy, new_e_state); break;
+        case SpriteEnemyThrowerTarantula: EthrowerTarantulaAnim(s_enemy, new_e_state); break;
+        case SpriteEnemyThrowerScorpion: EthrowerScorpionAnim(s_enemy, new_e_state); break;
     }
 }
 
@@ -514,6 +517,7 @@ void EspawnItem(Sprite* s_enemy) BANKED{
             itemtype = INVITEM_HEART;        
         }
     }else if(current_state == StateScorpions){
+        enemy_death();
         itemtype = INVITEM_HEART;
     }else{
         if(enemy_random_30_100 < 35){

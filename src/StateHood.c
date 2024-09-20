@@ -23,7 +23,6 @@ extern INT8 motherpl_hp;
 extern INT8 hud_motherpl_hp;
 extern Sprite* s_motherpl;
 extern UINT8 init_enemy;
-extern UINT8 MAX_ENEMY;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
 extern UINT8 previous_state;
@@ -41,6 +40,7 @@ extern UINT8 enemy_wave;
 extern UINT8 child_hooked;
 extern MOTHERPL_STATE motherpl_state;
 extern CHAPTERS chapter;
+extern HOOD_TYPE hood_type;
 
 const UINT8 coll_tiles_hood[] = {1u, 10u, 14u, 17u, 18u, 19u, 92u, 94u, 105u, 0};
 const UINT8 coll_surface_hood[] = {83u, 0};
@@ -71,6 +71,7 @@ void START(){
                     s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
                 }
             break;
+            case MAP_SOUTHEAST://comes from south-east
             case MAP_NORTHWEST://comes from north-west
                 if(chapter == CHAPTER_4_SHIP){
                     s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 91u << 3, (UINT16) 9u << 3);
@@ -186,7 +187,8 @@ void UPDATE(){
                                     trigger_dialog(CHILD, s_motherpl);
                                 }
                             }
-                        break; 
+                        break;
+                        /*
                         case 4u:
                             if(enemy_counter < 2){
                                 timeout_enemy--;
@@ -197,7 +199,9 @@ void UPDATE(){
                                     timeout_enemy = 600u;
                                     SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 100u), (UINT16) 7u << 3);
                                 }
-                            }                   
+                            }          
+                        break;
+                        */         
                     }            
                 }
             }else{//help_cemetery_woman rewarded already
@@ -217,7 +221,14 @@ void spawn_enemy_hood() BANKED{
             if(s_motherpl->mirror == V_MIRROR){
                 e_x = s_motherpl->x - 80u;
             }
-            SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+            switch(hood_type){
+                case NORTH_SOUTH:
+                    SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+                break;
+                case EAST_WEST:
+                    SpriteManagerAdd(SpriteEnemyThrowerSpider, e_x, (UINT16) 6u << 3);
+                break;
+            }
         }
         if(timeout_enemy == 300u || timeout_enemy == 450u){
             enemy_wave--;
@@ -225,7 +236,14 @@ void spawn_enemy_hood() BANKED{
             if(s_motherpl->mirror == V_MIRROR){
                 e_x = s_motherpl->x - 32u;
             }
-            SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
+            switch(hood_type){
+                case NORTH_SOUTH:
+                    SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
+                break;
+                case EAST_WEST:
+                    SpriteManagerAdd(SpriteEnemyAttackerCobra, e_x, (UINT16) 7u << 3);
+                break;
+            }
         }
         if(timeout_enemy == 400u){
             enemy_wave--;
@@ -233,7 +251,14 @@ void spawn_enemy_hood() BANKED{
             if(s_motherpl->mirror == V_MIRROR){
                 e_x = s_motherpl->x - 100u;
             }
-            SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+            switch(hood_type){
+                case NORTH_SOUTH:
+                    SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+                break;
+                case EAST_WEST:
+                    SpriteManagerAdd(SpriteEnemyThrowerSpider, e_x, (UINT16) 6u << 3);
+                break;
+            }
             timeout_enemy = 500;
         }
     }
