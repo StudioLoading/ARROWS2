@@ -99,7 +99,7 @@ extern void check_sgb_palette(UINT8 new_state) BANKED;
 void START() {
     HIDE_WIN;
     switch(whostalking){
-        case INTRO: case ITEMDETAIL_MAP:
+        case INTRO: case ITEMDETAIL_LIAM_HANDWRITTEN:
         InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
         case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
         case BLACKIE:

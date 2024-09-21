@@ -1,12 +1,11 @@
 POST DEMO:
-- slidare sugli scorpioni deve fare danno!
-- bossscorpion dovrebbe sparare subito dopo aver preso hit!
+- faccio blinkare i motherow quando la vita è ==1?
 - darkest forest
 	- piove?
 	- nemici rane e tarantole sputa veleno
 	- boss? appunti dice airone, ma ho già fatto il volatile bossbat...
 - immagine dialogs dei pirati e capitano (molo con nave)
- - boss con 1hp blinka
+- boss con 1hp blinka
 
 - un negozio diverso per ogni consumabile!
 	- smith fa frecce normali
@@ -65,6 +64,7 @@ New-QRCodeURI -URI 'https://www.instagram.com/studioloading/' -Width 16 -OutPath
 New-QRCodeURI -URI 'https://www.kickstarter.com/profile/studioloading/created' -Width 16 -OutPath 'C:\Users\checc\GB\ARROWS2\QR-kickstarter.png'
 New-QRCodeURI -URI 'https://studioloading.itch.io/' -Width 16 -OutPath 'C:\Users\checc\GB\ARROWS2\QR-itchio.png'
 New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
+New-QRCodeURI -URI 'https://discord.gg/RYPAPk4GpB' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-REGGIO-URL-QR.PNG'
 New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-URL-QR.PNG'
 New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'
 New-QRCodeURI -URI 'https://bolognanerd.it/corsi/' -Width 16 -OutPath 'C:\Users\checc\BN\QR-CORSI.PNG'

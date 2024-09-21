@@ -118,6 +118,7 @@ void play_music_reward() BANKED;
 void restartFromHospital() BANKED;
 void manage_border(UINT8 my_next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
+void ReloadEnemiesPL() BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
@@ -548,7 +549,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                                     break;
                                     case MAP_SOUTHEAST:
                                         motherow_pos_x = (UINT16) 10u << 3;
-                                        motherow_pos_y = (UINT16) 22u << 3;
+                                        motherow_pos_y = (UINT16) 23u << 3;
                                     break;
                                 }
                             }
@@ -932,7 +933,7 @@ void ReloadEnemiesPL() BANKED{
     enemy_counter = 0u;
     UINT8 i = 0u;
     if(previous_state == StateInventory || previous_state == StateDialog){
-        for(i = 0u; i < 3u; ++i){
+        for(i = 0u; i < 3u && e_to_reload->e_data_hp > 0; ++i){
             Sprite* s_enemy = SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
             struct EnemyData* s_enemy_data = (struct EnemyData*) s_enemy->custom_data;
             s_enemy_data->hp = e_to_reload[i].e_data_hp;
@@ -944,7 +945,12 @@ void ReloadEnemiesPL() BANKED{
             s_enemy_data->e_state = e_to_reload[i].e_data_e_state;
             s_enemy_data->x_frameskip = e_to_reload[i].e_data_x_frameskip;
             s_enemy->mirror = e_to_reload[i].mirror;
-            enemy_counter++;
+            INT16 delta_x = s_enemy->x - s_motherpl->x;
+            if(delta_x > 80 || delta_x < -80){
+                SpriteManagerRemoveSprite(s_enemy);
+            }else{
+                enemy_counter++;
+            }
             e_to_reload[i].type = 0;
             e_to_reload[i].x = 0;
             e_to_reload[i].y = 0;

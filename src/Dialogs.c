@@ -281,7 +281,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d1, "I SEE... YES, I AM ", 22);
 			memcpy(d2, "ABLE TO FORGE A    ", 22);
 			memcpy(d3, "GOLDEN ARMOR FOR   ", 22);
-			memcpy(d4, "YOU. I NEED 200 PIE", 22);
+			memcpy(d4, "YOU. I NEED 100 PIE", 22);
 			memcpy(d5, "CES OF GOLD AND A  ", 22);
 			memcpy(d6, "BIG ONE OF SILVER. ", 22);
 			if(fix_bridge.mission_state == MISSION_STATE_ENABLED){
@@ -582,7 +582,7 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		case INVITEM_WOOD:
 			memcpy(log0, "       WOOD!        ", 20);
 		break;
-		case INVITEM_MAP:
+		case INVITEM_LIAM_HANDWRITTEN:
 			memcpy(log0, "    LIAM MESSAGE!   ", 20);
 		break;
 		case INVITEM_SILVERSKULL:

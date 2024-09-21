@@ -47,9 +47,9 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, " CURRENT CHAPTER.   ", 22);
 		break;
 		case TIP_SMITH_NO:
-			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d1, " THE SMITH IS YET TO ", 22);
 			memcpy(d2, " COME.               ", 22);
+			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_HOSPITAL_NO:
@@ -89,9 +89,9 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_LABIRYNTH:
-			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d1, "      NORTHERN      ", 22);
 			memcpy(d2, "        MAZE        ", 22);
+			memcpy(d3, EMPTY_STRING_21, 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_GROTTO:
@@ -101,21 +101,21 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_FISHERMAN:
-			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d1, " THE FISHERMAN      ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
+			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_SILVER_MINE:
-			memcpy(d3, EMPTY_STRING_21 , 22);
-			memcpy(d1, " SILVER MINE        ", 22);
-			memcpy(d2, "BEWARE THE MINOTAUR ", 22);
+			memcpy(d1, "    SILVER MINE:    ", 22);
+			memcpy(d2, "      BEWARE        ", 22);
+			memcpy(d3, "   THE MINOTAUR     " , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_CHITCHAT_HUNGRY:
-			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d1, " OH PLEASE BRING US ", 22);
 			memcpy(d2, " SOME FOOD!         ", 22);
+			memcpy(d3, EMPTY_STRING_21 , 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 		break;
 		case TIP_CHITCHAT_SMITH:
@@ -272,7 +272,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 		break;
 		case TIP_CHITCHAT_HIDDEN_32://nei massi a nord
 			memcpy(d1, " SOMEONE SAW THE    ", 22);
-			memcpy(d2, " SMITH THROWING     ", 22);
+			memcpy(d2, " CARPENTER THROWING ", 22);
 			memcpy(d3, " AWAY SOME WOOD BY  ", 22);
 			memcpy(d4, " THE BEACH.         ", 22);
 	    break;
@@ -286,7 +286,7 @@ void GetLocalizedTip_EN(TIP_TO_BE_LOCALIZED tip) BANKED{
 			memcpy(d1, " WE ARE ALL GOOD. Y ", 22);
 			memcpy(d2, " OU HELPED US A LOT ", 22);
 			memcpy(d3, " HERE. NOW IT IS TI ", 22);
-			memcpy(d4, " ME FOR YOU TO GO!  ", 22);
+			memcpy(d4, " ME FOR YOU TO SAIL!", 22);
 		break;
         case TIP_CHITCHAT_LEGOTWIN:
 			memcpy(d1, " LEGO HAS A TWIN!   ", 22);

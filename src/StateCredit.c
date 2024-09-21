@@ -93,7 +93,7 @@ struct InvItem unequip05 = {.itemtype = INVITEM_UNASSIGNED, .quantity = 0, .equi
 struct InvItem inventory[12];
 struct InvItem itemEquipped = {.itemtype = INVITEM_MONEY, .quantity = 10, .equippable = 1u};
 
-UINT8 hidden_items_flags = 0;
+UINT16 hidden_items_flags = 0;
 
 void missions_init() BANKED;
 void inventory_init() BANKED;

@@ -187,7 +187,7 @@ void START(){
 			case MAP_SOUTHEAST://SOUTH EAST
 				lim_up_y = ((UINT16) 4u << 3);
 				lim_down_y = ((UINT16) 50u << 3);
-				lim_west_x = ((UINT16) 3u << 3);
+				lim_west_x = ((UINT16) 7u << 3);
 			break;
 			case MAP_EAST://EAST
 				lim_up_y = ((UINT16) 6u << 3);
@@ -453,7 +453,7 @@ void UPDATE(){
 							}
 					}
 				break;
-				case CHAPTER_3_ARMOUR:				
+				case CHAPTER_3_ARMOUR:
 					switch(current_map){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood
@@ -497,7 +497,7 @@ void UPDATE(){
 						break;
 					}
 				break;
-				case CHAPTER_4_SHIP:				
+				case CHAPTER_4_SHIP:
 					switch(current_map){
 						case MAP_SOUTHWEST:
 							if(s_motherow->y < lim_up_y){//go north to StateHood

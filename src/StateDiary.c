@@ -498,7 +498,7 @@ void show_missions(){
                 GetLocalizedDDLabel_EN(FIND_ANTIDOTE_TITLE, m1);
             }
             if(visit_blackie.mission_state >= MISSION_STATE_ENABLED){
-                GetLocalizedDDLabel_EN(VISIT_BLACKIE_TITLE, m1);
+                GetLocalizedDDLabel_EN(VISIT_BLACKIE_TITLE, m2);
             }
         break;
         case CHAPTER_3_ARMOUR:

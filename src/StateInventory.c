@@ -146,7 +146,7 @@ void START(){
                 break;
                 case INVITEM_LETTER:
                 case INVITEM_PASS:
-                case INVITEM_MAP:
+                case INVITEM_LIAM_HANDWRITTEN:
                     UPDATE_HUD_TILE(uneq_x,1,24);
                     UPDATE_HUD_TILE(uneq_x,2,25);
                     uneq_x += 1;
@@ -316,8 +316,8 @@ void UPDATE(){
             invselectitem(6);
         }
     }else if(KEY_TICKED(J_FIRE)){
-        if(inventory[invcursor_posi].itemtype == INVITEM_MAP){
-            whostalking = ITEMDETAIL_MAP;
+        if(inventory[invcursor_posi].itemtype == INVITEM_LIAM_HANDWRITTEN){
+            whostalking = ITEMDETAIL_LIAM_HANDWRITTEN;
             manage_bgm(StateDialog, StateInventory, current_map);
             SetState(StateDialog);
         }
@@ -509,7 +509,7 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(HERBS_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(HERBS_DETAIL4, ddinv5);
             break;
-            case INVITEM_MAP:
+            case INVITEM_LIAM_HANDWRITTEN:
                 GetLocalizedINVLabel_EN(MAP_NAME, ddinv1);
                 GetLocalizedINVLabel_EN(MAP_DETAIL1, ddinv2);
                 GetLocalizedINVLabel_EN(MAP_DETAIL2, ddinv3);

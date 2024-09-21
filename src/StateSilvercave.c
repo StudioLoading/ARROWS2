@@ -39,7 +39,7 @@ extern MirroMode motherpl_mirror;
 extern UINT8 item_spawned_cooldown;
 
 const UINT8 coll_tiles_silvercave[] = {2u, 6u, 10u, 21u, 22u,
-27u, 35u, 0};
+27u, 35u, 93u, 0};
 const UINT8 coll_surface_silvercave[] = {14u, 17u, 18u, 19u, 29u, 57u, 68u, 81u,
 82u, 85u, 86u, 89u, 0};
 

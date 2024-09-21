@@ -46,6 +46,7 @@ void UPDATE() {
             if(gull_data->hp <= 0 && gull_data->e_state != ENEMY_DEAD){
                 gull_data->e_state = ENEMY_DEAD;
                 EspawnItem();
+                gull_data->configured = 3;
                 return;
             }
             //EspriteCollision(eu_info); 

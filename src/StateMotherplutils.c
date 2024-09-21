@@ -510,6 +510,20 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
                 break;
             }
         break;
+        case StateSilvercave:
+            case 93u: //GRADINI IN SALITA A SINISTRA
+                if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_LEFT)){
+                    s_mother->y -= 8;
+                    TranslateSprite(s_mother, -3, 0);
+                }
+            break;
+            case 2u: //GRADINI IN SALITA A DESTRA
+                if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_RIGHT)){
+                    s_mother->y -= 8;
+                    TranslateSprite(s_mother, 3, 0);
+                }
+            break;
+        break;
     }
 }
 

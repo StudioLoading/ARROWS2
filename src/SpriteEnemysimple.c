@@ -32,7 +32,7 @@ extern UINT8 mapwidth;
 
 void Estart(Sprite* s_enemy) BANKED;
 void configure(Sprite* s_enemy) BANKED;
-void ETurn(Sprite* s_enemy, UINT8 e_vx);
+void ETurn(Sprite* s_enemy, INT8 e_vx) BANKED;
 void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 UINT8 getEmaxFrameskip(Sprite* s_enemy) BANKED;
 void Econfiguration(Sprite* s_enemy) BANKED;
@@ -314,7 +314,7 @@ UINT8 getEmaxFrameskip(Sprite* s_enemy) BANKED{
     return result;
 }
 
-void ETurn(Sprite* s_enemy, UINT8 e_vx){
+void ETurn(Sprite* s_enemy, INT8 e_vx) BANKED{
     struct EnemyData* e_info = (struct EnemyData*) s_enemy->custom_data;
     if(e_info->vx > 0){
         s_enemy->mirror = V_MIRROR;

@@ -15,7 +15,7 @@ void START() {
     THIS->lim_y = 6000u;
 	SetSpriteAnim(THIS, a_bottle, 24u);
     struct ItemSpawned* map_data = (struct ItemSpawned*) THIS->custom_data;
-    map_data->itemtype = INVITEM_MAP;
+    map_data->itemtype = INVITEM_LIAM_HANDWRITTEN;
     map_data->quantity = 1;
     map_data->equippable = 0;
     if(_cpu != CGB_TYPE){

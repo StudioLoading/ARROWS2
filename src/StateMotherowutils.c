@@ -40,7 +40,7 @@ extern INT8 show_tip_movingscroll_x;
 extern INT8 show_tip_movingscroll_y;
 extern UINT8 scorpion_mission_goal;
 extern SHOP current_shop;
-extern UINT8 hidden_items_flags;
+extern UINT16 hidden_items_flags;
 extern CHAPTERS chapter;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -61,6 +61,7 @@ extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ShowTipOW() BANKED;
+extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 
 extern void motherownormal_setanim_walkh() BANKED;
 extern void motherownormal_setanim_walkup() BANKED;
@@ -185,13 +186,12 @@ UINT8 ow_manage_chitchat(Sprite* s_motherow_arg) BANKED{
             break;
         }
         ow_chitchat_counter++;
-        if(ow_chitchat_counter >= 7){
+        if(ow_chitchat_counter >= 7u){
             ow_chitchat_counter = 0u;
         }
     }
     return trigger_tip;              
 }
-
 
 void motherow_interact_with_map(Sprite* s_motherow_arg) BANKED{
     if(motherow_info->tile_collision && motherow_info->tile_collision != d_push_sign.collided_tile){
@@ -220,7 +220,7 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                 break;
                 case SpriteBottle:
                     {
-                    struct ItemSpawned pass_data={.itemtype = INVITEM_MAP, .quantity = 1, .equippable = 0u};
+                    struct ItemSpawned pass_data={.itemtype = INVITEM_LIAM_HANDWRITTEN, .quantity = 1, .equippable = 0u};
                     pickup(&pass_data);
                     hungry_people.mission_state = MISSION_STATE_REWARDED;
                     SpriteManagerRemoveSprite(imowspr);

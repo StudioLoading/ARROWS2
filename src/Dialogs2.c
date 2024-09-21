@@ -610,6 +610,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "OF IT. BUT BE CAREFUL", 22);
 			memcpy(d8, "I'VE HEARD THERE'S A ", 22);
 			memcpy(d9, "MINOTAUR THERE...!   ", 22);
+            fix_bridge.mission_state = MISSION_STATE_REWARDED;
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case SMITH_GIVING_ARROWS:
 			*n_lines = 8u;
@@ -789,7 +791,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
 		break;
-		case ITEMDETAIL_MAP:
+		case ITEMDETAIL_LIAM_HANDWRITTEN:
 			*n_lines = 19u;
 			memcpy(d0, "LIAM HANDWRITTEN    ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);

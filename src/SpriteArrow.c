@@ -37,6 +37,7 @@ extern void crab_change_state(ENEMY_STATE crab_new_state) BANKED;
 extern void scorpio_change_state(ENEMY_STATE scorpio_new_state) BANKED;
 extern void mino_change_state(ENEMY_STATE minotaur_new_state) BANKED;
 extern void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
+extern void ETurn(Sprite* s_enemy, INT8 e_vx) BANKED;
 
 
 void START(){
@@ -161,6 +162,14 @@ void UPDATE(){
                     case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula:
                     case SpriteEnemyThrowerScorpion:
+                        {
+                            struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
+                            if(iarrspr->mirror == NO_MIRROR && arrow_data->vx > 0){
+                                ETurn(iarrspr, e_data->vx);
+                            }else if(iarrspr->mirror == V_MIRROR && arrow_data->vx < 0){
+                                ETurn(iarrspr, e_data->vx);
+                            }
+                        }
                     case SpriteBosscrab:
                     case SpriteBossminotaurskull:
                     //io freccia ho colpito enemy

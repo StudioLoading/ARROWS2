@@ -27,7 +27,6 @@ extern void configure(Sprite* s_enemy) BANKED;
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void Econfiguration(Sprite* s_enemy) BANKED;
 extern void Emanagement(Sprite* s_enemy) BANKED;
-extern void ETurn(Sprite* s_enemy, UINT8 e_vx);
 
 void START(){
     Estart(THIS);

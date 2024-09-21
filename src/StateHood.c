@@ -15,6 +15,7 @@
 IMPORT_TILES(font);
 IMPORT_TILES(hoodswnwtiles);
 IMPORT_MAP(hoodswnwmap);
+IMPORT_MAP(hoodswsemap);
 IMPORT_MAP(hudpl);
 
 extern UINT8 scroll_top_movement_limit;
@@ -93,8 +94,15 @@ void START(){
             }
         }
     //INIT CHAR & MAP
-        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y); 
-        InitScroll(BANK(hoodswnwmap), &hoodswnwmap, coll_tiles_hood, coll_surface_hood);    
+        scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y);
+        switch(hood_type){
+            case NORTH_SOUTH:
+                InitScroll(BANK(hoodswnwmap), &hoodswnwmap, coll_tiles_hood, coll_surface_hood);
+            break;
+            case EAST_WEST:
+                InitScroll(BANK(hoodswsemap), &hoodswsemap, coll_tiles_hood, coll_surface_hood);
+            break;
+        }
     //HUD
         INIT_FONT(font, PRINT_BKG);
         INIT_HUD(hudpl);
@@ -104,7 +112,14 @@ void START(){
         enemy_counter = 0u;
         ReloadEnemiesPL();
     //GET MAP DIMENSIONS
-        GetMapSize(BANK(hoodswnwmap), &hoodswnwmap, &mapwidth, &mapheight);
+        switch(hood_type){
+            case NORTH_SOUTH:
+                GetMapSize(BANK(hoodswnwmap), &hoodswnwmap, &mapwidth, &mapheight);
+            break;
+            case EAST_WEST:
+                GetMapSize(BANK(hoodswsemap), &hoodswsemap, &mapwidth, &mapheight);
+            break;
+        }
 	SHOW_SPRITES;
     timeout_enemy = 400u;
     generic_counter = 60u;

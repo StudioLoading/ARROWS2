@@ -31,7 +31,7 @@ extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
-extern UINT8 hidden_items_flags;
+extern UINT16 hidden_items_flags;
 extern struct EnemyData* blackieow_data;
 
 UINT8 ow_is_beach = 0u;
@@ -40,7 +40,7 @@ void maze_teleport() BANKED;
 void initial_sprite_spawning() BANKED;
 void initial_ow_npc() BANKED;
 void initial_ow_items() BANKED;
-void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED;
+void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT16 flags) BANKED;
 void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, UINT8 max_wait, UINT8 wait, INT8 init_vx, INT8 init_vy) BANKED;
 
 void START(){}
@@ -170,12 +170,6 @@ void initial_sprite_spawning() BANKED{
 						crabow_data->vx = 1;
 						crabow_data->configured = 2;
 					}
-				break;
-				case MAP_MAZE://maze
-					//configuring teleporting
-					spawn_hidden_item(INVITEM_ARROW_NORMAL, 20, 21u, 30u, 0b00000010);
-					//spawn_hidden_item(INVITEM_MONEY, 10, 33u, 2u);
-					spawn_hidden_item(INVITEM_ARROW_PERFO, 30, 47u, 6u,0b00000100);
 				break;
 			}
 		break;
@@ -349,11 +343,13 @@ void initial_sprite_spawning() BANKED{
 						gator1_data->vy = 1;
 						gator1_data->clockwise = 1;
 						gator1_data->distance = 80u;
-						Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3) + 4u);
-						struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
-						gator2_data->vy = -1;
-						gator2_data->clockwise = 0;
-						gator2_data->distance = 10u;
+    					if(_cpu == CGB_TYPE){
+							Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3), ((UINT16) 33u << 3) + 4u);
+							struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
+							gator2_data->vy = -1;
+							gator2_data->clockwise = 0;
+							gator2_data->distance = 10u;
+						}
 						Sprite* gator3 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 39u << 3)+3, ((UINT16) 38u << 3)  -1u);
 						struct PlatformInfo* gator3_data = (struct PlatformInfo*)gator3->custom_data;
 						gator3_data->vy = -1;
@@ -364,11 +360,13 @@ void initial_sprite_spawning() BANKED{
 						gator4_data->vy = -1;
 						gator4_data->clockwise = 0;
 						gator4_data->distance = 32u;
-						Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 38u << 3));
-						struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
-						gator5_data->vy = 1;
-						gator5_data->clockwise = 1;
-						gator5_data->distance = 54u;
+    					if(_cpu == CGB_TYPE){
+							Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 38u << 3));
+							struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
+							gator5_data->vy = 1;
+							gator5_data->clockwise = 1;
+							gator5_data->distance = 54u;
+						}
 					}else if(hungry_people.mission_state == MISSION_STATE_ACCOMPLISHED){
 						SpriteManagerAdd(SpriteBottle, ((UINT16) 29u << 3), ((UINT16) 9u << 3));
 					}
@@ -427,21 +425,21 @@ void initial_ow_items() BANKED{
 	switch(current_map){
 		case MAP_SOUTHWEST:
 			//di fronte al cimitero
-			spawn_hidden_item(INVITEM_ARROW_PERFO, 5 * multiply, 38u, 29u, 0b00000001);
+			spawn_hidden_item(INVITEM_ARROW_PERFO, 5 * multiply, 38u, 29u, 0b0000000000000001);
 			//a destra dell'ospedale
-			spawn_hidden_item(INVITEM_ARROW_NORMAL, 10 * multiply, 40u, 13u,0b00000010);
+			spawn_hidden_item(INVITEM_ARROW_NORMAL, 10 * multiply, 40u, 13u,0b0000000000000010);
 			//a sud
-			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 24u, 45u, 0b00000100);
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 24u, 45u, 0b0000000000000100);
 		break;
 		case MAP_NORTHWEST:
 			//spiaggia, in basso a sinistra
-			spawn_hidden_item(INVITEM_ARROW_PERFO, 10 * multiply, 4u, 14u, 0b00000001);
+			spawn_hidden_item(INVITEM_ARROW_PERFO, 10 * multiply, 4u, 14u, 0b0000000000001000);
 			//spiaggia, dietro prima casa
-			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 61u, 7u, 0b00000010);
+			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 61u, 7u, 0b0000000000010000);
 			//per terra, prima del hood a sinistra
-			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b00000100);
+			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b0000000000100000);
 		break;
-		/*
+		/* non ce la sto facendo perché per DMG è toomuch
 		case MAP_MAZE:
 			//appena entri dritto, inevitabile premio
 			spawn_hidden_item(INVITEM_MONEY, 20, 8u, 2u, 0b00000001);
@@ -453,24 +451,24 @@ void initial_ow_items() BANKED{
 		*/
 		case MAP_SOUTHEAST:
 			//in basso, fra i due alberi
-			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 23u, 49u, 0b00000001);
+			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 23u, 38u, 0b0000000001000000);
 			//dietro al carpentiere
-			spawn_hidden_item(INVITEM_METAL, 10 * multiply, 20u, 14u, 0b00000010);
+			spawn_hidden_item(INVITEM_METAL, 10 * multiply, 20u, 14u, 0b0000000010000000);
 			//nei massi a nord
-			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 19u, 6u, 0b00000100);
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 19u, 6u, 0b0000000100000000);
 		break;
 		case MAP_EAST:
 			//spiaggia, in basso a destra
-			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 54u, 15u, 0b00000001);
+			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 54u, 15u, 0b0000001000000000);
 			//angolo in basso a destra calpestabile
-			spawn_hidden_item(INVITEM_METAL, 3 * multiply, 53u, 42u, 0b00000010);
+			spawn_hidden_item(INVITEM_METAL, 3 * multiply, 53u, 42u, 0b0000010000000000);
 			//a sud, nel corridoio verso la caverna
-			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 47u, 46u, 0b00000100);
+			spawn_hidden_item(INVITEM_WOOD, 10 * multiply, 47u, 46u, 0b0001000000000000);
 		break;
 	}
 }
 
-void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT8 flags) BANKED{
+void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT16 flags) BANKED{
 	if((hidden_items_flags & flags) != flags){
 		Sprite* hidden_0 = SpriteManagerAdd(SpriteItemspawned, (UINT16) x <<3, (UINT16) y << 3);
 		struct ItemSpawned* hidden_0_data = (struct ItemSpawned*) hidden_0->custom_data;

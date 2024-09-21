@@ -221,10 +221,12 @@ void UPDATE(){
 				if(counter_birdsky >= 1000){
 					spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 5 << 3), ((UINT16) 5 << 3), 1);
 					spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 2 << 3), ((UINT16) 7 << 3), 2);
-					spawn_npa(SpriteBirdsky, scroll_target->x - ((UINT16) 3 << 3), ((UINT16) 4 << 3), 2);
-					spawn_npa(SpriteBirdsky, scroll_target->x - ((UINT16) 10 << 3), ((UINT16) 5 << 3), 1);
-					spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 4 << 3), 1);
-					counter_birdsky = 0u;
+            		if(_cpu == CGB_TYPE){
+						spawn_npa(SpriteBirdsky, scroll_target->x - ((UINT16) 3 << 3), ((UINT16) 4 << 3), 2);
+						spawn_npa(SpriteBirdsky, scroll_target->x - ((UINT16) 10 << 3), ((UINT16) 5 << 3), 1);
+						spawn_npa(SpriteBirdsky, scroll_target->x + ((UINT16) 10 << 3), ((UINT16) 4 << 3), 1);
+						counter_birdsky = 0u;
+					}
 				}
 				counter_fish++;
 				switch(counter_fish){
@@ -232,8 +234,10 @@ void UPDATE(){
 					case 120:
 						spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 15 << 3), ((UINT16) 12 << 3), 2);
 						spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 13 << 3), ((UINT16) 13 << 3) +1, 3);
-						spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 11 << 3)+1, ((UINT16) 14 << 3) -2, 3);
-						spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 12 << 3) + 2, 4);
+						if(_cpu == CGB_TYPE){
+							spawn_npa(SpriteFish, scroll_target->x - ((UINT16) 11 << 3)+1, ((UINT16) 14 << 3) -2, 3);
+							spawn_npa(SpriteFish, scroll_target->x + ((UINT16) 8 << 3), ((UINT16) 12 << 3) + 2, 4);
+						}
 					break;
 				}
 			break;

@@ -119,7 +119,7 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			case INVITEM_HERB:
 				set_inv_bkg_data(49u, 25, BANK(idherbstiles), isEmpty, &idherbstiles);
 			break;
-			case INVITEM_MAP:
+			case INVITEM_LIAM_HANDWRITTEN:
 				set_inv_bkg_data(49u, 25, BANK(idmaptiles), isEmpty, &idmaptiles);
 			break;
 			case INVITEM_SILVERSKULL:

@@ -129,9 +129,9 @@ void UPDATE() {
                                     fix_bridge.mission_state = MISSION_STATE_ENABLED;
                                 }else if(fix_bridge.mission_state == MISSION_STATE_REWARDED
                                     && golden_armor.phase >= 3){
-                                    if(get_quantity(INVITEM_MONEY) >= 200 &&
+                                    if(get_quantity(INVITEM_MONEY) >= 100 &&
                                         get_quantity(INVITEM_SILVERSKULL) > 0){
-                                        change_quantity(INVITEM_MONEY, -200);
+                                        change_quantity(INVITEM_MONEY, -100);
                                         change_quantity(INVITEM_SILVERSKULL, -1);
                                         change_quantity(INVITEM_ARMOR, 1);
                                         whostalking = SMITH_FORGE_ARMOR;
@@ -198,7 +198,6 @@ void UPDATE() {
                                     if(get_quantity(INVITEM_METAL) >= 20 && get_quantity(INVITEM_WOOD) >= 20){
                                         change_quantity(INVITEM_METAL, -20);
                                         change_quantity(INVITEM_WOOD, -20);
-                                        fix_bridge.mission_state = MISSION_STATE_REWARDED;
                                         whostalking = CARPENTER_FIX_BRIDGE;
                                     }
                                 }
