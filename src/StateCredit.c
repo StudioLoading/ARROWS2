@@ -225,8 +225,10 @@ void missions_init() BANKED{
 			fix_bridge.current_step = 0;
 			golden_armor.mission_state = MISSION_STATE_REWARDED;
 			golden_armor.phase = 0;
-			/* START TEST */
-			//mr_smee.mission_state = MISSION_STATE_STARTED;
+			/* START TEST TODO REMOVE*/
+			mr_smee.mission_state = MISSION_STATE_REWARDED;
+			broken_ship.mission_state = MISSION_STATE_REWARDED;
+			pirate_strike.mission_state = MISSION_STATE_STARTED;
 			/* END TEST */
 		break;
 	}

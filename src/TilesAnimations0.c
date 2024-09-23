@@ -28,6 +28,7 @@ IMPORT_TILES(idscorpiontailtiles);
 IMPORT_TILES(idherbstiles);
 IMPORT_TILES(idmaptiles);
 IMPORT_TILES(idsilverskull);
+IMPORT_TILES(idmushroomtiles);
 //IMPORT_TILES(tilesanimscutscene);
 IMPORT_TILES(tilescredit);
 IMPORT_TILES(tacredit0);
@@ -109,6 +110,9 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 			break;
 			case INVITEM_BOX:
 				set_inv_bkg_data(49u, 25, BANK(idboxtiles), isEmpty, &idboxtiles);
+			break;
+			case INVITEM_MUSHROOM:
+				set_inv_bkg_data(49u, 25, BANK(idmushroomtiles), isEmpty, &idmushroomtiles);
 			break;
 			case INVITEM_SILVER:
 				set_inv_bkg_data(49u, 25, BANK(idsteeltiles), isEmpty, &idsteeltiles);

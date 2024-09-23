@@ -447,9 +447,19 @@ void show_detail(){
                         if(broken_ship.mission_state >= MISSION_STATE_ACCOMPLISHED){
                             GetLocalizedDDLabel_EN(BROKENSHIP_D2, dd4);
                             GetLocalizedDDLabel_EN(BROKENSHIP_D3, dd5);
-                            if(broken_ship.mission_state >= MISSION_STATE_REWARDED){
-                                GetLocalizedDDLabel_EN(BROKENSHIP_D4, dd6);
-                                GetLocalizedDDLabel_EN(BROKENSHIP_D5, dd7);
+                        }
+                    }
+                break;
+                case 2u:
+                    if(pirate_strike.mission_state >= MISSION_STATE_ENABLED){
+                            GetLocalizedDDLabel_EN(STRIKE_D0, dd2);
+                            GetLocalizedDDLabel_EN(STRIKE_D1, dd3);
+                        if(pirate_strike.mission_state >= MISSION_STATE_ACCOMPLISHED){
+                            GetLocalizedDDLabel_EN(STRIKE_D2, dd4);
+                            GetLocalizedDDLabel_EN(STRIKE_D3, dd5);
+                            if(pirate_strike.mission_state == MISSION_STATE_REWARDED){
+                                GetLocalizedDDLabel_EN(STRIKE_D4, dd6);
+                                GetLocalizedDDLabel_EN(STRIKE_D5, dd7);
                             }
                         }
                     }

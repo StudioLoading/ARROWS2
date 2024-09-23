@@ -28,13 +28,14 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
-extern struct MISSION fix_bridge;
+extern struct MISSION pirate_strike;
 extern UINT16 motherow_pos_x;
 extern UINT16 motherow_pos_y;
 extern UINT16 hidden_items_flags;
 extern struct EnemyData* blackieow_data;
 
 UINT8 ow_is_beach = 0u;
+UINT8 maze_zone = 0u;
 
 void maze_teleport() BANKED;
 void initial_sprite_spawning() BANKED;
@@ -57,77 +58,147 @@ void spawn_ow_npc(OWPEOPLETYPE type, UINT16 posx, UINT16 posy, UINT8 max_wait, U
     d_ownpc->max_wait = max_wait;
 }
 
-void maze_teleport() BANKED{	
-	Sprite* s_teleport10 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 12u << 3) + 6, ((UINT16) 5u << 3) + 8);
-	Sprite* s_teleport11 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 17u << 3) + 6, ((UINT16) 14u << 3) + 8);
-	struct TeleportInfo* teleport10_data = (struct TeleportInfo*) s_teleport10->custom_data;
-	teleport10_data->dest_x = (UINT16) 19u << 3;
-	teleport10_data->dest_y = (UINT16) 14u << 3;
-	struct TeleportInfo* teleport11_data = (struct TeleportInfo*) s_teleport11->custom_data;
-	teleport11_data->dest_x = (UINT16) 14u << 3;
-	teleport11_data->dest_y = (UINT16) 5u << 3;
-	Sprite* s_teleport20 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 18u << 3) + 8);
-	Sprite* s_teleport21 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 24u << 3) + 8);
-	struct TeleportInfo* teleport20_data = (struct TeleportInfo*) s_teleport20->custom_data;
-	teleport20_data->dest_x = (UINT16) 32u << 3;
-	teleport20_data->dest_y = (UINT16) 24u << 3;
-	struct TeleportInfo* teleport21_data = (struct TeleportInfo*) s_teleport21->custom_data;
-	teleport21_data->dest_x = (UINT16) 4u << 3;
-	teleport21_data->dest_y = (UINT16) 18u << 3;
-
-	Sprite* s_teleport30 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 41u << 3) + 6, ((UINT16) 24u << 3) + 8);
-	Sprite* s_teleport31 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 9u << 3) + 8);
-	struct TeleportInfo* teleport30_data = (struct TeleportInfo*) s_teleport30->custom_data;
-	teleport30_data->dest_x = (UINT16) 42u << 3;
-	teleport30_data->dest_y = (UINT16) 9u << 3;
-	struct TeleportInfo* teleport31_data = (struct TeleportInfo*) s_teleport31->custom_data;
-	teleport31_data->dest_x = (UINT16) 40u << 3;
-	teleport31_data->dest_y = (UINT16) 24u << 3;
-
-	Sprite* s_teleport40 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 64u << 3) + 6, ((UINT16) 6u << 3) + 8);
-	Sprite* s_teleport41 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 34u << 3) + 8);
-	struct TeleportInfo* teleport40_data = (struct TeleportInfo*) s_teleport40->custom_data;
-	teleport40_data->dest_x = (UINT16) 42u << 3;
-	teleport40_data->dest_y = (UINT16) 34u << 3;
-	struct TeleportInfo* teleport41_data = (struct TeleportInfo*) s_teleport41->custom_data;
-	teleport41_data->dest_x = (UINT16) 63u << 3;
-	teleport41_data->dest_y = (UINT16) 6u << 3;
-
-	Sprite* s_teleport50 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 34u << 3) + 8);
-	Sprite* s_teleport51 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 68u << 3) + 6, ((UINT16) 23u << 3) + 8);
-	struct TeleportInfo* teleport50_data = (struct TeleportInfo*) s_teleport50->custom_data;
-	teleport50_data->dest_x = (UINT16) 68u << 3;
-	teleport50_data->dest_y = (UINT16) 25u << 3;
-	struct TeleportInfo* teleport51_data = (struct TeleportInfo*) s_teleport51->custom_data;
-	teleport51_data->dest_x = (UINT16) 31u << 3;
-	teleport51_data->dest_y = (UINT16) 34u << 3;
-
-	Sprite* s_teleport60 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 5u << 3) + 8);
-	Sprite* s_teleport61 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 26u << 3) + 8);
-	struct TeleportInfo* teleport60_data = (struct TeleportInfo*) s_teleport60->custom_data;
-	teleport60_data->dest_x = (UINT16) 4u << 3;
-	teleport60_data->dest_y = (UINT16) 26u << 3;
-	struct TeleportInfo* teleport61_data = (struct TeleportInfo*) s_teleport61->custom_data;
-	teleport61_data->dest_x = (UINT16) 18u << 3;
-	teleport61_data->dest_y = (UINT16) 5u << 3;
-
-	Sprite* s_teleport70 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 3u << 3) + 6, ((UINT16) 31u << 3) + 8);
-	Sprite* s_teleport71 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 14u << 3) + 6, ((UINT16) 30u << 3) + 8);
-	struct TeleportInfo* teleport70_data = (struct TeleportInfo*) s_teleport70->custom_data;
-	teleport70_data->dest_x = (UINT16) 16u << 3;
-	teleport70_data->dest_y = (UINT16) 30u << 3;
-	struct TeleportInfo* teleport71_data = (struct TeleportInfo*) s_teleport71->custom_data;
-	teleport71_data->dest_x = (UINT16) 2u << 3;
-	teleport71_data->dest_y = (UINT16) 31u << 3;
-
-	Sprite* s_teleport80 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 3u << 3) + 8);
-	Sprite* s_teleport81 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 47u << 3) + 6, ((UINT16) 24u << 3) + 8);
-	struct TeleportInfo* teleport80_data = (struct TeleportInfo*) s_teleport80->custom_data;
-	teleport80_data->dest_x = (UINT16) 49u << 3;
-	teleport80_data->dest_y = (UINT16) 24u << 3;
-	struct TeleportInfo* teleport81_data = (struct TeleportInfo*) s_teleport81->custom_data;
-	teleport81_data->dest_x = (UINT16) 18u << 3;
-	teleport81_data->dest_y = (UINT16) 3u << 3;
+void maze_teleport() BANKED{
+	switch(maze_zone){
+		case 0u:
+			Sprite* s_teleport10 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 12u << 3) + 6, ((UINT16) 5u << 3) + 8);
+			struct TeleportInfo* teleport10_data = (struct TeleportInfo*) s_teleport10->custom_data;
+			teleport10_data->to_zone = 1u;
+			teleport10_data->dest_x = (UINT16) 19u << 3;
+			teleport10_data->dest_y = (UINT16) 14u << 3;
+			Sprite* s_teleport60 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 5u << 3) + 8);
+			struct TeleportInfo* teleport60_data = (struct TeleportInfo*) s_teleport60->custom_data;
+			teleport60_data->to_zone = 2;
+			teleport60_data->dest_x = (UINT16) 4u << 3;
+			teleport60_data->dest_y = (UINT16) 26u << 3;
+			Sprite* s_teleport80 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 19u << 3) + 6, ((UINT16) 3u << 3) + 8);
+			struct TeleportInfo* teleport80_data = (struct TeleportInfo*) s_teleport80->custom_data;
+			teleport80_data->to_zone = 4;
+			teleport80_data->dest_x = (UINT16) 49u << 3;
+			teleport80_data->dest_y = (UINT16) 24u << 3;
+		break;
+		case 1u:
+			Sprite* s_teleport11 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 17u << 3) + 6, ((UINT16) 14u << 3) + 8);
+			struct TeleportInfo* teleport11_data = (struct TeleportInfo*) s_teleport11->custom_data;
+			teleport11_data->to_zone = 0;
+			teleport11_data->dest_x = (UINT16) 14u << 3;
+			teleport11_data->dest_y = (UINT16) 5u << 3;
+			Sprite* s_teleport20 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 18u << 3) + 8);
+			struct TeleportInfo* teleport20_data = (struct TeleportInfo*) s_teleport20->custom_data;
+			teleport20_data->to_zone = 4;
+			teleport20_data->dest_x = (UINT16) 32u << 3;
+			teleport20_data->dest_y = (UINT16) 24u << 3;
+			if(pirate_strike.mission_state == MISSION_STATE_STARTED){
+				UINT8 spawn_mushroom = pirate_strike.current_step & 0b00000001;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom0 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 2u << 3), ((UINT16) 12u << 3));
+					struct ItemSpawned* mushroom0_data = (struct ItemSpawned*) mushroom0->custom_data;
+					mushroom0_data->hp = 0b00000001;
+				}
+			}
+		break;
+		case 2u:
+			Sprite* s_teleport61 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 2u << 3) + 6, ((UINT16) 26u << 3) + 8);
+			struct TeleportInfo* teleport61_data = (struct TeleportInfo*) s_teleport61->custom_data;
+			teleport61_data->to_zone = 0;
+			teleport61_data->dest_x = (UINT16) 18u << 3;
+			teleport61_data->dest_y = (UINT16) 5u << 3;
+			Sprite* s_teleport70 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 3u << 3) + 6, ((UINT16) 31u << 3) + 8);
+			struct TeleportInfo* teleport70_data = (struct TeleportInfo*) s_teleport70->custom_data;
+			teleport70_data->to_zone = 2;
+			teleport70_data->dest_x = (UINT16) 16u << 3;
+			teleport70_data->dest_y = (UINT16) 30u << 3;
+			Sprite* s_teleport71 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 14u << 3) + 6, ((UINT16) 30u << 3) + 8);
+			struct TeleportInfo* teleport71_data = (struct TeleportInfo*) s_teleport71->custom_data;
+			teleport71_data->to_zone = 2;
+			teleport71_data->dest_x = (UINT16) 2u << 3;
+			teleport71_data->dest_y = (UINT16) 31u << 3;
+		break;
+		case 3u:
+			Sprite* s_teleport31 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 9u << 3) + 8);
+			struct TeleportInfo* teleport31_data = (struct TeleportInfo*) s_teleport31->custom_data;
+			teleport31_data->to_zone = 4;
+			teleport31_data->dest_x = (UINT16) 40u << 3;
+			teleport31_data->dest_y = (UINT16) 24u << 3;
+			Sprite* s_teleport40 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 64u << 3) + 6, ((UINT16) 6u << 3) + 8);
+			struct TeleportInfo* teleport40_data = (struct TeleportInfo*) s_teleport40->custom_data;
+			teleport40_data->to_zone = 5;
+			teleport40_data->dest_x = (UINT16) 42u << 3;
+			teleport40_data->dest_y = (UINT16) 34u << 3;
+			if(pirate_strike.mission_state == MISSION_STATE_STARTED){
+				UINT8 spawn_mushroom = pirate_strike.current_step & 0b00000010;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom1 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 33u << 3), ((UINT16) 2u << 3));
+					struct ItemSpawned* mushroom1_data = (struct ItemSpawned*) mushroom1->custom_data;
+					mushroom1_data->hp = 0b00000010;
+				}
+				spawn_mushroom = pirate_strike.current_step & 0b00000100;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom2 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 52u << 3), ((UINT16) 2u << 3));
+					struct ItemSpawned* mushroom2_data = (struct ItemSpawned*) mushroom2->custom_data;
+					mushroom2_data->hp = 0b00000100;
+				}
+			}
+		break;
+		case 4u:
+			Sprite* s_teleport21 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 24u << 3) + 8);
+			struct TeleportInfo* teleport21_data = (struct TeleportInfo*) s_teleport21->custom_data;
+			teleport21_data->to_zone = 1;
+			teleport21_data->dest_x = (UINT16) 4u << 3;
+			teleport21_data->dest_y = (UINT16) 18u << 3;
+			Sprite* s_teleport30 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 41u << 3) + 6, ((UINT16) 24u << 3) + 8);
+			struct TeleportInfo* teleport30_data = (struct TeleportInfo*) s_teleport30->custom_data;
+			teleport30_data->to_zone = 3;
+			teleport30_data->dest_x = (UINT16) 42u << 3;
+			teleport30_data->dest_y = (UINT16) 9u << 3;
+			Sprite* s_teleport81 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 47u << 3) + 6, ((UINT16) 24u << 3) + 8);
+			struct TeleportInfo* teleport81_data = (struct TeleportInfo*) s_teleport81->custom_data;
+			teleport81_data->to_zone = 0;
+			teleport81_data->dest_x = (UINT16) 18u << 3;
+			teleport81_data->dest_y = (UINT16) 3u << 3;
+			if(pirate_strike.mission_state == MISSION_STATE_STARTED){
+				UINT8 spawn_mushroom = pirate_strike.current_step & 0b00001000;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom3 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 63u << 3), ((UINT16) 18u << 3));
+					struct ItemSpawned* mushroom3_data = (struct ItemSpawned*) mushroom3->custom_data;
+					mushroom3_data->hp = 0b00001000;
+				}
+				spawn_mushroom = pirate_strike.current_step & 0b00010000;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom4 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 62u << 3), ((UINT16) 17u << 3));
+					struct ItemSpawned* mushroom4_data = (struct ItemSpawned*) mushroom4->custom_data;
+					mushroom4_data->hp = 0b00010000;
+				}
+			}
+		break;
+		case 5u:
+			Sprite* s_teleport41 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 40u << 3) + 6, ((UINT16) 34u << 3) + 8);
+			struct TeleportInfo* teleport41_data = (struct TeleportInfo*) s_teleport41->custom_data;
+			teleport41_data->to_zone = 3;
+			teleport41_data->dest_x = (UINT16) 63u << 3;
+			teleport41_data->dest_y = (UINT16) 6u << 3;
+			Sprite* s_teleport50 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 29u << 3) + 6, ((UINT16) 34u << 3) + 8);
+			struct TeleportInfo* teleport50_data = (struct TeleportInfo*) s_teleport50->custom_data;
+			teleport50_data->to_zone = 6;
+			teleport50_data->dest_x = (UINT16) 68u << 3;
+			teleport50_data->dest_y = (UINT16) 25u << 3;
+		break;
+		case 6u:
+			Sprite* s_teleport51 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 68u << 3) + 6, ((UINT16) 23u << 3) + 8);
+			struct TeleportInfo* teleport51_data = (struct TeleportInfo*) s_teleport51->custom_data;
+			teleport51_data->to_zone = 5;
+			teleport51_data->dest_x = (UINT16) 31u << 3;
+			teleport51_data->dest_y = (UINT16) 34u << 3;
+			if(pirate_strike.mission_state == MISSION_STATE_STARTED){
+				UINT8 spawn_mushroom = pirate_strike.current_step & 0b00100000;
+				if(spawn_mushroom == 0){
+					Sprite* mushroom5 = SpriteManagerAdd(SpriteMushroom, ((UINT16) 59u << 3), ((UINT16) 24u << 3));
+					struct ItemSpawned* mushroom5_data = (struct ItemSpawned*) mushroom5->custom_data;
+					mushroom5_data->hp = 0b00100000;
+				}
+			}
+		break;
+	}
 }
 
 void initial_sprite_spawning() BANKED{
@@ -198,7 +269,7 @@ void initial_sprite_spawning() BANKED{
 							s_scor2_data->configured = 0b00000100;						
 						}
 					}				
-					if(find_antidote.phase == 4){					
+					if(find_antidote.phase == 4){
 						UINT8 spawn_herb = find_antidote.current_step & 0b00100000;
 						if(spawn_herb == 0){
 							Sprite* s_herb1 = SpriteManagerAdd(SpriteHerb, (UINT16)12u << 3, (UINT16)46u << 3);

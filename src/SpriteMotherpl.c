@@ -66,7 +66,7 @@ extern void motherpl_refresh_animation(Sprite* smother) BANKED;
 extern void motherpl_jump(Sprite* s_mother) BANKED;
 extern void motherpl_walk(Sprite* s_mother) BANKED;
 extern void motherpl_fire(Sprite* s_mother) BANKED;
-extern void motherpl_effectivevx(Sprite* s_mother) BANKED;
+extern void motherpl_effectivevx() BANKED;
 extern void motherpl_relativeposition(Sprite* s_mother) BANKED;
 extern void motherpl_actualmovement(Sprite* s_mother) BANKED;
 extern void motherpl_reactiontilecollision(Sprite* s_mother) BANKED;
@@ -146,7 +146,7 @@ void UPDATE(){
             motherpl_inertiax--;
         }
     //EFFECTIVE VX
-        motherpl_effectivevx(THIS);
+        motherpl_effectivevx();
     //RELATIVE POSITION
         motherpl_relativeposition(THIS);
     //ACTUAL MOVEMENT

@@ -130,7 +130,7 @@ void motherpl_shoot(Sprite* s_mother) BANKED;
 void motherpl_getoff() BANKED;
 void motherpl_hitted(Sprite* s_enemy) BANKED;
 void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED;
-void motherpl_effectivevx(Sprite* s_mother) BANKED;
+void motherpl_effectivevx() BANKED;
 void motherpl_behave(Sprite* s_mother) BANKED;
 
 void START(){
@@ -406,7 +406,7 @@ void motherpl_fire(Sprite* s_mother) BANKED{
     }
 }
 
-void motherpl_effectivevx(Sprite* s_mother) BANKED{
+void motherpl_effectivevx() BANKED{
     if(motherpl_attack_cooldown > (COOLDOWN_ATTACK >> 1) 
         && motherpl_state != MOTHERPL_JUMP && motherpl_state != MOTHERPL_DASH){
         motherpl_vx = 0; 

@@ -59,6 +59,7 @@ extern UINT8 previous_state;
 extern WHOSTALKING whostalking;
 extern INT8 current_map;
 extern struct MISSION enable_hospital;
+extern INT8 motherpl_hp;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
@@ -195,10 +196,27 @@ void START(){
                     UPDATE_HUD_TILE(uneq_x,1,50);
                     UPDATE_HUD_TILE(uneq_x,2,51);
                 break;
+                case INVITEM_MUSHROOM:
+                    UPDATE_HUD_TILE(uneq_x,1,52);
+                    UPDATE_HUD_TILE(uneq_x,2,53);
+                    uneq_x += 1;
+                    UPDATE_HUD_TILE(uneq_x,1,54);
+                    UPDATE_HUD_TILE(uneq_x,2,55);
+                break;
             }
             uneq_x += 2;
         }
         PRINT(0, 0, "INVENTORY           ");
+    //HEARTS
+        for(INT8 i=0; i<5; i++){
+            Sprite* s_heart = SpriteManagerAdd(SpriteInvheart, (((UINT16) 13u + i) << 3), 56u);
+	        struct ItemSpawned* invheart_data = (struct ItemSpawned*)s_heart->custom_data;
+            if(motherpl_hp > i){
+                invheart_data->configured = 2;
+            }else{
+                invheart_data->configured = 1;
+            }
+        }
     refresh_equipped();
     blinker_timeout = blinker_timeout_max;
     SHOW_BKG;
@@ -371,22 +389,26 @@ void fixInvcursor(INT8 max_idx) BANKED{
 void change_detail(){
     print_target = PRINT_BKG;
     if(inventory[invcursor_posi].equippable){
-        PRINT(3, 8, "   ");
-        if(inventory[invcursor_posi].quantity < 10){
+        PRINT(2, 8, "     ");
+        if(inventory[invcursor_posi].quantity == 0){
+            PRINT(2, 14, "      ");
+        }else if(inventory[invcursor_posi].quantity < 10){
             PRINT(2, 14, "X 00%u", inventory[invcursor_posi].quantity);
-        } else if(inventory[invcursor_posi].quantity < 100){
+        }else if(inventory[invcursor_posi].quantity < 100){
             PRINT(2, 14, "X 0%u", inventory[invcursor_posi].quantity);
-        } else {
+        }else{
             PRINT(2, 14, "X %u", inventory[invcursor_posi].quantity);
         }
     }else{
-        PRINT(2, 14, "     ");
-        if(inventory[invcursor_posi].quantity < 10){
-            PRINT(3, 8, "X0%u", inventory[invcursor_posi].quantity);
-        } else if(inventory[invcursor_posi].quantity < 100){
-            PRINT(3, 8, "X%u", inventory[invcursor_posi].quantity);
-        } else {
-            PRINT(3, 8, "%u", inventory[invcursor_posi].quantity);
+        PRINT(2, 14, "      ");
+        if(inventory[invcursor_posi].quantity == 0){
+            PRINT(2, 8, "     ");
+        }else if(inventory[invcursor_posi].quantity < 10){
+            PRINT(2, 8, "X 00%u", inventory[invcursor_posi].quantity);
+        }else if(inventory[invcursor_posi].quantity < 100){
+            PRINT(2, 8, "X 0%u", inventory[invcursor_posi].quantity);
+        }else{
+            PRINT(2, 8, "X %u", inventory[invcursor_posi].quantity);
         }
     }    
     if(inventory[invcursor_posi].quantity == 0){
@@ -569,7 +591,11 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
         }
     }
     if(idx > -1 && idx < 12){//i<12 sennò non va e non so perchè
-        inventory[idx].quantity+=l;
+        UINT16 new_quantity = inventory[idx].quantity + l;
+        if(new_quantity > 999u){
+            new_quantity = 999u;
+        } 
+        inventory[idx].quantity = new_quantity;
     }else{
         idx = -1;
         if(equippable == 0){
@@ -589,7 +615,7 @@ INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED{
         }
         if(idx > -1){
             inventory[idx].itemtype = itemtype;
-            inventory[idx].equippable = equippable; 
+            inventory[idx].equippable = equippable;
             inventory[idx].quantity+=l;
         }
     }

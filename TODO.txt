@@ -1,4 +1,7 @@
 POST DEMO:
+- mushrooms 
+	crescono al buio, sono nel maze! ho rifattorizzato i teleports così posso mettere altri sprites.
+	ne metto in zona 3, 4 e 5
 - darkest forest
 	- piove?
 	- nemici rane e tarantole sputa veleno
@@ -104,8 +107,8 @@ PAD2 sulla SNES, prendere spunto da:
 	- https://github.com/gbdk-2020/gbdk-2020/blob/develop/gbdk-lib/examples/gb/sgb_multiplayer/sgb_multiplayer.c  
 
 PNG2MAP
-cd C:\Users\checc\GB\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe C:\Users\checc\GB\ZGB-2023.0\tools\png2map\ship.png -gbm -g -pal=mypal.pal C:\Users\checc\GB\ZGB-2023.0\tools\png2map\mapship.gbm
+cd C:\ZGB-2023.0\tools\png2map\
+png2gbtiles.exe C:\ZGB-2023.0\tools\png2map\idmushroom.png -gbm -g -pal=mypal.pal C:\ZGB-2023.0\tools\png2map\mapmushroom.gbm
 
 GBM TO PNG comando oppure da GBMB c'è Copy as Bitmap e incollare su un paint!
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2gbtiles

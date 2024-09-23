@@ -117,6 +117,20 @@ void START() {
         case FISHERMAN_FPSGATOR_COMPLETED: case BRIDGE_BROKEN:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
+        case PIRATE_CAPTAIN: case PIRATE_CAPTAIN_0: case PIRATE_CAPTAIN_1:
+        case PIRATE_CAPTAIN_2: case PIRATE_CAPTAIN_3: 
+        case PIRATE_MARTIN_0: case PIRATE_MARTIN_1: case PIRATE_MARTIN_2:
+            InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
+        break;
+        case PIRATE_MARTIN_3: case PIRATE_MARTIN_STRIKE: case PIRATE_MAURICE_0:
+        case PIRATE_MAURICE_STRIKE: case PIRATE_PANZONE_0: case PIRATE_PANZONE_1:
+        case PIRATE_PANZONE_2: case PIRATE_PANZONE_STRIKE: case PIRATE_SPUGNA_0:
+            InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
+        break;
+        case PIRATE_SPUGNA_1: case PIRATE_SPUGNA_2: case PIRATE_SPUGNA_3:
+        case PIRATE_SPUGNA_STRIKE: 
+            InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
+        break;
         case MINOTAUR_ENTRANCE:
             InitScroll(BANK(dmapminotaur), &dmapminotaur, 0, 0);
         break;
@@ -469,7 +483,15 @@ void move_on() BANKED{
             ChangeState(StateSilvercave, s_motherpl, -1);
         }
         return;
-    }else if(whostalking == HOSPITAL_GAMEOVER){
+    }else if(whostalking == PIRATE_CAPTAIN_1){
+        if(choice_right == 1u){//PLAY TETRA!
+            ChangeState(StateTetra, s_motherpl, -1);
+        }else{
+            ChangeState(StateHarbor, s_motherpl, -1);
+        }
+        return;
+    }
+    else if(whostalking == HOSPITAL_GAMEOVER){
         SetState(StateCredit);
         return;
     }

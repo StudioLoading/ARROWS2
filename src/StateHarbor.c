@@ -166,7 +166,6 @@ void harbor_init_pirates() BANKED{
             case MISSION_STATE_STARTED:
                 s_panzone_data->whotalks = PIRATE_PANZONE_0; 
                 if(get_quantity(INVITEM_WOOD) >= 50){
-                    change_quantity(INVITEM_WOOD, -50);
                     s_panzone_data->whotalks = PIRATE_PANZONE_1;
                 }
             break;
@@ -184,12 +183,16 @@ void harbor_init_pirates() BANKED{
         s_marine_data->whotalks = PIRATE_MARTIN_0; 
         switch(pirate_strike.mission_state){
             case MISSION_STATE_ENABLED:
+                s_marine_data->whotalks = PIRATE_MARTIN_1; 
+            break;
             case MISSION_STATE_STARTED:
-                s_panzone_data->whotalks = PIRATE_MARTIN_1; 
+                s_marine_data->whotalks = PIRATE_MARTIN_STRIKE;
             break;
             case MISSION_STATE_ACCOMPLISHED:
+                s_marine_data->whotalks = PIRATE_MARTIN_2;
+            break;
             case MISSION_STATE_REWARDED:
-                s_panzone_data->whotalks = PIRATE_MARTIN_2; 
+                s_marine_data->whotalks = PIRATE_MARTIN_3; 
             break;
         }
         s_marine_data->configured = 1;
@@ -201,7 +204,10 @@ void harbor_init_pirates() BANKED{
             s_walker1_data->type = PIRATE_WALKER;
             s_walker1_data->vx = 1;
             s_walker1_data->max_frameskip = 1;
-            //TODO s_walker1_data->whotalks = 
+            s_walker1_data->whotalks = PIRATE_MAURICE_0;
+            if(pirate_strike.mission_state < MISSION_STATE_REWARDED){
+                s_walker1_data->whotalks = PIRATE_MAURICE_STRIKE;
+            }
             s_walker1_data->configured = 1;
         }
     // CAPTAIN ONE EYED JACK

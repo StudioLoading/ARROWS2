@@ -569,6 +569,9 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 		case INVITEM_HERB:
 			memcpy(log0, " HERBS FOR ANTIDOTE ", 20);
 		break;
+		case INVITEM_MUSHROOM:
+			memcpy(log0, "      MUSHROOM     ", 20);
+		break;
 		case INVITEM_HEART:
 		case INVITEM_HEARTS:
 			memcpy(log0, "       HEALTH!      ", 20);

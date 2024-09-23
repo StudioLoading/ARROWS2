@@ -76,7 +76,7 @@ void UPDATE(){
             INT8 vy = 2;
             bossbat_data->et_collision = TranslateSprite(THIS,bossbat_data->vx, vy);
             if(bossbat_data->et_collision){
-                if(bossbat_data > 1){bossbat_change_state(ENEMY_WALK);}
+                if(bossbat_data->hp > 1){bossbat_change_state(ENEMY_WALK);}
                 else{bossbat_change_state(ENEMY_SLIDE_UP);}
             }
             }

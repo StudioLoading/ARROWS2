@@ -139,6 +139,8 @@ _SPRITE_DMG(SpritePgPirate, pgpirate)\
 _SPRITE_DMG(SpritePgCadaver, pgcadaver)\
 _SPRITE_DMG(SpritePgParrot, parrot)\
 _SPRITE_DMG(SpriteBossbat, bossbat)\
+_SPRITE_DMG(SpriteInvheart, invheart)\
+_SPRITE_DMG(SpriteMushroom, mushroom)\
 SPRITE_DEF_END
 
 

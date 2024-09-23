@@ -36,6 +36,7 @@ extern struct MISSION defeat_scorpions;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION fix_bridge;
+extern struct MISSION pirate_strike;
 extern INT8 show_tip_movingscroll_x;
 extern INT8 show_tip_movingscroll_y;
 extern UINT8 scorpion_mission_goal;
@@ -51,6 +52,7 @@ extern struct PushASignData d_push_sign;
 extern UINT8 ow_pusha_hp;
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
+extern UINT8 maze_zone;
 
 
 extern void spawn_step(UINT16 stepx, UINT16 stepy) BANKED;
@@ -226,6 +228,19 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                     SpriteManagerRemoveSprite(imowspr);
                     }
                 break;
+                case SpriteMushroom:
+                    {
+                        struct ItemSpawned* pickedup_data = (struct ItemSpawned*) imowspr->custom_data;
+                        UINT8 mushroom_hp = pickedup_data->hp;
+                        pirate_strike.current_step = pirate_strike.current_step | mushroom_hp;
+                        pickup(pickedup_data);
+                        UINT16 mushroom_quantity = get_quantity(INVITEM_MUSHROOM);
+                        if(mushroom_quantity == 6){
+                            pirate_strike.mission_state = MISSION_STATE_ACCOMPLISHED;
+                        }
+                        SpriteManagerRemoveSprite(imowspr);
+                    }
+                break;
                 case SpriteItemspawned:
                     {
                         struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
@@ -259,6 +274,7 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                         motherow_pos_x = tport_data->dest_x;
                         motherow_pos_y = tport_data->dest_y;
                         teleporting = 1u;
+                        maze_zone = tport_data->to_zone;
                         ChangeState(StateOverworld, s_motherow_arg, -1);
                     }
                 break;

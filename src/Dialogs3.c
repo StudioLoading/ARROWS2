@@ -48,8 +48,6 @@ extern struct MISSION pirate_strike;
 extern struct MISSION captain;
 
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
-
 
 void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
     switch(whostalking){		
@@ -188,10 +186,11 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "THANK YOU HEALER! WE", 22);
 			memcpy(d3, "ARE NOW ABLE TO FIX ", 22);
 			memcpy(d4, "THAT SHIP.          ", 22);
-            if(broken_ship.mission_state == MISSION_STATE_STARTED){
+            if(broken_ship.mission_state < MISSION_STATE_REWARDED){
 				broken_ship.mission_state = MISSION_STATE_REWARDED;
-				pirate_strike.mission_state = MISSION_STATE_ENABLED;
 				SpriteManagerAdd(SpriteDiary, 72, 8);
+				pirate_strike.mission_state = MISSION_STATE_ENABLED;
+                change_quantity(INVITEM_WOOD, -50);
 			}
 		break;
 		case PIRATE_PANZONE_2:
@@ -233,10 +232,12 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "WILL NOT SAIL UNTIL ", 22);
 			memcpy(d10, "WE HAVE WHAT WE WANT", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
-			memcpy(d12, "CAN YOU CHECK THE   ", 22);
-			memcpy(d13, "DARKEST FOREST? SOME", 22);
-			memcpy(d14, "SAY INGREDIENTS MAY ", 22);
-			memcpy(d15, "BE FOUND THERE      ", 22);
+			memcpy(d12, "WE NEED 6 MUSHROOMS ", 22);
+			memcpy(d13, "THEY SHOULD BE IN   ", 22);
+			memcpy(d14, "DARK PLACES... MAYBE", 22);
+			memcpy(d15, "ON THE UNDERGROUND? ", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
+			pirate_strike.mission_state = MISSION_STATE_STARTED;
 		break;
 		case PIRATE_MARTIN_2:
 			*n_lines = 7u;
@@ -245,13 +246,43 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "THANKS MADAME. WE   ", 22);
 			memcpy(d3, "WILL NOT TALK, BE   ", 22);
 			memcpy(d4, "SURE OF THAT.       ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "IF CAPTAIN ORDER US ", 22);
-			memcpy(d7, "TO SAIL, WE SAIL.   ", 22);
+			change_quantity(INVITEM_MUSHROOM, -6);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
+			pirate_strike.mission_state = MISSION_STATE_REWARDED;
+			captain.mission_state = MISSION_STATE_ENABLED;
+		break;
+		case PIRATE_MARTIN_3:
+			*n_lines = 3u;
+			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "IF CAPTAIN ORDERS US", 22);
+			memcpy(d3, "TO SAIL, WE SAIL.   ", 22);
+		break;
 		break;
 		case PIRATE_MARTIN_STRIKE:
 			*n_lines = 2u;
 			memcpy(d0, "MARTIN:             ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
+		break;
+		case PIRATE_MAURICE_0:
+			*n_lines = 11u;
+			memcpy(d0, "MAURICE:            ", 22);
+			memcpy(d1, EMPTY_STRING_21, 22);
+			memcpy(d2, "CAPTAIN IS JUST     ", 22);
+			memcpy(d3, "UNBEATABLE! HE IS A ", 22);
+			memcpy(d4, "REAL CHAMP ON TETRA.", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "I HAVE NEVER MET A  ", 22);
+			memcpy(d7, "SINGLE PERSON BEING ", 22);
+			memcpy(d8, "VICTORIOUS ON HIM.  ", 22);
+			memcpy(d9, EMPTY_STRING_21, 22);
+			memcpy(d10, "I THINK I JUST GIVE ", 22);
+			memcpy(d11, "UP!                 ", 22);
+		break;
+		case PIRATE_MAURICE_STRIKE:
+			*n_lines = 2u;
+			memcpy(d0, "MAURICE:            ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
 		break;
@@ -271,23 +302,29 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, "SAILING.           ", 22);
 		break;
 		case PIRATE_CAPTAIN_1:
-			*n_lines = 11u;
+			*n_lines = 14u;
 			memcpy(d0, "ONE EYED JACK:      ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "LOOKS LIKE YOU ARE  ", 22);
+			memcpy(d2, "LOOKS LIKE YOU ARRR ", 22);
 			memcpy(d3, "READY FOR AN ADVENTU", 22);
 			memcpy(d4, "RE. NEED HELP UH?   ", 22);
 			memcpy(d4, "THE ISLAND IS NOT   ", 22);
-			memcpy(d4, "TOO FAR FROM HERE.  ", 22);
+			memcpy(d4, "TOO FARRR FROM HERE.", 22);
 			memcpy(d4, "BUT THE TEMPEST...  ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "WE SHOULD WAIT FOR  ", 22);
 			memcpy(d7, "IT TO CALM DOWN...  ", 22);
 			memcpy(d8, "MEANWHILE, I DARE   ", 22);
 			memcpy(d9, "YOU BEAT ME ON TETRA", 22);
-			memcpy(d10, ", IT IS MY FAV!     ", 22);
-			memcpy(d11, "ARE YOU READY?      ", 22);
-            captain.mission_state = MISSION_STATE_ENABLED;
+			memcpy(d10, ", MY FAV BOARDGAME. ", 22);
+			memcpy(d11, EMPTY_STRING_21, 22);
+			memcpy(d12, "ARE YOU READY?      ", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
+			memcpy(d13, EMPTY_STRING_21, 22);
+			memcpy(d14, " NO          YES    \0", 22);
+			choice = 1u;
+			choice_left = 0u;
+			choice_right = 0u;
 		break;
 		case PIRATE_CAPTAIN_2:
 			*n_lines = 4u;
