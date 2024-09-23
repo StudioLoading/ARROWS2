@@ -10,7 +10,7 @@
 
 const UINT8 snake_anim_idle[] = {1, 1}; //The first number indicates the number of frames
 const UINT8 snake_anim_walk[] = {4, 3, 4, 1, 2}; //The first number indicates the number of frames
-const UINT8 snake_anim_hit[] = {2, 1, 3}; //The first number indicates the number of frames
+const UINT8 snake_anim_hit[] = {2, 0, 1}; //The first number indicates the number of frames
 
 void EsimpleSnakeAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED;
 
@@ -44,11 +44,11 @@ void UPDATE(){
 void EsimpleSnakeAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT_1:
-        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, snake_anim_hit, 24u); break;
+        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, snake_anim_hit, 64u); break;
         case ENEMY_WALK: SetSpriteAnim(s_enemy, snake_anim_walk, 12u); break;
         case ENEMY_WAIT: SetSpriteAnim(s_enemy, snake_anim_idle, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(s_enemy, snake_anim_idle, 12u); break;
-        case ENEMY_DEAD: SetSpriteAnim(s_enemy, snake_anim_hit, 32u); break;
+        case ENEMY_DEAD: SetSpriteAnim(s_enemy, snake_anim_hit, 64u); break;
     }
 }
 

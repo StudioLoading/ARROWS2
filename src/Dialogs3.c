@@ -125,6 +125,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d18, "WELCOME TO THE     ", 22);
 			memcpy(d19, "HARBOR!            ", 22);
             mr_smee.mission_state = MISSION_STATE_ENABLED;
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case PIRATE_SPUGNA_1:
 			*n_lines = 8u;
@@ -139,6 +140,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d8, "CHECK ON THAT CAVE? ", 22);
             if(mr_smee.mission_state < MISSION_STATE_STARTED){
 				mr_smee.mission_state = MISSION_STATE_STARTED;
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;
 		case PIRATE_SPUGNA_2:
@@ -150,6 +152,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, "LD WORKS NOW.       ", 22);
             mr_smee.mission_state = MISSION_STATE_REWARDED;
 			broken_ship.mission_state = MISSION_STATE_ENABLED;
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case PIRATE_SPUGNA_3:
 			*n_lines = 4u;
@@ -175,6 +178,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "THANK YOU.          ", 22);
             if(broken_ship.mission_state < MISSION_STATE_STARTED){
 				broken_ship.mission_state = MISSION_STATE_STARTED;
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;
 		case PIRATE_PANZONE_1:
@@ -187,6 +191,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
             if(broken_ship.mission_state == MISSION_STATE_STARTED){
 				broken_ship.mission_state = MISSION_STATE_REWARDED;
 				pirate_strike.mission_state = MISSION_STATE_ENABLED;
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;
 		case PIRATE_PANZONE_2:

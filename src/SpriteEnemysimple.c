@@ -27,7 +27,6 @@ extern UINT8 enemy_counter;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern MOTHERPL_STATE motherpl_state;
-extern struct EtoReload e_to_reload[3];
 extern UINT8 mapwidth;
 
 void Estart(Sprite* s_enemy) BANKED;

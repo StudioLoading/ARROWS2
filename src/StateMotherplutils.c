@@ -294,12 +294,13 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
     motherpl_blocked = 0u;
     struct EnemyData* e_data = (struct EnemyData*) s_enemy->custom_data;
     if(e_data->hp > 0){
-        if(s_enemy->type == SpriteBossbat
-            || s_enemy->type == SpriteBossscorpion 
+        if(s_enemy->type == SpriteBossscorpion 
             || s_enemy->type == SpriteBosscrab
             || s_enemy->type == SpriteBossminotaur
             || s_enemy->type == SpriteEnemyBat){
             motherpl_hit = 2u;
+        }else if(s_enemy->type == SpriteBossbat){
+            motherpl_hit = 1u;
         }else if(motherpl_state == MOTHERPL_DASH){
             if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteSeagull || s_enemy->type == SpriteEnemyThrowerScorpion){
                 motherpl_hit = 1u;
@@ -421,8 +422,8 @@ void motherpl_relativeposition(Sprite* s_mother) BANKED{
 }
 
 void motherpl_actualmovement(Sprite* s_mother) BANKED{
-    if(motherpl_state != MOTHERPL_CRAWL_SURF){      
-        if( dash_horizontal_time == 0){
+    if(motherpl_state != MOTHERPL_CRAWL_SURF && motherpl_state != MOTHERPL_BLOCKED){      
+        if(dash_horizontal_time == 0){
             motherpl_coll_y = TranslateSprite(s_mother, 0, motherpl_vy << delta_time);
         }
         if(motherpl_inertiax > 2 || motherpl_state == MOTHERPL_DASH){
@@ -509,20 +510,6 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
                     }
                 break;
             }
-        break;
-        case StateSilvercave:
-            case 93u: //GRADINI IN SALITA A SINISTRA
-                if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_LEFT)){
-                    s_mother->y -= 8;
-                    TranslateSprite(s_mother, -3, 0);
-                }
-            break;
-            case 2u: //GRADINI IN SALITA A DESTRA
-                if(motherpl_state == MOTHERPL_WALK && KEY_PRESSED(J_RIGHT)){
-                    s_mother->y -= 8;
-                    TranslateSprite(s_mother, 3, 0);
-                }
-            break;
         break;
     }
 }
@@ -956,6 +943,8 @@ void motherpl_behave(Sprite* s_mother) BANKED{
                 if(s_blocking->type == SpriteEnemyBat){
                     motherpl_hitted(s_blocking);
                 }
+                motherpl_blocked = 0u;
+                motherpl_blocked_cooldown = BLOCKED_COOLDOWN_MAX;
                 SpriteManagerRemoveSprite(s_blocking);
             }
         break;
@@ -974,10 +963,8 @@ void motherpl_behave(Sprite* s_mother) BANKED{
         break;
         case MOTHERPL_CRAWL_SURF:
             if(s_surf != 0){
-                s_mother->x = s_surf->x + motherpl_surf_dx;
+                s_mother->x = s_surf->x + 2u;//motherpl_surf_dx;
                 s_mother->y = s_surf->y - 20u;
-                //s_mother->x = s_surf->x;
-                //s_mother->y = s_surf->y -16u;
             }else{
                 motherpl_changeMotherplState(s_mother, MOTHERPL_IDLE);
             }

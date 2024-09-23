@@ -65,7 +65,7 @@ void EthrowerScorpionAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
         case ENEMY_WALK: SetSpriteAnim(s_enemy, scorpion_anim_walk, 24u); break;
         case ENEMY_WAIT: SetSpriteAnim(s_enemy, scorpion_anim_wait, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(s_enemy, scorpion_anim_idle, 20u); break;
-        case ENEMY_DEAD: SetSpriteAnim(s_enemy, scorpion_anim_hit, 32u); break;
+        case ENEMY_DEAD: SetSpriteAnim(s_enemy, scorpion_anim_hit, 64u); break;
         case ENEMY_PREATTACK: SetSpriteAnim(s_enemy, scorpion_anim_preattack, 16u); break;
         case ENEMY_THROW: SetSpriteAnim(s_enemy, scorpion_anim_attack, 16u); break;
     }

@@ -67,7 +67,7 @@ void START(){
         switch(current_map){
             case MAP_SOUTHWEST://comes from south-west
                 if(chapter == CHAPTER_4_SHIP){
-                    SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 10u << 3, (UINT16) 9u << 3);
+                    s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16) 10u << 3, (UINT16) 9u << 3);
                 }else{
                     s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
                 }

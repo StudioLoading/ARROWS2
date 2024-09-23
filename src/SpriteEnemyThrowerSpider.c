@@ -49,11 +49,11 @@ void UPDATE(){
 void EthrowerSpiderAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT_1: 
-        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, spider_anim_hit, 16u); break;
+        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, spider_anim_hit, 64u); break;
         case ENEMY_WALK: SetSpriteAnim(s_enemy, spider_anim_walk, 16u); break;
         case ENEMY_WAIT: SetSpriteAnim(s_enemy, spider_anim_wait, 2u); break;
         case ENEMY_IDLE: SetSpriteAnim(s_enemy, spider_anim_idle, 20u); break;
-        case ENEMY_DEAD: SetSpriteAnim(s_enemy, spider_anim_hit, 32u); break;
+        case ENEMY_DEAD: SetSpriteAnim(s_enemy, spider_anim_hit, 64u); break;
         case ENEMY_PREATTACK: SetSpriteAnim(s_enemy, spider_anim_preattack, 16u); break;
         case ENEMY_THROW: SetSpriteAnim(s_enemy, spider_anim_idle, 16u); break;
     }

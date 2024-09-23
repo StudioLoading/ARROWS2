@@ -427,6 +427,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                     case SpriteEnemyThrowerScorpion: case SpriteEnemyThrowerSpider:
                     case SpriteEnemyThrowerTarantula: case SpriteEnemyBat:
                     case SpriteEnemyAttackerCobra: case SpriteEnemyAttackerPine:
+                    case SpriteSeagull:
                         {
                         struct EnemyData* e_data = (struct EnemyData*) mfitspr->custom_data;
                         if(e_data->type > 0 && e_data->e_state != ENEMY_DEAD && i<3){

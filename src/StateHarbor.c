@@ -194,14 +194,16 @@ void harbor_init_pirates() BANKED{
         }
         s_marine_data->configured = 1;
     //SPUGNA WALKER1 MAURICE
-        s_walker1 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 88u << 3), pirate_spawn_y);
-        s_walker1_data = (struct NpcInfo*) s_walker1->custom_data;
-        s_walker1_data->npcname = MAURICE;
-        s_walker1_data->type = PIRATE_WALKER;
-        s_walker1_data->vx = 1;
-        s_walker1_data->max_frameskip = 1;
-        //TODO s_walker1_data->whotalks = 
-        s_walker1_data->configured = 1;
+        if(_cpu == CGB_TYPE){
+            s_walker1 = SpriteManagerAdd(SpritePgPirate, ((UINT16) 88u << 3), pirate_spawn_y);
+            s_walker1_data = (struct NpcInfo*) s_walker1->custom_data;
+            s_walker1_data->npcname = MAURICE;
+            s_walker1_data->type = PIRATE_WALKER;
+            s_walker1_data->vx = 1;
+            s_walker1_data->max_frameskip = 1;
+            //TODO s_walker1_data->whotalks = 
+            s_walker1_data->configured = 1;
+        }
     // CAPTAIN ONE EYED JACK
         s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
         s_captain->mirror = V_MIRROR;
@@ -223,7 +225,9 @@ void harbor_init_pirates() BANKED{
             s_walker1_data->whotalks = PIRATE_MARTIN_STRIKE;
         }
     // PARROT
-        SpriteManagerAdd(SpritePgParrot, s_captain->x + 2u, s_captain->y - 6u);
+        if(_cpu == CGB_TYPE){
+            SpriteManagerAdd(SpritePgParrot, s_captain->x + 2u, s_captain->y - 6u);
+        }
 }
 void UPDATE(){
     pirate_counter_30_100++;
@@ -260,7 +264,8 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //INIT SUAGULLS
-        if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
+        if(s_motherpl->x > 80u 
+            && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
             && enemy_counter < max_seagulls_alive){
             timeout_enemy--;
             if(timeout_enemy > 150u){

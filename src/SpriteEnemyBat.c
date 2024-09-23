@@ -32,12 +32,12 @@ extern UINT8 enemy_counter;
 extern void EspawnItem(Sprite* s_enemy) BANKED;
 
 
-void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
+void bat_change_state(Sprite* s_bat_arg, ENEMY_STATE e_state) BANKED;
 
 
 void START(){	
-    THIS->lim_x = 40u;
-    THIS->lim_y = 80u;
+    THIS->lim_x = 120u;
+    THIS->lim_y = 120u;
     SetSpriteAnim(THIS, bat_anim_idle, 12u);
     struct EnemyData* bat_data = (struct EnemyData*)THIS->custom_data;
     bat_data->configured = 0u;
@@ -58,6 +58,7 @@ void UPDATE(){
     if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
     struct EnemyData* bat_data = (struct EnemyData*)THIS->custom_data;
     if(bat_data->hp <= 0){
+        EspawnItem(THIS);
         SpriteManagerRemoveSprite(THIS);
         return;
     }
@@ -122,55 +123,53 @@ void UPDATE(){
         };
 }
 
-void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
-    struct EnemyData* s_bat_data = (struct EnemyData*)s_bat->custom_data;
+void bat_change_state(Sprite* s_bat_arg, ENEMY_STATE e_state) BANKED{
+    struct EnemyData* s_bat_data = (struct EnemyData*)s_bat_arg->custom_data;
     switch(e_state){
         case ENEMY_HIT_2:
             if(s_bat_data->e_state != ENEMY_IDLE){
                 s_bat_data->hp-=2;
-                SetSpriteAnim(s_bat, bat_anim_hit, 64);
+                SetSpriteAnim(s_bat_arg, bat_anim_hit, 64);
             }
-            return;
         break;
         case ENEMY_HIT_1:
             if(s_bat_data->e_state != ENEMY_IDLE){
                 s_bat_data->hp--;
-                SetSpriteAnim(s_bat, bat_anim_hit, 64);
+                SetSpriteAnim(s_bat_arg, bat_anim_hit, 64);
             }
-            return;
         break;
         case ENEMY_ATTACK:
             s_bat_data->wait = ATTACK_COOLDOWN;
-            s_blocking = s_bat;
+            s_blocking = s_bat_arg;
             motherpl_blocked = 1u;
-            s_bat->anim_speed = 90; 
-            SetSpriteAnim(s_bat, bat_anim_fly, 64);
+            s_bat_arg->anim_speed = 90; 
+            SetSpriteAnim(s_bat_arg, bat_anim_fly, 64);
         break;
         case ENEMY_WALK:
             s_bat_data->wait = MAX_WAIT;
-            SetSpriteAnim(s_bat, bat_anim_fly, 16u);
-            s_bat->y -=1 ;
+            SetSpriteAnim(s_bat_arg, bat_anim_fly, 16u);
+            s_bat_arg->y -=1 ;
         break;
         case ENEMY_SLIDE_DOWN:
             s_bat_data->wait = FALLING_WAIT;
-            SetSpriteAnim(s_bat, bat_anim_falling, 1u);
+            SetSpriteAnim(s_bat_arg, bat_anim_falling, 1u);
             s_bat_data->vx = 1;
-            s_bat->mirror = NO_MIRROR;
-            if(s_bat->x > s_motherpl->x){
+            s_bat_arg->mirror = NO_MIRROR;
+            if(s_bat_arg->x > s_motherpl->x){
                 s_bat_data->vx = -1;
-                s_bat->mirror = V_MIRROR;
+                s_bat_arg->mirror = V_MIRROR;
             }
         break;
         case ENEMY_SLIDE_UP:
             s_bat_data->wait = MAX_WAIT;
-            SetSpriteAnim(s_bat, bat_anim_fly, 64u);
-            s_bat->anim_speed = 56;
+            SetSpriteAnim(s_bat_arg, bat_anim_fly, 64u);
+            s_bat_arg->anim_speed = 56;
         break;
         case ENEMY_IDLE:
-            SetSpriteAnim(s_bat, bat_anim_idle, 12u);
+            SetSpriteAnim(s_bat_arg, bat_anim_idle, 12u);
             s_bat_data->configured = 0;
             s_bat_data->wait = MAX_WAIT;
-            s_bat->y -= 3;
+            s_bat_arg->y -= 3;
         break;
     }
     s_bat_data->e_state = e_state;
@@ -178,5 +177,4 @@ void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED{
 
 void DESTROY(){
     enemy_counter--;
-    EspawnItem(THIS);
 }

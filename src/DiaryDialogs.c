@@ -135,7 +135,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case GOLDEN_D7:memcpy(d, "SMITH.             ", 20);break;
 		case GOLDEN_D8:memcpy(d, "I OBTAINED THE     ", 20);break;
 		case GOLDEN_D9:memcpy(d, "GOLDEN ARMOR       ", 20);break;
-		case MRSMEE_TITLE:memcpy(d, "A LOST FRIEND  ", 16);break;
+		case MRSMEE_TITLE:memcpy(d, "A LOST FRIEND   ", 16);break;
 		case MRSMEE_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
 		case MRSMEE_D1:memcpy(d, "                   ", 20); break;
 		case MRSMEE_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;

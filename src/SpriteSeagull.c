@@ -8,6 +8,7 @@
 #include "custom_datas.h"
 
 extern MOTHERPL_STATE motherpl_state;
+extern UINT8 enemy_random_30_100;
 
 const UINT8 a_gull[] = {6, 4, 1, 1, 1, 2, 3}; //The first number indicates the number of frames
 const UINT8 a_gull_dead[] = {6, 0, 1, 0, 2,0 , 3}; //The first number indicates the number of frames
@@ -16,7 +17,7 @@ extern UINT8 enemy_counter;
 
 extern void changeEstate(Sprite* s_enemy, ENEMY_STATE new_e_state) BANKED;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
-extern void EspawnItem() BANKED;
+extern void EspawnItem(Sprite* s_enemy) BANKED;
 
 void START() {
     THIS->lim_x = 100u;
@@ -36,6 +37,8 @@ void START() {
 }
 
 void UPDATE() {
+    enemy_random_30_100++;
+    if(enemy_random_30_100 >= 100u){enemy_random_30_100 = 30u;}
     struct EnemyData* gull_data = (struct EnemyData*) THIS->custom_data;
     switch(gull_data->configured){
         case 1:
@@ -45,7 +48,7 @@ void UPDATE() {
         case 2:
             if(gull_data->hp <= 0 && gull_data->e_state != ENEMY_DEAD){
                 gull_data->e_state = ENEMY_DEAD;
-                EspawnItem();
+                EspawnItem(THIS);
                 gull_data->configured = 3;
                 return;
             }

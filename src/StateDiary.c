@@ -169,6 +169,7 @@ void show_pcodes(){
             break;
         }
     }
+    PRINT(0, 17, "DIARY");
 }
 
 void empty_ms(){
@@ -200,7 +201,7 @@ void show_detail(){
     showing_detail = 1u;
     showing_missions = 0u;
     switch(idx_page){
-        case 0u:
+        case CHAPTER_0_BLACKIE:
             switch(cursor_posi){
                 case 0u:
                     if(engage_smith.mission_state >= MISSION_STATE_ENABLED){
@@ -266,7 +267,7 @@ void show_detail(){
                 break;
             }
         break;
-        case 1u:
+        case CHAPTER_1_BANDITS:
             switch(cursor_posi){
                 case 0u:
                     if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
@@ -324,7 +325,7 @@ void show_detail(){
                 break;
             }
         break;
-        case 2u:
+        case CHAPTER_2_PLAGUE:
             switch(cursor_posi){
                 case 0u:
                     if(defeat_scorpions.mission_state >= MISSION_STATE_ENABLED){
@@ -368,7 +369,7 @@ void show_detail(){
                 break;
             }
         break;
-        case 3u:
+        case CHAPTER_3_ARMOUR:
             switch(cursor_posi){
                 case 0u:
                     if(hungry_people.mission_state >= MISSION_STATE_ENABLED){
@@ -423,7 +424,7 @@ void show_detail(){
                 break;
             }
         break;
-        case 4u:
+        case CHAPTER_4_SHIP:
             switch(cursor_posi){
                 case 0u:
                     if(mr_smee.mission_state >= MISSION_STATE_ENABLED){

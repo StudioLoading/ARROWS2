@@ -374,6 +374,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "HIM SO AND YOU      \0", 22);
 			memcpy(d8, "FINALLY PASS.       \0", 22);
 			outwalker_smith.mission_state = MISSION_STATE_ENABLED;
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case OUTWALKER_GUARD_OK:
 				*n_lines = 9u;

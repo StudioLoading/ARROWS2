@@ -12,7 +12,7 @@
 #define WALK_TIMEOUT_HPMAX 120
 #define WALK_TIMEOUT_HPMED 70
 #define WALK_TIMEOUT_HPMIN 60
-#define RUN_VXMAX 4
+#define RUN_VXMAX 5
 #define RUN_VXMIN 2
 
 const UINT8 a_mino_idle[] = {1, 3};
@@ -48,7 +48,7 @@ void START(){
     minotaur_data->configured = 2;
     if(golden_armor.phase < 2){
         minotaur_data->vx = 1;
-        minotaur_data->hp = 1;
+        minotaur_data->hp = 6;
         minotaur_data->x_frameskip = 2;
         minotaur_data->et_collision = 0;
         mino_change_state(ENEMY_WALK);
@@ -126,6 +126,8 @@ void mino_turn() BANKED{
 }
 
 void mino_behave() BANKED{
+    if(THIS->x < 16u){THIS->x = 16u;}
+    if(THIS->x > 152u){THIS->x = 152u;}
     minotaur_data->wait--;
     if(minotaur_data->wait > 200u){
         minotaur_data->wait = 0u;

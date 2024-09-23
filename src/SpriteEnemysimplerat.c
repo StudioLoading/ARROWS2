@@ -56,7 +56,7 @@ void UPDATE(){
 void EsimpleRatAnim(Sprite* s_enemy, ENEMY_STATE estate) BANKED{
     switch(estate){
         case ENEMY_HIT_1:
-        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, rat_anim_hit, 24u); break;
+        case ENEMY_HIT_2: SetSpriteAnim(s_enemy, rat_anim_hit, 64u); break;
         case ENEMY_WALK: SetSpriteAnim(s_enemy, rat_anim_walk, 12u); break;
         case ENEMY_WAIT: SetSpriteAnim(s_enemy, rat_anim_idle, 16u); break;
         case ENEMY_IDLE: SetSpriteAnim(s_enemy, rat_anim_idle, 12u); break;

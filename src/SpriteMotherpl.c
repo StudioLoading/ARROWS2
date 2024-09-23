@@ -63,7 +63,6 @@ extern void motherpl_spawnDust(Sprite* s_motherpl) BANKED;
 extern void motherpl_start(Sprite* s_mother) BANKED;
 extern void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE newstate) BANKED;
 extern void motherpl_refresh_animation(Sprite* smother) BANKED;
-extern void motherpl_shoot(Sprite* s_mother) BANKED;
 extern void motherpl_jump(Sprite* s_mother) BANKED;
 extern void motherpl_walk(Sprite* s_mother) BANKED;
 extern void motherpl_fire(Sprite* s_mother) BANKED;
@@ -183,7 +182,7 @@ void motherplnormal_setanim_crawl() BANKED{
 }
 
 void motherplnormal_setanim_hit() BANKED{
-    SetSpriteAnim(THIS, motherpl_anim_hit, 32u);
+    SetSpriteAnim(THIS, motherpl_anim_hit, 64u);
 }
 
 void motherplnormal_setanim_dead() BANKED{

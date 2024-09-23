@@ -143,7 +143,8 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //INIT ENEMIES
-        if(s_motherpl->x > 80u && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
+        if(s_motherpl->x > 80u 
+            && s_motherpl->x < ((UINT16) ((mapwidth << 3) - 80u))
             && enemy_counter < 3 && activate_seagulls){
             timeout_enemy--;
             if(timeout_enemy > 150u){
