@@ -8,7 +8,7 @@
 #include "Scroll.h"
 #include "SpriteManager.h"
 
-#include "custom_datas.h"
+#include "custom_datas_tetra.h"
 
 extern TETRA_GAME_STATE tetra_game_state;
 extern TETRA_TURN tetraturn;
@@ -28,6 +28,8 @@ const UINT8 cursor_anim_hand_opened[] = {1, 3}; //The first number indicates the
 const UINT8 cursor_anim_hand_closed[] = {1, 4}; //The first number indicates the number of frames
 
 UINT8 cursor_dado_on = 1u;
+
+extern void card_chosen(UINT8 is_player, TETRA_DADO_FACCE chosen_face) BANKED;
 
 void START(){
     THIS->lim_x = 80u;
@@ -57,11 +59,20 @@ void UPDATE(){
         case HAND_OPENED:
             SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
             if(tetra_game_state == TURN_PICK_DICE && tetraturn == TURN_PLAYER) {     
-                if(KEY_TICKED(J_RIGHT)){
-                    if(cursor_dado_on == 6){
-                        cursor_dado_on = 1;
-                    }else{
-                        cursor_dado_on++;
+                if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){
+                    if(KEY_TICKED(J_RIGHT)){
+                        if(cursor_dado_on == 6){
+                            cursor_dado_on = 1;
+                        }else{
+                            cursor_dado_on++;
+                        }
+                    }
+                    if(KEY_TICKED(J_LEFT)){
+                        if(cursor_dado_on == 1){
+                            cursor_dado_on = 6;
+                        }else{
+                            cursor_dado_on--;
+                        }
                     }
                     switch(cursor_dado_on){
                         case 1u:
@@ -141,6 +152,7 @@ void UPDATE(){
                             }
                         break;
                     }
+                    card_chosen(0, tetradado_sel_info->tetradado_faccia);
                 }
             }        
         break;

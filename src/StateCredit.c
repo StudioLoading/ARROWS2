@@ -137,10 +137,6 @@ void missions_init() BANKED{
 			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
 			help_cemetery_woman.current_step = 5u;
-			//START PROD
-			//END PROD
-			//START TEST
-			//END TEST
 		break;
 		case CHAPTER_2_PLAGUE:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
@@ -228,7 +224,7 @@ void missions_init() BANKED{
 			/* START TEST TODO REMOVE*/
 			mr_smee.mission_state = MISSION_STATE_REWARDED;
 			broken_ship.mission_state = MISSION_STATE_REWARDED;
-			pirate_strike.mission_state = MISSION_STATE_STARTED;
+			pirate_strike.mission_state = MISSION_STATE_REWARDED;
 			/* END TEST */
 		break;
 	}
@@ -397,11 +393,9 @@ void position_init() BANKED{
 			motherow_pos_x = (UINT16) 24u << 3; 
 			motherow_pos_y = (UINT16) 18u << 3;
 			//TEST START TODO REMOVE ME
-			/*current_map = MAP_SOUTHEAST;
-			motherow_pos_x = (UINT16) 14u << 3; 
-			motherow_pos_y = (UINT16) 37u << 3;
-			motherpl_pos_x = (UINT16) 10u << 3;
-			motherpl_pos_y = (UINT16) 6u << 3;*/
+			current_map = MAP_EAST;
+			motherow_pos_x = (UINT16) 46u << 3; 
+			motherow_pos_y = (UINT16) 12u << 3;
 			//TEST END
 		break;
 	}

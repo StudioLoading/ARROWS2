@@ -7,7 +7,7 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 
-#include "custom_datas.h"
+#include "custom_datas_tetra.h"
 
 #define COUNTDOWN 120
 

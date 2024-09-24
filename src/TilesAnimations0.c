@@ -133,7 +133,6 @@ void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED{
 	}
 }
 
-
 void Anim_Ow_0() BANKED{
 	set_banked_bkg_data(7u, 1u, &owsouthwesttiles, BANK(owsouthwesttiles));//grass
 	set_banked_bkg_data(103u, 5u, &owsouthwesttiles, BANK(owsouthwesttiles));//water
