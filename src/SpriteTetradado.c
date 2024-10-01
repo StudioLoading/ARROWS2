@@ -15,7 +15,7 @@
 const UINT8 dado_invisible[] = {1, 4};//The first number indicates the number of frames
 const UINT8 dado_anticipation[] = {1, 4};//The first number indicates the number of frames
 const UINT8 dado_waiting[] = {1, 0};//The first number indicates the number of frames
-const UINT8 dado_superfast[] = {5, 0, 1, 2, 3, 4}; //The first number indicates the number of frames
+const UINT8 dado_superfast[] = {4, 0, 1, 2, 3}; //The first number indicates the number of frames
 const UINT8 dado_fast[] = {4, 0, 1, 2, 3}; //The first number indicates the number of frames
 const UINT8 dado_slow[] = {4, 0, 1, 2, 3}; //The first number indicates the number of frames
 

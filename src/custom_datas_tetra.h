@@ -49,19 +49,31 @@ typedef enum{
   INIT_GAME,
   START_GAME,
   RETURN_TO_PLACE,
+  TURN_MAKE_DRAGONS,
   TURN_MAKE_DICE,
   TURN_PICK_DICE,
-  TURN_GIVE_DICE,
   TURN_PICK_DRAGON,
-  TURN_E_PICK_DICE,
-  TURN_E_PICK_DRAGON,
+  TURN_BUY_DRAGON,
   WINNER,
   LOSER
 }TETRA_GAME_STATE;
 
 typedef enum{
   TURN_PLAYER,
-  TURN_ENEMY
+  TURN_CAPTAIN
 }TETRA_TURN;
+
+struct DRAGON_COSTS{
+  UINT8 up_cost;
+  UINT8 blair_cost;
+  UINT8 arrows_cost;
+  UINT8 shield_cost;
+};
+
+typedef enum{
+  NONE,
+  PLAY,
+  READ_INSTRUCTIONS
+}TETRA_CAMERA_STATE;
 
 #endif
