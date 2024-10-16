@@ -95,7 +95,7 @@ void UPDATE(){
                             owpeople_data->ow_state = ENEMY_WAIT;
                             owpeople_data->wait = (owpeople_data->max_wait) + ((owpeople_data->max_wait) >> 1);
                         }
-                        owpeople_data->x_frameskip = 3;//TODO potrebbe cambiare
+                        owpeople_data->x_frameskip = 3;
                     //}
                     if(owpeople_data->wait == 0){
                         SetSpriteAnim(THIS, a_orange_h_idle, 8u);
@@ -132,7 +132,7 @@ void UPDATE(){
                             owpeople_data->ow_state = ENEMY_WAIT;
                             owpeople_data->wait = (owpeople_data->max_wait) + ((owpeople_data->max_wait) >> 1);
                         }
-                        owpeople_data->x_frameskip = 3;//TODO potrebbe cambiare
+                        owpeople_data->x_frameskip = 3;
                     //}
                     if(owpeople_data->wait == 0){
                         SetSpriteAnim(THIS, a_yellow_d_idle, 8u);

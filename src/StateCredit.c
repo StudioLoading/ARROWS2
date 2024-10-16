@@ -11,8 +11,12 @@
 #include "TilesAnimations0.h"
 #include "custom_datas.h"
 
+IMPORT_TILES(font);
 IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
+IMPORT_MAP(mapcredit2);
+IMPORT_MAP(mapcredit3);
+//IMPORT_MAP(mapcredit3);
 DECLARE_MUSIC(titlescreen);
 
 extern UINT8 J_JUMP;
@@ -29,7 +33,7 @@ extern UINT16 motherpl_pos_y;
 extern UINT8 itemspawned_powder_counter;
 
 const UINT8 collision_tiles_credits[] = {1,0};
-UINT8 credit_step = 0u;
+INT8 credit_step = -1;
 UINT16 credit_wait_time;
 CHAPTERS chapter = CHAPTER_0_BLACKIE;
 CURRENT_BORDER current_border = BORDER_NONE;
@@ -221,10 +225,10 @@ void missions_init() BANKED{
 			fix_bridge.current_step = 0;
 			golden_armor.mission_state = MISSION_STATE_REWARDED;
 			golden_armor.phase = 0;
-			/* START TEST TODO REMOVE*/
-			mr_smee.mission_state = MISSION_STATE_REWARDED;
+			/* START TEST */
+			/*mr_smee.mission_state = MISSION_STATE_REWARDED;
 			broken_ship.mission_state = MISSION_STATE_REWARDED;
-			pirate_strike.mission_state = MISSION_STATE_REWARDED;
+			pirate_strike.mission_state = MISSION_STATE_REWARDED;*/
 			/* END TEST */
 		break;
 	}
@@ -392,31 +396,16 @@ void position_init() BANKED{
 			current_map = MAP_SOUTHWEST;
 			motherow_pos_x = (UINT16) 24u << 3; 
 			motherow_pos_y = (UINT16) 18u << 3;
-			//TEST START TODO REMOVE ME
-			current_map = MAP_EAST;
+			//TEST START
+			/*current_map = MAP_EAST;
 			motherow_pos_x = (UINT16) 46u << 3; 
-			motherow_pos_y = (UINT16) 12u << 3;
+			motherow_pos_y = (UINT16) 12u << 3;*/
 			//TEST END
 		break;
 	}
 }
 
-void START() {
-	sgb_running = sgb_check();
-	if(sgb_running){
-		BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
-		manage_border(StateCredit);
-	}
-	//SOUND
-		stop_music_on_new_state = 0;
-        NR52_REG = 0x80; //Enables sound, you should always setup this first
-        NR51_REG = 0xFF; //Enables all channels (left and right)
-        NR50_REG = 0x77; //Max volume
-	switch (credit_step){
-		case 0u:
-			InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
-		break;
-	}
+void empty_e_to_reload() BANKED{
     e_to_reload[0].type = 0u;
     e_to_reload[0].x = 0u;
     e_to_reload[0].y = 0u;
@@ -453,24 +442,80 @@ void START() {
 	e_to_reload[2].e_data_et_collision=0;
 	e_to_reload[2].e_data_e_state=0;
 	e_to_reload[2].e_data_x_frameskip=0;
+}
 
-	whostalking = NOBODY;
-
-	SHOW_BKG;
-	SHOW_SPRITES;
+void START() {
+	if(credit_step == -1){
+		credit_step = 0;
+		sgb_running = sgb_check();
+		if(sgb_running){
+			BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
+			manage_border(StateCredit);
+		}
+	}
 	
+	credit_step++;
+	//SOUND
+		stop_music_on_new_state = 0;
+        NR52_REG = 0x80; //Enables sound, you should always setup this first
+        NR51_REG = 0xFF; //Enables all channels (left and right)
+        NR50_REG = 0x77; //Max volume
+	//CREDIT STEP MAP
+		switch (credit_step){
+			case 1:
+				InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
+			break;
+			case 2:
+				InitScroll(BANK(mapcredit2), &mapcredit2, collision_tiles_credits, 0);
+			break;
+			case 3:
+				InitScroll(BANK(mapcredit3), &mapcredit3, collision_tiles_credits, 0);
+			break;
+		}
+
+	whostalking = NOBODY;	
 	PlayMusic(titlescreen, 1);
 	credit_wait_time = 0u;
 	generic_counter = 0u;
-
-	SpriteManagerAdd(SpriteFlame, (UINT16) 6u << 3, (UINT16) 15u << 3);
-	Sprite* s_flame = SpriteManagerAdd(SpriteFlame, (UINT16) 14u << 3, (UINT16) 15u << 3);
-	s_flame->anim_frame = 4;
+	INIT_FONT(font, PRINT_BKG);
+	SHOW_BKG;
+	
+	switch (credit_step){
+		case 1:
+			SpriteManagerAdd(SpriteFlame, (UINT16) 6u << 3, (UINT16) 15u << 3);
+			Sprite* s_flame = SpriteManagerAdd(SpriteFlame, (UINT16) 14u << 3, (UINT16) 15u << 3);
+			s_flame->anim_frame = 4;
+		break;
+		case 3:
+			PRINT(1,1, "SPECIAL THANKS TO   ");
+			PRINT(1,2, "KICKSTARTER BACKERS:");
+			
+			PRINT(1,4, "D. C. FRAGA         ");
+			PRINT(1,5, "HAYDEN CRIST        ");
+			PRINT(1,6, "MARTIN GAUER        ");
+			
+			SpriteManagerAdd(SpriteFlame, (UINT16) 17u << 3, (UINT16) 5u << 3);
+			
+			PRINT(1,8, "   54&O PRODUCTION  ");
+			PRINT(1,9, "   ABBY BRAUNSDORF  ");
+			PRINT(1,10, "   TY LAUGHLIN      ");
+			Sprite* s_flame2 = SpriteManagerAdd(SpriteFlame, (UINT16) 1u << 3, (UINT16) 9u << 3);
+			s_flame->anim_frame = 4;
+			
+			PRINT(1,12, "      ANDREW AJELLO ");
+			PRINT(1,13, "      TRAVIS YATES  ");
+			PRINT(1,14, "    OLIVER HASLINGER");	
+			Sprite* s_flame3 = SpriteManagerAdd(SpriteFlame, (UINT16) 3u << 3, (UINT16) 13u << 3);
+			s_flame3->anim_frame = 2;		
+		break;
+	}
+	
+	SHOW_SPRITES;
 }
 
 void UPDATE() {
 	credit_wait_time += 1u;
-	/*if(credit_step == 0){*/
+	if(credit_step == 1){
 		switch(generic_counter){
 			case 10u:
 				Anim_StudioLoading_1();
@@ -484,23 +529,18 @@ void UPDATE() {
 			break;
 		}
 		generic_counter++;
-	//}
-	if(credit_wait_time == 240u || KEY_TICKED(J_START)){
-		/*) 
-		|| KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
-		StopMusic;*/
-		ChangeState(StateTitlescreen, s_motherpl, -1);// StateTitlescreen
 	}
-	/*if(KEY_TICKED(J_START) || KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP)){
-		credit_wait_time = 0u;
-		credit_step += 1u;
-		StopMusic;
-		if(credit_step == 5u){
-			//SetState(StateTitlescreen);
-			return;
-		}else{
-			ChangeState(StateTitlescreen, s_motherpl, -1);// StateTitlescreen
+	if(credit_wait_time >= 240u || KEY_TICKED(J_START)){
+		switch(credit_step){
+			case 1:
+			case 2:
+				SetState(StateCredit);
+			break;
+			case 3:
+				credit_step = 0;
+				ChangeState(StateTitlescreen, s_motherpl, -1);
+			break;
 		}
-	}*/
+	}
 		
 }

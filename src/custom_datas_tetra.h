@@ -43,6 +43,8 @@ typedef enum{
 
 struct TetracursorInfo{
 	TETRACURSOR_STATE cursor_state;
+	UINT8 buy_hp;
+	UINT8 cross_hp;
 };
 
 typedef enum{
@@ -62,6 +64,11 @@ typedef enum{
   TURN_PLAYER,
   TURN_CAPTAIN
 }TETRA_TURN;
+
+struct TETRA_WINNER{
+	TETRA_TURN winner;
+	UINT8 declared;
+};
 
 struct DRAGON_COSTS{
   UINT8 up_cost;

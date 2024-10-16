@@ -30,6 +30,7 @@ IMPORT_MAP(dmapriverside);
 IMPORT_MAP(dmapminotaur);
 IMPORT_MAP(dmapminodef);
 IMPORT_MAP(dmapibex);
+IMPORT_MAP(dmapfinal);
 
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
@@ -95,6 +96,7 @@ extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
+extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
 void START() {
     HIDE_WIN;
@@ -128,7 +130,7 @@ void START() {
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
         case PIRATE_SPUGNA_1: case PIRATE_SPUGNA_2: case PIRATE_SPUGNA_3:
-        case PIRATE_SPUGNA_STRIKE: 
+        case PIRATE_SPUGNA_STRIKE: case MEANWHILE:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
         case MINOTAUR_ENTRANCE:
@@ -140,6 +142,9 @@ void START() {
         case IBEX_GIVE_MISSION:
         case IBEX_GIVE_HERBS:
             InitScroll(BANK(dmapibex), &dmapibex, 0, 0);
+        break;
+        case FINAL:
+            InitScroll(BANK(dmapfinal), &dmapfinal, 0, 0);
         break;
         default:
             switch(previous_state){
@@ -205,7 +210,7 @@ void UPDATE() {
         if(wait_char == 0u){//mostra lettera successiva
             show_next_character();
         }
-    }else if(dialog_ready == 2u){
+    }else if(dialog_ready == 2u && whostalking != FINAL){
         if(whostalking == INTRO){
             dialog_cursor = SpriteManagerAdd(SpriteStartbtn, (INT16)136u, (UINT16)120u);
         }else{
@@ -220,7 +225,7 @@ void UPDATE() {
             }
         }
         dialog_ready = 3u;
-    } else if(dialog_ready == 3u){
+    } else if(dialog_ready == 3u && whostalking != FINAL){
         if(choice == 0u){//NO CHOICE TO DO
             if(KEY_RELEASED(J_START) || KEY_TICKED(J_JUMP) || KEY_TICKED(J_FIRE)){
                 move_on();
@@ -489,6 +494,16 @@ void move_on() BANKED{
         }else{
             ChangeState(StateHarbor, s_motherpl, -1);
         }
+        return;
+    }else if(whostalking == PIRATE_CAPTAIN_2){
+        ChangeState(StateOverworld, s_motherow, MAP_EAST);
+        return;
+    }else if(whostalking == PIRATE_CAPTAIN_3){
+        whostalking = MEANWHILE;
+        ChangeState(StateDialog, s_motherpl, -1);
+    }else if(whostalking == MEANWHILE){
+        chapter = CHAPTER_5_ISLE;
+        ChangeState(StateOverworld, s_motherow, MAP_ISLE);
         return;
     }
     else if(whostalking == HOSPITAL_GAMEOVER){

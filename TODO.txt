@@ -1,57 +1,22 @@
 POST DEMO:
-- mushrooms 
-	crescono al buio, sono nel maze! ho rifattorizzato i teleports così posso mettere altri sprites.
-	ne metto in zona 3, 4 e 5
-- darkest forest
-	- piove?
-	- nemici rane e tarantole sputa veleno
-	- boss? appunti dice airone, ma ho già fatto il volatile bossbat...
-- immagine dialogs dei pirati e capitano (molo con nave)
-- boss con 1hp blinka
+- audio dei projectile degli enemy!
+- i nuovi audio di andrew!
 
-- un negozio diverso per ogni consumabile!
-	- smith fa frecce normali
-	- carpentiere fa frecce perforanti
-	- le bastarde le trovi solo in giro, assicurarsi che spawnino come hidden a sufficienza
-- Dialogs: pixelArt
-- il perk "Save the Nerd" sono in 3 e gli ho giurato il credito in-game.
-- un qualcuno che canta michael jackson "all I wanna say is that they don't really care about us!""
-
-- Legna + metallo + powder = Frecce Esplosive!
 - mettere nel libretto mappa mondo con gli hidden items! descritti sulla
 void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
 di StateOverworld. Forse ce n'è pochi, aggiungerne
-- i nuovi audio di andrew!
-- audio dei projectile?
-- northwest > east è un limite che non valicherò mai. scriverei una cosa tipo "savana"
-o cmq un mezzo spoiler... tipo "to the castle, but i won't go there".
-OPPURE è UNA ZONA BONUS A CUI POSSO ANDARE SOLO A GIOCO FINITO ^^
-
-
-PIXELART:
-- blackieow, per quando cammina fuori mappa a ovest (fuori dalla blackiroom)
-- dialogs:
-	- blackie dentro room
-	- blackie fuori room
-	- figlio di blackie dentro cave
-
+- mettere nel libretto la spiega di tetra
 
 KNOWN ISSUES:
+- Dialogs: pixelArt dei '?'
 - le frecce non normali scattano in alto di qualche pixel dopo aver colpito il 
 	enemy. non so proprio perché.
-- ripristino dei nemici al ritorno di stato (buggato per nemici dello stesso type);
+
 
 PRODUCTION:
-- finito il gioco posso andare a prendere coccodrilli e il fisherman mi paga
-	e scommettere i soldi a tetra alla INN ?
-- chapter 3 dovrebbe cominciare con meno risorse
-	sennò posso andare subito a riparare il ponte ed è troppo facile
-- la vita dei boss che per test li mettevo a 1
 - just_started = 1 <<<<< cercarlo e rimetterlo
-- spawn_hidden_item da segnare sulla mappa del manuale
 - i crediti dedicati a me, BN, sloopygood, comuneko, tetra
-- ow nw maze da pulire perché ci sono i tile di riconoscimento dei teleport!
-- togliere il salto del tutorial che a codice l'ho fatto saltare
+- togliere lo skip del tutorial che a codice l'ho fatto saltare (?)
 - togliere invulnerabilità messa in motherpl.c
 - testare su DMG per verificare sovraccarico di sprites
 
@@ -108,7 +73,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe C:\ZGB-2023.0\tools\png2map\idmushroom.png -gbm -g -pal=mypal.pal C:\ZGB-2023.0\tools\png2map\mapmushroom.gbm
+png2gbtiles.exe C:\ZGB-2023.0\tools\png2map\dmapfinal.png -gbm -g -pal=mypal.pal C:\ZGB-2023.0\tools\png2map\dmapfinal.gbm
 
 GBM TO PNG comando oppure da GBMB c'è Copy as Bitmap e incollare su un paint!
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2gbtiles

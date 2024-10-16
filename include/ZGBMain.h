@@ -41,6 +41,7 @@ _STATE(StateBossminotaur)\
 _STATE(StateBatcave)\
 _STATE(StateHarbor)\
 _STATE(StateBossbat)\
+_STATE(StateFinalcutscene)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -58,6 +59,8 @@ _SPRITE_DMG(SpriteTetradado, tetradado)\
 _SPRITE_DMG(SpriteTetratacche, tetratacche)\
 _SPRITE_DMG(SpriteTetracamera, camerafocus)\
 _SPRITE_DMG(SpriteTetracursor, tetracursor)\
+_SPRITE_DMG(SpriteTetrahourglass, tetrahourglass)\
+_SPRITE_DMG(SpriteTetrapointing, tetrapointing)\
 _SPRITE_DMG(SpriteMotherow, motherow)\
 _SPRITE_DMG(SpriteMotherowarmor, motherowarmor)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
@@ -141,6 +144,8 @@ _SPRITE_DMG(SpritePgParrot, parrot)\
 _SPRITE_DMG(SpriteBossbat, bossbat)\
 _SPRITE_DMG(SpriteInvheart, invheart)\
 _SPRITE_DMG(SpriteMushroom, mushroom)\
+_SPRITE_DMG(SpriteLiamow, liamow)\
+_SPRITE_DMG(SpriteOwmaster, masterow)\
 SPRITE_DEF_END
 
 

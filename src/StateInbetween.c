@@ -25,6 +25,8 @@ extern void manage_border(UINT8 my_next_state) BANKED;
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 
 void ChangeStateThroughBetween(UINT8 new_state) BANKED;
+void ChangeStateThroughBetween_TetraWinner() BANKED;
+void ChangeStateThroughBetween_TetraLoser() BANKED;
 
 void START(){
 	InitScroll(BANK(inbetweenmap), &inbetweenmap, 0, 0);
@@ -47,6 +49,18 @@ void UPDATE(){
 
 void ChangeStateThroughBetween(UINT8 new_state) BANKED{
     new_state_to_go = new_state;
+    HIDE_WIN;
+    SetState(StateInbetween);
+}
+void ChangeStateThroughBetween_TetraWinner() BANKED{
+    new_state_to_go = StateDialog;
+    whostalking = PIRATE_CAPTAIN_3;
+    HIDE_WIN;
+    SetState(StateInbetween);
+}
+void ChangeStateThroughBetween_TetraLoser() BANKED{
+    new_state_to_go = StateDialog;
+    whostalking = PIRATE_CAPTAIN_2;
     HIDE_WIN;
     SetState(StateInbetween);
 }

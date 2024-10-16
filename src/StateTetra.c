@@ -16,6 +16,8 @@
 #include "sgb_palette.h"
 #include "custom_datas_tetra.h"
 
+#define CAPTAIN_THINKING_TIME 160
+
 IMPORT_TILES(tilestetra);
 IMPORT_TILES(fontbw);
 
@@ -24,10 +26,11 @@ IMPORT_MAP(maptetra);
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern INT8 sgb_running;
-UINT8 bank_tilestetra = BANK(tilestetra);
+extern UINT8 pointing_configured;
 
 const UINT8 const collision_tiles_tetra[] = {0, 0};//numero delle tile con zero finale
 
+unsigned char EMPTY_STRING_20[21] = "                    ";
 
 Sprite* dado1 = 0;
 Sprite* dado2 = 0;
@@ -35,6 +38,7 @@ Sprite* dado3 = 0;
 Sprite* dado4 = 0;
 Sprite* dado5 = 0;
 Sprite* dado6 = 0;
+Sprite* s_hourglass = 0;
 struct TetradadoInfo* dado1_info = 0;
 struct TetradadoInfo* dado2_info = 0;
 struct TetradadoInfo* dado3_info = 0;
@@ -49,6 +53,7 @@ INT8 next_dice = -1;
 
 TETRA_GAME_STATE tetra_game_state = START_GAME;
 TETRA_TURN tetraturn = TURN_PLAYER;
+struct TETRA_WINNER tetra_winner = {.winner = TURN_PLAYER, .declared = 0u};
 
 UINT8 dadi_disponibili = 6u;
 UINT8 dado_scelto_da_ui = 1u;
@@ -59,19 +64,23 @@ UINT8 dragon_1_combo = 0;
 UINT8 dragon_2_combo = 0;
 UINT8 dragon_3_combo = 0;
 UINT8 pressed_select = 0u;
+UINT8 start_pick_dice_change_turn = 0u;
 
 TETRA_CAMERA_STATE camera_state = PLAY;
 UINT8 changing_camera_state = 1u;
 TETRA_CAMERA_STATE next_camera_state = READ_INSTRUCTIONS;
-
 UINT16 player_chosen_cards = 0b00000000;//SU, BLAIR, ARROWS, SHIELD
 UINT16 captain_chosen_cards = 0b00000000;//SU, BLAIR, ARROWS, SHIELD
-UINT8 player_counter_dragons = 0u;// primo, secondo, terzo, 0,0,0,0
-UINT8 captain_counter_dragons = 0u;// primo, secondo, terzo, 0,0,0,0
-UINT8 dragons_available = 0b01100000;//TODO correggere e mettere a zero
+UINT8 player_counter_dragons = 0u;
+UINT8 captain_counter_dragons = 0u;
+UINT8 dragons_available = 0b00000000;
 struct DRAGON_COSTS dragon_cost_first = {.up_cost = 0, .blair_cost = 0, .arrows_cost = 0, .shield_cost = 0};
 struct DRAGON_COSTS dragon_cost_second = {.up_cost = 0, .blair_cost = 0, .arrows_cost = 0, .shield_cost = 0};
 struct DRAGON_COSTS dragon_cost_third = {.up_cost = 0, .blair_cost = 0, .arrows_cost = 0, .shield_cost = 0};
+UINT8 captain_thinking_time_counter = 0;
+UINT8 exit_countdown = 0;
+UINT8 instruction_blink_countdown = 0;
+UINT8 initrand_executed = 0u;
 
 void refresh_bkg_tiles() BANKED;
 void refresh_counters(UINT8 is_player, UINT8 counter, TETRA_DADO_FACCE card) BANKED;
@@ -83,9 +92,14 @@ void tetra_change_turn() BANKED;
 void add_dragon(UINT8 dragon_arg) BANKED;
 void make_dice() BANKED;
 void change_camera_state(TETRA_CAMERA_STATE new_camera_state) BANKED;
-void refresh_instuctions() BANKED;
+void refresh_phase() BANKED;
+void winner(TETRA_TURN winner) BANKED;
+void instructions_blink() BANKED;
+void tetra_init_vars() BANKED;
 
-extern void move_cursor_hand_dice(UINT8 direction);
+extern void move_cursor_hand_dice(UINT8 direction) BANKED;
+extern void ChangeStateThroughBetween_TetraWinner() BANKED;
+extern void ChangeStateThroughBetween_TetraLoser() BANKED;
 
 void START() {
 	//SCROLL LIMITS
@@ -118,19 +132,57 @@ void START() {
   tetra_cursor = SpriteManagerAdd(SpriteTetracursor, dado1->x, dado1->y - 8u);
   tetra_cursor_info = (struct TetracursorInfo*) tetra_cursor->custom_data;
   SHOW_SPRITES;
-  
-  next_dice = -1;
-  dado_scelto_da_ui_ok = 0u;
+
+  tetra_init_vars();
   tetra_change_game_state(START_GAME);//INIT_GAME;
+  if(initrand_executed == 0){
+    initrand_executed = 1u;
+    initarand(sys_time);
+  } 
+  INIT_FONT(fontbw, PRINT_BKG); 
+  PRINT(18, 16, "%u", player_counter_dragons);
+  PRINT(18, 1, "%u", captain_counter_dragons);
+  refresh_phase();
+}
+
+void tetra_init_vars() BANKED{
+  next_dice = -1;
+  tetra_game_state = START_GAME;
   tetraturn = TURN_PLAYER;
+  tetra_winner.winner = TURN_PLAYER;
+  tetra_winner.declared = 0u;
   dadi_disponibili = 6u;
   dado_scelto_da_ui = 1u;
+  dado_scelto_da_ui_ok = 0u;
   generate_combo_counter = 1u;
+  dragon_1_combo = 0;
+  dragon_2_combo = 0;
+  dragon_3_combo = 0;
   pressed_select = 0u;
-  initarand(sys_time);//TODO move this to be executed ONCE 
-  INIT_FONT(fontbw, PRINT_BKG); 
-  PRINT(17, 2, "%u", player_counter_dragons);
-  PRINT(17, 15, "%u", captain_counter_dragons);
+  start_pick_dice_change_turn = 0u;
+  camera_state = PLAY;
+  changing_camera_state = 1u;
+  next_camera_state = READ_INSTRUCTIONS;
+  player_chosen_cards = 0b00000000;//SU, BLAIR, ARROWS, SHIELD
+  captain_chosen_cards = 0b00000000;//SU, BLAIR, ARROWS, SHIELD
+  player_counter_dragons = 0u;
+  captain_counter_dragons = 0u;
+  dragons_available = 0b00000000;
+  dragon_cost_first.up_cost = 0;
+  dragon_cost_first.blair_cost = 0;
+  dragon_cost_first.arrows_cost = 0;
+  dragon_cost_first.shield_cost = 0;
+  dragon_cost_second.up_cost = 0;
+  dragon_cost_second.blair_cost = 0;
+  dragon_cost_second.arrows_cost = 0;
+  dragon_cost_second.shield_cost = 0;
+  dragon_cost_third.up_cost = 0;
+  dragon_cost_third.blair_cost = 0;
+  dragon_cost_third.arrows_cost = 0;
+  dragon_cost_third.shield_cost = 0;
+  captain_thinking_time_counter = 0;
+  exit_countdown = 0;
+  instruction_blink_countdown = 0;
 }
 
 void refresh_bkg_tiles() BANKED{
@@ -185,31 +237,42 @@ void refresh_bkg_tiles() BANKED{
       set_bkg_tile_xy(16, 8, 0);
       set_bkg_tile_xy(17, 8, 0);
     }
-  //PLAYER COUNTERS
-    UINT16 counter_card = 0;
-    counter_card = player_chosen_cards >> 12;
-    refresh_counters(0, counter_card, FACCIA_UP);
-    counter_card = player_chosen_cards >> 8;
-    counter_card = counter_card & 0b00001111;
-    refresh_counters(0, counter_card, FACCIA_BLAIR);
-    counter_card = player_chosen_cards >> 4;
-    counter_card = counter_card & 0b00001111;
-    refresh_counters(0, counter_card, FACCIA_ARROWS);
-    counter_card = player_chosen_cards;
-    counter_card = counter_card & 0b00001111;
-    refresh_counters(0, counter_card, FACCIA_SHIELD);
-  //CAPTAIN COUNTERS
-    counter_card = captain_chosen_cards >> 12;
-    refresh_counters(1, counter_card, FACCIA_UP);
-    counter_card = captain_chosen_cards >> 8;
-    counter_card = counter_card & 0b0000000000001111;
-    refresh_counters(1, counter_card, FACCIA_BLAIR);
-    counter_card = captain_chosen_cards >> 4;
-    counter_card = counter_card & 0b0000000000001111;
-    refresh_counters(1, counter_card, FACCIA_ARROWS);
-    counter_card = captain_chosen_cards;
-    counter_card = counter_card & 0b0000000000001111;
-    refresh_counters(1, counter_card, FACCIA_SHIELD);
+  //COUNTERS
+    if(scroll_target->y < 180){
+      //PLAYER COUNTERS
+        UINT16 counter_card = 0;
+        counter_card = player_chosen_cards >> 12;
+        refresh_counters(1, counter_card, FACCIA_UP);
+        counter_card = player_chosen_cards >> 8;
+        counter_card = counter_card & 0b00001111;
+        refresh_counters(1, counter_card, FACCIA_BLAIR);
+        counter_card = player_chosen_cards >> 4;
+        counter_card = counter_card & 0b00001111;
+        refresh_counters(1, counter_card, FACCIA_ARROWS);
+        counter_card = player_chosen_cards;
+        counter_card = counter_card & 0b00001111;
+        refresh_counters(1, counter_card, FACCIA_SHIELD);
+      //CAPTAIN COUNTERS
+        counter_card = captain_chosen_cards >> 12;
+        refresh_counters(0, counter_card, FACCIA_UP);
+        counter_card = captain_chosen_cards >> 8;
+        counter_card = counter_card & 0b0000000000001111;
+        refresh_counters(0, counter_card, FACCIA_BLAIR);
+        counter_card = captain_chosen_cards >> 4;
+        counter_card = counter_card & 0b0000000000001111;
+        refresh_counters(0, counter_card, FACCIA_ARROWS);
+        counter_card = captain_chosen_cards;
+        counter_card = counter_card & 0b0000000000001111;
+        refresh_counters(0, counter_card, FACCIA_SHIELD);
+    
+      PRINT(18, 16, "%i", player_counter_dragons);
+      PRINT(18, 1, "%i", captain_counter_dragons);
+  }
+  //refresh_phase();
+}
+
+void refresh_phase() BANKED{
+  instruction_blink_countdown = 100;
 }
 
 void refresh_counters(UINT8 is_player, UINT8 counter, TETRA_DADO_FACCE card) BANKED{
@@ -241,39 +304,25 @@ void change_camera_state(TETRA_CAMERA_STATE new_camera_state) BANKED{
 }
 
 void UPDATE(){
-  /*if(KEY_PRESSED(J_DOWN) || KEY_PRESSED(J_UP) || KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)){
-    refresh_bkg_tiles();
-  }*/
-  if(next_camera_state != NONE && next_camera_state != camera_state && changing_camera_state == 1){
-    switch(next_camera_state){
-      case READ_INSTRUCTIONS:
-        if(scroll_target->y < 72u){scroll_target->y = 72u;}
-        else if(scroll_target->y > 72u){scroll_target->y-=4;}
-        else if(scroll_target->x < 232u){scroll_target->x+=4;}
-        else if(scroll_target->x > 232u){scroll_target->x = 232u;}
-        else{camera_state = next_camera_state; changing_camera_state = 0;
-          refresh_instuctions();}
-      break;
-      case PLAY:
-        if(scroll_target->y < 72u){scroll_target->y+=4;}
-        else if(scroll_target->y > 72u){scroll_target->y-=4;}
-        else if(scroll_target->x < 80u){scroll_target->x+=4;}
-        else if(scroll_target->x > 80u){scroll_target->x-=4;}
-        else{camera_state = next_camera_state; changing_camera_state = 0; refresh_bkg_tiles();}
-      break;
-    }
-    return;
+ if(tetra_winner.declared == 1){
+  switch(tetra_winner.winner){
+    case TURN_PLAYER:
+      exit_countdown--;
+      if(exit_countdown < 10){
+         ChangeStateThroughBetween_TetraWinner();
+      }
+    break;
+    case TURN_CAPTAIN:
+      exit_countdown--;
+      if(exit_countdown < 10){
+         ChangeStateThroughBetween_TetraLoser();
+      }
+    break;
   }
-  switch(camera_state){
-    case READ_INSTRUCTIONS://just move the camera with directions
-      if(KEY_PRESSED(J_UP)){scroll_target->y-=2;}
-      if(KEY_PRESSED(J_DOWN)){scroll_target->y+=2;}
-      if(KEY_TICKED(J_SELECT)){change_camera_state(PLAY);}
-      return;
-    break;
-    case PLAY:
-      if(KEY_TICKED(J_SELECT)){change_camera_state(READ_INSTRUCTIONS);}
-    break;
+  return;
+ }
+  if(instruction_blink_countdown > 0){
+    instruction_blink();
   }
   switch(tetra_game_state){
     case START_GAME:
@@ -420,7 +469,7 @@ void UPDATE(){
     break;
     case TURN_MAKE_DICE:
       if(next_dice == -1){
-        if(KEY_TICKED(J_FIRE)){
+        if(KEY_TICKED(J_FIRE) || KEY_RELEASED(J_START)){
           next_dice = 0;
           tetra_cursor->x = dado1->x;
           tetra_cursor->y = dado1->y - 8u;
@@ -448,9 +497,15 @@ void UPDATE(){
       }
     break;
     case TURN_PICK_DICE:
-      if(dado6_info->tetradado_state != DADO_FACE
-      && dado6_info->tetradado_state != ANTICIPATION){return;}
+      if(dado6_info->tetradado_state < DADO_FACE){
+        tetra_cursor_info->cursor_state = CURSOR_INVISIBLE;return;
+      }else{
+        tetra_cursor_info->cursor_state = HAND_OPENED;
+      }
       if(tetraturn == TURN_CAPTAIN){//praticamente codo la parte di scelta enemy del dado,
+        if(captain_thinking_time_counter > 10){captain_thinking_time_counter--; return;}
+        SpriteManagerRemoveSprite(s_hourglass);
+        tetra_cursor_info->cursor_state = HAND_OPENED;
         if(dadi_disponibili == 0u){//passo alla fase successiva della partita
           tetra_change_game_state(TURN_PICK_DRAGON);
           return;
@@ -518,8 +573,35 @@ void UPDATE(){
     break;
     case TURN_PICK_DRAGON:
       if(tetraturn == TURN_CAPTAIN){
-        UINT8 can_buy_dragon_1 = buy_dragon(0, 0);
-        tetra_change_game_state(TURN_BUY_DRAGON);
+        if(captain_thinking_time_counter > 10){captain_thinking_time_counter--; return;}
+        SpriteManagerRemoveSprite(s_hourglass);
+        UINT8 can_buy_dragon_1 = buy_dragon(1, 0);
+        UINT8 can_buy_dragon_2 = buy_dragon(2, 0);
+        UINT8 can_buy_dragon_3 = buy_dragon(3, 0);
+        if(can_buy_dragon_1 || can_buy_dragon_2 || can_buy_dragon_3){
+          tetra_change_game_state(TURN_BUY_DRAGON);
+        }else{
+          tetra_change_turn();
+        }
+      }
+    break;
+    case TURN_BUY_DRAGON:
+      if(tetraturn == TURN_CAPTAIN){
+        UINT8 can_buy_dragon = buy_dragon(1, 0);
+        if(can_buy_dragon){
+          buy_dragon(1, 1);
+        }else{
+          can_buy_dragon = buy_dragon(2, 0);
+          if(can_buy_dragon){
+            buy_dragon(2, 1);
+          }else{
+            can_buy_dragon = buy_dragon(3, 0);
+            if(can_buy_dragon){
+              buy_dragon(3, 1);
+            }
+          }
+        }
+        tetra_change_turn();
       }
     break;
   }
@@ -555,49 +637,24 @@ void make_dice() BANKED{
     break;
     case 6:
       dado6_info->tetradado_state = ROLLING_FAST;
+      tetra_cursor->x = dado1->x;
+      tetra_cursor->y = dado1->y + 16u;
+      tetra_cursor_info->cursor_state = CURSOR_INVISIBLE;
       tetra_change_game_state(TURN_PICK_DICE);
     break;
   }
 }
 
-void refresh_instuctions() BANKED{
-  switch(tetra_game_state){
-    case INIT_GAME:
-    case START_GAME:
-    case TURN_MAKE_DRAGONS:
-      PRINT(20,0, "START:START DRAGONS");
-      PRINT(20,1, "FIRE :             ");
-      PRINT(20,2, "JUMP :             ");
-    break;
-    case TURN_MAKE_DICE:
-      PRINT(20,0, "START:             ");
-      PRINT(20,1, "FIRE :ROLL DICE    ");
-      PRINT(20,2, "JUMP :             ");
-    break;
-    case TURN_PICK_DICE:
-      PRINT(20,0, "START:             ");
-      PRINT(20,1, "FIRE :PICK DICE    ");
-      PRINT(20,2, "JUMP :             ");
-    break;
-    case TURN_PICK_DRAGON:
-      PRINT(20,0, "START:             ");
-      PRINT(20,1, "FIRE :PICK DRAGON  ");
-      PRINT(20,2, "JUMP :             ");
-    break;
-    case TURN_BUY_DRAGON:
-      PRINT(20,0, "START:             ");
-      PRINT(20,1, "FIRE :BUY DRAGON   ");
-      PRINT(20,2, "JUMP :BACK TO PICK ");
-    break;
-  }
-}
-
 void tetra_change_game_state(TETRA_GAME_STATE new_game_state) BANKED{
+ if(tetra_winner.declared != 0){return;}
   switch(new_game_state){
     case START_GAME:
     case TURN_MAKE_DRAGONS:
       player_chosen_cards = 0;//SU, BLAIR, ARROWS, SHIELD
       captain_chosen_cards = 0;//SU, BLAIR, ARROWS, SHIELD
+      dragon_1_combo = 0;
+      dragon_2_combo = 0;
+      dragon_3_combo = 0;
       dragons_available = 0;
       dado1_info->tetradado_state = DADO_INVISIBLE;
       dado2_info->tetradado_state = DADO_INVISIBLE;
@@ -620,6 +677,8 @@ void tetra_change_game_state(TETRA_GAME_STATE new_game_state) BANKED{
       set_bkg_tile_xy(15, 8, 0);
       set_bkg_tile_xy(16, 8, 0);
       set_bkg_tile_xy(17, 8, 0);
+      refresh_bkg_tiles();
+      refresh_phase();
     break;
     case TURN_MAKE_DICE:
       generate_combo_counter = 0;
@@ -633,28 +692,49 @@ void tetra_change_game_state(TETRA_GAME_STATE new_game_state) BANKED{
       dado4_info->tetradado_state = DADO_INVISIBLE;
       dado5_info->tetradado_state = DADO_INVISIBLE;
       dado6_info->tetradado_state = DADO_INVISIBLE;
+      refresh_bkg_tiles();
     break;
     case TURN_PICK_DICE:
-      tetra_cursor->x = dado1->x;
-      tetra_cursor->y = dado1->y + 16u;
       tetra_cursor_info->cursor_state = HAND_OPENED;
-      tetra_change_turn();
+      if(start_pick_dice_change_turn == 0u){
+        start_pick_dice_change_turn = 1;
+        tetra_change_turn();
+      }else{
+        start_pick_dice_change_turn = 0;
+      }
+      refresh_bkg_tiles();
     break;
     case TURN_PICK_DRAGON:
       tetra_cursor_info->cursor_state = HAND_OPENED;
       tetra_cursor->x = ((UINT16) 3u << 3);
       tetra_cursor->y = ((UINT16) 6u << 3);
+      refresh_bkg_tiles();
     break;
     case TURN_BUY_DRAGON:
     break;
+    case WINNER:
+      tetra_winner.winner = TURN_PLAYER;
+      tetra_winner.declared = 1;
+      exit_countdown = 200;
+      PRINT(0, 9, "   !!DESSA WINS!!    ");
+    break;
+    case LOSER:
+      tetra_winner.winner = TURN_CAPTAIN;
+      tetra_winner.declared = 1;
+      exit_countdown = 200;
+      PRINT(0, 9, "  !!CAPTAIN WINS!!   ");
+    break;
   }
   tetra_game_state = new_game_state;
-  refresh_bkg_tiles();
+  refresh_phase();
 }
 
 void tetra_change_turn() BANKED{
-  if(tetraturn == TURN_PLAYER){tetraturn = TURN_CAPTAIN;}
-  else if(tetraturn == TURN_CAPTAIN){tetraturn = TURN_PLAYER;}
+  if(tetraturn == TURN_PLAYER){
+    tetraturn = TURN_CAPTAIN;
+    captain_thinking_time_counter = CAPTAIN_THINKING_TIME;
+    s_hourglass = SpriteManagerAdd(SpriteTetrahourglass, 68u, (UINT16) 13 << 3);
+  }else if(tetraturn == TURN_CAPTAIN){tetraturn = TURN_PLAYER;}
 }
 
 struct DRAGON_COSTS* get_dragon_cost(UINT8 dragon_arg) BANKED{
@@ -688,51 +768,62 @@ UINT8 buy_dragon(UINT8 dragon_arg, UINT8 just_check) BANKED{
       .blair_cost = dragon_cost_address->blair_cost,
       .arrows_cost = dragon_cost_address->arrows_cost,
       .shield_cost = dragon_cost_address->shield_cost};
+    UINT8 up_cost = dragon_cost.up_cost;
+    UINT8 blair_cost = dragon_cost.blair_cost;
+    UINT8 arrows_cost = dragon_cost.arrows_cost;
+    UINT8 shield_cost = dragon_cost.shield_cost;
+    UINT16 turn_chosen_cards = 0u;
     switch(tetraturn){
-      case TURN_PLAYER://is player asking to buy dragon
-        UINT8 up_cost = dragon_cost.up_cost;
-        UINT8 blair_cost = dragon_cost.blair_cost;
-        UINT8 arrows_cost = dragon_cost.arrows_cost;
-        UINT8 shield_cost = dragon_cost.shield_cost;
-        UINT16 up_player = player_chosen_cards & 0b1111000000000000;
-        up_player = up_player >> 12;
-        UINT16 blair_player = player_chosen_cards & 0b0000111100000000;
-        blair_player = blair_player >> 8;
-        UINT16 arrows_player = player_chosen_cards & 0b0000000011110000;
-        arrows_player = arrows_player >> 4;
-        UINT16 shield_player = player_chosen_cards & 0b0000000000001111;
-        if(up_player >= up_cost && blair_player >= blair_cost && arrows_player >= arrows_cost && shield_player >= shield_cost){
-          result = 1;
-          if(just_check != 0){
-            UINT16 new_symbol_player = up_player - up_cost;
-            UINT16 first_op = new_symbol_player << 12;
-            UINT16 second_op = player_chosen_cards & 0b0000111111111111;
-            if(up_cost > 0){
-              player_chosen_cards = first_op | second_op;
-            }
-            if(blair_cost > 0){
-              new_symbol_player = blair_player - blair_cost;
-              first_op = new_symbol_player << 8;
-              second_op = player_chosen_cards & 0b1111000011111111;
-              player_chosen_cards = first_op | second_op;
-            }
-            if(arrows_cost > 0){
-              new_symbol_player = arrows_player - arrows_cost;
-              first_op = new_symbol_player << 4;
-              second_op = player_chosen_cards & 0b1111111100001111;
-              player_chosen_cards = first_op | second_op;
-            }
-            if(shield_cost > 0){
-              first_op = shield_player - shield_cost;
-              second_op = player_chosen_cards & 0b1111111111110000;
-              player_chosen_cards = first_op | second_op;
-            }
-            add_dragon(dragon_arg);
-          }
+      case TURN_PLAYER:turn_chosen_cards = player_chosen_cards; break;
+      case TURN_CAPTAIN:turn_chosen_cards = captain_chosen_cards; break;
+    }
+    UINT16 up_turn = turn_chosen_cards & 0b1111000000000000;
+    up_turn = up_turn >> 12;
+    UINT16 blair_turn = turn_chosen_cards & 0b0000111100000000;
+    blair_turn = blair_turn >> 8;
+    UINT16 arrows_turn = turn_chosen_cards & 0b0000000011110000;
+    arrows_turn = arrows_turn >> 4;
+    UINT16 shield_turn = turn_chosen_cards & 0b0000000000001111;
+    if(up_turn >= up_cost && blair_turn >= blair_cost && arrows_turn >= arrows_cost && shield_turn >= shield_cost){
+      result = 1;
+      if(just_check != 0){
+        UINT16 new_symbol_turn = up_turn - up_cost;
+        UINT16 first_op = new_symbol_turn << 12;
+        UINT16 second_op = turn_chosen_cards & 0b0000111111111111;
+        if(up_cost > 0){
+          turn_chosen_cards = first_op | second_op;
         }
-      break;
-      case TURN_CAPTAIN://is captain asking to buy dragon
-      break;
+        if(blair_cost > 0){
+          new_symbol_turn = blair_turn - blair_cost;
+          first_op = new_symbol_turn << 8;
+          second_op = turn_chosen_cards & 0b1111000011111111;
+          turn_chosen_cards = first_op | second_op;
+        }
+        if(arrows_cost > 0){
+          new_symbol_turn = arrows_turn - arrows_cost;
+          first_op = new_symbol_turn << 4;
+          second_op = turn_chosen_cards & 0b1111111100001111;
+          turn_chosen_cards = first_op | second_op;
+        }
+        if(shield_cost > 0){
+          first_op = shield_turn - shield_cost;
+          second_op = turn_chosen_cards & 0b1111111111110000;
+          turn_chosen_cards = first_op | second_op;
+        }
+        switch(tetraturn){
+          case TURN_PLAYER:
+            SpriteManagerAdd(SpriteTetrapointing,0,0);
+            pointing_configured = 2;
+            player_chosen_cards = turn_chosen_cards;
+          break;
+          case TURN_CAPTAIN:
+            SpriteManagerAdd(SpriteTetrapointing,0,0);
+            pointing_configured = 1;
+            captain_chosen_cards = turn_chosen_cards;
+          break;
+        }
+        add_dragon(dragon_arg);
+      }
     }
     return result;
 }
@@ -746,11 +837,6 @@ void add_dragon(UINT8 dragon_arg) BANKED{
       captain_counter_dragons++;
     break;
   }
-  if(player_counter_dragons == 4){
-    //winner(TURN_PLAYER);
-  }else if(captain_counter_dragons == 4){
-    //winner(TURN_CAPTAIN);
-  }
   switch(dragon_arg){
     case 1: 
       dragons_available = dragons_available | 0b10000000;
@@ -762,15 +848,14 @@ void add_dragon(UINT8 dragon_arg) BANKED{
       dragons_available = dragons_available | 0b00100000;
     break;
   }
-  PRINT(17, 2, "%i", player_counter_dragons);
-  PRINT(17, 15, "%i", captain_counter_dragons);
-  UINT8 remaining_dragons = dragons_available & 0b11100000;
-  if(remaining_dragons == 0b11100000){//rifai draghi
-    tetra_change_game_state(TURN_MAKE_DRAGONS);
-  }else{
-    tetra_change_game_state(TURN_PICK_DRAGON);
-  }
   refresh_bkg_tiles();
+  if(player_counter_dragons == 4){
+    winner(TURN_PLAYER);
+  }else if(captain_counter_dragons == 4){
+    winner(TURN_CAPTAIN);
+  }else{
+    tetra_change_game_state(TURN_MAKE_DRAGONS);
+  }
 }
 
 void card_chosen(TETRA_DADO_FACCE chosen_face) BANKED{
@@ -839,10 +924,83 @@ void card_chosen(TETRA_DADO_FACCE chosen_face) BANKED{
     break;
   }
   refresh_bkg_tiles();
-  tetra_change_turn();
-  dadi_disponibili--;
-  move_cursor_hand_dice(J_RIGHT);   
+  dadi_disponibili--;  
   if(dadi_disponibili == 0){//passo alla fase successiva della partita
     tetra_change_game_state(TURN_PICK_DRAGON);
+  }else{
+    //move_cursor_hand_dice(J_RIGHT);
+    tetra_change_turn();
+  }
+}
+
+void instruction_blink() BANKED{
+  instruction_blink_countdown--;
+  if(instruction_blink_countdown < 20 || (instruction_blink_countdown % 10 == 0)){
+    set_bkg_tile_xy(1, 0, 32u);
+    set_bkg_tile_xy(2, 0, 32u);
+    set_bkg_tile_xy(3, 0, 32u);
+    set_bkg_tile_xy(4, 0, 32u);
+    set_bkg_tile_xy(5, 0, 32u);
+    set_bkg_tile_xy(6, 0, 32u);
+    set_bkg_tile_xy(7, 0, 32u);
+    set_bkg_tile_xy(8, 0, 32u);
+    set_bkg_tile_xy(9, 0, 32u);
+    set_bkg_tile_xy(10, 0, 32u);
+    set_bkg_tile_xy(11, 0, 32u);
+    set_bkg_tile_xy(12, 0, 32u);
+    set_bkg_tile_xy(13, 0, 32u);
+    set_bkg_tile_xy(14, 0, 32u);
+    set_bkg_tile_xy(15, 0, 32u);
+    set_bkg_tile_xy(16, 0, 32u);
+    set_bkg_tile_xy(17, 0, 32u);
+    set_bkg_tile_xy(18, 0, 32u);
+    if(instruction_blink_countdown < 20){
+      instruction_blink_countdown=0;
+    }
+  }else{
+    switch(tetra_game_state){
+      case START_GAME:
+        PRINT(6, 0, "PRESS DOWN");
+      break;
+      case TURN_MAKE_DRAGONS:
+        PRINT(6, 0, "PRESS START");
+      break;
+      case TURN_MAKE_DICE:
+        PRINT(2, 0, "FIRE: ROLL DICE");
+      break;
+      case TURN_PICK_DICE:
+        if(dado6_info->tetradado_state == DADO_FACE){
+          PRINT(4, 0, "PICK DICE");
+        }
+      break;
+      case TURN_PICK_DRAGON:
+        if(tetraturn == TURN_PLAYER){
+          PRINT(4, 0, "PICK DRAGON");
+        }
+      break;
+      case TURN_BUY_DRAGON:
+        if(tetraturn == TURN_PLAYER){
+          PRINT(5, 0, "BUY DRAGON");
+        }
+      break;
+    }
+  }
+}
+
+void winner(TETRA_TURN winner) BANKED{
+  SpriteManagerRemoveSprite(dado1);
+  SpriteManagerRemoveSprite(dado2);
+  SpriteManagerRemoveSprite(dado3);
+  SpriteManagerRemoveSprite(dado4);
+  SpriteManagerRemoveSprite(dado5);
+  SpriteManagerRemoveSprite(dado6);
+  tetra_cursor_info->cursor_state = CURSOR_INVISIBLE;
+  switch(winner){
+    case TURN_PLAYER:
+      tetra_change_game_state(WINNER);
+    break;
+    case TURN_CAPTAIN:
+      tetra_change_game_state(LOSER);
+    break;
   }
 }

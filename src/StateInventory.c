@@ -60,6 +60,7 @@ extern WHOSTALKING whostalking;
 extern INT8 current_map;
 extern struct MISSION enable_hospital;
 extern INT8 motherpl_hp;
+extern Sprite* s_motherow;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
@@ -335,9 +336,10 @@ void UPDATE(){
         }
     }else if(KEY_TICKED(J_FIRE)){
         if(inventory[invcursor_posi].itemtype == INVITEM_LIAM_HANDWRITTEN){
-            whostalking = ITEMDETAIL_LIAM_HANDWRITTEN;
             manage_bgm(StateDialog, StateInventory, current_map);
-            SetState(StateDialog);
+            trigger_dialog(ITEMDETAIL_LIAM_HANDWRITTEN, s_motherow);
+            //whostalking = ITEMDETAIL_LIAM_HANDWRITTEN;
+            //SetState(StateDialog);
         }
     }
     if(KEY_RELEASED(J_UP)){

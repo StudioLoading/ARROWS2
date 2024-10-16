@@ -78,9 +78,6 @@ void START() {
 		case FPS_GATOR:
 			InitScroll(BANK(fpsgatormap), &fpsgatormap, 0, 0);
 		break;
-		case FPS_DRAGON://TODO
-			//InitScroll(bank_mapbonus, &mapbonus, coll_fps_dragon_tiles, 0);
-		break;
 	}
     SHOW_BKG;	
     SHOW_SPRITES;
@@ -113,10 +110,6 @@ void START() {
 }
 
 void UPDATE(){
-	/*if(KEY_PRESSED(J_DOWN) && KEY_PRESSED(J_START)){
-		SetWindowY(160);
-		SetState(StateExzoo);
-	}*/
 	if( punta_info->punta_state == IDLE){
 		if(KEY_TICKED(J_FIRE)){
 			Anim_Crossbow_1();
@@ -130,72 +123,6 @@ void UPDATE(){
 		}
 	}
 	//MOVING
-		switch(fps_level_type){
-			case FPS_GATOR:{
-				scroll_wave_counter++;
-				if ((scroll_wave_counter % 4) == 0){
-					if (scroll_wave_counter < 124u){
-						if(scroll_wave_counter > 70u){
-							if((scroll_wave_counter % 8) == 0){
-								scroll_target->y++;
-							}
-						}else{
-							scroll_target->y++;
-						}
-					}else{
-						if(scroll_wave_counter > 190u){
-							if((scroll_wave_counter % 8) == 0){
-								scroll_target->y--;
-							}
-						}else{
-							scroll_target->y--;
-						}
-					}
-				}
-				if (scroll_wave_counter >= 240u){
-					scroll_wave_counter = 0;
-					//scroll_target->y = starting_y;
-				}
-				s_mirino->y = scroll_target->y;
-				if(punta_info->punta_state == IDLE){
-					spr_punta->y = scroll_target->y + delta_mirino_punta;
-				}
-				INT8 scroll_vx = 0;
-				INT8 scroll_vy = 0;
-				if(KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)){
-					if(KEY_PRESSED(J_LEFT) && scroll_target->x > fps_limit_min_x){
-						scroll_vx = -1;
-					}
-					if(KEY_PRESSED(J_RIGHT) && scroll_target->x < fps_limit_max_x){
-						scroll_vx = 1;
-					}
-				}
-				if(KEY_PRESSED(J_UP) || KEY_PRESSED(J_DOWN)){
-					if(KEY_PRESSED(J_UP) && scroll_target->y > fps_limit_min_y){
-						scroll_vy = -1;
-					}
-					if(KEY_PRESSED(J_DOWN) && scroll_target->y < fps_limit_max_y){
-						scroll_vy = 1;
-					}
-				}			
-				UINT8 scroll_accel = 0;
-				if(KEY_PRESSED(J_JUMP)){
-					scroll_vx = scroll_vx << 1;
-					scroll_vy = scroll_vy << 1;
-				}
-				scroll_target->x += scroll_vx;
-				scroll_target->y += scroll_vy;
-				s_mirino->x = scroll_target->x - 2u;
-				if(punta_info->punta_state == IDLE){
-					spr_punta->x = scroll_target->x - 3u;
-				}
-			}
-			break;
-			case FPS_DRAGON:{
-
-			}
-			break;
-		}
 	//SPAWNING
 		switch(fps_level_type){
 			case FPS_GATOR:
@@ -241,8 +168,6 @@ void UPDATE(){
 					break;
 				}
 			break;
-			case FPS_DRAGON:
-			break;
 		}
 	//TILES ANIM
 		switch(fps_level_type){
@@ -269,19 +194,5 @@ void UPDATE(){
 					}
 				}
 			break;
-		}
-	/*if(target_counter == (MAX_TARGET_COUNTER >> 1)){
-		target_0 = SpriteManagerAdd(SpriteTarget, (UINT16) 16u << 3, (UINT16) 9u << 3);
-		t0_info = (struct TargetInfo*) target_0->custom_data;
-		t0_info->target_state = TARGET_INIT_AXE;
-	}*/
-	/*if(target_counter == MAX_TARGET_COUNTER){
-		target_counter = 0u;
-		target_0 = SpriteManagerAdd(SpriteTarget, (UINT16) 10u << 3, (UINT16) 20u << 3);
-		t0_info = (struct TargetInfo*) target_0->custom_data;
-		t0_info->target_state = TARGET_INIT_PALLONCINO;
-		t0_info->vy = -1;
-	}*/
-	
-		
+		}		
 }

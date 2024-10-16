@@ -16,9 +16,9 @@
 #define RUN_VXMIN 2
 
 const UINT8 a_mino_idle[] = {1, 3};
-const UINT8 a_mino_hit[] = {2, 7,0};
-const UINT8 a_mino_walk[] = {7, 6,8,3,5,7,2,1};
-const UINT8 a_mino_run[] = {7, 6,8,3,5,7,2,1};
+const UINT8 a_mino_hit[] = {2, 3,7};
+const UINT8 a_mino_walk[] = {7, 6,8,3,5,3,2,1};
+const UINT8 a_mino_run[] = {7, 6,8,3,5,3,2,1};
 const UINT8 a_mino_preattack[] = {2,3,4};
 const UINT8 a_mino_dead[] = {1,9};
 

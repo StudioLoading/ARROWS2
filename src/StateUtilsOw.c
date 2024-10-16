@@ -444,6 +444,29 @@ void initial_sprite_spawning() BANKED{
 				break;
 			}
 		break;
+		case CHAPTER_5_ISLE:
+			switch(current_map){
+				case MAP_ISLE:
+					Sprite* s_owmaster = SpriteManagerAdd(SpriteOwmaster, ((UINT16) 24 << 3), ((UINT16) 10 << 3));
+					Sprite* gator0 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 24u << 3), ((UINT16) 23u << 3));
+					struct PlatformInfo* gator0_data = (struct PlatformInfo*)gator0->custom_data;
+					gator0_data->vy = 1;
+					gator0_data->clockwise = 1;
+					gator0_data->distance = 3u;
+					Sprite* gator1 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 11u << 3), ((UINT16) 24u << 3));
+					struct PlatformInfo* gator1_data = (struct PlatformInfo*)gator1->custom_data;
+					gator1_data->vy = 1;
+					gator1_data->clockwise = 0;
+					gator1_data->distance = 6u;
+					Sprite* gator2 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 3u << 3), ((UINT16) 18u << 3));
+					struct PlatformInfo* gator2_data = (struct PlatformInfo*)gator2->custom_data;
+					gator2_data->vy = 1;
+					gator2_data->clockwise = 0;
+					gator2_data->distance = 6u;
+					SpriteManagerAdd(SpriteBottle, (UINT16) 9 << 3, ((UINT16) 20 << 3));
+				break;
+			}
+		break;
 	}
 }
 

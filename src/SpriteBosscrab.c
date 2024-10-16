@@ -14,7 +14,7 @@
 #define WALK_TIMEOUT_HPMIN 60
 
 const UINT8 a_crab_click[] = {8, 0,1,0,0,2,0,0,3};
-const UINT8 a_crab_idle[] = {8, 4,5,5,4,5,5,5,5};
+const UINT8 a_crab_idle[] = {6, 3,2,3,1,0,1};
 const UINT8 a_crab_hit[] = {2, 4,5};
 const UINT8 a_crab_walk[] = {3, 7,8,6};
 
@@ -165,7 +165,7 @@ void crab_change_state(ENEMY_STATE crab_new_state) BANKED{
         case ENEMY_HIT_2:
             crab_data->hp--;
             crab_jump_power = 8;
-            SetSpriteAnim(THIS,a_crab_hit, 24u);
+            SetSpriteAnim(THIS,a_crab_hit, 32u);
             crab_data->vx = 0;
             crab_data->wait = 80u;
         break;

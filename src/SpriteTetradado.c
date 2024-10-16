@@ -45,7 +45,6 @@ void UPDATE(){
     struct TetradadoInfo* dado_info = (struct TetradadoInfo*) THIS->custom_data;
     switch(dado_info->tetradado_state){
         case DADO_INVISIBLE:
-            //TODO vai alle sue initial e stai invisibile sull' animazione
             SetSpriteAnim(THIS, dado_invisible, 4u);
             THIS->x = dado_info->initial_x;
             THIS->y = dado_info->initial_y;

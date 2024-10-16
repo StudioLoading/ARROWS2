@@ -250,6 +250,7 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
         break;
         case SpriteMotherow:
         case SpriteMotherowarmor:
+        case SpriteLiamow:
             motherow_pos_x = x;
             motherow_pos_y = y;
         break;
@@ -469,6 +470,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             switch(s_mother->type){
                 case SpriteMotherow:
                 case SpriteMotherowarmor:
+                case SpriteLiamow:
                     switch(new_state){
                         case StateOverworld:
                             if(current_map == MAP_SOUTHWEST && next_map == MAP_SOUTHEAST){
@@ -605,6 +607,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             HIDE_WIN;
             SetWindowY(160);
         }else if(current_state == StateDialog){
+            if(next_map == MAP_ISLE){
+                motherow_pos_x = (UINT16) 20u << 3;
+                motherow_pos_y = (UINT16) 11u << 3;
+            }
             if(new_state == StateBosscrab || new_state == StateBossscorpion){
                 motherpl_pos_x = (UINT16)6u << 3;
                 motherpl_pos_y = (UINT16)10u << 3;

@@ -22,6 +22,7 @@ IMPORT_MAP(ownorthwest);
 IMPORT_MAP(owmaze);
 IMPORT_MAP(owsoutheast);
 IMPORT_MAP(oweast);
+IMPORT_MAP(owisle);
 IMPORT_MAP(hudow);
 
 extern UINT8 scroll_top_movement_limit;
@@ -114,10 +115,16 @@ void START(){
 		scroll_bottom_movement_limit = 80u;
     //INIT GRAPHICS
 		show_tip = 0u;
-		if(chapter == CHAPTER_4_SHIP){
-			s_motherow = SpriteManagerAdd(SpriteMotherowarmor, motherow_pos_x, motherow_pos_y);
-		}else{
-			s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+		switch(chapter){
+			case CHAPTER_4_SHIP:
+				s_motherow = SpriteManagerAdd(SpriteMotherowarmor, motherow_pos_x, motherow_pos_y);
+			break;
+			case CHAPTER_5_ISLE:
+				s_motherow = SpriteManagerAdd(SpriteLiamow, motherow_pos_x, motherow_pos_y);
+			break;
+			default:
+				s_motherow = SpriteManagerAdd(SpriteMotherow, motherow_pos_x, motherow_pos_y);
+			break;
 		}
 		switch (current_map){
 			case MAP_SOUTHWEST://south-west
@@ -149,6 +156,12 @@ void START(){
 				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
 				InitScroll(BANK(oweast), &oweast, collision_tiles_ow_sw, 0);
 				GetMapSize(BANK(oweast), &oweast, &mapwidth, &mapheight);
+			break;
+			case MAP_ISLE://northern isle				
+				motherow_new_state = IDLE_DOWN;
+				scroll_target = SpriteManagerAdd(SpriteCamerafocus, motherow_pos_x, motherow_pos_y);
+				InitScroll(BANK(owisle), &owisle, collision_tiles_ow_sw, 0);
+				GetMapSize(BANK(owisle), &owisle, &mapwidth, &mapheight);
 			break;
 		}
 		delay_spawning = 8u;
@@ -193,6 +206,12 @@ void START(){
 				lim_up_y = ((UINT16) 6u << 3);
 				lim_down_y = ((UINT16) 56u << 3);
 				lim_west_x = ((UINT16) 6u << 3);
+			break;
+			case MAP_ISLE://ISLE
+				lim_up_y = ((UINT16) 1u << 3);
+				lim_down_y = ((UINT16) 1u << 3);
+				lim_west_x = ((UINT16) 1u << 3);
+				lim_east_x = ((UINT16) 28u << 3);
 			break;
 		}
 	//INITIAL TIPS
@@ -386,7 +405,6 @@ void UPDATE(){
 								ChangeState(StateOverworld, s_motherow, 1);
 							}
 							if(s_motherow->y > lim_down_y){
-								//TODO dove spunta quando esce dal labirinto?
 								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
 									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
 									outwalker_chief.current_step = 2;
@@ -435,7 +453,6 @@ void UPDATE(){
 								ChangeState(StateOverworld, s_motherow, 1);
 							}
 							if(s_motherow->y > lim_down_y){
-								//TODO dove spunta quando esce dal labirinto?
 								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
 									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
 									outwalker_chief.current_step = 2;
@@ -509,7 +526,7 @@ void UPDATE(){
 								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
-						case MAP_NORTHWEST:						
+						case MAP_NORTHWEST:
 							if(s_motherow->y > lim_down_y){//go south to StateHood
 								hood_type = NORTH_SOUTH;
 								ChangeState(StateHood, s_motherow, -1);
@@ -534,6 +551,11 @@ void UPDATE(){
 								ChangeState(StateHood, s_motherow, -1);
 							}
 						break;
+					}
+				break;
+				case CHAPTER_5_ISLE:
+					if(s_motherow->x > lim_east_x){
+						s_motherow->x = lim_east_x - 1u;
 					}
 				break;
 			}
@@ -572,7 +594,7 @@ void UPDATE(){
 			}
 		}
 	//START & SELECT
-		if(KEY_RELEASED(J_SELECT)){
+		if(KEY_RELEASED(J_SELECT) && current_map != MAP_ISLE){
 			if(just_started == 2){
 				just_started = 0;
 				HIDE_WIN;
@@ -594,7 +616,7 @@ void UPDATE(){
 				ChangeState(StateDiary, s_motherow, -1);
 			}
 		}
-		if(KEY_TICKED(J_START)){
+		if(KEY_TICKED(J_START) && current_map != MAP_ISLE){
 			if(just_started == 0 && show_tip == 0){	
 				HIDE_WIN;
 				show_tip = 0u;

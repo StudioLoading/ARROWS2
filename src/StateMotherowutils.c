@@ -77,6 +77,12 @@ extern void motherowarmor_setanim_walkdown() BANKED;
 extern void motherowarmor_setanim_idleh() BANKED;
 extern void motherowarmor_setanim_idledown() BANKED;
 extern void motherowarmor_setanim_idleup() BANKED;
+extern void liamownormal_setanim_walkh() BANKED;
+extern void liamownormal_setanim_walkup() BANKED;
+extern void liamownormal_setanim_walkdown() BANKED;
+extern void liamownormal_setanim_idleh() BANKED;
+extern void liamownormal_setanim_idledown() BANKED;
+extern void liamownormal_setanim_idleup() BANKED;
 
 FA2OW_SPRITE_STATES motherow_new_state = GENERIC_IDLE;
 UINT8 teleporting = 0u;
@@ -186,6 +192,9 @@ UINT8 ow_manage_chitchat(Sprite* s_motherow_arg) BANKED{
                     case 6u:tip_to_show = TIP_CHITCHAT_MASTER;trigger_tip = 1u;break;
                 }
             break;
+            case CHAPTER_5_ISLE://isle master chitchat
+                tip_to_show = TIP_CHITCHAT_MASTER;trigger_tip = 1u;
+            break;
         }
         ow_chitchat_counter++;
         if(ow_chitchat_counter >= 7u){
@@ -222,10 +231,14 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                 break;
                 case SpriteBottle:
                     {
-                    struct ItemSpawned pass_data={.itemtype = INVITEM_LIAM_HANDWRITTEN, .quantity = 1, .equippable = 0u};
-                    pickup(&pass_data);
-                    hungry_people.mission_state = MISSION_STATE_REWARDED;
-                    SpriteManagerRemoveSprite(imowspr);
+                    if(s_motherow_arg->type == SpriteLiamow){
+                        trigger_dialog(FINAL, s_motherow_arg);
+                    }else{
+                        struct ItemSpawned pass_data={.itemtype = INVITEM_LIAM_HANDWRITTEN, .quantity = 1, .equippable = 0u};
+                        pickup(&pass_data);
+                        hungry_people.mission_state = MISSION_STATE_REWARDED;
+                        SpriteManagerRemoveSprite(imowspr);
+                    }
                     }
                 break;
                 case SpriteMushroom:
@@ -310,17 +323,18 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                     }
                 break;
                 case SpriteOwpeople:
-                        if(show_tip == 0u && showed_tip == 0u){
-                            colliding_owpeople = 1u;
-                        }
-                        if(imowspr->x < s_motherow_arg->x && motherow_new_state == WALK_LEFT){
-                            motherow_info->vx = 0;}
-                        if(imowspr->x > s_motherow_arg->x && motherow_new_state == WALK_RIGHT){
-                            motherow_info->vx = 0;}
-                        if(imowspr->y > s_motherow_arg->y && motherow_new_state == WALK_DOWN){
-                            motherow_info->vy = 0;}
-                        if(imowspr->y < s_motherow_arg->y && motherow_new_state == WALK_UP){
-                            motherow_info->vy = 0;}
+                case SpriteOwmaster:
+                    if(show_tip == 0u && showed_tip == 0u){
+                        colliding_owpeople = 1u;
+                    }
+                    if(imowspr->x < s_motherow_arg->x && motherow_new_state == WALK_LEFT){
+                        motherow_info->vx = 0;}
+                    if(imowspr->x > s_motherow_arg->x && motherow_new_state == WALK_RIGHT){
+                        motherow_info->vx = 0;}
+                    if(imowspr->y > s_motherow_arg->y && motherow_new_state == WALK_DOWN){
+                        motherow_info->vy = 0;}
+                    if(imowspr->y < s_motherow_arg->y && motherow_new_state == WALK_UP){
+                        motherow_info->vy = 0;}
                 break;
             }
         }
@@ -591,6 +605,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_idledown();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_idledown();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_idledown();
             }
         break;
         case IDLE_UP:
@@ -600,6 +616,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_idleup();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_idleup();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_idleup();
             }
         break;
         case IDLE_LEFT:
@@ -610,6 +628,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_idleh();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_idleh();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_idleh();
             }
         break;
         case IDLE_RIGHT:
@@ -620,6 +640,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_idleh();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_idleh();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_idleh();
             }
         break;
         case WALK_DOWN:
@@ -629,6 +651,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_walkdown();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_walkdown();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_walkdown();
             }
         break;
         case WALK_UP:
@@ -638,6 +662,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_walkup();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_walkup();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_walkup();
             }
         break;
         case WALK_LEFT:
@@ -648,6 +674,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_walkh();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_walkh();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_walkh();
             }
 
         break;
@@ -659,6 +687,8 @@ void owChangeState(Sprite* s_motherow_arg, FA2OW_SPRITE_STATES new_state) BANKED
                 motherownormal_setanim_walkh();
             }else if(s_motherow_arg->type == SpriteMotherowarmor){
                 motherowarmor_setanim_walkh();
+            }else if(s_motherow_arg->type == SpriteLiamow){
+                liamownormal_setanim_walkh();
             }
         break;
     }

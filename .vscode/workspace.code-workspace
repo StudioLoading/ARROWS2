@@ -33,7 +33,8 @@
 			"inventorydialogs.h": "c",
 			"math.h": "c",
 			"dialogs2.h": "c",
-			"dialogtips.h": "c"
+			"dialogtips.h": "c",
+			"custom_datas_tetra.h": "c"
 		}
 	}
 }

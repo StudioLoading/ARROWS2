@@ -1,12 +1,13 @@
 #include "Banks/SetAutoBank.h"
 
-#include "main.h"
+// #include "main.h"
 
 #include "Keys.h"
 #include "ZGBMain.h"
 #include "Sprite.h"
 #include "Scroll.h"
 #include "SpriteManager.h"
+#include "Palette.h"
 
 #include "custom_datas_tetra.h"
 
@@ -24,13 +25,14 @@ extern UINT8 J_FIRE;
 extern UINT8 J_JUMP;
 extern TETRA_CAMERA_STATE camera_state;
 
-
 const UINT8 cursor_anim_hide[] = {1, 0}; //The first number indicates the number of frames
 const UINT8 cursor_anim_triangle_full[] = {1, 2}; //The first number indicates the number of frames
 const UINT8 cursor_anim_triangle_blink[] = {2, 2, 1}; //The first number indicates the number of frames
 const UINT8 cursor_anim_triangle_empty[] = {1, 1}; //The first number indicates the number of frames
 const UINT8 cursor_anim_hand_opened[] = {1, 3}; //The first number indicates the number of frames
 const UINT8 cursor_anim_hand_closed[] = {1, 4}; //The first number indicates the number of frames
+const UINT8 cursor_anim_buy[] = {2, 0,5}; //The first number indicates the number of frames
+const UINT8 cursor_anim_cross[] = {2, 0,6}; //The first number indicates the number of frames
 
 UINT8 cursor_dado_on = 1u;
 UINT8 cursor_drago_on = 1u;
@@ -49,6 +51,10 @@ void START(){
     struct TetracursorInfo* cursor_this_info = (struct TetracursorInfo*) THIS->custom_data;
     cursor_this_info->cursor_state = CURSOR_INVISIBLE;
     cursor_dado_on = 1u;
+    if(_cpu != CGB_TYPE){
+        OBP1_REG = PAL_DEF(0, 0, 1, 3);
+        SPRITE_SET_PALETTE(THIS,1);
+    }
 }
 
 void UPDATE(){
@@ -69,10 +75,13 @@ void UPDATE(){
             SetSpriteAnim(THIS, cursor_anim_triangle_empty, 4u);
 	    break;
         case HAND_OPENED:
-            SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
             if(tetraturn != TURN_PLAYER){return;}
             switch(tetra_game_state){
                 case TURN_PICK_DICE:
+                    struct TetradadoInfo* dado6_info = (struct TetradadoInfo*) dado6->custom_data;
+                    if(dado6_info->tetradado_state < DADO_FACE){
+                    SetSpriteAnim(THIS, cursor_anim_hide, 4u);return;}
+                    SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
                     if(KEY_TICKED(J_RIGHT) || KEY_TICKED(J_LEFT)){
                         if(KEY_TICKED(J_RIGHT)){
                             move_cursor_hand_dice(J_RIGHT);
@@ -139,6 +148,7 @@ void UPDATE(){
                         tetra_change_game_state(TURN_BUY_DRAGON);
                     }else if(KEY_TICKED(J_JUMP)){
                         cursor_dado_on = 1;
+                        SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
                         tetra_change_game_state(TURN_MAKE_DICE);
                     }
                 break;
@@ -147,15 +157,23 @@ void UPDATE(){
                         UINT8 can_buy = buy_dragon(cursor_drago_on, 0);
                         switch(can_buy){
                             case 1:
+                                SetSpriteAnim(THIS, cursor_anim_buy, 24);
                                 if(KEY_TICKED(J_FIRE)){//pick dragon
                                     buy_dragon(cursor_drago_on, 1);
+                                    SetSpriteAnim(THIS, cursor_anim_hide, 4u);
                                 }
                             break;
                             case 0://non posso comperarlo!
+                                SetSpriteAnim(THIS, cursor_anim_cross, 24);
                                 if(KEY_TICKED(J_FIRE)){
                                     tetra_change_game_state(TURN_PICK_DRAGON);
+                                    SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
                                 }
                             break;
+                        }
+                        if(KEY_TICKED(J_JUMP)){
+                            SetSpriteAnim(THIS, cursor_anim_hand_opened, 4u);
+                            tetra_change_game_state(TURN_PICK_DRAGON);
                         }
                     }
                 break;
@@ -217,6 +235,18 @@ void move_cursor_hand_dice(UINT8 direction) BANKED{
             }
         break;
     }
+    UINT8 dado_taken = 0u;
+    struct TetradadoInfo* tetradado_sel_info = 0;
+    switch(cursor_dado_on){
+        case 1u:tetradado_sel_info = (struct TetradadoInfo*) dado1->custom_data;break;
+        case 2u:tetradado_sel_info = (struct TetradadoInfo*) dado2->custom_data;break;
+        case 3u:tetradado_sel_info = (struct TetradadoInfo*) dado3->custom_data;break;
+        case 4u:tetradado_sel_info = (struct TetradadoInfo*) dado4->custom_data;break;
+        case 5u:tetradado_sel_info = (struct TetradadoInfo*) dado5->custom_data;break;
+        case 6u:tetradado_sel_info = (struct TetradadoInfo*) dado6->custom_data;break;
+    }
+    if(tetradado_sel_info->tetradado_state != DADO_FACE){dado_taken = 1;}
+    if(dado_taken == 1){move_cursor_hand_dice(direction);return;}
     switch(cursor_dado_on){
         case 1u:
             THIS->x = dado1->x;

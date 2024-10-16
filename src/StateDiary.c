@@ -83,8 +83,7 @@ void change_page(INT8 inc);
 void show_pcodes();
 void update_diary_cursor();
 
-extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
-void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
+extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 
 void START(){
     //INIT GRAPHICS
@@ -107,19 +106,6 @@ void START(){
 }
 
 void show_pcodes(){
-    /* TODO SOSTITUIRE LE FRECCE NAVIGAZIONE CON BARRE ORIZZONTALI A SECONDA
-    SE SONO A PAGINA ZERO (ELIMINO LA FRECCIA A SINISTRA),IN MEZZO (COMPAIONO ENTRAMBE),
-    O CHAPTER (ELIMINO LA FRECCIA A DESTRA). E IN PIù DOVREI DISABILITARE IL FATTO CHE 
-    ALLA ULTIMA PAGINA PREMENDO DESTRA TORNO ALLA PAGINA 0, E DALLA PAGINA 0 PREMENDO
-    SINISTRA VADO ALLA PAGINA CHAPTER. FORSE MEGLIO CASSARE.
-    O FORSE MEGLIO GESTIRE CON SPRITE, MA NON è CHE SONO A TAPPO SUL DMG DEL NUMERO DI SPRITE
-    CONSIDERANDO I DADI SOPRA DI PCODE?
-    if(idx_page == 0){
-        UPDATE_HUD_TILE(2,15,10); //10 is the # tile to substitute the left arrow for navigation
-    }else if(idx_page == chapter){
-        set_banked_bkg_data(4u, 1u, &diaryt, BANK(diaryt));
-    }
-    */
     SpriteManagerRemoveSprite(dado0);
     SpriteManagerRemoveSprite(dado1);
     SpriteManagerRemoveSprite(dado2);
@@ -562,7 +548,6 @@ void change_page(INT8 inc){
 
 void UPDATE(){
     if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
-        //ChangeStateThroughBetween(StateOverworld);
         ChangeState(StateOverworld, s_motherow, -1);
     }
     if(showing_detail == 0u){

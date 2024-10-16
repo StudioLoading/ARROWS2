@@ -48,8 +48,6 @@ extern struct MISSION outwalker_glass;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
 extern struct MISSION visit_blackie;
-extern struct MISSION hungry_people;
-extern struct MISSION golden_armor;
 extern struct MISSION fix_bridge;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
@@ -198,7 +196,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			}
 		break;
 		case OUTWALKER_WOMAN1:		
-			*n_lines = 11u;
+			*n_lines = 15u;
 			memcpy(d0, "ANNETTE:            \0", 22);
 			memcpy(d1, "WE ARE THE  OUTWAL  \0", 22);
 			memcpy(d2, "KERS. WE DON'T BELIE\0", 22);
@@ -211,6 +209,10 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "BECAUSE THEY WANT TO\0", 22);
 			memcpy(d10, "RULE THEM!         \0", 22);
 			memcpy(d11, EMPTY_STRING_21, 22);
+			memcpy(d12, "ALL I WANNA SAY'S   ", 22);
+			memcpy(d13, "THAT THEY DON'T REAL", 22);
+			memcpy(d14, "LY CARE ABOUT US!   ", 22);
+			memcpy(d15, EMPTY_STRING_21, 22);
 		break;
 		case JESSICA_PLANTS:
 			*n_lines = 5u;
@@ -637,203 +639,6 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "TO FIX THAT BRIDGE. ", 22);
 			memcpy(d7, EMPTY_STRING_21, 22);
 			memcpy(d8, "JUST BRING IT. OK?  ", 22);
-		break;
-		case POLICE_0_GET_PASS:
-			*n_lines = 15u;
-			memcpy(d0, "GUARD:              ", 22);
-			memcpy(d1, "SALUTE HEALER,      ", 22);
-			memcpy(d2, "WE KNOW THAT TO THE ", 22);
-			memcpy(d3, "WEST THERE'S A BUNCH", 22);
-			memcpy(d4, "OF PEOPLE LIVING BY ", 22);
-			memcpy(d5, "THEIR OWN. WE WANT  ", 22);
-			memcpy(d6, "TO KNOW WHO IS THEIR", 22);
-			memcpy(d7, "LEADER. BECAUSE THEY", 22);
-			memcpy(d8, "WON'T TELL US. TAKE ", 22);
-			memcpy(d9, "THIS PASS. SHOW IT  ", 22);
-			memcpy(d10, "AND THEY WILL LET  ", 22);
-			memcpy(d11, "YOU IN.            ", 22);
-			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "PLEASE COME BACK AS", 22);
-			memcpy(d14, "SOON AS YOU FIND   ", 22);
-			memcpy(d15, "OUT. THANK YOU.    ", 22);				
-			{
-				if(get_quantity(INVITEM_PASS) < 1){
-					struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
-					pickup(&pass_data);
-				}
-				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
-				outwalker_chief.current_step = 1;
-				SpriteManagerAdd(SpriteDiary, 72, 8);
-			}
-		break;
-		case POLICE_0_STILL_NOT_FOUND:
-			*n_lines = 8u;
-			memcpy(d0, "GUARD:              ", 22);
-			memcpy(d1, "SALUTE HEALER,      ", 22);
-			memcpy(d2, "WE ARE STILL WAITING", 22);
-			memcpy(d3, "FOR YOU TO TELL US  ", 22);
-			memcpy(d4, "WHO'S THE OUTWALKER ", 22);
-			memcpy(d4, "CHIEF.              ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "PLEASE COME BACK AS ", 22);
-			memcpy(d7, "SOON AS YOU FIND    ", 22);
-			memcpy(d8, "OUT. THANK YOU.     ", 22);
-		break;
-		case POLICE_0_WONT_TALK:
-			*n_lines = 8u;
-			memcpy(d0, "GUARD:              ", 22);
-			memcpy(d1, "HOW DARE YOU NOT TO ", 22);
-			memcpy(d2, "TELL US THIS PRECIO ", 22);
-			memcpy(d3, "US INFORMATION!!    ", 22);
-			memcpy(d4, "THIS IS A BAD DECI  ", 22);
-			memcpy(d5, "SION ...            ", 22);
-			memcpy(d6, "...AND WILL HAVE    ", 22);
-			memcpy(d7, "CONSEQUENCES!       ", 22);
-			memcpy(d8, EMPTY_STRING_21, 22);
-		break;
-		case POLICE_0_FIGHTING:
-			*n_lines = 5u;
-			memcpy(d0, "GUARD:              ", 22);
-			memcpy(d1, "SCORPIONS ARE ALL   ", 22);
-			memcpy(d2, "AROUND US!          ", 22);
-			memcpy(d4, "A BAD DECISION...   ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-		break;
-		case POLICE_0_NOGUARDS:
-			*n_lines = 3u;
-			memcpy(d0, "DESSA:              ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "NO GUARDS HERE AT   ", 22);
-			memcpy(d3, "THE MOMENT...       ", 22);
-		break;
-		case BLACKIE_DEAD_CHILD:
-			*n_lines = 19u;
-			memcpy(d0, "BLACKIE:            ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "OH... MY CHILD! HE'S", 22);
-			memcpy(d3, "BEEN ONE OF THE FIR ", 22);
-			memcpy(d4, "ST POISONED...      ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "            ...SIGH!", 22);
-			memcpy(d7, ".. AND IT KILLED HIM", 22);
-			memcpy(d8, "... YOU SEE DESSA!? ", 22);
-			memcpy(d9, "BET THEY CAME TO    ", 22);
-			memcpy(d10, "KILL US! AND WE    ", 22);
-			memcpy(d11, "MUST FIGHT BACK!!  ", 22);
-			memcpy(d12, "NO MORE CHILD HAVE ", 22);
-			memcpy(d13, "TO DIE!      DESSA:", 22);
-			memcpy(d14, "I SWEAR I'LL DEFEAT", 22);
-			memcpy(d15, "WHO CAUSED THIS!   ", 22);
-			memcpy(d16, "YOUR SON WILL BE   ", 22);
-			memcpy(d17, "REVENGED WITH THE  ", 22);
-			memcpy(d18, "STRENGTH OF MY     ", 22);
-			memcpy(d19, "ARROWS.            ", 22);
-			visit_blackie.mission_state = MISSION_STATE_REWARDED;
-			SpriteManagerAdd(SpriteDiary, 72, 8);
-		break;
-		case IMHUNGRY:
-			*n_lines = 5u;
-			memcpy(d0, "'TOUCHING STOMACH': ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "I AM SORRY I CAN'T  ", 22);
-			memcpy(d3, "HELP YOU NOW... I AM", 22);
-			memcpy(d4, "TOO HUNGRY FOR DOING", 22);
-			memcpy(d5, "ANYTHING...         ", 22);
-		break;
-		case FISHERMAN_THERESFISH:
-			*n_lines = 8u;
-			memcpy(d0, "FISHERMAN           ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "I LIKE TO GO FISHING", 22);
-			memcpy(d3, "RIGHT THERE, NEXT TO", 22);
-			memcpy(d4, "THE BROKEN BRIDGE.  ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "I PROVIDE SOME FOOD ", 22);
-			memcpy(d7, "FOR ALL OF US!      ", 22);
-			memcpy(d8, EMPTY_STRING_21, 22);
-		break;
-		case FISHERMAN_LETSGO:
-			*n_lines = 19u;
-			memcpy(d0, "FISHERMAN:          ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "HELLO HEALER! PEOPLE", 22);
-			memcpy(d3, "ARE STARVING! THERE ", 22);
-			memcpy(d4, "IS AN AREA WITH A   ", 22);
-			memcpy(d5, "LOT OF FISH TO GET  ", 22);
-			memcpy(d6, "BUT NOW...          ", 22);
-			memcpy(d7, "IT IS TOO DANGEROUS ", 22);
-			memcpy(d8, "TO GO ALONE!        ", 22);
-			memcpy(d9, EMPTY_STRING_21, 22);
-			memcpy(d10, "I COUNTED 12 ALLIGA ", 22);
-			memcpy(d11, "TORS THERE AND THEY ", 22);
-			memcpy(d12, "ARE GOING TO RIP ME ", 22);
-			memcpy(d13, "UP!                 ", 22);
-			memcpy(d14, EMPTY_STRING_21, 22);
-			memcpy(d15, "I RIDE THE BOAT  YOU", 22);
-			memcpy(d16, "SLAY THE ALLIGATORS.", 22);
-			memcpy(d17, EMPTY_STRING_21, 22);
-			memcpy(d18, "WHAT ABOUT THAT?    ", 22);
-			memcpy(d19, "LET US GO TOGETHER! ", 22);
-			SpriteManagerAdd(SpriteDiary, 72, 8);
-			hungry_people.mission_state = MISSION_STATE_STARTED;
-		break;
-		case FISHERMAN_FPSGATOR_COMPLETED:
-			*n_lines = 9u;
-			memcpy(d0, "FISHERMAN:          ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "GOOD JOB! NOW I CAN ", 22);
-			memcpy(d3, "GO BACK FISHING!    ", 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "WE HAVE PUT AN END  ", 22);
-			memcpy(d6, "TO THE STARVATION!  ", 22);
-			memcpy(d7, EMPTY_STRING_21, 22);
-			memcpy(d8, "LET'S GO BACK TO THE", 22);
-			memcpy(d9, "BEACH.              ", 22);
-			SpriteManagerAdd(SpriteDiary, 72, 8);
-			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
-		break;
-		case ITEMDETAIL_LIAM_HANDWRITTEN:
-			*n_lines = 19u;
-			memcpy(d0, "LIAM HANDWRITTEN    ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "HELLO MOTHER! I HOPE", 22);
-			memcpy(d3, "THIS LETTER FINDS   ", 22);
-			memcpy(d4, "YOU WELL. THE MASTER", 22);
-			memcpy(d5, "IS TRAINING ME FOR  ", 22);
-			memcpy(d6, "THE FINAL BATTLE.   ", 22);
-			memcpy(d7, "DON'T WORRY ABOUT ME", 22);
-			memcpy(d8, "BECAUSE I AM FINE   ", 22);
-			memcpy(d9, "AND STRONGER THAN BE", 22);
-			memcpy(d10, "FORE.               ", 22);
-			memcpy(d11, EMPTY_STRING_21, 22);
-			memcpy(d12, "HERE WE FOUND AN OLD", 22);
-			memcpy(d13, "BOOK ABOUT LEGENDARY", 22);
-			memcpy(d14, "BEASTS AND WE DISCO ", 22);
-			memcpy(d15, "VERED GOLDEN ARMOR  ", 22);
-			memcpy(d16, "WILL PROTECT US FROM", 22);
-			memcpy(d17, "DRAGON BREATHS. THE ", 22);
-			memcpy(d18, "SMITH SHOULD BE ABLE", 22);
-			memcpy(d19, "FORGE IT. LOVE, LIAM", 22);
-			SpriteManagerAdd(SpriteDiary, 72, 8);
-			golden_armor.phase = 0;
-			golden_armor.mission_state = MISSION_STATE_STARTED;
-		break;
-		case BRIDGE_BROKEN:
-			*n_lines = 5u;
-			memcpy(d0, "DESSA:              ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "THE BRIDGE IS BROKEN", 22);
-			if(fix_bridge.mission_state < MISSION_STATE_STARTED){
-				memcpy(d3, "I WONDER IF THE     ", 22);
-				memcpy(d4, "CARPENTER WOULD BE  ", 22);
-				memcpy(d5, "ABLE TO FIX IT...   ", 22);
-			}else{
-				memcpy(d3, "I MUST HELP THE     ", 22);
-				memcpy(d4, "CARPENTER AND BRING ", 22);
-				memcpy(d5, "HIM THE NEEDED      ", 22);
-				memcpy(d6, "MATERIALS.          ", 22);
-				*n_lines = 6u;
-			}
 		break;
 		default:
 			GetLocalizedDialog3_EN(n_lines);

@@ -458,9 +458,9 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
                         ChangeState(StateOverworld, s_mother, -1);
                     }
                 break;
-                case 7u:
+                //case 7u:
                     //ChangeState(StateBonus, s_mother, -1);
-                break;
+                //break;
             }
         break;
         case StateMine:
@@ -776,9 +776,9 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                     motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
                     return;
                 }
-                //TODO START remove me invulnerability!
+                //TEST START INVULNERABILITY
                 //if(motherpl_hp <= 0){motherpl_hp = 1;}
-                //TODO END remove me
+                //TEST END remove me
                 if(s_mother->mirror == NO_MIRROR){    
                     SpriteManagerAdd(SpritePuff, s_mother->x + 2, s_mother->y + 4);
                     s_mother->x-=6;
@@ -890,7 +890,7 @@ void motherpl_behave(Sprite* s_mother) BANKED{
                     motherpl_jpower++;
                     if(motherpl_jpower < (jump_max_power / 3)){
                         motherpl_vy = -3;
-                    }else if(motherpl_jpower < (jump_max_power / 2)){
+                    }else if(motherpl_jpower < (jump_max_power >> 1)){
                         motherpl_vy = -2;
                     }else{
                         motherpl_vy = -1;
