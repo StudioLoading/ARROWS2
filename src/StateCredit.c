@@ -16,7 +16,7 @@ IMPORT_TILES(tilescredit);
 IMPORT_MAP(mapcredit0);
 IMPORT_MAP(mapcredit2);
 IMPORT_MAP(mapcredit3);
-//IMPORT_MAP(mapcredit3);
+IMPORT_MAP(mapcredit4);
 DECLARE_MUSIC(titlescreen);
 
 extern UINT8 J_JUMP;
@@ -469,6 +469,9 @@ void START() {
 				InitScroll(BANK(mapcredit2), &mapcredit2, collision_tiles_credits, 0);
 			break;
 			case 3:
+				InitScroll(BANK(mapcredit4), &mapcredit4, collision_tiles_credits, 0);
+			break;
+			case 4:
 				InitScroll(BANK(mapcredit3), &mapcredit3, collision_tiles_credits, 0);
 			break;
 		}
@@ -534,9 +537,10 @@ void UPDATE() {
 		switch(credit_step){
 			case 1:
 			case 2:
+			case 3:
 				SetState(StateCredit);
 			break;
-			case 3:
+			case 4:
 				credit_step = 0;
 				ChangeState(StateTitlescreen, s_motherpl, -1);
 			break;

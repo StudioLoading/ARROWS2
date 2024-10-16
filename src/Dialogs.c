@@ -716,7 +716,7 @@ void GetLocalizedLog_EN() BANKED{
 			memcpy(log0, "THE OLD MINE        ", 20);
 		break;
 		case StateOutwalkers:
-			memcpy(log0, "THE OUTWALKER CAMP  ", 20);
+			memcpy(log0, "THE OUTWALKER'S CAMP", 20);
 		break;
 		case StateMountain:
 			memcpy(log0, "ROLLING STONES!     ", 20);

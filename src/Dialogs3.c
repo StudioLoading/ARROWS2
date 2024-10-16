@@ -64,20 +64,20 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			*n_lines = 15u;
 			memcpy(d0, "GUARD:              ", 22);
 			memcpy(d1, "SALUTE HEALER,      ", 22);
-			memcpy(d2, "WE KNOW THAT TO THE ", 22);
-			memcpy(d3, "WEST THERE'S A BUNCH", 22);
-			memcpy(d4, "OF PEOPLE LIVING BY ", 22);
+			memcpy(d2, "WE KNOW TO THE WEST ", 22);
+			memcpy(d3, "THERE ARE SOME      ", 22);
+			memcpy(d4, "PEOPLE LIVING ON    ", 22);
 			memcpy(d5, "THEIR OWN. WE WANT  ", 22);
 			memcpy(d6, "TO KNOW WHO IS THEIR", 22);
 			memcpy(d7, "LEADER. BECAUSE THEY", 22);
-			memcpy(d8, "WON'T TELL US. TAKE ", 22);
-			memcpy(d9, "THIS PASS. SHOW IT  ", 22);
-			memcpy(d10, "AND THEY WILL LET  ", 22);
-			memcpy(d11, "YOU IN.            ", 22);
+			memcpy(d8, "DON'T WANT TO TELL  ", 22);
+			memcpy(d9, "US. TAKE THIS PASS, ", 22);
+			memcpy(d10, "SHOW IT TO THEM AND ", 22);
+			memcpy(d11, "THEY WILL LET YOU IN", 22);
 			memcpy(d12, EMPTY_STRING_21, 22);
-			memcpy(d13, "PLEASE COME BACK AS", 22);
-			memcpy(d14, "SOON AS YOU FIND   ", 22);
-			memcpy(d15, "OUT. THANK YOU.    ", 22);				
+			memcpy(d13, "PLEASE COME BACK AS ", 22);
+			memcpy(d14, "SOON AS YOU FIND IT ", 22);
+			memcpy(d15, "OUT. THANK YOU.     ", 22);				
 			{
 				if(get_quantity(INVITEM_PASS) < 1){
 					struct ItemSpawned pass_data={.itemtype = INVITEM_PASS, .quantity = 1, .equippable = 0u};
