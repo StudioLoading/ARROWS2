@@ -14,6 +14,7 @@
 
 IMPORT_TILES(fontbw);
 IMPORT_MAP(inventorymap);
+IMPORT_MAP(inventorymaparmored);
 IMPORT_MAP(invwindowmap);
 
 extern UINT8 J_JUMP;
@@ -61,6 +62,7 @@ extern INT8 current_map;
 extern struct MISSION enable_hospital;
 extern INT8 motherpl_hp;
 extern Sprite* s_motherow;
+extern CHAPTERS chapter;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
@@ -103,8 +105,12 @@ void START(){
         }
         invselectitem(12);
         Inv_change_detail(inventory[invcursor_posi].itemtype, isEmpty);
-        change_detail();    
-        InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
+        change_detail();
+        if(chapter < CHAPTER_4_SHIP){   
+            InitScroll(BANK(inventorymap), &inventorymap, collision_tiles_inv, 0);
+        }else{
+            InitScroll(BANK(inventorymaparmored), &inventorymaparmored, collision_tiles_inv, 0);
+        }
     //HUD
         INIT_FONT(fontbw, PRINT_BKG);
         INIT_HUD(invwindowmap);

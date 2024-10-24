@@ -35,6 +35,7 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
 extern CHAPTERS chapter;
+extern INT8 outwalker_info_step;
 
 const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
 const UINT8 coll_surface_bandits[] = {57u, 77u, 84u, 88u, 105u, 106u, 0};
@@ -103,7 +104,7 @@ void UPDATE(){
                 npc_spawned_zone = 1u;
             }
         }else if(s_motherpl->x < ((UINT16)60u << 3) && s_motherpl->x > ((UINT16)40u << 3)){
-            if(npc_spawned_zone != 2u){
+            if(npc_spawned_zone != 2u && outwalker_info_step < 3){
                 spawn_npc(SpritePgoutwalker, (UINT16) 50u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
                 //spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
                 npc_spawned_zone = 2u;

@@ -462,17 +462,17 @@ void START() {
         NR50_REG = 0x77; //Max volume
 	//CREDIT STEP MAP
 		switch (credit_step){
-			case 1:
+			case 1://STUDIOLOADING & BN
 				InitScroll(BANK(mapcredit0), &mapcredit0, collision_tiles_credits, 0);
 			break;
-			case 2:
+			case 2://SLOOPYGOOP
 				InitScroll(BANK(mapcredit2), &mapcredit2, collision_tiles_credits, 0);
 			break;
-			case 3:
-				InitScroll(BANK(mapcredit4), &mapcredit4, collision_tiles_credits, 0);
-			break;
-			case 4:
+			case 3://BACKERS
 				InitScroll(BANK(mapcredit3), &mapcredit3, collision_tiles_credits, 0);
+			break;
+			case 4://COMUNEKO
+				InitScroll(BANK(mapcredit4), &mapcredit4, collision_tiles_credits, 0);
 			break;
 		}
 

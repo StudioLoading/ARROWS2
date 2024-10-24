@@ -257,15 +257,17 @@ void show_detail(){
             switch(cursor_posi){
                 case 0u:
                     if(outwalker_chief.mission_state >= MISSION_STATE_ENABLED){
-                        GetLocalizedDDLabel_EN(CHIEF_D0, dd2);
-                        GetLocalizedDDLabel_EN(CHIEF_D1, dd3);
-                        if(outwalker_chief.current_step >= 2u){
-                            GetLocalizedDDLabel_EN(CHIEF_D2, dd4);
-                            GetLocalizedDDLabel_EN(CHIEF_D3, dd5);
-                            if(outwalker_chief.current_step >= 3u){
-                                GetLocalizedDDLabel_EN(CHIEF_D4, dd6);
-                                GetLocalizedDDLabel_EN(CHIEF_D5, dd7);
-                            }   
+                        if(outwalker_chief.current_step >= 1){
+                            GetLocalizedDDLabel_EN(CHIEF_D0, dd2);
+                            GetLocalizedDDLabel_EN(CHIEF_D1, dd3);
+                            if(outwalker_chief.current_step >= 2u){
+                                GetLocalizedDDLabel_EN(CHIEF_D2, dd4);
+                                GetLocalizedDDLabel_EN(CHIEF_D3, dd5);
+                                if(outwalker_chief.current_step >= 3u){
+                                    GetLocalizedDDLabel_EN(CHIEF_D4, dd6);
+                                    GetLocalizedDDLabel_EN(CHIEF_D5, dd7);
+                                }   
+                            }
                         }
                     }
                 break;

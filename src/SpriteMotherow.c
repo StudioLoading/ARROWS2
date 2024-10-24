@@ -53,7 +53,7 @@ void UPDATE(){
         update_position_motherow(THIS);
         owChangeState(THIS, motherow_new_state);
         if(motherow_info->tile_collision == 62u || motherow_info->tile_collision == 64u){
-            ChangeState(StateTutorial, THIS, 0);
+            ChangeState(StateTutorial, THIS, MAP_SOUTHWEST);
             just_started = 2;
         }
         return; 

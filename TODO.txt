@@ -1,27 +1,22 @@
-POST DEMO:
-- the answer's at the end of the maze nel diario deve comparire solo quando me lo dice lo stronzone!
-- quando outwalker_info_step = 2 OUTWALKER_MAN2 non deve più comparire all'outwalker camp
-- CARTELLO IN ALTO A DX DI NORTWEST DOPPIA IL MESSAGGIO DI DARKEST FOREST
-- CON PAOLO SIAMO ARRIVATI A OUTWALKER_CHIEF_FOUND
+- CON PAOLO SIAMO ARRIVATI DA SIMON A CRAB BATTUTO
+
+- FAR BLINKARE DESSA IN HUD!
+- crab pixart dialog
+- teleport del maze non si generano sempre!
+- SE PREMO SU NEL DIALOG NON RIPARTE
+- SIMON mi dice bravo anche prima di aver consegnato i glass a jack
+- SMITH_D2 diario secondo step flowers non si vede a missione compiuta
+
 - audio dei projectile degli enemy!
 - i nuovi audio di andrew!
+- check colori SGB
 
-- mettere nel libretto mappa mondo con gli hidden items! descritti sulla
-void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y) BANKED
-di StateOverworld. Forse ce n'è pochi, aggiungerne
-- mettere nel libretto la spiega di tetra
 
 KNOWN ISSUES:
 - Dialogs: pixelArt dei '?'
 - le frecce non normali scattano in alto di qualche pixel dopo aver colpito il 
 	enemy. non so proprio perché.
-
-
-PRODUCTION:
-- i crediti dedicati a me, BN, sloopygood, comuneko, tetra
-- togliere lo skip del tutorial che a codice l'ho fatto saltare (?)
-- togliere invulnerabilità messa in motherpl.c
-- testare su DMG per verificare sovraccarico di sprites
+- audiocassetta da fare coi loop e gli effetti fadein fadeout
 
 
 
@@ -107,6 +102,5 @@ Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto b
 Se ce ne fosse uno con un po' di profondità...
 come TMNT 3 sulla NES
 Lone Ranger NES
-flying arrows radio: un piccolo player delle bgm di tutti e tre i giochi! 
-perché é giusto così
+flying arrows radio: un piccolo player delle bgm di tutti e tre i giochi!  perché é giusto così
 scrigni?

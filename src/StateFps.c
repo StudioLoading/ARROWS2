@@ -123,6 +123,68 @@ void UPDATE(){
 		}
 	}
 	//MOVING
+		switch(fps_level_type){
+			case FPS_GATOR:{
+				scroll_wave_counter++;
+				if ((scroll_wave_counter % 4) == 0){
+					if (scroll_wave_counter < 124u){
+						if(scroll_wave_counter > 70u){
+							if((scroll_wave_counter % 8) == 0){
+								scroll_target->y++;
+							}
+						}else{
+							scroll_target->y++;
+						}
+					}else{
+						if(scroll_wave_counter > 190u){
+							if((scroll_wave_counter % 8) == 0){
+								scroll_target->y--;
+							}
+						}else{
+							scroll_target->y--;
+						}
+					}
+				}
+				if (scroll_wave_counter >= 240u){
+					scroll_wave_counter = 0;
+					//scroll_target->y = starting_y;
+				}
+				s_mirino->y = scroll_target->y;
+				if(punta_info->punta_state == IDLE){
+					spr_punta->y = scroll_target->y + delta_mirino_punta;
+				}
+				INT8 scroll_vx = 0;
+				INT8 scroll_vy = 0;
+				if(KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)){
+					if(KEY_PRESSED(J_LEFT) && scroll_target->x > fps_limit_min_x){
+						scroll_vx = -1;
+					}
+					if(KEY_PRESSED(J_RIGHT) && scroll_target->x < fps_limit_max_x){
+						scroll_vx = 1;
+					}
+				}
+				if(KEY_PRESSED(J_UP) || KEY_PRESSED(J_DOWN)){
+					if(KEY_PRESSED(J_UP) && scroll_target->y > fps_limit_min_y){
+						scroll_vy = -1;
+					}
+					if(KEY_PRESSED(J_DOWN) && scroll_target->y < fps_limit_max_y){
+						scroll_vy = 1;
+					}
+				}			
+				UINT8 scroll_accel = 0;
+				if(KEY_PRESSED(J_JUMP)){
+					scroll_vx = scroll_vx << 1;
+					scroll_vy = scroll_vy << 1;
+				}
+				scroll_target->x += scroll_vx;
+				scroll_target->y += scroll_vy;
+				s_mirino->x = scroll_target->x - 2u;
+				if(punta_info->punta_state == IDLE){
+					spr_punta->x = scroll_target->x - 3u;
+				}
+			}
+			break;
+		}
 	//SPAWNING
 		switch(fps_level_type){
 			case FPS_GATOR:

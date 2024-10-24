@@ -84,7 +84,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 					pickup(&pass_data);
 				}
 				outwalker_chief.mission_state = MISSION_STATE_ENABLED;
-				outwalker_chief.current_step = 1;
+				outwalker_chief.current_step = 0;
 				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;

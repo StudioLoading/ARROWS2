@@ -107,7 +107,6 @@ extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void initial_ow_npc() BANKED;
 extern void initial_ow_items() BANKED;
 extern void initial_sprite_spawning() BANKED;
-extern void maze_teleport() BANKED;
 
 void START(){
 	//SCROLL LIMITS

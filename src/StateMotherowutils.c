@@ -523,13 +523,14 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                     motherow_info->tile_collision = 0;
                         ow_tips(s_motherow_arg, TIP_STILL_SOMETHING);
                     }else{
+                        maze_zone = 0;
                         ChangeState(StateBlackiecave, s_motherow_arg, -1);
                     }
                 break;
                 case MAP_NORTHWEST:
                     if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                         trigger_dialog(MAZE_CANT_GO, s_motherow_arg);
-                    }else{ChangeState(StateOverworld, s_motherow_arg, 2);}
+                    }else{ChangeState(StateOverworld, s_motherow_arg, MAP_MAZE);}
                 break;
                 case MAP_SOUTHEAST://to batcave
                     if(chapter < CHAPTER_4_SHIP){
