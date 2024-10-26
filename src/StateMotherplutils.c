@@ -319,7 +319,7 @@ void motherpl_ckautodialog(Sprite* s_mother, NPCNAME npcname) BANKED{
             if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
                 s_mother->x -= 12u;
                 trigger_dialog(OUTWALKER_GUARD_NOCHIEF_NOGLASS, s_mother);
-            }else if(outwalker_glass.mission_state < MISSION_STATE_ACCOMPLISHED){
+            }else if(outwalker_glass.mission_state < MISSION_STATE_REWARDED){
                 s_mother->x -= 12u;
                 trigger_dialog(OUTWALKER_GUARD_NOGLASS, s_mother);
             }else if(outwalker_smith.mission_state < MISSION_STATE_ACCOMPLISHED){

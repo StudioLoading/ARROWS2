@@ -289,13 +289,13 @@ void show_detail(){
                     if(outwalker_smith.mission_state >= MISSION_STATE_ENABLED){
                         GetLocalizedDDLabel_EN(SMITH_D0, dd2);
                         GetLocalizedDDLabel_EN(SMITH_D1, dd3);
-                        if(outwalker_smith.mission_state == MISSION_STATE_STARTED && outwalker_smith.current_step != 0b00001111){
-                            GetLocalizedDDLabel_EN(SMITH_D2, dd4);
-                            GetLocalizedDDLabel_EN(SMITH_D3, dd5);
-                        }
-                        if(outwalker_smith.current_step == 0b00001111){
-                            GetLocalizedDDLabel_EN(SMITH_D4, dd6);
-                            GetLocalizedDDLabel_EN(SMITH_D5, dd7);
+                        if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
+                                GetLocalizedDDLabel_EN(SMITH_D2, dd4);
+                                GetLocalizedDDLabel_EN(SMITH_D3, dd5);
+                            if(outwalker_smith.current_step == 0b00001111){
+                                GetLocalizedDDLabel_EN(SMITH_D4, dd6);
+                                GetLocalizedDDLabel_EN(SMITH_D5, dd7);
+                            }
                         }
                     }
                 break;

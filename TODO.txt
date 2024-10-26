@@ -1,11 +1,6 @@
 - CON PAOLO SIAMO ARRIVATI DA SIMON A CRAB BATTUTO
+- le zinne con l'armatura non rimbalzano!
 
-- FAR BLINKARE DESSA IN HUD!
-- crab pixart dialog
-- teleport del maze non si generano sempre!
-- SE PREMO SU NEL DIALOG NON RIPARTE
-- SIMON mi dice bravo anche prima di aver consegnato i glass a jack
-- SMITH_D2 diario secondo step flowers non si vede a missione compiuta
 
 - audio dei projectile degli enemy!
 - i nuovi audio di andrew!
@@ -71,7 +66,7 @@ PAD2 sulla SNES, prendere spunto da:
 
 PNG2MAP
 cd C:\ZGB-2023.0\tools\png2map\
-png2gbtiles.exe C:\ZGB-2023.0\tools\png2map\dmapfinal.png -gbm -g -pal=mypal.pal C:\ZGB-2023.0\tools\png2map\dmapfinal.gbm
+png2gbtiles.exe C:\ZGB-2023.0\tools\png2map\dmapcrab.png -gbm -g -pal=mypal.pal C:\ZGB-2023.0\tools\png2map\dmapcrab.gbm
 
 GBM TO PNG comando oppure da GBMB c'è Copy as Bitmap e incollare su un paint!
 cd C:\Users\checc\GB\ZGB-2023.0\tools\png2gbtiles
