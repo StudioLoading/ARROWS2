@@ -21,6 +21,7 @@ UINT8 new_state_to_go = 0u;
 UINT8 countdown = 0u;
 
 extern WHOSTALKING whostalking;
+extern uint8_t sgb_running;
 extern void manage_border(UINT8 my_next_state) BANKED;
 extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 
@@ -37,7 +38,9 @@ void START(){
 void UPDATE(){
     switch(countdown){
         case 2u:
-            manage_border(new_state_to_go);
+            if(sgb_running){
+                manage_border(new_state_to_go);
+            }
         break;
         case 0: 
             manage_bgm(new_state_to_go, StateInbetween, -1);

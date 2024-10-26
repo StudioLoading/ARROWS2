@@ -189,7 +189,7 @@ UINT8 ow_manage_chitchat(Sprite* s_motherow_arg) BANKED{
                     case 3u:tip_to_show = TIP_CHITCHAT_CAPTAIN;trigger_tip = 1u;break;
                     case 4u:tip_to_show = TIP_CHITCHAT_THANKYOU;trigger_tip = 1u;break;
                     case 5u:tip_to_show = TIP_CHITCHAT_DRAGONS;trigger_tip = 1u;break;
-                    case 6u:tip_to_show = TIP_CHITCHAT_MASTER;trigger_tip = 1u;break;
+                    case 6u:tip_to_show = TIP_CHITCHAT_CAPTAIN;trigger_tip = 1u;break;
                 }
             break;
             case CHAPTER_5_ISLE://isle master chitchat

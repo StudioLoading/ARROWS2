@@ -488,9 +488,19 @@ void set_sgb_palette01_secret() __banked{
 void set_sgb_palette01_worldmap() __banked{
     set_sgb_palette(myRGB(255, 255, 255), myRGB(252, 160, 68), SGB_PAL4B_DARK, SGB_PAL4B_DARKER);
 }
+
+void set_sgb_palette02_worldmap() __banked{
+    set_sgb_palette(myRGB(255, 255, 255), myRGB(202, 169, 204), myRGB(141, 205, 83), myRGB(17, 56, 15));
+}
+
 void set_sgb_worldmap_nw() __banked{
 	set_sgb_palette(myRGB(255, 255, 255), myRGB(240, 208, 176), myRGB(0, 120, 0), myRGB(80, 48, 0));
 }
+
+void set_sgb_worldmap_e() __banked{
+	set_sgb_palette(myRGB(248, 248, 248), myRGB(22, 216, 84), myRGB(0, 120, 0), myRGB(0, 0, 0));
+}
+
 void set_sgb_crab() __banked{
 	set_sgb_palette(myRGB(252, 252, 252), myRGB(164, 228, 252), myRGB(60, 188, 252), myRGB(0, 64, 88));
 }
@@ -513,7 +523,15 @@ void set_sgb_palette01_COMUNEKO() __banked{
 	set_sgb_palette(SGB_COMUNEKO_LIGHTER, SGB_COMUNEKO_LIGHT, SGB_COMUNEKO_DARK, SGB_COMUNEKO_DARKER);
 }
 void set_sgb_palette01_HOOD() __banked{
-	set_sgb_palette(myRGB(255, 255, 255), myRGB(252, 160, 68), myRGB(0, 120, 0), SGB_PAL4B_DARKER);
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(168, 224, 56), myRGB(0, 123, 0), myRGB(80, 48, 0));
+}
+
+void set_sgb_palette01_OUTWALKER() __banked{
+	set_sgb_palette(myRGB(248, 248, 248), myRGB(172, 124, 0), myRGB(0, 123, 0), myRGB(80, 48, 0));
+}
+
+void set_sgb_palette01_BATCAVE() __banked{
+	set_sgb_palette(myRGB(248, 248, 248), myRGB(188, 188, 188), myRGB(168, 16, 0), myRGB(0, 0, 0));
 }
 /*
 void set_sgb_palette01_MOTHER() __banked{

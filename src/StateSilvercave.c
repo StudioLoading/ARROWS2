@@ -18,7 +18,6 @@
 #define HORDE_STEP_MAX 4
  
 
-IMPORT_MAP(bordermine);
 IMPORT_TILES(font);
 IMPORT_TILES(mapsilvert);
 IMPORT_MAP(mapsilver);

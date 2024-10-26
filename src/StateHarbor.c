@@ -13,7 +13,6 @@
 #include "TilesAnimations0.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(bordermine);
 IMPORT_TILES(font);
 IMPORT_TILES(harbortiles);
 IMPORT_MAP(harbormap);

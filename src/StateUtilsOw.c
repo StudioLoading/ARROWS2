@@ -76,6 +76,7 @@ void maze_teleport() BANKED{
 			teleport80_data->to_zone = 4;
 			teleport80_data->dest_x = (UINT16) 49u << 3;
 			teleport80_data->dest_y = (UINT16) 24u << 3;
+			spawn_hidden_item(INVITEM_MONEY, 20, 8u, 2u, 0b00000001);
 		break;
 		case 1u:
 			Sprite* s_teleport11 = SpriteManagerAdd(SpriteTeleport, ((UINT16) 17u << 3) + 6, ((UINT16) 14u << 3) + 8);
@@ -138,6 +139,8 @@ void maze_teleport() BANKED{
 					struct ItemSpawned* mushroom2_data = (struct ItemSpawned*) mushroom2->custom_data;
 					mushroom2_data->hp = 0b00000100;
 				}
+			}else{
+				spawn_hidden_item(INVITEM_ARROW_BASTARD, 15, 47u, 5u, 0b00000010);
 			}
 		break;
 		case 4u:
@@ -196,6 +199,8 @@ void maze_teleport() BANKED{
 					struct ItemSpawned* mushroom5_data = (struct ItemSpawned*) mushroom5->custom_data;
 					mushroom5_data->hp = 0b00100000;
 				}
+			}else{
+				spawn_hidden_item(INVITEM_HEARTS, 1, 59u, 24u, 0b00000100);
 			}
 		break;
 	}
@@ -533,16 +538,6 @@ void initial_ow_items() BANKED{
 			//per terra, prima del hood a sinistra
 			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b0000000000100000);
 		break;
-		/* non ce la sto facendo perché per DMG è toomuch
-		case MAP_MAZE:
-			//appena entri dritto, inevitabile premio
-			spawn_hidden_item(INVITEM_MONEY, 20, 8u, 2u, 0b00000001);
-			//corridoio stretto
-			spawn_hidden_item(INVITEM_ARROW_BASTARD, 15, 47u, 5u, 0b00000010);
-			//per terra, prima del hood a sinistra
-			spawn_hidden_item(INVITEM_HEARTS, 1, 59u, 24u, 0b00000100);
-		break;
-		*/
 		case MAP_SOUTHEAST:
 			//in basso, fra i due alberi
 			spawn_hidden_item(INVITEM_MONEY, 10 * multiply, 23u, 38u, 0b0000000001000000);

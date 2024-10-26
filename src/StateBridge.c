@@ -15,7 +15,6 @@
 
 #define HORDE 5
 
-IMPORT_MAP(bordermine);
 IMPORT_TILES(font);
 IMPORT_TILES(bridgetiles);
 IMPORT_MAP(bridgemap);

@@ -116,8 +116,8 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case HUNGRY_TITLE:memcpy(d, "HUNGRY PEOPLE  ", 16);break;
 		case HUNGRY_D0:memcpy(d, "KILL ALL THE ALLIGA", 20);break;
 		case HUNGRY_D1:memcpy(d, "TORS FROM THE BOAT ", 20);break;
-		case HUNGRY_D2:memcpy(d, "READ THE MESSAGE IN", 20);break;
-		case HUNGRY_D3:memcpy(d, "THE BOTTLE         ", 20);break;
+		case HUNGRY_D2:memcpy(d, "NOW THE FISHERMAN  ", 20);break;
+		case HUNGRY_D3:memcpy(d, "IS SAFE!           ", 20);break;
 		case FIX_BRIDGE_TITLE:memcpy(d, "FIX THE BRIDGE ", 16);break;
 		case FIX_BRIDGE_D0:memcpy(d, "ASK THE CARPENTER ", 20);break;
 		case FIX_BRIDGE_D1:memcpy(d, "TO FIX THE BRIDGE ", 20);break;

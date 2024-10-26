@@ -62,11 +62,11 @@ extern UINT8 teleporting;
 extern CURRENT_BORDER current_border; 
 extern INT8 motherpl_vx;
 extern CHAPTERS chapter;
-extern uint8_t sgb_running;
 extern UINT8 child_hooked;
 extern UINT8 activate_seagulls;
 extern struct PushASignData d_push_sign;
 extern HOOD_TYPE hood_type;
+extern INT8 credit_step;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -258,21 +258,21 @@ void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED{
 }
 
 void manage_border(UINT8 my_next_state) BANKED{
-    if(!sgb_running){
-        return;
-    }
     check_sgb_palette(my_next_state);
     switch(my_next_state){
         case StateCredit:
         case StateOverworld:
         case StateTutorial:
         case StateOutwalkers:
+        case StateHospital:
+        case StateTetra:
             if(current_border != BORDER_CLASSIC){
                 current_border = BORDER_CLASSIC;
                 LOAD_SGB_BORDER(border2);
             }
         break;
         case StateMine:
+        case StateBatcave:
             if(current_border != BORDER_MINE){
                 current_border = BORDER_MINE;
                 LOAD_SGB_BORDER(bordermine);
@@ -306,6 +306,8 @@ void manage_border(UINT8 my_next_state) BANKED{
             }
         break;
         case StateBosscrab:
+        case StateHarbor:
+        case StateBridge:
             if(current_border != BORDER_BOSSCRAB){
                 current_border = BORDER_BOSSCRAB;
                 LOAD_SGB_BORDER(bordercrab);
@@ -323,9 +325,21 @@ void manage_border(UINT8 my_next_state) BANKED{
 void check_sgb_palette(UINT8 new_state) BANKED{
     switch(new_state){
         case StateCredit:
-    		set_sbg_credit0();
+            switch(credit_step){
+                case 1://STUDIO LOADING & BN
+                case 3://KICKSTARTERS
+    		        set_sbg_credit0();
+                break;
+                case 2://MISTY HILLS & SLOOPYGOOP
+                    set_sgb_palette01_MISTYHILLS();
+                break;
+                case 4://COMUNEKO
+    		        set_sgb_palette01_COMUNEKO();
+                break;
+            }
         break;
         case StateBossminotaur:
+        case StateSilvercave:
             set_sgb_palette01_SILVER();
             set_sgb_palette_statusbar();
         break;
@@ -334,11 +348,17 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette_statusbar();
         break;
         case StateBosscrab:
+        case StateBridge:
+        case StateHarbor:
+        case StateHospital:
             set_sgb_crab();
             set_sgb_palette_statusbar();
         break;
-        case StateScorpions:
         case StateOutwalkers:
+            set_sgb_palette01_OUTWALKER();
+            set_sgb_palette_statusbar();
+        break;
+        case StateScorpions:
         case StateHood:
             set_sgb_palette01_HOOD();
             set_sgb_palette_statusbar();
@@ -381,8 +401,9 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             reset_sgb_palette_statusbar();
         break;
         case StatePassword:
-            set_sgb_palette01_WOLF();
         case StateDiary:
+            set_sgb_palette01_WOLF();
+        break;
         case StateDialog:
         case StateOverworld:
             if(new_state == StateOverworld){
@@ -390,14 +411,14 @@ void check_sgb_palette(UINT8 new_state) BANKED{
                     case MAP_SOUTHWEST:set_sgb_palette01_worldmap();break;//sw
                     case MAP_NORTHWEST:set_sgb_worldmap_nw();break;//nw
                     case MAP_MAZE:set_sgb_palette01_worldmap_maze();break;//maze
-                    case MAP_SOUTHEAST:set_sgb_palette01_worldmap();break;//se
-                    case MAP_EAST:set_sgb_palette01_worldmap();break;//e
+                    case MAP_SOUTHEAST:set_sgb_palette02_worldmap();break;//se
+                    case MAP_EAST:set_sgb_worldmap_e();break;//e
                 }
             }
             reset_sgb_palette_statusbar();
         break;
-        case StateHospital:
-            set_sgb_palette01_WOLF();
+        case StateBatcave:
+            set_sgb_palette01_BATCAVE();
         break;
     }
 }

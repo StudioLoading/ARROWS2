@@ -9,8 +9,8 @@
 #define SGB_TITLE_DARK        myRGB(0, 0, 188)
 #define SGB_TITLE_DARKER      myRGB(0, 0, 0)
 
-#define SGB_COMUNEKO_LIGHTER  myRGB(180, 219, 214)
-#define SGB_COMUNEKO_LIGHT    myRGB(193, 166, 224)
+#define SGB_COMUNEKO_LIGHTER  myRGB(250, 250, 250)
+#define SGB_COMUNEKO_LIGHT    myRGB(180, 219, 214)
 #define SGB_COMUNEKO_DARK     myRGB(193, 166, 224)
 #define SGB_COMUNEKO_DARKER	myRGB(0, 0, 0)
 
@@ -117,7 +117,9 @@ void set_sgb_palette01_MISTYHILLS() __banked;
 void set_sgb_palette01_intro() __banked;
 void set_sgb_palette01_secret() __banked;
 void set_sgb_palette01_worldmap() __banked;
+void set_sgb_palette02_worldmap() __banked;
 void set_sgb_worldmap_nw() __banked;
+void set_sgb_worldmap_e() __banked;
 void set_sgb_crab() __banked;
 void set_sgb_palette01_worldmap_maze() __banked;
 void set_sgb_palette01_WOLF() __banked;
@@ -129,11 +131,13 @@ void set_sgb_palette01_MINE() __banked;
 void set_sgb_palette01_ZOO() __banked;
 void set_sgb_palette01_CEMATERYCRYPT() __banked;
 void set_sgb_palette01_HOOD() __banked;
+void set_sgb_palette01_OUTWALKER() __banked;
 void set_sgb_palette01_MAZE() __banked;
 void set_sbg_credit0() __banked;
 void set_sgb_SKY() __banked;
 void set_sgb_palette01_cart()__banked;
 void set_sgb_palette01_SILVER() __banked;
+void set_sgb_palette01_BATCAVE() __banked;
 /*
 void set_sgb_palette01_SEWER() __banked;
 void set_sgb_palette01_GATORSWAMP() __banked;

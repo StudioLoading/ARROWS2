@@ -450,11 +450,12 @@ void START() {
 		sgb_running = sgb_check();
 		if(sgb_running){
 			BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_BLACK, DMG_BLACK, DMG_BLACK);
-			manage_border(StateCredit);
 		}
 	}
-	
 	credit_step++;
+	if(sgb_running){
+		manage_border(StateCredit);
+	}
 	//SOUND
 		stop_music_on_new_state = 0;
         NR52_REG = 0x80; //Enables sound, you should always setup this first
