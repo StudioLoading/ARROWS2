@@ -308,6 +308,7 @@ void manage_border(UINT8 my_next_state) BANKED{
         case StateBosscrab:
         case StateHarbor:
         case StateBridge:
+        case StateFps:
             if(current_border != BORDER_BOSSCRAB){
                 current_border = BORDER_BOSSCRAB;
                 LOAD_SGB_BORDER(bordercrab);
@@ -351,6 +352,7 @@ void check_sgb_palette(UINT8 new_state) BANKED{
         case StateBridge:
         case StateHarbor:
         case StateHospital:
+        case StateFps:
             set_sgb_crab();
             set_sgb_palette_statusbar();
         break;
