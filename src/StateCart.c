@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_TILES(font);
@@ -123,7 +123,7 @@ void UPDATE(){
             break;
         }
     //GO TO INVENTORY
-        //if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        //if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         scroll_target->x = s_motherpl->x + 60u;
         scroll_target->y = s_motherpl->y + 32u;
@@ -134,7 +134,7 @@ void UPDATE(){
                 get_to_the_mountain.mission_state = MISSION_STATE_REWARDED;
                 defeat_scorpions.mission_state = MISSION_STATE_STARTED;
 			    SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-                ChangeState(StateOverworld, s_motherpl, 1);
+                ChangeState(StateOw, s_motherpl, 1);
             }
         }
     //FALLING SAND

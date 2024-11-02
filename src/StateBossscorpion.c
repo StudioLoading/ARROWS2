@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercrab);
@@ -65,7 +65,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, 10u, 46u);
         }
-        if(previous_state == StateInventory
+        if(previous_state == StateInv
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -122,7 +122,7 @@ void UPDATE(){
             if(mother_exit_cooldown == 0u ){
                 mother_exit_cooldown = 60u;
                 previous_state = StateBossscorpion;
-                ChangeState(StateOverworld, s_motherpl, 3);
+                ChangeState(StateOw, s_motherpl, 3);
                 //go back
             }
         }else if(mother_exit_cooldown != 60u){

@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 #define HORDE_SNAKE 3//4
@@ -69,7 +69,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 3u << 3, (UINT16) 8u << 3);
         }
-        if(previous_state == StateInventory
+        if(previous_state == StateInv
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -92,7 +92,7 @@ void START(){
     //timeout_drop = 0u;
     horde_cooldown = (HORDE_COOLDOWN_MAX/2);
     timeout_enemy = 200u;
-    if(previous_state != StateInventory && previous_state != StateDialog 
+    if(previous_state != StateInv && previous_state != StateDialog 
         && horde_step <= 5u ){//potrei esser morto durante un orda
         // azzerare counter
         horde_counter = 0u;
@@ -106,7 +106,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         scroll_target->x = (UINT16) 80u;
         scroll_target->y = (UINT16) 56u;
@@ -134,28 +134,28 @@ void UPDATE(){
             if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
                 if(timeout_enemy > 0){timeout_enemy--;}            
                 else if (horde_step <= 5){
-                    UINT8 enemy_type = SpriteEnemysimplesnake;
+                    UINT8 enemy_type = SpriteEsimplesnake;
                     UINT8 horde_counter_max = 0u;
                     UINT16 spawn_enemy_x = (UINT16) 9u << 3;
                     UINT16 spawn_enemy_y = (UINT16) 52u;
                     switch(horde_step){
                         case 2u:
                             horde_counter_max = HORDE_SNAKE;
-                            enemy_type = SpriteEnemysimplesnake; 
+                            enemy_type = SpriteEsimplesnake; 
                         break;
                         case 3u://RAT HORDE
                             horde_counter_max = HORDE_RAT;
-                            enemy_type = SpriteEnemysimplerat;
+                            enemy_type = SpriteEsimplerat;
                         break;                
                         case 4u://COBRA HORDE
                             horde_counter_max = HORDE_COBRA;
-                            enemy_type = SpriteEnemyAttackerCobra;
+                            enemy_type = SpriteEAttackerCobra;
                         break;           
                         case 5u://SPIDER HORDE
                             horde_counter_max = HORDE_SPIDER;
                             spawn_enemy_x = 20u;
                             spawn_enemy_y = 20u;
-                            enemy_type = SpriteSpider;//SpriteEnemyThrowerSpider;
+                            enemy_type = SpriteSpider;//SpriteEThrowerSpider;
                         break;
                     }            
                     if(horde_counter < horde_counter_max){

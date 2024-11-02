@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercave);
@@ -65,14 +65,14 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, 4u, (UINT16) 8u << 3);
         }
-        if(previous_state == StateInventory
+        if(previous_state == StateInv
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        s_minotaur = SpriteManagerAdd(SpriteBossminotaur, (UINT16)15u << 3, (UINT16)10u << 3);
+        s_minotaur = SpriteManagerAdd(SpriteBossMino, (UINT16)15u << 3, (UINT16)10u << 3);
         InitScroll(BANK(bossminotaurmap), &bossminotaurmap, coll_tiles_mino, coll_surface_mino); 
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, (UINT16) 160u, (UINT16) 112u);    
     //HUD

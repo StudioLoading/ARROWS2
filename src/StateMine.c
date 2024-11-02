@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 #define HORDE 5
@@ -68,7 +68,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 7u << 3);
         }
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -164,7 +164,7 @@ void UPDATE(){
         }
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){
-            ChangeState(StateInventory, s_motherpl, -1);
+            ChangeState(StateInv, s_motherpl, -1);
         }
     //CAMERA MANAGEMENT
         update_camera_position();
@@ -194,11 +194,11 @@ void UPDATE(){
                     case 1u:
                     case 2u:
                     case 3u:
-                        SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
+                        SpriteManagerAdd(SpriteEsimplesnake, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
                         enemy_wave++;
                     break;
                     case 4u:
-                        SpriteManagerAdd(SpriteEnemysimplerat, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
+                        SpriteManagerAdd(SpriteEsimplerat, (UINT16) spawn_posx << 3, (UINT16) 6u << 3);
                         enemy_wave++;
                     break;
                     case 5u:

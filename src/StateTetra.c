@@ -12,7 +12,7 @@
 #include "Print.h"
 #include "Fade.h"
 
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "sgb_palette.h"
 #include "custom_datas_tetra.h"
 
@@ -99,7 +99,8 @@ void tetra_init_vars() BANKED;
 
 extern void move_cursor_hand_dice(UINT8 direction) BANKED;
 extern void ChangeStateThroughBetween_TetraWinner() BANKED;
-extern void ChangeStateThroughBetween_TetraLoser() BANKED;
+extern void ChangeStateThroughBetween_TetraLoser() BANKED;        
+extern void play_music_missionaccomplished() BANKED;
 
 void START() {
 	//SCROLL LIMITS
@@ -997,6 +998,7 @@ void winner(TETRA_TURN winner) BANKED{
   tetra_cursor_info->cursor_state = CURSOR_INVISIBLE;
   switch(winner){
     case TURN_PLAYER:
+      play_music_missionaccomplished();
       tetra_change_game_state(WINNER);
     break;
     case TURN_CAPTAIN:

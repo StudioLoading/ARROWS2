@@ -7,7 +7,7 @@
 
 #include "custom_datas.h"
 
-//PER I SCORPIONI VERI PRENDERE IL SpriteEnemyThrowerSpider.c come template
+//PER I SCORPIONI VERI PRENDERE IL SpriteEThrowerSpider.c come template
 
 const UINT8 a_scor_walk[] = {5, 0, 1, 2, 3, 4}; //The first number indicates the number of frames
 

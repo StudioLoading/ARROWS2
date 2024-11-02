@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 #define MAX_CLOUD_TIMEOUT 200
@@ -64,7 +64,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 10u << 3);
         }
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -98,7 +98,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
@@ -131,9 +131,6 @@ void UPDATE(){
         if(cloud_timeout == 0){
             cloud_timeout = MAX_CLOUD_TIMEOUT;
             if(s_motherpl->x < ((UINT16) 8u << 3)){
-            }else if(s_motherpl->x > ((UINT16) 18u << 3) && configured_loop > 2){
-                spawn_npa(SpriteCloud, s_motherpl->x, 27u, configured_loop);
-                spawn_npa(SpriteCloud, s_motherpl->x - 12u, 34u, configured_loop);            
             }
             configured_loop++;
             if(configured_loop == 5){

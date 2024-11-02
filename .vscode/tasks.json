@@ -12,7 +12,7 @@
             },
             "isBackground": false,
             "args": [
-                "BUILD_TYPE=Release"
+                "BUILD_TYPE=Rel"
             ],
             "problemMatcher": [],
             "group": {
@@ -21,7 +21,7 @@
             }
         },
         {
-            "label": "ReleaseColor",
+            "label": "RelClr",
             "type": "shell",
             "command": "${env:ZGB_PATH}/../env/make-3.81-bin/bin/make",
             "options": {
@@ -29,7 +29,7 @@
             },
             "isBackground": false,
             "args": [
-                "BUILD_TYPE=ReleaseColor"
+                "BUILD_TYPE=RelClr"
             ],
             "problemMatcher": [],
             "group": {
@@ -46,7 +46,7 @@
             },
             "isBackground": false,
             "args": [
-                "BUILD_TYPE=Debug"
+                "BUILD_TYPE=Dbg"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -65,7 +65,7 @@
             },
             "isBackground": false,
             "args": [
-                "BUILD_TYPE=DebugColor"
+                "BUILD_TYPE=DbgClr"
             ],
             "problemMatcher": [
                 "$gcc"

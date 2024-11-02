@@ -7,7 +7,7 @@
 #include "string.h"
 #include "Print.h"
 
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "custom_datas.h"
 #include "sgb_palette.h"
 
@@ -47,7 +47,8 @@ extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
-extern void show_next_character() BANKED;
+extern void show_next_character() BANKED;                            
+extern void play_music_missionaccomplished() BANKED;
 
 void START() {
     SpriteManagerLoad(SpriteInvcursor);
@@ -171,6 +172,7 @@ void UPDATE() {
                                     }else{
                                         whostalking = SMITH_FLOWERS_THANKYOU;
                                         outwalker_smith.mission_state = MISSION_STATE_ACCOMPLISHED;
+                                        play_music_missionaccomplished();
                                         SpriteManagerAdd(SpriteDiary,  72, 8);
                                         change_quantity(INVITEM_FLOWER, -4);
                                         change_quantity(INVITEM_BOX, 1);

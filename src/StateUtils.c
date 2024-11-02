@@ -14,7 +14,7 @@
 #include "Fade.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "sgb_palette.h"
 #include "Dialogs.h"
 
@@ -31,7 +31,8 @@ DECLARE_MUSIC(maze);
 DECLARE_MUSIC(bosscrab);
 DECLARE_MUSIC(mountain);
 DECLARE_MUSIC(mine);
-DECLARE_MUSIC(cure);
+DECLARE_MUSIC(missionaccomplished);
+DECLARE_MUSIC(letter);
 
 IMPORT_MAP(border);
 IMPORT_MAP(border2);
@@ -114,7 +115,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 void save_mother_pos(UINT8 sprite_type, UINT16 x, UINT16 y) BANKED;
 void check_sgb_palette(UINT8 new_state) BANKED;
-void play_music_reward() BANKED;
+void play_music_missionaccomplished() BANKED;
 void restartFromHospital() BANKED;
 void manage_border(UINT8 my_next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
@@ -127,7 +128,7 @@ void restartFromHospital() BANKED{
     current_map = MAP_SOUTHWEST;
     motherow_pos_x = (UINT16) 35u << 3;
     motherow_pos_y = (UINT16) 20u << 3;
-    previous_state = StateOverworld;
+    previous_state = StateOw;
     ChangeStateThroughBetween(StateHospital);
 }
 
@@ -143,39 +144,39 @@ void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED{
     ChangeState(StateDialog, s_mother, -1);
 }
 
-void play_music_reward() BANKED{
+void play_music_missionaccomplished() BANKED{
     StopMusic;
-    PlayMusic(cure, 0);
+    PlayMusic(missionaccomplished, 0);
 }
 
 void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
     if((previous_state == new_state && next_map == current_map) 
-        || previous_state == StateInventory || new_state == StateInventory
+        || previous_state == StateInv || new_state == StateInv
         || current_state == StateShop
         || current_state == StateHospital 
         || previous_state == StateDiary || current_state == StateDiary
         || previous_state == StateDialog || current_state == StateDialog
-        || previous_state == StateInventory || current_state == StateInventory
+        || previous_state == StateInv || current_state == StateInv
     ){
         return;
     }
     switch(new_state){
         case StateDialog:
-            if(previous_state == StateTitlescreen){
+            if(previous_state == StateTitle){
                 PauseMusic;
             }else{
                 ResumeMusic;
             }
             switch(whostalking){
                 case INTRO:
-                    PlayMusic(intro, 1);
+                    PlayMusic(letter, 1);
                 break;
                 case DEATH:
                     PlayMusic(death, 0);
                 break;
             }
         break;
-        case StateOverworld:
+        case StateOw:
         	StopMusic;
             if(just_started == 0){
                 switch(current_map){
@@ -187,48 +188,48 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             }            
         break;
         case StateExzoo:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else{StopMusic;PlayMusic(exzoo, 1);}
         break;
         case StateCemetery:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(cemetery, 1);}
         break;
         case StateTutorial:
             PlayMusic(tutorial, 1);
         break;
         case StateBlackiecave:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
         break;
         case StateMine:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(mine, 1);}//bgm_mine
         break;
         case StateHood:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(exzoo, 1);}
         break;
         case StateBosscrab:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(bosscrab, 1);}
         break;
         case StateMountain:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(mountain, 1);}
         break;
         case StateHospital:
             if(enable_hospital.mission_state == MISSION_STATE_REWARDED
                 && motherpl_hp < 5){
-                StopMusic;PlayMusic(cure, 0);
+                play_music_missionaccomplished();
             }
         break;
         case StateCart:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
         break;
         case StateBossbat:
-            if(previous_state == StateInventory){ResumeMusic;}
+            if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(bosscrab, 1);}
         break;
     }
@@ -261,7 +262,7 @@ void manage_border(UINT8 my_next_state) BANKED{
     check_sgb_palette(my_next_state);
     switch(my_next_state){
         case StateCredit:
-        case StateOverworld:
+        case StateOw:
         case StateTutorial:
         case StateOutwalkers:
         case StateHospital:
@@ -286,7 +287,7 @@ void manage_border(UINT8 my_next_state) BANKED{
                 LOAD_SGB_BORDER(bordercave);
             }
         break;
-        case StatePassword:
+        case StatePwd:
             if(current_border != BORDER_DIARY){
                 current_border = BORDER_DIARY;
                 LOAD_SGB_BORDER(borderdiary);
@@ -398,17 +399,17 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette01_MINE();
             set_sgb_palette_statusbar();
         break;
-        case StateInventory:
+        case StateInv:
             set_sgb_palette_inventory();
             reset_sgb_palette_statusbar();
         break;
-        case StatePassword:
+        case StatePwd:
         case StateDiary:
             set_sgb_palette01_WOLF();
         break;
         case StateDialog:
-        case StateOverworld:
-            if(new_state == StateOverworld){
+        case StateOw:
+            if(new_state == StateOw){
                 switch(current_map){
                     case MAP_SOUTHWEST:set_sgb_palette01_worldmap();break;//sw
                     case MAP_NORTHWEST:set_sgb_worldmap_nw();break;//nw
@@ -429,13 +430,13 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     /*if(current_state != StateDialog && current_state != StateCredit){
         PauseMusic;
     }*/
-    if(new_state == StateInventory || new_state == StateDiary){
+    if(new_state == StateInv || new_state == StateDiary){
         my_play_fx(CHANNEL_2, 60, 0xab, 0xe3, 0x37, 0x87, 0x00);//SFX_START
     }
     enemy_counter = 0;
     np_counter = 0;
     //SAVE ENEMY TO BE RELOADED
-    if(new_state == StateInventory){
+    if(new_state == StateInv){
         switch (current_state){
             case StateMine:
             case StateHood:
@@ -447,10 +448,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             UINT8 i = 0u;
             SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
                 switch(mfitspr->type){
-                    case SpriteEnemysimplerat: case SpriteEnemysimplesnake:
-                    case SpriteEnemyThrowerScorpion: case SpriteEnemyThrowerSpider:
-                    case SpriteEnemyThrowerTarantula: case SpriteEnemyBat:
-                    case SpriteEnemyAttackerCobra: case SpriteEnemyAttackerPine:
+                    case SpriteEsimplerat: case SpriteEsimplesnake:
+                    case SpriteEThrowerScorpion: case SpriteEThrowerSpider:
+                    case SpriteEThrowerTarantula: case SpriteEBat:
+                    case SpriteEAttackerCobra: case SpriteEAttackerPine:
                     case SpriteSeagull:
                         {
                         struct EnemyData* e_data = (struct EnemyData*) mfitspr->custom_data;
@@ -479,15 +480,15 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     }
     npc_spawned_zone = 0u;
     if(s_mother == 0){
-        if(previous_state == StateOverworld){s_mother = s_motherow;}
+        if(previous_state == StateOw){s_mother = s_motherow;}
         else{s_mother = s_motherpl;}
     }
     if(new_state != current_state && next_map != current_map){
         save_mother_pos(s_mother->type, s_mother->x, s_mother->y);
     }
     //MOTHERPL POS X Y, HIDE_WIN
-        if(current_state != StateInventory && current_state != StateDiary
-            && current_state != StateDialog && current_state != StatePassword
+        if(current_state != StateInv && current_state != StateDiary
+            && current_state != StateDialog && current_state != StatePwd
             && current_state != StateHospital
             && teleporting == 0){
             switch(s_mother->type){
@@ -495,7 +496,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                 case SpriteMotherowarmor:
                 case SpriteLiamow:
                     switch(new_state){
-                        case StateOverworld:
+                        case StateOw:
                             if(current_map == MAP_SOUTHWEST && next_map == MAP_SOUTHEAST){
                                 motherow_pos_x = (UINT16) 10u << 3;
                                 motherow_pos_y = (UINT16) 23u << 3;
@@ -540,7 +541,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             }
                         break;
                         case StateBridge:
-                            if(new_state == StateOverworld){
+                            if(new_state == StateOw){
                                 switch(next_map){
                                     case MAP_EAST: 
                                         activate_seagulls = 0u;
@@ -555,7 +556,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             }
                         break;
                         case StateHood:
-                            if(new_state == StateOverworld){
+                            if(new_state == StateOw){
                                 switch(next_map){
                                     case MAP_SOUTHWEST:
                                         switch(hood_type){
@@ -581,7 +582,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             }
                         break;
                         case StateExzoo:
-                            if(new_state == StateOverworld){
+                            if(new_state == StateOw){
                                 //gotta do it cause of the maze
                                 motherow_pos_x = ((UINT16) 14u << 3) + 4u;
                                 motherow_pos_y = (UINT16) 21u << 3;
@@ -614,7 +615,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
                             }
                         break;
                         case StateBatcave:
-                            if(new_state == StateOverworld){
+                            if(new_state == StateOw){
                                 motherow_pos_x = (UINT16) 12u << 3;
                                 motherow_pos_y = (UINT16) 37u << 3;
                             }
@@ -653,7 +654,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
     } 
-    if(new_state != StateTitlescreen){
+    if(new_state != StateTitle){
 	    ChangeStateThroughBetween(new_state);
     }else{
         manage_bgm(new_state, previous_state, next_map);
@@ -813,7 +814,7 @@ void update_camera_position() BANKED{
                         }
                     case StateExzoo:
                         next_ = MAP_SOUTHWEST;
-                        ChangeState(StateOverworld, s_motherpl, MAP_SOUTHWEST);
+                        ChangeState(StateOw, s_motherpl, MAP_SOUTHWEST);
                     break;
                     case StateSky:
                         ChangeState(StateMountain, s_motherpl, -1);
@@ -823,12 +824,12 @@ void update_camera_position() BANKED{
                     break;
                     case StateSilvercave:
                         next_ = MAP_EAST;
-                        ChangeState(StateOverworld, s_motherpl, MAP_EAST);
+                        ChangeState(StateOw, s_motherpl, MAP_EAST);
                     break;
                     case StateBridge:
                         next_ = MAP_SOUTHEAST;
                     default:
-                        ChangeState(StateOverworld, s_motherpl, next_);
+                        ChangeState(StateOw, s_motherpl, next_);
                     break;
                 }
             }
@@ -843,10 +844,10 @@ void update_camera_position() BANKED{
                             motherow_pos_y = 0u;
                             switch(hood_type){
                                 case NORTH_SOUTH:
-                                    ChangeState(StateOverworld, s_motherpl, 1);
+                                    ChangeState(StateOw, s_motherpl, 1);
                                 break;
                                 case EAST_WEST:
-                                    ChangeState(StateOverworld, s_motherpl, 3);
+                                    ChangeState(StateOw, s_motherpl, 3);
                                 break;
                             }
                         }
@@ -856,7 +857,7 @@ void update_camera_position() BANKED{
                     break;
                     case StateBridge:
                         golden_armor.current_step = 2;
-                        ChangeState(StateOverworld, s_motherpl, 4);
+                        ChangeState(StateOw, s_motherpl, 4);
                     break;
                     case StateOutwalkers:
                         if(get_to_the_mountain.mission_state >= MISSION_STATE_ACCOMPLISHED){
@@ -879,10 +880,10 @@ void update_camera_position() BANKED{
                     case StateBatcave:
                             motherow_pos_x = 10u;
                             motherow_pos_y = 37u;
-                            ChangeState(StateOverworld, s_motherpl, 3);
+                            ChangeState(StateOw, s_motherpl, 3);
                     break;
                     default:
-                        ChangeState(StateOverworld, s_motherpl, -1);
+                        ChangeState(StateOw, s_motherpl, -1);
                     break;
                 }
             }
@@ -962,7 +963,7 @@ void ReloadEnemiesPL() BANKED{
     init_enemy = 0u;
     enemy_counter = 0u;
     UINT8 i = 0u;
-    if(previous_state == StateInventory || previous_state == StateDialog){
+    if(previous_state == StateInv || previous_state == StateDialog){
         for(i = 0u; i < 3u && e_to_reload->e_data_hp > 0; ++i){
             Sprite* s_enemy = SpriteManagerAdd(e_to_reload[i].type, e_to_reload[i].x, e_to_reload[i].y);
             struct EnemyData* s_enemy_data = (struct EnemyData*) s_enemy->custom_data;

@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 #define HORDE_COOLDOWN_MAX 800
@@ -69,7 +69,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 7u << 3, (UINT16) 9u << 3);
         }
-        if(previous_state == StateInventory || previous_state == StateDialog || 
+        if(previous_state == StateInv || previous_state == StateDialog || 
             previous_state == StateBossminotaur) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -143,7 +143,7 @@ void UPDATE(){
         }
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){
-            ChangeState(StateInventory, s_motherpl, -1);
+            ChangeState(StateInv, s_motherpl, -1);
         }
     //CAMERA MANAGEMENT
         update_camera_position();
@@ -176,7 +176,7 @@ void UPDATE(){
                         SpriteManagerAdd(SpriteSpider, spawn_posx, spawn_posy);
                     }else{
                         timeout_enemy = 120u;
-                        SpriteManagerAdd(SpriteEnemyThrowerSpider, spawn_posx, spawn_posy);                    
+                        SpriteManagerAdd(SpriteEThrowerSpider, spawn_posx, spawn_posy);                    
                     }
                     horde_counter++;
                 }

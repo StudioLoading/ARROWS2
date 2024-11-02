@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 #define HORDE 5
@@ -81,7 +81,7 @@ void START(){
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, spawnmotherplx, spawnmotherply);
         }
         if(current_map == MAP_EAST){THIS->mirror = V_MIRROR; }
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -137,7 +137,7 @@ void UPDATE(){
         }
     //GO TO INVENTORY
         if(KEY_PRESSED(J_START)){
-            ChangeState(StateInventory, s_motherpl, -1);
+            ChangeState(StateInv, s_motherpl, -1);
         }
     //CAMERA MANAGEMENT
         update_camera_position();

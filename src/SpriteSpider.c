@@ -6,7 +6,7 @@
 
 #include "custom_datas.h"
 
-//PER I SCORPIONI VERI PRENDERE IL SpriteEnemyThrowerSpider.c come template
+//PER I SCORPIONI VERI PRENDERE IL SpriteEThrowerSpider.c come template
 
 const UINT8 a_spider[] = {8,0,1,2,3,4,3,2,1}; //The first number indicates the number of frames
 
@@ -30,5 +30,5 @@ void UPDATE(){
 }
 
 void DESTROY(){
-    SpriteManagerAdd(SpriteEnemyThrowerSpider, THIS->x, THIS->y - 16u);
+    SpriteManagerAdd(SpriteEThrowerSpider, THIS->x, THIS->y - 16u);
 }

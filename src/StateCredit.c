@@ -8,7 +8,7 @@
 #include "Print.h"
 #include "Music.h"
 
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "custom_datas.h"
 
 IMPORT_TILES(font);
@@ -543,7 +543,7 @@ void UPDATE() {
 			break;
 			case 4:
 				credit_step = 0;
-				ChangeState(StateTitlescreen, s_motherpl, -1);
+				ChangeState(StateTitle, s_motherpl, -1);
 			break;
 		}
 	}

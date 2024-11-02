@@ -54,6 +54,7 @@ extern INT8 outwalker_info_step = 0;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern void play_music_missionaccomplished() BANKED;
 
 
 void GetLocalizedLogName2_EN(NPCNAME npcname) BANKED{
@@ -584,6 +585,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d11, "GO VISIT HER.      \0", 22);
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
+            play_music_missionaccomplished();
 			find_antidote.phase = 5;
 			visit_blackie.mission_state = MISSION_STATE_STARTED;
 		break;

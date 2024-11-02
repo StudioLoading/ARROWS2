@@ -8,7 +8,7 @@
 #include "string.h"
 #include "Print.h"
 
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "custom_datas.h"
 
 #define MAX_WAIT_CHAR 4
@@ -47,6 +47,7 @@ extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
 extern void show_next_character() BANKED;
+extern void play_music_missionaccomplished() BANKED;
 
 
 void START() {
@@ -117,6 +118,7 @@ void UPDATE() {
                                         whostalking = HOSPITAL_ANTIDOTE_BUILT;
                                         SpriteManagerAdd(SpriteDiary, 72, 8);
                                         find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
+                                        play_music_missionaccomplished();
                                     }//AND GO TALK TO BLACKIE
                                 break;
                             }

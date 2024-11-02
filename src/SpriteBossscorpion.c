@@ -163,7 +163,7 @@ void scorpio_behave() BANKED{
                     scorpio_head->anim_frame == 5) &&
                     (old_attacking_frame != scorpio_head->anim_frame)){
                     old_attacking_frame = scorpio_head->anim_frame;
-                    Sprite* s_web = SpriteManagerAdd(SpriteEnemythrowable, scorpio_head->x +8u, scorpio_head->y);
+                    Sprite* s_web = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y);
                     struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
                     throwable_data->type = PROJECTILE;
                     throwable_data->configured = 1u;
@@ -172,7 +172,7 @@ void scorpio_behave() BANKED{
                         throwable_data->vx = 3;
                     }
                     if(scorpiohead_data->hp < 4){
-                        Sprite* s_proj_2 = SpriteManagerAdd(SpriteEnemythrowable, scorpio_head->x +8u, scorpio_head->y + 6);
+                        Sprite* s_proj_2 = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y + 6);
                         struct ThrowableData* proj2_data = (struct ThrowableData*) s_proj_2->custom_data;
                         proj2_data->type = PROJECTILE;
                         proj2_data->configured = 1u;
@@ -182,7 +182,7 @@ void scorpio_behave() BANKED{
                         }
                     }
                     if(scorpiohead_data->hp < 2){
-                        Sprite* s_proj_3 = SpriteManagerAdd(SpriteEnemythrowable, scorpio_head->x +8u, scorpio_head->y - 6);
+                        Sprite* s_proj_3 = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y - 6);
                         struct ThrowableData* proj3_data = (struct ThrowableData*) s_proj_3->custom_data;
                         proj3_data->type = PROJECTILE;
                         proj3_data->configured = 1u;

@@ -7,16 +7,16 @@
 #define STATES \
 _STATE(StateUtils)\
 _STATE(StateUtilsOw)\
-_STATE(StateTitlescreen)\
-_STATE(StateMotherplutils)\
-_STATE(StateMotherowutils)\
+_STATE(StateTitle)\
+_STATE(StateMowUt)\
+_STATE(StateMplUt)\
 _STATE(StateTutorial)\
 _STATE(StateInbetween)\
 _STATE(StateCredit)\
 _STATE(StateTetra)\
-_STATE(StateOverworld)\
+_STATE(StateOw)\
 _STATE(StateDiary)\
-_STATE(StateInventory)\
+_STATE(StateInv)\
 _STATE(StateDialog)\
 _STATE(StateExzoo)\
 _STATE(StateCemetery)\
@@ -26,7 +26,7 @@ _STATE(StateShop)\
 _STATE(StateBlackieroom)\
 _STATE(StateHospital)\
 _STATE(StateHood)\
-_STATE(StatePassword)\
+_STATE(StatePwd)\
 _STATE(StateOutwalkers)\
 _STATE(StateBosscrab)\
 _STATE(StateMountain)\
@@ -41,7 +41,6 @@ _STATE(StateBossminotaur)\
 _STATE(StateBatcave)\
 _STATE(StateHarbor)\
 _STATE(StateBossbat)\
-_STATE(StateFinalcutscene)\
 STATE_DEF_END
 /*
 _STATE(StateHospital)\
@@ -53,7 +52,6 @@ _STATE(StateFlipper)\
 _SPRITE_DMG(SpriteCamerafocus, camerafocus)\
 _SPRITE_DMG(SpritePunta, punta)\
 _SPRITE_DMG(SpriteMirino, mirino)\
-_SPRITE_DMG(SpriteTarget, target)\
 _SPRITE_DMG(SpritePuff, puff)\
 _SPRITE_DMG(SpriteTetradado, tetradado)\
 _SPRITE_DMG(SpriteTetratacche, tetratacche)\
@@ -70,17 +68,16 @@ _SPRITE_DMG(SpriteCursor, cursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteMotherplarmor, motherplarmor)\
 _SPRITE_DMG(SpriteDust, dust)\
-_SPRITE_DMG(SpriteCloud, cloud)\
-_SPRITE_DMG(SpriteEnemysimple, enemysimple)\
-_SPRITE_DMG(SpriteEnemysimplesnake, enemysnake)\
-_SPRITE_DMG(SpriteEnemysimplerat, enemyrat)\
-_SPRITE_DMG(SpriteEnemyAttackerCobra, enemycobra)\
-_SPRITE_DMG(SpriteEnemyAttackerPine, enemyporcupine)\
-_SPRITE_DMG(SpriteEnemythrowable, enemythrowable)\
+_SPRITE_DMG(SpriteEsimple, enemysimple)\
+_SPRITE_DMG(SpriteEsimplesnake, enemysnake)\
+_SPRITE_DMG(SpriteEsimplerat, enemyrat)\
+_SPRITE_DMG(SpriteEAttackerCobra, enemycobra)\
+_SPRITE_DMG(SpriteEAttackerPine, enemyporcupine)\
+_SPRITE_DMG(SpriteEthrowable, enemythrowable)\
 _SPRITE_DMG(SpriteSpider, spider)\
-_SPRITE_DMG(SpriteEnemyThrowerSpider, enemyspider)\
-_SPRITE_DMG(SpriteEnemyThrowerTarantula, enemytarantula)\
-_SPRITE_DMG(SpriteEnemyThrowerScorpion, enemyscorpion)\
+_SPRITE_DMG(SpriteEThrowerSpider, enemyspider)\
+_SPRITE_DMG(SpriteEThrowerTarantula, enemytarantula)\
+_SPRITE_DMG(SpriteEThrowerScorpion, enemyscorpion)\
 _SPRITE_DMG(SpriteArrow, arrow)\
 _SPRITE_DMG(SpriteInvitem, invitem)\
 _SPRITE_DMG(SpriteRightleft, rightleft)\
@@ -96,7 +93,6 @@ _SPRITE_DMG(SpriteBlackie, blackie)\
 _SPRITE_DMG(SpriteBlackiechild, blackiechild)\
 _SPRITE_DMG(SpriteBlackieow, blackieow)\
 _SPRITE_DMG(SpriteLeaf, leaf)\
-_SPRITE_DMG(SpriteArmor, hurricane)\
 _SPRITE_DMG(SpriteChild, child)\
 _SPRITE_DMG(SpriteMotherowstep, motherowstep)\
 _SPRITE_DMG(SpriteFlame, flame)\
@@ -109,7 +105,7 @@ _SPRITE_DMG(SpriteGocursor, gocursor)\
 _SPRITE_DMG(SpriteFlower, flower)\
 _SPRITE_DMG(SpriteBigstone, bigstone)\
 _SPRITE_DMG(SpriteStone, stone)\
-_SPRITE_DMG(SpriteBigstoneanticipation, bigstoneanticipation)\
+_SPRITE_DMG(SpriteBigstonea, bigstonea)\
 _SPRITE_DMG(SpriteBoltground, boltground)\
 _SPRITE_DMG(SpriteBolt, bolt)\
 _SPRITE_DMG(SpriteCart, cart)\
@@ -131,11 +127,11 @@ _SPRITE_DMG(SpriteFish, fish)\
 _SPRITE_DMG(SpritePlusone, plusone)\
 _SPRITE_DMG(SpriteBottle, bottle)\
 _SPRITE_DMG(SpriteSeagull, seagull)\
-_SPRITE_DMG(SpriteBossminotaur, minotaur)\
-_SPRITE_DMG(SpriteBossminotaurskull, minotaurskull)\
-_SPRITE_DMG(SpriteBossminotaursbuff, minotaursbuff)\
+_SPRITE_DMG(SpriteBossMino, minotaur)\
+_SPRITE_DMG(SpriteBossMinoskull, minotaurskull)\
+_SPRITE_DMG(SpriteBossMinobuff, minotaursbuff)\
 _SPRITE_DMG(SpriteSkull, skull)\
-_SPRITE_DMG(SpriteEnemyBat, bat)\
+_SPRITE_DMG(SpriteEBat, bat)\
 _SPRITE_DMG(SpriteOwpeople, owpeople)\
 _SPRITE_DMG(SpriteSeagullHarbor, seagullharbor)\
 _SPRITE_DMG(SpritePgPirate, pgpirate)\

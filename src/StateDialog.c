@@ -8,7 +8,7 @@
 #include "string.h"
 #include "Print.h"
 
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "custom_datas.h"
 
 #define MAX_WAIT_CHAR 4
@@ -16,11 +16,10 @@
 IMPORT_TILES(font);
 IMPORT_MAP(dmapbackup);
 IMPORT_TILES(dialogtilesbase);
-IMPORT_MAP(dialogmapbase);
-IMPORT_MAP(dialogmapintro);
-IMPORT_MAP(dialogmapexzoo);
-IMPORT_MAP(dialogmapcemetery);
-IMPORT_MAP(dialogmapmine);
+IMPORT_MAP(dmapintro);
+IMPORT_MAP(dmapexzoo);
+IMPORT_MAP(dmapcemetery);
+IMPORT_MAP(dmapmine);
 IMPORT_MAP(dmapblackiecave);
 IMPORT_MAP(dmapshop);
 IMPORT_MAP(dmapblackie);
@@ -103,8 +102,8 @@ void START() {
     HIDE_WIN;
     switch(whostalking){
         case INTRO: case ITEMDETAIL_LIAM_HANDWRITTEN:
-        InitScroll(BANK(dialogmapintro), &dialogmapintro, 0, 0);break;
-        case DEATH:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+        InitScroll(BANK(dmapintro), &dmapintro, 0, 0);break;
+        case DEATH:InitScroll(BANK(dmapcemetery), &dmapcemetery, 0, 0);break;
         case BLACKIE:
         case BLACKIE_DEAD_CHILD:
             InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
@@ -152,9 +151,9 @@ void START() {
         break;
         default:
             switch(previous_state){
-                case StateExzoo:InitScroll(BANK(dialogmapexzoo), &dialogmapexzoo, 0, 0);break;
-                case StateMine:InitScroll(BANK(dialogmapmine), &dialogmapmine, 0, 0);break; 
-                case StateCemetery:InitScroll(BANK(dialogmapcemetery), &dialogmapcemetery, 0, 0);break;
+                case StateExzoo:InitScroll(BANK(dmapexzoo), &dmapexzoo, 0, 0);break;
+                case StateMine:InitScroll(BANK(dmapmine), &dmapmine, 0, 0);break; 
+                case StateCemetery:InitScroll(BANK(dmapcemetery), &dmapcemetery, 0, 0);break;
                 case StateShop:InitScroll(BANK(dmapshop), &dmapshop, 0, 0);break;
                 case StateBlackieroom:
                 case StateBlackiecave:InitScroll(BANK(dmapblackiecave), &dmapblackiecave, 0, 0);break;
@@ -463,7 +462,7 @@ void move_on() BANKED{
         //return;//DEMO ENDS HERE
     }else if(previous_state == StateBlackieroom && whostalking == BLACKIE){
         if(find_blackie.current_step == 3u){//to OW out of cave
-            previous_state = StateOverworld;
+            previous_state = StateOw;
         }
     }else if(whostalking == OUTWALKER_MAN2){
         if(choice_right == 1u && outwalker_info_given < 3){//SPEND 30 to learn some more info
@@ -500,14 +499,14 @@ void move_on() BANKED{
         }
         return;
     }else if(whostalking == PIRATE_CAPTAIN_2){
-        ChangeState(StateOverworld, s_motherow, MAP_EAST);
+        ChangeState(StateOw, s_motherow, MAP_EAST);
         return;
     }else if(whostalking == PIRATE_CAPTAIN_3){
         whostalking = MEANWHILE;
         ChangeState(StateDialog, s_motherpl, -1);
     }else if(whostalking == MEANWHILE){
         chapter = CHAPTER_5_ISLE;
-        ChangeState(StateOverworld, s_motherow, MAP_ISLE);
+        ChangeState(StateOw, s_motherow, MAP_ISLE);
         return;
     }
     else if(whostalking == HOSPITAL_GAMEOVER){
@@ -536,7 +535,7 @@ void move_on() BANKED{
             break;
         }
         if(give_new_password == 1){
-            SetState(StatePassword);
+            SetState(StatePwd);
             return;
         }
     if(whostalking == DEATH){
@@ -547,8 +546,8 @@ void move_on() BANKED{
     }else if(whostalking == FISHERMAN_LETSGO){
         ChangeState(StateFps, s_motherpl, -1);
     }else if(whostalking == FISHERMAN_FPSGATOR_COMPLETED){
-        ChangeState(StateOverworld, s_motherow, 3);
-    }else if(previous_state == StateOverworld || previous_state == StatePassword){
+        ChangeState(StateOw, s_motherow, 3);
+    }else if(previous_state == StateOw || previous_state == StatePwd){
         ChangeState(previous_state, s_motherow, current_map);
     }else if(whostalking == CADAVER && mr_smee.current_step == 1){//to the boss fight!
         ChangeState(StateBossbat, s_motherpl, -1);

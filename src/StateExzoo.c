@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(border);
@@ -60,7 +60,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
         }
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -105,7 +105,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl,-1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl,-1);}
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC

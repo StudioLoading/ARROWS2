@@ -155,13 +155,13 @@ void UPDATE(){
                         }
                     }
                     break;
-                    case SpriteEnemysimplesnake:
-                    case SpriteEnemysimplerat:
-                    case SpriteEnemyAttackerCobra:
-                    case SpriteEnemyAttackerPine:
-                    case SpriteEnemyThrowerSpider:
-                    case SpriteEnemyThrowerTarantula:
-                    case SpriteEnemyThrowerScorpion:
+                    case SpriteEsimplesnake:
+                    case SpriteEsimplerat:
+                    case SpriteEAttackerCobra:
+                    case SpriteEAttackerPine:
+                    case SpriteEThrowerSpider:
+                    case SpriteEThrowerTarantula:
+                    case SpriteEThrowerScorpion:
                         {
                             struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
                             if(iarrspr->mirror == NO_MIRROR && arrow_data->vx > 0){
@@ -171,7 +171,7 @@ void UPDATE(){
                             }
                         }
                     case SpriteBosscrab:
-                    case SpriteBossminotaurskull:
+                    case SpriteBossMinoskull:
                     //io freccia ho colpito enemy
                         {
                             struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
@@ -183,8 +183,8 @@ void UPDATE(){
                             case ARROW_NORMAL:
                                 arrow_data->hit = 1u;
                                 if(iarrspr->type != SpriteBosscrab &&
-                                    iarrspr->type != SpriteBossminotaurskull &&
-                                    iarrspr->type != SpriteBossminotaur
+                                    iarrspr->type != SpriteBossMinoskull &&
+                                    iarrspr->type != SpriteBossMino
                                     ){
                                     changeEstate(iarrspr, ENEMY_HIT_1);
                                     return;
@@ -197,7 +197,7 @@ void UPDATE(){
                                     if(crab_data->e_state == ENEMY_WALK){    
                                         crab_change_state(ENEMY_HIT_1);
                                     }
-                                }else if(iarrspr->type == SpriteBossminotaurskull){
+                                }else if(iarrspr->type == SpriteBossMinoskull){
                                     if(mino_skull_data->e_state == ENEMY_PREATTACK){ 
                                         if(THIS->mirror != iarrspr->mirror){
                                             mino_change_state(ENEMY_HIT_1);
@@ -226,7 +226,7 @@ void UPDATE(){
                             spawnItem(INVITEM_MONEY, THIS->x + 8u, THIS->y);
                         }
                     break;
-                    case SpriteEnemyBat:
+                    case SpriteEBat:
                         struct EnemyData* e_data = (struct EnemyData*) iarrspr->custom_data; 
                         switch(arrow_data->arrow_type){
                             case ARROW_NORMAL:

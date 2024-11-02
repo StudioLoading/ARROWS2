@@ -55,6 +55,7 @@ extern struct MISSION captain;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern void play_music_missionaccomplished() BANKED;
 
 
 void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
@@ -213,6 +214,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, "BEACH.              ", 22);
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 			hungry_people.mission_state = MISSION_STATE_ACCOMPLISHED;
+            play_music_missionaccomplished();
 		break;
 		case ITEMDETAIL_LIAM_HANDWRITTEN:
 			*n_lines = 19u;

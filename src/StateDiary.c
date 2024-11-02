@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "DiaryDialogs.h"
 
 IMPORT_TILES(fontbw);
@@ -550,7 +550,7 @@ void change_page(INT8 inc){
 
 void UPDATE(){
     if(KEY_RELEASED(J_START) || KEY_RELEASED(J_SELECT)){
-        ChangeState(StateOverworld, s_motherow, -1);
+        ChangeState(StateOw, s_motherow, -1);
     }
     if(showing_detail == 0u){
         if (scroll_target->x > (UINT16) 10u << 3){

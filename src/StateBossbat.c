@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(bordercave);
@@ -62,8 +62,8 @@ void START(){
         s_motherpl = SpriteManagerAdd(SpriteMotherplarmor, (UINT16)16u << 3, (UINT16) 10u << 3);
     //INIT CHAR & MAP
         if(_cpu == CGB_TYPE){
-            SpriteManagerAdd(SpriteEnemyBat, (UINT16)1<<3, (UINT16)5<<3);
-            SpriteManagerAdd(SpriteEnemyBat, (UINT16)4<<3, (UINT16)8<<3);
+            SpriteManagerAdd(SpriteEBat, (UINT16)1<<3, (UINT16)5<<3);
+            SpriteManagerAdd(SpriteEBat, (UINT16)4<<3, (UINT16)8<<3);
         }
         SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, ((UINT16) 12u << 3), ((UINT16) 10u << 3));
@@ -88,7 +88,7 @@ void UPDATE(){
             bossbat_exit_cooldown--;
             if(bossbat_exit_cooldown == 0){
                 mr_smee.mission_state = MISSION_STATE_ACCOMPLISHED;
-                ChangeState(StateOverworld, s_motherpl, MAP_SOUTHEAST);
+                ChangeState(StateOw, s_motherpl, MAP_SOUTHEAST);
             }
         }
     //UPDATE HUD for HP changings

@@ -9,7 +9,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_TILES(font);
@@ -82,7 +82,7 @@ void START(){
                 s_motherpl->mirror = V_MIRROR;
             break;
         }
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -124,7 +124,7 @@ void START(){
     timeout_enemy = 400u;
     generic_counter = 60u;
     spawn_child_cooldown = 100u;
-    if(previous_state == StateOverworld){
+    if(previous_state == StateOw){
         enemy_wave = 12;
     }
 }
@@ -138,7 +138,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
@@ -208,11 +208,11 @@ void UPDATE(){
                             if(enemy_counter < 2){
                                 timeout_enemy--;
                                 if(timeout_enemy == 200u){
-                                    SpriteManagerAdd(SpriteEnemyAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
+                                    SpriteManagerAdd(SpriteEAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
                                 }
                                 if(timeout_enemy == 0u){
                                     timeout_enemy = 600u;
-                                    SpriteManagerAdd(SpriteEnemysimplesnake, (UINT16)(s_motherpl->x - 100u), (UINT16) 7u << 3);
+                                    SpriteManagerAdd(SpriteEsimplesnake, (UINT16)(s_motherpl->x - 100u), (UINT16) 7u << 3);
                                 }
                             }          
                         break;
@@ -238,10 +238,10 @@ void spawn_enemy_hood() BANKED{
             }
             switch(hood_type){
                 case NORTH_SOUTH:
-                    SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+                    SpriteManagerAdd(SpriteEAttackerPine, e_x, (UINT16) 6u << 3);
                 break;
                 case EAST_WEST:
-                    SpriteManagerAdd(SpriteEnemyThrowerSpider, e_x, (UINT16) 6u << 3);
+                    SpriteManagerAdd(SpriteEThrowerSpider, e_x, (UINT16) 6u << 3);
                 break;
             }
         }
@@ -253,10 +253,10 @@ void spawn_enemy_hood() BANKED{
             }
             switch(hood_type){
                 case NORTH_SOUTH:
-                    SpriteManagerAdd(SpriteEnemysimplesnake, e_x, (UINT16) 7u << 3);
+                    SpriteManagerAdd(SpriteEsimplesnake, e_x, (UINT16) 7u << 3);
                 break;
                 case EAST_WEST:
-                    SpriteManagerAdd(SpriteEnemyAttackerCobra, e_x, (UINT16) 7u << 3);
+                    SpriteManagerAdd(SpriteEAttackerCobra, e_x, (UINT16) 7u << 3);
                 break;
             }
         }
@@ -268,10 +268,10 @@ void spawn_enemy_hood() BANKED{
             }
             switch(hood_type){
                 case NORTH_SOUTH:
-                    SpriteManagerAdd(SpriteEnemyAttackerPine, e_x, (UINT16) 6u << 3);
+                    SpriteManagerAdd(SpriteEAttackerPine, e_x, (UINT16) 6u << 3);
                 break;
                 case EAST_WEST:
-                    SpriteManagerAdd(SpriteEnemyThrowerSpider, e_x, (UINT16) 6u << 3);
+                    SpriteManagerAdd(SpriteEThrowerSpider, e_x, (UINT16) 6u << 3);
                 break;
             }
             timeout_enemy = 500;

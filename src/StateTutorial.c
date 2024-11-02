@@ -9,7 +9,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_TILES(font);
@@ -70,7 +70,7 @@ void empty_instructions() BANKED;
 void START(){
     //INIT GRAPHICS
         s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 1u << 3);
-        if(previous_state == StateInventory || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
@@ -96,7 +96,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        //if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        //if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //COUNTER
         if(tutorial_counter > 0){
             tutorial_counter--;
@@ -113,7 +113,7 @@ void UPDATE(){
                 tutorial_counter = 120u;
                 if(tutorial_current_step > 8u){
                     previous_state = StateExzoo;
-                    ChangeState(StateInventory, s_motherpl, -1);
+                    ChangeState(StateInv, s_motherpl, -1);
                 }
             }            
             if(KEY_PRESSED(J_FIRE) && KEY_PRESSED(J_JUMP)){

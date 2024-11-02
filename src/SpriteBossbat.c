@@ -35,6 +35,7 @@ struct EnemyData* bossbat_data = 0;
 extern Sprite* s_motherpl;
 extern MOTHERPL_STATE motherpl_state;
 extern void motherpl_hitted(Sprite* s_enemy) BANKED;
+extern void play_music_missionaccomplished() BANKED;
 
 void bossbat_change_state(ENEMY_STATE e_state) BANKED;
 void bossbat_manage_gradini() BANKED;
@@ -216,6 +217,7 @@ void bossbat_change_state(ENEMY_STATE e_state) BANKED{
             }
         break;
         case ENEMY_DEAD:
+            play_music_missionaccomplished();
             bossbat_exit_cooldown = 80u; 
             bossbat_data->hp = 0;
         break;

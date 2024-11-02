@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_TILES(font);
@@ -68,14 +68,14 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 6u << 3, (UINT16) 8u << 3);
         }
-        if(previous_state == StateInventory
+        if(previous_state == StateInv
             || (previous_state == StateDialog && choice == 0u)) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
     //INIT CHAR & MAP
-        Sprite* s_scorpion = SpriteManagerAdd(SpriteEnemyThrowerScorpion, (UINT16)15u << 3, (UINT16) 64u);
+        Sprite* s_scorpion = SpriteManagerAdd(SpriteEThrowerScorpion, (UINT16)15u << 3, (UINT16) 64u);
         s_scorpion_data= (struct EnemyData*) s_scorpion->custom_data;
         s_scorpion_data->configured = 1;
         if(ow_is_beach == 0){
@@ -117,7 +117,7 @@ void UPDATE(){
             if(mother_exit_cooldown == 0u || enemy_beated == 1u){
                 mother_exit_cooldown = 60u;
                 previous_state = StateScorpions;
-                ChangeState(StateOverworld, s_motherpl, -1);
+                ChangeState(StateOw, s_motherpl, -1);
                 //go back
             }
         }else if(mother_exit_cooldown != 40u){

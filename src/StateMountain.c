@@ -10,7 +10,7 @@
 #include "Print.h"
 
 #include "custom_datas.h"
-#include "TilesAnimations0.h"
+#include "TAnim0.h"
 #include "Dialogs.h"
 
 IMPORT_MAP(bordersky);
@@ -62,7 +62,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 4u << 3, (UINT16) 49u << 3);
         }
-        if(previous_state == StateInventory || previous_state == StateDialog
+        if(previous_state == StateInv || previous_state == StateDialog
             || previous_state == StateSky) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
@@ -92,7 +92,7 @@ void UPDATE(){
             UpdateHUD();
         }
     //GO TO INVENTORY
-        if(KEY_PRESSED(J_START)){ChangeState(StateInventory, s_motherpl, -1);}
+        if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
     //CAMERA MANAGEMENT
         update_camera_position();
     //BIGSTONES & SCORPIONS
@@ -105,14 +105,14 @@ void UPDATE(){
                     case 3:
                         {
                         test_counter = 0;
-                        Sprite* s_bigstone_1 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x), (UINT16)(s_motherpl->y - 80u));
+                        Sprite* s_bigstone_1 = SpriteManagerAdd(SpriteBigstonea, (UINT16)(s_motherpl->x), (UINT16)(s_motherpl->y - 80u));
                         struct EnemyData* bigstone1_data = (struct EnemyData*) s_bigstone_1->custom_data;
                         bigstone1_data->configured = 0;                        
                         }
                     break;
                     case 1:
                         {
-                        Sprite* s_bigstone_2 = SpriteManagerAdd(SpriteBigstoneanticipation, (UINT16)(s_motherpl->x + 50u), (UINT16)(s_motherpl->y - 80u));
+                        Sprite* s_bigstone_2 = SpriteManagerAdd(SpriteBigstonea, (UINT16)(s_motherpl->x + 50u), (UINT16)(s_motherpl->y - 80u));
                         s_bigstone_2->mirror = V_MIRROR;
                         struct EnemyData* bigstone2_data = (struct EnemyData*) s_bigstone_2->custom_data;
                         bigstone2_data->configured = 1;
