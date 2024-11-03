@@ -240,7 +240,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             else {StopMusic;PlayMusic(endgame, 1);}
         break;
         case StateBosscrab:
-        case StateBossMinotaur:
+        case StateBossminotaur:
         case StateBossbat:
             if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(bosscrab, 1);}
@@ -809,8 +809,12 @@ void update_camera_position() BANKED{
                 return;
             break;
             case StateBossbat:
-                scroll_target->x = ((UINT16) 12u << 3);
-                scroll_target->y = ((UINT16) 10u << 3);
+                if(scroll_target->x != (UINT16) 96u || 
+                    scroll_target->y != (UINT16) 80u){
+                    scroll_target->x = ((UINT16) 12u << 3);
+                    scroll_target->y = ((UINT16) 10u << 3);
+                }
+                return;
             break;
         }
     //LIMITS
@@ -907,7 +911,7 @@ void update_camera_position() BANKED{
             if(s_motherpl->y > 60000u){
                 s_motherpl->y = 32u;
             }  
-    //SCROLL TARGET Y    
+    //SCROLL TARGET Y
         if(motherpl_hit_cooldown > 0){
             //CAMERA TRAMBLE
             camera_tramble();
