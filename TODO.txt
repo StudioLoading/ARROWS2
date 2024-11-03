@@ -1,10 +1,8 @@
 
 - le zinne con l'armatura non rimbalzano!
-
-
 - audio dei projectile degli enemy!
-- i nuovi audio di andrew!
 - check colori SGB
+- sfx
 
 
 KNOWN ISSUES:

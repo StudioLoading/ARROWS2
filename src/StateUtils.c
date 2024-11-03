@@ -33,6 +33,7 @@ DECLARE_MUSIC(mountain);
 DECLARE_MUSIC(mine);
 DECLARE_MUSIC(missionaccomplished);
 DECLARE_MUSIC(letter);
+DECLARE_MUSIC(endgame);
 
 IMPORT_MAP(border);
 IMPORT_MAP(border2);
@@ -164,15 +165,18 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateDialog:
             if(previous_state == StateTitle){
                 PauseMusic;
-            }else{
-                ResumeMusic;
-            }
+            }//else{
+                //ResumeMusic;
+            //}
             switch(whostalking){
                 case INTRO:
                     PlayMusic(letter, 1);
                 break;
                 case DEATH:
                     PlayMusic(death, 0);
+                break;
+                case FINAL:
+                    PlayMusic(endgame, 0);
                 break;
             }
         break;
@@ -183,7 +187,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
                     case MAP_SOUTHWEST:PlayMusic(owsw, 1);break;
                     case MAP_NORTHWEST:PlayMusic(owsw, 1);break;
                     case MAP_MAZE:PlayMusic(maze, 1);break;
+                    case MAP_SOUTHEAST:PlayMusic(owsw, 1);break;
                     case MAP_EAST:PlayMusic(owsw, 1);break;
+                    case MAP_ISLE:PlayMusic(tutorial, 1);break;
                 }
             }            
         break;
@@ -191,6 +197,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInv){ResumeMusic;}
             else{StopMusic;PlayMusic(exzoo, 1);}
         break;
+        case StateScorpions:
         case StateCemetery:
             if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(cemetery, 1);}
@@ -202,17 +209,17 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
         break;
+        case StateBridge:
+        case StateHarbor:
+        case StateSilvercave:
         case StateMine:
             if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(mine, 1);}//bgm_mine
         break;
         case StateHood:
+        case StateOutwalkers:
             if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(exzoo, 1);}
-        break;
-        case StateBosscrab:
-            if(previous_state == StateInv){ResumeMusic;}
-            else {StopMusic;PlayMusic(bosscrab, 1);}
         break;
         case StateMountain:
             if(previous_state == StateInv){ResumeMusic;}
@@ -228,6 +235,12 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInv){ResumeMusic;}
             else if(previous_state != StateDialog){StopMusic;PlayMusic(intro, 1);}
         break;
+        case StateFps:
+            if(previous_state == StateInv){ResumeMusic;}
+            else {StopMusic;PlayMusic(endgame, 1);}
+        break;
+        case StateBosscrab:
+        case StateBossMinotaur:
         case StateBossbat:
             if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(bosscrab, 1);}
