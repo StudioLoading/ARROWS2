@@ -28,7 +28,7 @@ DECLARE_MUSIC(owsw);
 DECLARE_MUSIC(cemetery);
 DECLARE_MUSIC(exzoo);
 DECLARE_MUSIC(maze);
-DECLARE_MUSIC(bosscrab);
+DECLARE_MUSIC(boss);
 DECLARE_MUSIC(mountain);
 DECLARE_MUSIC(mine);
 DECLARE_MUSIC(missionaccomplished);
@@ -215,7 +215,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateSilvercave:
         case StateMine:
             if(previous_state == StateInv){ResumeMusic;}
-            else if(previous_state != StateDialog){StopMusic;PlayMusic(mine, 1);}//bgm_mine
+            else if(previous_state != StateDialog){StopMusic;PlayMusic(mine, 1);}
         break;
         case StateHood:
         case StateOutwalkers:
@@ -244,7 +244,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateBossminotaur:
         case StateBossbat:
             if(previous_state == StateInv){ResumeMusic;}
-            else {StopMusic;PlayMusic(bosscrab, 1);}
+            else {StopMusic;PlayMusic(boss, 1);}
         break;
     }
 }
