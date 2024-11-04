@@ -43,6 +43,7 @@ IMPORT_MAP(bordermine);
 IMPORT_MAP(bordercrab);
 IMPORT_MAP(bordersky);
 IMPORT_MAP(bordercart);
+IMPORT_MAP(bordertetra);
 
 extern struct InvItem itemEquipped;
 extern struct MISSION help_cemetery_woman;
@@ -279,10 +280,15 @@ void manage_border(UINT8 my_next_state) BANKED{
         case StateTutorial:
         case StateOutwalkers:
         case StateHospital:
-        case StateTetra:
             if(current_border != BORDER_CLASSIC){
                 current_border = BORDER_CLASSIC;
                 LOAD_SGB_BORDER(border2);
+            }
+        break;
+        case StateTetra:
+            if(current_border != BORDER_TETRA){
+                current_border = BORDER_TETRA;
+                LOAD_SGB_BORDER(bordertetra);
             }
         break;
         case StateMine:
@@ -362,9 +368,12 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_palette01_cart();
             set_sgb_palette_statusbar();
         break;
+        case StateHarbor:
+            set_sgb_harbor();
+            set_sgb_palette_statusbar();
+        break;
         case StateBosscrab:
         case StateBridge:
-        case StateHarbor:
         case StateHospital:
         case StateFps:
             set_sgb_crab();

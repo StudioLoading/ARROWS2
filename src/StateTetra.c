@@ -108,10 +108,10 @@ void START() {
       scroll_bottom_movement_limit = 80u;
 
   //SGB COLORS
-  if(sgb_running){
-    set_sgb_palette01_worldmap();
-  }
-  
+    sgb_running = sgb_check(); //TODO remove me
+    if(sgb_running){
+      set_sgb_palette_tetra();
+    }
   InitScroll(BANK(maptetra), &maptetra, collision_tiles_tetra, 0);
   print_target = PRINT_WIN;
   SHOW_BKG;

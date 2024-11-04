@@ -13,7 +13,6 @@
 
 DECLARE_MUSIC(password);
 IMPORT_TILES(font);
-IMPORT_MAP(borderdiary);
 IMPORT_MAP(password);
 
 extern Sprite* inv_cursor;

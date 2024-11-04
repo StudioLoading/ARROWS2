@@ -15,7 +15,6 @@
 
 #define MAX_CLOUD_TIMEOUT 200
 
-IMPORT_MAP(border);
 IMPORT_TILES(font);
 IMPORT_TILES(cemeterytiles);
 IMPORT_TILES(hudpltiles);

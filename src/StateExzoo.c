@@ -13,7 +13,6 @@
 #include "TAnim0.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(border);
 IMPORT_TILES(font);//font
 IMPORT_TILES(exzootiles);
 IMPORT_MAP(exzoomap0);

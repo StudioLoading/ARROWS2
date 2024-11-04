@@ -13,7 +13,6 @@
 #include "TAnim0.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(bordersky);
 IMPORT_TILES(font);
 IMPORT_TILES(mountaintiles);
 IMPORT_MAP(mountainmap);

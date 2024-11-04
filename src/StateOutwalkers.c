@@ -13,7 +13,6 @@
 #include "TAnim0.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(border);
 IMPORT_TILES(font);
 IMPORT_TILES(banditstiles);
 IMPORT_MAP(banditsmap);

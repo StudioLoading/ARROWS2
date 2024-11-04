@@ -121,6 +121,8 @@ void set_sgb_palette02_worldmap() __banked;
 void set_sgb_worldmap_nw() __banked;
 void set_sgb_worldmap_e() __banked;
 void set_sgb_crab() __banked;
+void set_sgb_harbor() __banked;
+void set_sgb_palette_tetra() __banked;
 void set_sgb_palette01_worldmap_maze() __banked;
 void set_sgb_palette01_WOLF() __banked;
 void set_sgb_palette01_BLACKIECAVE() __banked;

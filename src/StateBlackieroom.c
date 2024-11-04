@@ -19,7 +19,6 @@
 #define HORDE_COBRA 2
 #define HORDE_COOLDOWN_MAX 140
 
-IMPORT_MAP(bordercave);
 IMPORT_TILES(font);
 IMPORT_TILES(blackiecavetiles);
 IMPORT_TILES(hudpltiles);

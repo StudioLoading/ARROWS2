@@ -1,6 +1,5 @@
 #include "Banks/SetAutoBank.h"
 
-#include "SGB.h"
 #include "BankManager.h"
 #include "Palette.h"
 #include "Sound.h"
@@ -12,7 +11,6 @@
 
 #include "custom_datas.h"
 #include "TAnim0.h"
-#include "sgb_palette.h"
 #include "Dialogs.h"
 #include "Dialogs2.h"
 

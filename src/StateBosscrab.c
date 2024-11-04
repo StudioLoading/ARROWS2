@@ -13,7 +13,6 @@
 #include "TAnim0.h"
 #include "Dialogs.h"
 
-IMPORT_MAP(bordercrab);
 IMPORT_TILES(font);
 IMPORT_TILES(bosscrabtiles);
 IMPORT_TILES(hudpltiles);
