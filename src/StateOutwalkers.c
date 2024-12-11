@@ -34,7 +34,6 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION get_to_the_mountain;
 extern struct MISSION find_antidote;
 extern CHAPTERS chapter;
-extern INT8 outwalker_info_step;
 
 const UINT8 coll_tiles_bandits[] = {1u, 10u, 14u, 17u, 18u, 19u, 101u, 102u, 103u, 104u, 105u, 106u, 0};
 const UINT8 coll_surface_bandits[] = {57u, 77u, 84u, 88u, 105u, 106u, 0};
@@ -91,34 +90,7 @@ void UPDATE(){
             motherpl_ckautodialog(s_motherpl, OUTWALKER_SIMON);
         } 
     //MANAGE NPC
-        if(s_motherpl->x < (
-            (UINT16)20u << 3) ){
-            if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
-                if(find_antidote.phase == 3){
-                    spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, JESSICA_PLANTS, OUTWALKER_JESSICA);
-                }else{
-                    spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
-                }
-                npc_spawned_zone = 1u;
-            }
-        }else if(s_motherpl->x < ((UINT16)60u << 3) && s_motherpl->x > ((UINT16)40u << 3)){
-            if(npc_spawned_zone != 2u && outwalker_info_step < 3){
-                spawn_npc(SpritePgoutwalker, (UINT16) 50u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
-                //spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
-                npc_spawned_zone = 2u;
-            }
-        }else if(s_motherpl->x < ((UINT16)72u << 3) && s_motherpl->x > ((UINT16)60u << 3)){
-            if(npc_spawned_zone != 3u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
-                npc_spawned_zone = 3u;
-            }
-        }else{
-            if(npc_spawned_zone != 4u){
-                spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_OK, OUTWALKER_SIMON);
-                npc_spawned_zone = 4u;
-            }
-        }
+        spawn_policy();
     
     Log(NONAME);
 }

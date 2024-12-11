@@ -45,8 +45,7 @@ extern void Log(NPCNAME npcname) BANKED;
 extern void update_camera_position() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void ReloadEnemiesPL() BANKED;
-extern void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body, MirroMode mirror, WHOSTALKING whos, NPCNAME npcname) BANKED;
-extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
+extern void spawn_policy() BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 
 void START(){
@@ -108,35 +107,7 @@ void UPDATE(){
     //CAMERA MANAGEMENT
         update_camera_position();
     //MANAGE NPC
-        if(s_motherpl->x < ((UINT16)40u << 3)){
-            if(npc_spawned_zone != 1u){
-                spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1, WOMAN);
-                spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2, WOMAN);
-                spawn_npa(SpriteBirdsky, (UINT16) 8 << 3, (UINT16) 6u << 3, 1); 
-                spawn_npa(SpriteBirdsky, ((UINT16) 8 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);  
-                spawn_npa(SpriteBirdsky, (UINT16) 7u << 3, (UINT16) 7u << 3, 2); 
-                npc_spawned_zone = 1u;
-            }
-        }else if(s_motherpl->x < ((UINT16)60u << 3)){
-            if(npc_spawned_zone != 2u){
-                spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
-                spawn_npa(SpriteBirdsky, (UINT16) 45 << 3, (UINT16) 3u << 3, 1); 
-                spawn_npa(SpriteBirdsky, ((UINT16) 45 << 3) - 4u, ((UINT16) 3u << 3) -2u, 1);  
-                spawn_npa(SpriteBirdsky, (UINT16) 52u << 3, (UINT16) 2u << 3, 2);               
-                npc_spawned_zone = 2u;
-            }
-        }else if(s_motherpl->x > ((UINT16)75u << 3)){
-            if(npc_spawned_zone != 3u){
-                if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
-                    spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
-                }
-                spawn_npa(SpriteBirdsky, (UINT16) 80 << 3, (UINT16) 4u << 3, 1); 
-                spawn_npa(SpriteBirdsky, ((UINT16) 80 << 3) - 4u, ((UINT16) 2u << 3) -2u, 1);  
-                spawn_npa(SpriteBirdsky, (UINT16) 83u << 3, (UINT16) 3u << 3, 2);                
-                spawn_npc(SpritePgexzoo, (UINT16) 89u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
-                npc_spawned_zone = 3u;
-            }
-        }
+        spawn_policy();
     
     Log(NONAME);
 }

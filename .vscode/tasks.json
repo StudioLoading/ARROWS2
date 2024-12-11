@@ -21,7 +21,7 @@
             }
         },
         {
-            "label": "RelClr",
+            "label": "ReleaseColor",
             "type": "shell",
             "command": "${env:ZGB_PATH}/../env/make-3.81-bin/bin/make",
             "options": {

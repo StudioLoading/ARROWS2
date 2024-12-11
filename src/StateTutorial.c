@@ -56,8 +56,8 @@ extern unsigned char d9[];
 extern unsigned char d10[];
 extern unsigned char d11[];
 
-const UINT8 coll_tiles_tutorial[] = {5u, 7u, 9u, 10u, 14u, 17u, 18u, 19u, 28u,
-48u, 88u, 90u, 0};
+const UINT8 coll_tiles_tutorial[] = {5u, 7u, 8u, 9u, 10u, 14u, 17u, 18u, 19u, 28u,
+48u, 88u, 89u, 90u, 0};
 const UINT8 coll_surface_tutorial[] = {1u, 27u, 0};
 
 extern void UpdateHUD() BANKED;

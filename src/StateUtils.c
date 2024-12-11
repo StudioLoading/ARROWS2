@@ -46,8 +46,10 @@ IMPORT_MAP(bordercart);
 IMPORT_MAP(bordertetra);
 
 extern struct InvItem itemEquipped;
-extern struct MISSION help_cemetery_woman;
+extern struct MISSION engage_smith;
 extern struct MISSION enable_hospital;
+extern struct MISSION help_cemetery_woman;
+extern struct MISSION outwalker_chief;
 extern struct MISSION find_antidote;
 extern struct MISSION hungry_people;
 extern struct MISSION get_to_the_mountain;
@@ -70,6 +72,7 @@ extern UINT8 activate_seagulls;
 extern struct PushASignData d_push_sign;
 extern HOOD_TYPE hood_type;
 extern INT8 credit_step;
+extern INT8 outwalker_info_step;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -122,6 +125,7 @@ void restartFromHospital() BANKED;
 void manage_border(UINT8 my_next_state) BANKED;
 void spawn_dialog_icon(Sprite* npc) BANKED;
 void ReloadEnemiesPL() BANKED;
+void spawn_policy() BANKED;
 
 extern void ChangeStateThroughBetween(UINT8 new_state) BANKED;
 
@@ -458,48 +462,48 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
     enemy_counter = 0;
     np_counter = 0;
     //SAVE ENEMY TO BE RELOADED
-    if(new_state == StateInv){
-        switch (current_state){
-            case StateMine:
-            case StateHood:
-            case StateSilvercave:
-            case StateBatcave:
-            {
-            UINT8 mfit_a_tile;
-            Sprite* mfitspr;
-            UINT8 i = 0u;
-            SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
-                switch(mfitspr->type){
-                    case SpriteEsimplerat: case SpriteEsimplesnake:
-                    case SpriteEThrowerScorpion: case SpriteEThrowerSpider:
-                    case SpriteEThrowerTarantula: case SpriteEBat:
-                    case SpriteEAttackerCobra: case SpriteEAttackerPine:
-                    case SpriteSeagull:
-                        {
-                        struct EnemyData* e_data = (struct EnemyData*) mfitspr->custom_data;
-                        if(e_data->type > 0 && e_data->e_state != ENEMY_DEAD && i<3){
-                                e_to_reload[i].type = mfitspr->type;
-                                e_to_reload[i].x = mfitspr->x;
-                                e_to_reload[i].y = mfitspr->y;
-                                e_to_reload[i].mirror = mfitspr->mirror;
-                                e_to_reload[i].e_data_hp = e_data->hp;
-                                e_to_reload[i].e_data_vx = e_data->vx;
-                                e_to_reload[i].e_data_wait = e_data->wait;
-                                e_to_reload[i].e_data_configured = 4;
-                                e_to_reload[i].e_data_type = e_data->type;
-                                e_to_reload[i].e_data_et_collision = e_data->et_collision;
-                                e_to_reload[i].e_data_e_state = e_data->e_state;
-                                e_to_reload[i].e_data_x_frameskip = e_data->x_frameskip;
-                            i++;
-                        }
-                        }
-                    break;
+        if(new_state == StateInv){
+            switch (current_state){
+                case StateMine:
+                case StateHood:
+                case StateSilvercave:
+                case StateBatcave:
+                {
+                UINT8 mfit_a_tile;
+                Sprite* mfitspr;
+                UINT8 i = 0u;
+                SPRITEMANAGER_ITERATE(mfit_a_tile, mfitspr) {
+                    switch(mfitspr->type){
+                        case SpriteEsimplerat: case SpriteEsimplesnake:
+                        case SpriteEThrowerScorpion: case SpriteEThrowerSpider:
+                        case SpriteEThrowerTarantula: case SpriteEBat:
+                        case SpriteEAttackerCobra: case SpriteEAttackerPine:
+                        case SpriteSeagull:
+                            {
+                            struct EnemyData* e_data = (struct EnemyData*) mfitspr->custom_data;
+                            if(e_data->type > 0 && e_data->e_state != ENEMY_DEAD && i<3){
+                                    e_to_reload[i].type = mfitspr->type;
+                                    e_to_reload[i].x = mfitspr->x;
+                                    e_to_reload[i].y = mfitspr->y;
+                                    e_to_reload[i].mirror = mfitspr->mirror;
+                                    e_to_reload[i].e_data_hp = e_data->hp;
+                                    e_to_reload[i].e_data_vx = e_data->vx;
+                                    e_to_reload[i].e_data_wait = e_data->wait;
+                                    e_to_reload[i].e_data_configured = 4;
+                                    e_to_reload[i].e_data_type = e_data->type;
+                                    e_to_reload[i].e_data_et_collision = e_data->et_collision;
+                                    e_to_reload[i].e_data_e_state = e_data->e_state;
+                                    e_to_reload[i].e_data_x_frameskip = e_data->x_frameskip;
+                                i++;
+                            }
+                            }
+                        break;
+                    }
+                };
                 }
-            };
+                break;
             }
-            break;
         }
-    }
     npc_spawned_zone = 0u;
     if(s_mother == 0){
         if(previous_state == StateOw){s_mother = s_motherow;}
@@ -748,10 +752,10 @@ void LogItem(INVITEMTYPE invitemtype) BANKED{
         logtimeout = 90u;
     //}
     GetLocalizedLogItem_EN(invitemtype);
-    PRINT(0,0,log0);   
+    PRINT(0,0,log0);
 }
 
-void Log(NPCNAME npcname) BANKED{    
+void Log(NPCNAME npcname) BANKED{
     /*switch(motherpl_state){
         case MOTHERPL_IDLE: PRINT(0, 0, "IDLE"); break;
         case MOTHERPL_JUMP: PRINT(0, 0, "JUMP"); break;
@@ -783,6 +787,7 @@ void Log(NPCNAME npcname) BANKED{
         if(logtimeout == 0u){logtimeout = 60u;}
         GetLocalizedLogName_EN(npcname);
     }
+    //PRINT(0, 0, "NP :%u, ZONE:%u ", np_counter, npc_spawned_zone);
     PRINT(0,0,log0);   
 }
 
@@ -1061,7 +1066,7 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
 
 //spanw non playable animal
 void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED{
-    if(np_counter > 6){
+    if(np_counter > 4){
         return;
     }
     np_counter++;
@@ -1087,6 +1092,136 @@ void spawn_dialog_icon(Sprite* npc) BANKED{
     }
 }
 
+void spawn_policy() BANKED{
+    switch(current_state){
+        case StateExzoo:
+            if(s_motherpl->x < ((UINT16) 13 << 3)){
+                if(npc_spawned_zone != 1u){
+                        spawn_npa(SpriteBirdsky, (UINT16) 8 << 3, (UINT16) 6u << 3, 1);
+                        spawn_npa(SpriteBirdsky, ((UINT16) 8 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);
+                        spawn_npa(SpriteBirdsky, (UINT16) 7u << 3, (UINT16) 7u << 3, 2); 
+                        npc_spawned_zone = 1u;
+                }
+            }else if(s_motherpl->x > ((UINT16)18u << 3) && s_motherpl->x < ((UINT16)37u << 3)){
+                if(npc_spawned_zone != 2u){
+                    spawn_npc(SpritePgexzoo, (UINT16) 25u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, EXZOO_WOMAN1, WOMAN);
+                    spawn_npc(SpritePgexzoo, (UINT16) 27u << 3, 76u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, EXZOO_WOMAN2, WOMAN);
+                    npc_spawned_zone = 2;
+                }
+            }else if(s_motherpl->x > ((UINT16)45u << 3) && s_motherpl->x < ((UINT16)65u << 3)){
+                if(npc_spawned_zone != 3u){
+                    spawn_npc(SpritePgexzoo, (UINT16) 55u << 3, 76u, MAN_HEAD2, MAN_BODY2, V_MIRROR, EXZOO_MAN2, LUKE);
+                    spawn_npa(SpriteBirdsky, (UINT16) 45 << 3, (UINT16) 3u << 3, 1);
+                    spawn_npa(SpriteBirdsky, ((UINT16) 45 << 3) - 4u, ((UINT16) 3u << 3) -2u, 1);
+                    spawn_npa(SpriteBirdsky, (UINT16) 52u << 3, (UINT16) 2u << 3, 2);
+                    npc_spawned_zone = 3u;
+                }
+            }else if(s_motherpl->x > ((UINT16)77u << 3) && s_motherpl->x < ((UINT16)97u << 3)){
+                if(npc_spawned_zone != 4u){
+                    if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
+                        spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
+                    }
+                    spawn_npa(SpriteBirdsky, (UINT16) 80 << 3, (UINT16) 4u << 3, 1);
+                    spawn_npa(SpriteBirdsky, ((UINT16) 80 << 3) - 4u, ((UINT16) 2u << 3) -2u, 1);  
+                    spawn_npa(SpriteBirdsky, (UINT16) 83u << 3, (UINT16) 3u << 3, 2);                
+                    spawn_npc(SpritePgexzoo, (UINT16) 89u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY3, NO_MIRROR, EXZOO_WOMAN3, WOMAN);
+                    npc_spawned_zone = 4u;
+                }
+            }else{npc_spawned_zone = 5u;}
+        break;
+        case StateCemetery:
+            if(s_motherpl->x < ((UINT16)30u << 3)){
+                if(npc_spawned_zone != 1u){
+                    switch(np_counter){
+                        case 0:
+                            spawn_npc(SpritePgceme, (UINT16) 18u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY2, V_MIRROR, CEMETERY_WOMAN2, WOMAN);
+                        break;
+                        case 1:
+                            spawn_npc(SpritePgceme, (UINT16) 21u << 3, 76u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, CEMETERY_WOMAN1, WOMAN);
+                        break;
+                        case 2:
+                            if(help_cemetery_woman.mission_state == MISSION_STATE_ENABLED){
+                                spawn_npc(SpritePgceme, (UINT16) 27u << 3, 81u, WOMAN_HEAD1, MAN_BODY1, V_MIRROR, CRYING_MOTHER, MARGARET);
+                            }
+                            spawn_npa(SpriteBirdsky, (UINT16) 8 << 3, (UINT16) 6u << 3, 1); 
+                        break;
+                        case 3:
+                        case 4:
+                            spawn_npa(SpriteBirdsky, ((UINT16) 8 << 3) - 4u, ((UINT16) 6u << 3) -2u, 1);
+                        break;
+                        case 5:  
+                            spawn_npa(SpriteBirdsky, (UINT16) 7u << 3, (UINT16) 7u << 3, 2);
+                            npc_spawned_zone = 1u;
+                        break;
+                    }
+                }
+            }else if(s_motherpl->x > ((UINT16)40u << 3) && s_motherpl->x < ((UINT16)58u << 3)){
+                if(npc_spawned_zone != 2u){
+                    switch(np_counter){
+                        case 0:
+                            if(engage_smith.current_step == 0){
+                                spawn_npc(SpritePgceme, (UINT16) 48u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, WHOST_SHOP_SMITH, JOHN);
+                            }
+                        break;
+                    }
+                    npc_spawned_zone = 2;
+                }
+            }else{
+                npc_spawned_zone = 3u;
+            }
+        break;
+        case StateOutwalkers:
+            if(s_motherpl->x < ((UINT16)20u << 3) ){
+                if(npc_spawned_zone != 1u){
+                    switch(np_counter){
+                        case 0:
+                            spawn_npc(SpritePgoutwalker, (UINT16) 9u << 3, 80u, WOMAN_HEAD1, WOMAN_BODY1, NO_MIRROR, OUTWALKER_WOMAN1, OUTWALKER_ANNETTE);
+                        break;
+                        case 1:
+                            if(find_antidote.phase == 3){
+                                spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, JESSICA_PLANTS, OUTWALKER_JESSICA);
+                            }else{
+                                spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
+                            }
+                        break;
+                    }
+                    npc_spawned_zone = 1u;
+                }
+            }else if(s_motherpl->x > ((UINT16)30u << 3) && s_motherpl->x < ((UINT16)60u << 3)){
+                if(npc_spawned_zone != 2u && outwalker_info_step < 3){
+                    switch(np_counter){
+                        case 0:
+                            spawn_npc(SpritePgoutwalker, (UINT16) 50u << 3, 80u, MAN_HEAD2, MAN_BODY2, NO_MIRROR, OUTWALKER_MAN2, OUTWALKER_JERRY);
+                            //spawn_npc(SpritePgoutwalker, (UINT16) 59u << 3, 80u, WOMAN_HEAD2, MAN_BODY1, V_MIRROR, OUTWALKER_MAN1, OUTWALKER_JASON);
+                            npc_spawned_zone = 2u;
+                        break;
+                    }
+                }
+            }else if(s_motherpl->x > ((UINT16)61u << 3) && s_motherpl->x < ((UINT16)72u << 3)){
+                if(npc_spawned_zone != 3u){
+                    switch(np_counter){
+                        case 0:
+                            spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
+                            npc_spawned_zone = 3u;
+                        break;
+                    }
+                }
+            }else if(s_motherpl->x > ((UINT16)74u << 3) && s_motherpl->x < ((UINT16)92u << 3)){
+                if(npc_spawned_zone != 4u){
+                    switch(np_counter){
+                        case 0:
+                            spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_OK, OUTWALKER_SIMON);
+                            npc_spawned_zone = 4u;
+                        break;
+                    }
+                }
+            }else{
+                npc_spawned_zone = 5;
+            }
+
+        break;
+    }
+}
 void START(){}
 
 void UPDATE(){}

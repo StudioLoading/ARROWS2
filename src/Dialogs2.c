@@ -48,8 +48,7 @@ extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
 extern struct MISSION visit_blackie;
 extern struct MISSION fix_bridge;
-
-extern INT8 outwalker_info_step = 0;
+extern INT8 outwalker_info_step;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;

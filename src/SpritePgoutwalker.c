@@ -26,7 +26,7 @@ void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
     npc_data->configured = 0;
     npc_data->whotalks  =NOBODY;
-    THIS->lim_x = 160u;
+    THIS->lim_x = 16u;
     THIS->lim_y = 100u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);

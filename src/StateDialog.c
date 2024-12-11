@@ -71,10 +71,10 @@ extern struct MISSION golden_armor;
 extern struct MISSION mr_smee;
 extern INT8 current_map;
 extern CHAPTERS chapter;
-extern INT8 outwalker_info_step;
 extern INT8 outwalker_info_given;
 extern uint8_t sgb_running;
 
+INT8 outwalker_info_step = 0;
 UINT8 dialog_ready = 0u;
 UINT8 counter_char = 0u;
 UINT8 wait_char = MAX_WAIT_CHAR;

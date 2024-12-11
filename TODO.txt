@@ -26,7 +26,7 @@ New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\
 New-QRCodeURI -URI 'https://discord.gg/QYkKEMJmY2' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-INFINITO-QR.PNG'
 New-QRCodeURI -URI 'https://bolognanerd.it/corsi/' -Width 16 -OutPath 'C:\Users\checc\BN\QR-CORSI.PNG'
 New-QRCodeURI -URI 'https://www.youtube.com/@bolognanerd/streams' -Width 16 -OutPath 'C:\Users\checc\BN\QR-YT.PNG'
-Link alla videochiamata: https://meet.google.com/bth-sgjr-ohd
+New-QRCodeURI -URI 'https://www.notion.so/leandromacrini/Pulizia-dei-locali-cce45f4ad4df46288626e33fb209a27b' -Width 16 -OutPath 'C:\Users\checc\BN\QR-PULIZIE.PNG'
 
 ZGB HACKS:
 Sprite.h
