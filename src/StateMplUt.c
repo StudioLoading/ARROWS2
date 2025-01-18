@@ -526,6 +526,7 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
                     trigger_dialog(npc_data->whotalks, s_mother);
                 }
             }
+        break;
         case SpriteBlackiechild:
             if(find_antidote.mission_state == MISSION_STATE_REWARDED
             && find_antidote.phase == 5){

@@ -155,11 +155,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case STRIKE_D4:memcpy(d, "STRIKE IS OVER! GO ", 20); break;
 		case STRIKE_D5:memcpy(d, "TO THE CAPTAIN     ", 20); break;
 		case CAPTAIN_TITLE:memcpy(d, "PLAY TETRA     ", 16);break;
-		case CAPTAIN_D0:memcpy(d, "CHECK THE BAT CAVE ", 20); break;
-		case CAPTAIN_D1:memcpy(d, "                   ", 20); break;
-		case CAPTAIN_D2:memcpy(d, "REPORT THE BAD NEW ", 20); break;
-		case CAPTAIN_D3:memcpy(d, "TO MR SMEE         ", 20); break;
-		case CAPTAIN_D4:memcpy(d, "MR SMEE HAS THANKED", 20); break;
-		case CAPTAIN_D5:memcpy(d, "ME", 20); break;
+		case CAPTAIN_D0:memcpy(d, "GO TO THE HARBOR   ", 20); break;
+		case CAPTAIN_D1:memcpy(d, "BEAT THE CAPTAIN   ", 20); break;
 	}	
 }

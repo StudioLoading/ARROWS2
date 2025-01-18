@@ -607,8 +607,8 @@ void GetLocalizedLogName_EN(NPCNAME npcname) BANKED{
 		case LUKE:
 			memcpy(log0, "LUKE                ", 20);
 		break;
-		case LEGO:
-			memcpy(log0, "LEGO                ", 20);
+		case PAUL:
+			memcpy(log0, "PAUL                ", 20);
 		break;
 		case CHILD_TOOFAR:
 			memcpy(log0, "HEY! I AM SCARED!!  ", 20);

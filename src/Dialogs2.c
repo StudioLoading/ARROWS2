@@ -71,9 +71,6 @@ void GetLocalizedLogName2_EN(NPCNAME npcname) BANKED{
 		case BOB:
 			memcpy(log0, "BOB                 ", 20);
 		break;
-		case MAURICE:
-			memcpy(log0, "MAURICE             ", 20);
-		break;
 		case RICK:
 			memcpy(log0, "HEADLESS RICK       ", 20);
 		break;

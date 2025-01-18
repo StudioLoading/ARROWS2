@@ -256,9 +256,14 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                 case SpriteItemspawned:
                     {
                         struct ItemSpawned* spawned_data = (struct ItemSpawned*) imowspr->custom_data;
-                        if(spawned_data->configured == 4u){//means hidden
+                        if(spawned_data->configured == 4u || spawned_data->configured == 5u){//means hidden
                                 pickup(spawned_data);
-                                hidden_items_flags = hidden_items_flags | spawned_data->frmskip;
+                                if(spawned_data->configured == 4){
+                                    hidden_items_flags = (UINT16) hidden_items_flags | spawned_data->frmskip;}
+                                else if (spawned_data->configured == 5){
+                                    UINT16 spawned_flag_shifted = (UINT16) spawned_data->frmskip << 8;
+                                    hidden_items_flags = (UINT16) hidden_items_flags | spawned_flag_shifted;
+                                }
                                 switch(spawned_data->itemtype){
                                     case INVITEM_ARROW_BASTARD:
                                     case INVITEM_ARROW_NORMAL:

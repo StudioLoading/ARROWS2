@@ -452,6 +452,12 @@ void show_detail(){
                         }
                     }
                 break;
+                case 3u:
+                    if(captain.mission_state >= MISSION_STATE_ENABLED){
+                        GetLocalizedDDLabel_EN(CAPTAIN_D0, dd2);
+                        GetLocalizedDDLabel_EN(CAPTAIN_D1, dd3);
+                    }
+                break;
             }
         break;
     }

@@ -121,6 +121,7 @@ void UPDATE(){
             }
         break;
         case 4u://hidden in overworld
+        case 5u:
             SetSpriteAnim(THIS, is_hidden, 1u);
         break;
     }

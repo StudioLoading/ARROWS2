@@ -127,8 +127,8 @@ void START() {
         case PIRATE_MARTIN_0: case PIRATE_MARTIN_1: case PIRATE_MARTIN_2:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;
-        case PIRATE_MARTIN_3: case PIRATE_MARTIN_STRIKE: case PIRATE_MAURICE_0:
-        case PIRATE_MAURICE_STRIKE: case PIRATE_PANZONE_0: case PIRATE_PANZONE_1:
+        case PIRATE_MARTIN_3: case PIRATE_MARTIN_STRIKE:
+        case PIRATE_PANZONE_0: case PIRATE_PANZONE_1:
         case PIRATE_PANZONE_2: case PIRATE_PANZONE_STRIKE: case PIRATE_SPUGNA_0:
             InitScroll(BANK(dmapriverside), &dmapriverside, 0, 0);
         break;

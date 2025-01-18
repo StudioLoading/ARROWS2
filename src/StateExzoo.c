@@ -58,7 +58,7 @@ void START(){
         }else{
             s_motherpl = SpriteManagerAdd(SpriteMotherpl, (UINT16) 10u << 3, (UINT16) 9u << 3);
         }
-        if(previous_state == StateInv || previous_state == StateDialog) {
+        if(previous_state == StateInv || previous_state == StateDialog || previous_state == current_state) {
             s_motherpl->x = motherpl_pos_x;
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;

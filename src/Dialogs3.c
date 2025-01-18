@@ -60,7 +60,6 @@ extern void play_music_missionaccomplished() BANKED;
 
 void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
     switch(whostalking){		
-		
 		case POLICE_0_GET_PASS:
 			*n_lines = 15u;
 			memcpy(d0, "GUARD:              ", 22);
@@ -471,27 +470,6 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 		case PIRATE_MARTIN_STRIKE:
 			*n_lines = 2u;
 			memcpy(d0, "MARTIN:             ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
-		break;
-		case PIRATE_MAURICE_0:
-			*n_lines = 11u;
-			memcpy(d0, "MAURICE:            ", 22);
-			memcpy(d1, EMPTY_STRING_21, 22);
-			memcpy(d2, "CAPTAIN IS JUST     ", 22);
-			memcpy(d3, "UNBEATABLE! HE IS A ", 22);
-			memcpy(d4, "REAL CHAMP ON TETRA.", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "I HAVE NEVER MET A  ", 22);
-			memcpy(d7, "SINGLE PERSON BEING ", 22);
-			memcpy(d8, "VICTORIOUS ON HIM.  ", 22);
-			memcpy(d9, EMPTY_STRING_21, 22);
-			memcpy(d10, "I THINK I JUST GIVE ", 22);
-			memcpy(d11, "UP!                 ", 22);
-		break;
-		case PIRATE_MAURICE_STRIKE:
-			*n_lines = 2u;
-			memcpy(d0, "MAURICE:            ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
 		break;

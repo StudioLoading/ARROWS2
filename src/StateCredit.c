@@ -224,9 +224,9 @@ void missions_init() BANKED{
 			golden_armor.mission_state = MISSION_STATE_REWARDED;
 			golden_armor.phase = 0;
 			/* START TEST */
-			/*mr_smee.mission_state = MISSION_STATE_REWARDED;
+			mr_smee.mission_state = MISSION_STATE_REWARDED;
 			broken_ship.mission_state = MISSION_STATE_REWARDED;
-			pirate_strike.mission_state = MISSION_STATE_REWARDED;*/
+			pirate_strike.mission_state = MISSION_STATE_REWARDED;
 			/* END TEST */
 		break;
 	}

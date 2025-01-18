@@ -447,6 +447,7 @@ void check_sgb_palette(UINT8 new_state) BANKED{
                     case MAP_MAZE:set_sgb_palette01_worldmap_maze();break;//maze
                     case MAP_SOUTHEAST:set_sgb_worldmap_se();break;//se
                     case MAP_EAST:set_sgb_worldmap_e();break;//e
+                    case MAP_ISLE:set_sgb_worldmap_nw();break;//isle
                 }
             }
             switch(whostalking){
@@ -519,7 +520,10 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
         if(previous_state == StateOw){s_mother = s_motherow;}
         else{s_mother = s_motherpl;}
     }
-    if(new_state != current_state && next_map != current_map){
+    if(new_state != current_state && next_map != current_map 
+    && current_state != StateInv && current_state != StateDiary
+    && current_state != StateDialog && current_state != StatePwd
+    && current_state != StateHospital){
         save_mother_pos(s_mother->type, s_mother->x, s_mother->y);
     }
     //MOTHERPL POS X Y, HIDE_WIN
@@ -686,7 +690,8 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             current_map = next_map;
         }    
     d_push_sign.collided_tile = 0;
-    if(current_state != StateDialog && current_state != StateInv && whostalking != ITEMDETAIL_LIAM_HANDWRITTEN){
+    if(current_state == StateDialog && current_state == StateInv && whostalking == ITEMDETAIL_LIAM_HANDWRITTEN){
+    }else{
         previous_state = current_state;
     }
     if(previous_state == StateTutorial){
@@ -1131,7 +1136,7 @@ void spawn_policy() BANKED{
             }else if(s_motherpl->x > ((UINT16)77u << 3) && s_motherpl->x < ((UINT16)97u << 3)){
                 if(npc_spawned_zone != 4u){
                     if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
-                        spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, LEGO);
+                        spawn_npc(SpritePgexzoo, (UINT16) 85u << 3, 76u, MAN_HEAD1, MAN_BODY1, V_MIRROR, EXZOO_MAN1, PAUL);
                     }
                     spawn_npa(SpriteBirdsky, (UINT16) 80 << 3, (UINT16) 4u << 3, 1);
                     spawn_npa(SpriteBirdsky, ((UINT16) 80 << 3) - 4u, ((UINT16) 2u << 3) -2u, 1);  

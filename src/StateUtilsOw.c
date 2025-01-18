@@ -563,6 +563,10 @@ void spawn_hidden_item(INVITEMTYPE type, INT8 q, INT16 x, INT16 y, UINT16 flags)
 		hidden_0_data->itemtype = type;
 		hidden_0_data->hp = 5u;
 		hidden_0_data->configured = 4u;
+		if(flags > 0b11111111){
+			flags = flags >> 8;
+			hidden_0_data->configured = 5u;//means use highest 8bit of hidden_items_flags
+		}
 		hidden_0_data->frmskip = flags;
 	}
 }

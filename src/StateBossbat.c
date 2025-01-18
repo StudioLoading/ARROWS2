@@ -62,7 +62,7 @@ void START(){
     //INIT CHAR & MAP
         if(_cpu == CGB_TYPE){
             SpriteManagerAdd(SpriteEBat, (UINT16)1<<3, (UINT16)5<<3);
-            SpriteManagerAdd(SpriteEBat, (UINT16)4<<3, (UINT16)8<<3);
+            //SpriteManagerAdd(SpriteEBat, (UINT16)4<<3, (UINT16)8<<3);
         }
         SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, ((UINT16) 12u << 3), ((UINT16) 10u << 3));
