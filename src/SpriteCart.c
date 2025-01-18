@@ -232,14 +232,14 @@ void change_cart_state(ENEMY_STATE new_cart_state) BANKED{
         switch(new_cart_state){
             case MOTHERPL_JUMP:
                 cart_vy = -14;
-                if(_cpu != CGB_TYPE){
-                    cart_vy = -11;
-                }
+                //if(_cpu != CGB_TYPE){
+                //    cart_vy = -11;
+                //}
                 cart_can_jump = 0;
                 cart_frmskip_x = 0;
                 cart_data->wait = 8u;
                 if(_cpu != CGB_TYPE){
-                    cart_vx = CART_VX + CART_VX;
+                    //cart_vx = CART_VX + CART_VX;
                 }
                 //SetSpriteAnim(THIS, a_cart_v_u, a_cart_freq);
             break;

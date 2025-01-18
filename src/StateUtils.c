@@ -73,6 +73,7 @@ extern struct PushASignData d_push_sign;
 extern HOOD_TYPE hood_type;
 extern INT8 credit_step;
 extern INT8 outwalker_info_step;
+extern UINT8 maze_zone;
 
 UINT8 mine_powderspawned = 3u;
 UINT8 npc_spawned_zone = 0u;
@@ -163,6 +164,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         || previous_state == StateDiary || current_state == StateDiary
         || previous_state == StateDialog || current_state == StateDialog
         || previous_state == StateInv || current_state == StateInv
+        || (new_state == StateOw && current_map == MAP_MAZE && maze_zone > 0)
     ){
         return;
     }
@@ -244,6 +246,7 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(endgame, 1);}
         break;
+        case StateBossscorpion:
         case StateBosscrab:
         case StateBossminotaur:
         case StateBossbat:
@@ -376,9 +379,11 @@ void check_sgb_palette(UINT8 new_state) BANKED{
             set_sgb_harbor();
             set_sgb_palette_statusbar();
         break;
+        case StateHospital:
+            set_sgb_crab();
+        break;
         case StateBosscrab:
         case StateBridge:
-        case StateHospital:
         case StateFps:
             set_sgb_crab();
             set_sgb_palette_statusbar();
@@ -440,9 +445,14 @@ void check_sgb_palette(UINT8 new_state) BANKED{
                     case MAP_SOUTHWEST:set_sgb_palette01_worldmap();break;//sw
                     case MAP_NORTHWEST:set_sgb_worldmap_nw();break;//nw
                     case MAP_MAZE:set_sgb_palette01_worldmap_maze();break;//maze
-                    case MAP_SOUTHEAST:set_sgb_palette02_worldmap();break;//se
+                    case MAP_SOUTHEAST:set_sgb_worldmap_se();break;//se
                     case MAP_EAST:set_sgb_worldmap_e();break;//e
                 }
+            }
+            switch(whostalking){
+                case BOSS_CRAB_FIGHT:
+                    set_sgb_palette01_CRAB();
+                break;
             }
             reset_sgb_palette_statusbar();
         break;
@@ -676,7 +686,9 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             current_map = next_map;
         }    
     d_push_sign.collided_tile = 0;
-    previous_state = current_state;
+    if(current_state != StateDialog && current_state != StateInv && whostalking != ITEMDETAIL_LIAM_HANDWRITTEN){
+        previous_state = current_state;
+    }
     if(previous_state == StateTutorial){
         previous_state = StateExzoo;
     } 
@@ -752,7 +764,7 @@ void LogItem(INVITEMTYPE invitemtype) BANKED{
         logtimeout = 90u;
     //}
     GetLocalizedLogItem_EN(invitemtype);
-    PRINT(0,0,log0);
+    PRINT(0, 0, log0);
 }
 
 void Log(NPCNAME npcname) BANKED{
@@ -788,7 +800,7 @@ void Log(NPCNAME npcname) BANKED{
         GetLocalizedLogName_EN(npcname);
     }
     //PRINT(0, 0, "NP :%u, ZONE:%u ", np_counter, npc_spawned_zone);
-    PRINT(0,0,log0);   
+    PRINT(0, 0, log0);   
 }
 
 void camera_tramble() BANKED{
@@ -1042,11 +1054,11 @@ void spawn_npc(UINT8 type, UINT16 posx, UINT16 posy, NPCTYPE head, NPCTYPE body,
     if(np_counter > 6){
         return;
     }
-    if(chapter == CHAPTER_2_PLAGUE && find_antidote.mission_state < MISSION_STATE_REWARDED){
+    /*if(chapter == CHAPTER_2_PLAGUE && find_antidote.mission_state < MISSION_STATE_REWARDED){
         if(npcname != OUTWALKER_JESSICA && whos != JESSICA_PLANTS){
             return;
         }
-    }
+    }*/
     np_counter++;
     Sprite* s_head = SpriteManagerAdd(type, posx, posy);
     s_head->mirror = mirror;
@@ -1183,9 +1195,9 @@ void spawn_policy() BANKED{
                             }else{
                                 spawn_npc(SpritePgoutwalker, (UINT16) 11u << 3, 80u, WOMAN_HEAD2, WOMAN_BODY2, V_MIRROR, OUTWALKER_WOMAN2, OUTWALKER_JESSICA);
                             }
+                            npc_spawned_zone = 1u;
                         break;
                     }
-                    npc_spawned_zone = 1u;
                 }
             }else if(s_motherpl->x > ((UINT16)30u << 3) && s_motherpl->x < ((UINT16)60u << 3)){
                 if(npc_spawned_zone != 2u && outwalker_info_step < 3){
@@ -1197,26 +1209,20 @@ void spawn_policy() BANKED{
                         break;
                     }
                 }
-            }else if(s_motherpl->x > ((UINT16)61u << 3) && s_motherpl->x < ((UINT16)72u << 3)){
+            }else if(s_motherpl->x > ((UINT16)58u << 3) && s_motherpl->x < ((UINT16)90u << 3)){
                 if(npc_spawned_zone != 3u){
                     switch(np_counter){
                         case 0:
                             spawn_npc(SpritePgoutwalker, (UINT16) 68u << 3, 80u, MAN_HEAD1, MAN_BODY1, V_MIRROR, OUTWALKER_GLASS, OUTWALKER_JACK);
+                        break;
+                        case 1:
+                            spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_OK, OUTWALKER_SIMON);
                             npc_spawned_zone = 3u;
                         break;
                     }
                 }
-            }else if(s_motherpl->x > ((UINT16)74u << 3) && s_motherpl->x < ((UINT16)92u << 3)){
-                if(npc_spawned_zone != 4u){
-                    switch(np_counter){
-                        case 0:
-                            spawn_npc(SpritePgoutwalker, (UINT16) 81u << 3, 80u, MAN_HEAD2, MAN_BODY2, V_MIRROR, OUTWALKER_GUARD_OK, OUTWALKER_SIMON);
-                            npc_spawned_zone = 4u;
-                        break;
-                    }
-                }
             }else{
-                npc_spawned_zone = 5;
+                npc_spawned_zone = 4;
             }
 
         break;

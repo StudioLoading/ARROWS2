@@ -108,7 +108,6 @@ void START() {
       scroll_bottom_movement_limit = 80u;
 
   //SGB COLORS
-    sgb_running = sgb_check(); //TODO remove me
     if(sgb_running){
       set_sgb_palette_tetra();
     }

@@ -49,6 +49,7 @@ extern struct MISSION find_antidote;
 extern struct MISSION visit_blackie;
 extern struct MISSION fix_bridge;
 extern INT8 outwalker_info_step;
+extern UINT8 current_map;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
@@ -422,6 +423,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d15, "ANYONE. HERE: TAKE  ", 22);
 			memcpy(d16, "100 COINS FOR YOUR  ", 22);
 			memcpy(d17, "SILENCE.            ", 22);
+			current_map = MAP_SOUTHWEST;
 			if(outwalker_chief.mission_state < MISSION_STATE_REWARDED){
 				struct ItemSpawned money_data={.itemtype = INVITEM_MONEY, .quantity = 100, .equippable = 1u};
 				pickup(&money_data);
@@ -525,7 +527,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "NOT FULLY HEAL YOU! \0", 22);
 		break;
 		case HOSPITAL_GET_ANTIDOTE:
-			*n_lines = 10u;
+			*n_lines = 9u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, "YOU DEFEAT THE HORDE\0", 22);
 			memcpy(d2, "THANK YOU HEALER!   \0", 22);
@@ -583,7 +585,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d10, "SHE NEEDS YOU NOW  \0", 22);
 			memcpy(d11, "GO VISIT HER.      \0", 22);
 			SpriteManagerAdd(SpriteDiary, 72, 8);
-			find_antidote.mission_state = MISSION_STATE_ACCOMPLISHED;
+			find_antidote.mission_state = MISSION_STATE_REWARDED;
             play_music_missionaccomplished();
 			find_antidote.phase = 5;
 			visit_blackie.mission_state = MISSION_STATE_STARTED;

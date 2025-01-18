@@ -447,20 +447,6 @@ void motherpl_reactiontilecollision(Sprite* s_mother) BANKED{
         break;
     }
     switch(current_state){
-        case StateExzoo:
-            switch(motherpl_coll_x){
-                case 5u:
-                    if(s_mother->y < ((UINT16) 8u << 3)){//DO TO TETRA
-                        ChangeState(StateTetra, s_mother, -1);
-                    }else{ //GO TO MAP
-                        ChangeState(StateOw, s_mother, -1);
-                    }
-                break;
-                //case 7u:
-                    //ChangeState(StateBonus, s_mother, -1);
-                //break;
-            }
-        break;
         case StateMine:
             switch(motherpl_coll_x){
                 case 90u:
@@ -541,7 +527,7 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
                 }
             }
         case SpriteBlackiechild:
-            if(find_antidote.mission_state == MISSION_STATE_ACCOMPLISHED
+            if(find_antidote.mission_state == MISSION_STATE_REWARDED
             && find_antidote.phase == 5){
                 trigger_dialog(BLACKIE_DEAD_CHILD, s_mother);
             }
@@ -774,7 +760,7 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                     return;
                 }
                 //TEST START INVULNERABILITY
-                //if(motherpl_hp <= 0){motherpl_hp = 1;}
+                //if(motherpl_hp <= 1){motherpl_hp = 5;}
                 //TEST END remove me
                 if(s_mother->mirror == NO_MIRROR){    
                     SpriteManagerAdd(SpritePuff, s_mother->x + 2, s_mother->y + 4);

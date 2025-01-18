@@ -184,14 +184,12 @@ void missions_init() BANKED{
 			defeat_scorpions.current_step = 0b11111111;
 			defeat_scorpions.phase = 5;
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
-			find_antidote.phase = 4;//0
+			find_antidote.phase = 5;//0
 			find_antidote.current_step = 1u;//0
 			visit_blackie.mission_state = MISSION_STATE_REWARDED;
 			hungry_people.mission_state = MISSION_STATE_ENABLED;
 			hungry_people.phase = 0;
 			hungry_people.current_step = 0;
-			//TEST START
-			//TEST END
 		break;
 		case CHAPTER_4_SHIP:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
@@ -214,7 +212,7 @@ void missions_init() BANKED{
 			defeat_scorpions.current_step = 0b11111111;
 			defeat_scorpions.phase = 5;
 			find_antidote.mission_state = MISSION_STATE_REWARDED;
-			find_antidote.phase = 4;//0
+			find_antidote.phase = 5;//0
 			find_antidote.current_step = 1u;//0
 			visit_blackie.mission_state = MISSION_STATE_REWARDED;
 			hungry_people.mission_state = MISSION_STATE_REWARDED;
@@ -259,7 +257,7 @@ void inventory_init() BANKED{
 	switch(chapter){
 		case CHAPTER_0_BLACKIE:
 			itemMoney.itemtype = INVITEM_MONEY;
-			itemMoney.quantity = 20;
+			itemMoney.quantity = 30;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 0; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
@@ -289,7 +287,7 @@ void inventory_init() BANKED{
 		break;
 		case CHAPTER_2_PLAGUE:
 			itemMoney.itemtype = INVITEM_MONEY;
-			itemMoney.quantity = 20;
+			itemMoney.quantity = 50;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 100; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
@@ -304,7 +302,7 @@ void inventory_init() BANKED{
 		break;
 		case CHAPTER_3_ARMOUR:
 			itemMoney.itemtype = INVITEM_MONEY;
-			itemMoney.quantity = 20;
+			itemMoney.quantity = 60;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;
@@ -319,7 +317,7 @@ void inventory_init() BANKED{
 		break;
 		case CHAPTER_4_SHIP:
 			itemMoney.itemtype = INVITEM_MONEY;
-			itemMoney.quantity = 20;
+			itemMoney.quantity = 100;
 			item00.itemtype = INVITEM_ARROW_NORMAL; item00.quantity = 30; item00.equippable = 1u;
 			item01.itemtype = INVITEM_ARROW_PERFO; item01.quantity = 10; item01.equippable = 1u;
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 10; item02.equippable = 1u;

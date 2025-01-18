@@ -431,12 +431,12 @@ void initial_sprite_spawning() BANKED{
 						gator3_data->vy = -1;
 						gator3_data->clockwise = 1;
 						gator3_data->distance = 32u;
-						Sprite* gator4 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3), ((UINT16) 37u << 3)  -1u);
-						struct PlatformInfo* gator4_data = (struct PlatformInfo*)gator4->custom_data;
-						gator4_data->vy = -1;
-						gator4_data->clockwise = 0;
-						gator4_data->distance = 32u;
     					if(_cpu == CGB_TYPE){
+							Sprite* gator4 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3), ((UINT16) 37u << 3)  -1u);
+							struct PlatformInfo* gator4_data = (struct PlatformInfo*)gator4->custom_data;
+							gator4_data->vy = -1;
+							gator4_data->clockwise = 0;
+							gator4_data->distance = 32u;
 							Sprite* gator5 = SpriteManagerAdd(SpriteOwgator, ((UINT16) 41u << 3) + 6u, ((UINT16) 38u << 3));
 							struct PlatformInfo* gator5_data = (struct PlatformInfo*)gator5->custom_data;
 							gator5_data->vy = 1;
@@ -500,9 +500,7 @@ void initial_ow_npc() BANKED{
 			spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 23u << 3), ((UINT16) 21 << 3), 40u, 16u, 0, 1);
 			spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL, ((UINT16) 25u << 3), ((UINT16) 33u << 3)+1, 80u, 30u, -1,0);
 			if(_cpu == CGB_TYPE){
-				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 17u << 3), ((UINT16) 20u << 3), 100u, 20u, 0,0);
 				spawn_ow_npc(OWTYPE_ORANGE_HORIZONTAL,((UINT16) 15u << 3), ((UINT16) 23 << 3), 80u, 16u, 1, 0);
-				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 30u << 3), ((UINT16) 14u << 3), 100u, 20u, 0,0);
 				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 27u << 3), ((UINT16) 19 << 3), 80u, 16u, 0, 1);
 			}
 		break;

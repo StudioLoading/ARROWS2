@@ -89,6 +89,7 @@ extern UINT16 motherpl_pos_y;
 extern UINT8 mapwidth;
 extern UINT8 mapheight;
 extern UINT8 ow_is_beach;
+extern UINT8 maze_zone;
 
 void PauseGameOW();
 void UnpauseGameOW();
@@ -407,12 +408,12 @@ void UPDATE(){
 							if(s_motherow->y > lim_down_y){
 								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
 									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
-									play_music_missionaccomplished();
 									outwalker_chief.current_step = 2;
 									SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
 								}
 								motherpl_pos_x = (UINT16) 83u << 3;
 								motherpl_pos_y = (UINT16) 11u << 3;
+								maze_zone = 8;
 								ChangeState(StateExzoo, s_motherow, -1);
 							}
 						break;
@@ -452,14 +453,9 @@ void UPDATE(){
 						case MAP_MAZE:
 							if(s_motherow->x < lim_west_x){//go back to StateOw NW
 								ChangeState(StateOw, s_motherow, 1);
+								return;
 							}
 							if(s_motherow->y > lim_down_y){
-								if(outwalker_chief.mission_state < MISSION_STATE_ACCOMPLISHED){
-									outwalker_chief.mission_state = MISSION_STATE_ACCOMPLISHED;
-									play_music_missionaccomplished();
-									outwalker_chief.current_step = 2;
-									SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-								}
 								motherpl_pos_x = (UINT16) 83u << 3;
 								motherpl_pos_y = (UINT16) 11u << 3;
 								ChangeState(StateExzoo, s_motherow, -1);

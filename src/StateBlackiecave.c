@@ -36,6 +36,7 @@ extern UINT8 npc_spawned_zone;
 extern struct MISSION find_blackie;
 extern struct MISSION outwalker_smith;
 extern struct MISSION find_antidote;
+extern struct MISSION visit_blackie;
 extern WHOSTALKING whostalking;
 extern CURRENT_BORDER current_border;
 extern CHAPTERS chapter;
@@ -82,7 +83,7 @@ void START(){
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x, s_motherpl->y); 
         InitScroll(BANK(blackiecavemap), &blackiecavemap, coll_tiles_blackiecave, coll_surface_blackiecave);    
         SHOW_BKG;
-        if(find_antidote.mission_state == MISSION_STATE_ACCOMPLISHED && find_antidote.phase == 5){
+        if(visit_blackie.mission_state >= MISSION_STATE_ENABLED && visit_blackie.mission_state < MISSION_STATE_REWARDED){
             SpriteManagerAdd(SpriteBlackiechild, ((UINT16) 15u << 3), ((UINT16) 21u << 3));
             SpriteManagerAdd(SpriteBlackie, ((UINT16) 18u << 3), ((UINT16) 21u << 3));
         }

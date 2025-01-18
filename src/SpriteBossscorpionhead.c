@@ -15,6 +15,8 @@ const UINT8 a_scorpiohead_hit[] = {2, 0,4};
 const UINT8 a_scorpiohead_walk[] = {4, 0,0,0,1};
 const UINT8 a_scorpiohead_attack[] = {7, 2,3,2,3,2,3,2};
 
+UINT8 old_attacking_frame = 0u;
+
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
 extern Sprite* scorpio_body;
@@ -42,7 +44,43 @@ void UPDATE(){
             case ENEMY_IDLE:SetSpriteAnim(THIS,a_scorpiohead_idle, 16u);break;
             case ENEMY_DEAD:SetSpriteAnim(THIS, a_scorpiohead_hit, 24u);break;
             case ENEMY_WALK:SetSpriteAnim(THIS,a_scorpiohead_walk, 8u);break;
-            case ENEMY_ATTACK:SetSpriteAnim(THIS,a_scorpiohead_attack, 4u);break;
+            case ENEMY_ATTACK:SetSpriteAnim(THIS,a_scorpiohead_attack, 8u);break;
+        }
+    }
+    if(scorpiohead_data->e_state != ENEMY_ATTACK){
+        old_attacking_frame = 0u;
+    }
+    if(scorpiohead_data->e_state == ENEMY_ATTACK && old_attacking_frame != THIS->anim_frame){
+        old_attacking_frame = THIS->anim_frame;
+        if(THIS->anim_frame == 1 || THIS->anim_frame == 3 || THIS->anim_frame == 5){
+            Sprite* s_proj_1 = SpriteManagerAdd(SpriteEthrowable, THIS->x +8u, THIS->y);
+            struct ThrowableData* throwable_data = (struct ThrowableData*) s_proj_1->custom_data;
+            throwable_data->type = PROJECTILE;
+            throwable_data->configured = 1u;
+            throwable_data->vx = -3;
+            if(THIS->mirror == V_MIRROR){
+                throwable_data->vx = 3;
+            }
+            if(scorpiohead_data->hp < 4){
+                Sprite* s_proj_2 = SpriteManagerAdd(SpriteEthrowable, THIS->x +8u, THIS->y + 6);
+                struct ThrowableData* proj2_data = (struct ThrowableData*) s_proj_2->custom_data;
+                proj2_data->type = PROJECTILE;
+                proj2_data->configured = 1u;
+                proj2_data->vx = -2;
+                if(THIS->mirror == V_MIRROR){
+                    proj2_data->vx = 2;
+                }
+            }
+            if(scorpiohead_data->hp < 2){
+                Sprite* s_proj_3 = SpriteManagerAdd(SpriteEthrowable, THIS->x +8u, THIS->y - 6);
+                struct ThrowableData* proj3_data = (struct ThrowableData*) s_proj_3->custom_data;
+                proj3_data->type = PROJECTILE;
+                proj3_data->configured = 1u;
+                proj3_data->vx = -2;
+                if(THIS->mirror == V_MIRROR){
+                    proj3_data->vx = 2;
+                }
+            }
         }
     }
     THIS->mirror = scorpio_body->mirror;

@@ -24,13 +24,12 @@ const UINT8 a_scorpiobody_attack[] = {7, 5,6,5,6,5,6,5};
 extern MOTHERPL_STATE motherpl_state;
 extern Sprite* s_motherpl;
 extern UINT8 walk_timeout;
+extern struct EnemyData* scorpiohead_data;
 Sprite* scorpio_head = 0;
 Sprite* scorpio_body = 0;
 struct EnemyData* scorpiobody_data = 0;
-extern struct EnemyData* scorpiohead_data;
 UINT8 scorpio_jump_power = 0u;
 UINT8 scorpio_v_coll = 0u;
-UINT8 old_attacking_frame = 0u;
 INT8 scorpio_hp;
 
 void scorpio_behave() BANKED;
@@ -59,6 +58,7 @@ void UPDATE(){
         scorpio_change_state(ENEMY_WALK);
         return;
     }
+    scorpiobody_data->hp = scorpiohead_data->hp;
     //body behavior
     scorpio_behave();
     //horizontal
@@ -151,47 +151,16 @@ void scorpio_behave() BANKED{
                     return;
                 }
                 scorpio_update_wait();
+                if(s_motherpl->x > THIS->x && THIS->mirror == NO_MIRROR){scorpio_turn();}
+                else if(s_motherpl->x < THIS->x && THIS->mirror == V_MIRROR){scorpio_turn();}
                 scorpio_change_state(ENEMY_ATTACK);
-                //scorpio_change_state(ENEMY_JUMP);
             }
         break;
         case ENEMY_ATTACK:
             if(scorpiobody_data->wait == 0){
                 scorpio_change_state(ENEMY_IDLE);
             }else{
-                if((scorpio_head->anim_frame == 1 || scorpio_head->anim_frame == 3 ||
-                    scorpio_head->anim_frame == 5) &&
-                    (old_attacking_frame != scorpio_head->anim_frame)){
-                    old_attacking_frame = scorpio_head->anim_frame;
-                    Sprite* s_web = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y);
-                    struct ThrowableData* throwable_data = (struct ThrowableData*) s_web->custom_data;
-                    throwable_data->type = PROJECTILE;
-                    throwable_data->configured = 1u;
-                    throwable_data->vx = -3;
-                    if(scorpio_head->mirror == V_MIRROR){
-                        throwable_data->vx = 3;
-                    }
-                    if(scorpiohead_data->hp < 4){
-                        Sprite* s_proj_2 = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y + 6);
-                        struct ThrowableData* proj2_data = (struct ThrowableData*) s_proj_2->custom_data;
-                        proj2_data->type = PROJECTILE;
-                        proj2_data->configured = 1u;
-                        proj2_data->vx = -2;
-                        if(scorpio_head->mirror == V_MIRROR){
-                            proj2_data->vx = 2;
-                        }
-                    }
-                    if(scorpiohead_data->hp < 2){
-                        Sprite* s_proj_3 = SpriteManagerAdd(SpriteEthrowable, scorpio_head->x +8u, scorpio_head->y - 6);
-                        struct ThrowableData* proj3_data = (struct ThrowableData*) s_proj_3->custom_data;
-                        proj3_data->type = PROJECTILE;
-                        proj3_data->configured = 1u;
-                        proj3_data->vx = -2;
-                        if(scorpio_head->mirror == V_MIRROR){
-                            proj3_data->vx = 2;
-                        }
-                    }
-                }
+                
             }
         break;
     }

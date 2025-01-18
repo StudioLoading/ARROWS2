@@ -287,7 +287,7 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                         motherow_pos_y = tport_data->dest_y;
                         teleporting = 1u;
                         maze_zone = tport_data->to_zone;
-                        ChangeState(StateOw, s_motherow_arg, -1);
+                        ChangeState(StateOw, s_motherow_arg, current_map);
                     }
                 break;
                 case SpriteOwcrab:
@@ -529,7 +529,10 @@ void ow_check_place(Sprite* s_motherow_arg) BANKED{//tile collision
                 case MAP_NORTHWEST:
                     if(outwalker_chief.mission_state == MISSION_STATE_DISABLED){
                         trigger_dialog(MAZE_CANT_GO, s_motherow_arg);
-                    }else{ChangeState(StateOw, s_motherow_arg, MAP_MAZE);}
+                    }else{
+                        maze_zone = 0;
+                        ChangeState(StateOw, s_motherow_arg, MAP_MAZE);
+                    }
                 break;
                 case MAP_SOUTHEAST://to batcave
                     if(chapter < CHAPTER_4_SHIP){

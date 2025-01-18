@@ -24,6 +24,7 @@ const UINT8 e_anim_hidden[] = {1, 0};
 UINT8 enemy_random_30_100 = 30u;
 
 extern UINT8 enemy_counter;
+extern INT8 motherpl_hp;
 extern Sprite* s_motherpl;
 extern struct MotherplData* d_motherpl;
 extern MOTHERPL_STATE motherpl_state;
@@ -517,7 +518,17 @@ void EspawnItem(Sprite* s_enemy) BANKED{
         }
     }else if(current_state == StateScorpions){
         enemy_death();
-        itemtype = INVITEM_HEART;
+        if(motherpl_hp < 3){
+            itemtype = INVITEM_HEART;
+        }else{
+            if (enemy_random_30_100 < 60){
+                itemtype = INVITEM_METAL;
+            }else if (enemy_random_30_100 < 90){
+                itemtype = INVITEM_MONEY;        
+            }else{
+                itemtype = INVITEM_HEART;
+            }
+        }
     }else{
         if(enemy_random_30_100 < 35){
             itemtype = INVITEM_HEART;

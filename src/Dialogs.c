@@ -296,6 +296,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 				memcpy(d13, "PETER SHOULD BE ABLE", 22);
 				memcpy(d14, "TO HELP YOU.        ", 22);
 				memcpy(d15, "HE'S A CARPENTER!   ", 22);
+				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
 		break;
 		case SMITH_FORGE_ARMOR:
@@ -307,21 +308,22 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, "HERE! YOUR NEW ARMOR", 22);
 			memcpy(d6, "ARMOR IS READY!     ", 22);
+			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
 		case WOLF01:
 			memcpy(d0, "GRAY WOLF:          ", 22);
 			switch(find_blackie.current_step){
 				case 0u:
 				case 1u://non ho sconfitto le orde
-					*n_lines = 9u;
+					*n_lines = 8u;
 					memcpy(d1, "HONORED TO SEE YOU  ", 22);
 					memcpy(d2, "HEALER. MOTHER BLAC ", 22);
 					memcpy(d3, "KIE NEEDS YOUR HELP ", 22);
 					memcpy(d4, "IN THE NEXT ROOM.   ", 22);
 					memcpy(d5, "WILL YOU HELP HER?  ", 22);
+					memcpy(d6, EMPTY_STRING_21, 22);
 					memcpy(d7, EMPTY_STRING_21, 22);
-					memcpy(d8, EMPTY_STRING_21, 22);
-					memcpy(d9, " NO          YES    ", 22);
+					memcpy(d8, " NO          YES    ", 22);
 					choice = 1u;
 					choice_left = 0u;
 					choice_right = 0u;

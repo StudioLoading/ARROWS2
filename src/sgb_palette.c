@@ -492,8 +492,8 @@ void set_sgb_palette_tetra() __banked{
     set_sgb_palette(myRGB(188, 188, 188), myRGB(160, 112, 200), myRGB(104, 48, 144), myRGB(0, 0, 0));
 }
 
-void set_sgb_palette02_worldmap() __banked{
-    set_sgb_palette(myRGB(255, 255, 255), myRGB(202, 169, 204), myRGB(141, 205, 83), myRGB(17, 56, 15));
+void set_sgb_worldmap_se() __banked{
+    set_sgb_palette(myRGB(255, 255, 255), myRGB(202, 169, 204), myRGB(204, 75, 109), myRGB(17, 56, 15));
 }
 
 void set_sgb_worldmap_nw() __banked{
@@ -516,6 +516,11 @@ void set_sgb_palette01_worldmap_maze() __banked{
 void set_sgb_palette01_WOLF() __banked{
 	set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PAL2H_DARK, SGB_PAL2H_DARKER);
 }
+
+void set_sgb_palette01_CRAB() __banked{
+	set_sgb_palette(myRGB(255, 255, 255), myRGB(255, 129, 50), myRGB(198, 18, 15), myRGB(0, 0, 0));
+}
+
 void set_sgb_palette01_BLACKIECAVE() __banked{
     set_sgb_palette(SGB_PAL2H_LIGHTER, SGB_PAL2H_LIGHT, SGB_PALBLUE_DARK, SGB_PAL2H_DARKER);
 }

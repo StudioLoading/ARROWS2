@@ -122,8 +122,7 @@ void UPDATE(){
                 tiles_anim_interval = 0u;
             break;
         }
-    //GO TO INVENTORY
-        //if(KEY_PRESSED(J_START)){ChangeState(StateInv, s_motherpl, -1);}
+
     //CAMERA MANAGEMENT
         scroll_target->x = s_motherpl->x + 60u;
         scroll_target->y = s_motherpl->y + 32u;
@@ -207,42 +206,7 @@ void UPDATE(){
                 }
             break;
         }
-    //BOLTS
-        /*
-        if(enemy_counter < 2 && s_motherpl->y > 40){
-            timeout_enemy++;
-            UINT8 timeout_enemy_max = 90u;
-            if(s_motherpl->x > ((UINT16) 90u << 3)){
-                timeout_enemy_max = 52u;
-            }
-            if(timeout_enemy == timeout_enemy_max){
-                test_counter++;                
-                timeout_enemy = 0;
-                INT8 delta_for_running = 0;
-                if(motherpl_vx != 0){
-                    if(motherpl_vx > 0){delta_for_running = 10;}
-                    else{delta_for_running = -10;}
-                }
-                if(s_surf != 0){
-                    delta_for_running = +60;
-                }
-                UINT16 bolt_x = delta_for_running;
-                UINT16 bolt_y = s_motherpl->y;
-                switch(test_counter){
-                    case 6:
-                        test_counter = 0;
-                        bolt_x = s_motherpl->x + 80u;
-                    break;
-                    case 5:bolt_x = s_motherpl->x-4u;break;
-                    case 4:bolt_x = s_motherpl->x + 40u;break;
-                    case 3:bolt_x = s_motherpl->x - 30u;break;
-                    case 2:bolt_x = s_motherpl->x + 30u;break;
-                    case 1:bolt_x = s_motherpl->x +10u;break;
-                }
-                SpriteManagerAdd(SpriteBoltground, (UINT16) bolt_x, (UINT16)bolt_y);
-            }
-        }
-        */
+    
     
     Log(NONAME);
 }

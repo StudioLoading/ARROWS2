@@ -130,27 +130,26 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "THE MOMENT...       ", 22);
 		break;
 		case BLACKIE_DEAD_CHILD:
-			*n_lines = 19u;
+			*n_lines = 18u;
 			memcpy(d0, "BLACKIE:            ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "OH... MY CHILD! HE'S", 22);
 			memcpy(d3, "BEEN ONE OF THE FIR ", 22);
 			memcpy(d4, "ST POISONED...      ", 22);
-			memcpy(d5, EMPTY_STRING_21, 22);
-			memcpy(d6, "            ...SIGH!", 22);
-			memcpy(d7, ".. AND IT KILLED HIM", 22);
-			memcpy(d8, "... YOU SEE DESSA!? ", 22);
-			memcpy(d9, "BET THEY CAME TO    ", 22);
-			memcpy(d10, "KILL US! AND WE    ", 22);
-			memcpy(d11, "MUST FIGHT BACK!!  ", 22);
-			memcpy(d12, "NO MORE CHILD HAVE ", 22);
-			memcpy(d13, "TO DIE!      DESSA:", 22);
-			memcpy(d14, "I SWEAR I'LL DEFEAT", 22);
-			memcpy(d15, "WHO CAUSED THIS!   ", 22);
-			memcpy(d16, "YOUR SON WILL BE   ", 22);
-			memcpy(d17, "REVENGED WITH THE  ", 22);
-			memcpy(d18, "STRENGTH OF MY     ", 22);
-			memcpy(d19, "ARROWS.            ", 22);
+			memcpy(d5, "            ...SIGH!", 22);
+			memcpy(d6, ".. AND IT KILLED HIM", 22);
+			memcpy(d7, "... YOU SEE DESSA!? ", 22);
+			memcpy(d8, "BET THEY CAME TO    ", 22);
+			memcpy(d9, "KILL US! AND WE     ", 22);
+			memcpy(d10, "MUST FIGHT BACK!!   ", 22);
+			memcpy(d11, "NO MORE CHILD HAVE  ", 22);
+			memcpy(d12, "TO DIE!             ", 22);
+			memcpy(d13, "DESSA:              ", 22);
+			memcpy(d14, "I SWEAR I'LL DEFEAT ", 22);
+			memcpy(d15, "WHO CAUSED THIS!    ", 22);
+			memcpy(d16, "YOUR SON WILL BE    ", 22);
+			memcpy(d17, "REVENGED WITH THE   ", 22);
+			memcpy(d18, "STRENGTH OF MY ARROW", 22);
 			visit_blackie.mission_state = MISSION_STATE_REWARDED;
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 		break;
@@ -238,7 +237,9 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d17, "DRAGON BREATHS. THE ", 22);
 			memcpy(d18, "SMITH SHOULD BE ABLE", 22);
 			memcpy(d19, "FORGE IT. LOVE, LIAM", 22);
-			SpriteManagerAdd(SpriteDiary, 72, 8);
+			if(golden_armor.mission_state < MISSION_STATE_STARTED){
+				SpriteManagerAdd(SpriteDiary, 72, 8);
+			}
 			golden_armor.phase = 0;
 			golden_armor.mission_state = MISSION_STATE_STARTED;
 		break;

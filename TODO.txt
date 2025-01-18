@@ -1,13 +1,14 @@
-- audio dei projectile degli enemy!
-- check colori SGB
-- sfx
 
+
+- SGB
+	- check colori
+	- check borders
 
 KNOWN ISSUES:
 - Dialogs: pixelArt dei '?'
 - le frecce non normali scattano in alto di qualche pixel dopo aver colpito il 
 	enemy. non so proprio perché.
-- audiocassetta da fare coi loop e gli effetti fadein fadeout
+
 
 
 

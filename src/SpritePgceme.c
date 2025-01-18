@@ -21,7 +21,7 @@ void START(){
     struct NpcInfo* npc_data = (struct NpcInfo*) THIS->custom_data;
     npc_data->configured = 0;
     npc_data->whotalks = NOBODY;
-    THIS->lim_x = 16u;
+    THIS->lim_x = 100u;
 }
 
 void UPDATE(){

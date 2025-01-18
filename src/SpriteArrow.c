@@ -148,8 +148,12 @@ void UPDATE(){
                                     e_scorpion->e_state == ENEMY_HIT_2){
                                     return;
                                 }
-                                arrow_data->hit = 1u; 
-                                scorpio_change_state(ENEMY_HIT_1);
+                                arrow_data->hit = 1u;
+                                if(arrow_data->arrow_type == ARROW_BASTARD){
+                                    scorpio_change_state(ENEMY_HIT_2);
+                                }else{
+                                    scorpio_change_state(ENEMY_HIT_2);
+                                }
                                 }
                             break;
                         }
