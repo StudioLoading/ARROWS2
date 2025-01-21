@@ -24,6 +24,8 @@ const UINT8 a_yellow_d_walk[] = {4,5,4,5,3}; //The first number indicates the nu
 INT8 owpeople_checkmotherowcoll() BANKED;
 
 extern UINT8 colliding_owpeople;
+extern UINT8 show_tip;
+extern Sprite* s_motherow;
 
 void START(){
     SetSpriteAnim(THIS, a_owpeople_hidden, 8u);
@@ -43,8 +45,16 @@ void START(){
 }
 
 void UPDATE(){
-    INT8 collided_with_motherow = owpeople_checkmotherowcoll();
     struct OwPeopleData* owpeople_data = (struct OwPeopleData*)THIS->custom_data;
+    INT8 collided_with_motherow = owpeople_checkmotherowcoll();
+    if(collided_with_motherow == 0 && show_tip == 1 && owpeople_data->ow_state != ENEMY_HIDDEN && ((THIS->y - s_motherow->y) > 80u)){
+        SetSpriteAnim(THIS, a_owpeople_hidden, 8u);
+        owpeople_data->ow_state = ENEMY_HIDDEN;
+        owpeople_data->wait = 10;
+    }else if(owpeople_data->ow_state == ENEMY_HIDDEN){
+        owpeople_data->ow_state = ENEMY_IDLE;
+        return;
+    }
     if(owpeople_data->x_frameskip == 0){
         owpeople_data->wait--;
         owpeople_data->x_frameskip++;

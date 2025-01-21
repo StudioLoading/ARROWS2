@@ -33,7 +33,6 @@ UINT8 activate_titlescreen_wait_time = 0u;
 INT8 counter_anim = 0u;
 UINT8 cursor_spawned = 0u;
 UINT8 wait_titlescreen = 30u;
-Sprite* sprite_cursor = 0u;
 extern UINT8 cursor_moving;
 
 extern void Anim_Titlescreen_0() BANKED;
@@ -141,7 +140,7 @@ void UPDATE() {
 				scroll_target->x = (UINT16) 30u << 3;
 				PRINT(23u, 6u, "A JUMP  B FIRE");
 				PRINT(23u, 9u, "A FIRE  B JUMP");
-				sprite_cursor = SpriteManagerAdd(SpriteCursor, ((UINT16) 22u << 3), ((UINT16) 5u << 3));
+				SpriteManagerAdd(SpriteCursor, ((UINT16) 22u << 3), ((UINT16) 5u << 3));
 				cursor_spawned = 1u;
 				PRINT(20u, 0u, "SELECT TO CHANGE");
 				PRINT(20u, 1u, "START TO CHOOSE");

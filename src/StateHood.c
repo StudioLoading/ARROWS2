@@ -176,21 +176,8 @@ void UPDATE(){
         if(motherpl_state != DEATH){
             if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED){
                 if(s_motherpl->x > (UINT16)80u && s_motherpl->x < ((mapwidth << 3) - 80u)){
-                    switch(help_cemetery_woman.current_step){
-                        case 2u:
-                            spawn_enemy_hood();
-                        break;
-                        case 3u:
-                            if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
-                                if(s_motherpl->x > ((UINT16) 70u << 3)){
-                                    s_motherpl->x = (UINT16) 70u << 3;
-                                }
-                                s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
-                                child_hooked = 1;
-                                help_cemetery_woman.current_step = 2;
-                            }
-                        break;
-                        case 1u:
+                    switch(help_cemetery_woman.current_step){   
+                        case 1u: //attivo il dialogo
                             if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
                                 if(s_motherpl->x > ((UINT16) 70u << 3)){
                                     s_motherpl->x = (UINT16) 70u << 3;
@@ -203,20 +190,19 @@ void UPDATE(){
                                 }
                             }
                         break;
-                        /*
-                        case 4u:
-                            if(enemy_counter < 2){
-                                timeout_enemy--;
-                                if(timeout_enemy == 200u){
-                                    SpriteManagerAdd(SpriteEAttackerPine, (UINT16)(s_motherpl->x - 120u), (UINT16) 6u << 3);
+                        case 2u://dialogo attivato, spawno child e passo a step=3
+                            if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
+                                if(s_motherpl->x > ((UINT16) 70u << 3)){
+                                    s_motherpl->x = (UINT16) 70u << 3;
                                 }
-                                if(timeout_enemy == 0u){
-                                    timeout_enemy = 600u;
-                                    SpriteManagerAdd(SpriteEsimplesnake, (UINT16)(s_motherpl->x - 100u), (UINT16) 7u << 3);
-                                }
-                            }          
+                                s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
+                                child_hooked = 1;
+                                help_cemetery_woman.current_step = 3;
+                            }
                         break;
-                        */         
+                        case 3u:
+                            spawn_enemy_hood();
+                        break;
                     }            
                 }
             }else{//help_cemetery_woman rewarded already

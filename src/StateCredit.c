@@ -131,6 +131,16 @@ void missions_init() BANKED{
 			engage_smith.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;
 			enable_hospital.current_step = 0u;
+			/*START TEST*/
+			/* engage_smith.mission_state = MISSION_STATE_REWARDED;
+			engage_smith.current_step = 6u;
+			enable_hospital.mission_state = MISSION_STATE_REWARDED;
+			enable_hospital.current_step = 6u;
+			find_blackie.mission_state = MISSION_STATE_REWARDED;
+			find_blackie.current_step = 6u;
+			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
+			help_cemetery_woman.current_step = 1u; */
+			/*END TEST*/
 		break;
 		case CHAPTER_1_BANDITS:
 			engage_smith.mission_state = MISSION_STATE_REWARDED;
@@ -224,9 +234,9 @@ void missions_init() BANKED{
 			golden_armor.mission_state = MISSION_STATE_REWARDED;
 			golden_armor.phase = 0;
 			/* START TEST */
-			mr_smee.mission_state = MISSION_STATE_REWARDED;
-			broken_ship.mission_state = MISSION_STATE_REWARDED;
-			pirate_strike.mission_state = MISSION_STATE_REWARDED;
+			//mr_smee.mission_state = MISSION_STATE_REWARDED;
+			//broken_ship.mission_state = MISSION_STATE_REWARDED;
+			//pirate_strike.mission_state = MISSION_STATE_REWARDED;
 			/* END TEST */
 		break;
 	}

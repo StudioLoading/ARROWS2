@@ -23,6 +23,8 @@ INT8 cursor_vy = 0;
 
 void START(){
     SetSpriteAnim(THIS, anim_cursor_blink, 16u);
+    THIS->lim_x = 1000;
+    THIS->lim_y = 1000;
 }
 
 void UPDATE(){

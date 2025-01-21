@@ -32,7 +32,7 @@ void START(){
     child_info->e_state = ENEMY_IDLE;
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
-    help_cemetery_woman.current_step = 2u;
+    //help_cemetery_woman.current_step = 3u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
@@ -61,7 +61,7 @@ void child_behavior() BANKED{
     }
     if(distx > 120u){
         child_hooked = 0u;
-        help_cemetery_woman.current_step = 3u;
+        help_cemetery_woman.current_step = 1u;
         SpriteManagerRemoveSprite(THIS);
     }else if(distx > 40u){
         child_hooked = 0u;
@@ -131,6 +131,6 @@ void DESTROY(){
     //se motherpl è morta
     if(motherpl_state == MOTHERPL_DEAD){
         child_hooked = 0u;
-        help_cemetery_woman.current_step = 3u;
+        help_cemetery_woman.current_step = 1u;
     }
 }

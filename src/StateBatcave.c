@@ -41,7 +41,6 @@ extern WHOSTALKING whostalking;
 extern UINT16 timeout_enemy;
 extern UINT8 enemy_counter;
 extern UINT8 enemy_wave;
-extern UINT8 child_hooked;
 extern MOTHERPL_STATE motherpl_state;
 extern UINT8 powder_cooldown;
 extern UINT8 item_spawned_cooldown;
