@@ -14,7 +14,8 @@
 #include "Dialogs.h"
 #include "DialogTips.h"
 
-#define OW_PATH_FRAMESKIP 3
+#define OW_PATH_FRAMESKIP 1
+#define OW_NORMAL_FRAMESKIP 1
 
 extern INT8 current_map;
 extern UINT8 showed_tip;
@@ -44,10 +45,8 @@ extern CHAPTERS chapter;
 extern UINT8 J_JUMP;
 extern UINT8 J_FIRE;
 extern UINT8 frameskip;
-extern INT8 OW_NORMAL_FRAMESKIP;
 extern UINT8 step_counter;
 extern struct PushASignData d_push_sign;
-extern UINT8 ow_pusha_hp;
 extern INT8 sfx_cooldown;
 extern UINT8 just_started;
 extern UINT8 maze_zone;
@@ -86,13 +85,12 @@ FA2OW_SPRITE_STATES motherow_new_state = GENERIC_IDLE;
 UINT8 teleporting = 0u;
 UINT8 ow_chitchat_counter = 0u;
 UINT8 colliding_owpeople = 0u;
-INT8 OW_NORMAL_FRAMESKIP = 1;
 UINT8 frameskip = 0u;
 INT8 frameskip_max = 1;// same as OW_NORMAL_FRAMESKIP
 struct OwSpriteInfo* motherow_info = 0;
 UINT8 step_counter = 0u;
 struct PushASignData d_push_sign = {.collided_tile = 0u};
-UINT8 ow_pusha_hp = 0;
+INT8 ow_pusha_hp = 0;
 Sprite* s_push_sign = 0;
 FA2OW_SPRITE_STATES motherow_new_state;
 
@@ -210,7 +208,7 @@ void motherow_interact_with_map(Sprite* s_motherow_arg) BANKED{
     if(colliding_owpeople && tip_to_show == 0){
         ow_manage_chitchat();
     }
-    if((ow_pusha_hp || colliding_owpeople) && (KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP))){
+    if((ow_pusha_hp != 0 || colliding_owpeople != 0) && (KEY_TICKED(J_FIRE) || KEY_TICKED(J_JUMP))){
         colliding_owpeople = 0;
         ow_tips(s_motherow_arg, tip_to_show);            
     }
@@ -580,8 +578,8 @@ TIP_TO_BE_LOCALIZED ow_show_pusha_sign(Sprite* s_motherow_arg) BANKED{
             result = TIP_CHITCHAT;
         break;
     }
-    if(result != TIP_NOTHING && ow_pusha_hp == 0u){
-        ow_pusha_hp = 80u;
+    if(result != TIP_NOTHING && ow_pusha_hp < 0){
+        ow_pusha_hp = 50;
         s_push_sign = SpriteManagerAdd(SpriteOwpusha, s_motherow_arg->x - 1u, s_motherow_arg->y - 26u);
     }
     return result;
@@ -756,6 +754,7 @@ void update_position_motherow(Sprite* s_motherow_arg) BANKED{
                 if(frameskip_max != OW_NORMAL_FRAMESKIP){
                     frameskip_max = OW_NORMAL_FRAMESKIP;
                 }
+            break;
         }
     }
 }

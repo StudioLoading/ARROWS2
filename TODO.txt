@@ -1,4 +1,5 @@
-
+- dialoghi a caso su ow
+- velocità su ow
 
 - SGB
 	- check colori
@@ -20,7 +21,7 @@ New-QRCodeURI -URI 'https://x.com/StudioLoading1' -Width 16 -OutPath 'C:\Users\c
 New-QRCodeURI -URI 'https://www.instagram.com/studioloading/' -Width 16 -OutPath 'C:\Users\checc\GB\ARROWS2\QR-instagram.png'
 New-QRCodeURI -URI 'https://www.kickstarter.com/profile/studioloading/created' -Width 16 -OutPath 'C:\Users\checc\GB\ARROWS2\QR-kickstarter.png'
 New-QRCodeURI -URI 'https://studioloading.itch.io/' -Width 16 -OutPath 'C:\Users\checc\GB\ARROWS2\QR-itchio.png'
-New-QRCodeURI -URI 'https://discord.gg/hEXVuvC3' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR.PNG'
+New-QRCodeURI -URI 'https://discord.gg/QPhMy8DX' -Width 15 -OutPath 'C:\Users\checc\BN\QR-DISCORD-URL-QR-20250123.PNG'
 New-QRCodeURI -URI 'https://paypal.me/frabacche' -Width 16 -OutPath 'C:\Users\checc\ARROWS2\COTOLETTA8BIT\QR-PAYPAL-URL-QR.PNG'
 New-QRCodeURI -URI 'https://discord.gg/RYPAPk4GpB' -Width 16 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-REGGIO-URL-QR.PNG'
 New-QRCodeURI -URI 'https://meet.google.com/bth-sgjr-ohd' -Width 8 -OutPath 'C:\Users\checc\M5S\QR-DISCORD-URL-QR.PNG'

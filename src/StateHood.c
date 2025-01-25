@@ -87,11 +87,11 @@ void START(){
             s_motherpl->y = motherpl_pos_y;
             s_motherpl->mirror = motherpl_mirror;
         }
-         if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1){
+        if(help_cemetery_woman.mission_state == MISSION_STATE_STARTED && child_hooked == 1 && help_cemetery_woman.current_step <= 2){
             s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 12u), (UINT16)84u);
-            if(help_cemetery_woman.current_step < 2){
+            /*if(help_cemetery_woman.current_step < 2){
                 SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-            }
+            }*/
         }
     //INIT CHAR & MAP
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, s_motherpl->x + 20u, s_motherpl->y);
@@ -191,13 +191,12 @@ void UPDATE(){
                             }
                         break;
                         case 2u://dialogo attivato, spawno child e passo a step=3
-                            if(s_motherpl->x > ((UINT16) 60u << 3) && child_hooked == 0){
+                            if(s_motherpl->x > ((UINT16) 60u << 3)){
                                 if(s_motherpl->x > ((UINT16) 70u << 3)){
                                     s_motherpl->x = (UINT16) 70u << 3;
                                 }
                                 s_child = SpriteManagerAdd(SpriteChild, (UINT16)(s_motherpl->x + 24u), (UINT16) 84u);
                                 child_hooked = 1;
-                                help_cemetery_woman.current_step = 3;
                             }
                         break;
                         case 3u:

@@ -8,7 +8,7 @@
 #include "Dialogs.h"
 
 const UINT8 a_owpusha[] = {2,0,1}; //The first number indicates the number of frames
-extern UINT8 ow_pusha_hp;
+extern INT8 ow_pusha_hp;
 extern struct PushASignData d_push_sign;
 extern UINT8 ow_chitchat_counter;
 
@@ -22,6 +22,8 @@ void UPDATE(){
     if(ow_pusha_hp > 0){
         ow_pusha_hp--;
     }else{
+        ow_pusha_hp = 0;
+        d_push_sign.collided_tile = 0;
         SpriteManagerRemoveSprite(THIS);
     }
 }

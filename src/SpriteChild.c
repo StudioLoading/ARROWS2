@@ -32,7 +32,7 @@ void START(){
     child_info->e_state = ENEMY_IDLE;
     child_info->vx = 0;
     child_info->x_frameskip = 6u;
-    //help_cemetery_woman.current_step = 3u;
+    help_cemetery_woman.current_step = 3u;
     if(_cpu != CGB_TYPE){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
@@ -40,7 +40,7 @@ void START(){
 }
 
 void UPDATE(){
-    if(help_cemetery_woman.current_step == 2u){
+    if(help_cemetery_woman.current_step == 3u){
         child_info->x_frameskip--;
         if(child_info->x_frameskip == 0u){
             child_behavior();
@@ -132,5 +132,7 @@ void DESTROY(){
     if(motherpl_state == MOTHERPL_DEAD){
         child_hooked = 0u;
         help_cemetery_woman.current_step = 1u;
+    }else if(help_cemetery_woman.current_step < 4){
+        help_cemetery_woman.current_step = 2u;
     }
 }

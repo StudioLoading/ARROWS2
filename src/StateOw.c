@@ -101,7 +101,6 @@ void showing_tip();
 
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
-extern void update_position_motherow() BANKED;
 extern void ow_tips(Sprite* s_motherow_arg, TIP_TO_BE_LOCALIZED forced_tip) BANKED;
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void play_music_missionaccomplished() BANKED;

@@ -63,7 +63,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case WIDOW_D0:memcpy(d, "TALK TO THE WIDOW  ", 20);break;
 		case WIDOW_D1:memcpy(d, "AT THE CEMETERY    ", 20);break;
 		case WIDOW_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
-		case WIDOW_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
+		case WIDOW_D3:memcpy(d, "WESTERN WOODS      ", 20);break;
 		case WIDOW_D4:memcpy(d, "GOTTA BRING THE KID", 20);break;
 		case WIDOW_D5:memcpy(d, "BACK TO THE VILLAGE", 20);break;
 		case WIDOW_D6:memcpy(d, "MARGARET' CHILD IS ", 20);break;
@@ -72,7 +72,7 @@ void GetLocalizedDDLabel_EN(DD_TO_BE_LOCALIZED label, char* d) BANKED{
 		case CHIEF_D0:memcpy(d, "THE ANSWER'S AT THE", 20);break;
 		case CHIEF_D1:memcpy(d, "EXIT OF THE MAZE   ", 20);break;
 		case CHIEF_D2:memcpy(d, "I SHOULD CHECK THE ", 20);break;
-		case CHIEF_D3:memcpy(d, "WESTERN HOODS      ", 20);break;
+		case CHIEF_D3:memcpy(d, "WESTERN WOODS      ", 20);break;
 		case CHIEF_D4:memcpy(d, "LEGO IS THE CHIEF! ", 20);break;
 		case CHIEF_D5:memcpy(d, "LET'S TALK TO SIMON", 20);break;
 		case OUTWALKER_GLASS_TITLE:memcpy(d, "GLASSES FOR JACK     ", 16);break;

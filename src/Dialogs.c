@@ -506,7 +506,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d5, "KNOW YOU CAN FEEL ME", 22);
 			memcpy(d6, EMPTY_STRING_21, 22);
 			memcpy(d7, "MY CHILD HAS BEEN LO", 22);
-			memcpy(d8, "ST IN THE HOODS...  ", 22);
+			memcpy(d8, "ST IN THE WOODS...  ", 22);
 			memcpy(d9, "I AM SO SCARED!     ", 22);
 			memcpy(d10, EMPTY_STRING_21, 22);
 			memcpy(d11, "PLEASE HELP ME FIND ", 22);
@@ -708,7 +708,7 @@ void GetLocalizedLog_EN() BANKED{
 			if(spawn_child_cooldown < 100u && spawn_child_cooldown > 0u){
 				memcpy(log0, "HEY! WHO'S THERE?   ", 20);
 			}else{
-				memcpy(log0, "THE HOODS           ", 20);
+				memcpy(log0, "THE WOODS           ", 20);
 			}
 		break;
 		case StateMine:
