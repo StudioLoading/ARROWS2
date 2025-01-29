@@ -141,16 +141,15 @@ void UPDATE() {
 				scroll_target->x = (UINT16) 30u << 3;
 				PRINT(23u, 6u, "A JUMP  B FIRE");
 				PRINT(23u, 9u, "A FIRE  B JUMP");
-				s_cursor = SpriteManagerAdd(SpriteCursor, ((UINT16) 22u << 3), ((UINT16) 5u << 3));
-				cursor_spawned = 1u;
 				PRINT(20u, 0u, "SELECT TO CHANGE");
 				PRINT(20u, 1u, "START TO CHOOSE");
 				titlescreen_step = 5u;
 			}
 		break;
 		case 5u:
-			if(s_cursor == 0 && cursor_spawned == 1){
+			if(cursor_spawned == 0){
 				s_cursor = SpriteManagerAdd(SpriteCursor, ((UINT16) 22u << 3), ((UINT16) 5u << 3));
+				cursor_spawned = 1u;
 			}
 			if(KEY_PRESSED(J_START)){go_to_password(StatePwd);}
 		break;
