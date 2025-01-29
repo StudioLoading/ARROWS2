@@ -219,6 +219,9 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
     Sprite* imowspr;
     SPRITEMANAGER_ITERATE(mow_a_tile, imowspr) {
         if(CheckCollision(s_motherow_arg, imowspr)) {
+            if(imowspr->type != SpriteOwpeople && imowspr->type != SpriteOwmaster){
+                colliding_owpeople = 0;
+            }
             switch(imowspr->type){
                 case SpriteBlackieow:
                     if(find_blackie.current_step < 5u){
@@ -578,7 +581,7 @@ TIP_TO_BE_LOCALIZED ow_show_pusha_sign(Sprite* s_motherow_arg) BANKED{
             result = TIP_CHITCHAT;
         break;
     }
-    if(result != TIP_NOTHING && ow_pusha_hp < 0){
+    if(result != TIP_NOTHING && ow_pusha_hp <= 0){
         ow_pusha_hp = 50;
         s_push_sign = SpriteManagerAdd(SpriteOwpusha, s_motherow_arg->x - 1u, s_motherow_arg->y - 26u);
     }

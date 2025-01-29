@@ -760,7 +760,7 @@ void motherpl_changeMotherplState(Sprite* s_mother, MOTHERPL_STATE new_state) BA
                     motherpl_changeMotherplState(s_mother, MOTHERPL_DEAD);
                     return;
                 }
-                //TEST START INVULNERABILITY
+                //TEST START INVULNERABILITY IDDQD
                 //if(motherpl_hp <= 1){motherpl_hp = 5;}
                 //TEST END remove me
                 if(s_mother->mirror == NO_MIRROR){    
