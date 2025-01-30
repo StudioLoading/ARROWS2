@@ -25,16 +25,15 @@ extern INT8 sfx_cooldown;
 extern UINT8 generic_counter;
 extern UINT8 generic_counter2;
 extern uint8_t sgb_running;
+extern UINT8 J_JUMP;
+extern UINT8 J_FIRE;
 
 const UINT8 collision_tiles_titlescreen[] = {1,0};
 UINT8 titlescreen_step = 0u;
 INT8 titlescreen_wait_time = 0;
 UINT8 activate_titlescreen_wait_time = 0u;
 INT8 counter_anim = 0u;
-UINT8 cursor_spawned = 0u;
 UINT8 wait_titlescreen = 30u;
-Sprite* s_cursor = 0;
-extern UINT8 cursor_moving;
 
 extern void Anim_Titlescreen_0() BANKED;
 extern void Anim_Titlescreen_1() BANKED;
@@ -63,7 +62,6 @@ void START() {
 	//PlayMusic(sloopy, 1);
 	//PlayMusic(bgm_titlescreen, 0);
 	titlescreen_wait_time = 0;
-	cursor_spawned = 0u;
 	wait_titlescreen = 30u;
 }
 
@@ -120,10 +118,6 @@ void UPDATE() {
 				PRINT(5, 9, " LET'S GO! ");
 				titlescreen_step = 3u;
 			}
-			if(KEY_TICKED(J_SELECT)){
-				StopMusic;
-				SetState(current_state);
-			}
 		break;
 		case 3u:
 			titlescreen_wait_time++;
@@ -136,22 +130,25 @@ void UPDATE() {
 			}
 		break;
 		case 4u:
-			scroll_target->x += 2u;
+			scroll_target->x += 4u;
 			if(scroll_target->x >= ((UINT16) 30u << 3)){
-				scroll_target->x = (UINT16) 30u << 3;
-				PRINT(23u, 6u, "A JUMP  B FIRE");
-				PRINT(23u, 9u, "A FIRE  B JUMP");
-				PRINT(20u, 0u, "SELECT TO CHANGE");
-				PRINT(20u, 1u, "START TO CHOOSE");
+				//scroll_target->x = (UINT16) 30u << 3;
+				PRINT(24u, 6u, "A JUMP  B FIRE");
+				PRINT(24u, 9u, "A FIRE  B JUMP");
 				titlescreen_step = 5u;
 			}
 		break;
 		case 5u:
-			if(cursor_spawned == 0){
-				s_cursor = SpriteManagerAdd(SpriteCursor, ((UINT16) 22u << 3), ((UINT16) 5u << 3));
-				cursor_spawned = 1u;
+			if(KEY_TICKED(J_SELECT)){ 
+                J_JUMP=J_B;
+                J_FIRE=J_A; 
+				go_to_password(StatePwd);
 			}
-			if(KEY_PRESSED(J_START)){go_to_password(StatePwd);}
+			if(KEY_TICKED(J_START)){ 
+                J_JUMP=J_A;//0x20;
+                J_FIRE=J_B;//0x10; 
+				go_to_password(StatePwd);
+			}
 		break;
 	}		
 }

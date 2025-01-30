@@ -64,7 +64,6 @@ _SPRITE_DMG(SpriteMotherowarmor, motherowarmor)\
 _SPRITE_DMG(SpriteDiarycursor, diarycursor)\
 _SPRITE_DMG(SpriteInvcursor, invcursor)\
 _SPRITE_DMG(SpriteInvblinker, invblinker)\
-_SPRITE_DMG(SpriteCursor, cursor)\
 _SPRITE_DMG(SpriteMotherpl, motherpl)\
 _SPRITE_DMG(SpriteMotherplarmor, motherplarmor)\
 _SPRITE_DMG(SpriteDust, dust)\
