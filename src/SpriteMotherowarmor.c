@@ -48,16 +48,6 @@ void START(){
 }
 
 void UPDATE(){
-    if(just_started == 1u){
-        motherow_new_state = WALK_UP;
-        update_position_motherow(THIS);
-        owChangeState(THIS, motherow_new_state);
-        if(motherow_info->tile_collision == 62u || motherow_info->tile_collision == 64u){
-            ChangeState(StateTutorial, THIS, 0);
-            just_started = 2;
-        }
-        return; 
-    }
     //SFX & HUD
         if(sfx_cooldown > 0){sfx_cooldown--;}
         if(hudow_opened == 1u){return;}

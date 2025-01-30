@@ -31,6 +31,7 @@ extern UINT16 motherow_pos_y;
 extern UINT16 motherpl_pos_x;
 extern UINT16 motherpl_pos_y;
 extern UINT8 itemspawned_powder_counter;
+extern INT8 motherpl_hp;
 
 const UINT8 collision_tiles_credits[] = {1,0};
 INT8 credit_step = -1;
@@ -127,6 +128,7 @@ void missions_init() BANKED{
 	captain.mission_state = MISSION_STATE_DISABLED;
 	switch(chapter){
 		case CHAPTER_0_BLACKIE:
+			motherpl_hp = 5;
 			engage_smith.mission_state = MISSION_STATE_ENABLED;
 			engage_smith.current_step = 0u;
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;
@@ -273,8 +275,8 @@ void inventory_init() BANKED{
 			item02.itemtype = INVITEM_ARROW_BASTARD; item02.quantity = 0; item02.equippable = 1u;
 			item03.itemtype = INVITEM_BOMB; item03.quantity = 0; item03.equippable = 1u;
 			item04.itemtype = INVITEM_UNASSIGNED; item04.quantity = 0; item04.equippable = 1u;
-			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 5; unequip00.equippable = 0u;//2
-			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 5; unequip01.equippable = 0u;//3
+			unequip00.itemtype = INVITEM_WOOD; unequip00.quantity = 20; unequip00.equippable = 0u;//2
+			unequip01.itemtype = INVITEM_METAL; unequip01.quantity = 20; unequip01.equippable = 0u;//3
 			unequip02.itemtype = INVITEM_LETTER; unequip02.quantity = 1; unequip02.equippable = 0u;
 			unequip03.itemtype = INVITEM_UNASSIGNED; unequip03.quantity = 0; unequip03.equippable = 0u;
 			unequip04.itemtype = INVITEM_UNASSIGNED; unequip04.quantity = 0; unequip04.equippable = 0u;

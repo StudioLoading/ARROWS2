@@ -45,6 +45,7 @@ extern UINT8 choice;
 extern UINT16 timeout_enemy;
 extern MOTHERPL_STATE motherpl_state;
 extern CHAPTERS chapter;
+extern UINT8 enemy_counter;
 
 const UINT8 coll_tiles_blackieroom[] = {1u, 2u, 4u, 5u, 6u, 7u, 14u, 17u, 18u, 19u, 35u, 36u, 37u, 38u, 39u, 40u, 41u, 0};
 const UINT8 coll_surface_blackieroom[] = { 16u, 29u, 31u, 33u, 50u, 0};
@@ -112,21 +113,21 @@ void UPDATE(){
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
-            mother_exit_cooldown--;
+            /*mother_exit_cooldown--;
             if(mother_exit_cooldown == 0u && motherpl_state == MOTHERPL_WALK){
                 mother_exit_cooldown = 60u;
                 previous_state = StateBlackieroom;
                 ChangeState(StateBlackiecave, s_motherpl, -1);
                 //go back
-            }
-        }else if(mother_exit_cooldown != 60u){
+            }*/
+        }/*else if(mother_exit_cooldown != 60u){
             mother_exit_cooldown = 60u;
-        }
+        }*/
         if(s_motherpl->x > ((UINT16)19u << 3)){
             s_motherpl->x = ((UINT16)19u << 3);
         }
     //INIT ENEMIES
-        if(horde_step > 5 && find_blackie.current_step < 2){
+        if(horde_step > 5 && find_blackie.current_step < 2 && enemy_counter == 0){
             find_blackie.current_step = 2u;
 			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
         }else{

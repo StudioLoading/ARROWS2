@@ -886,7 +886,8 @@ void update_camera_position() BANKED{
                 s_motherpl->x = (((UINT16)mapwidth) << 3) - 16u;
                 switch(current_state){
                     case StateHood:
-                        if(help_cemetery_woman.current_step < 3u){
+                        if(help_cemetery_woman.mission_state < MISSION_STATE_ACCOMPLISHED){
+                            //TODO sprite di vai a sinistra?
                         }else{//exiting hoods to the north
                             motherow_pos_x = 0u;
                             motherow_pos_y = 0u;
