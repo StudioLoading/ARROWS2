@@ -17,7 +17,7 @@
 IMPORT_TILES(font);
 IMPORT_MAP(dmaphospital);
 
-UINT8 get_chapter_cost() BANKED;
+UINT16 get_chapter_cost() BANKED;
 void manage_heal_or_death() BANKED;
 
 extern UINT8 J_JUMP;
@@ -43,7 +43,7 @@ extern INT8 motherpl_hp;
 extern void move_on() BANKED;
 
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
 extern void show_next_character() BANKED;
@@ -63,7 +63,7 @@ void START() {
 	next_page = 0u;
 }
 
-UINT8 get_chapter_cost() BANKED{
+UINT16 get_chapter_cost() BANKED{
     return (chapter+1) * 10u;
 }
 
@@ -113,7 +113,7 @@ void UPDATE() {
                                 case 4:
                                     whostalking = HOSPITAL_GO_FOR_HERBS;
                                     if(get_quantity(INVITEM_HERB) >= 8){
-                                        UINT8 q_herbs = get_quantity(INVITEM_HERB);
+                                        UINT16 q_herbs = get_quantity(INVITEM_HERB);
                                         change_quantity(INVITEM_HERB, -q_herbs);
                                         whostalking = HOSPITAL_ANTIDOTE_BUILT;
                                         SpriteManagerAdd(SpriteDiary, 72, 8);
@@ -185,7 +185,7 @@ void manage_heal_or_death() BANKED{
     if(motherpl_hp == 5){
         whostalking = HOSPITAL_FINE;
     }else{//in cura
-        UINT8 chapter_cost = get_chapter_cost(); 
+        UINT16 chapter_cost = get_chapter_cost(); 
         if(get_quantity(INVITEM_MONEY) >= chapter_cost){
             change_quantity(INVITEM_MONEY, -chapter_cost);
             if(motherpl_hp > 0){ whostalking = HOSPITAL_CURE;}

@@ -71,7 +71,7 @@ void change_navigation();
 void refresh_equipped();
 void pickup(struct ItemSpawned* pickedup_data) BANKED;
 void change_detail();
-UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
 extern void change_cursor(UINT8 square_or_arrow) BANKED;
@@ -342,13 +342,6 @@ void UPDATE(){
         if(invcursor_posi < 6 && inventory[invcursor_posi].quantity > 0){
             invselectitem(6);
         }
-    }else if(KEY_TICKED(J_FIRE)){
-        if(inventory[invcursor_posi].itemtype == INVITEM_LIAM_HANDWRITTEN){
-            manage_bgm(StateDialog, StateInv, current_map);
-            trigger_dialog(ITEMDETAIL_LIAM_HANDWRITTEN, s_motherow);
-            //whostalking = ITEMDETAIL_LIAM_HANDWRITTEN;
-            //SetState(StateDialog);
-        }
     }
     if(KEY_RELEASED(J_UP)){
         invcursor_posi-=3;      
@@ -575,7 +568,7 @@ void change_detail(){
     PRINT(8, 13, "%s", ddinv5);
 }
 
-UINT8 get_quantity(INVITEMTYPE itemtype) BANKED{
+UINT16 get_quantity(INVITEMTYPE itemtype) BANKED{
     UINT8 q = 0u;
     for(UINT8 i = 0u; i < 12; i++){
         if(itemtype == inventory[i].itemtype){

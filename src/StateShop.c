@@ -44,7 +44,7 @@ SHOP current_shop = SHOP_SMITH;
 
 extern void move_on() BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void shift_text_one_line_up() BANKED;
 extern void show_next_character() BANKED;                            
@@ -166,7 +166,7 @@ void UPDATE() {
                                     outwalker_smith.mission_state = MISSION_STATE_STARTED;
                                     SpriteManagerAdd(SpriteDiary, 72, 8);
                                 }else if(outwalker_smith.mission_state == MISSION_STATE_STARTED){
-                                    UINT8 flowers = get_quantity(INVITEM_FLOWER);
+                                    UINT16 flowers = get_quantity(INVITEM_FLOWER);
                                     if(flowers < 4){
                                         whostalking = SMITH_FLOWERS_MISSING;
                                     }else{

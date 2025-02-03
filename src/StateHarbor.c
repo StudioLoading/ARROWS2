@@ -66,7 +66,7 @@ extern void ReloadEnemiesPL() BANKED;
 extern void spawnItem(INVITEMTYPE itemtype, UINT16 spawn_at_x, UINT16 spawn_at_y ) BANKED;
 extern void spawn_npa(UINT8 type, UINT16 posx, UINT16 posy, UINT8 configured) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 
 Sprite* s_spugna;
 struct NpcInfo* s_spugna_data;

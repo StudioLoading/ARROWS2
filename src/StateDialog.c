@@ -92,7 +92,7 @@ void show_next_character() BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void GetLocalizedDialog_EN(UINT8* n_lines) BANKED;
 extern void position_init() BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 extern void restartFromHospital() BANKED;
 extern void check_sgb_palette(UINT8 new_state) BANKED;
@@ -466,7 +466,7 @@ void move_on() BANKED{
         }
     }else if(whostalking == OUTWALKER_MAN2){
         if(choice_right == 1u && outwalker_info_given < 3){//SPEND 30 to learn some more info
-            UINT8 current_coins = get_quantity(INVITEM_MONEY);
+            UINT16 current_coins = get_quantity(INVITEM_MONEY);
             if(current_coins > 30){//GOT THE MONEY
                 change_quantity(INVITEM_MONEY, -30);
                 outwalker_info_step = 1;

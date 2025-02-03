@@ -230,7 +230,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d7, "WHEN YOU HAVE IT.   ", 22);
 		break;
 		case SMITH_FLOWERS_ASKED:
-			*n_lines = 15u;
+			*n_lines = 17u;
 			memcpy(d0, "JOHN:               ", 22);
 			memcpy(d1, "SO YOU WANT ME TO FO", 22);
 			memcpy(d2, "RGE SOME WEAPONS FOR", 22);
@@ -243,10 +243,12 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d9, EMPTY_STRING_21, 22);
 			memcpy(d10, "CAN YOU PLEASE BRING", 22);
 			memcpy(d11, "ME 4 FLOWERS? I WANT", 22);
-			memcpy(d12, "TO ASK MARGARET..   ", 22);
-			memcpy(d13, EMPTY_STRING_21, 22);
-			memcpy(d14, "OH WELL, YOU KNOW!  ", 22);
-			memcpy(d15, EMPTY_STRING_21, 22);
+			memcpy(d12, "TO ASK MARGARET!    ", 22);
+			memcpy(d13, "JUST CHECK AROUND HE", 22);
+			memcpy(d14, "RE, THEY ARE NOT FAR", 22);
+			memcpy(d15, "LIKE THE EXZOO, THE ", 22);
+			memcpy(d16, "OLD MINE, THE CEMETE", 22);
+			memcpy(d17, "RY, BLACKIE CAVE... ", 22);
 		break;
 		case SMITH_FLOWERS_MISSING:
 			*n_lines = 9u;

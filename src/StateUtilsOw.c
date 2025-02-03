@@ -491,7 +491,7 @@ void initial_ow_npc() BANKED{
 			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 53u << 3)+1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
 			spawn_ow_npc(OWTYPE_KNIGHT_STAND, ((UINT16) 56u << 3)-1, ((UINT16) 29u << 3)+5, 100u, 30u, 0,0);
 			if(_cpu == CGB_TYPE){
-				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 65u << 3), ((UINT16) 11 << 3), 40u, 8u, 0, 1);
+				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 65u << 3), ((UINT16) 16 << 3), 40u, 8u, 0, 1);
 				spawn_ow_npc(OWTYPE_BLUETUNIC_STAND, ((UINT16) 21u << 3)-3, ((UINT16) 39u << 3), 100u, 20u, 0,0);
 				spawn_ow_npc(OWTYPE_RED_VERTICAL,((UINT16) 17u << 3) - 3u, ((UINT16) 33 << 3), 60u, 8u, 0, 1);
 			}
@@ -532,7 +532,7 @@ void initial_ow_items() BANKED{
 			//spiaggia, in basso a sinistra
 			spawn_hidden_item(INVITEM_ARROW_PERFO, 10 * multiply, 4u, 14u, 0b0000000000001000);
 			//spiaggia, dietro prima casa
-			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 61u, 7u, 0b0000000000010000);
+			spawn_hidden_item(INVITEM_ARROW_BASTARD, 10 * multiply, 63u, 14u, 0b0000000000010000);
 			//per terra, prima del hood a sinistra
 			spawn_hidden_item(INVITEM_MONEY, 30 * multiply, 7u, 42u, 0b0000000000100000);
 		break;

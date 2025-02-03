@@ -54,7 +54,7 @@ extern struct MISSION captain;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern void play_music_missionaccomplished() BANKED;
 
 

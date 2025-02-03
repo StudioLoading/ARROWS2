@@ -1,5 +1,4 @@
-- dialoghi a caso su ow
-- velocità su ow
+
 
 - SGB
 	- check colori
@@ -10,7 +9,8 @@ KNOWN ISSUES:
 - le frecce non normali scattano in alto di qualche pixel dopo aver colpito il 
 	enemy. non so proprio perché.
 
-
+FORMULE ADDRESSES EXCEL
+=CODICE.CARATT(10) & solo_cart!G20 & CODICE.CARATT(10) & solo_cart!K20 & CODICE.CARATT(10) & solo_cart!M20 & " " & solo_cart!N20 & CODICE.CARATT(10) & solo_cart!O20 & " - " & solo_cart!P20 & CODICE.CARATT(10)  & CODICE.CARATT(10) 
 
 
 

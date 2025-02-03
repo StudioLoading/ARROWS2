@@ -690,8 +690,7 @@ void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED{
             current_map = next_map;
         }    
     d_push_sign.collided_tile = 0;
-    if(current_state == StateDialog && current_state == StateInv && whostalking == ITEMDETAIL_LIAM_HANDWRITTEN){
-    }else{
+    if(previous_state != current_state){
         previous_state = current_state;
     }
     if(previous_state == StateTutorial){

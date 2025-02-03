@@ -57,7 +57,7 @@ extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, U
 extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern void ShowTipOW() BANKED;
 extern void play_music_missionaccomplished() BANKED;
@@ -229,15 +229,12 @@ void motherow_interact_with_sprites(Sprite* s_motherow_arg) BANKED{
                     }
                 break;
                 case SpriteBottle:
-                    {
                     if(s_motherow_arg->type == SpriteLiamow){
                         trigger_dialog(FINAL, s_motherow_arg);
                     }else{
-                        struct ItemSpawned pass_data={.itemtype = INVITEM_LIAM_HANDWRITTEN, .quantity = 1, .equippable = 0u};
-                        pickup(&pass_data);
                         hungry_people.mission_state = MISSION_STATE_REWARDED;
                         SpriteManagerRemoveSprite(imowspr);
-                    }
+                        trigger_dialog(ITEMDETAIL_LIAM_HANDWRITTEN, s_motherow_arg);
                     }
                 break;
                 case SpriteMushroom:

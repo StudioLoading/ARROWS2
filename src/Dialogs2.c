@@ -53,7 +53,7 @@ extern UINT8 current_map;
 
 extern void pickup(struct ItemSpawned* pickedup_data) BANKED;
 extern INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
-extern UINT8 get_quantity(INVITEMTYPE itemtype) BANKED;
+extern UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 extern void play_music_missionaccomplished() BANKED;
 
 
@@ -262,7 +262,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 					case 0u://give mission
 						*n_lines = 15u;
 						memcpy(d1, "I'VE LOST MY GLASSES", 22);
-						memcpy(d2, "BY THE SEE, I SAW A ", 22);
+						memcpy(d2, "BY THE SEA, I SAW A ", 22);
 						memcpy(d3, "GIANT CRAB! HE AT   ", 22);
 						memcpy(d4, "TACKED ME AND I RUN ", 22);
 						memcpy(d5, "AWAY.               ", 22);
@@ -272,7 +272,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 						memcpy(d9, "YOU PLEASE BRING MY ", 22);
 						memcpy(d10, "GLASSES BACK?      ", 22);
 						memcpy(d11, EMPTY_STRING_21, 22);
-						memcpy(d12, "TAKE THESE PEARCING", 22);
+						memcpy(d12, "TAKE THESE PIERCING", 22);
 						memcpy(d13, "ARROWS: GUESS YOU  ", 22);
 						memcpy(d14, "GONNA NEED EM TO   ", 22);
 						memcpy(d15, "FIGHT THAT BEAST.  ", 22);
@@ -287,13 +287,13 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 					case 1u://occhiali non ancora trovati
 						*n_lines = 5u;
 						memcpy(d1, "I'VE LOST MY GLASSES", 22);
-						memcpy(d2, "BY THE SEE, I SAW A ", 22);
+						memcpy(d2, "BY THE SEA, I SAW A ", 22);
 						memcpy(d3, "GIANT CRAB! HE AT   ", 22);
 						memcpy(d4, "TACKED ME AND I RUN ", 22);
 						memcpy(d5, "AWAY.               ", 22);
 						if(get_quantity(INVITEM_ARROW_PERFO) < 5){
 							*n_lines = 9u;
-							memcpy(d6, "TAKE THESE PEARCING", 22);
+							memcpy(d6, "TAKE THESE PIERCING", 22);
 							memcpy(d7, "ARROWS: GUESS YOU  ", 22);
 							memcpy(d8, "GONNA NEED EM TO   ", 22);
 							memcpy(d9, "FIGHT THAT BEAST.  ", 22);
@@ -452,7 +452,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "BIG BOSS CRAB:       ", 22);
 			memcpy(d1, "*CLACK! CLACK!*      ", 22);
 			memcpy(d2, "WITH THESE GLASSES I ", 22);
-			memcpy(d3, "SEE WAY MORE BETTER. ", 22);
+			memcpy(d3, "SEE A LOT BETTER.    ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 
 			memcpy(d5, "DESSA: THOSE ARE NOT ", 22);
@@ -524,7 +524,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "NOT FULLY HEAL YOU! \0", 22);
 		break;
 		case HOSPITAL_GET_ANTIDOTE:
-			*n_lines = 9u;
+			*n_lines = 13u;
 			memcpy(d0, "DOCTOR:             \0", 22);
 			memcpy(d1, "YOU DEFEAT THE HORDE\0", 22);
 			memcpy(d2, "THANK YOU HEALER!   \0", 22);
@@ -534,7 +534,11 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d6, "AND BEASTS. PROVIDE \0", 22);
 			memcpy(d7, "US THE BIGGEST QUAN \0", 22);
 			memcpy(d8, "TITY OF POISON YOU  \0", 22);
-			memcpy(d9, "CAN GET.            \0", 22);
+			memcpy(d9, "CAN GET. HOPEFULLY  \0", 22);
+			memcpy(d10, "YOU WILL FIND THE MO\0", 22);
+			memcpy(d11, "THER IN DARK PLACES.\0", 22);
+			memcpy(d12, "IT WON'T BE A FRIEND\0", 22);
+			memcpy(d13, "LY MEETING...       \0", 22);
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 			find_antidote.mission_state = MISSION_STATE_STARTED;
 			find_antidote.current_step = 0;
@@ -616,7 +620,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "PETER:               ", 22);
 			memcpy(d1, "'TZIN! TZIN!'        ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "HERE, 30 PEARCING    ", 22);
+			memcpy(d3, "HERE, 30 PIERCING    ", 22);
 			memcpy(d4, "ARROWS FOR YOU!      ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HAVE A NICE DAY!     ", 22);
