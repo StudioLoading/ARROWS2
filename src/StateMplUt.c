@@ -84,6 +84,7 @@ extern struct MISSION find_antidote;
 extern struct MISSION golden_armor;
 extern struct MISSION help_cemetery_woman;
 extern struct MISSION mr_smee;
+extern struct InvItem inventory[12];
 
 extern void invselectitem(INT8 max_idx) BANKED;
 extern void bat_change_state(Sprite* s_bat, ENEMY_STATE e_state) BANKED;
@@ -118,6 +119,7 @@ extern void motherplarmor_setanim_dead() BANKED;
 extern void motherplarmor_setanim_blocked() BANKED;
 extern void motherplarmor_setanim_dash() BANKED;
 
+void motherpl_start(Sprite* s_mother) BANKED;
 void motherpl_sfx_cooldown() BANKED;
 void motherpl_select_ticked() BANKED;
 void motherpl_refresh_animation(Sprite* s_mother) BANKED;
@@ -136,6 +138,20 @@ void START(){
 }
 
 void motherpl_start(Sprite* s_mother) BANKED{
+    //REFRESH ITEM EQUIPPED
+        INT8 item_found_on_inventory = 0;
+        INT8 idxinv = 0;
+        while(item_found_on_inventory == 0 && idxinv < 12){
+            if(itemEquipped.itemtype == inventory[idxinv].itemtype){
+                item_found_on_inventory = 1;
+            }else{
+                idxinv++;
+            }
+        }
+        if(item_found_on_inventory == 1){
+            itemEquipped.quantity = inventory[idxinv].quantity;
+            UpdateHUD();
+        }
     switch(s_mother->type){
         case SpriteMotherpl:
         case SpriteMotherplarmor:
