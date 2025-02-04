@@ -41,7 +41,6 @@ extern UINT8 gravity_frame_skip;
 extern UINT8 motherpl_blocked_cooldown;
 extern UINT8 motherpl_surfing_goton;
 extern UINT8 motherpl_hit_cooldown;
-extern UINT8 motherpl_dash_cooldown;
 extern Sprite* s_surf;
 extern struct ArrowData* surf_data;
 extern INT8 motherpl_hp;

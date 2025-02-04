@@ -62,7 +62,6 @@ void START(){
     //INIT CHAR & MAP
         if(_cpu == CGB_TYPE){
             SpriteManagerAdd(SpriteEBat, (UINT16)1<<3, (UINT16)5<<3);
-            //SpriteManagerAdd(SpriteEBat, (UINT16)4<<3, (UINT16)8<<3);
         }
         SpriteManagerAdd(SpriteBossbat, ((UINT16)15u << 3), 14u);
         scroll_target = SpriteManagerAdd(SpriteCamerafocus, ((UINT16) 12u << 3), ((UINT16) 10u << 3));
@@ -78,6 +77,7 @@ void START(){
     mother_exit_cooldown = 60u;
     tiles_anim_interval = 0u;
     timeout_drop = 1u;
+    bossbat_exit_cooldown = 0;
 	SHOW_SPRITES;
 }
 
@@ -94,39 +94,9 @@ void UPDATE(){
         if(hud_motherpl_hp != motherpl_hp){
             UpdateHUD();
         }
-    //CAVE TILES ANIM
-        tiles_anim_interval++;
-        /*switch(tiles_anim_interval){
-            case 6u:
-                Anim_Silver_1();
-            break;
-            case 12u:
-                Anim_Silver_2();
-            break;
-            case 18u:
-                Anim_Silver_3();
-            break;
-            case 24u:
-                Anim_Silver_4();
-            break;
-            case 30u:
-                Anim_Silver_5();
-            break;
-            case 36u:
-                Anim_Silver_0();
-                tiles_anim_interval = 0u;
-            break;
-        }*/
-
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)24u){
             s_motherpl->x = 24u;
-        }
-    //DROPS
-        timeout_drop--;
-        if(timeout_drop < 10u){
-            //SpriteManagerAdd(SpriteDrop, ((UINT16) 6u << 3), ((UINT16) 2u << 3));
-            timeout_drop = 110u;
         }
     
     Log(NONAME);

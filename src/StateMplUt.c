@@ -534,7 +534,6 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
             motherpl_canshoot = 0u;
             {
                 struct NpcInfo* npc_data = (struct NpcInfo*) s_collision->custom_data;
-                //whostalking = ;
                 Log(npc_data->npcname);
                 motherpl_ckautodialog(s_mother, npc_data->npcname);
                 spawn_dialog_icon(s_collision);
@@ -583,15 +582,18 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
         break;
         case SpriteBossbat:
             {
-            if(bossbat_data->e_state == ENEMY_HIT_1){return;}
-            if(motherpl_state == MOTHERPL_DASH){
-                if(bossbat_data->e_state == ENEMY_SLIDE_DOWN){
-                    if(motherpl_dash_cooldown == 0){motherpl_dash_cooldown = 1;}
-                    bossbat_data->configured = 1;
-                }else{
+            if(bossbat_data->e_state != ENEMY_HIT_1){
+                if(motherpl_state == MOTHERPL_DASH){
+                    if(bossbat_data->e_state == ENEMY_SLIDE_DOWN){
+                        motherpl_dash_cooldown++;
+                        bossbat_data->configured = 1;
+                    }else if(bossbat_data->configured == 0){
+                        motherpl_hitted(s_collision);
+                    }
+                }else if(bossbat_data->configured == 0){
                     motherpl_hitted(s_collision);
                 }
-            }else{motherpl_hitted(s_collision);}
+            }
             }
         break;
         case SpriteBossMino:
@@ -994,7 +996,7 @@ void motherpl_behave(Sprite* s_mother) BANKED{
                 if(current_state == StateMine || current_state == StateBatcave){
                     if(dash_floor == 48u && powder_cooldown == 0){
                         powder_cooldown = 60u;
-                        spawnItem(INVITEM_POWDER, s_mother->x, s_mother->y);
+                        //spawnItem(INVITEM_POWDER, s_mother->x, s_mother->y);
                     }
                 }
                 if(dash_floor != 0 && motherpl_dash_cooldown % 8 == 0 && current_state != StateBossbat){

@@ -952,8 +952,8 @@ void update_camera_position() BANKED{
             }
         }
     //BLOCK 
-        if(motherpl_state == MOTHERPL_BLOCKED ){return;}
-        if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;return;}
+        //if(motherpl_state == MOTHERPL_BLOCKED ){return;}
+        if(motherpl_blocked_cooldown > 0u){motherpl_blocked_cooldown--;}//return;}
         //in ogni caso non uscire dai margini
         if(s_surf){
             switch(s_motherpl->mirror){
