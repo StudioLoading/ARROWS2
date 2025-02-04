@@ -132,49 +132,49 @@ void START(){
 
 void harbor_init_pirates() BANKED{
     UINT16 pirate_spawn_y = ((UINT16) 8u << 3) + 2u;
-    //SPUGNA MR SMEE
-        s_spugna = SpriteManagerAdd(SpritePgPirate, ((UINT16) 26u << 3) + 3u, pirate_spawn_y);
-        s_spugna_data = (struct NpcInfo*) s_spugna->custom_data;
-        s_spugna_data->npcname = SMEE;
-        s_spugna_data->type = PIRATE_SPUGNA;
-        switch(mr_smee.mission_state){
-            case MISSION_STATE_DISABLED:
-                s_spugna_data->whotalks = PIRATE_SPUGNA_0;
-            break;
-            case MISSION_STATE_ENABLED:
-            case MISSION_STATE_STARTED:
-                s_spugna_data->whotalks = PIRATE_SPUGNA_1;
-            break;
-            case MISSION_STATE_ACCOMPLISHED:
-                s_spugna_data->whotalks = PIRATE_SPUGNA_2;
-            break;
-            case MISSION_STATE_REWARDED:
-                s_spugna_data->whotalks = PIRATE_SPUGNA_3;
-            break;
-        }
-        s_spugna_data->configured = 1;
-    //SPUGNA PANZONE BOB
-        s_panzone = SpriteManagerAdd(SpritePgPirate, ((UINT16) 28u << 3), pirate_spawn_y);
-        s_panzone->mirror = V_MIRROR;
-        s_panzone_data = (struct NpcInfo*) s_panzone->custom_data;
-        s_panzone_data->npcname = BOB;
-        s_panzone_data->type = PIRATE_PANZONE;
-        s_panzone_data->whotalks = PIRATE_PANZONE_0; 
-        switch(broken_ship.mission_state){
-            case MISSION_STATE_ENABLED:
-            case MISSION_STATE_STARTED:
-                s_panzone_data->whotalks = PIRATE_PANZONE_0; 
-                if(get_quantity(INVITEM_WOOD) >= 50){
-                    s_panzone_data->whotalks = PIRATE_PANZONE_1;
-                }
-            break;
-            case MISSION_STATE_ACCOMPLISHED:
-            case MISSION_STATE_REWARDED:
-                s_panzone_data->whotalks = PIRATE_PANZONE_2; 
-            break;
-        }
-        s_panzone_data->configured = 1;
-    //SPUGNA MARINE MARTIN
+    if(mr_smee.mission_state < MISSION_STATE_REWARDED || broken_ship.mission_state < MISSION_STATE_REWARDED || pirate_strike.mission_state < MISSION_STATE_REWARDED){
+        //SPUGNA MR SMEE
+            s_spugna = SpriteManagerAdd(SpritePgPirate, ((UINT16) 26u << 3) + 3u, pirate_spawn_y);
+            s_spugna_data = (struct NpcInfo*) s_spugna->custom_data;
+            s_spugna_data->npcname = SMEE;
+            s_spugna_data->type = PIRATE_SPUGNA;
+            switch(mr_smee.mission_state){
+                case MISSION_STATE_DISABLED:
+                    s_spugna_data->whotalks = PIRATE_SPUGNA_0;
+                break;
+                case MISSION_STATE_ENABLED:
+                case MISSION_STATE_STARTED:
+                    s_spugna_data->whotalks = PIRATE_SPUGNA_1;
+                break;
+                case MISSION_STATE_ACCOMPLISHED:
+                    s_spugna_data->whotalks = PIRATE_SPUGNA_2;
+                break;
+                case MISSION_STATE_REWARDED:
+                    s_spugna_data->whotalks = PIRATE_SPUGNA_3;
+                break;
+            }
+            s_spugna_data->configured = 1;
+        //SPUGNA PANZONE BOB
+            s_panzone = SpriteManagerAdd(SpritePgPirate, ((UINT16) 28u << 3), pirate_spawn_y);
+            s_panzone->mirror = V_MIRROR;
+            s_panzone_data = (struct NpcInfo*) s_panzone->custom_data;
+            s_panzone_data->npcname = BOB;
+            s_panzone_data->type = PIRATE_PANZONE;
+            s_panzone_data->whotalks = PIRATE_PANZONE_0; 
+            switch(broken_ship.mission_state){
+                case MISSION_STATE_ENABLED:
+                case MISSION_STATE_STARTED:
+                    if(get_quantity(INVITEM_WOOD) >= 50){
+                        s_panzone_data->whotalks = PIRATE_PANZONE_1;
+                    }
+                break;
+                case MISSION_STATE_ACCOMPLISHED:
+                case MISSION_STATE_REWARDED:
+                    s_panzone_data->whotalks = PIRATE_PANZONE_2; 
+                break;
+            }
+            s_panzone_data->configured = 1;
+        //SPUGNA MARINE MARTIN
         s_marine = SpriteManagerAdd(SpritePgPirate, ((UINT16) 65u << 3), pirate_spawn_y);
         s_marine_data = (struct NpcInfo*) s_marine->custom_data;
         s_marine_data->npcname = MARTIN;
@@ -195,20 +195,18 @@ void harbor_init_pirates() BANKED{
             break;
         }
         s_marine_data->configured = 1;
-    // CAPTAIN ONE EYED JACK
-        s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
-        s_captain->mirror = V_MIRROR;
-        s_captain_data = (struct NpcInfo*) s_captain->custom_data;
-        s_captain_data->npcname = ONE_EYED_JACK;
-        s_captain_data->type = PIRATE_CAPTAIN;
-        s_captain_data->vx = 0;
-        s_captain_data->max_frameskip = 0;
-        if(mr_smee.mission_state < MISSION_STATE_REWARDED || broken_ship.mission_state < MISSION_STATE_REWARDED || pirate_strike.mission_state < MISSION_STATE_REWARDED){
-            s_captain_data->whotalks = PIRATE_CAPTAIN_0;
-        }else{
+    }else{
+        // CAPTAIN ONE EYED JACK
+            s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
+            s_captain->mirror = V_MIRROR;
+            s_captain_data = (struct NpcInfo*) s_captain->custom_data;
+            s_captain_data->npcname = ONE_EYED_JACK;
+            s_captain_data->type = PIRATE_CAPTAIN;
+            s_captain_data->vx = 0;
+            s_captain_data->max_frameskip = 0;
             s_captain_data->whotalks = PIRATE_CAPTAIN_1;
-        }
-        s_captain_data->configured = 1;
+            s_captain_data->configured = 1;
+    }
     
     if(pirate_strike.mission_state >= MISSION_STATE_ENABLED && pirate_strike.mission_state < MISSION_STATE_REWARDED){
             s_spugna_data->whotalks = PIRATE_SPUGNA_STRIKE;

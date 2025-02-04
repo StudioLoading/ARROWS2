@@ -81,7 +81,9 @@ void UPDATE(){
             update_position_motherow(THIS);
         }
     //INTERACT WITH MAP
-        motherow_interact_with_map(THIS);
+        if(show_tip == 0){
+            motherow_interact_with_map(THIS);
+        }
     //CHECK COLLIDED PLACE
         ow_check_place(THIS);
 }
