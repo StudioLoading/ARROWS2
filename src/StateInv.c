@@ -548,6 +548,13 @@ void change_detail(){
                 GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL3, ddinv4);
                 GetLocalizedINVLabel_EN(SILVERSKULL_DETAIL4, ddinv5);
             break;
+            case INVITEM_MUSHROOM:
+                GetLocalizedINVLabel_EN(MUSHROOM_NAME, ddinv1);
+                GetLocalizedINVLabel_EN(MUSHROOM_DETAIL1, ddinv2);
+                GetLocalizedINVLabel_EN(MUSHROOM_DETAIL2, ddinv3);
+                GetLocalizedINVLabel_EN(MUSHROOM_DETAIL3, ddinv4);
+                GetLocalizedINVLabel_EN(MUSHROOM_DETAIL4, ddinv5);
+            break;
         }
     }
     switch(inventory[invcursor_posi].itemtype){

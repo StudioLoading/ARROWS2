@@ -313,7 +313,7 @@ void motherpl_hitted(Sprite* s_enemy) BANKED{//just raise the motherpl_hit flag 
             || s_enemy->type == SpriteBossMino
             || s_enemy->type == SpriteEBat){
             motherpl_hit = 2u;
-        }else if(s_enemy->type == SpriteBossbat){
+        }else if(s_enemy->type == SpriteBossbat && motherpl_state != MOTHERPL_DASH){
             motherpl_hit = 1u;
         }else if(motherpl_state == MOTHERPL_DASH){
             if(e_data->e_state == ENEMY_ATTACK || s_enemy->type == SpriteSeagull || s_enemy->type == SpriteEThrowerScorpion){
@@ -585,7 +585,7 @@ void motherpl_spritecollision(Sprite* s_mother, Sprite* s_collision) BANKED{
             if(bossbat_data->e_state != ENEMY_HIT_1){
                 if(motherpl_state == MOTHERPL_DASH){
                     if(bossbat_data->e_state == ENEMY_SLIDE_DOWN){
-                        motherpl_dash_cooldown++;
+                        motherpl_dash_cooldown+=8;
                         bossbat_data->configured = 1;
                     }else if(bossbat_data->configured == 0){
                         motherpl_hitted(s_collision);

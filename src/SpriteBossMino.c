@@ -46,7 +46,7 @@ void START(){
     THIS->lim_y = 255u;
     minotaur_data = (struct EnemyData*)THIS->custom_data;
     minotaur_data->configured = 2;
-    if(golden_armor.phase < 2){
+    if(golden_armor.mission_state == MISSION_STATE_STARTED){
         minotaur_data->vx = 1;
         minotaur_data->hp = 6;
         minotaur_data->x_frameskip = 2;

@@ -61,7 +61,7 @@ extern INT8 scorpio_hp;
 extern UINT8 child_hooked;
 
 extern void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED;
-extern UINT8 get_chapter_cost() BANKED;
+extern UINT16 get_chapter_cost() BANKED;
 
 
 /*
@@ -461,15 +461,16 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, "PLEASE REMEMBER WE  ", 22);
 			{
-				UINT8 chapter_cost = get_chapter_cost();
+				UINT16 chapter_cost = get_chapter_cost();
 				switch(chapter_cost){
-					case 10: memcpy(d6, "NEED 10 GOLD COINS TO", 22);break;	
-					case 20: memcpy(d6, "NEED 20 GOLD COINS TO", 22);break;	
-					case 30: memcpy(d6, "NEED 30 GOLD COINS TO", 22);break;	
-					case 40: memcpy(d6, "NEED 40 GOLD COINS TO", 22);break;	
+					case 10: memcpy(d6, "NEED 10 GOLD COINS  ", 22);break;	
+					case 20: memcpy(d6, "NEED 20 GOLD COINS  ", 22);break;	
+					case 30: memcpy(d6, "NEED 30 GOLD COINS  ", 22);break;	
+					case 40: memcpy(d6, "NEED 40 GOLD COINS  ", 22);break;	
+					case 50: memcpy(d6, "NEED 50 GOLD COINS  ", 22);break;	
 				}
 			}
-			memcpy(d7, "HEAL YOU.           ", 22);
+			memcpy(d7, "TO HEAL YOU.       ", 22);
 		break;
 		case HOSPITAL_CURE_FROM_DEATH:
 			*n_lines = 6u;
@@ -479,12 +480,13 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "BLACKIE BROUGHT YOU ", 22);
 			memcpy(d4, "HERE... WE NEED     ", 22);
 			{
-				UINT8 chapter_cost = get_chapter_cost();
+				UINT16 chapter_cost = get_chapter_cost();
 				switch(chapter_cost){
 					case 10: memcpy(d5, "  10 GOLD COINS TO  ", 22);break;	
 					case 20: memcpy(d5, "  20 GOLD COINS TO  ", 22);break;	
 					case 30: memcpy(d5, "  30 GOLD COINS TO  ", 22);break;	
 					case 40: memcpy(d5, "  40 GOLD COINS TO  ", 22);break;	
+					case 50: memcpy(d5, "  50 GOLD COINS TO  ", 22);break;	
 				}
 			}
 			memcpy(d6, "HEAL YOU.           ", 22);

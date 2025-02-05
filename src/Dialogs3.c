@@ -350,12 +350,16 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			}
 		break;
 		case PIRATE_SPUGNA_2:
-			*n_lines = 4u;
+			*n_lines = 8u;
 			memcpy(d0, "MR SMEE:            ", 22);
 			memcpy(d1, "OH, I SEE... I AM   ", 22);
 			memcpy(d2, "SORRY FOR HIM, BUT  ", 22);
 			memcpy(d3, "THIS IS HOW THE WOR ", 22);
 			memcpy(d4, "LD WORKS NOW.       ", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "SEEMS TO ME BOB IS  ", 22);
+			memcpy(d7, "LOOKING FOT YA. GO  ", 22);
+			memcpy(d8, "TALK TO HIM!        ", 22);
             mr_smee.mission_state = MISSION_STATE_REWARDED;
 			broken_ship.mission_state = MISSION_STATE_ENABLED;
 			SpriteManagerAdd(SpriteDiary, 72, 8);
@@ -382,7 +386,7 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d3, "50 WOOD PIECES.     ", 22);
 			memcpy(d4, EMPTY_STRING_21, 22);
 			memcpy(d5, "THANK YOU.          ", 22);
-            if(broken_ship.mission_state < MISSION_STATE_STARTED){
+            if(broken_ship.mission_state == MISSION_STATE_ENABLED){
 				broken_ship.mission_state = MISSION_STATE_STARTED;
 				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
