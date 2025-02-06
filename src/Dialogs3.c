@@ -379,14 +379,20 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d2, "WE ARE ON STRIKE!   ", 22);
 		break;
 		case PIRATE_PANZONE_0:
-			*n_lines = 5u;
-			memcpy(d0, "BOB:                ", 22);
-			memcpy(d1, "THE SHIP IS DAMAGED!", 22);
-			memcpy(d2, "PLEASE PROVIDE ME OF", 22);
-			memcpy(d3, "50 WOOD PIECES.     ", 22);
-			memcpy(d4, EMPTY_STRING_21, 22);
-			memcpy(d5, "THANK YOU.          ", 22);
-            if(broken_ship.mission_state == MISSION_STATE_ENABLED){
+			if(broken_ship.mission_state == MISSION_STATE_DISABLED){
+				*n_lines = 3u;
+				memcpy(d0, "BOB:                ", 22);
+				memcpy(d1, "I AM GOING TO CHECK ", 22);
+				memcpy(d2, "THE SHIP. WE ARE UP ", 22);
+				memcpy(d3, "TO SAIL SO...       ", 22);
+			}else if(broken_ship.mission_state <= MISSION_STATE_STARTED){
+				*n_lines = 5u;
+				memcpy(d0, "BOB:                ", 22);
+				memcpy(d1, "THE SHIP IS DAMAGED!", 22);
+				memcpy(d2, "PLEASE PROVIDE ME OF", 22);
+				memcpy(d3, "50 WOOD PIECES.     ", 22);
+				memcpy(d4, EMPTY_STRING_21, 22);
+				memcpy(d5, "THANK YOU.          ", 22);
 				broken_ship.mission_state = MISSION_STATE_STARTED;
 				SpriteManagerAdd(SpriteDiary, 72, 8);
 			}
