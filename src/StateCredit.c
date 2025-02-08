@@ -134,14 +134,15 @@ void missions_init() BANKED{
 			enable_hospital.mission_state = MISSION_STATE_ENABLED;
 			enable_hospital.current_step = 0u;
 			/*START TEST*/
-			/* engage_smith.mission_state = MISSION_STATE_REWARDED;
+			/*engage_smith.mission_state = MISSION_STATE_REWARDED;
 			engage_smith.current_step = 6u;
 			enable_hospital.mission_state = MISSION_STATE_REWARDED;
 			enable_hospital.current_step = 6u;
 			find_blackie.mission_state = MISSION_STATE_REWARDED;
 			find_blackie.current_step = 6u;
 			help_cemetery_woman.mission_state = MISSION_STATE_STARTED;
-			help_cemetery_woman.current_step = 1u; */
+			help_cemetery_woman.current_step = 1u;
+			*/
 			/*END TEST*/
 		break;
 		case CHAPTER_1_BANDITS:

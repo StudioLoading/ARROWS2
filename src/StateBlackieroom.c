@@ -54,6 +54,8 @@ UINT8 horde_counter = 0u;
 UINT16 horde_cooldown = 0u;
 UINT8 enemies_alive = 0u;
 UINT8 mother_exit_cooldown = 60u;
+UINT8 enemies_spawned = 0u;
+UINT8 spider_countdown = 140u;
 
 extern void UpdateHUD() BANKED;
 extern void Log(NPCNAME npcname) BANKED;
@@ -113,23 +115,21 @@ void UPDATE(){
     //FORCE MOTHERPL LIMITS
         if(s_motherpl->x < (UINT16)8u){
             s_motherpl->x = 8u;
-            /*mother_exit_cooldown--;
-            if(mother_exit_cooldown == 0u && motherpl_state == MOTHERPL_WALK){
-                mother_exit_cooldown = 60u;
-                previous_state = StateBlackieroom;
-                ChangeState(StateBlackiecave, s_motherpl, -1);
-                //go back
-            }*/
-        }/*else if(mother_exit_cooldown != 60u){
-            mother_exit_cooldown = 60u;
-        }*/
+        }
         if(s_motherpl->x > ((UINT16)19u << 3)){
             s_motherpl->x = ((UINT16)19u << 3);
         }
     //INIT ENEMIES
-        if(horde_step > 5 && find_blackie.current_step < 2 && enemy_counter == 0){
-            find_blackie.current_step = 2u;
-			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+        if(horde_step > 5 && find_blackie.current_step < 2){
+            if(enemies_spawned == 1){
+                spider_countdown--;
+                if(spider_countdown == 0){
+                    if(enemy_counter == 0){
+                        find_blackie.current_step = 2u;
+                        SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
+                    }
+                }
+            }
         }else{
             if(horde_cooldown == 0 && s_motherpl->y > 40u && find_blackie.current_step < 2u){
                 if(timeout_enemy > 0){timeout_enemy--;}            
@@ -160,6 +160,7 @@ void UPDATE(){
                     }            
                     if(horde_counter < horde_counter_max){
                         Sprite* s_snake2 = SpriteManagerAdd(enemy_type, spawn_enemy_x, spawn_enemy_y);
+                        enemies_spawned = 1u;
                         if(horde_counter % 2 == 0){
                             struct EnemyData* s_snake2_data = (struct EnemyData*) s_snake2->custom_data;
                             s_snake2_data->vx = 4;
@@ -169,6 +170,9 @@ void UPDATE(){
                     }else{        
                         horde_counter = 0u;
                         horde_step++;
+                        if(horde_step < 5){
+                            enemies_spawned = 0;
+                        }
                         timeout_enemy = 255u;
                         horde_cooldown = HORDE_COOLDOWN_MAX;
                     }

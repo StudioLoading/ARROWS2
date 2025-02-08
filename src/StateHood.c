@@ -217,9 +217,9 @@ void spawn_enemy_hood() BANKED{
         timeout_enemy--;
         if(timeout_enemy == 200u){
             enemy_wave--;
-            UINT16 e_x = s_motherpl->x + 80u;
+            UINT16 e_x = s_motherpl->x + 120u;
             if(s_motherpl->mirror == V_MIRROR){
-                e_x = s_motherpl->x - 80u;
+                e_x = s_motherpl->x - 100u;
             }
             switch(hood_type){
                 case NORTH_SOUTH:
@@ -232,9 +232,9 @@ void spawn_enemy_hood() BANKED{
         }
         if(timeout_enemy == 300u || timeout_enemy == 450u){
             enemy_wave--;
-            UINT16 e_x = s_motherpl->x + 32u;
+            UINT16 e_x = s_motherpl->x + 48u;
             if(s_motherpl->mirror == V_MIRROR){
-                e_x = s_motherpl->x - 32u;
+                e_x = s_motherpl->x - 56u;
             }
             switch(hood_type){
                 case NORTH_SOUTH:

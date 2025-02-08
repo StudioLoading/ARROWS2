@@ -20,6 +20,8 @@ extern UINT8 child_hooked;
 extern void Log(NPCNAME npcname) BANKED;
 
 struct EnemyData* child_info;
+UINT8 go_cursor_counter = 200u;
+Sprite* s_go_cursor = 0;
 const UINT8 child_anim_idle[] = {8,1,2,1,2,0,2,0,2};
 const UINT8 child_anim_walk[] = {4,3,4,3,2};
 void child_behavior() BANKED;
@@ -37,9 +39,15 @@ void START(){
         OBP1_REG = PAL_DEF(0, 0, 1, 3);
         SPRITE_SET_PALETTE(THIS,1);
     }
+    go_cursor_counter = 160u;
+    s_go_cursor = SpriteManagerAdd(SpriteGocursor, THIS->x, THIS->y - 4u);
 }
 
 void UPDATE(){
+    if(go_cursor_counter > 0){
+        go_cursor_counter--;
+        SpriteManagerRemoveSprite(s_go_cursor);
+    }
     if(help_cemetery_woman.current_step == 3u){
         child_info->x_frameskip--;
         if(child_info->x_frameskip == 0u){

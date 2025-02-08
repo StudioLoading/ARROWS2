@@ -85,6 +85,8 @@ FLYING ARROWS 3
 posso superare il limite della VRAM sui frame se stacco la testa.
 se la testa la faccio 16x16 come sprite a se stante, 
 posso riusarla sempre, e lo sprite del personaggio diventa solo il corpo!
+GAMEPLAY
+posso conficcare frecce contro le pareti verticali, faccio partire un timeout, inizia a lampeggiare la freccia, per poi sparire. Così posso arrampicarmi verticalmente.
 GRAFICA E PROSPETTIVA
 come Predator 2 per Sega Master System. Mi piace molto quella prospettiva lì. 
 Ho notato che su Sega Master System tutti i giochi USGold sono disegnati molto bene. 

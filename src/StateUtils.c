@@ -804,7 +804,9 @@ void Log(NPCNAME npcname) BANKED{
         GetLocalizedLogName_EN(npcname);
     }
     //PRINT(0, 0, "NP :%u, ZONE:%u ", np_counter, npc_spawned_zone);
-    PRINT(0, 0, log0);   
+    if(current_state != StateDialog){
+        PRINT(0, 0, log0);
+    }  
 }
 
 void camera_tramble() BANKED{
@@ -845,6 +847,17 @@ void update_camera_position() BANKED{
                     scroll_target->y = ((UINT16) 10u << 3);
                 }
                 return;
+            break;
+            case StateHood:
+                if(help_cemetery_woman.mission_state < MISSION_STATE_REWARDED && child_hooked == 1){
+                    INT16 dest_x = s_motherpl->x - 32u;
+                    if(dest_x < 0 ){dest_x = 0u;}
+                    if(scroll_target->x < dest_x){
+                        scroll_target->x++;
+                    }else if(scroll_target->x > dest_x){
+                        scroll_target->x--;
+                    }
+                }
             break;
         }
     //LIMITS

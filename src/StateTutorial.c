@@ -148,7 +148,7 @@ void show_current_step_instructions() BANKED{
             PRINT(0, 14, "      PRESS START   \0");
         break;
         case 1u:
-            PRINT(0, 10,  "GOOD! NOW MOVE ME   \0");
+            PRINT(0, 10, "GOOD! NOW MOVE ME   \0");
             PRINT(0, 11, "LEFT AND RIGHT WITH \0");
             PRINT(0, 12, "YOUR D PAD.         \0");
             PRINT(0, 13, EMPTY_STRING_21);
@@ -161,11 +161,11 @@ void show_current_step_instructions() BANKED{
             PRINT(0, 13, "AND HOLD JUMP BUTTON\0");
         break;
         case 3u:
-            PRINT(0, 10,  "ALRIGHT! NOW MAKE ME\0");
-            PRINT(0, 11, "DASH UNDER THE LOW  \0");
-            PRINT(0, 12, "EST BLOCKS. DO IT BY\0");
-            PRINT(0, 13, "HOLDING DOWN AND    \0");
-            PRINT(0, 14, "PRESS JUMP.         \0");
+            PRINT(0, 10, "ALRIGHT! NOW MAKE ME\0");
+            PRINT(0, 11, "SLIDE! HOLD DOWN AND \0");
+            PRINT(0, 12, "PRESS JUMP. I CAN SLI\0");
+            PRINT(0, 13, "DE AGAINST ENEMIES AN\0");
+            PRINT(0, 14, "D SAVE ARROWS!       \0");
         break;
         case 4u:
             PRINT(0, 10, "PRESS SELECT TO CHAN\0");
