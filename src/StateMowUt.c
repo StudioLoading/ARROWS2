@@ -48,7 +48,6 @@ extern UINT8 frameskip;
 extern UINT8 step_counter;
 extern struct PushASignData d_push_sign;
 extern INT8 sfx_cooldown;
-extern UINT8 just_started;
 extern UINT8 maze_zone;
 
 

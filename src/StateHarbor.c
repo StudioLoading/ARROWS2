@@ -74,10 +74,6 @@ Sprite* s_panzone;
 struct NpcInfo* s_panzone_data;
 Sprite* s_marine;
 struct NpcInfo* s_marine_data;
-Sprite* s_walker1;
-struct NpcInfo* s_walker1_data;
-Sprite* s_walker2;
-struct NpcInfo* s_walker2_data;
 Sprite* s_captain;
 struct NpcInfo* s_captain_data;
 
@@ -175,26 +171,26 @@ void harbor_init_pirates() BANKED{
             }
             s_panzone_data->configured = 1;
         //SPUGNA MARINE MARTIN
-        s_marine = SpriteManagerAdd(SpritePgPirate, ((UINT16) 65u << 3), pirate_spawn_y);
-        s_marine_data = (struct NpcInfo*) s_marine->custom_data;
-        s_marine_data->npcname = MARTIN;
-        s_marine_data->type = PIRATE_MARINAIO;
-        s_marine_data->whotalks = PIRATE_MARTIN_0; 
-        switch(pirate_strike.mission_state){
-            case MISSION_STATE_ENABLED:
-                s_marine_data->whotalks = PIRATE_MARTIN_1; 
-            break;
-            case MISSION_STATE_STARTED:
-                s_marine_data->whotalks = PIRATE_MARTIN_STRIKE;
-            break;
-            case MISSION_STATE_ACCOMPLISHED:
-                s_marine_data->whotalks = PIRATE_MARTIN_2;
-            break;
-            case MISSION_STATE_REWARDED:
-                s_marine_data->whotalks = PIRATE_MARTIN_3; 
-            break;
-        }
-        s_marine_data->configured = 1;
+            s_marine = SpriteManagerAdd(SpritePgPirate, ((UINT16) 65u << 3), pirate_spawn_y);
+            s_marine_data = (struct NpcInfo*) s_marine->custom_data;
+            s_marine_data->npcname = MARTIN;
+            s_marine_data->type = PIRATE_MARINAIO;
+            s_marine_data->whotalks = PIRATE_MARTIN_0; 
+            switch(pirate_strike.mission_state){
+                case MISSION_STATE_ENABLED:
+                    s_marine_data->whotalks = PIRATE_MARTIN_1; 
+                break;
+                case MISSION_STATE_STARTED:
+                    s_marine_data->whotalks = PIRATE_MARTIN_1;
+                break;
+                case MISSION_STATE_ACCOMPLISHED:
+                    s_marine_data->whotalks = PIRATE_MARTIN_2;
+                break;
+                case MISSION_STATE_REWARDED:
+                    s_marine_data->whotalks = PIRATE_MARTIN_3; 
+                break;
+            }
+            s_marine_data->configured = 1;
     }else{
         // CAPTAIN ONE EYED JACK
             s_captain = SpriteManagerAdd(SpritePgPirate, ((UINT16) 108u << 3) -1u, pirate_spawn_y);
@@ -211,7 +207,6 @@ void harbor_init_pirates() BANKED{
     if(pirate_strike.mission_state >= MISSION_STATE_ENABLED && pirate_strike.mission_state < MISSION_STATE_REWARDED){
             s_spugna_data->whotalks = PIRATE_SPUGNA_STRIKE;
             s_panzone_data->whotalks = PIRATE_PANZONE_STRIKE;
-            s_walker1_data->whotalks = PIRATE_MARTIN_STRIKE;
         }
     // PARROT
         if(_cpu == CGB_TYPE){

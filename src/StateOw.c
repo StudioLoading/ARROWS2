@@ -166,12 +166,12 @@ void START(){
 		}
 		delay_spawning = 8u;
 	//CUTSCENES
-		if(help_cemetery_woman.current_step == 4u){
+		if(help_cemetery_woman.current_step == 4u && help_cemetery_woman.mission_state < MISSION_STATE_REWARDED){
 			//non capisco perché child_hooked è a zero anche quando ho portato bene
 			help_cemetery_woman.mission_state = MISSION_STATE_REWARDED;
 			help_cemetery_woman.current_step = 5u;
 			SpriteManagerAdd(SpriteDiary, scroll_target->x, scroll_target->y);
-			trigger_dialog(CHILDS_SAVED, s_motherow);
+			trigger_dialog(CHILD_SAVED, s_motherow);
 		}
 	INIT_FONT(font, PRINT_WIN);
 	INIT_HUD(hudow); 

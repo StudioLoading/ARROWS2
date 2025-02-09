@@ -108,6 +108,9 @@ void UPDATE() {
                                     }
                                 break;
                                 case 3:
+                                    if(get_quantity(INVITEM_SCORPIONTAIL) > 0){
+                                        change_quantity(INVITEM_SCORPIONTAIL, -1);
+                                    }
                                     whostalking = HOSPITAL_THANKS_FOR_TAIL;
                                 break;
                                 case 4:

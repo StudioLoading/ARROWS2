@@ -188,15 +188,15 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
             }
         break;
         case StateOw:
-        	StopMusic;
+        	//StopMusic;
             if(just_started == 0){
                 switch(current_map){
                     case MAP_SOUTHWEST:PlayMusic(owsw, 1);break;
-                    case MAP_NORTHWEST:PlayMusic(owsw, 1);break;
+                    case MAP_NORTHWEST:PlayMusic(tutorial, 1);break;
                     case MAP_MAZE:PlayMusic(maze, 1);break;
-                    case MAP_SOUTHEAST:PlayMusic(owsw, 1);break;
-                    case MAP_EAST:PlayMusic(owsw, 1);break;
-                    case MAP_ISLE:PlayMusic(tutorial, 1);break;
+                    case MAP_SOUTHEAST:PlayMusic(intro, 1);break;
+                    case MAP_EAST:PlayMusic(mountain, 1);break;
+                    case MAP_ISLE:PlayMusic(letter, 1);break;
                 }
             }            
         break;
@@ -252,6 +252,9 @@ void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED{
         case StateBossbat:
             if(previous_state == StateInv){ResumeMusic;}
             else {StopMusic;PlayMusic(boss, 1);}
+        break;
+        case StateTetra:
+            StopMusic;PlayMusic(exzoo, 1);
         break;
     }
 }

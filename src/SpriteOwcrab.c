@@ -15,8 +15,8 @@
 const UINT8 a_owcrab[] = {10,0,1,0,2,0,0,0,3,0,3}; //The first number indicates the number of frames
 
 void START(){
-	THIS->lim_x = 255u;
-	THIS->lim_y = 255u;
+	THIS->lim_x = 1000u;
+	THIS->lim_y = 1000u;
     SetSpriteAnim(THIS, a_owcrab, 12u);
     //OBP1_REG = PAL_DEF(0, 0, 1, 3);
     //SPRITE_SET_PALETTE(THIS,1);

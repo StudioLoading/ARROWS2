@@ -1,11 +1,3 @@
-- SGB
-	- check colori
-	- check borders
-
-KNOWN ISSUES:
-- Dialogs: pixelArt dei '?'
-
-
 FORMULE ADDRESSES EXCEL
 =CODICE.CARATT(10) & solo_cart!G20 & CODICE.CARATT(10) & solo_cart!K20 & CODICE.CARATT(10) & solo_cart!M20 & " " & solo_cart!N20 & CODICE.CARATT(10) & solo_cart!O20 & " - " & solo_cart!P20 & CODICE.CARATT(10)  & CODICE.CARATT(10) 
 

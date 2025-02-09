@@ -454,16 +454,25 @@ void GetLocalizedDialog3_EN(UINT8* n_lines) BANKED{
 			memcpy(d13, "THEY SHOULD BE IN   ", 22);
 			memcpy(d14, "DARK PLACES... MAYBE", 22);
 			memcpy(d15, "ON THE UNDERGROUND? ", 22);
-			SpriteManagerAdd(SpriteDiary, 72, 8);
-			pirate_strike.mission_state = MISSION_STATE_STARTED;
+			if(pirate_strike.mission_state < MISSION_STATE_STARTED){
+				pirate_strike.mission_state = MISSION_STATE_STARTED;
+				SpriteManagerAdd(SpriteDiary, 72, 8);
+			}
 		break;
 		case PIRATE_MARTIN_2:
-			*n_lines = 7u;
+			*n_lines = 11u;
 			memcpy(d0, "MARTIN:             ", 22);
 			memcpy(d1, EMPTY_STRING_21, 22);
 			memcpy(d2, "THANKS MADAME. WE   ", 22);
 			memcpy(d3, "WILL NOT TALK, BE   ", 22);
 			memcpy(d4, "SURE OF THAT.       ", 22);
+			memcpy(d5, EMPTY_STRING_21, 22);
+			memcpy(d6, "CAPTAIN WAS LOOKING ", 22);
+			memcpy(d7, "FOR YOU, I THINK YOU", 22);
+			memcpy(d8, "SHOULD GO TO HIM,   ", 22);
+			memcpy(d9, "JUST GO STRAIGHT, TO", 22);
+			memcpy(d10, "THE END OF THIS HAR ", 22);
+			memcpy(d11, "BOR.                ", 22);
 			change_quantity(INVITEM_MUSHROOM, -6);
 			SpriteManagerAdd(SpriteDiary, 72, 8);
 			pirate_strike.mission_state = MISSION_STATE_REWARDED;

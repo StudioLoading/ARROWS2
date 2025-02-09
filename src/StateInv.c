@@ -66,22 +66,17 @@ extern CHAPTERS chapter;
 
 void invselectitem(INT8 max_idx) BANKED;
 void fixInvcursor(INT8 max_idx) BANKED;
-void fixUnequipInvcursor() BANKED;
-void change_navigation();
 void refresh_equipped();
 void pickup(struct ItemSpawned* pickedup_data) BANKED;
 void change_detail();
 UINT16 get_quantity(INVITEMTYPE itemtype) BANKED;
 INT16 change_quantity(INVITEMTYPE itemtype, INT8 l) BANKED;
 
-extern void change_cursor(UINT8 square_or_arrow) BANKED;
 extern void ChangeState(UINT8 new_state, Sprite* s_mother, INT8 next_map) BANKED;
 extern void Inv_change_detail(UINT8 item, UINT8 isEmpty) BANKED;
 extern void my_play_fx(SOUND_CHANNEL c, UINT8 mute_frames, UINT8 s0, UINT8 s1, UINT8 s2, UINT8 s3, UINT8 s4) BANKED;
 extern UINT8 is_item_equippable(INVITEMTYPE itemtype) BANKED;
 extern void LogItem(INVITEMTYPE invitemtype) BANKED;
-extern void trigger_dialog(WHOSTALKING whost, Sprite* s_mother) BANKED;
-extern void manage_bgm(UINT8 new_state, UINT8 previous_state, INT8 next_map) BANKED;
 extern void play_music_missionaccomplished() BANKED;
 
 void START(){

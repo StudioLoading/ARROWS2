@@ -272,8 +272,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 						memcpy(d9, "YOU PLEASE BRING MY ", 22);
 						memcpy(d10, "GLASSES BACK?      ", 22);
 						memcpy(d11, EMPTY_STRING_21, 22);
-						memcpy(d12, "TAKE THESE PIERCING", 22);
-						memcpy(d13, "ARROWS: GUESS YOU  ", 22);
+						memcpy(d12, "TAKE THESE PUNCTUR ", 22);
+						memcpy(d13, "ING ARROWS: YOU    ", 22);
 						memcpy(d14, "GONNA NEED EM TO   ", 22);
 						memcpy(d15, "FIGHT THAT BEAST.  ", 22);
 						if(outwalker_glass.mission_state < MISSION_STATE_STARTED){
@@ -293,8 +293,8 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 						memcpy(d5, "AWAY.               ", 22);
 						if(get_quantity(INVITEM_ARROW_PERFO) < 5){
 							*n_lines = 9u;
-							memcpy(d6, "TAKE THESE PIERCING", 22);
-							memcpy(d7, "ARROWS: GUESS YOU  ", 22);
+							memcpy(d6, "TAKE THESE PUNCTUR ", 22);
+							memcpy(d7, "RING ARROWS: YOU   ", 22);
 							memcpy(d8, "GONNA NEED EM TO   ", 22);
 							memcpy(d9, "FIGHT THAT BEAST.  ", 22);
 							if(outwalker_glass.mission_state < MISSION_STATE_STARTED){
@@ -620,7 +620,7 @@ void GetLocalizedDialog2_EN(UINT8* n_lines) BANKED{
 			memcpy(d0, "PETER:               ", 22);
 			memcpy(d1, "'TZIN! TZIN!'        ", 22);
 			memcpy(d2, EMPTY_STRING_21, 22);
-			memcpy(d3, "HERE, 30 PIERCING    ", 22);
+			memcpy(d3, "HERE, 30 PUNCTURING  ", 22);
 			memcpy(d4, "ARROWS FOR YOU!      ", 22);
 			memcpy(d5, EMPTY_STRING_21, 22);
 			memcpy(d6, "HAVE A NICE DAY!     ", 22);

@@ -532,7 +532,7 @@ void GetLocalizedDialog_EN(UINT8* n_lines) BANKED{
 			help_cemetery_woman.current_step = 2u;
 			child_hooked = 1;
 		break;
-		case CHILDS_SAVED:
+		case CHILD_SAVED:
 			*n_lines = 4u;
 			memcpy(d0, "ROBERT:             ", 22);
 			memcpy(d1, "THANK YOU HEALER!   ", 22);
@@ -558,7 +558,7 @@ void GetLocalizedLogItem_EN(INVITEMTYPE invitemtype) BANKED{
 			memcpy(log0, "      ARROWS!       ", 20);
 		break;
 		case INVITEM_ARROW_PERFO:
-			memcpy(log0, "      PIERCED!      ", 20);
+			memcpy(log0, "   PUNCTURING!      ", 20);
 		break;
 		case INVITEM_FLOWER:
 			memcpy(log0, "       FLOWER!      ", 20);

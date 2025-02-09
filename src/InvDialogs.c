@@ -35,7 +35,7 @@ void GetLocalizedINVLabel_EN(INV_TO_BE_LOCALIZED label, char* d) BANKED{
 		case ARROWNORMAL_DETAIL2:memcpy(d, "ARROWS I   ", 12);break;
 		case ARROWNORMAL_DETAIL3:memcpy(d, "CAN FIND.  ", 12);break;
 		case ARROWNORMAL_DETAIL4:memcpy(d, "           ", 12);break;
-		case ARROWPERFO_NAME:memcpy(d, "  PIERCING:", 12);break;
+		case ARROWPERFO_NAME:memcpy(d, "PUNCTURING:", 12);break;
 		case ARROWPERFO_DETAIL1:memcpy(d, "NO LIVING  ", 12);break;
 		case ARROWPERFO_DETAIL2:memcpy(d, "CREATURE   ", 12);break;
 		case ARROWPERFO_DETAIL3:memcpy(d, "CAN STOP   ", 12);break;

@@ -21,7 +21,6 @@ const UINT8 motherowarmor_anim_idle_up[] = {1, 4}; //The first number indicates 
 const UINT8 motherowarmor_anim_idle_down[] = {6, 8,8,8,8,9,10}; //The first number indicates the number of frames
 
 extern INT8 sfx_cooldown;
-extern UINT8 just_started;
 extern UINT8 hudow_opened;
 extern struct OwSpriteInfo* motherow_info;
 extern FA2OW_SPRITE_STATES motherow_new_state;

@@ -108,7 +108,7 @@ void START() {
         case BLACKIE_DEAD_CHILD:
             InitScroll(BANK(dmapblackie), &dmapblackie, 0, 0);
         break;
-        case CHILD: case CHILDS_SAVED:
+        case CHILD: case CHILD_SAVED:
             InitScroll(BANK(dmaphood), &dmaphood, 0, 0);
         break;
         case POLICE_0_GET_PASS: case POLICE_0_STILL_NOT_FOUND:
@@ -520,7 +520,7 @@ void move_on() BANKED{
 	}
     //CHECK NEW PASSWORD TO GIVE?
         switch(whostalking){
-            case CHILDS_SAVED:
+            case CHILD_SAVED:
                 give_new_password = 1;
             break;
             case IBEX_GIVE_HERBS:
